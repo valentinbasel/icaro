@@ -1,0 +1,636 @@
+gplink-0.13.7 beta
+Map File - Created 1-3-2012  20:31:47
+ 
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+S_boot_iface__boot_goto_table       code   0x00001c    program   0x00005e
+S_application_iface__application_data       code   0x002000    program   0x00001a
+S_crt0ipinguino__application_main       code   0x00201a    program   0x000004
+S_usb_descriptors__null_function       code   0x00201e    program   0x000002
+S_main__high_priority_isr       code   0x002020    program   0x00004e
+ S_main__SortServoTimings       code   0x00206e    program   0x000462
+         S_fsadd____fsadd       code   0x0024d0    program   0x0003f4
+                    .code       code   0x0028c4    program   0x00036a
+             S_main__loop       code   0x002c2e    program   0x0002f4
+          S_main__pinmode       code   0x002f22    program   0x0002c6
+     S_main__digitalwrite       code   0x0031e8    program   0x0002c6
+      S_main__digitalread       code   0x0034ae    program   0x0001e8
+           S_fslt____fslt       code   0x003696    program   0x00011e
+            S_main__setup       code   0x0037b4    program   0x00010a
+      S_main__ServoAttach       code   0x0038be    program   0x0000e0
+      S_main__ServoDetach       code   0x00399e    program   0x0000d4
+  S_main__ServosPulseDown       code   0x003a72    program   0x0000c0
+          S_main__Delayms       code   0x003b32    program   0x00009c
+S_crt0ipinguino___do_cinit       code   0x003bce    program   0x000098
+       S_main__analogread       code   0x003c66    program   0x000088
+       S_main__ServoWrite       code   0x003cee    program   0x000068
+          S_main__Delayus       code   0x003d56    program   0x000052
+      S_main__servos_init       code   0x003da8    program   0x00004a
+ S_main__servos_interrupt       code   0x003df2    program   0x000046
+S_main__ServoMaximumPulse       code   0x003e38    program   0x000046
+        S_main__ServoRead       code   0x003e7e    program   0x000046
+S_main__ServoMinimumPulse       code   0x003ec4    program   0x000044
+           S_main__sensor       code   0x003f08    program   0x00003c
+    S_main__pinguino_main       code   0x003f44    program   0x000020
+S_crt0ipinguino___startup       code   0x003f64    program   0x000018
+                 .idata_i       code   0x003f7c    program   0x000010
+      S_main__analog_init       code   0x003f8c    program   0x000010
+    S_main__ServosPulseUp       code   0x003f9c    program   0x00000e
+                   .cinit       code   0x003faa    program   0x00000e
+     S_main__epapout_init       code   0x003fb8    program   0x000002
+      S_main__epapin_init       code   0x003fba    program   0x000002
+         S_main__epap_out       code   0x003fbc    program   0x000002
+          S_main__epap_in       code   0x003fbe    program   0x000002
+ S_main__low_priority_isr       code   0x004000    program   0x00004a
+                   .idata      idata   0x00025a       data   0x00000f
+               .registers      udata   00000000       data   0x00000a
+      ustat_boot_iface_00      udata   0x00005d       data   0x000003
+            stack_section      udata   0x000100       data   0x000100
+             udata_main_3      udata   0x000200       data   0x000048
+             udata_main_1      udata   0x000248       data   0x000012
+             udata_fslt_0      udata   0x000269       data   0x000004
+             udata_fslt_1      udata   0x00026d       data   0x000004
+            udata_fsadd_0      udata   0x000271       data   0x000004
+            udata_fsadd_1      udata   0x000275       data   0x000004
+            udata_fsadd_2      udata   0x000279       data   0x000004
+            udata_fsadd_5      udata   0x00027d       data   0x000004
+            udata_fsadd_6      udata   0x000281       data   0x000004
+             udata_main_4      udata   0x000285       data   0x000003
+            udata_fsadd_3      udata   0x000288       data   0x000002
+            udata_fsadd_4      udata   0x00028a       data   0x000002
+             udata_main_0      udata   0x00028c       data   0x000001
+             udata_main_2      udata   0x00028d       data   0x000001
+      ustat_pic18f4550_00      udata   0x000f62       data   0x000023
+      ustat_pic18f4550_01      udata   0x000f89       data   0x000005
+      ustat_pic18f4550_02      udata   0x000f92       data   0x000005
+      ustat_pic18f4550_03      udata   0x000f9b       data   0x000001
+      ustat_pic18f4550_04      udata   0x000f9d       data   0x000006
+      ustat_pic18f4550_05      udata   0x000fa6       data   0x000004
+      ustat_pic18f4550_06      udata   0x000fab       data   0x00000e
+      ustat_pic18f4550_07      udata   0x000fba       data   0x00001a
+      ustat_pic18f4550_08      udata   0x000fd5       data   0x00002b
+ 
+                              Program Memory Usage
+                               Start         End
+                           ---------   ---------
+                            0x002000    0x002019
+                            0x00201e    0x00201f
+                            0x0028c4    0x002c2d
+                            0x003f7c    0x003f8b
+                            0x003bce    0x003c65
+                            0x003f64    0x003f7b
+                            0x00201a    0x00201d
+                            0x002020    0x00206d
+                            0x004000    0x004049
+                            0x003f44    0x003f63
+                            0x002c2e    0x002f21
+                            0x003f08    0x003f43
+                            0x0037b4    0x0038bd
+                            0x003fb8    0x003fb9
+                            0x003fba    0x003fbb
+                            0x003fbc    0x003fbd
+                            0x003fbe    0x003fbf
+                            0x003d56    0x003da7
+                            0x003b32    0x003bcd
+                            0x003c66    0x003ced
+                            0x003f8c    0x003f9b
+                            0x003df2    0x003e37
+                            0x003e38    0x003e7d
+                            0x003ec4    0x003f07
+                            0x003e7e    0x003ec3
+                            0x003cee    0x003d55
+                            0x00399e    0x003a71
+                            0x0038be    0x00399d
+                            0x00206e    0x0024cf
+                            0x003f9c    0x003fa9
+                            0x003a72    0x003b31
+                            0x003da8    0x003df1
+                            0x002f22    0x0031e7
+                            0x0034ae    0x003695
+                            0x0031e8    0x0034ad
+                            0x00001c    0x000079
+                            0x003696    0x0037b3
+                            0x0024d0    0x0028c3
+                            0x003faa    0x003fb7
+ 
+                            4148 program addresses used
+ 
+                              Symbols
+                     Name    Address   Location    Storage File
+                ---------  ---------  ---------  --------- ---------
+        _application_data   0x002000    program     extern application_iface.asm
+           _null_function   0x00201e    program     extern usb_descriptors.asm
+       _device_descriptor   0x0028c4    program     extern usb_descriptors.asm
+             _default_cfg   0x0028d6    program     extern usb_descriptors.asm
+               _flash_cfg   0x0028e8    program     extern usb_descriptors.asm
+         _application_cfg   0x002908    program     extern usb_descriptors.asm
+_configuration_descriptor   0x002928    program     extern usb_descriptors.asm
+                    _str0   0x002932    program     extern usb_descriptors.asm
+                    _str1   0x002936    program     extern usb_descriptors.asm
+                    _str2   0x00295c    program     extern usb_descriptors.asm
+                    _str3   0x00297e    program     extern usb_descriptors.asm
+                    _str4   0x002982    program     extern usb_descriptors.asm
+                    _str5   0x002992    program     extern usb_descriptors.asm
+                    _str6   0x00299e    program     extern usb_descriptors.asm
+       _string_descriptor   0x0029ba    program     extern usb_descriptors.asm
+            _ep_init_cfg0   0x0029d0    program     static usb_descriptors.asm
+            _ep_init_cfg1   0x002a00    program     static usb_descriptors.asm
+            _ep_init_cfg2   0x002a30    program     static usb_descriptors.asm
+                 _ep_init   0x002a60    program     extern usb_descriptors.asm
+              _ep_in_cfg0   0x002a6c    program     static usb_descriptors.asm
+              _ep_in_cfg1   0x002a9c    program     static usb_descriptors.asm
+              _ep_in_cfg2   0x002acc    program     static usb_descriptors.asm
+                   _ep_in   0x002afc    program     extern usb_descriptors.asm
+             _ep_out_cfg0   0x002b08    program     static usb_descriptors.asm
+             _ep_out_cfg1   0x002b38    program     static usb_descriptors.asm
+             _ep_out_cfg2   0x002b68    program     static usb_descriptors.asm
+                  _ep_out   0x002b98    program     extern usb_descriptors.asm
+           _ep_setup_cfg0   0x002ba4    program     static usb_descriptors.asm
+                _ep_setup   0x002bd4    program     extern usb_descriptors.asm
+                ___uflags   0x00025a       data     extern obj/Debug/crt0ipinguino.asm
+               __do_cinit   0x003bce    program     extern obj/Debug/crt0ipinguino.asm
+                     test   0x003be8    program     static obj/Debug/crt0ipinguino.asm
+                    cont1   0x003bee    program     static obj/Debug/crt0ipinguino.asm
+                copy_loop   0x003c3c    program     static obj/Debug/crt0ipinguino.asm
+            copy_one_byte   0x003c42    program     static obj/Debug/crt0ipinguino.asm
+             done_copying   0x003c50    program     static obj/Debug/crt0ipinguino.asm
+                     done   0x003c64    program     static obj/Debug/crt0ipinguino.asm
+                __startup   0x003f64    program     extern obj/Debug/crt0ipinguino.asm
+                   lockup   0x003f7a    program     static obj/Debug/crt0ipinguino.asm
+        _application_main   0x00201a    program     extern obj/Debug/crt0ipinguino.asm
+                   _phase   0x00025b       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+          _needreordering   0x00025c       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+            _timedivision   0x00025d       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+         _activatedservos   0x00025e       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                  _tiempo   0x000261       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                 _tiempo2   0x000265       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x00   00000000       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x01   0x000001       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x02   0x000002       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x03   0x000003       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x04   0x000004       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x05   0x000005       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x06   0x000006       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x07   0x000007       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x08   0x000008       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    r0x09   0x000009       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                 _loopvar   0x00028c       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _servovalues   0x000248       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _timingindex   0x00028d       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                 _timings   0x000200       data     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+_SortServoTimings_mascaratotal_1_1   0x000285       data     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+       _high_priority_isr   0x002020    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+        _low_priority_isr   0x004000    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+           _pinguino_main   0x003f44    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00570_DS_   0x003f5c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    _loop   0x002c2e    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00527_DS_   0x002c5c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00523_DS_   0x002c94    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00529_DS_   0x002cfc    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00520_DS_   0x002d34    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00563_DS_   0x002d52    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00564_DS_   0x002d54    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00535_DS_   0x002d5e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00531_DS_   0x002d96    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00537_DS_   0x002dfe    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00538_DS_   0x002e36    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00543_DS_   0x002e40    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00539_DS_   0x002e78    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00545_DS_   0x002ee0    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00547_DS_   0x002f18    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                  _sensor   0x003f08    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                   _setup   0x0037b4    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00500_DS_   0x0037c0    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00509_DS_   0x0037cc    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00503_DS_   0x0037ea    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+            _epapout_init   0x003fb8    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _epapin_init   0x003fba    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                _epap_out   0x003fbc    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                 _epap_in   0x003fbe    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                 _Delayus   0x003d56    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00466_DS_   0x003d7e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00475_DS_   0x003d88    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00470_DS_   0x003d92    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                 _Delayms   0x003b32    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00452_DS_   0x003b7a    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00461_DS_   0x003b90    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00456_DS_   0x003ba8    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+              _analogread   0x003c66    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00446_DS_   0x003ca0    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00441_DS_   0x003cb2    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _analog_init   0x003f8c    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+        _servos_interrupt   0x003df2    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00427_DS_   0x003e16    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00431_DS_   0x003e36    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+       _ServoMaximumPulse   0x003e38    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00416_DS_   0x003e70    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+       _ServoMinimumPulse   0x003ec4    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00406_DS_   0x003efa    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _ServoRead   0x003e7e    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00395_DS_   0x003e9e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00396_DS_   0x003eb6    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+              _ServoWrite   0x003cee    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00379_DS_   0x003d1e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00381_DS_   0x003d28    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00382_DS_   0x003d44    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _ServoDetach   0x00399e    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00361_DS_   0x0039fa    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00358_DS_   0x003a30    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00363_DS_   0x003a5c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _ServoAttach   0x0038be    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00339_DS_   0x00391e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00336_DS_   0x003958    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00341_DS_   0x003988    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+        _SortServoTimings   0x00206e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00280_DS_   0x0020a0    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00283_DS_   0x002102    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00277_DS_   0x002106    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00284_DS_   0x002114    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00250_DS_   0x0021e8    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00317_DS_   0x0021fc    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00275_DS_   0x002228    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00258_DS_   0x0022f4    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00323_DS_   0x002308    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00272_DS_   0x002334    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00266_DS_   0x0023f8    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00286_DS_   0x002434    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00287_DS_   0x002438    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00279_DS_   0x0024a2    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+           _ServosPulseUp   0x003f9c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+         _ServosPulseDown   0x003a72    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00226_DS_   0x003a8a    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00225_DS_   0x003b12    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    bucle   0x003b16    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00230_DS_   0x003b24    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _servos_init   0x003da8    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00210_DS_   0x003db6    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00213_DS_   0x003dd6    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                 _pinmode   0x002f22    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00205_DS_   0x002fc4    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00175_DS_   0x002fd8    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00177_DS_   0x00300c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00179_DS_   0x00303c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00181_DS_   0x003070    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00183_DS_   0x0030a0    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00185_DS_   0x0030d4    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00187_DS_   0x003104    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00189_DS_   0x003138    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00191_DS_   0x003168    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00193_DS_   0x00319c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00196_DS_   0x0031c6    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+             _digitalread   0x0034ae    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00170_DS_   0x00353c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00140_DS_   0x003550    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00142_DS_   0x003586    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00144_DS_   0x00358c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00146_DS_   0x0035c2    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00148_DS_   0x0035c8    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00150_DS_   0x0035fe    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00152_DS_   0x003604    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00154_DS_   0x00363a    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00156_DS_   0x003640    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00158_DS_   0x003672    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00160_DS_   0x003678    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00161_DS_   0x00367c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+            _digitalwrite   0x0031e8    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00135_DS_   0x00328a    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00105_DS_   0x00329e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00107_DS_   0x0032d2    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00109_DS_   0x003302    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00111_DS_   0x003336    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00113_DS_   0x003366    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00115_DS_   0x00339a    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00117_DS_   0x0033ca    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00119_DS_   0x0033fe    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00121_DS_   0x00342e    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00123_DS_   0x003462    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+               _00126_DS_   0x00348c    program     static /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    _mask   0x002be0    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+                    _port   0x002bfe    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+              _servomasks   0x002c1c    program     extern /home/valentin/icaro/repositorio/icaro-pygtk/source/main.asm
+  _usb_active_alt_setting   0x00005d       data     extern boot_iface.asm
+          _usb_active_cfg   0x00005e       data     extern boot_iface.asm
+        _usb_device_state   0x00005f       data     extern boot_iface.asm
+         _boot_goto_table   0x00001c    program     extern boot_iface.asm
+            _boot_version   0x00001c    program     extern boot_iface.asm
+      _dispatch_usb_event   0x00001e    program     extern boot_iface.asm
+               _reset_usb   0x000022    program     extern boot_iface.asm
+               _usb_sleep   0x000026    program     extern boot_iface.asm
+          _fill_in_buffer   0x00002a    program     extern boot_iface.asm
+                _ep0_init   0x00002e    program     extern boot_iface.asm
+                  _ep0_in   0x000032    program     extern boot_iface.asm
+               _ep0_setup   0x000036    program     extern boot_iface.asm
+                _ep1_init   0x00003a    program     extern boot_iface.asm
+                 _ep1_out   0x00003e    program     extern boot_iface.asm
+                _ep2_init   0x000042    program     extern boot_iface.asm
+                  _ep2_in   0x000046    program     extern boot_iface.asm
+                __mullong   0x00004a    program     extern boot_iface.asm
+                 __mulint   0x00004e    program     extern boot_iface.asm
+               __gptrget1   0x000052    program     extern boot_iface.asm
+               __gptrget2   0x000056    program     extern boot_iface.asm
+               __gptrget3   0x00005a    program     extern boot_iface.asm
+               __gptrget4   0x00005e    program     extern boot_iface.asm
+               __gptrput1   0x000062    program     extern boot_iface.asm
+               __gptrput2   0x000066    program     extern boot_iface.asm
+               __gptrput3   0x00006a    program     extern boot_iface.asm
+             _delay10ktcy   0x00006e    program     extern boot_iface.asm
+              _delay1ktcy   0x000072    program     extern boot_iface.asm
+              _delay10tcy   0x000076    program     extern boot_iface.asm
+                 _SPPDATA   0x000f62       data     extern libdev18f4550_a-pic18f4550.asm
+             _SPPDATAbits   0x000f62       data     extern libdev18f4550_a-pic18f4550.asm
+                  _SPPCFG   0x000f63       data     extern libdev18f4550_a-pic18f4550.asm
+              _SPPCFGbits   0x000f63       data     extern libdev18f4550_a-pic18f4550.asm
+                  _SPPEPS   0x000f64       data     extern libdev18f4550_a-pic18f4550.asm
+              _SPPEPSbits   0x000f64       data     extern libdev18f4550_a-pic18f4550.asm
+                  _SPPCON   0x000f65       data     extern libdev18f4550_a-pic18f4550.asm
+              _SPPCONbits   0x000f65       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UFRML   0x000f66       data     extern libdev18f4550_a-pic18f4550.asm
+               _UFRMLbits   0x000f66       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UFRMH   0x000f67       data     extern libdev18f4550_a-pic18f4550.asm
+               _UFRMHbits   0x000f67       data     extern libdev18f4550_a-pic18f4550.asm
+                     _UIR   0x000f68       data     extern libdev18f4550_a-pic18f4550.asm
+                 _UIRbits   0x000f68       data     extern libdev18f4550_a-pic18f4550.asm
+                     _UIE   0x000f69       data     extern libdev18f4550_a-pic18f4550.asm
+                 _UIEbits   0x000f69       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEIR   0x000f6a       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEIRbits   0x000f6a       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEIE   0x000f6b       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEIEbits   0x000f6b       data     extern libdev18f4550_a-pic18f4550.asm
+                   _USTAT   0x000f6c       data     extern libdev18f4550_a-pic18f4550.asm
+               _USTATbits   0x000f6c       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UCON   0x000f6d       data     extern libdev18f4550_a-pic18f4550.asm
+                _UCONbits   0x000f6d       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UADDR   0x000f6e       data     extern libdev18f4550_a-pic18f4550.asm
+               _UADDRbits   0x000f6e       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UCFG   0x000f6f       data     extern libdev18f4550_a-pic18f4550.asm
+                _UCFGbits   0x000f6f       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP0   0x000f70       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP0bits   0x000f70       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP1   0x000f71       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP1bits   0x000f71       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP2   0x000f72       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP2bits   0x000f72       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP3   0x000f73       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP3bits   0x000f73       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP4   0x000f74       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP4bits   0x000f74       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP5   0x000f75       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP5bits   0x000f75       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP6   0x000f76       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP6bits   0x000f76       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP7   0x000f77       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP7bits   0x000f77       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP8   0x000f78       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP8bits   0x000f78       data     extern libdev18f4550_a-pic18f4550.asm
+                    _UEP9   0x000f79       data     extern libdev18f4550_a-pic18f4550.asm
+                _UEP9bits   0x000f79       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UEP10   0x000f7a       data     extern libdev18f4550_a-pic18f4550.asm
+               _UEP10bits   0x000f7a       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UEP11   0x000f7b       data     extern libdev18f4550_a-pic18f4550.asm
+               _UEP11bits   0x000f7b       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UEP12   0x000f7c       data     extern libdev18f4550_a-pic18f4550.asm
+               _UEP12bits   0x000f7c       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UEP13   0x000f7d       data     extern libdev18f4550_a-pic18f4550.asm
+               _UEP13bits   0x000f7d       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UEP14   0x000f7e       data     extern libdev18f4550_a-pic18f4550.asm
+               _UEP14bits   0x000f7e       data     extern libdev18f4550_a-pic18f4550.asm
+                   _UEP15   0x000f7f       data     extern libdev18f4550_a-pic18f4550.asm
+               _UEP15bits   0x000f7f       data     extern libdev18f4550_a-pic18f4550.asm
+                   _PORTA   0x000f80       data     extern libdev18f4550_a-pic18f4550.asm
+               _PORTAbits   0x000f80       data     extern libdev18f4550_a-pic18f4550.asm
+                   _PORTB   0x000f81       data     extern libdev18f4550_a-pic18f4550.asm
+               _PORTBbits   0x000f81       data     extern libdev18f4550_a-pic18f4550.asm
+                   _PORTC   0x000f82       data     extern libdev18f4550_a-pic18f4550.asm
+               _PORTCbits   0x000f82       data     extern libdev18f4550_a-pic18f4550.asm
+                   _PORTD   0x000f83       data     extern libdev18f4550_a-pic18f4550.asm
+               _PORTDbits   0x000f83       data     extern libdev18f4550_a-pic18f4550.asm
+                   _PORTE   0x000f84       data     extern libdev18f4550_a-pic18f4550.asm
+               _PORTEbits   0x000f84       data     extern libdev18f4550_a-pic18f4550.asm
+                    _LATA   0x000f89       data     extern libdev18f4550_a-pic18f4550.asm
+                _LATAbits   0x000f89       data     extern libdev18f4550_a-pic18f4550.asm
+                    _LATB   0x000f8a       data     extern libdev18f4550_a-pic18f4550.asm
+                _LATBbits   0x000f8a       data     extern libdev18f4550_a-pic18f4550.asm
+                    _LATC   0x000f8b       data     extern libdev18f4550_a-pic18f4550.asm
+                _LATCbits   0x000f8b       data     extern libdev18f4550_a-pic18f4550.asm
+                    _LATD   0x000f8c       data     extern libdev18f4550_a-pic18f4550.asm
+                _LATDbits   0x000f8c       data     extern libdev18f4550_a-pic18f4550.asm
+                    _LATE   0x000f8d       data     extern libdev18f4550_a-pic18f4550.asm
+                _LATEbits   0x000f8d       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TRISA   0x000f92       data     extern libdev18f4550_a-pic18f4550.asm
+               _TRISAbits   0x000f92       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TRISB   0x000f93       data     extern libdev18f4550_a-pic18f4550.asm
+               _TRISBbits   0x000f93       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TRISC   0x000f94       data     extern libdev18f4550_a-pic18f4550.asm
+               _TRISCbits   0x000f94       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TRISD   0x000f95       data     extern libdev18f4550_a-pic18f4550.asm
+               _TRISDbits   0x000f95       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TRISE   0x000f96       data     extern libdev18f4550_a-pic18f4550.asm
+               _TRISEbits   0x000f96       data     extern libdev18f4550_a-pic18f4550.asm
+                 _OSCTUNE   0x000f9b       data     extern libdev18f4550_a-pic18f4550.asm
+             _OSCTUNEbits   0x000f9b       data     extern libdev18f4550_a-pic18f4550.asm
+                    _PIE1   0x000f9d       data     extern libdev18f4550_a-pic18f4550.asm
+                _PIE1bits   0x000f9d       data     extern libdev18f4550_a-pic18f4550.asm
+                    _PIR1   0x000f9e       data     extern libdev18f4550_a-pic18f4550.asm
+                _PIR1bits   0x000f9e       data     extern libdev18f4550_a-pic18f4550.asm
+                    _IPR1   0x000f9f       data     extern libdev18f4550_a-pic18f4550.asm
+                _IPR1bits   0x000f9f       data     extern libdev18f4550_a-pic18f4550.asm
+                    _PIE2   0x000fa0       data     extern libdev18f4550_a-pic18f4550.asm
+                _PIE2bits   0x000fa0       data     extern libdev18f4550_a-pic18f4550.asm
+                    _PIR2   0x000fa1       data     extern libdev18f4550_a-pic18f4550.asm
+                _PIR2bits   0x000fa1       data     extern libdev18f4550_a-pic18f4550.asm
+                    _IPR2   0x000fa2       data     extern libdev18f4550_a-pic18f4550.asm
+                _IPR2bits   0x000fa2       data     extern libdev18f4550_a-pic18f4550.asm
+                  _EECON1   0x000fa6       data     extern libdev18f4550_a-pic18f4550.asm
+              _EECON1bits   0x000fa6       data     extern libdev18f4550_a-pic18f4550.asm
+                  _EECON2   0x000fa7       data     extern libdev18f4550_a-pic18f4550.asm
+                  _EEDATA   0x000fa8       data     extern libdev18f4550_a-pic18f4550.asm
+                   _EEADR   0x000fa9       data     extern libdev18f4550_a-pic18f4550.asm
+                   _RCSTA   0x000fab       data     extern libdev18f4550_a-pic18f4550.asm
+               _RCSTAbits   0x000fab       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TXSTA   0x000fac       data     extern libdev18f4550_a-pic18f4550.asm
+               _TXSTAbits   0x000fac       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TXREG   0x000fad       data     extern libdev18f4550_a-pic18f4550.asm
+                   _RCREG   0x000fae       data     extern libdev18f4550_a-pic18f4550.asm
+                   _SPBRG   0x000faf       data     extern libdev18f4550_a-pic18f4550.asm
+                  _SPBRGH   0x000fb0       data     extern libdev18f4550_a-pic18f4550.asm
+                   _T3CON   0x000fb1       data     extern libdev18f4550_a-pic18f4550.asm
+               _T3CONbits   0x000fb1       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TMR3L   0x000fb2       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TMR3H   0x000fb3       data     extern libdev18f4550_a-pic18f4550.asm
+                   _CMCON   0x000fb4       data     extern libdev18f4550_a-pic18f4550.asm
+               _CMCONbits   0x000fb4       data     extern libdev18f4550_a-pic18f4550.asm
+                  _CVRCON   0x000fb5       data     extern libdev18f4550_a-pic18f4550.asm
+              _CVRCONbits   0x000fb5       data     extern libdev18f4550_a-pic18f4550.asm
+                 _ECCP1AS   0x000fb6       data     extern libdev18f4550_a-pic18f4550.asm
+             _ECCP1ASbits   0x000fb6       data     extern libdev18f4550_a-pic18f4550.asm
+                _ECCP1DEL   0x000fb7       data     extern libdev18f4550_a-pic18f4550.asm
+            _ECCP1DELbits   0x000fb7       data     extern libdev18f4550_a-pic18f4550.asm
+                 _BAUDCON   0x000fb8       data     extern libdev18f4550_a-pic18f4550.asm
+             _BAUDCONbits   0x000fb8       data     extern libdev18f4550_a-pic18f4550.asm
+                 _CCP2CON   0x000fba       data     extern libdev18f4550_a-pic18f4550.asm
+             _CCP2CONbits   0x000fba       data     extern libdev18f4550_a-pic18f4550.asm
+                  _CCPR2L   0x000fbb       data     extern libdev18f4550_a-pic18f4550.asm
+                  _CCPR2H   0x000fbc       data     extern libdev18f4550_a-pic18f4550.asm
+                 _CCP1CON   0x000fbd       data     extern libdev18f4550_a-pic18f4550.asm
+             _CCP1CONbits   0x000fbd       data     extern libdev18f4550_a-pic18f4550.asm
+                  _CCPR1L   0x000fbe       data     extern libdev18f4550_a-pic18f4550.asm
+                  _CCPR1H   0x000fbf       data     extern libdev18f4550_a-pic18f4550.asm
+                  _ADCON2   0x000fc0       data     extern libdev18f4550_a-pic18f4550.asm
+              _ADCON2bits   0x000fc0       data     extern libdev18f4550_a-pic18f4550.asm
+                  _ADCON1   0x000fc1       data     extern libdev18f4550_a-pic18f4550.asm
+              _ADCON1bits   0x000fc1       data     extern libdev18f4550_a-pic18f4550.asm
+                  _ADCON0   0x000fc2       data     extern libdev18f4550_a-pic18f4550.asm
+              _ADCON0bits   0x000fc2       data     extern libdev18f4550_a-pic18f4550.asm
+                  _ADRESL   0x000fc3       data     extern libdev18f4550_a-pic18f4550.asm
+                  _ADRESH   0x000fc4       data     extern libdev18f4550_a-pic18f4550.asm
+                 _SSPCON2   0x000fc5       data     extern libdev18f4550_a-pic18f4550.asm
+             _SSPCON2bits   0x000fc5       data     extern libdev18f4550_a-pic18f4550.asm
+                 _SSPCON1   0x000fc6       data     extern libdev18f4550_a-pic18f4550.asm
+             _SSPCON1bits   0x000fc6       data     extern libdev18f4550_a-pic18f4550.asm
+                 _SSPSTAT   0x000fc7       data     extern libdev18f4550_a-pic18f4550.asm
+             _SSPSTATbits   0x000fc7       data     extern libdev18f4550_a-pic18f4550.asm
+                  _SSPADD   0x000fc8       data     extern libdev18f4550_a-pic18f4550.asm
+                  _SSPBUF   0x000fc9       data     extern libdev18f4550_a-pic18f4550.asm
+                   _T2CON   0x000fca       data     extern libdev18f4550_a-pic18f4550.asm
+               _T2CONbits   0x000fca       data     extern libdev18f4550_a-pic18f4550.asm
+                     _PR2   0x000fcb       data     extern libdev18f4550_a-pic18f4550.asm
+                    _TMR2   0x000fcc       data     extern libdev18f4550_a-pic18f4550.asm
+                   _T1CON   0x000fcd       data     extern libdev18f4550_a-pic18f4550.asm
+               _T1CONbits   0x000fcd       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TMR1L   0x000fce       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TMR1H   0x000fcf       data     extern libdev18f4550_a-pic18f4550.asm
+                    _RCON   0x000fd0       data     extern libdev18f4550_a-pic18f4550.asm
+                _RCONbits   0x000fd0       data     extern libdev18f4550_a-pic18f4550.asm
+                  _WDTCON   0x000fd1       data     extern libdev18f4550_a-pic18f4550.asm
+              _WDTCONbits   0x000fd1       data     extern libdev18f4550_a-pic18f4550.asm
+                 _HLVDCON   0x000fd2       data     extern libdev18f4550_a-pic18f4550.asm
+             _HLVDCONbits   0x000fd2       data     extern libdev18f4550_a-pic18f4550.asm
+                  _OSCCON   0x000fd3       data     extern libdev18f4550_a-pic18f4550.asm
+              _OSCCONbits   0x000fd3       data     extern libdev18f4550_a-pic18f4550.asm
+                   _T0CON   0x000fd5       data     extern libdev18f4550_a-pic18f4550.asm
+               _T0CONbits   0x000fd5       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TMR0L   0x000fd6       data     extern libdev18f4550_a-pic18f4550.asm
+                   _TMR0H   0x000fd7       data     extern libdev18f4550_a-pic18f4550.asm
+                  _STATUS   0x000fd8       data     extern libdev18f4550_a-pic18f4550.asm
+              _STATUSbits   0x000fd8       data     extern libdev18f4550_a-pic18f4550.asm
+                   _FSR2L   0x000fd9       data     extern libdev18f4550_a-pic18f4550.asm
+                   _FSR2H   0x000fda       data     extern libdev18f4550_a-pic18f4550.asm
+               _FSR2Hbits   0x000fda       data     extern libdev18f4550_a-pic18f4550.asm
+                  _PLUSW2   0x000fdb       data     extern libdev18f4550_a-pic18f4550.asm
+                 _PREINC2   0x000fdc       data     extern libdev18f4550_a-pic18f4550.asm
+                _POSTDEC2   0x000fdd       data     extern libdev18f4550_a-pic18f4550.asm
+                _POSTINC2   0x000fde       data     extern libdev18f4550_a-pic18f4550.asm
+                   _INDF2   0x000fdf       data     extern libdev18f4550_a-pic18f4550.asm
+                     _BSR   0x000fe0       data     extern libdev18f4550_a-pic18f4550.asm
+                 _BSRbits   0x000fe0       data     extern libdev18f4550_a-pic18f4550.asm
+                   _FSR1L   0x000fe1       data     extern libdev18f4550_a-pic18f4550.asm
+                   _FSR1H   0x000fe2       data     extern libdev18f4550_a-pic18f4550.asm
+               _FSR1Hbits   0x000fe2       data     extern libdev18f4550_a-pic18f4550.asm
+                  _PLUSW1   0x000fe3       data     extern libdev18f4550_a-pic18f4550.asm
+                 _PREINC1   0x000fe4       data     extern libdev18f4550_a-pic18f4550.asm
+                _POSTDEC1   0x000fe5       data     extern libdev18f4550_a-pic18f4550.asm
+                _POSTINC1   0x000fe6       data     extern libdev18f4550_a-pic18f4550.asm
+                   _INDF1   0x000fe7       data     extern libdev18f4550_a-pic18f4550.asm
+                    _WREG   0x000fe8       data     extern libdev18f4550_a-pic18f4550.asm
+                   _FSR0L   0x000fe9       data     extern libdev18f4550_a-pic18f4550.asm
+                   _FSR0H   0x000fea       data     extern libdev18f4550_a-pic18f4550.asm
+               _FSR0Hbits   0x000fea       data     extern libdev18f4550_a-pic18f4550.asm
+                  _PLUSW0   0x000feb       data     extern libdev18f4550_a-pic18f4550.asm
+                 _PREINC0   0x000fec       data     extern libdev18f4550_a-pic18f4550.asm
+                _POSTDEC0   0x000fed       data     extern libdev18f4550_a-pic18f4550.asm
+                _POSTINC0   0x000fee       data     extern libdev18f4550_a-pic18f4550.asm
+                   _INDF0   0x000fef       data     extern libdev18f4550_a-pic18f4550.asm
+                 _INTCON3   0x000ff0       data     extern libdev18f4550_a-pic18f4550.asm
+             _INTCON3bits   0x000ff0       data     extern libdev18f4550_a-pic18f4550.asm
+                 _INTCON2   0x000ff1       data     extern libdev18f4550_a-pic18f4550.asm
+             _INTCON2bits   0x000ff1       data     extern libdev18f4550_a-pic18f4550.asm
+                  _INTCON   0x000ff2       data     extern libdev18f4550_a-pic18f4550.asm
+              _INTCONbits   0x000ff2       data     extern libdev18f4550_a-pic18f4550.asm
+                   _PRODL   0x000ff3       data     extern libdev18f4550_a-pic18f4550.asm
+                   _PRODH   0x000ff4       data     extern libdev18f4550_a-pic18f4550.asm
+                  _TABLAT   0x000ff5       data     extern libdev18f4550_a-pic18f4550.asm
+                 _TBLPTRL   0x000ff6       data     extern libdev18f4550_a-pic18f4550.asm
+                 _TBLPTRH   0x000ff7       data     extern libdev18f4550_a-pic18f4550.asm
+                 _TBLPTRU   0x000ff8       data     extern libdev18f4550_a-pic18f4550.asm
+             _TBLPTRUbits   0x000ff8       data     extern libdev18f4550_a-pic18f4550.asm
+                     _PCL   0x000ff9       data     extern libdev18f4550_a-pic18f4550.asm
+                  _PCLATH   0x000ffa       data     extern libdev18f4550_a-pic18f4550.asm
+              _PCLATHbits   0x000ffa       data     extern libdev18f4550_a-pic18f4550.asm
+                  _PCLATU   0x000ffb       data     extern libdev18f4550_a-pic18f4550.asm
+              _PCLATUbits   0x000ffb       data     extern libdev18f4550_a-pic18f4550.asm
+                  _STKPTR   0x000ffc       data     extern libdev18f4550_a-pic18f4550.asm
+              _STKPTRbits   0x000ffc       data     extern libdev18f4550_a-pic18f4550.asm
+                    _TOSL   0x000ffd       data     extern libdev18f4550_a-pic18f4550.asm
+                    _TOSH   0x000ffe       data     extern libdev18f4550_a-pic18f4550.asm
+                    _TOSU   0x000fff       data     extern libdev18f4550_a-pic18f4550.asm
+                _TOSUbits   0x000fff       data     extern libdev18f4550_a-pic18f4550.asm
+                   _stack   0x000100       data     extern /home/sdcc-builder/build/sdcc-build/orig/sdcc/device/lib/pic16/libsdcc/stack/stack.S
+               _stack_end   0x0001ff       data     extern /home/sdcc-builder/build/sdcc-build/orig/sdcc/device/lib/pic16/libsdcc/stack/stack.S
+                    r0x00   00000000       data     static fslt.asm
+                    r0x01   0x000001       data     static fslt.asm
+                    r0x02   0x000002       data     static fslt.asm
+                    r0x03   0x000003       data     static fslt.asm
+                    r0x04   0x000004       data     static fslt.asm
+                    r0x05   0x000005       data     static fslt.asm
+                    r0x06   0x000006       data     static fslt.asm
+                    r0x07   0x000007       data     static fslt.asm
+          ___fslt_fl1_1_1   0x000269       data     static fslt.asm
+          ___fslt_fl2_1_1   0x00026d       data     static fslt.asm
+                  ___fslt   0x003696    program     extern fslt.asm
+               _00118_DS_   0x003750    program     static fslt.asm
+               _00106_DS_   0x003756    program     static fslt.asm
+               _00108_DS_   0x00375a    program     static fslt.asm
+               _00119_DS_   0x003786    program     static fslt.asm
+               _00111_DS_   0x00378c    program     static fslt.asm
+               _00112_DS_   0x00378e    program     static fslt.asm
+                    r0x00   00000000       data     static fsadd.asm
+                    r0x01   0x000001       data     static fsadd.asm
+                    r0x02   0x000002       data     static fsadd.asm
+                    r0x03   0x000003       data     static fsadd.asm
+                    r0x04   0x000004       data     static fsadd.asm
+                    r0x05   0x000005       data     static fsadd.asm
+                    r0x06   0x000006       data     static fsadd.asm
+                    r0x07   0x000007       data     static fsadd.asm
+        ___fsadd_sign_1_1   0x000271       data     static fsadd.asm
+         ___fsadd_fl1_1_1   0x000275       data     static fsadd.asm
+         ___fsadd_fl2_1_1   0x000279       data     static fsadd.asm
+        ___fsadd_exp1_1_1   0x000288       data     static fsadd.asm
+        ___fsadd_exp2_1_1   0x00028a       data     static fsadd.asm
+       ___fsadd_mant1_1_1   0x00027d       data     static fsadd.asm
+       ___fsadd_mant2_1_1   0x000281       data     static fsadd.asm
+                 ___fsadd   0x0024d0    program     extern fsadd.asm
+               _00106_DS_   0x002574    program     static fsadd.asm
+               _00108_DS_   0x002592    program     static fsadd.asm
+               _00151_DS_   0x0025da    program     static fsadd.asm
+               _00110_DS_   0x0025ee    program     static fsadd.asm
+               _00152_DS_   0x00260c    program     static fsadd.asm
+               _00112_DS_   0x002620    program     static fsadd.asm
+               _10105_DS_   0x002686    program     static fsadd.asm
+               _00114_DS_   0x002686    program     static fsadd.asm
+               _20106_DS_   0x0026a8    program     static fsadd.asm
+               _00116_DS_   0x0026a8    program     static fsadd.asm
+               _00161_DS_   0x0026c0    program     static fsadd.asm
+               _00163_DS_   0x0026de    program     static fsadd.asm
+               _00165_DS_   0x0026f2    program     static fsadd.asm
+               _00164_DS_   0x0026f4    program     static fsadd.asm
+               _00162_DS_   0x002702    program     static fsadd.asm
+               _00118_DS_   0x002704    program     static fsadd.asm
+               _00167_DS_   0x002720    program     static fsadd.asm
+               _00169_DS_   0x002734    program     static fsadd.asm
+               _00168_DS_   0x002736    program     static fsadd.asm
+               _00166_DS_   0x002744    program     static fsadd.asm
+               _00119_DS_   0x00274c    program     static fsadd.asm
+               _30107_DS_   0x002788    program     static fsadd.asm
+               _00170_DS_   0x002788    program     static fsadd.asm
+               _00123_DS_   0x002796    program     static fsadd.asm
+               _00125_DS_   0x0027ac    program     static fsadd.asm
+               _00171_DS_   0x0027d2    program     static fsadd.asm
+               _40108_DS_   0x0027ea    program     static fsadd.asm
+               _00130_DS_   0x0027ec    program     static fsadd.asm
+               _00129_DS_   0x002812    program     static fsadd.asm
+               _50109_DS_   0x002826    program     static fsadd.asm
+               _00132_DS_   0x002828    program     static fsadd.asm
+               _00133_DS_   0x00289e    program     static fsadd.asm
+                   _cinit   0x003faa    program     extern  
+ 

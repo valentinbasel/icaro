@@ -1,0 +1,68 @@
+float tiempo=0;
+
+float tiempo2=0;
+
+void setup()
+
+{
+
+int i=0;
+
+for(i=0;i<8;i++)
+
+pinmode(i,OUTPUT);
+
+
+
+pinmode(8,INPUT);
+
+pinmode(9,INPUT);
+
+pinmode(23,INPUT);
+
+pinmode(24,INPUT);
+
+
+
+pinmode(25,OUTPUT);
+
+pinmode(26,OUTPUT);
+
+pinmode(27,OUTPUT);
+
+pinmode(28,OUTPUT);
+
+
+
+ServoAttach(10);
+
+ServoAttach(11);
+
+ServoAttach(12);
+
+ServoAttach(21);
+
+}
+
+
+
+unsigned int sensor(int valor)
+
+{
+
+unsigned int an;
+
+an=analogread(valor);
+
+return an;
+
+}
+
+void loop()
+
+{
+
+
+
+ServoWrite(22,100);
+}
