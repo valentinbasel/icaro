@@ -84,7 +84,8 @@ class Ventana:
     fondo=0
     textorender=0
     cadena_pinguino=[]
-
+    seleccion_menu=0
+    tipo_componente=0
     #estructura del diccionario:
     # [tipo_de_componente , numero_de_argumentos , color]
     
@@ -199,7 +200,6 @@ class Ventana:
         toolbar.show()
         # creo los botones de la toolbar
                 
-        toolbar.append_space() 
         iconw = gtk.Image() 
         iconw.set_from_file("imagenes/icaro.png")
         compilar_button = toolbar.append_item(
@@ -207,18 +207,34 @@ class Ventana:
                         "compila el bloque", 
                         "Private",         
                         iconw,            
-                        self.compilar) 
-        iconw2 = gtk.Image() 
-        iconw2.set_from_file("imagenes/compilar.png")
-        cargar_button2 = toolbar.append_item(
+                        self.compilar)
+                         
+        iconw = gtk.Image() 
+        iconw.set_from_file("imagenes/compilar.png")
+        cargar_button = toolbar.append_item(
                         "cargar",          
                         "carga el codigo en el pic", 
                         "Private",         
-                        iconw2,            
+                        iconw,            
                         self.upload) 
         # un espacio en blanco para separar
-
-        
+        toolbar.append_space() 
+        iconw = gtk.Image() 
+        iconw.set_from_file("imagenes/dibujar.png")
+        dibujar_button = toolbar.append_element(gtk.TOOLBAR_CHILD_RADIOBUTTON,None,
+                        "lapiz",          
+                        "herramienta para colocación de componentes", 
+                        "Private",         
+                        iconw,            
+                        self.dibujo,1)
+        iconw = gtk.Image() 
+        iconw.set_from_file("imagenes/mover.png")
+        borrar_button = toolbar.append_element(gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
+                        "mover",          
+                        "herramienta para mover los componentes", 
+                        "Private",         
+                        iconw,            
+                        self.dibujo,2) 
         #declaro el scroll_window donde esta inserto el drawing area
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window.set_size_request(800, 600)
@@ -234,7 +250,8 @@ class Ventana:
         #scrolled_window2.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
         scrolled_window2.show()
         #declaro la tabla  donde van los botones para el menu de bloques
-        table = gtk.Table(14, 2, True)
+        #table = gtk.Table(14, 2, True)
+        table=gtk.VBox(False, len(self.lista))
         scrolled_window2.add_with_viewport(table)
         table.show()
 
@@ -246,20 +263,37 @@ class Ventana:
         # parseo la lista de datos del diccionario para crear 
         # una matriz 2x2 y cargar los botones (declarados en el dicc)
         # en table
-        j=a=0
+#        j=a=0
         # j= columnas
         # a= filas
-        for i in range(len(self.lista)):
-            if i==14:
-                a=13
-                j=1
+#        for i in range(len(self.lista)):
+#            if i==14:
+#                a=13
+#                j=1
+#            buffer = self.diccionario[self.lista[i]][0]
+#            button = gtk.RadioButton()
+#            caja = self.imagen_boton( self.diccionario[self.lista[i]][0], self.diccionario[self.lista[i]][0])
+#            button.add(caja)
+#            button.connect("clicked", self.botones,self.lista[i])#buffer
+#            button.show()
+#            table.attach(button, j, j+1,(i-a), (i-a)+1)
+        #declaro el primer radiobutton para que los demas se declaren despues de el
+        buffer = self.diccionario[self.lista[0]][0]
+        caja = self.imagen_boton( self.diccionario[self.lista[0]][0], self.diccionario[self.lista[0]][0])
+        button = gtk.RadioButton()
+        button.add(caja)
+        button.connect("clicked", self.botones,self.lista[0])#buffer
+        table.pack_start(button, True, True, 0)
+        button.show()
+        
+        for i in range(1,len(self.lista)):
             buffer = self.diccionario[self.lista[i]][0]
-            button = gtk.Button()
             caja = self.imagen_boton( self.diccionario[self.lista[i]][0], self.diccionario[self.lista[i]][0])
+            button = gtk.RadioButton(button)
             button.add(caja)
             button.connect("clicked", self.botones,self.lista[i])#buffer
+            table.pack_start(button, True, True, 0)
             button.show()
-            table.attach(button, j, j+1,(i-a), (i-a)+1)
 
         #empaqueto todo
         box2.pack_start(scrolled_window, True, True, 1)
@@ -287,7 +321,8 @@ class Ventana:
         self.area.grab_focus() 
         
         
-        
+    def dibujo(self,event,b):
+        self.seleccion_menu=b
 # esto es para gregar imagenes al boton de la toolbar
     def imagen_boton(self, xpm_filename, label_text):
         # Create box for xpm and label
@@ -295,9 +330,9 @@ class Ventana:
         box1.set_border_width(2)
         image = gtk.Image()
         xpm_filename=xpm_filename.strip(" ")
-        print "------------"+xpm_filename
+        #print "------------"+xpm_filename
         buf="imagenes/componentes/"+xpm_filename+".png"
-        print buf
+        #print buf
         image.set_from_file(buf)
 
         # Create a label for the button
@@ -327,13 +362,15 @@ class Ventana:
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table
     def botones(self,event,b):
-        # simepre hay que tratar de que el foco quede en el drawing area
-        self.area.grab_focus() 
-        
+        self.tipo_componente=b
+
+    def crear_componente(self,b):
+        # siempre hay que tratar de que el foco quede en el drawing area
+        self.area.grab_focus()
         if self.diccionario[b][1]==1:
             c1=componente   (
-                            700,
-                            100,
+                            self.mousexy[0],
+                            self.mousexy[1],
                             self.fondo.identificador+1,
                             self.diccionario[b][2],
                             self.diccionario[b][3],
@@ -347,8 +384,8 @@ class Ventana:
         if self.diccionario[b][1]==2:
             self.fondo.identificador+=1
             c1=componente_bloque_uno_tres_arg(
-                                            700,
-                                            300,
+                                            self.mousexy[0],
+                                            self.mousexy[1],
                                             self.fondo.identificador,
                                             self.diccionario[b][2],
                                             self.diccionario[b][0],
@@ -360,8 +397,8 @@ class Ventana:
             self.fondo.identificador +=2
             self.fondo.identificador +=1
             c1=componente_bloque_dos    (
-                                        700,
-                                        450,
+                                        self.mousexy[0],
+                                        self.mousexy[1]+200,
                                         self.fondo.identificador,
                                         self.diccionario[b][2],
                                         self.diccionario[b][3],
@@ -372,8 +409,8 @@ class Ventana:
             self.fondo.componentes.add(c1)
         if self.diccionario[b][1]==3:
             dato=comp_dat   (
-                            700,
-                            400,
+                            self.mousexy[0],
+                            self.mousexy[1],
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],
@@ -391,8 +428,8 @@ class Ventana:
 
             self.fondo.identificador+=1
             c1=componente_cero_arg  (
-                                    400,
-                                    500,
+                                    self.mousexy[0],
+                                    self.mousexy[1],
                                     self.fondo.identificador,
                                     self.diccionario[b][2],
                                     self.diccionario[b][0],
@@ -405,8 +442,8 @@ class Ventana:
             self.fondo.identificador+=1
 
             c1=componente_cero_arg_dos (
-                                        400,
-                                        700,
+                                        self.mousexy[0],
+                                        self.mousexy[1],
                                         self.fondo.identificador,
                                         self.diccionario[b][2],
                                         self.diccionario[b][0],
@@ -418,8 +455,8 @@ class Ventana:
         if self.diccionario[b][1]==5:
             self.fondo.identificador+=1
             c1=componente_bloque_uno(
-                                            700,
-                                            300,
+                                            self.mousexy[0],
+                                            self.mousexy[1],
                                             self.fondo.identificador,
                                             self.diccionario[b][2],
                                             self.diccionario[b][0],
@@ -431,8 +468,8 @@ class Ventana:
             #self.fondo.identificador +=2
             self.fondo.identificador +=1
             c1=componente_bloque_dos    (
-                                        700,
-                                        450,
+                                        self.mousexy[0],
+                                        self.mousexy[1]+80,
                                         self.fondo.identificador,
                                         self.diccionario[b][2],
                                         self.diccionario[b][3],
@@ -443,8 +480,8 @@ class Ventana:
             self.fondo.componentes.add(c1)
         if self.diccionario[b][1]==6:
             dato=comp_dat_img   (
-                            700,
-                            400,
+                            self.mousexy[0],
+                            self.mousexy[1],
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],
@@ -662,7 +699,9 @@ class Ventana:
         self.mousexy= event.get_coords()
     def buttonpress_cb(self,win,event):
         self.boton_mouse[event.button]=1
-        
+        if self.seleccion_menu==1:
+            self.crear_componente(self.tipo_componente)
+
     def buttonrelease_cb(self,win,event):
         self.boton_mouse[event.button]=0
         
