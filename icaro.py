@@ -197,6 +197,7 @@ class Ventana:
         # y compilar
         toolbar = gtk.Toolbar()
         toolbar.append_item
+        toolbar.set_style(gtk.TOOLBAR_BOTH)
         toolbar.show()
         # creo los botones de la toolbar
                 
@@ -237,16 +238,16 @@ class Ventana:
                         self.dibujo,2) 
         #declaro el scroll_window donde esta inserto el drawing area
         scrolled_window = gtk.ScrolledWindow()
-        scrolled_window.set_size_request(800, 600)
+        scrolled_window.set_size_request(500, 600)
         scrolled_window.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
         scrolled_window.show()
         scrolled_window.add_with_viewport(self.area)
         
         #declaro el scroll window donde va la toolbar de los bloques
         scrolled_window2 = gtk.ScrolledWindow()
-        #scrolled_window2.set_border_width(10)
-        #scrolled_window2.set_size_request(100,1600)
-        scrolled_window2.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
+        scrolled_window2.set_border_width(1)
+        #scrolled_window2.set_size_request(100,100)
+        scrolled_window2.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         #scrolled_window2.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
         scrolled_window2.show()
         #declaro la tabla  donde van los botones para el menu de bloques
@@ -283,7 +284,7 @@ class Ventana:
         button = gtk.RadioButton()
         button.add(caja)
         button.connect("clicked", self.botones,self.lista[0])#buffer
-        table.pack_start(button, True, True, 0)
+        table.pack_start(button, False, True, 0)
         button.show()
         
         for i in range(1,len(self.lista)):
@@ -292,15 +293,15 @@ class Ventana:
             button = gtk.RadioButton(button)
             button.add(caja)
             button.connect("clicked", self.botones,self.lista[i])#buffer
-            table.pack_start(button, True, True, 0)
+            table.pack_start(button, False, True, 0)
             button.show()
 
         #empaqueto todo
         box2.pack_start(scrolled_window, True, True, 1)
-        box2.pack_start(scrolled_window2, True, True, 1)
-        box1.pack_start(menu_bar, False, False, 0)
-        box1.pack_start(toolbar, False, False, 1)
-        box1.pack_start(box2, False, False, 2)
+        box2.pack_start(scrolled_window2,False, False, 1)
+        box1.pack_start(menu_bar, False, True, 1)
+        box1.pack_start(toolbar, False, True, 1)
+        box1.pack_start(box2, True, True, 1)
         self.window.add(box1)
 
         
@@ -325,22 +326,15 @@ class Ventana:
         self.seleccion_menu=b
 # esto es para gregar imagenes al boton de la toolbar
     def imagen_boton(self, xpm_filename, label_text):
-        # Create box for xpm and label
-        box1 = gtk.HBox(gtk.FALSE, 0)
-        box1.set_border_width(2)
+        box1 = gtk.HBox(False, 0)
+        box1.set_border_width(0)
         image = gtk.Image()
         xpm_filename=xpm_filename.strip(" ")
-        #print "------------"+xpm_filename
         buf="imagenes/componentes/"+xpm_filename+".png"
-        #print buf
         image.set_from_file(buf)
-
-        # Create a label for the button
         label = gtk.Label(label_text)
-
-        # Pack the pixmap and label into the box
-        box1.pack_start(image, gtk.FALSE, gtk.FALSE, 3)
-        box1.pack_start(label, gtk.FALSE, gtk.FALSE, 3)
+        box1.pack_start(image, False, True, 1)
+        box1.pack_start(label, False, True, 1)
 
         image.show()
         label.show()
@@ -360,7 +354,7 @@ class Ventana:
         md.run()
         md.destroy()
     # esta funcion captura el evento de presionar un boton de la toolbar
-    # table
+    # table y lo manda tipo_componentes
     def botones(self,event,b):
         self.tipo_componente=b
 
