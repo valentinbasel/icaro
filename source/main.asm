@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Aug  9 2009) (UNIX)
-; This file was generated Mon Jan  9 20:21:10 2012
+; This file was generated Sun Feb 12 19:33:37 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -12,6 +12,8 @@
 ;--------------------------------------------------------
 ; public variables in this module
 ;--------------------------------------------------------
+	global _tiempo2
+	global _tiempo
 	global _loopvar
 	global _phase
 	global _needreordering
@@ -20,8 +22,6 @@
 	global _timings
 	global _activatedservos
 	global _servovalues
-	global _tiempo
-	global _tiempo2
 	global _digitalwrite
 	global _digitalread
 	global _pinmode
@@ -286,8 +286,6 @@
 	extern _TOSH
 	extern _TOSU
 	extern _delay10ktcy
-	extern ___fslt
-	extern ___fsadd
 ;--------------------------------------------------------
 ;	Equates to used internal registers
 ;--------------------------------------------------------
@@ -425,525 +423,24 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	84; /home/valentin/github/icaro-bloques/source/main.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_00559_DS_:
+_00525_DS_:
 ;	.line	89; /home/valentin/github/icaro-bloques/source/main.c	loop();
 	CALL	_loop
-	BRA	_00559_DS_
+	BRA	_00525_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	63; /home/valentin/github/icaro-bloques/source/user.c	void loop()
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	BANKSEL	_tiempo
-;	.line	69; /home/valentin/github/icaro-bloques/source/user.c	for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0;tiempo2++){PORTD=0;}}
-	CLRF	_tiempo, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 3), B
-_00525_DS_:
-	MOVLW	0x42
-	MOVWF	POSTDEC1
-	MOVLW	0xc8
-	MOVWF	POSTDEC1
+;	.line	69; /home/valentin/github/icaro-bloques/source/user.c	Delayms( 0);
+	MOVLW	0x00
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CALL	_Delayms
+	MOVLW	0x04
 	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BTFSC	STATUS, 2
-	BRA	_00528_DS_
-	BANKSEL	_tiempo2
-	CLRF	_tiempo2, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 3), B
-_00521_DS_:
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BZ	_00527_DS_
-	CLRF	_PORTD
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo2
-	MOVWF	_tiempo2, B
-	MOVFF	PRODL, (_tiempo2 + 1)
-	MOVFF	PRODH, (_tiempo2 + 2)
-	MOVFF	FSR0L, (_tiempo2 + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00521_DS_
-_00527_DS_:
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo
-	MOVWF	_tiempo, B
-	MOVFF	PRODL, (_tiempo + 1)
-	MOVFF	PRODH, (_tiempo + 2)
-	MOVFF	FSR0L, (_tiempo + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00525_DS_
-_00528_DS_:
-	BANKSEL	_tiempo
-;	.line	70; /home/valentin/github/icaro-bloques/source/user.c	for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0;tiempo2++){PORTD=0;}}
-	CLRF	_tiempo, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 3), B
-_00533_DS_:
-	MOVLW	0x42
-	MOVWF	POSTDEC1
-	MOVLW	0xc8
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BTFSC	STATUS, 2
-	BRA	_00536_DS_
-	BANKSEL	_tiempo2
-	CLRF	_tiempo2, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 3), B
-_00529_DS_:
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BZ	_00535_DS_
-	CLRF	_PORTD
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo2
-	MOVWF	_tiempo2, B
-	MOVFF	PRODL, (_tiempo2 + 1)
-	MOVFF	PRODH, (_tiempo2 + 2)
-	MOVFF	FSR0L, (_tiempo2 + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00529_DS_
-_00535_DS_:
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo
-	MOVWF	_tiempo, B
-	MOVFF	PRODL, (_tiempo + 1)
-	MOVFF	PRODH, (_tiempo + 2)
-	MOVFF	FSR0L, (_tiempo + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00533_DS_
-_00536_DS_:
-	BANKSEL	_tiempo
-;	.line	71; /home/valentin/github/icaro-bloques/source/user.c	for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0;tiempo2++){PORTD=0;}}
-	CLRF	_tiempo, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 3), B
-_00541_DS_:
-	MOVLW	0x42
-	MOVWF	POSTDEC1
-	MOVLW	0xc8
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BTFSC	STATUS, 2
-	BRA	_00544_DS_
-	BANKSEL	_tiempo2
-	CLRF	_tiempo2, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 3), B
-_00537_DS_:
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BZ	_00543_DS_
-	CLRF	_PORTD
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo2
-	MOVWF	_tiempo2, B
-	MOVFF	PRODL, (_tiempo2 + 1)
-	MOVFF	PRODH, (_tiempo2 + 2)
-	MOVFF	FSR0L, (_tiempo2 + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00537_DS_
-_00543_DS_:
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo
-	MOVWF	_tiempo, B
-	MOVFF	PRODL, (_tiempo + 1)
-	MOVFF	PRODH, (_tiempo + 2)
-	MOVFF	FSR0L, (_tiempo + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00541_DS_
-_00544_DS_:
-;	.line	72; /home/valentin/github/icaro-bloques/source/user.c	if (digitalread(21)==0 ){
-	CLRF	POSTDEC1
-	MOVLW	0x15
-	MOVWF	POSTDEC1
-	CALL	_digitalread
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVLW	0x02
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	IORWF	r0x01, W
-	BTFSS	STATUS, 2
-	BRA	_00553_DS_
-	BANKSEL	_tiempo
-;	.line	73; /home/valentin/github/icaro-bloques/source/user.c	for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0;tiempo2++){PORTD=0;}}
-	CLRF	_tiempo, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo + 3), B
-_00549_DS_:
-	MOVLW	0x42
-	MOVWF	POSTDEC1
-	MOVLW	0xc8
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BTFSC	STATUS, 2
-	BRA	_00553_DS_
-	BANKSEL	_tiempo2
-	CLRF	_tiempo2, B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 1), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 2), B
-; removed redundant BANKSEL
-	CLRF	(_tiempo2 + 3), B
-_00545_DS_:
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x00
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x00, W
-	BZ	_00551_DS_
-	CLRF	_PORTD
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo2 + 3)
-	MOVF	(_tiempo2 + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo2 + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo2, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo2
-	MOVWF	_tiempo2, B
-	MOVFF	PRODL, (_tiempo2 + 1)
-	MOVFF	PRODH, (_tiempo2 + 2)
-	MOVFF	FSR0L, (_tiempo2 + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00545_DS_
-_00551_DS_:
-	MOVLW	0x3f
-	MOVWF	POSTDEC1
-	MOVLW	0x80
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	BANKSEL	(_tiempo + 3)
-	MOVF	(_tiempo + 3), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 2), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	(_tiempo + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_tiempo, W, B
-	MOVWF	POSTDEC1
-	CALL	___fsadd
-	BANKSEL	_tiempo
-	MOVWF	_tiempo, B
-	MOVFF	PRODL, (_tiempo + 1)
-	MOVFF	PRODH, (_tiempo + 2)
-	MOVFF	FSR0L, (_tiempo + 3)
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_00549_DS_
-_00553_DS_:
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
 	RETURN	
 
 ; ; Starting pCode block
@@ -3331,8 +2828,8 @@ _servomasks:
 
 
 ; Statistics:
-; code size:	 5982 (0x175e) bytes ( 4.56%)
-;           	 2991 (0x0baf) words
+; code size:	 5076 (0x13d4) bytes ( 3.87%)
+;           	 2538 (0x09ea) words
 ; udata size:	   95 (0x005f) bytes ( 5.30%)
 ; access size:	   10 (0x000a) bytes
 
