@@ -41,29 +41,29 @@ def crear_archivo(fondo, ventana):
         if fondo.lista_parser[fondo.lista_fina[a]]=='robot ':
             cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
             cadena2=fondo.lista_parser_final[fondo.lista_fina[a]+1]
-            valor=cadena[6:len(cadena)-1]
-            valor2=cadena2[6:len(cadena2)-1]                
+            valor=cadena[6:len(cadena)]
+            valor2=cadena2[6:len(cadena2)]                
             ventana.cadena_pinguino.append("for(tiempo=0;tiempo<100;tiempo++){"
                                             +"for(tiempo2=0;tiempo2<"+valor2+";tiempo2++){"
                                             +"PORTD="+valor+";}}")
         if fondo.lista_parser[fondo.lista_fina[a]]=='activar ':
             cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
             cadena2=fondo.lista_parser_final[fondo.lista_fina[a]+1]
-            valor=cadena[8:len(cadena)-1]
-            valor2=cadena2[8:len(cadena2)-1]                
+            valor=cadena[8:len(cadena)]
+            valor2=cadena2[8:len(cadena2)]                
             ventana.cadena_pinguino.append("for(tiempo=0;tiempo<100;tiempo++){"
                                             +"for(tiempo2=0;tiempo2<"+valor2+";tiempo2++){"
                                             +"PORTB="+valor+";}}")
         if fondo.lista_parser[fondo.lista_fina[a]]=='pausa ':
 
             cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
-            valor=cadena[5:len(cadena)-1]
+            valor=cadena[5:len(cadena)]
             ventana.cadena_pinguino.append("Delayms("+valor+");")
         if fondo.lista_parser[fondo.lista_fina[a]]=='servo ':
             cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
             cadena2=fondo.lista_parser_final[fondo.lista_fina[a]+1]
             valor=cadena[6:len(cadena)]
-            valor2=cadena2[6:len(cadena2)-1]
+            valor2=cadena2[6:len(cadena2)]
             ventana.cadena_pinguino.append("ServoWrite("+valor+","+valor2+");")
         if fondo.lista_parser[fondo.lista_fina[a]]=='servos ':
             cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
@@ -72,10 +72,10 @@ def crear_archivo(fondo, ventana):
             cadena4=fondo.lista_parser_final[fondo.lista_fina[a]+3]
             cadena5=fondo.lista_parser_final[fondo.lista_fina[a]+4]
             valor=cadena[6:len(cadena)]
-            valor2=cadena2[6:len(cadena2)-1]
-            valor3=cadena3[6:len(cadena3)-1]
-            valor4=cadena4[6:len(cadena4)-1]
-            valor5=cadena5[6:len(cadena5)-1]
+            valor2=cadena2[6:len(cadena2)]
+            valor3=cadena3[6:len(cadena3)]
+            valor4=cadena4[6:len(cadena4)]
+            valor5=cadena5[6:len(cadena5)]
             ventana.cadena_pinguino.append("ServoWrite(10,"+valor+");")
             ventana.cadena_pinguino.append("ServoWrite(11,"+valor2+");")
             ventana.cadena_pinguino.append("ServoWrite(12,"+valor3+");")
@@ -83,11 +83,11 @@ def crear_archivo(fondo, ventana):
             ventana.cadena_pinguino.append("ServoWrite(9,"+valor5+");")
         if fondo.lista_parser[fondo.lista_fina[a]]=='si ':
             cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
-            valor=cadena[3:len(cadena)-1]
+            valor=cadena[3:len(cadena)]
             ventana.cadena_pinguino.append("if ("+valor+"){")
         if fondo.lista_parser[fondo.lista_fina[a]]=='mientras ':
             cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
-            valor=cadena[8:len(cadena)-1]
+            valor=cadena[8:len(cadena)]
             ventana.cadena_pinguino.append("while("+valor+"){")
         if fondo.lista_parser[fondo.lista_fina[a]]=='fin ':
             ventana.cadena_pinguino.append("}")

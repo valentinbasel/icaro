@@ -28,3 +28,7 @@ def nuevo(fon):
     fon.lista_parser.append("")
     fon.lista_parser_final.append("")
     fon.lista_parser_final.append("")
+    fon.identificador=1
+    fon.identificador_dat=0
+    fon.identificador_dat2=0
+    print "nuevo",fon.lista_parser_final

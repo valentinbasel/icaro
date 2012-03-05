@@ -35,7 +35,7 @@ class fondo(pygame.sprite.Sprite):
     lista_ch_dato=[]
     lista_ch_dato2=[]
     identificador=1
-    identificador_dat=0
+    identificador_dat=1
     identificador_dat2=0
     lista_valor_datos=[]
     lista_valor_datos2=[]
@@ -53,6 +53,7 @@ class fondo(pygame.sprite.Sprite):
         self.lista_cm.append((0,0,0,0))
         self.lista_ch.append((0,0,0,0))
         self.lista_ch_dato.append((0,0,0,0))
+        self.lista_ch_dato2.append((0,0,0,0))
         self.lista_valor_datos2.append("0")
         self.lista_ordenada.append(0)
         self.lista_fina.append(0)
@@ -82,6 +83,7 @@ class Ventana:
     mousexy=(0,0)
     boton_mouse= [0,0,0,0]
     seleccionado=0
+    seleccionado_datos=0
     tecla=0
     valor_tecla=""
     tecla_enter=0
@@ -96,7 +98,7 @@ class Ventana:
     
     #tipo de compoentes:
     #1- componente
-    #2- componente de bloque3 (no mas)
+    #2- componente de bloque3 (no mas) 
     #3- datos
     #4- componente sig
     #5- componente bloque1
@@ -581,7 +583,7 @@ class Ventana:
 
     def compilar(self,b):
         self.carga()
-        crear.crear_archivo(fondo,self)
+        crear.crear_archivo(self.fondo,self)
         chemin = sys.path[0]#os.path.dirname(filename)
         fichier = open(sys.path[0] + "/tmp/stdout", 'w+')
         sortie = str(sys.path[0] + 
@@ -697,11 +699,11 @@ class Ventana:
 
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
-                nuevo.nuevo(fon)
-                inicial=componente_inicial(100,250,1,fon,ventana_principal,texto)
-                fon.componentes.add(inicial)
+                nuevo.nuevo(self.fondo)
+                inicial=componente_inicial(100,250,1,self.fondo,self,self.textorender)
+                self.fondo.componentes.add(inicial)
                 cadena= dialog.get_filename()
-                abrir.abrir(self.diccionario,cadena,self.fondo)
+                abrir.abrir(self.diccionario,cadena,self.fondo,self,self.textorender)
             elif response == gtk.RESPONSE_CANCEL:
                 print 'Closed, no files selected'
             dialog.destroy()
@@ -709,9 +711,9 @@ class Ventana:
         if string=="salir":
             exit()
         if string=="nuevo":
-            nuevo.nuevo(fon)
-            inicial=componente_inicial(100,250,1,fon,ventana_principal,texto)
-            fon.componentes.add(inicial)
+            nuevo.nuevo(self.fondo)
+            inicial=componente_inicial(100,250,1,self.fondo,self,self.textorender)
+            self.fondo.componentes.add(inicial)
         if string=="guardar":
             dialog = gtk.FileChooserDialog("save..",
                                            None,

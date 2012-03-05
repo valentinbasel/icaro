@@ -201,3 +201,25 @@ for a in range (4):
     menu.add(boton_dat)
     valor_x+=110
     
+
+
+    for i in range(len(obj)):
+        file.writelines("<componente>")
+        file.write("\n")
+        file.writelines(str(fondo.tipo_obj[i]))
+        file.write("\n")
+        file.writelines(str(obj[i].ide))
+        file.write("\n")
+        for a in range(4):
+            file.writelines(str(obj[i].rectan[a]))
+            file.write("\n")
+        for a in range(4):
+            file.writelines(str(obj[i].conector_m[a]))
+            file.write("\n")
+
+        if int(fondo.tipo_obj[i])<> 6 and int(fondo.tipo_obj[i])<> 3:
+            for a in range(4):
+                file.writelines(str(obj[i].conector_h[a]))
+                file.write("\n")
+        file.writelines("</componente>")
+        file.write("\n")

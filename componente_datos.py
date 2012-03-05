@@ -92,18 +92,20 @@ class comp_dat_arg(pygame.sprite.Sprite):
                 break
             else:
                 self.cadena_intermedia=""
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.pulsado==0:
+
+        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.pulsado==0 and self.ventana.seleccionado_datos==0:
+            posic_mouse= self.ventana.mousexy
+            self.ventana.seleccionado_datos=self.ide
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-            #self.ventana.seleccionado==self.ide
-            ######
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) :
+        if self.ventana.seleccionado_datos== self.ide:
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
-            self.pulsado==1
+            #self.pulsado==1
         if botones_mouse[1]==0:
             self.pulsado=0
-#            self.ventana.seleccionado=0
+            self.ventana.seleccionado_datos=0
+            
         if botones_mouse[2] and self.rectan.collidepoint(self.ventana.mousexy):
             print self.ide
         if botones_mouse[3] and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and self.modificable==1:
@@ -146,6 +148,7 @@ class comp_dat_arg_img(pygame.sprite.Sprite):
     tecla_presionada=0
     def __init__(self,x,y,identidad,mod,texto,color,val_no_mod,img,fondo,ventana,textorender):
         pygame.sprite.Sprite.__init__(self)
+        self.imagenintermedia=img #esto es para poder mandar los datos a guardar
         self.img="imagenes/componentes/"+ img
         self.imagen=pygame.image.load(self.img)
         self.img_rect=self.imagen.get_rect()
@@ -217,17 +220,19 @@ class comp_dat_arg_img(pygame.sprite.Sprite):
                 break
             else:
                 self.cadena_intermedia=""
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.pulsado==0:
+        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.pulsado==0 and self.ventana.seleccionado_datos==0:
+            posic_mouse= self.ventana.mousexy
+            self.ventana.seleccionado_datos=self.ide
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-        
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy):
+        if self.ventana.seleccionado_datos== self.ide:
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
-            self.pulsado==1
+            #self.pulsado==1
         if botones_mouse[1]==0:
             self.pulsado=0
-        #loop=True
+            self.ventana.seleccionado_datos=0
+            
         if botones_mouse[2] and self.rectan.collidepoint(self.ventana.mousexy):
             print self.ide
         if botones_mouse[3] and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and self.modificable==1:

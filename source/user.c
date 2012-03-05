@@ -66,5 +66,14 @@ void loop()
 
 
 
-Delayms( 0);
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<100;tiempo2++){PORTD=0 ;}}
+if (digitalread(21) ){
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=32 ;}}
+}
+if (digitalread(21) ){
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=64 ;}}
+}
+while( a){
+ServoWrite(10,0 );
+}
 }

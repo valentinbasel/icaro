@@ -20,6 +20,7 @@ class componente(pygame.sprite.Sprite):
     texto=""
     def __init__(self,x,y,identidad,argumentos,color,texto,fondo,ventana,textorender):
         pygame.sprite.Sprite.__init__(self)
+        self.imagenintermedia=texto.strip(" ") #esto es para poder mandar los datos a guardar
         self.imagen=pygame.image.load("imagenes/componentes/"+texto.strip(" ")+".png")
         self.arg=argumentos
         self.ide=identidad
@@ -91,13 +92,19 @@ class componente(pygame.sprite.Sprite):
                 self.posicion=(xx,yy)
                 ban_a=a
         self.fondo.lista_ordenada[self.ide]=ban_a
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.pulsado==0 and self.ventana.seleccionado==0:
+        if (botones_mouse[1]==1 and 
+            self.rectan.collidepoint(self.ventana.mousexy) and
+            self.pulsado==0 and 
+            self.ventana.seleccionado==0):
+                        
             posic_mouse= self.ventana.mousexy
             self.ventana.seleccionado=self.ide
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccionado== self.ide:
+            
+        if (self.ventana.seleccionado== self.ide):
+    
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
             self.pulsado==1
         if botones_mouse[1]==0:
@@ -204,7 +211,7 @@ class componente_bloque_dos(pygame.sprite.Sprite):
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccionado== self.ide:
+        if self.ventana.seleccionado== self.ide:
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
             self.pulsado==1
         if botones_mouse[1]==0:
@@ -313,7 +320,7 @@ class componente_bloque_uno(pygame.sprite.Sprite):
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccionado== self.ide:
+        if self.ventana.seleccionado== self.ide:
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
             self.pulsado==1
         if botones_mouse[1]==0:
@@ -418,7 +425,7 @@ class componente_cero_arg_dos(pygame.sprite.Sprite):
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccionado== self.ide:
+        if self.ventana.seleccionado== self.ide:
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
             self.pulsado==1
         if botones_mouse[1]==0:
@@ -519,7 +526,7 @@ class componente_cero_arg(pygame.sprite.Sprite):
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-        if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccionado== self.ide:
+        if self.ventana.seleccionado== self.ide:
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
             self.pulsado==1
         if botones_mouse[1]==0:
