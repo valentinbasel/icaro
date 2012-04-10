@@ -24,11 +24,11 @@ class componente_inicial(pygame.sprite.Sprite):
         self.fondo=fondo
         self.ventana=ventana
         self.texto=texto
-        self.fondo.lista_cm.append((0,0,0,0))
-        self.fondo.lista_ch.append((0,0,0,0))
-        self.fondo.lista_ch_dato.append((0,0,0,0))
+        #~ self.fondo.lista_cm.append((0,0,0,0))
+        #~ self.fondo.lista_ch.append((0,0,0,0))
+        #~ self.fondo.lista_ch_dato.append((0,0,0,0))
         self.fondo.lista_ordenada.append(0)
-        self.fondo.lista_fina.append(0)
+        #~ self.fondo.lista_fina.append(0)
         self.color_texto=self.fondo.color_texto
     def dibujar(self):
         #self.fondo.screen.blit(self.imagen,self.posicion)
@@ -50,16 +50,34 @@ class componente_inicial(pygame.sprite.Sprite):
         self.conector_m[0]=self.rectan[0]+10
         self.conector_m[1]=self.rectan[1]+50
         #cargo la lista de los dos conectores hembra y macho
-        self.fondo.lista_cm[self.ide]=(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3])
-        if botones_mouse[1]==1 and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and self.pulsado==0:
+        #self.fondo.lista_cm[self.ide]=(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3])
+        #~ if botones_mouse[1]==1 and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and self.pulsado==0:
+            #~ self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
+            #~ self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
+            #~ self.pulsado=1
+        #~ if botones_mouse[1]==1 and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]):
+            #~ self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
+            #~ self.pulsado==1
+        #~ if botones_mouse[1]==0:
+            #~ self.pulsado=0
+        if (botones_mouse[1]==1 and 
+            self.rectan.collidepoint(self.ventana.mousexy) and
+            self.pulsado==0 and 
+            self.ventana.seleccionado==0):
+                        
+            posic_mouse= self.ventana.mousexy
+            self.ventana.seleccionado=self.ide
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])  
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
-        if botones_mouse[1]==1 and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]):
+            
+        if (self.ventana.seleccionado== self.ide):
+    
             self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
             self.pulsado==1
         if botones_mouse[1]==0:
             self.pulsado=0
+            self.ventana.seleccionado=0
         self.dibujar()
         pygame.display.update
 

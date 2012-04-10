@@ -1,10 +1,14 @@
 float tiempo=0;
 float tiempo2=0;
+unsigned char i;
 void setup()
 {
-int i=0;
 for(i=0;i<8;i++)
+{
 pinmode(i,OUTPUT);
+digitalwrite(i,LOW);
+}
+pinmode(15,INPUT);
 
 pinmode(21,INPUT);
 pinmode(22,INPUT);

@@ -1,0 +1,138 @@
+<objeto_dato>
+1
+(144, 165)
+10
+(100, 150, 80)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato_img>
+izquierda.png
+2
+(144, 205)
+64 
+(100, 50, 80)
+1
+64
+
+64 
+</objeto_dato_img>
+<objeto_dato>
+3
+(144, 355)
+10
+(100, 150, 80)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato_img>
+derecha.png
+4
+(144, 395)
+32 
+(100, 50, 80)
+1
+32
+
+32 
+</objeto_dato_img>
+<objeto_dato_img>
+sensordig1.png
+5
+(144, 115)
+dig 1 
+(90, 200, 90)
+0
+digitalread(21) 
+==1 
+digitalread(21) ==1 
+</objeto_dato_img>
+<objeto_dato_img>
+sensordig1.png
+6
+(144, 305)
+dig 1 
+(90, 200, 90)
+0
+digitalread(21) 
+==0 
+digitalread(21) ==0 
+</objeto_dato_img>
+<objeto_dato_img>
+igual.png
+7
+(204, 305)
+= 
+(189, 50, 10)
+0
+==
+0 
+==0 
+</objeto_dato_img>
+<objeto_dato_img>
+igual.png
+8
+(204, 115)
+= 
+(189, 50, 10)
+0
+==
+1 
+==1 
+</objeto_dato_img>
+<objeto_dato_img>
+verdadero.png
+9
+(264, 115)
+1 
+(160, 50, 210)
+0
+1 
+
+1 
+</objeto_dato_img>
+<objeto_dato_img>
+falso.png
+10
+(264, 305)
+0 
+(0, 50, 150)
+0
+0 
+
+0 
+</objeto_dato_img>
+<objeto_bloque>
+2
+(24, 105)
+(200, 190, 0)
+si 
+(24, 245)
+</objeto_bloque>
+<objeto_componente>
+robot
+2
+4
+(84, 155)
+(0, 190, 10)
+robot 
+</objeto_componente>
+<objeto_bloque>
+5
+(24, 295)
+(200, 190, 0)
+si 
+(24, 435)
+</objeto_bloque>
+<objeto_componente>
+robot
+2
+7
+(84, 345)
+(0, 190, 10)
+robot 
+</objeto_componente>

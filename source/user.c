@@ -2,15 +2,23 @@ float tiempo=0;
 
 float tiempo2=0;
 
+unsigned char i;
+
 void setup()
 
 {
 
-int i=0;
-
 for(i=0;i<8;i++)
 
+{
+
 pinmode(i,OUTPUT);
+
+digitalwrite(i,LOW);
+
+}
+
+pinmode(15,INPUT);
 
 
 
@@ -66,14 +74,8 @@ void loop()
 
 
 
-for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<100;tiempo2++){PORTD=0 ;}}
-if (digitalread(21) ){
-for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=32 ;}}
-}
-if (digitalread(21) ){
-for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=64 ;}}
-}
-while( a){
-ServoWrite(10,0 );
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=0 ;}}
+while(1 ){
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=0 ;}}
 }
 }

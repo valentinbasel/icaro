@@ -6,8 +6,10 @@ int i=0;
 for(i=0;i<8;i++)
 pinmode(i,OUTPUT);
 
-//pinmode(8,INPUT);
-//pinmode(9,INPUT);
+pinMode(15,INPUT);
+
+pinmode(21,INPUT);
+pinmode(22,INPUT);
 pinmode(23,INPUT);
 pinmode(24,INPUT);
 

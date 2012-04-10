@@ -10,6 +10,8 @@ import abrir
 import nuevo
 import guardar
 import crear
+import navegador
+import visor
 #from texto import *
 from componente_inicial import *
 from componente import *
@@ -18,49 +20,35 @@ import re
 import shutil
 from subprocess import Popen,PIPE,STDOUT
 import sys
-WINX = 1200
-WINY = 900
 BLACK = (0, 0, 0)
 FONDO=(00,22,55)
 LINEA=(255,0,0)
 
 class fondo(pygame.sprite.Sprite):
     objetos=[]
-    objetos_datos=[]
-    tipo_obj=[]
-    lista_cm=[]
-    lista_ch=[]
+    objetos_datos=[0]
+    tipo_obj=[0]
+    tipo_obj_datos=[0]
+
     lista_ordenada=[]
     lista_fina=[]
-    lista_ch_dato=[]
-    lista_ch_dato2=[]
     identificador=1
     identificador_dat=1
-    identificador_dat2=0
+    identificador_dat2=1
     lista_valor_datos=[]
     lista_valor_datos2=[]
-    lista_parser=[]
-    lista_parser_final=[]
+    #~ lista_parser=[]
+    #~ lista_parser_final=[]
     color_texto=(255,255,255)
     poscion_botones=0
     componentes=pygame.sprite.RenderClear()
     datos=pygame.sprite.RenderClear()
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        size = width, height = 1800, 1300        
+        size = width, height = 1100, 900        
         self.screen = pygame.display.set_mode(size)
         self.largo,self.alto=self.screen.get_size()
-        self.lista_cm.append((0,0,0,0))
-        self.lista_ch.append((0,0,0,0))
-        self.lista_ch_dato.append((0,0,0,0))
-        self.lista_ch_dato2.append((0,0,0,0))
-        self.lista_valor_datos2.append("0")
         self.lista_ordenada.append(0)
-        self.lista_fina.append(0)
-        self.lista_parser.append("")
-        self.lista_parser.append("")
-        self.lista_parser_final.append("")
-        self.lista_parser_final.append("")
     def update(self):
         self.screen.fill(FONDO)
         pygame.display.update
@@ -72,7 +60,6 @@ class Text:
         self.size = FontSize
         self.fondo=fondo
     def render(self,  text, color, pos):
-        #text = unicode(text, "UTF-8")
         x, y = pos
         for i in text.split("\r"):
             self.fondo.screen.blit(self.font.render(i, 1, color), (x, y))
@@ -115,8 +102,11 @@ class Ventana:
     
     # componente de bloque siguiente
     # [tipo_de_componente,color]
+    
+
+    
     diccionario={
-                1:["activar ",1,2,(100,90,100)],
+                1:["activar ",1,1,(100,90,100)],
                 2:["robot ",1,2,(0,190,10)],
                 3:["servo ",1,2,(0,50,100)],
                 4:["servos ",1,5,(0,190,100)],
@@ -144,7 +134,10 @@ class Ventana:
                 26:["verdadero ",6,0,(160,50,210),"1 ","1 "],
                 27:["falso ",6,0,(0,50,150),"0 ","0 "],
                 28:["siguiente ",4,(120,130,90)],
-                29:["datos ",7,1,(80,88,88),"0 ","0 "]
+                29:["var ",1,2,(10,90,10)],
+                30:["linea ",1,1,(10,90,10)],
+                31:["sensoran1 ",6,0,(56,200,90),"dig 4 ","analogread(13) "],
+                32:["masmas ",6,1,(0,50,80),"++ ","++"],
                 }
     lista=[]
     def __init__(self):
@@ -175,13 +168,13 @@ class Ventana:
         self.window1.connect('delete-event', gtk.main_quit)
         #self.window.set_resizable(True)
         #self.window.set_size_request(800, 600)
-        ####################################self.window1.fullscreen()
+#        self.window1.fullscreen()
         # declaro el drawing area donde va a estar pygame
         # y los eventos del mouse y teclado
         self.area = gtk.DrawingArea()
         #self.area=gtk.EventBox()
         self.area.set_app_paintable(True)
-        self.area.set_size_request(1700, 1200)
+        self.area.set_size_request(3000, 3000)
         # declaro los botones del menu 'menu' y 'edicion'
         menu = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
@@ -209,7 +202,6 @@ class Ventana:
         toolbar.set_style(gtk.TOOLBAR_BOTH)
         toolbar.show()
         # creo los botones de la toolbar
-                
         iconw = gtk.Image() 
         iconw.set_from_file("imagenes/icaro.png")
         compilar_button = toolbar.append_item(
@@ -228,6 +220,22 @@ class Ventana:
                         iconw,            
                         self.upload) 
                         
+        iconw = gtk.Image() 
+        iconw.set_from_stock(gtk.STOCK_HELP,30)
+        salir_button = toolbar.append_item(
+                        "ayuda",          
+                        "menu de ayuda", 
+                        "Private",         
+                        iconw,            
+                        self.ayuda) 
+        iconw = gtk.Image() 
+        iconw.set_from_stock(gtk.STOCK_PROPERTIES,30)
+        salir_button = toolbar.append_item(
+                        "ver codigo",          
+                        "muestra el codigo fuente generado por icaro", 
+                        "Private",         
+                        iconw,            
+                        self.ver) 
         iconw = gtk.Image() 
         iconw.set_from_stock(gtk.STOCK_QUIT,30)
         salir_button = toolbar.append_item(
@@ -356,8 +364,14 @@ class Ventana:
         self.area.realize()
           #self.area.set_can_focus(True)
         self.area.grab_focus() 
-        
-        
+    def ver(self,b):
+        ver=visor.visor_codigo()
+        ver.window.show_all()
+    def ayuda(self,b):
+        print "ayuda"
+        browser = navegador.SimpleBrowser()
+        browser.open(sys.path[0]+'/html/index.html')
+        browser.show()
     def dibujo(self,event,b):
         self.seleccion_menu=b
 # esto es para gregar imagenes al boton de la toolbar
@@ -386,7 +400,7 @@ class Ventana:
         md = gtk.MessageDialog(None, 
             gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
             tipo[num], 
-            gtk.BUTTONS_CLOSE, mensa)
+            gtk.BUTTONS_OK, mensa)
         md.run()
         md.destroy()
     # esta funcion captura el evento de presionar un boton de la toolbar
@@ -410,54 +424,10 @@ class Ventana:
                             self.textorender
                             )
             self.fondo.componentes.add(c1)
-            self.fondo.identificador+=int(self.diccionario[b][2])
-            self.fondo.objetos.append(c1)
-
-        if self.diccionario[b][1]==2:
             self.fondo.identificador+=1
-            c1=componente_bloque_uno_tres_arg(
-                                            self.mousexy[0],
-                                            self.mousexy[1],
-                                            self.fondo.identificador,
-                                            self.diccionario[b][2],
-                                            self.diccionario[b][0],
-                                            self.fondo,
-                                            self,
-                                            self.textorender
-                                            )
-            self.fondo.componentes.add(c1)
             self.fondo.objetos.append(c1)
-            self.fondo.identificador +=2
-            self.fondo.identificador +=1
-            c1=componente_bloque_dos    (
-                                        self.mousexy[0],
-                                        self.mousexy[1]+200,
-                                        self.fondo.identificador,
-                                        self.diccionario[b][2],
-                                        self.diccionario[b][3],
-                                        self.fondo,
-                                        self,
-                                        self.textorender
-                                        )
-            self.fondo.componentes.add(c1)
-            self.fondo.objetos.append(c1)
-        if self.diccionario[b][1]==3:
-            c1=comp_dat   (
-                            self.mousexy[0],
-                            self.mousexy[1],
-                            self.fondo.identificador_dat,
-                            self.diccionario[b][2],
-                            self.diccionario[b][4],
-                            self.diccionario[b][3],
-                            self.diccionario[b][5],
-                            self.fondo,
-                            self,
-                            self.textorender
-                            )
-            self.fondo.identificador_dat+=1
-            self.fondo.datos.add(c1)
-            self.fondo.objetos_datos.append(c1)
-            
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            print self.fondo.objetos
         if self.diccionario[b][1]==4:
 
             self.fondo.identificador+=1
@@ -473,7 +443,6 @@ class Ventana:
                                     )
 
             self.fondo.componentes.add(c1)
-            self.fondo.identificador+=1
             self.fondo.objetos.append(c1)
             c1=componente_cero_arg_dos (
                                         self.mousexy[0],
@@ -485,8 +454,10 @@ class Ventana:
                                         self,
                                         self.textorender
                                         )
+            self.fondo.identificador+=1
             self.fondo.componentes.add(c1)
             self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
         if self.diccionario[b][1]==5:
             self.fondo.identificador+=1
             c1=componente_bloque_uno(
@@ -514,6 +485,8 @@ class Ventana:
                                         )
             self.fondo.componentes.add(c1)
             self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.tipo_obj.append(0)
         if self.diccionario[b][1]==6:
             c1=comp_dat_arg_img   (
                             self.mousexy[0],
@@ -532,6 +505,7 @@ class Ventana:
             self.fondo.identificador_dat+=1
             self.fondo.datos.add(c1)
             self.fondo.objetos_datos.append(c1)
+            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
         if self.diccionario[b][1]==7:
             c1=comp_dat_arg   (
                             self.mousexy[0],
@@ -549,7 +523,7 @@ class Ventana:
 
             self.fondo.datos.add(c1)
             self.fondo.objetos_datos.append(c1)
-        self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
 # por si quiero implementar un dialogo de mensajes
 
 
@@ -613,7 +587,7 @@ class Ventana:
             self.mensajes(0,"hubo un error de compilacion")
     def upload(self,b):
 
-        self.mensajes(1,"aprete el boton RESET de la placa pinguino antes de continuar")
+        self.mensajes(3,"aprete el boton RESET de la placa pinguino antes de continuar")
         sortie2=str(sys.path[0]+"/tools/bin/sdcc"+
                             " -o"+sys.path[0].replace(" ","\\ ")+"/source/main.hex"+
                             " --denable-peeps"+
@@ -642,13 +616,18 @@ class Ventana:
                            "write " +
                            sys.path[0] +
                            "/source/main.hex")
-        i=os.system(sortie3)
-        print i
-        if i==0:
+        i=os.popen(sortie3)
+        resultado=1
+        for d in i.readlines():
+            if d.find("writing")==0:
+                resultado=0
+            
+        
+        if resultado==0:
             self.mensajes(3,"la carga fue exitosa")
         else:
             self.mensajes(0,"hubo un error en la carga del PIC")
-        return i
+        #return i
 
     def move_cb(self,win, event):
         self.mousexy= event.get_coords()
@@ -700,8 +679,9 @@ class Ventana:
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
                 nuevo.nuevo(self.fondo)
-                inicial=componente_inicial(100,250,1,self.fondo,self,self.textorender)
+                inicial=componente_inicial(20,50,1,self.fondo,self,self.textorender)
                 self.fondo.componentes.add(inicial)
+                self.fondo.objetos.append(inicial)
                 cadena= dialog.get_filename()
                 abrir.abrir(self.diccionario,cadena,self.fondo,self,self.textorender)
             elif response == gtk.RESPONSE_CANCEL:
@@ -712,8 +692,10 @@ class Ventana:
             exit()
         if string=="nuevo":
             nuevo.nuevo(self.fondo)
-            inicial=componente_inicial(100,250,1,self.fondo,self,self.textorender)
+            inicial=componente_inicial(20,50,1,self.fondo,self,self.textorender)
             self.fondo.componentes.add(inicial)
+            self.fondo.objetos.append(inicial)
+            print self.fondo.objetos
         if string=="guardar":
             dialog = gtk.FileChooserDialog("save..",
                                            None,
@@ -735,7 +717,7 @@ def loop():
     fon.update()
     fon.componentes.update()
     fon.datos.update()
-    menu.update()
+    #menu.update()
     pygame.display.update()
     return True
 
@@ -752,6 +734,7 @@ ventana_principal.fondo=fon
 ventana_principal.textorender=texto
 # el unico objeto que cargo  con nombre identificable
 inicial=componente_inicial(20,50,1,fon,ventana_principal,texto)
+fondo.objetos.append(inicial)
 fon.componentes.add(inicial)
 gtk.main()
 
