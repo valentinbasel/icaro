@@ -74,10 +74,9 @@ void loop()
 
 
 
-if(){
+if(0 ){
+Delayms(0 );
+Delayms(0 );
 }
-
-
-if(){
-}
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<1;tiempo2++){PORTD=2;}}
 }

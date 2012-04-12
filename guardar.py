@@ -18,6 +18,14 @@ def guardar(obj,ruta,fondo):
     print "tamaño obj",len(fondo.tipo_obj)
     print "obj",fondo.objetos
     print "-------------------"
+    file.writelines("<objeto_inicial>")
+    file.write("\n")
+    file.writelines(str(fondo.objetos[0].posicion))
+    file.write("\n")            
+
+    file.writelines("</objeto_inicial>")
+    file.write("\n")
+
     for i in range(len(fondo.tipo_obj_datos)):
         print fondo.tipo_obj_datos
         if fondo.tipo_obj_datos[i]==7:

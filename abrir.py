@@ -9,6 +9,11 @@ def abrir(diccio,ruta,fon,ventana,textorender):
     tupla=(0,0,0,0)
     for valor in range(len(cadena)):
         #print valor
+        if cadena[valor]=="<objeto_inicial>\n":
+            cadena1= cadena[valor+1].strip("()\n")
+            cadena2=cadena1.split(',')
+            x,y=cadena2
+            fon.objetos[0].posicion=float(x),float(y)
         if cadena[valor]=="<objeto_dato>\n":
             cadena1= cadena[valor+2].strip("()\n")
             cadena2=cadena1.split(',')
