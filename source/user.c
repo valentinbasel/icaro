@@ -74,8 +74,10 @@ void loop()
 
 
 
-for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=0 ;}}
-while(1 ){
-for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=0 ;}}
+if(){
+}
+
+
+if(){
 }
 }

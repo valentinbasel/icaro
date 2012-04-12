@@ -12,7 +12,8 @@ class componente_inicial(pygame.sprite.Sprite):
     conector_m=pygame.Rect(0,0,40,10)#conector macho
     ide=0
     color=(80,00,80)
-    
+    pegado_a=0 #es solo por compatibilidad con los demas componentes
+    vivo=True
     posic_rel_x=0
     posic_rel_y=0
     def __init__(self,x,y,identidad,fondo,ventana,texto):

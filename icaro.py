@@ -23,13 +23,19 @@ import sys
 BLACK = (0, 0, 0)
 FONDO=(00,22,55)
 LINEA=(255,0,0)
+##################################################################
+##
+##  la clase fondo guarda las variables globales que usan los 
+##  componentes para interactuar entre ellos
+##  y el fondo pygame
+##
+##################################################################
 
 class fondo(pygame.sprite.Sprite):
     objetos=[]
     objetos_datos=[0]
     tipo_obj=[0]
     tipo_obj_datos=[0]
-
     lista_ordenada=[]
     lista_fina=[]
     identificador=1
@@ -37,8 +43,6 @@ class fondo(pygame.sprite.Sprite):
     identificador_dat2=1
     lista_valor_datos=[]
     lista_valor_datos2=[]
-    #~ lista_parser=[]
-    #~ lista_parser_final=[]
     color_texto=(255,255,255)
     poscion_botones=0
     componentes=pygame.sprite.RenderClear()
@@ -53,6 +57,13 @@ class fondo(pygame.sprite.Sprite):
         self.screen.fill(FONDO)
         pygame.display.update
 
+
+##################################################################
+##
+##  clase text para renderizar texto en pygame
+##
+##################################################################
+
 class Text:
     def __init__(self, fondo,FontName = None, FontSize = 20):
         pygame.font.init()
@@ -64,6 +75,13 @@ class Text:
         for i in text.split("\r"):
             self.fondo.screen.blit(self.font.render(i, 1, color), (x, y))
             y += self.size 
+
+##################################################################
+##
+## la clase principal del programa, donde se declara la ventana
+## y los contenedores para dibujar los componentes
+##
+##################################################################
 
 class Ventana:
     area=0
@@ -296,30 +314,10 @@ class Ventana:
         table=gtk.VBox(False, len(self.lista))
         scrolled_window2.add_with_viewport(table)
         table.show()
-
         # box1 es el contenedor principal despues de la ventana
         box1 = gtk.VBox(False, 3)
         # box2 es el segundo en importancia
         box2 = gtk.HBox(False, 2)
-        
-        # parseo la lista de datos del diccionario para crear 
-        # una matriz 2x2 y cargar los botones (declarados en el dicc)
-        # en table
-#        j=a=0
-        # j= columnas
-        # a= filas
-#        for i in range(len(self.lista)):
-#            if i==14:
-#                a=13
-#                j=1
-#            buffer = self.diccionario[self.lista[i]][0]
-#            button = gtk.RadioButton()
-#            caja = self.imagen_boton( self.diccionario[self.lista[i]][0], self.diccionario[self.lista[i]][0])
-#            button.add(caja)
-#            button.connect("clicked", self.botones,self.lista[i])#buffer
-#            button.show()
-#            table.attach(button, j, j+1,(i-a), (i-a)+1)
-        #declaro el primer radiobutton para que los demas se declaren despues de el
         buffer = self.diccionario[self.lista[0]][0]
         caja = self.imagen_boton( self.diccionario[self.lista[0]][0], self.diccionario[self.lista[0]][0])
         button = gtk.RadioButton()
@@ -368,7 +366,7 @@ class Ventana:
         ver=visor.visor_codigo()
         ver.window.show_all()
     def ayuda(self,b):
-        print "ayuda"
+        #~ print "ayuda"
         browser = navegador.SimpleBrowser()
         browser.open(sys.path[0]+'/html/index.html')
         browser.show()
@@ -427,7 +425,7 @@ class Ventana:
             self.fondo.identificador+=1
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
-            print self.fondo.objetos
+            #~ print self.fondo.objetos
         if self.diccionario[b][1]==4:
 
             self.fondo.identificador+=1
@@ -580,7 +578,7 @@ class Ventana:
                             sys.path[0] + 
                             "/source/main.c")
         i=os.system(sortie)
-        print i
+        #~ print i
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
         else:
@@ -608,7 +606,7 @@ class Ventana:
                             sys.path[0].replace(" ","\\ ")+"/obj/crt0ipinguino.o "+
                             sys.path[0].replace(" ","\\ ")+"/source/main.o ")
         i=os.system(sortie2)
-        print i
+        #~ print i
 
         sortie3=str(sys.path[0]+"/tools/bin/docker "+
                            "-v "+
@@ -695,7 +693,7 @@ class Ventana:
             inicial=componente_inicial(20,50,1,self.fondo,self,self.textorender)
             self.fondo.componentes.add(inicial)
             self.fondo.objetos.append(inicial)
-            print self.fondo.objetos
+            #~ print self.fondo.objetos
         if string=="guardar":
             dialog = gtk.FileChooserDialog("save..",
                                            None,
