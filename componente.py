@@ -8,7 +8,6 @@ from componente_datos import *
 
 class componente(pygame.sprite.Sprite):
     pulsado=0
-#    rectan=pygame.Rect(0,0,60,60)#rectangulo que representa toda el area del componente
     conector_h_dato=pygame.Rect(0,0,30,20)#conector hembra dato
     ide=0
     color=(110,20,90)
@@ -47,10 +46,12 @@ class componente(pygame.sprite.Sprite):
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1]-10, 10,10),0)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+50,self.posicion[1]-10, 10,10),0)
         factor=0
+        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]+60,self.posicion[1]-2),(self.posicion[0]+69,self.posicion[1]-2),5)
         for a in range(self.arg):
             # el cuerpo del componente
             pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1]+factor, 60,40),0)
             # conector hembra datos
+
             pygame.draw.rect(self.fondo.screen,self.color,((self.posicion[0]+60),(self.posicion[1]+factor), 10,10),0)
             pygame.draw.rect(self.fondo.screen,self.color,((self.posicion[0]+60),(self.posicion[1]+30+factor), 10,10),0)
             self.conector_h_dato[0]=self.rectan[0]+60
@@ -60,6 +61,7 @@ class componente(pygame.sprite.Sprite):
         self.rectan[3]=factor
         self.conector_m[0]=self.rectan[0]+10
         self.conector_m[1]=self.rectan[1]+factor+10
+        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]-3,self.posicion[1]-10),(self.posicion[0]-3,self.posicion[1]+factor),5)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,(self.posicion[1]+factor), 40,10),0)
         self.fondo.screen.blit(self.imagen,(self.posicion[0]+(self.rectan[2]/2)-10,self.posicion[1]+(self.rectan[3]/2)+5))
         self.textorender.render(self.texto,self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
@@ -70,17 +72,13 @@ class componente(pygame.sprite.Sprite):
         botones_mouse = self.ventana.boton_mouse
         self.rectan[0]=self.posicion[0]
         self.rectan[1]=self.posicion[1]-10
-
         if self.vivo==True:
-
-                
             if self.pegado==0:
                 self.fondo.lista_ordenada[self.ide]=0
                 for a in range(len(self.fondo.objetos)):
                     if self.conector_h.colliderect(self.fondo.objetos[a].conector_m) and self.fondo.objetos[a].vivo==True:
                         self.pegado=1
                         self.pegado_a=a
-
                         break
                     else:
                         self.pegado=0
@@ -90,8 +88,8 @@ class componente(pygame.sprite.Sprite):
                 xx=x-10
                 yy=y+10
                 self.posicion=(xx,yy)
-                self.fondo.lista_ordenada[self.ide]=self.fondo.objetos[self.pegado_a].ide
-
+                iden=self.fondo.objetos[self.pegado_a].ide
+                self.fondo.lista_ordenada[self.ide]=iden
             if (botones_mouse[1]==1 and
                 self.rectan.collidepoint(self.ventana.mousexy) and
                 self.pulsado==0 and
@@ -102,15 +100,26 @@ class componente(pygame.sprite.Sprite):
                 self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
                 self.pulsado=1
             if (self.ventana.seleccionado== self.ide):
-
-                self.posicion=(posic_mouse[0]-self.posic_rel_x,posic_mouse[1]-self.posic_rel_y)
+                self.posicion= (
+                                posic_mouse[0]-self.posic_rel_x,
+                                posic_mouse[1]-self.posic_rel_y
+                                )
                 self.pulsado==1
                 self.pegado=0
                 self.pegado_a=0
             if botones_mouse[1]==0:
                 self.pulsado=0
                 self.ventana.seleccionado=0
-            if (botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccion_menu==3):
+            if (botones_mouse[1]==1 
+                    and self.rectan.collidepoint(self.ventana.mousexy) 
+                    and self.ventana.seleccion_menu==3):
+                for i in range(1,len(self.fondo.objetos_datos)):
+                    self.fondo.objetos_datos[i].conectado=0
+                    self.fondo.objetos_datos[i].pegado=0
+                    self.fondo.objetos_datos[i].pegado_a=0
+                    self.fondo.objetos_datos[i].pegado_b=0
+                    self.fondo.objetos_datos[i].pegado2=0
+                    self.fondo.objetos_datos[i].pegado_a2=0
                 a=self.fondo.objetos.index(self)
                 ident=self.fondo.objetos[a].ide
                 for i in range(len(self.fondo.objetos)):
@@ -157,11 +166,11 @@ class componente_bloque_dos(pygame.sprite.Sprite):
         self.vivo=True
         self.dibujar()
     def dibujar(self):
-
         # estos son los cuadrados que forman el vacio que representa el conector hembra
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+60,self.posicion[1]-10, 10,10),0)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+110,self.posicion[1]-10, 10,10),0)
         # el cuerpo del componente
+
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1], 120,40),0)
         # el conector macho
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,self.posicion[1]+40, 40,10),0)
@@ -213,7 +222,16 @@ class componente_bloque_dos(pygame.sprite.Sprite):
                 self.pulsado=0
                 self.ventana.seleccionado=0
             
-            if (botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccion_menu==3):
+            if (botones_mouse[1]==1 
+                    and self.rectan.collidepoint(self.ventana.mousexy) 
+                    and self.ventana.seleccion_menu==3):
+                for i in range(1,len(self.fondo.objetos_datos)):
+                    self.fondo.objetos_datos[i].conectado=0
+                    self.fondo.objetos_datos[i].pegado=0
+                    self.fondo.objetos_datos[i].pegado_a=0
+                    self.fondo.objetos_datos[i].pegado_b=0
+                    self.fondo.objetos_datos[i].pegado2=0
+                    self.fondo.objetos_datos[i].pegado_a2=0
                 a=self.fondo.objetos.index(self)
                 ident=self.fondo.objetos[a].ide
                 for i in range(len(self.fondo.objetos)):
@@ -262,10 +280,13 @@ class componente_bloque_uno(pygame.sprite.Sprite):
     def dibujar(self):
         self.conector_h[0]=self.rectan[0]+10
         self.conector_h[1]=self.rectan[1]
+        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]-3,self.posicion[1]-10),(self.posicion[0]-3,self.posicion[1]+40),5)
+
         # estos son los cuadrados que forman el vacio que representa el conector hembra
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1]-10, 10,10),0)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+50,self.posicion[1]-10, 10,10),0)
         # el cuerpo del componente
+        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]+60,self.posicion[1]-2),(self.posicion[0]+129,self.posicion[1]-2),5)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1], 120,40),0)
         # el conector macho
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+70,self.posicion[1]+40, 40,10),0)
@@ -320,7 +341,16 @@ class componente_bloque_uno(pygame.sprite.Sprite):
             if botones_mouse[1]==0:
                 self.pulsado=0
                 self.ventana.seleccionado=0
-            if (botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.ventana.seleccion_menu==3):
+            if (botones_mouse[1]==1 
+                    and self.rectan.collidepoint(self.ventana.mousexy) 
+                    and self.ventana.seleccion_menu==3):
+                for i in range(1,len(self.fondo.objetos_datos)):
+                    self.fondo.objetos_datos[i].conectado=0
+                    self.fondo.objetos_datos[i].pegado=0
+                    self.fondo.objetos_datos[i].pegado_a=0
+                    self.fondo.objetos_datos[i].pegado_b=0
+                    self.fondo.objetos_datos[i].pegado2=0
+                    self.fondo.objetos_datos[i].pegado_a2=0
                 a=self.fondo.objetos.index(self)
                 ident=self.fondo.objetos[a].ide
                 for i in range(len(self.fondo.objetos)):

@@ -32,13 +32,12 @@ class componente_inicial(pygame.sprite.Sprite):
         #~ self.fondo.lista_fina.append(0)
         self.color_texto=self.fondo.color_texto
     def dibujar(self):
-        #self.fondo.screen.blit(self.imagen,self.posicion)
         # el cuerpo del componente
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1], 60,40),0)
-
         # el conector macho
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,self.posicion[1]+40, 40,10),0)
-#        texto.render(str(self.ide),self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
+        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]-5,self.posicion[1]-3),(self.posicion[0]+59,self.posicion[1]-3),5)        
+        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]-3,self.posicion[1]),(self.posicion[0]-3,self.posicion[1]+40),5)
         self.texto.render("inicio",self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
 
     def update(self):

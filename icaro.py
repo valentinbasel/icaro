@@ -1,6 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
 import pygtk
 import gtk
 import os
@@ -12,41 +22,52 @@ import guardar
 import crear
 import navegador
 import visor
-#from texto import *
 from componente_inicial import *
 from componente import *
-#from botones_menu import *
 import re
 import shutil
 from subprocess import Popen,PIPE,STDOUT
 import sys
+
+# variables globales de color
 BLACK = (0, 0, 0)
 FONDO=(00,22,55)
 LINEA=(255,0,0)
-##################################################################
-##
-##  la clase fondo guarda las variables globales que usan los 
-##  componentes para interactuar entre ellos
-##  y el fondo pygame
-##
-##################################################################
 
+class puntero(pygame.sprite.Sprite):
+    def __init__ (self,fondo,ventana):
+        pygame.sprite.Sprite.__init__(self)
+        self.imagen=pygame.image.load("imagenes/mouse/puntero.png")
+        self.fondo=fondo
+        self.ventana=ventana
+    def update(self):
+        posic_mouse= self.ventana.mousexy
+        xy=posic_mouse[0]-10,posic_mouse[1]-10
+        self.fondo.screen.blit(self.imagen,xy)
+        
 class fondo(pygame.sprite.Sprite):
+    #variables para los componentes
+    componentes=pygame.sprite.RenderClear()
+    identificador=1
     objetos=[]
-    objetos_datos=[0]
     tipo_obj=[0]
-    tipo_obj_datos=[0]
     lista_ordenada=[]
     lista_fina=[]
-    identificador=1
+    
+    # variable para los componentes datos
+    datos=pygame.sprite.RenderClear()
     identificador_dat=1
     identificador_dat2=1
+    objetos_datos=[0]
+    tipo_obj_datos=[0]
     lista_valor_datos=[]
     lista_valor_datos2=[]
+    
+    #variables globales
     color_texto=(255,255,255)
     poscion_botones=0
-    componentes=pygame.sprite.RenderClear()
-    datos=pygame.sprite.RenderClear()
+
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         size = width, height = 1100, 900        
@@ -55,6 +76,7 @@ class fondo(pygame.sprite.Sprite):
         self.lista_ordenada.append(0)
     def update(self):
         self.screen.fill(FONDO)
+        pygame.mouse.set_visible(False)
         pygame.display.update
 
 
@@ -84,7 +106,7 @@ class Text:
 ##################################################################
 
 class Ventana:
-    area=0
+    #~ area=0
     mousexy=(0,0)
     boton_mouse= [0,0,0,0]
     seleccionado=0
@@ -93,35 +115,11 @@ class Ventana:
     valor_tecla=""
     tecla_enter=0
     processor="18f4550"
-    fondo=0
-    textorender=0
+    #~ fondo=0
+    #~ textorender=0
     cadena_pinguino=[]
     seleccion_menu=1
     tipo_componente=1
-    #estructura del diccionario:
-    # [tipo_de_componente , numero_de_argumentos , color]
-    
-    #tipo de compoentes:
-    #1- componente
-    #2- componente de bloque3 (no mas) 
-    #3- datos
-    #4- componente sig
-    #5- componente bloque1
-    #6- componente datos doble con img
-    #7- componente datos doble 
-    #componente
-    # [tipo_de_componente , numero_de_argumentos , color]
-    
-    # componente de bloque si
-    # [tipo_de_componente ,color,segunda_cadena]
-    
-    #datos
-    # [tipo_de_componente,modificable,color,valor,valor_no_mod]
-    
-    # componente de bloque siguiente
-    # [tipo_de_componente,color]
-    
-
     
     diccionario={
                 1:["activar ",1,1,(100,90,100)],
@@ -184,15 +182,14 @@ class Ventana:
         #declaro la ventana principal
         self.window1 = gtk.Window()
         self.window1.connect('delete-event', gtk.main_quit)
-        #self.window.set_resizable(True)
-        #self.window.set_size_request(800, 600)
 #        self.window1.fullscreen()
         # declaro el drawing area donde va a estar pygame
         # y los eventos del mouse y teclado
         self.area = gtk.DrawingArea()
-        #self.area=gtk.EventBox()
         self.area.set_app_paintable(True)
         self.area.set_size_request(3000, 3000)
+        
+
         # declaro los botones del menu 'menu' y 'edicion'
         menu = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
@@ -237,7 +234,17 @@ class Ventana:
                         "Private",         
                         iconw,            
                         self.upload) 
-                        
+
+        iconw = gtk.Image() 
+        iconw.set_from_file("imagenes/tortucaro.png")
+        cargar_button = toolbar.append_item(
+                        "tortucaro",          
+                        "prepara la placa para trabajar con turtleart", 
+                        "Private",         
+                        iconw,            
+                        self.tortucaro)
+        toolbar.append_space()        
+
         iconw = gtk.Image() 
         iconw.set_from_stock(gtk.STOCK_HELP,30)
         salir_button = toolbar.append_item(
@@ -264,9 +271,7 @@ class Ventana:
                         exit) 
                         
         # un espacio en blanco para separar
-        toolbar.append_space() 
-        
-        
+        toolbar.append_space()        
 
 
         iconw = gtk.Image() 
@@ -294,23 +299,18 @@ class Ventana:
                         "Private",         
                         iconw,            
                         self.dibujo,3)
-                        
         #declaro el scroll_winWenoka Blackie Collinsdow donde esta inserto el drawing area
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window.set_size_request(500, 600)
         scrolled_window.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
         scrolled_window.show()
         scrolled_window.add_with_viewport(self.area)
-        
         #declaro el scroll window donde va la toolbar de los bloques
         scrolled_window2 = gtk.ScrolledWindow()
         scrolled_window2.set_border_width(1)
-        #scrolled_window2.set_size_request(100,100)
         scrolled_window2.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
-        #scrolled_window2.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
         scrolled_window2.show()
         #declaro la tabla  donde van los botones para el menu de bloques
-        #table = gtk.Table(14, 2, True)
         table=gtk.VBox(False, len(self.lista))
         scrolled_window2.add_with_viewport(table)
         table.show()
@@ -321,32 +321,33 @@ class Ventana:
         buffer = self.diccionario[self.lista[0]][0]
         caja = self.imagen_boton( self.diccionario[self.lista[0]][0], self.diccionario[self.lista[0]][0])
         button = gtk.RadioButton()
+        button.set_tooltip_text("prueba")
+
         button.add(caja)
         button.connect("clicked", self.botones,self.lista[0])#buffer
         table.pack_start(button, False, True, 0)
         button.show()
-        #para probar de ordenar los botones con frames
-#        frame = gtk.Frame(label="prueba")
-#        table.pack_start(frame, False, True, 0)
-#        frame.add(button)
         for i in range(1,len(self.lista)):
             buffer = self.diccionario[self.lista[i]][0]
             caja = self.imagen_boton( self.diccionario[self.lista[i]][0], self.diccionario[self.lista[i]][0])
             button = gtk.RadioButton(button)
+            button.set_tooltip_text("prueba")
             button.add(caja)
             button.connect("clicked", self.botones,self.lista[i])#buffer
             table.pack_start(button, False, True, 0)
             button.show()
-
         #empaqueto todo
+        
         box2.pack_start(scrolled_window, True, True, 1)
         box2.pack_start(scrolled_window2,False, False, 1)
         box1.pack_start(menu_bar, False, True, 1)
         box1.pack_start(toolbar, False, True, 1)
         box1.pack_start(box2, True, True, 1)
+
         self.window1.add(box1)
 
-        
+
+        #~ self.window1.add(box1)
         #capturo los eventos del drawing area
         # menos el teclado que lo capturo desde la ventana principal
         self.area.add_events(gtk.gdk.BUTTON_PRESS_MASK)
@@ -360,19 +361,21 @@ class Ventana:
         self.window1.connect("key_press_event", self.keypress_cb)
         self.window1.connect("key_release_event", self.keyrelease_cb)
         self.area.realize()
-          #self.area.set_can_focus(True)
         self.area.grab_focus() 
+
     def ver(self,b):
         ver=visor.visor_codigo()
         ver.window.show_all()
+
     def ayuda(self,b):
-        #~ print "ayuda"
         browser = navegador.SimpleBrowser()
         browser.open(sys.path[0]+'/html/index.html')
         browser.show()
+
     def dibujo(self,event,b):
         self.seleccion_menu=b
-# esto es para gregar imagenes al boton de la toolbar
+        
+    # esto es para gregar imagenes al boton de la toolbar
     def imagen_boton(self, xpm_filename, label_text):
         box1 = gtk.HBox(False, 0)
         box1.set_border_width(0)
@@ -425,7 +428,6 @@ class Ventana:
             self.fondo.identificador+=1
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
-            #~ print self.fondo.objetos
         if self.diccionario[b][1]==4:
 
             self.fondo.identificador+=1
@@ -522,6 +524,7 @@ class Ventana:
             self.fondo.datos.add(c1)
             self.fondo.objetos_datos.append(c1)
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
+            
 # por si quiero implementar un dialogo de mensajes
 
 
@@ -556,7 +559,7 @@ class Ventana:
     def compilar(self,b):
         self.carga()
         crear.crear_archivo(self.fondo,self)
-        chemin = sys.path[0]#os.path.dirname(filename)
+        chemin = sys.path[0]
         fichier = open(sys.path[0] + "/tmp/stdout", 'w+')
         sortie = str(sys.path[0] + 
                             "/tools/bin/sdcc "+
@@ -578,7 +581,6 @@ class Ventana:
                             sys.path[0] + 
                             "/source/main.c")
         i=os.system(sortie)
-        #~ print i
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
         else:
@@ -606,8 +608,6 @@ class Ventana:
                             sys.path[0].replace(" ","\\ ")+"/obj/crt0ipinguino.o "+
                             sys.path[0].replace(" ","\\ ")+"/source/main.o ")
         i=os.system(sortie2)
-        #~ print i
-
         sortie3=str(sys.path[0]+"/tools/bin/docker "+
                            "-v "+
                            "04d8 "+
@@ -625,8 +625,8 @@ class Ventana:
             self.mensajes(3,"la carga fue exitosa")
         else:
             self.mensajes(0,"hubo un error en la carga del PIC")
-        #return i
-
+    def tortucaro(self,b):
+        print "prueba"
     def move_cb(self,win, event):
         self.mousexy= event.get_coords()
     def buttonpress_cb(self,win,event):
@@ -648,7 +648,6 @@ class Ventana:
         self.tecla_enter=0
         self.valor_tecla=""
     def menuitem_response(self, widget, string):
-#        print "%s" % string
         if string=="abrir":
             dialog = gtk.FileChooserDialog("Open..",
                                            None,
@@ -656,24 +655,14 @@ class Ventana:
                                            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
                                             gtk.STOCK_OPEN, gtk.RESPONSE_OK))
             dialog.set_default_response(gtk.RESPONSE_OK)
-
             filter = gtk.FileFilter()
             filter.set_name("All files")
             filter.add_pattern("*")
             dialog.add_filter(filter)
-
             filter = gtk.FileFilter()
             filter.set_name("icaro")
-#            filter.add_mime_type("image/png")
-#            filter.add_mime_type("image/jpeg")
-#            filter.add_mime_type("image/gif")
             filter.add_pattern("*.icr2")
-#            filter.add_pattern("*.jpg")
-#            filter.add_pattern("*.gif")
-#            filter.add_pattern("*.tif")
-#            filter.add_pattern("*.xpm")
             dialog.add_filter(filter)
-
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
                 nuevo.nuevo(self.fondo)
@@ -693,7 +682,6 @@ class Ventana:
             inicial=componente_inicial(20,50,1,self.fondo,self,self.textorender)
             self.fondo.componentes.add(inicial)
             self.fondo.objetos.append(inicial)
-            #~ print self.fondo.objetos
         if string=="guardar":
             dialog = gtk.FileChooserDialog("save..",
                                            None,
@@ -715,7 +703,7 @@ def loop():
     fon.update()
     fon.componentes.update()
     fon.datos.update()
-    #menu.update()
+    punt.update()
     pygame.display.update()
     return True
 
@@ -726,6 +714,7 @@ gobject.idle_add(loop)
 ventana_principal.window1.show_all()
 
 fon=fondo()
+punt=puntero(fon,ventana_principal)
 texto=Text(fon)
 menu=pygame.sprite.RenderClear()
 ventana_principal.fondo=fon

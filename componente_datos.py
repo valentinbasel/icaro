@@ -46,6 +46,8 @@ class comp_dat_arg(pygame.sprite.Sprite):
         self.modificable=mod
         self.valor_cadena_no_mod=val_no_mod
     def dibujar(self):
+        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]+10,self.posicion[1]-12),(self.posicion[0]+70,self.posicion[1]-12),5)
+
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+60,self.posicion[1]-10, 10,10),0)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+60,self.posicion[1]+20, 10,10),0)
         #self.fondo.screen.blit(self.imagen,(self.posicion[0],self.posicion[1]-11))
@@ -120,8 +122,8 @@ class comp_dat_arg(pygame.sprite.Sprite):
                 #~ self.posicion=(xx,yy)
                 #~ self.fondo.objetos_datos[z].cadena_intermedia=self.cadena_final
                 #~ break
-            #~ else:
-                #~ self.cadena_intermedia=""
+        else:
+            self.cadena_intermedia=""
 
         if botones_mouse[1]==1 and self.rectan.collidepoint(self.ventana.mousexy) and self.pulsado==0 and self.ventana.seleccionado_datos==0:
             posic_mouse= self.ventana.mousexy
@@ -159,6 +161,26 @@ class comp_dat_arg(pygame.sprite.Sprite):
         
         if self.ventana.tecla_enter==1:
             self.tecla=0
+        if (botones_mouse[1]==1 
+                and self.rectan.collidepoint(self.ventana.mousexy) 
+                and self.ventana.seleccion_menu==3):
+            for i in range(1,len(self.fondo.objetos_datos)):
+                self.fondo.objetos_datos[i].conectado=0
+                self.fondo.objetos_datos[i].pegado=0
+                self.fondo.objetos_datos[i].pegado_a=0
+                self.fondo.objetos_datos[i].pegado_b=0
+                self.fondo.objetos_datos[i].pegado2=0
+                self.fondo.objetos_datos[i].pegado_a2=0
+            a=self.fondo.objetos_datos.index(self)
+            ident=self.fondo.objetos_datos[a].ide
+                #~ for i in range(len(self.fondo.objetos)):
+                    #~ self.fondo.objetos[i].pegado_a=0
+                    #~ self.fondo.objetos[i].pegado=0
+                #~ self.fondo.objetos_datos[a].vivo=False
+            del self.fondo.tipo_obj_datos[a]
+            self.kill()
+            self.fondo.objetos_datos.remove(self)
+                #~ self.fondo.lista_ordenada[self.ide]=0
         self.dibujar()
         #pygame.display.update
 
@@ -323,6 +345,26 @@ class comp_dat_arg_img(pygame.sprite.Sprite):
         
         if self.ventana.tecla_enter==1:
             self.tecla=0
+        if (botones_mouse[1]==1 
+                and self.rectan.collidepoint(self.ventana.mousexy) 
+                and self.ventana.seleccion_menu==3):
+            for i in range(1,len(self.fondo.objetos_datos)):
+                self.fondo.objetos_datos[i].conectado=0
+                self.fondo.objetos_datos[i].pegado=0
+                self.fondo.objetos_datos[i].pegado_a=0
+                self.fondo.objetos_datos[i].pegado_b=0
+                self.fondo.objetos_datos[i].pegado2=0
+                self.fondo.objetos_datos[i].pegado_a2=0
+            a=self.fondo.objetos_datos.index(self)
+            ident=self.fondo.objetos_datos[a].ide
+                #~ for i in range(len(self.fondo.objetos)):
+                    #~ self.fondo.objetos[i].pegado_a=0
+                    #~ self.fondo.objetos[i].pegado=0
+                #~ self.fondo.objetos_datos[a].vivo=False
+            del self.fondo.tipo_obj_datos[a]
+            self.kill()
+            self.fondo.objetos_datos.remove(self)
+                #~ self.fondo.lista_ordenada[self.ide]=0
         self.dibujar()
         #pygame.display.update
 
