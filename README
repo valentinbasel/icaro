@@ -1,0 +1,27 @@
+﻿#===============================================================================
+# ACERCA DE.
+#===============================================================================
+
+ICARO-BLOQUES es un Front-end para desarrollar código C para el compilador SDCC
+y el proyecto Pinguino-Usb. Esta diseñado para trabajar con niños en edad escolar para hacer practicas de robótica educativa con hardware de bajo costo.
+Genera código fuente en C para   los PICs 18f4550 y el bootloader VASCO – PUF
+
+#===============================================================================
+# AUTOR
+#===============================================================================
+
+
+Valentin Basel
+
+valentinbasel@gmail.com
+
+
+#===============================================================================
+# WEB
+#===============================================================================
+
+http://sistema-icaro.blogspot.com.ar/
+
+https://github.com/valentinbasel/icaro-bloques
+
+

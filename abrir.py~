@@ -9,6 +9,11 @@ def abrir(diccio,ruta,fon,ventana,textorender):
     tupla=(0,0,0,0)
     for valor in range(len(cadena)):
         #print valor
+        if cadena[valor]=="<objeto_inicial>\n":
+            cadena1= cadena[valor+1].strip("()\n")
+            cadena2=cadena1.split(',')
+            x,y=cadena2
+            fon.objetos[0].posicion=float(x),float(y)
         if cadena[valor]=="<objeto_dato>\n":
             cadena1= cadena[valor+2].strip("()\n")
             cadena2=cadena1.split(',')
@@ -16,7 +21,6 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             cadena3=cadena[valor+4].strip("()\n")
             cadena4=cadena3.split(',')
             tupla1=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
-            print "identificador",fon.identificador_dat,
             c1=comp_dat_arg(
                                 float(x),
                                 float(y),
@@ -70,7 +74,7 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             x,y=cadena2
             
             argumento=cadena[valor+2].strip("()\n")
-            
+            fon.identificador+=1
             cadena3=cadena[valor+5].strip("()\n")
             cadena4=cadena3.split(',')
             color=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
@@ -80,7 +84,7 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             c1=componente   (
                             float(x),
                             float(y),
-                            fon.identificador+1,
+                            fon.identificador,
                             int(argumento),
                             color,
                             text,
@@ -89,7 +93,7 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                             textorender
                             )
             fon.componentes.add(c1)
-            fon.identificador+=int(argumento)
+
             fon.objetos.append(c1)
             fon.tipo_obj.append(1)
 

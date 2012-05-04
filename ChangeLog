@@ -1,0 +1,14 @@
+﻿#===============================================================================
+# ChangeLog
+#===============================================================================
+
+VERSION 1.0:
+
+* Se pueden borrar bloques de componentes y de datos
+* Carga de firmware especifico para TurtleArt
+* Generación de código C para SDCC
+* Manual de ayuda html
+* integración de pygtk con Pygame -SDL-
+
+
+
