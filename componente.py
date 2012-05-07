@@ -120,8 +120,8 @@ class componente(pygame.sprite.Sprite):
             if botones_mouse[1]==0:
                 self.pulsado=0
                 self.ventana.seleccionado=0
-            if (botones_mouse[1]==1 
-                    and self.rectan.collidepoint(self.ventana.mousexy) 
+            if (botones_mouse[1]==1
+                    and self.rectan.collidepoint(self.ventana.mousexy)
                     and self.ventana.seleccion_menu==3):
                 for i in range(1,len(self.fondo.objetos_datos)):
                     self.fondo.objetos_datos[i].conectado=0
@@ -231,9 +231,9 @@ class componente_bloque_dos(pygame.sprite.Sprite):
             if botones_mouse[1]==0:
                 self.pulsado=0
                 self.ventana.seleccionado=0
-            
-            if (botones_mouse[1]==1 
-                    and self.rectan.collidepoint(self.ventana.mousexy) 
+
+            if (botones_mouse[1]==1
+                    and self.rectan.collidepoint(self.ventana.mousexy)
                     and self.ventana.seleccion_menu==3):
                 for i in range(1,len(self.fondo.objetos_datos)):
                     self.fondo.objetos_datos[i].conectado=0
@@ -351,8 +351,8 @@ class componente_bloque_uno(pygame.sprite.Sprite):
             if botones_mouse[1]==0:
                 self.pulsado=0
                 self.ventana.seleccionado=0
-            if (botones_mouse[1]==1 
-                    and self.rectan.collidepoint(self.ventana.mousexy) 
+            if (botones_mouse[1]==1
+                    and self.rectan.collidepoint(self.ventana.mousexy)
                     and self.ventana.seleccion_menu==3):
                 for i in range(1,len(self.fondo.objetos_datos)):
                     self.fondo.objetos_datos[i].conectado=0

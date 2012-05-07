@@ -14,33 +14,34 @@
 import pygtk
 import gtk
 import os
-import gobject
-import pygame
-import carga
-import abrir
-import nuevo
-import guardar
-import crear
-import navegador
-import visor
-from componente_inicial import *
-from componente import *
 import re
 import shutil
-from subprocess import Popen,PIPE,STDOUT
 import sys
+import gobject
+import pygame
+from subprocess import Popen,PIPE,STDOUT
 
+import carga, abrir, nuevo, guardar, crear, navegador, visor, texto
+from componente_inicial import *
+from componente import *
+
+# ==============================================================================
 # variables globales de color
+# ==============================================================================
+
 BLACK = (0, 0, 0)
 FONDO=(00,22,55)
 LINEA=(255,0,0)
 
+# ==============================================================================
+# PUNTERO
+# ==============================================================================
 class puntero(pygame.sprite.Sprite):
     def __init__ (self,fondo,ventana):
         pygame.sprite.Sprite.__init__(self)
-        self.imagen=pygame.image.load("imagenes/mouse/puntero.png")
         self.fondo=fondo
         self.ventana=ventana
+
     def update(self):
         posic_mouse= self.ventana.mousexy
         if self.ventana.seleccion_menu==1:
@@ -49,10 +50,12 @@ class puntero(pygame.sprite.Sprite):
             self.imagen=pygame.image.load("imagenes/mouse/puntero.png")
         if self.ventana.seleccion_menu==3:
             self.imagen=pygame.image.load("imagenes/mouse/borrar.png")
-
         xy=posic_mouse[0]-10,posic_mouse[1]-10
         self.fondo.screen.blit(self.imagen,xy)
 
+# ==============================================================================
+# FONDO
+# ==============================================================================
 class fondo(pygame.sprite.Sprite):
     #variables para los componentes
     componentes=pygame.sprite.RenderClear()
@@ -61,7 +64,6 @@ class fondo(pygame.sprite.Sprite):
     tipo_obj=[0]
     lista_ordenada=[]
     lista_fina=[]
-
     # variable para los componentes datos
     datos=pygame.sprite.RenderClear()
     identificador_dat=1
@@ -70,12 +72,9 @@ class fondo(pygame.sprite.Sprite):
     tipo_obj_datos=[0]
     lista_valor_datos=[]
     lista_valor_datos2=[]
-
     #variables globales
     color_texto=(255,255,255)
     poscion_botones=0
-
-
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         size = width, height = 1100, 900
@@ -88,33 +87,14 @@ class fondo(pygame.sprite.Sprite):
         pygame.display.update
 
 
-##################################################################
-##
-##  clase text para renderizar texto en pygame
-##
-##################################################################
-
-class Text:
-    def __init__(self, fondo,FontName = None, FontSize = 20):
-        pygame.font.init()
-        self.font = pygame.font.Font(FontName, FontSize)
-        self.size = FontSize
-        self.fondo=fondo
-    def render(self,  text, color, pos):
-        x, y = pos
-        for i in text.split("\r"):
-            self.fondo.screen.blit(self.font.render(i, 1, color), (x, y))
-            y += self.size
-
-##################################################################
-##
-## la clase principal del programa, donde se declara la ventana
-## y los contenedores para dibujar los componentes
-##
-##################################################################
+# ==============================================================================
+# VENTANA
+# ==============================================================================
 
 class Ventana:
-    #~ area=0
+
+    # variables globales para manejar posicion del mouse, clicks y pulsaciones
+    # de teclas dentro de la ventana
     mousexy=(0,0)
     boton_mouse= [0,0,0,0]
     seleccionado=0
@@ -122,12 +102,11 @@ class Ventana:
     tecla=0
     valor_tecla=""
     tecla_enter=0
-    processor="18f4550"
 
+    processor="18f4550"
     cadena_pinguino=[]
     seleccion_menu=1
     tipo_componente=1
-
     diccionario={
                 1:["activar ",1,1,(100,90,100)],
                 2:["robot ",1,2,(0,190,10)],
@@ -195,8 +174,6 @@ class Ventana:
         self.area = gtk.DrawingArea()
         self.area.set_app_paintable(True)
         self.area.set_size_request(3000, 3000)
-
-
         # declaro los botones del menu 'menu' y 'edicion'
         menu = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
@@ -280,10 +257,10 @@ class Ventana:
         # un espacio en blanco para separar
         toolbar.append_space()
 
-
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_EDIT,30)
-        dibujar_button = toolbar.append_element(gtk.TOOLBAR_CHILD_RADIOBUTTON,None,
+        dibujar_button = toolbar.append_element(
+                        gtk.TOOLBAR_CHILD_RADIOBUTTON,None,
                         "lapiz",
                         "herramienta para colocación de componentes",
                         "Private",
@@ -291,7 +268,8 @@ class Ventana:
                         self.dibujo,1)
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_SELECT_COLOR,30)
-        mover_button = toolbar.append_element(gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
+        mover_button = toolbar.append_element(
+                        gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
                         "mover",
                         "herramienta para mover los componentes",
                         "Private",
@@ -300,13 +278,15 @@ class Ventana:
 
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_DELETE,30)
-        mover_button = toolbar.append_element(gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
+        mover_button = toolbar.append_element(
+                        gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
                         "borrar",
                         "herramienta para borrar los componentes",
                         "Private",
                         iconw,
                         self.dibujo,3)
-        #declaro el scroll_winWenoka Blackie Collinsdow donde esta inserto el drawing area
+
+        #declaro el scroll_window donde esta inserto el drawing area
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window.set_size_request(500, 600)
         scrolled_window.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
@@ -326,36 +306,40 @@ class Ventana:
         # box2 es el segundo en importancia
         box2 = gtk.HBox(False, 2)
         buffer = self.diccionario[self.lista[0]][0]
-        caja = self.imagen_boton( self.diccionario[self.lista[0]][0], self.diccionario[self.lista[0]][0])
+        caja = self.imagen_boton(
+                                self.diccionario[self.lista[0]][0],
+                                self.diccionario[self.lista[0]][0]
+                                )
         button = gtk.RadioButton()
         button.set_tooltip_text("prueba")
-
+        # bucle principal donde se cargan los RAdioButton donde se cargan
+        # los componentes del diccionario
         button.add(caja)
         button.connect("clicked", self.botones,self.lista[0])#buffer
         table.pack_start(button, False, True, 0)
         button.show()
         for i in range(1,len(self.lista)):
             buffer = self.diccionario[self.lista[i]][0]
-            caja = self.imagen_boton( self.diccionario[self.lista[i]][0], self.diccionario[self.lista[i]][0])
+            caja = self.imagen_boton(
+                                    self.diccionario[self.lista[i]][0],
+                                    self.diccionario[self.lista[i]][0]
+                                    )
             button = gtk.RadioButton(button)
             button.set_tooltip_text("prueba")
             button.add(caja)
             button.connect("clicked", self.botones,self.lista[i])#buffer
             table.pack_start(button, False, True, 0)
             button.show()
-        #empaqueto todo
 
+        #empaqueto todo
         box2.pack_start(scrolled_window, True, True, 1)
         box2.pack_start(scrolled_window2,False, False, 1)
         box1.pack_start(menu_bar, False, True, 1)
         box1.pack_start(toolbar, False, True, 1)
         box1.pack_start(box2, True, True, 1)
-
         self.window1.add(box1)
 
-
-        #~ self.window1.add(box1)
-        #capturo los eventos del drawing area
+        # capturo los eventos del drawing area
         # menos el teclado que lo capturo desde la ventana principal
         self.area.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.area.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
@@ -369,11 +353,16 @@ class Ventana:
         self.window1.connect("key_release_event", self.keyrelease_cb)
         self.area.realize()
         self.area.grab_focus()
-
+# ==============================================================================
+# ABRIR LA VENTANA DE VISOR DE CODIGO
+# ==============================================================================
     def ver(self,b):
         ver=visor.visor_codigo()
         ver.window.show_all()
 
+# ==============================================================================
+# VENTANA DE AYUDA (NAVEGADOR)
+# ==============================================================================
     def ayuda(self,b):
         browser = navegador.SimpleBrowser()
         browser.open(sys.path[0]+'/html/index.html')
@@ -382,7 +371,9 @@ class Ventana:
     def dibujo(self,event,b):
         self.seleccion_menu=b
 
-    # esto es para gregar imagenes al boton de la toolbar
+# ==============================================================================
+# ESTO ES PARA GREGAR IMAGENES AL BOTON DE LA TOOLBAR
+# ==============================================================================
     def imagen_boton(self, xpm_filename, label_text):
         box1 = gtk.HBox(False, 0)
         box1.set_border_width(0)
@@ -393,11 +384,13 @@ class Ventana:
         label = gtk.Label(label_text)
         box1.pack_start(image, False, True, 1)
         box1.pack_start(label, False, True, 1)
-
         image.show()
         label.show()
         return box1
-    # generador de mensajes
+
+# ==============================================================================
+# GENERADOR DE MENSAJES
+# ==============================================================================
     def mensajes(self,num,mensa):
         tipo=   (
                 gtk.MESSAGE_WARNING,
@@ -411,11 +404,15 @@ class Ventana:
             gtk.BUTTONS_OK, mensa)
         md.run()
         md.destroy()
+
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
     def botones(self,event,b):
         self.tipo_componente=b
 
+# ==============================================================================
+# FUNCION PARA GENERAR LOS COMPONENTES DESDE EL DICCIONARIO
+# ==============================================================================
     def crear_componente(self,b):
         ax=ay=30
         # siempre hay que tratar de que el foco quede en el drawing area
@@ -534,8 +531,6 @@ class Ventana:
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
 
 # por si quiero implementar un dialogo de mensajes
-
-
 #        self.dialog = gtk.MessageDialog(None,
 #                            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
 #                            gtk.MESSAGE_QUESTION,
@@ -555,6 +550,10 @@ class Ventana:
 #        dialog.hide()
 #        #return text
 
+
+# ==============================================================================
+# FUNCIONES PARA COMPILAR Y CARGAR EL FIRMWARE
+# ==============================================================================
     # cargo template.pde para tener la planilla estandar dentro de
     # cadena_pinguino
     def carga(self):
@@ -562,7 +561,6 @@ class Ventana:
         archivo=open("source/template.pde","r")
         for linea in archivo:
             self.cadena_pinguino.append(linea)
-
 
     def compilar(self,b):
         self.carga()
@@ -575,8 +573,12 @@ class Ventana:
 
 
     def upload(self,b):
-        self.mensajes(3,"apriete el boton RESET de la placa pinguino antes de continuar")
-        resultado=carga.upload_pic("/source/main.hex")
+
+        self.mensajes(3,"aprete el boton RESET de la placa pinguino antes de continuar")
+        i=carga.upload_pic("/source/main.hex")
+        for d in i.readlines():
+            if d.find("writing")==0:
+                resultado=0
         if resultado==0:
             self.mensajes(3,"la carga fue exitosa")
         else:
@@ -584,8 +586,14 @@ class Ventana:
 
     def tortucaro(self,b):
         print "prueba"
+
+# ==============================================================================
+# FUNCIONES DE LOS EVENTOS DEL MOUSE Y TECLADO
+# ==============================================================================
+
     def move_cb(self,win, event):
         self.mousexy= event.get_coords()
+
     def buttonpress_cb(self,win,event):
         self.boton_mouse[event.button]=1
         if self.seleccion_menu==1:
@@ -604,12 +612,17 @@ class Ventana:
         self.tecla=0
         self.tecla_enter=0
         self.valor_tecla=""
+# ==============================================================================
+# LAS RESPUESTAS DEL MENU
+# ==============================================================================
     def menuitem_response(self, widget, string):
         if string=="abrir":
-            dialog = gtk.FileChooserDialog("Open..",
+            dialog = gtk.FileChooserDialog(
+                                            "Open..",
                                            None,
                                            gtk.FILE_CHOOSER_ACTION_OPEN,
-                                           (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                                           (gtk.STOCK_CANCEL,
+                                           gtk.RESPONSE_CANCEL,
                                             gtk.STOCK_OPEN, gtk.RESPONSE_OK))
             dialog.set_default_response(gtk.RESPONSE_OK)
             filter = gtk.FileFilter()
@@ -623,11 +636,21 @@ class Ventana:
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
                 nuevo.nuevo(self.fondo)
-                inicial=componente_inicial(20,50,1,self.fondo,self,self.textorender)
+                inicial=componente_inicial (
+                                            20,50,1,
+                                            self.fondo,
+                                            self,self.textorender
+                                            )
                 self.fondo.componentes.add(inicial)
                 self.fondo.objetos.append(inicial)
                 cadena= dialog.get_filename()
-                abrir.abrir(self.diccionario,cadena,self.fondo,self,self.textorender)
+                abrir.abrir(
+                            self.diccionario,
+                            cadena,
+                            self.fondo,
+                            self,
+                            self.textorender
+                            )
             elif response == gtk.RESPONSE_CANCEL:
                 print 'Closed, no files selected'
             dialog.destroy()
@@ -643,20 +666,32 @@ class Ventana:
             dialog = gtk.FileChooserDialog("save..",
                                            None,
                                            gtk.FILE_CHOOSER_ACTION_SAVE,
-                                           (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                            gtk.STOCK_SAVE, gtk.RESPONSE_OK))
+                                               (
+                                               gtk.STOCK_CANCEL,
+                                                gtk.RESPONSE_CANCEL,
+                                                gtk.STOCK_SAVE,
+                                                gtk.RESPONSE_OK
+                                                )
+                                            )
             dialog.set_default_response(gtk.RESPONSE_OK)
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
-                guardar.guardar(self.fondo.objetos,dialog.get_filename(),self.fondo)
+                guardar.guardar(
+                                self.fondo.objetos,
+                                dialog.get_filename(),
+                                self.fondo
+                                )
             elif response == gtk.RESPONSE_CANCEL:
                 print 'Closed, no files selected'
             dialog.destroy()
 
-# este es el loop principal donde cargo todo el tiempo el evento
-# pygame
-def loop():
 
+
+# ==============================================================================
+# LOOP
+# ==============================================================================
+def loop():
+    #aca va todo lo de pygame
     fon.update()
     fon.componentes.update()
     fon.datos.update()
@@ -664,15 +699,17 @@ def loop():
     pygame.display.update()
     return True
 
+# Inicio todas las clases
 ventana_principal=Ventana()
+
+#capturo el xid del drawingarea
 os.putenv('SDL_WINDOWID', str(ventana_principal.area.window.xid))
 gtk.gdk.flush()
 gobject.idle_add(loop)
 ventana_principal.window1.show_all()
-
 fon=fondo()
 punt=puntero(fon,ventana_principal)
-texto=Text(fon)
+texto=texto.Text(fon)
 menu=pygame.sprite.RenderClear()
 ventana_principal.fondo=fon
 ventana_principal.textorender=texto

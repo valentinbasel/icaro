@@ -13,12 +13,12 @@
 import gtk
 import os
 from componente import *
+
 def abrir(diccio,ruta,fon,ventana,textorender):
     file=open(ruta,"r")
     cadena=file.readlines()
     tupla=(0,0,0,0)
     for valor in range(len(cadena)):
-        #print valor
         if cadena[valor]=="<objeto_inicial>\n":
             cadena1= cadena[valor+1].strip("()\n")
             cadena2=cadena1.split(',')
@@ -48,10 +48,6 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             fon.objetos_datos.append(c1)
             fon.tipo_obj_datos.append(7)
         if cadena[valor]=="<objeto_dato_img>\n":
-            # hay que parsear asi
-            # x,y,identidad,mod,texto,color,val_no_mod,img,fondo,ventana,textorender
-
-            #print cadena[valor+1]#x,y
             dato=cadena[valor+1].strip("()\n")
             cadena1= cadena[valor+3].strip("()\n")
             cadena2=cadena1.split(',')
@@ -80,9 +76,7 @@ def abrir(diccio,ruta,fon,ventana,textorender):
         if cadena[valor]=="<objeto_componente>\n":
             cadena1= cadena[valor+4].strip("()\n")
             cadena2=cadena1.split(',')
-            
             x,y=cadena2
-            
             argumento=cadena[valor+2].strip("()\n")
             fon.identificador+=1
             cadena3=cadena[valor+5].strip("()\n")
@@ -103,26 +97,19 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                             textorender
                             )
             fon.componentes.add(c1)
-
             fon.objetos.append(c1)
             fon.tipo_obj.append(1)
-
         if cadena[valor]=="<objeto_bloque>\n":
             cadena1= cadena[valor+2].strip("()\n")
             cadena2=cadena1.split(',')
-            
             x,y=cadena2
             cadena1fin= cadena[valor+5].strip("()\n")
             cadena2fin=cadena1fin.split(',')
-            
             xfin,yfin=cadena2fin
-
-            
             cadena3=cadena[valor+3].strip("()\n")
             cadena4=cadena3.split(',')
             color=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
             text=cadena[valor+4].strip("()\n")
-            #text=text+" "
             fon.identificador+=1
             c1=componente_bloque_uno(
                                             float(x),
@@ -151,11 +138,3 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             fon.objetos.append(c1)
             fon.tipo_obj.append(5)
             fon.tipo_obj.append(0)
-                #~ 11:["si ",5,(200,190,0),"fin "],
-#~ 
-#~ <objeto_bloqe>
-#~ 2
-#~ (20, 100)
-#~ (200, 190, 0)
-#~ si 
-#~ </objeto_bloque>

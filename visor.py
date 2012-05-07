@@ -36,10 +36,10 @@ class visor_codigo():
         #windows.append(window) # this list contains all view windows
         self.window.set_default_size(500, 500)
         self.window.show()
-        
+
         vbox = gtk.VBox(0, True)
         self.window.add(vbox)
-        
+
         sw = gtk.ScrolledWindow()
         sw.set_shadow_type(gtk.SHADOW_IN)
         sw.add(view)
@@ -90,13 +90,13 @@ class visor_codigo():
         #~ gtk.main_quit()
         self.window.hide()
 
-    
+
 #~ VI= visor_codigo()
 #~ VI.window.show_all()
-#~ gtk.main()        
+#~ gtk.main()
 
 #if __name__ == '__main__':
-#    
+#
 #    if '--debug' in sys.argv:
 #        import pdb
 #        pdb.run('main(sys.argv)')

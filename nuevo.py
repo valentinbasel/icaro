@@ -48,7 +48,7 @@ def nuevo(fon):
     #~ fon.lista_ch.append((0,0,0,0))
     #~ fon.lista_ch_dato.append((0,0,0,0))
     #~ fon.lista_ch_dato2.append((0,0,0,0))
-#~ 
+#~
     #~ fon.lista_valor_datos2.append("0")
     #~ fon.lista_ordenada.append(0)
     #~ fon.lista_fina.append(0)

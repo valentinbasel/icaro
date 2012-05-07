@@ -26,11 +26,11 @@ class SimpleBrowser: # needs GTK, Python, Webkit-GTK
         vbox.set_border_width(5)
         self.txt_url = gtk.Entry()
         self.txt_url.connect('activate', self._txt_url_activate)
-#~ 
+#~
         # Genero una barra de herramientas
         toolbar = gtk.HBox(spacing=5)
         vbox.pack_start(toolbar,False,False)
-#~ 
+#~
         # Agrego el boton "Atras"
         self.btnback = gtk.Button()
         self.btnback.add(gtk.Arrow(gtk.ARROW_LEFT,gtk.SHADOW_OUT))
@@ -60,12 +60,12 @@ class SimpleBrowser: # needs GTK, Python, Webkit-GTK
         #~ btnrefresh = gtk.Button('Actualizar')
         #~ btnrefresh.connect('clicked',self._refresh)
         #~ toolbar.pack_start(btnrefresh,False,False)
-#~ 
+#~
         #~ # Agrego la barra de direcciones
         #~ self.text = gtk.Entry()
         #~ self.text.connect('activate',self._open_bar_url)
         #~ toolbar.pack_start(self.text,True,True)
-#~ 
+#~
 
 
         # Agrego el renderer del motor

@@ -74,7 +74,5 @@ void loop()
 
 
 
-if(digitalread(21) ==1 ){
-for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<0 ;tiempo2++){PORTD=96 ;}}
-}
+ServoWrite(10,analogread(13) );
 }

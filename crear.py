@@ -85,7 +85,7 @@ def crear_archivo(fondo, ventana):
             #~ parseador(a,5,'servos ',cadena_final,fondo,ventana)
         #~ if fondo.lista_parser[fondo.lista_fina[a]]=='var ':
             #~ parseador(a,2,'var ',cadena_final,fondo,ventana)
-#~ 
+#~
         #~ if fondo.lista_parser[fondo.lista_fina[a]]=='si ':
             #~ cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
             #~ valor=cadena[3:len(cadena)]
@@ -103,4 +103,4 @@ def crear_archivo(fondo, ventana):
         fw.writelines(ventana.cadena_pinguino[a])
         fw.write("\n")
     fw.close()
-        
+

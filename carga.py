@@ -10,14 +10,17 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-import sys, os
-
+import os
+import re
+import shutil
+import sys
+from subprocess import Popen,PIPE,STDOUT
 processor="18f4550"
 
 def compilar_pic(rutao,rutac):
     chemin = sys.path[0]
     fichier = open(sys.path[0] + "/tmp/stdout", 'w+')
-    sortie = str(sys.path[0] + 
+    sortie = str(sys.path[0] +
                         "/tools/bin/sdcc "+
                         " -mpic16"+
                         " --denable-peeps"+
@@ -26,21 +29,22 @@ def compilar_pic(rutao,rutac):
                         " --optimize-cmp"+
                         " --optimize-df"+
                         " -p" + processor +
-                        " -I" + sys.path[0] + 
-                        "/include"+ " -I" + chemin + 
+                        " -I" + sys.path[0] +
+                        "/include"+ " -I" + chemin +
                         "/"+
                         " -c"+
                         " -c"+
-                        " -o" + 
-                        sys.path[0] + 
+                        " -o" +
+                        sys.path[0] +
                         rutao +
-                        sys.path[0] + 
+                        sys.path[0] +
                         rutac)
     i=os.system(sortie)
     return i
 def upload_pic(ruta):
+
     sortie2=str(sys.path[0]+"/tools/bin/sdcc"+
-                        " -o"+sys.path[0].replace(" ","\\ ")+ruta+
+                        " -o"+sys.path[0].replace(" ","\\ ")+"/source/main.hex"+
                         " --denable-peeps"+
                         " --obanksel=9"+
                         " --opt-code-size"+
@@ -66,9 +70,10 @@ def upload_pic(ruta):
                         sys.path[0] +
                         "/source/main.hex")
     i=os.popen(sortie3)
-    resultado=1
-    for d in i.readlines():
-        if d.find("writing")==0:
-            resultado=0
-    return resultado
+    #~ print i
+    #~ resultado=1
+    #~ for d in i.readlines():
+        #~ if d.find("writing")==0:
+            #~ resultado=0
+    return i
 

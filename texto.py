@@ -24,4 +24,4 @@ class Text:
         x, y = pos
         for i in text.split("\r"):
             self.fondo.screen.blit(self.font.render(i, 1, color), (x, y))
-            y += self.size 
+            y += self.size
