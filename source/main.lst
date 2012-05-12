@@ -1,6 +1,6 @@
 gplink-0.13.7 beta
 Copyright (c) 1998-2005 gputils project
-Listing File Generated: 5-7-2012  17:17:46
+Listing File Generated: 5-11-2012  23:47:27
  
  
 Address  Value    Disassembly              Source
@@ -8,7 +8,7 @@ Address  Value    Disassembly              Source
                                            ;--------------------------------------------------------
                                            ; File Created by SDCC : free open source ANSI-C Compiler
                                            ; Version 2.9.0 #5416 (Aug  9 2009) (UNIX)
-                                           ; This file was generated Mon May  7 17:17:41 2012
+                                           ; This file was generated Fri May 11 23:47:21 2012
                                            ;--------------------------------------------------------
                                            ; PIC16 port for the Microchip 16-bit core micros
                                            ;--------------------------------------------------------
@@ -385,7 +385,7 @@ Address  Value    Disassembly              Source
 002040   cffb     movff	0xffb, 0xfe5       	MOVFF	PCLATU, POSTDEC1
 002042   ffe5
                                            ;	.line	132; /home/valentin/github/icaro-bloques/source/main.c	servos_interrupt();
-002044   ec04     call	0x3608, 0           	CALL	_servos_interrupt
+002044   ec4e     call	0x369c, 0           	CALL	_servos_interrupt
 002046   f01b
 002048   cfe4     movff	0xfe4, 0xffb       	MOVFF	PREINC1, PCLATU
 00204a   fffb
@@ -455,86 +455,159 @@ Address  Value    Disassembly              Source
                                            S_main__pinguino_main	code
                                            _pinguino_main:
                                            ;	.line	52; /home/valentin/github/icaro-bloques/source/main.c	PIE1=0;
-00375a   6a9d     clrf	0x9d, 0             	CLRF	_PIE1
+0037ee   6a9d     clrf	0x9d, 0             	CLRF	_PIE1
                                            ;	.line	53; /home/valentin/github/icaro-bloques/source/main.c	PIE2=0;
-00375c   6aa0     clrf	0xa0, 0             	CLRF	_PIE2
+0037f0   6aa0     clrf	0xa0, 0             	CLRF	_PIE2
                                            ;	.line	54; /home/valentin/github/icaro-bloques/source/main.c	ADCON1=0x0F;
-00375e   0e0f     movlw	0xf                	MOVLW	0x0f
-003760   6ec1     movwf	0xc1, 0            	MOVWF	_ADCON1
+0037f2   0e0f     movlw	0xf                	MOVLW	0x0f
+0037f4   6ec1     movwf	0xc1, 0            	MOVWF	_ADCON1
                                            ;	.line	59; /home/valentin/github/icaro-bloques/source/main.c	setup();
-003762   ecd7     call	0x2fae, 0           	CALL	_setup
-003764   f017
+0037f6   ecd7     call	0x2fae, 0           	CALL	_setup
+0037f8   f017
                                            ;	.line	61; /home/valentin/github/icaro-bloques/source/main.c	analog_init();
-003766   ecde     call	0x37bc, 0           	CALL	_analog_init
-003768   f01b
+0037fa   ec1b     call	0x3836, 0           	CALL	_analog_init
+0037fc   f01c
                                            ;	.line	67; /home/valentin/github/icaro-bloques/source/main.c	servos_init();
-00376a   ecdf     call	0x35be, 0           	CALL	_servos_init
-00376c   f01a
+0037fe   ec29     call	0x3652, 0           	CALL	_servos_init
+003800   f01b
                                            ;	.line	83; /home/valentin/github/icaro-bloques/source/main.c	INTCONbits.PEIE=1;
-00376e   8cf2     bsf	0xf2, 0x6, 0         	BSF	_INTCONbits, 6
+003802   8cf2     bsf	0xf2, 0x6, 0         	BSF	_INTCONbits, 6
                                            ;	.line	84; /home/valentin/github/icaro-bloques/source/main.c	INTCONbits.GIE=1;
-003770   8ef2     bsf	0xf2, 0x7, 0         	BSF	_INTCONbits, 7
-                                           _00524_DS_:
+003804   8ef2     bsf	0xf2, 0x7, 0         	BSF	_INTCONbits, 7
+                                           _00542_DS_:
                                            ;	.line	89; /home/valentin/github/icaro-bloques/source/main.c	loop();
-003772   ecbd     call	0x377a, 0           	CALL	_loop
-003774   f01b
-003776   d7fd     bra	0x3772               	BRA	_00524_DS_
-003778   0012     return	0                 	RETURN	
+003806   ec3e     call	0x347c, 0           	CALL	_loop
+003808   f01a
+00380a   d7fd     bra	0x3806               	BRA	_00542_DS_
+00380c   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__loop	code
                                            _loop:
-                                           ;	.line	77; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(10,analogread(13) );
-00377a   0e0d     movlw	0xd                	MOVLW	0x0d
-00377c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
-00377e   ec3e     call	0x347c, 0           	CALL	_analogread
-003780   f01a
-003782   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
-003784   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
-003786   0e0a     movlw	0xa                	MOVLW	0x0a
-003788   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
-00378a   ec82     call	0x3504, 0           	CALL	_ServoWrite
-00378c   f01a
-00378e   0e02     movlw	0x2                	MOVLW	0x02
-003790   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
-003792   0012     return	0                 	RETURN	
+                                           ;	.line	71; /home/valentin/github/icaro-bloques/source/user.c	void loop()
+00347c   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+00347e   ffe5
+003480   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+003482   ffe5
+                                           ;	.line	79; /home/valentin/github/icaro-bloques/source/user.c	while(a<10){
+003484   0e01     movlw	0x1                	MOVLW	0x01
+003486   6e00     movwf	0, 0               	MOVWF	r0x00
+003488   6a01     clrf	0x1, 0              	CLRF	r0x01
+                                           _00518_DS_:
+00348a   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+00348c   0f80     addlw	0x80               	ADDLW	0x80
+00348e   0f80     addlw	0x80               	ADDLW	0x80
+003490   e102     bnz	0x3496               	BNZ	_00534_DS_
+003492   0e0a     movlw	0xa                	MOVLW	0x0a
+003494   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+                                           _00534_DS_:
+003496   e227     bc	0x34e6                	BC	_00523_DS_
+                                           ;	.line	80; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(10,10);
+003498   0e0a     movlw	0xa                	MOVLW	0x0a
+00349a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00349c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00349e   eccc     call	0x3598, 0           	CALL	_ServoWrite
+0034a0   f01a
+0034a2   0e02     movlw	0x2                	MOVLW	0x02
+0034a4   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	81; /home/valentin/github/icaro-bloques/source/user.c	Delayms(1000);
+0034a6   6ae5     clrf	0xe5, 0             	CLRF	POSTDEC1
+0034a8   6ae5     clrf	0xe5, 0             	CLRF	POSTDEC1
+0034aa   0e03     movlw	0x3                	MOVLW	0x03
+0034ac   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0034ae   0ee8     movlw	0xe8               	MOVLW	0xe8
+0034b0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0034b2   eca4     call	0x3348, 0           	CALL	_Delayms
+0034b4   f019
+0034b6   0e04     movlw	0x4                	MOVLW	0x04
+0034b8   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	82; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(10,100);
+0034ba   0e64     movlw	0x64               	MOVLW	0x64
+0034bc   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0034be   0e0a     movlw	0xa                	MOVLW	0x0a
+0034c0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0034c2   eccc     call	0x3598, 0           	CALL	_ServoWrite
+0034c4   f01a
+0034c6   0e02     movlw	0x2                	MOVLW	0x02
+0034c8   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	83; /home/valentin/github/icaro-bloques/source/user.c	Delayms(1000);
+0034ca   6ae5     clrf	0xe5, 0             	CLRF	POSTDEC1
+0034cc   6ae5     clrf	0xe5, 0             	CLRF	POSTDEC1
+0034ce   0e03     movlw	0x3                	MOVLW	0x03
+0034d0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0034d2   0ee8     movlw	0xe8               	MOVLW	0xe8
+0034d4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0034d6   eca4     call	0x3348, 0           	CALL	_Delayms
+0034d8   f019
+0034da   0e04     movlw	0x4                	MOVLW	0x04
+0034dc   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	84; /home/valentin/github/icaro-bloques/source/user.c	a++ ;
+0034de   2a00     incf	0, 0x1, 0           	INCF	r0x00, F
+0034e0   b0d8     btfsc	0xd8, 0, 0         	BTFSC	STATUS, 0
+0034e2   2a01     incf	0x1, 0x1, 0         	INCF	r0x01, F
+0034e4   d7d2     bra	0x348a               	BRA	_00518_DS_
+                                           _00523_DS_:
+                                           ;	.line	89; /home/valentin/github/icaro-bloques/source/user.c	if(digitalread(21) ==1 ){
+0034e6   6ae5     clrf	0xe5, 0             	CLRF	POSTDEC1
+0034e8   0e15     movlw	0x15               	MOVLW	0x15
+0034ea   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0034ec   ece3     call	0x2dc6, 0           	CALL	_digitalread
+0034ee   f016
+0034f0   6e00     movwf	0, 0               	MOVWF	r0x00
+0034f2   cff3     movff	0xff3, 0x1         	MOVFF	PRODL, r0x01
+0034f4   f001
+0034f6   0e02     movlw	0x2                	MOVLW	0x02
+0034f8   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+0034fa   5000     movf	0, 0, 0             	MOVF	r0x00, W
+0034fc   0a01     xorlw	0x1                	XORLW	0x01
+0034fe   e1f3     bnz	0x34e6               	BNZ	_00523_DS_
+003500   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+003502   e1f1     bnz	0x34e6               	BNZ	_00523_DS_
+                                           _00536_DS_:
+                                           ;	.line	91; /home/valentin/github/icaro-bloques/source/user.c	ban==1 ;
+003504   d7f0     bra	0x34e6               	BRA	_00523_DS_
+003506   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+003508   f001
+00350a   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+00350c   f000
+00350e   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__sensor	code
                                            _sensor:
                                            ;	.line	59; /home/valentin/github/icaro-bloques/source/user.c	unsigned int sensor(int valor)
-00371e   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
-003720   ffe5
-003722   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
-003724   ffd9
-003726   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-003728   ffe5
-00372a   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-00372c   ffe5
-00372e   0e02     movlw	0x2                	MOVLW	0x02
-003730   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
-003732   f000
-003734   0e03     movlw	0x3                	MOVLW	0x03
-003736   cfdb     movff	0xfdb, 0x1         	MOVFF	PLUSW2, r0x01
-003738   f001
+0037b2   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+0037b4   ffe5
+0037b6   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+0037b8   ffd9
+0037ba   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+0037bc   ffe5
+0037be   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+0037c0   ffe5
+0037c2   0e02     movlw	0x2                	MOVLW	0x02
+0037c4   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+0037c6   f000
+0037c8   0e03     movlw	0x3                	MOVLW	0x03
+0037ca   cfdb     movff	0xfdb, 0x1         	MOVFF	PLUSW2, r0x01
+0037cc   f001
                                            ;	.line	65; /home/valentin/github/icaro-bloques/source/user.c	an=analogread(valor);
-00373a   5000     movf	0, 0, 0             	MOVF	r0x00, W
-00373c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
-00373e   ec3e     call	0x347c, 0           	CALL	_analogread
-003740   f01a
-003742   cff3     movff	0xff3, 0x1         	MOVFF	PRODL, r0x01
-003744   f001
-003746   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+0037ce   5000     movf	0, 0, 0             	MOVF	r0x00, W
+0037d0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0037d2   ec88     call	0x3510, 0           	CALL	_analogread
+0037d4   f01a
+0037d6   cff3     movff	0xff3, 0x1         	MOVFF	PRODL, r0x01
+0037d8   f001
+0037da   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
                                            ;	.line	67; /home/valentin/github/icaro-bloques/source/user.c	return an;
-003748   c001     movff	0x1, 0xff3         	MOVFF	r0x01, PRODL
-00374a   fff3
-00374c   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-00374e   f001
-003750   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-003752   f000
-003754   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
-003756   ffd9
-003758   0012     return	0                 	RETURN	
+0037dc   c001     movff	0x1, 0xff3         	MOVFF	r0x01, PRODL
+0037de   fff3
+0037e0   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+0037e2   f001
+0037e4   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+0037e6   f000
+0037e8   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+0037ea   ffd9
+0037ec   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__setup	code
@@ -712,75 +785,75 @@ Address  Value    Disassembly              Source
                                            S_main__epapout_init	code
                                            _epapout_init:
                                            ;	.line	40; /home/valentin/github/icaro-bloques/source/main.c	void epapout_init() { return; }
-0037e8   0012     return	0                 	RETURN	
+003862   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__epapin_init	code
                                            _epapin_init:
                                            ;	.line	39; /home/valentin/github/icaro-bloques/source/main.c	void epapin_init() { return; }
-0037ea   0012     return	0                 	RETURN	
+003864   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__epap_out	code
                                            _epap_out:
                                            ;	.line	38; /home/valentin/github/icaro-bloques/source/main.c	void epap_out() { return; }
-0037ec   0012     return	0                 	RETURN	
+003866   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__epap_in	code
                                            _epap_in:
                                            ;	.line	37; /home/valentin/github/icaro-bloques/source/main.c	void epap_in() { return; }
-0037ee   0012     return	0                 	RETURN	
+003868   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__Delayus	code
                                            _Delayus:
                                            ;	.line	16; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/arduinodelay.c	void Delayus(int microsecondes)
-00356c   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
-00356e   ffe5
-003570   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
-003572   ffd9
-003574   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-003576   ffe5
-003578   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-00357a   ffe5
-00357c   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
-00357e   ffe5
-003580   c003     movff	0x3, 0xfe5         	MOVFF	r0x03, POSTDEC1
-003582   ffe5
-003584   0e02     movlw	0x2                	MOVLW	0x02
-003586   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
-003588   f000
-00358a   0e03     movlw	0x3                	MOVLW	0x03
-00358c   cfdb     movff	0xfdb, 0x1         	MOVFF	PLUSW2, r0x01
-00358e   f001
+003600   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+003602   ffe5
+003604   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+003606   ffd9
+003608   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+00360a   ffe5
+00360c   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+00360e   ffe5
+003610   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+003612   ffe5
+003614   c003     movff	0x3, 0xfe5         	MOVFF	r0x03, POSTDEC1
+003616   ffe5
+003618   0e02     movlw	0x2                	MOVLW	0x02
+00361a   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+00361c   f000
+00361e   0e03     movlw	0x3                	MOVLW	0x03
+003620   cfdb     movff	0xfdb, 0x1         	MOVFF	PLUSW2, r0x01
+003622   f001
                                            ;	.line	20; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/arduinodelay.c	for (i=0;i<microsecondes;i++);
-003590   6a02     clrf	0x2, 0              	CLRF	r0x02
-003592   6a03     clrf	0x3, 0              	CLRF	r0x03
+003624   6a02     clrf	0x2, 0              	CLRF	r0x02
+003626   6a03     clrf	0x3, 0              	CLRF	r0x03
                                            _00466_DS_:
-003594   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
-003596   5c03     subwf	0x3, 0, 0          	SUBWF	r0x03, W
-003598   e102     bnz	0x359e               	BNZ	_00475_DS_
-00359a   5000     movf	0, 0, 0             	MOVF	r0x00, W
-00359c   5c02     subwf	0x2, 0, 0          	SUBWF	r0x02, W
+003628   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+00362a   5c03     subwf	0x3, 0, 0          	SUBWF	r0x03, W
+00362c   e102     bnz	0x3632               	BNZ	_00475_DS_
+00362e   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003630   5c02     subwf	0x2, 0, 0          	SUBWF	r0x02, W
                                            _00475_DS_:
-00359e   e204     bc	0x35a8                	BC	_00470_DS_
-0035a0   2a02     incf	0x2, 0x1, 0         	INCF	r0x02, F
-0035a2   b0d8     btfsc	0xd8, 0, 0         	BTFSC	STATUS, 0
-0035a4   2a03     incf	0x3, 0x1, 0         	INCF	r0x03, F
-0035a6   d7f6     bra	0x3594               	BRA	_00466_DS_
+003632   e204     bc	0x363c                	BC	_00470_DS_
+003634   2a02     incf	0x2, 0x1, 0         	INCF	r0x02, F
+003636   b0d8     btfsc	0xd8, 0, 0         	BTFSC	STATUS, 0
+003638   2a03     incf	0x3, 0x1, 0         	INCF	r0x03, F
+00363a   d7f6     bra	0x3628               	BRA	_00466_DS_
                                            _00470_DS_:
-0035a8   cfe4     movff	0xfe4, 0x3         	MOVFF	PREINC1, r0x03
-0035aa   f003
-0035ac   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
-0035ae   f002
-0035b0   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-0035b2   f001
-0035b4   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-0035b6   f000
-0035b8   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
-0035ba   ffd9
-0035bc   0012     return	0                 	RETURN	
+00363c   cfe4     movff	0xfe4, 0x3         	MOVFF	PREINC1, r0x03
+00363e   f003
+003640   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+003642   f002
+003644   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+003646   f001
+003648   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+00364a   f000
+00364c   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+00364e   ffd9
+003650   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__Delayms	code
@@ -873,386 +946,386 @@ Address  Value    Disassembly              Source
                                            S_main__analogread	code
                                            _analogread:
                                            ;	.line	24; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	unsigned int analogread(unsigned char channel)
-00347c   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
-00347e   ffe5
-003480   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
-003482   ffd9
-003484   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-003486   ffe5
-003488   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-00348a   ffe5
-00348c   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
-00348e   ffe5
-003490   c003     movff	0x3, 0xfe5         	MOVFF	r0x03, POSTDEC1
-003492   ffe5
-003494   0e02     movlw	0x2                	MOVLW	0x02
-003496   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
-003498   f000
+003510   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+003512   ffe5
+003514   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+003516   ffd9
+003518   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+00351a   ffe5
+00351c   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+00351e   ffe5
+003520   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+003522   ffe5
+003524   c003     movff	0x3, 0xfe5         	MOVFF	r0x03, POSTDEC1
+003526   ffe5
+003528   0e02     movlw	0x2                	MOVLW	0x02
+00352a   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+00352c   f000
                                            ;	.line	28; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON1=0x0A;
-00349a   0e0a     movlw	0xa                	MOVLW	0x0a
-00349c   6ec1     movwf	0xc1, 0            	MOVWF	_ADCON1
+00352e   0e0a     movlw	0xa                	MOVLW	0x0a
+003530   6ec1     movwf	0xc1, 0            	MOVWF	_ADCON1
                                            ;	.line	29; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON0=(channel-13)*4;
-00349e   0ef3     movlw	0xf3               	MOVLW	0xf3
-0034a0   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
+003532   0ef3     movlw	0xf3               	MOVLW	0xf3
+003534   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
                                            ; ;multiply lit val:0x04 by variable r0x00 and store in _ADCON0
                                            ; ;Unrolled 8 X 8 multiplication
                                            ; ;FIXME: the function does not support result==WREG
-0034a2   5000     movf	0, 0, 0             	MOVF	r0x00, W
-0034a4   0d04     mullw	0x4                	MULLW	0x04
-0034a6   cff3     movff	0xff3, 0xfc2       	MOVFF	PRODL, _ADCON0
-0034a8   ffc2
+003536   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003538   0d04     mullw	0x4                	MULLW	0x04
+00353a   cff3     movff	0xff3, 0xfc2       	MOVFF	PRODL, _ADCON0
+00353c   ffc2
                                            ;	.line	30; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON2=0xBD;
-0034aa   0ebd     movlw	0xbd               	MOVLW	0xbd
-0034ac   6ec0     movwf	0xc0, 0            	MOVWF	_ADCON2
+00353e   0ebd     movlw	0xbd               	MOVLW	0xbd
+003540   6ec0     movwf	0xc0, 0            	MOVWF	_ADCON2
                                            ;	.line	31; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON0bits.ADON=1;
-0034ae   80c2     bsf	0xc2, 0, 0           	BSF	_ADCON0bits, 0
+003542   80c2     bsf	0xc2, 0, 0           	BSF	_ADCON0bits, 0
                                            ;	.line	32; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	for (result=1;result<10;result++) __asm NOP __endasm;
-0034b0   0e09     movlw	0x9                	MOVLW	0x09
-0034b2   6e00     movwf	0, 0               	MOVWF	r0x00
-0034b4   6a01     clrf	0x1, 0              	CLRF	r0x01
+003544   0e09     movlw	0x9                	MOVLW	0x09
+003546   6e00     movwf	0, 0               	MOVWF	r0x00
+003548   6a01     clrf	0x1, 0              	CLRF	r0x01
                                            _00446_DS_:
-0034b6   0000     nop                      	NOP 
-0034b8   0eff     movlw	0xff               	MOVLW	0xff
-0034ba   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
-0034bc   a0d8     btfss	0xd8, 0, 0         	BTFSS	STATUS, 0
-0034be   0601     decf	0x1, 0x1, 0         	DECF	r0x01, F
-0034c0   5000     movf	0, 0, 0             	MOVF	r0x00, W
-0034c2   1001     iorwf	0x1, 0, 0          	IORWF	r0x01, W
-0034c4   e1f8     bnz	0x34b6               	BNZ	_00446_DS_
+00354a   0000     nop                      	NOP 
+00354c   0eff     movlw	0xff               	MOVLW	0xff
+00354e   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
+003550   a0d8     btfss	0xd8, 0, 0         	BTFSS	STATUS, 0
+003552   0601     decf	0x1, 0x1, 0         	DECF	r0x01, F
+003554   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003556   1001     iorwf	0x1, 0, 0          	IORWF	r0x01, W
+003558   e1f8     bnz	0x354a               	BNZ	_00446_DS_
                                            ;	.line	33; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON0bits.GO=1;
-0034c6   82c2     bsf	0xc2, 0x1, 0         	BSF	_ADCON0bits, 1
+00355a   82c2     bsf	0xc2, 0x1, 0         	BSF	_ADCON0bits, 1
                                            _00441_DS_:
                                            ;	.line	34; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	while (ADCON0bits.GO);
-0034c8   b2c2     btfsc	0xc2, 0x1, 0       	BTFSC	_ADCON0bits, 1
-0034ca   d7fe     bra	0x34c8               	BRA	_00441_DS_
+00355c   b2c2     btfsc	0xc2, 0x1, 0       	BTFSC	_ADCON0bits, 1
+00355e   d7fe     bra	0x355c               	BRA	_00441_DS_
                                            ;	.line	35; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	result=ADRESH<<8;
-0034cc   cfc4     movff	0xfc4, 0           	MOVFF	_ADRESH, r0x00
-0034ce   f000
-0034d0   6a01     clrf	0x1, 0              	CLRF	r0x01
-0034d2   5000     movf	0, 0, 0             	MOVF	r0x00, W
-0034d4   6e03     movwf	0x3, 0             	MOVWF	r0x03
-0034d6   6a02     clrf	0x2, 0              	CLRF	r0x02
+003560   cfc4     movff	0xfc4, 0           	MOVFF	_ADRESH, r0x00
+003562   f000
+003564   6a01     clrf	0x1, 0              	CLRF	r0x01
+003566   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003568   6e03     movwf	0x3, 0             	MOVWF	r0x03
+00356a   6a02     clrf	0x2, 0              	CLRF	r0x02
                                            ;	.line	36; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	result+=ADRESL;
-0034d8   cfc3     movff	0xfc3, 0           	MOVFF	_ADRESL, r0x00
-0034da   f000
-0034dc   6a01     clrf	0x1, 0              	CLRF	r0x01
-0034de   5000     movf	0, 0, 0             	MOVF	r0x00, W
-0034e0   2602     addwf	0x2, 0x1, 0        	ADDWF	r0x02, F
-0034e2   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
-0034e4   2203     addwfc	0x3, 0x1, 0       	ADDWFC	r0x03, F
+00356c   cfc3     movff	0xfc3, 0           	MOVFF	_ADRESL, r0x00
+00356e   f000
+003570   6a01     clrf	0x1, 0              	CLRF	r0x01
+003572   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003574   2602     addwf	0x2, 0x1, 0        	ADDWF	r0x02, F
+003576   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+003578   2203     addwfc	0x3, 0x1, 0       	ADDWFC	r0x03, F
                                            ;	.line	37; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON0bits.ADON=0;
-0034e6   90c2     bcf	0xc2, 0, 0           	BCF	_ADCON0bits, 0
+00357a   90c2     bcf	0xc2, 0, 0           	BCF	_ADCON0bits, 0
                                            ;	.line	38; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	return(result);
-0034e8   c003     movff	0x3, 0xff3         	MOVFF	r0x03, PRODL
-0034ea   fff3
-0034ec   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
-0034ee   cfe4     movff	0xfe4, 0x3         	MOVFF	PREINC1, r0x03
-0034f0   f003
-0034f2   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
-0034f4   f002
-0034f6   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-0034f8   f001
-0034fa   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-0034fc   f000
-0034fe   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
-003500   ffd9
-003502   0012     return	0                 	RETURN	
+00357c   c003     movff	0x3, 0xff3         	MOVFF	r0x03, PRODL
+00357e   fff3
+003580   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003582   cfe4     movff	0xfe4, 0x3         	MOVFF	PREINC1, r0x03
+003584   f003
+003586   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+003588   f002
+00358a   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+00358c   f001
+00358e   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+003590   f000
+003592   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+003594   ffd9
+003596   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__analog_init	code
                                            _analog_init:
                                            ;	.line	13; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	TRISA=TRISA | 0x2F;
-0037bc   0e2f     movlw	0x2f               	MOVLW	0x2f
-0037be   1292     iorwf	0x92, 0x1, 0       	IORWF	_TRISA, F
+003836   0e2f     movlw	0x2f               	MOVLW	0x2f
+003838   1292     iorwf	0x92, 0x1, 0       	IORWF	_TRISA, F
                                            ;	.line	14; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	TRISE=TRISE | 0x07;
-0037c0   0e07     movlw	0x7                	MOVLW	0x07
-0037c2   1296     iorwf	0x96, 0x1, 0       	IORWF	_TRISE, F
+00383a   0e07     movlw	0x7                	MOVLW	0x07
+00383c   1296     iorwf	0x96, 0x1, 0       	IORWF	_TRISE, F
                                            ;	.line	15; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON1=0x07;
-0037c4   6ec1     movwf	0xc1, 0            	MOVWF	_ADCON1
+00383e   6ec1     movwf	0xc1, 0            	MOVWF	_ADCON1
                                            ;	.line	16; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/analog.c	ADCON2=0xBD;
-0037c6   0ebd     movlw	0xbd               	MOVLW	0xbd
-0037c8   6ec0     movwf	0xc0, 0            	MOVWF	_ADCON2
-0037ca   0012     return	0                 	RETURN	
+003840   0ebd     movlw	0xbd               	MOVLW	0xbd
+003842   6ec0     movwf	0xc0, 0            	MOVWF	_ADCON2
+003844   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__servos_interrupt	code
                                            _servos_interrupt:
                                            ;	.line	288; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if (PIR1bits.TMR1IF) {
-003608   a09e     btfss	0x9e, 0, 0         	BTFSS	_PIR1bits, 0
-00360a   d020     bra	0x364c               	BRA	_00431_DS_
+00369c   a09e     btfss	0x9e, 0, 0         	BTFSS	_PIR1bits, 0
+00369e   d020     bra	0x36e0               	BRA	_00431_DS_
                                            ;	.line	289; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	PIR1bits.TMR1IF=0;
-00360c   909e     bcf	0x9e, 0, 0           	BCF	_PIR1bits, 0
+0036a0   909e     bcf	0x9e, 0, 0           	BCF	_PIR1bits, 0
                                            ;	.line	290; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	T1CON=0x00;
-00360e   6acd     clrf	0xcd, 0             	CLRF	_T1CON
-003610   0102     movlb	0x2                	BANKSEL	_phase
+0036a2   6acd     clrf	0xcd, 0             	CLRF	_T1CON
+0036a4   0102     movlb	0x2                	BANKSEL	_phase
                                            ;	.line	291; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if (phase) {
-003612   515b     movf	0x5b, 0, 0x1        	MOVF	_phase, W, B
-003614   e00b     bz	0x362c                	BZ	_00427_DS_
+0036a6   515b     movf	0x5b, 0, 0x1        	MOVF	_phase, W, B
+0036a8   e00b     bz	0x36c0                	BZ	_00427_DS_
                                            ;	.line	293; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	ServosPulseUp();
-003616   ece6     call	0x37cc, 0           	CALL	_ServosPulseUp
-003618   f01b
+0036aa   ec23     call	0x3846, 0           	CALL	_ServosPulseUp
+0036ac   f01c
                                            ;	.line	295; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	TMR1H= 0xd3;
-00361a   0ed3     movlw	0xd3               	MOVLW	0xd3
-00361c   6ecf     movwf	0xcf, 0            	MOVWF	_TMR1H
+0036ae   0ed3     movlw	0xd3               	MOVLW	0xd3
+0036b0   6ecf     movwf	0xcf, 0            	MOVWF	_TMR1H
                                            ;	.line	296; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	TMR1L= 0x8f;
-00361e   0e8f     movlw	0x8f               	MOVLW	0x8f
-003620   6ece     movwf	0xce, 0            	MOVWF	_TMR1L
+0036b2   0e8f     movlw	0x8f               	MOVLW	0x8f
+0036b4   6ece     movwf	0xce, 0            	MOVWF	_TMR1L
                                            ;	.line	298; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	T1CON=1;
-003622   0e01     movlw	0x1                	MOVLW	0x01
-003624   6ecd     movwf	0xcd, 0            	MOVWF	_T1CON
-003626   0102     movlb	0x2                	BANKSEL	_phase
+0036b6   0e01     movlw	0x1                	MOVLW	0x01
+0036b8   6ecd     movwf	0xcd, 0            	MOVWF	_T1CON
+0036ba   0102     movlb	0x2                	BANKSEL	_phase
                                            ;	.line	299; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	phase = 0;
-003628   6b5b     clrf	0x5b, 0x1           	CLRF	_phase, B
-00362a   d010     bra	0x364c               	BRA	_00431_DS_
+0036bc   6b5b     clrf	0x5b, 0x1           	CLRF	_phase, B
+0036be   d010     bra	0x36e0               	BRA	_00431_DS_
                                            _00427_DS_:
                                            ;	.line	304; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	ServosPulseDown();
-00362c   ec44     call	0x3288, 0           	CALL	_ServosPulseDown
-00362e   f019
+0036c0   ec44     call	0x3288, 0           	CALL	_ServosPulseDown
+0036c2   f019
                                            ;	.line	308; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	TMR1H= 0x2d;
-003630   0e2d     movlw	0x2d               	MOVLW	0x2d
-003632   6ecf     movwf	0xcf, 0            	MOVWF	_TMR1H
+0036c4   0e2d     movlw	0x2d               	MOVLW	0x2d
+0036c6   6ecf     movwf	0xcf, 0            	MOVWF	_TMR1H
                                            ;	.line	309; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	TMR1L= 0x0f;
-003634   0e0f     movlw	0xf                	MOVLW	0x0f
-003636   6ece     movwf	0xce, 0            	MOVWF	_TMR1L
+0036c8   0e0f     movlw	0xf                	MOVLW	0x0f
+0036ca   6ece     movwf	0xce, 0            	MOVWF	_TMR1L
                                            ; #	MOVF	_needreordering, W, B
                                            ; #	BTFSC	STATUS, 2
                                            ; #	GOTO	_00425_DS_
                                            ; #	CALL	_SortServoTimings
                                            ; #	MOVLW	0x21
-003638   0102     movlb	0x2                	BANKSEL	_needreordering
+0036cc   0102     movlb	0x2                	BANKSEL	_needreordering
                                            ;	.line	311; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if (needreordering)	
-00363a   515c     movf	0x5c, 0, 0x1        	MOVF	_needreordering, W, B
+0036ce   515c     movf	0x5c, 0, 0x1        	MOVF	_needreordering, W, B
                                            ;	.line	312; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	SortServoTimings();  // This takes more than 1 ms, but it's call only if needed.
-00363c   a4d8     btfss	0xd8, 0x2, 0       	BTFSS	STATUS, 2
+0036d0   a4d8     btfss	0xd8, 0x2, 0       	BTFSS	STATUS, 2
                                            ;	.line	313; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	T1CON= ( 1 | 2 << 4 ) ; // activate timer1 and prescaler = 1:4
-00363e   ec37     call	0x206e, 0           	CALL	_SortServoTimings
-003640   f010
-003642   0e21     movlw	0x21               	MOVLW	0x21
-003644   6ecd     movwf	0xcd, 0            	MOVWF	_T1CON
+0036d2   ec37     call	0x206e, 0           	CALL	_SortServoTimings
+0036d4   f010
+0036d6   0e21     movlw	0x21               	MOVLW	0x21
+0036d8   6ecd     movwf	0xcd, 0            	MOVWF	_T1CON
                                            ;	.line	314; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	phase = 1;  //This indicates that after next interrupt it will start the servos cycle.
-003646   0e01     movlw	0x1                	MOVLW	0x01
-003648   0102     movlb	0x2                	BANKSEL	_phase
-00364a   6f5b     movwf	0x5b, 0x1          	MOVWF	_phase, B
+0036da   0e01     movlw	0x1                	MOVLW	0x01
+0036dc   0102     movlb	0x2                	BANKSEL	_phase
+0036de   6f5b     movwf	0x5b, 0x1          	MOVWF	_phase, B
                                            _00431_DS_:
                                            ;	.line	317; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	return;
-00364c   0012     return	0                 	RETURN	
+0036e0   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__ServoMaximumPulse	code
                                            _ServoMaximumPulse:
                                            ;	.line	273; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	void ServoMaximumPulse(uchar servo)
-00364e   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
-003650   ffe5
-003652   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
-003654   ffd9
-003656   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-003658   ffe5
-00365a   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-00365c   ffe5
-00365e   0e02     movlw	0x2                	MOVLW	0x02
-003660   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
-003662   f000
+0036e2   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+0036e4   ffe5
+0036e6   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+0036e8   ffd9
+0036ea   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+0036ec   ffe5
+0036ee   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+0036f0   ffe5
+0036f2   0e02     movlw	0x2                	MOVLW	0x02
+0036f4   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+0036f6   f000
                                            ;	.line	275; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if(servo>=18)        // test if numservo is valid
-003664   0e12     movlw	0x12               	MOVLW	0x12
+0036f8   0e12     movlw	0x12               	MOVLW	0x12
                                            ; #	SUBWF	r0x00, W
                                            ; #	BTFSS	STATUS, 0
                                            ; #	GOTO	_00415_DS_
                                            ; #	GOTO	_00416_DS_
                                            ; #	CLRF	r0x01
                                            ;	.line	276; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	return;
-003666   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+0036fa   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
                                            ;	.line	278; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	servovalues[servo]=SERVOMAX;  //  250 = 2000 useg pulse
-003668   e20e     bc	0x3686                	BC	_00416_DS_
-00366a   6a01     clrf	0x1, 0              	CLRF	r0x01
-00366c   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
-00366e   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
-003670   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
-003672   2201     addwfc	0x1, 0x1, 0       	ADDWFC	r0x01, F
-003674   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
-003676   ffe9
-003678   c001     movff	0x1, 0xfea         	MOVFF	r0x01, FSR0H
-00367a   ffea
-00367c   0efa     movlw	0xfa               	MOVLW	0xfa
-00367e   6eef     movwf	0xef, 0            	MOVWF	INDF0
+0036fc   e20e     bc	0x371a                	BC	_00416_DS_
+0036fe   6a01     clrf	0x1, 0              	CLRF	r0x01
+003700   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
+003702   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
+003704   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
+003706   2201     addwfc	0x1, 0x1, 0       	ADDWFC	r0x01, F
+003708   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
+00370a   ffe9
+00370c   c001     movff	0x1, 0xfea         	MOVFF	r0x01, FSR0H
+00370e   ffea
+003710   0efa     movlw	0xfa               	MOVLW	0xfa
+003712   6eef     movwf	0xef, 0            	MOVWF	INDF0
                                            ;	.line	280; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
-003680   0e01     movlw	0x1                	MOVLW	0x01
-003682   0102     movlb	0x2                	BANKSEL	_needreordering
-003684   6f5c     movwf	0x5c, 0x1          	MOVWF	_needreordering, B
+003714   0e01     movlw	0x1                	MOVLW	0x01
+003716   0102     movlb	0x2                	BANKSEL	_needreordering
+003718   6f5c     movwf	0x5c, 0x1          	MOVWF	_needreordering, B
                                            _00416_DS_:
-003686   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-003688   f001
-00368a   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-00368c   f000
-00368e   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
-003690   ffd9
-003692   0012     return	0                 	RETURN	
+00371a   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+00371c   f001
+00371e   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+003720   f000
+003722   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+003724   ffd9
+003726   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__ServoMinimumPulse	code
                                            _ServoMinimumPulse:
                                            ;	.line	262; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	void ServoMinimumPulse(uchar servo)
-0036da   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
-0036dc   ffe5
-0036de   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
-0036e0   ffd9
-0036e2   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-0036e4   ffe5
-0036e6   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-0036e8   ffe5
-0036ea   0e02     movlw	0x2                	MOVLW	0x02
-0036ec   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
-0036ee   f000
+00376e   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+003770   ffe5
+003772   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+003774   ffd9
+003776   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+003778   ffe5
+00377a   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+00377c   ffe5
+00377e   0e02     movlw	0x2                	MOVLW	0x02
+003780   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+003782   f000
                                            ;	.line	264; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if(servo>=18)        // test if numservo is valid
-0036f0   0e12     movlw	0x12               	MOVLW	0x12
+003784   0e12     movlw	0x12               	MOVLW	0x12
                                            ; #	SUBWF	r0x00, W
                                            ; #	BTFSS	STATUS, 0
                                            ; #	GOTO	_00405_DS_
                                            ; #	GOTO	_00406_DS_
                                            ; #	CLRF	r0x01
                                            ;	.line	265; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	return;
-0036f2   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+003786   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
                                            ;	.line	267; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	servovalues[servo]=SERVOMIN;  //  1 = 1000 useg pulse
-0036f4   e20d     bc	0x3710                	BC	_00406_DS_
-0036f6   6a01     clrf	0x1, 0              	CLRF	r0x01
-0036f8   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
-0036fa   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
-0036fc   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
-0036fe   2201     addwfc	0x1, 0x1, 0       	ADDWFC	r0x01, F
-003700   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
-003702   ffe9
-003704   c001     movff	0x1, 0xfea         	MOVFF	r0x01, FSR0H
-003706   ffea
-003708   0e01     movlw	0x1                	MOVLW	0x01
-00370a   6eef     movwf	0xef, 0            	MOVWF	INDF0
-00370c   0102     movlb	0x2                	BANKSEL	_needreordering
+003788   e20d     bc	0x37a4                	BC	_00406_DS_
+00378a   6a01     clrf	0x1, 0              	CLRF	r0x01
+00378c   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
+00378e   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
+003790   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
+003792   2201     addwfc	0x1, 0x1, 0       	ADDWFC	r0x01, F
+003794   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
+003796   ffe9
+003798   c001     movff	0x1, 0xfea         	MOVFF	r0x01, FSR0H
+00379a   ffea
+00379c   0e01     movlw	0x1                	MOVLW	0x01
+00379e   6eef     movwf	0xef, 0            	MOVWF	INDF0
+0037a0   0102     movlb	0x2                	BANKSEL	_needreordering
                                            ;	.line	269; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
-00370e   6f5c     movwf	0x5c, 0x1          	MOVWF	_needreordering, B
+0037a2   6f5c     movwf	0x5c, 0x1          	MOVWF	_needreordering, B
                                            _00406_DS_:
-003710   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-003712   f001
-003714   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-003716   f000
-003718   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
-00371a   ffd9
-00371c   0012     return	0                 	RETURN	
+0037a4   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+0037a6   f001
+0037a8   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+0037aa   f000
+0037ac   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+0037ae   ffd9
+0037b0   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__ServoRead	code
                                            _ServoRead:
                                            ;	.line	254; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	unsigned char ServoRead(uchar servo)
-003694   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
-003696   ffe5
-003698   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
-00369a   ffd9
-00369c   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-00369e   ffe5
-0036a0   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-0036a2   ffe5
-0036a4   0e02     movlw	0x2                	MOVLW	0x02
-0036a6   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
-0036a8   f000
+003728   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+00372a   ffe5
+00372c   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+00372e   ffd9
+003730   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+003732   ffe5
+003734   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+003736   ffe5
+003738   0e02     movlw	0x2                	MOVLW	0x02
+00373a   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+00373c   f000
                                            ;	.line	256; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if(servo>=18)        // test if numservo is valid
-0036aa   0e12     movlw	0x12               	MOVLW	0x12
-0036ac   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
-0036ae   e302     bnc	0x36b4               	BNC	_00395_DS_
+00373e   0e12     movlw	0x12               	MOVLW	0x12
+003740   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+003742   e302     bnc	0x3748               	BNC	_00395_DS_
                                            ;	.line	257; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	return 0;
-0036b0   6ae8     clrf	0xe8, 0             	CLRF	WREG
-0036b2   d00c     bra	0x36cc               	BRA	_00396_DS_
+003744   6ae8     clrf	0xe8, 0             	CLRF	WREG
+003746   d00c     bra	0x3760               	BRA	_00396_DS_
                                            _00395_DS_:
                                            ;	.line	258; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	return servovalues[servo];
-0036b4   6a01     clrf	0x1, 0              	CLRF	r0x01
-0036b6   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
-0036b8   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
-0036ba   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
-0036bc   2201     addwfc	0x1, 0x1, 0       	ADDWFC	r0x01, F
-0036be   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
-0036c0   ffe9
-0036c2   c001     movff	0x1, 0xfea         	MOVFF	r0x01, FSR0H
-0036c4   ffea
-0036c6   cfef     movff	0xfef, 0           	MOVFF	INDF0, r0x00
-0036c8   f000
-0036ca   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003748   6a01     clrf	0x1, 0              	CLRF	r0x01
+00374a   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
+00374c   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
+00374e   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
+003750   2201     addwfc	0x1, 0x1, 0       	ADDWFC	r0x01, F
+003752   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
+003754   ffe9
+003756   c001     movff	0x1, 0xfea         	MOVFF	r0x01, FSR0H
+003758   ffea
+00375a   cfef     movff	0xfef, 0           	MOVFF	INDF0, r0x00
+00375c   f000
+00375e   5000     movf	0, 0, 0             	MOVF	r0x00, W
                                            _00396_DS_:
-0036cc   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-0036ce   f001
-0036d0   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-0036d2   f000
-0036d4   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
-0036d6   ffd9
-0036d8   0012     return	0                 	RETURN	
+003760   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+003762   f001
+003764   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+003766   f000
+003768   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+00376a   ffd9
+00376c   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__ServoWrite	code
                                            _ServoWrite:
                                            ;	.line	239; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	void ServoWrite(uchar servo, uchar value)
-003504   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
-003506   ffe5
-003508   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
-00350a   ffd9
-00350c   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-00350e   ffe5
-003510   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-003512   ffe5
-003514   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
-003516   ffe5
-003518   0e02     movlw	0x2                	MOVLW	0x02
-00351a   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
-00351c   f000
-00351e   0e03     movlw	0x3                	MOVLW	0x03
-003520   cfdb     movff	0xfdb, 0x1         	MOVFF	PLUSW2, r0x01
-003522   f001
+003598   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+00359a   ffe5
+00359c   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+00359e   ffd9
+0035a0   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+0035a2   ffe5
+0035a4   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+0035a6   ffe5
+0035a8   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+0035aa   ffe5
+0035ac   0e02     movlw	0x2                	MOVLW	0x02
+0035ae   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+0035b0   f000
+0035b2   0e03     movlw	0x3                	MOVLW	0x03
+0035b4   cfdb     movff	0xfdb, 0x1         	MOVFF	PLUSW2, r0x01
+0035b6   f001
                                            ;	.line	241; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if(servo>=18)        // test if numservo is valid
-003524   0e12     movlw	0x12               	MOVLW	0x12
+0035b8   0e12     movlw	0x12               	MOVLW	0x12
                                            ; #	SUBWF	r0x00, W
                                            ; #	BTFSS	STATUS, 0
                                            ; #	GOTO	_00377_DS_
                                            ; #	GOTO	_00382_DS_
                                            ; #	MOVLW	0x01
                                            ;	.line	242; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	return;
-003526   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+0035ba   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
                                            ;	.line	244; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if(value<SERVOMIN)  //  1 = 1000 useg pulse
-003528   e218     bc	0x355a                	BC	_00382_DS_
-00352a   0e01     movlw	0x1                	MOVLW	0x01
-00352c   5c01     subwf	0x1, 0, 0          	SUBWF	r0x01, W
-00352e   e202     bc	0x3534                	BC	_00379_DS_
+0035bc   e218     bc	0x35ee                	BC	_00382_DS_
+0035be   0e01     movlw	0x1                	MOVLW	0x01
+0035c0   5c01     subwf	0x1, 0, 0          	SUBWF	r0x01, W
+0035c2   e202     bc	0x35c8                	BC	_00379_DS_
                                            ;	.line	245; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	value=SERVOMIN;
-003530   0e01     movlw	0x1                	MOVLW	0x01
-003532   6e01     movwf	0x1, 0             	MOVWF	r0x01
+0035c4   0e01     movlw	0x1                	MOVLW	0x01
+0035c6   6e01     movwf	0x1, 0             	MOVWF	r0x01
                                            _00379_DS_:
                                            ;	.line	246; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	if(value>SERVOMAX) // 250 = 2000 useg pulse
-003534   0efb     movlw	0xfb               	MOVLW	0xfb
-003536   5c01     subwf	0x1, 0, 0          	SUBWF	r0x01, W
-003538   e302     bnc	0x353e               	BNC	_00381_DS_
+0035c8   0efb     movlw	0xfb               	MOVLW	0xfb
+0035ca   5c01     subwf	0x1, 0, 0          	SUBWF	r0x01, W
+0035cc   e302     bnc	0x35d2               	BNC	_00381_DS_
                                            ;	.line	247; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	value=SERVOMAX;
-00353a   0efa     movlw	0xfa               	MOVLW	0xfa
-00353c   6e01     movwf	0x1, 0             	MOVWF	r0x01
+0035ce   0efa     movlw	0xfa               	MOVLW	0xfa
+0035d0   6e01     movwf	0x1, 0             	MOVWF	r0x01
                                            _00381_DS_:
                                            ;	.line	248; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	servovalues[servo]=value;
-00353e   6a02     clrf	0x2, 0              	CLRF	r0x02
-003540   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
-003542   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
-003544   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
-003546   2202     addwfc	0x2, 0x1, 0       	ADDWFC	r0x02, F
-003548   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
-00354a   ffe9
-00354c   c002     movff	0x2, 0xfea         	MOVFF	r0x02, FSR0H
-00354e   ffea
-003550   c001     movff	0x1, 0xfef         	MOVFF	r0x01, INDF0
-003552   ffef
+0035d2   6a02     clrf	0x2, 0              	CLRF	r0x02
+0035d4   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
+0035d6   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
+0035d8   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
+0035da   2202     addwfc	0x2, 0x1, 0       	ADDWFC	r0x02, F
+0035dc   c000     movff	0, 0xfe9           	MOVFF	r0x00, FSR0L
+0035de   ffe9
+0035e0   c002     movff	0x2, 0xfea         	MOVFF	r0x02, FSR0H
+0035e2   ffea
+0035e4   c001     movff	0x1, 0xfef         	MOVFF	r0x01, INDF0
+0035e6   ffef
                                            ;	.line	250; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
-003554   0e01     movlw	0x1                	MOVLW	0x01
-003556   0102     movlb	0x2                	BANKSEL	_needreordering
-003558   6f5c     movwf	0x5c, 0x1          	MOVWF	_needreordering, B
+0035e8   0e01     movlw	0x1                	MOVLW	0x01
+0035ea   0102     movlb	0x2                	BANKSEL	_needreordering
+0035ec   6f5c     movwf	0x5c, 0x1          	MOVWF	_needreordering, B
                                            _00382_DS_:
-00355a   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
-00355c   f002
-00355e   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-003560   f001
-003562   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-003564   f000
-003566   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
-003568   ffd9
-00356a   0012     return	0                 	RETURN	
+0035ee   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+0035f0   f002
+0035f2   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+0035f4   f001
+0035f6   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+0035f8   f000
+0035fa   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+0035fc   ffd9
+0035fe   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__ServoDetach	code
@@ -2169,15 +2242,15 @@ Address  Value    Disassembly              Source
                                            S_main__ServosPulseUp	code
                                            _ServosPulseUp:
                                            ;	.line	118; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	PORTB = activatedservos[MaskPort_B] & 0xFF;
-0037cc   c25e     movff	0x25e, 0xf81       	MOVFF	_activatedservos, _PORTB
-0037ce   ff81
+003846   c25e     movff	0x25e, 0xf81       	MOVFF	_activatedservos, _PORTB
+003848   ff81
                                            ;	.line	119; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	PORTC = activatedservos[MaskPort_C] & 0xFF;
-0037d0   c25f     movff	0x25f, 0xf82       	MOVFF	(_activatedservos + 1), _PORTC
-0037d2   ff82
+00384a   c25f     movff	0x25f, 0xf82       	MOVFF	(_activatedservos + 1), _PORTC
+00384c   ff82
                                            ;	.line	120; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	PORTA = activatedservos[MaskPort_A] & 0xFF;	
-0037d4   c260     movff	0x260, 0xf80       	MOVFF	(_activatedservos + 2), _PORTA
-0037d6   ff80
-0037d8   0012     return	0                 	RETURN	
+00384e   c260     movff	0x260, 0xf80       	MOVFF	(_activatedservos + 2), _PORTA
+003850   ff80
+003852   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__ServosPulseDown	code
@@ -2298,52 +2371,52 @@ Address  Value    Disassembly              Source
                                            S_main__servos_init	code
                                            _servos_init:
                                            ;	.line	71; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	void servos_init()
-0035be   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
-0035c0   ffe5
-0035c2   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
-0035c4   ffe5
-0035c6   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
-0035c8   ffe5
+003652   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+003654   ffe5
+003656   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+003658   ffe5
+00365a   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+00365c   ffe5
                                            ;	.line	75; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	for(a=0;a<18;a++) servovalues[a]=255;
-0035ca   6a00     clrf	0, 0                	CLRF	r0x00
+00365e   6a00     clrf	0, 0                	CLRF	r0x00
                                            _00210_DS_:
-0035cc   0e12     movlw	0x12               	MOVLW	0x12
-0035ce   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
-0035d0   e20d     bc	0x35ec                	BC	_00213_DS_
-0035d2   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
-0035d4   2400     addwf	0, 0, 0            	ADDWF	r0x00, W
-0035d6   6e01     movwf	0x1, 0             	MOVWF	r0x01
-0035d8   6a02     clrf	0x2, 0              	CLRF	r0x02
-0035da   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
-0035dc   2202     addwfc	0x2, 0x1, 0       	ADDWFC	r0x02, F
-0035de   c001     movff	0x1, 0xfe9         	MOVFF	r0x01, FSR0L
-0035e0   ffe9
-0035e2   c002     movff	0x2, 0xfea         	MOVFF	r0x02, FSR0H
-0035e4   ffea
-0035e6   68ef     setf	0xef, 0             	SETF	INDF0
-0035e8   2a00     incf	0, 0x1, 0           	INCF	r0x00, F
-0035ea   d7f0     bra	0x35cc               	BRA	_00210_DS_
+003660   0e12     movlw	0x12               	MOVLW	0x12
+003662   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+003664   e20d     bc	0x3680                	BC	_00213_DS_
+003666   0e48     movlw	0x48               	MOVLW	LOW(_servovalues)
+003668   2400     addwf	0, 0, 0            	ADDWF	r0x00, W
+00366a   6e01     movwf	0x1, 0             	MOVWF	r0x01
+00366c   6a02     clrf	0x2, 0              	CLRF	r0x02
+00366e   0e02     movlw	0x2                	MOVLW	HIGH(_servovalues)
+003670   2202     addwfc	0x2, 0x1, 0       	ADDWFC	r0x02, F
+003672   c001     movff	0x1, 0xfe9         	MOVFF	r0x01, FSR0L
+003674   ffe9
+003676   c002     movff	0x2, 0xfea         	MOVFF	r0x02, FSR0H
+003678   ffea
+00367a   68ef     setf	0xef, 0             	SETF	INDF0
+00367c   2a00     incf	0, 0x1, 0           	INCF	r0x00, F
+00367e   d7f0     bra	0x3660               	BRA	_00210_DS_
                                            _00213_DS_:
                                            ;	.line	78; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	TMR1H=0xFF;
-0035ec   68cf     setf	0xcf, 0             	SETF	_TMR1H
+003680   68cf     setf	0xcf, 0             	SETF	_TMR1H
                                            ;	.line	79; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	TMR1L=0x00;
-0035ee   6ace     clrf	0xce, 0             	CLRF	_TMR1L
+003682   6ace     clrf	0xce, 0             	CLRF	_TMR1L
                                            ;	.line	81; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	T1CON=0x01;
-0035f0   0e01     movlw	0x1                	MOVLW	0x01
-0035f2   6ecd     movwf	0xcd, 0            	MOVWF	_T1CON
+003684   0e01     movlw	0x1                	MOVLW	0x01
+003686   6ecd     movwf	0xcd, 0            	MOVWF	_T1CON
                                            ;	.line	83; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	PIE1bits.TMR1IE=1;
-0035f4   809d     bsf	0x9d, 0, 0           	BSF	_PIE1bits, 0
+003688   809d     bsf	0x9d, 0, 0           	BSF	_PIE1bits, 0
                                            ;	.line	85; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	INTCONbits.PEIE=1;
-0035f6   8cf2     bsf	0xf2, 0x6, 0         	BSF	_INTCONbits, 6
+00368a   8cf2     bsf	0xf2, 0x6, 0         	BSF	_INTCONbits, 6
                                            ;	.line	87; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/servos.c	INTCONbits.GIE=1;
-0035f8   8ef2     bsf	0xf2, 0x7, 0         	BSF	_INTCONbits, 7
-0035fa   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
-0035fc   f002
-0035fe   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
-003600   f001
-003602   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
-003604   f000
-003606   0012     return	0                 	RETURN	
+00368c   8ef2     bsf	0xf2, 0x7, 0         	BSF	_INTCONbits, 7
+00368e   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+003690   f002
+003692   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+003694   f001
+003696   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+003698   f000
+00369a   0012     return	0                 	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_main__pinmode	code
@@ -3464,8 +3537,8 @@ Address  Value    Disassembly              Source
                                            
                                            
                                            ; Statistics:
-                                           ; code size:	 5110 (0x13f6) bytes ( 3.90%)
-                                           ;           	 2555 (0x09fb) words
+                                           ; code size:	 5232 (0x1470) bytes ( 3.99%)
+                                           ;           	 2616 (0x0a38) words
                                            ; udata size:	   96 (0x0060) bytes ( 5.36%)
                                            ; access size:	   10 (0x000a) bytes
                                            

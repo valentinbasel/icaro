@@ -20,7 +20,6 @@ import sys
 import gobject
 import pygame
 from subprocess import Popen,PIPE,STDOUT
-
 import carga, abrir, nuevo, guardar, crear, navegador, visor, texto
 from componente_inicial import *
 from componente import *
@@ -90,7 +89,6 @@ class fondo(pygame.sprite.Sprite):
 # ==============================================================================
 # VENTANA
 # ==============================================================================
-
 class Ventana:
 
     # variables globales para manejar posicion del mouse, clicks y pulsaciones
@@ -108,38 +106,7 @@ class Ventana:
     seleccion_menu=1
     tipo_componente=1
     diccionario={
-                1:["activar ",1,1,(100,90,100)],
-                2:["robot ",1,2,(0,190,10)],
-                3:["servo ",1,2,(0,50,100)],
-                4:["servos ",1,5,(0,190,100)],
-                5:["pausa ",1,1,(0,90,100)],
-                6:["numero ",7,1,(100,150,80),"0 ","0"],
-                7:["adelante ",6,1,(100,50,80),"96 ","96"],
-                8:["atras ",6,1,(100,50,80),"144 ","144"],
-                9:["izquierda ",6,1,(100,50,80),"64 ","64"],
-                10:["derecha ",6,1,(100,50,80),"32 ","32"],
-                11:["si ",5,(200,190,0),"fin "],
-                12:["igual ",6,0,(189,50,10),"= ","=="],
-                13:["desigual",6,0,(19,49,0),"!= ","!="],
-                14:["menor ",6,0,(10,190,0),"< ","<"],
-                15:["mayor ",6,0,(9,100,190),"> ",">"],
-                16:["sensordig1 ",6,0,(90,200,90),"dig 1 ","digitalread(21) "],
-                17:["sensordig2 ",6,0,(190,0,90),"dig 2 ","digitalread(22) "],
-                18:["sensordig3 ",6,0,(21,200,78),"dig 3 ","digitalread(23) " ],
-                19:["sensordig4 ",6,0,(56,200,90),"dig 4 ","digitalread(24) "],
-                20:["servo1 ",6,0,(100,190,90),"srv1 ","10"],
-                21:["servo2 ",6,0,(170,90,90),"srv2 ","11"],
-                22:["servo3 ",6,0,(180,10,90),"srv3 ","12"],
-                23:["servo4 ",6,0,(120,190,90),"srv4 ","9"],
-                24:["servo5 ",6,0,(102,190,190),"srv5 ","9"],
-                25:["mientras ",5,(10,30,90),"fin "],
-                26:["verdadero ",6,0,(160,50,210),"1 ","1 "],
-                27:["falso ",6,0,(0,50,150),"0 ","0 "],
-                28:["siguiente ",4,(120,130,90)],
-                29:["var ",1,2,(10,90,10)],
-                30:["linea ",1,1,(10,90,10)],
-                31:["sensoran1 ",6,0,(56,200,90),"dig 4 ","analogread(13) "],
-                32:["masmas ",6,1,(0,50,80),"++ ","++"],
+
                 }
     lista=[]
     def __init__(self):
@@ -162,6 +129,7 @@ class Ventana:
         ################################################
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
+        self.carga_dicc()
         self.lista=self.diccionario.keys()
         self.lista.sort()
         #declaro la ventana principal
@@ -298,40 +266,57 @@ class Ventana:
         scrolled_window2.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         scrolled_window2.show()
         #declaro la tabla  donde van los botones para el menu de bloques
+
         table=gtk.VBox(False, len(self.lista))
-        scrolled_window2.add_with_viewport(table)
-        table.show()
+        notebook = gtk.Notebook()
+        notebook.set_tab_pos(gtk.POS_RIGHT)
+#        notebook.show()
+
+#
+        scrolled_window2.add_with_viewport(notebook)
+
+        label = gtk.Label(self.diccionario[self.lista[0]][1])
+        notebook.append_page(table,label)
         # box1 es el contenedor principal despues de la ventana
         box1 = gtk.VBox(False, 3)
         # box2 es el segundo en importancia
         box2 = gtk.HBox(False, 2)
-        buffer = self.diccionario[self.lista[0]][0]
+        buffer = self.diccionario[self.lista[1]][0]
         caja = self.imagen_boton(
-                                self.diccionario[self.lista[0]][0],
-                                self.diccionario[self.lista[0]][0]
+                                self.diccionario[self.lista[1]][0],
+                                self.diccionario[self.lista[1]][0]
                                 )
         button = gtk.RadioButton()
         button.set_tooltip_text("prueba")
         # bucle principal donde se cargan los RAdioButton donde se cargan
         # los componentes del diccionario
-        button.add(caja)
-        button.connect("clicked", self.botones,self.lista[0])#buffer
-        table.pack_start(button, False, True, 0)
-        button.show()
-        for i in range(1,len(self.lista)):
-            buffer = self.diccionario[self.lista[i]][0]
-            caja = self.imagen_boton(
-                                    self.diccionario[self.lista[i]][0],
-                                    self.diccionario[self.lista[i]][0]
-                                    )
-            button = gtk.RadioButton(button)
-            button.set_tooltip_text("prueba")
-            button.add(caja)
-            button.connect("clicked", self.botones,self.lista[i])#buffer
-            table.pack_start(button, False, True, 0)
-            button.show()
 
-        #empaqueto todo
+
+        button.add(caja)
+        button.connect("clicked", self.botones,self.lista[1])#buffer
+
+        button.show()
+        table.pack_start(button, False, True, 0)
+
+        for i in range(2,len(self.lista)):
+            if self.diccionario[self.lista[i]][0]=="notebook":
+                table=gtk.VBox(False, len(self.lista))
+                label = gtk.Label(self.diccionario[self.lista[i]][1])
+                notebook.append_page(table,label)
+            else:
+                buffer = self.diccionario[self.lista[i]][0]
+                caja = self.imagen_boton(
+                                        self.diccionario[self.lista[i]][0],
+                                        self.diccionario[self.lista[i]][0]
+                                        )
+                button = gtk.RadioButton(button)
+    #            button.set_tooltip_text("prueba")
+                button.add(caja)
+                button.connect("clicked", self.botones,self.lista[i])#buffer
+                table.pack_start(button, False, True, 0)
+                button.show()
+            #empaqueto todo
+
         box2.pack_start(scrolled_window, True, True, 1)
         box2.pack_start(scrolled_window2,False, False, 1)
         box1.pack_start(menu_bar, False, True, 1)
@@ -352,7 +337,8 @@ class Ventana:
         self.window1.connect("key_press_event", self.keypress_cb)
         self.window1.connect("key_release_event", self.keyrelease_cb)
         self.area.realize()
-        self.area.grab_focus()
+#        self.area.grab_focus()
+
 # ==============================================================================
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ==============================================================================
@@ -417,6 +403,7 @@ class Ventana:
         ax=ay=30
         # siempre hay que tratar de que el foco quede en el drawing area
         self.area.grab_focus()
+
         if self.diccionario[b][1]==1:
             c1=componente   (
                             self.mousexy[0]-ax,
@@ -440,7 +427,7 @@ class Ventana:
                                     self.mousexy[0]-ax,
                                     self.mousexy[1]-ay,
                                     self.fondo.identificador,
-                                    self.diccionario[b][2],
+                                    self.diccionario[b][3],
                                     self.diccionario[b][0],
                                     self.fondo,
                                     self,
@@ -453,7 +440,7 @@ class Ventana:
                                         self.mousexy[0]-ax,
                                         self.mousexy[1]-ay,
                                         self.fondo.identificador,
-                                        self.diccionario[b][2],
+                                        self.diccionario[b][3],
                                         self.diccionario[b][0],
                                         self.fondo,
                                         self,
@@ -469,7 +456,7 @@ class Ventana:
                                             self.mousexy[0]-ax,
                                             self.mousexy[1]-ay,
                                             self.fondo.identificador,
-                                            self.diccionario[b][2],
+                                            self.diccionario[b][3],
                                             self.diccionario[b][0],
                                             self.fondo,
                                             self,
@@ -482,8 +469,8 @@ class Ventana:
                                         self.mousexy[0]-ax,
                                         self.mousexy[1]+80-ay,
                                         self.fondo.identificador,
-                                        self.diccionario[b][2],
                                         self.diccionario[b][3],
+                                        self.diccionario[b][4],
                                         self.fondo,
                                         self,
                                         self.textorender
@@ -565,17 +552,16 @@ class Ventana:
     def compilar(self,b):
         self.carga()
         crear.crear_archivo(self.fondo,self)
-        i=carga.compilar_pic("/source/main.o ","/source/main.c")
+        i=carga.compilar_pic("/source/main")
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
         else:
             self.mensajes(0,"hubo un error de compilacion")
 
-
     def upload(self,b):
-
+        resultado=1
         self.mensajes(3,"aprete el boton RESET de la placa pinguino antes de continuar")
-        i=carga.upload_pic("/source/main.hex")
+        i=carga.upload_pic("/source/main")
         for d in i.readlines():
             if d.find("writing")==0:
                 resultado=0
@@ -585,8 +571,25 @@ class Ventana:
             self.mensajes(0,"hubo un error en la carga del PIC")
 
     def tortucaro(self,b):
-        print "prueba"
-
+        resultado=1
+        comp=1
+        i=carga.compilar_pic("/tortucaro/main")
+        if i==0:
+            self.mensajes(3,"la compilacion fue exitosa")
+            comp=0
+        else:
+            self.mensajes(0,"hubo un error de compilacion")
+            comp=1
+        if comp==0:
+            self.mensajes(3,"aprete el boton RESET de la placa pinguino antes de continuar")
+            i=carga.upload_pic("/tortucaro/main")
+            for d in i.readlines():
+                if d.find("writing")==0:
+                    resultado=0
+            if resultado==0:
+                self.mensajes(3,"la carga fue exitosa")
+            else:
+                self.mensajes(0,"hubo un error en la carga del PIC")
 # ==============================================================================
 # FUNCIONES DE LOS EVENTOS DEL MOUSE Y TECLADO
 # ==============================================================================
@@ -684,9 +687,46 @@ class Ventana:
             elif response == gtk.RESPONSE_CANCEL:
                 print 'Closed, no files selected'
             dialog.destroy()
+    def carga_dicc(self):
+        """
+        funcion para cargar los componentes bloques,
+        los valores del gtk.notebook estan determinados
+        por el nombre del archivo, leyendo el archivo saco el valor
+        y tipo de los bloques que cargo en el dic
+        """
+        q=0
+        ruta=sys.path[0] + "/componente/"
 
+#        archivo=os.listdir(ruta)
+        ff=open(ruta + "lista.dat","r")
+        t=ff.read()
+        temp=t.strip("\n")
+        print temp
+        archivo=temp.split(",")
+        print archivo
+        for i in range(len(archivo)):
 
-
+            self.diccionario[q]=["notebook",str(archivo[i])]
+            q=q+1
+            f=open(ruta + archivo[i],"r")
+            cadena=f.readlines()
+            a=0
+            for n in range(len(cadena)):
+                cadena[n]=cadena[n].strip("\n")
+                tupla=[]
+                if cadena[a]=="<componente>":
+                    tupla.append(cadena[a+1].strip("\n"))
+                    tupla.append(int(cadena[a+2]))
+                    tupla.append(int(cadena[a+3]))
+                    color1=cadena[a+4].strip("()\n")
+                    color2=color1.split(',')
+                    tupla1=(int(color2[0]),int(color2[1]),int(color2[2]))
+                    tupla.append(tupla1)
+                    tupla.append(str(cadena[a+5].strip("\n")))
+                    tupla.append(str(cadena[a+6]).strip("\n"))
+                    self.diccionario[q]=tupla
+                    q=q+1
+                a=a+1
 # ==============================================================================
 # LOOP
 # ==============================================================================

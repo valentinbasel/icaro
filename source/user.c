@@ -74,5 +74,21 @@ void loop()
 
 
 
-ServoWrite(10,analogread(13) );
+int a =1 ;
+int ban =0  ;
+while(a<10){
+ServoWrite(10,10);
+Delayms(1000);
+ServoWrite(10,100);
+Delayms(1000);
+a++ ;
+}
+
+
+while(ban==0 ){
+if(digitalread(21) ==1 ){
+a==1;
+ban==1 ;
+}
+}
 }

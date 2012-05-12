@@ -17,7 +17,8 @@ import sys
 from subprocess import Popen,PIPE,STDOUT
 processor="18f4550"
 
-def compilar_pic(rutao,rutac):
+def compilar_pic(ruta):
+
     chemin = sys.path[0]
     fichier = open(sys.path[0] + "/tmp/stdout", 'w+')
     sortie = str(sys.path[0] +
@@ -36,15 +37,14 @@ def compilar_pic(rutao,rutac):
                         " -c"+
                         " -o" +
                         sys.path[0] +
-                        rutao +
+                        ruta +".o " +
                         sys.path[0] +
-                        rutac)
+                        ruta + ".c")
     i=os.system(sortie)
     return i
 def upload_pic(ruta):
-
     sortie2=str(sys.path[0]+"/tools/bin/sdcc"+
-                        " -o"+sys.path[0].replace(" ","\\ ")+"/source/main.hex"+
+                        " -o"+sys.path[0].replace(" ","\\ ")+ ruta +".hex"+
                         " --denable-peeps"+
                         " --obanksel=9"+
                         " --opt-code-size"+
@@ -61,14 +61,14 @@ def upload_pic(ruta):
                         sys.path[0].replace(" ","\\ ")+"/obj/application_iface.o "+
                         sys.path[0].replace(" ","\\ ")+"/obj/usb_descriptors.o "+
                         sys.path[0].replace(" ","\\ ")+"/obj/crt0ipinguino.o "+
-                        sys.path[0].replace(" ","\\ ")+"/source/main.o ")
+                        sys.path[0].replace(" ","\\ ")+ruta + ".o ")
     i=os.system(sortie2)
     sortie3=str(sys.path[0]+"/tools/bin/docker "+
                         "-v "+
                         "04d8 "+
                         "write " +
                         sys.path[0] +
-                        "/source/main.hex")
+                        ruta+".hex")
     i=os.popen(sortie3)
     #~ print i
     #~ resultado=1

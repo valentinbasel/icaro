@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Aug  9 2009) (UNIX)
-; This file was generated Mon May  7 17:17:41 2012
+; This file was generated Fri May 11 23:47:21 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -427,26 +427,91 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	84; /home/valentin/github/icaro-bloques/source/main.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_00524_DS_:
+_00542_DS_:
 ;	.line	89; /home/valentin/github/icaro-bloques/source/main.c	loop();
 	CALL	_loop
-	BRA	_00524_DS_
+	BRA	_00542_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	77; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(10,analogread(13) );
-	MOVLW	0x0d
+;	.line	71; /home/valentin/github/icaro-bloques/source/user.c	void loop()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+;	.line	79; /home/valentin/github/icaro-bloques/source/user.c	while(a<10){
+	MOVLW	0x01
+	MOVWF	r0x00
+	CLRF	r0x01
+_00518_DS_:
+	MOVF	r0x01, W
+	ADDLW	0x80
+	ADDLW	0x80
+	BNZ	_00534_DS_
+	MOVLW	0x0a
+	SUBWF	r0x00, W
+_00534_DS_:
+	BC	_00523_DS_
+;	.line	80; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(10,10);
+	MOVLW	0x0a
 	MOVWF	POSTDEC1
-	CALL	_analogread
-	INCF	FSR1L, F
+	MOVWF	POSTDEC1
+	CALL	_ServoWrite
+	MOVLW	0x02
+	ADDWF	FSR1L, F
+;	.line	81; /home/valentin/github/icaro-bloques/source/user.c	Delayms(1000);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x03
+	MOVWF	POSTDEC1
+	MOVLW	0xe8
+	MOVWF	POSTDEC1
+	CALL	_Delayms
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	82; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(10,100);
+	MOVLW	0x64
 	MOVWF	POSTDEC1
 	MOVLW	0x0a
 	MOVWF	POSTDEC1
 	CALL	_ServoWrite
 	MOVLW	0x02
 	ADDWF	FSR1L, F
+;	.line	83; /home/valentin/github/icaro-bloques/source/user.c	Delayms(1000);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x03
+	MOVWF	POSTDEC1
+	MOVLW	0xe8
+	MOVWF	POSTDEC1
+	CALL	_Delayms
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	84; /home/valentin/github/icaro-bloques/source/user.c	a++ ;
+	INCF	r0x00, F
+	BTFSC	STATUS, 0
+	INCF	r0x01, F
+	BRA	_00518_DS_
+_00523_DS_:
+;	.line	89; /home/valentin/github/icaro-bloques/source/user.c	if(digitalread(21) ==1 ){
+	CLRF	POSTDEC1
+	MOVLW	0x15
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVWF	r0x00
+	MOVFF	PRODL, r0x01
+	MOVLW	0x02
+	ADDWF	FSR1L, F
+	MOVF	r0x00, W
+	XORLW	0x01
+	BNZ	_00523_DS_
+	MOVF	r0x01, W
+	BNZ	_00523_DS_
+_00536_DS_:
+;	.line	91; /home/valentin/github/icaro-bloques/source/user.c	ban==1 ;
+	BRA	_00523_DS_
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
 	RETURN	
 
 ; ; Starting pCode block
@@ -2847,8 +2912,8 @@ _servomasks:
 
 
 ; Statistics:
-; code size:	 5110 (0x13f6) bytes ( 3.90%)
-;           	 2555 (0x09fb) words
+; code size:	 5232 (0x1470) bytes ( 3.99%)
+;           	 2616 (0x0a38) words
 ; udata size:	   96 (0x0060) bytes ( 5.36%)
 ; access size:	   10 (0x000a) bytes
 
