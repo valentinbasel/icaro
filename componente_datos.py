@@ -181,6 +181,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
             self.fondo.objetos_datos.remove(self)
                 #~ self.fondo.lista_ordenada[self.ide]=0
         self.dibujar()
+        self.cadena_intermedia=""
         #pygame.display.update
 
 
@@ -266,8 +267,8 @@ class comp_dat_arg_img(pygame.sprite.Sprite):
         self.fondo.screen.blit(
                                 self.imagen,
                                 (
-                                self.posicion[0]+30-(self.img_rect[3]/2),
-                                self.posicion[1]
+                                self.posicion[0]+30-(self.img_rect[2]/2),
+                                self.posicion[1]-5
                                 )
                                 )
 
@@ -380,4 +381,5 @@ class comp_dat_arg_img(pygame.sprite.Sprite):
             self.fondo.objetos_datos.remove(self)
                 #~ self.fondo.lista_ordenada[self.ide]=0
         self.dibujar()
+        self.cadena_intermedia=""
         #pygame.display.update

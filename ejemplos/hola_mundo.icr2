@@ -1,0 +1,60 @@
+<objeto_inicial>
+(248.0, 131.0)
+</objeto_inicial>
+<objeto_dato_img>
+adelante.png
+1
+(308, 191)
+96 
+(213, 72, 62)
+1
+96
+
+96 
+</objeto_dato_img>
+<objeto_dato>
+2
+(308, 231)
+1000
+(135, 145, 240)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+4
+(308, 281)
+0  
+(135, 145, 240)
+1
+0
+
+0  
+</objeto_dato>
+<objeto_dato>
+5
+(308, 321)
+1000
+(135, 145, 240)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_componente>
+robot
+2
+2
+(248, 181)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+robot
+2
+4
+(248, 271)
+(30, 34, 66)
+robot 
+</objeto_componente>

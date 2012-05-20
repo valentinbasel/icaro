@@ -76,7 +76,7 @@ class fondo(pygame.sprite.Sprite):
     poscion_botones=0
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        size = width, height = 1100, 900
+        size = width, height = 1100, 2000
         self.screen = pygame.display.set_mode(size)
         self.largo,self.alto=self.screen.get_size()
         self.lista_ordenada.append(0)
@@ -132,11 +132,13 @@ class Ventana:
         self.carga_dicc()
         self.lista=self.diccionario.keys()
         self.lista.sort()
+        self.carga_paleta()
         #declaro la ventana principal
         self.window1 = gtk.Window()
         self.window1.connect('delete-event', gtk.main_quit)
         self.window1.set_icon_from_file("imagenes/icaro.png")
-#        self.window1.fullscreen()
+        #~ self.window1.fullscreen()
+        self.window1.fullscreen()
         # declaro el drawing area donde va a estar pygame
         # y los eventos del mouse y teclado
         self.area = gtk.DrawingArea()
@@ -436,19 +438,6 @@ class Ventana:
 
             self.fondo.componentes.add(c1)
             self.fondo.objetos.append(c1)
-            c1=componente_cero_arg_dos (
-                                        self.mousexy[0]-ax,
-                                        self.mousexy[1]-ay,
-                                        self.fondo.identificador,
-                                        self.diccionario[b][3],
-                                        self.diccionario[b][0],
-                                        self.fondo,
-                                        self,
-                                        self.textorender
-                                        )
-            self.fondo.identificador+=1
-            self.fondo.componentes.add(c1)
-            self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
         if self.diccionario[b][1]==5:
             self.fondo.identificador+=1
@@ -727,6 +716,19 @@ class Ventana:
                     self.diccionario[q]=tupla
                     q=q+1
                 a=a+1
+    def carga_paleta(self):
+        R=G=B=""
+        archivo=open("colores.dat","r")
+        tupla=[]
+        cadena=archivo.readlines()
+        for n in cadena:
+            tupla.append(n.strip("()\n"))
+        for a in range(len(self.lista)):
+            if self.diccionario[self.lista[a]][0]<>"notebook":
+                 R,G,B=tupla[a].split(",")
+                 self.diccionario[self.lista[a]][3]=(int(R),int(G),int(B))
+
+#
 # ==============================================================================
 # LOOP
 # ==============================================================================

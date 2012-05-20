@@ -4,7 +4,47 @@ unsigned char i;
 unsigned char receivedbyte,receivedbyte2;
 unsigned char rxstr[64]="";
 unsigned char rxstr2[64]="";
+int valor=0;
+void l293d()
+{
+int posic=0;
+int rb=0;
+int resultado=0;
+int val=0;
+int a=0;
+	for(;;)
+	{
+	    receivedbyte2=CDCgets(rxstr2);
+		if (receivedbyte2>0)
+		{
+		if(rxstr2[0]=='1')
+			{
+			val=96;
+			}
+		if(rxstr2[0]=='2')
+			{
+			val=144;
+			}
+		if(rxstr2[0]=='3')
+			{
+			val=64;
+			}
+		if(rxstr2[0]=='4')
+			{
+			val=32;
+			}
+		if(rxstr2[0]=='5')
+			{
+			val=0;
+			}
+			receivedbyte2=0;
+			break;
+		}
+	}
 
+valor=val;
+
+}
 void sensor()
 {
 int posic=0;
@@ -139,11 +179,13 @@ int val=0;
 }
 void setup()
 {
-	/*for (i=0;i<8;i++)
-		{
-		pinmode(i,OUTPUT);
-		digitalwrite(i,LOW);
-		}*/
+pinmode(25,OUTPUT);
+
+pinmode(26,OUTPUT);
+
+pinmode(27,OUTPUT);
+
+pinmode(28,OUTPUT);
 ServoAttach(8);
 ServoAttach(9);
 ServoAttach(10);
@@ -156,7 +198,7 @@ ServoAttach(12);
 }
 void loop()
 {
-
+    PORTD=valor;
 	receivedbyte=CDCgets(rxstr);
 	rxstr[receivedbyte]=0;
 	if (receivedbyte>0)
@@ -175,7 +217,10 @@ void loop()
 			{
 			sensor();
 			}
+		if(rxstr[0]=='l')
+			{
+			l293d();
+			}
 		 }
 	receivedbyte=0;
 }
-

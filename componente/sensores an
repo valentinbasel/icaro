@@ -6,3 +6,59 @@ sensoran1
 dig 4 
 analogread(13) 
 </componente>
+<componente>
+sensoran2 
+6
+0
+(56,200,90)
+dig 5 
+analogread(14) 
+</componente>
+<componente>
+sensoran3 
+6
+0
+(56,200,90)
+dig 4 
+analogread(15) 
+</componente>
+<componente>
+sensoran4 
+6
+0
+(56,200,90)
+dig 4 
+analogread(16) 
+</componente>
+<componente>
+sensoran5 
+6
+0
+(56,200,90)
+dig 4 
+analogread(17) 
+</componente>
+<componente>
+sensoran6 
+6
+0
+(56,200,90)
+dig 4 
+analogread(18) 
+</componente>
+<componente>
+sensoran7 
+6
+0
+(56,200,90)
+dig 4 
+analogread(19) 
+</componente>
+<componente>
+sensoran8 
+6
+0
+(56,200,90)
+dig 4 
+analogread(20) 
+</componente>

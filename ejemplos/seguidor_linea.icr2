@@ -1,9 +1,9 @@
 <objeto_inicial>
-(241.0, 110.0)
+(160.0, 27.0)
 </objeto_inicial>
 <objeto_dato>
 1
-(361, 220)
+(280, 137)
 10
 (100, 150, 80)
 1
@@ -14,7 +14,7 @@
 <objeto_dato_img>
 izquierda.png
 2
-(361, 260)
+(280, 177)
 64 
 (100, 50, 80)
 0
@@ -24,7 +24,7 @@ izquierda.png
 </objeto_dato_img>
 <objeto_dato>
 3
-(361, 410)
+(280, 327)
 10
 (100, 150, 80)
 1
@@ -35,7 +35,7 @@ izquierda.png
 <objeto_dato_img>
 derecha.png
 4
-(361, 450)
+(280, 367)
 32 
 (100, 50, 80)
 0
@@ -46,7 +46,7 @@ derecha.png
 <objeto_dato_img>
 sensordig1.png
 5
-(361, 170)
+(280, 87)
 dig 1 
 (90, 200, 90)
 0
@@ -57,7 +57,7 @@ digitalread(21) ==1
 <objeto_dato_img>
 sensordig1.png
 6
-(361, 360)
+(280, 277)
 dig 1 
 (90, 200, 90)
 0
@@ -66,9 +66,9 @@ digitalread(21)
 digitalread(21) ==0 
 </objeto_dato_img>
 <objeto_dato_img>
-igual.png
+asignacion.png
 7
-(421, 360)
+(340, 277)
 = 
 (189, 50, 10)
 0
@@ -77,9 +77,9 @@ igual.png
 ==0 
 </objeto_dato_img>
 <objeto_dato_img>
-igual.png
+asignacion.png
 8
-(421, 170)
+(340, 87)
 = 
 (189, 50, 10)
 0
@@ -90,7 +90,7 @@ igual.png
 <objeto_dato_img>
 verdadero.png
 9
-(481, 170)
+(400, 87)
 1 
 (160, 50, 210)
 0
@@ -101,7 +101,7 @@ verdadero.png
 <objeto_dato_img>
 falso.png
 10
-(481, 360)
+(400, 277)
 0 
 (0, 50, 150)
 0
@@ -111,31 +111,31 @@ falso.png
 </objeto_dato_img>
 <objeto_bloque>
 2
-(241, 160)
+(160, 77)
 (200, 190, 0)
 si 
-(241, 300)
+(160, 217)
 </objeto_bloque>
 <objeto_componente>
 robot
 2
 4
-(301, 210)
+(220, 127)
 (0, 190, 10)
 robot 
 </objeto_componente>
 <objeto_bloque>
 5
-(241, 350)
+(160, 267)
 (200, 190, 0)
 si 
-(241, 490)
+(160, 407)
 </objeto_bloque>
 <objeto_componente>
 robot
 2
 7
-(301, 400)
+(220, 317)
 (0, 190, 10)
 robot 
 </objeto_componente>

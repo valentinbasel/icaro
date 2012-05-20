@@ -1,0 +1,8 @@
+<componente>
+sensoran1 
+6
+0
+(56,200,90)
+dig 4 
+analogread(13) 
+</componente>

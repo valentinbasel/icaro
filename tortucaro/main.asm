@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Aug  9 2009) (UNIX)
-; This file was generated Fri May 11 16:34:53 2012
+; This file was generated Sat May 19 10:58:28 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -53,6 +53,7 @@
 	global _receivedbyte2
 	global _rxstr
 	global _rxstr2
+	global _valor
 	global _ProcessStandardRequest
 	global _InDataStage
 	global _OutDataStage
@@ -85,6 +86,7 @@
 	global _epap_out
 	global _epapin_init
 	global _epapout_init
+	global _l293d
 	global _sensor
 	global _leer
 	global _motors
@@ -382,6 +384,7 @@ _rxstr2	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0
 	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	db	0x00, 0x00, 0x00, 0x00
+_valor	db	0x00, 0x00
 
 
 ; Internal registers
@@ -501,7 +504,7 @@ _high_priority_isr:
 	MOVFF	PCLATU, POSTDEC1
 ;	.line	99; /home/valentin/github/icaro-bloques/tortucaro/main.c	if(PIR2bits.USBIF)
 	BTFSS	_PIR2bits, 5
-	BRA	_01208_DS_
+	BRA	_01251_DS_
 ;	.line	101; /home/valentin/github/icaro-bloques/tortucaro/main.c	ProcessUSBTransactions();
 	CALL	_ProcessUSBTransactions
 ;	.line	102; /home/valentin/github/icaro-bloques/tortucaro/main.c	UIRbits.SOFIF = 0;
@@ -512,7 +515,7 @@ _high_priority_isr:
 	BCF	_PIR2bits, 5
 ;	.line	105; /home/valentin/github/icaro-bloques/tortucaro/main.c	UEIR = 0;
 	CLRF	_UEIR
-_01208_DS_:
+_01251_DS_:
 ;	.line	132; /home/valentin/github/icaro-bloques/tortucaro/main.c	servos_interrupt();
 	CALL	_servos_interrupt
 	MOVFF	PREINC1, PCLATU
@@ -579,19 +582,23 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	84; /home/valentin/github/icaro-bloques/tortucaro/main.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_01200_DS_:
+_01243_DS_:
 ;	.line	89; /home/valentin/github/icaro-bloques/tortucaro/main.c	loop();
 	CALL	_loop
-	BRA	_01200_DS_
+	BRA	_01243_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	157; /home/valentin/github/icaro-bloques/tortucaro/user.c	void loop()
+;	.line	199; /home/valentin/github/icaro-bloques/tortucaro/user.c	void loop()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
-;	.line	160; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte=CDCgets(rxstr);
+	BANKSEL	_valor
+;	.line	201; /home/valentin/github/icaro-bloques/tortucaro/user.c	PORTD=valor;
+	MOVF	_valor, W, B
+	MOVWF	_PORTD
+;	.line	202; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte=CDCgets(rxstr);
 	MOVLW	0x80
 ; #	MOVWF	r0x02
 ; #	MOVF	r0x02, W
@@ -605,7 +612,7 @@ _loop:
 	MOVWF	_receivedbyte, B
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	161; /home/valentin/github/icaro-bloques/tortucaro/user.c	rxstr[receivedbyte]=0;
+;	.line	203; /home/valentin/github/icaro-bloques/tortucaro/user.c	rxstr[receivedbyte]=0;
 	MOVLW	LOW(_rxstr)
 ; removed redundant BANKSEL
 	ADDWF	_receivedbyte, W, B
@@ -617,15 +624,15 @@ _loop:
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
 ; removed redundant BANKSEL
-;	.line	162; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte>0)
+;	.line	204; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte>0)
 	MOVF	_receivedbyte, W, B
-	BZ	_01182_DS_
+	BZ	_01222_DS_
 	BANKSEL	_rxstr
-;	.line	166; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr[0]=='b')
+;	.line	208; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr[0]=='b')
 	MOVF	_rxstr, W, B
 	XORLW	0x62
-	BNZ	_01176_DS_
-;	.line	168; /home/valentin/github/icaro-bloques/tortucaro/user.c	CDCputs("icaro USB 01 \n",14);
+	BNZ	_01214_DS_
+;	.line	210; /home/valentin/github/icaro-bloques/tortucaro/user.c	CDCputs("icaro USB 01 \n",14);
 	MOVLW	0x0e
 	MOVWF	POSTDEC1
 	MOVLW	UPPER(__str_0)
@@ -637,25 +644,33 @@ _loop:
 	CALL	_CDCputs
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-_01176_DS_:
+_01214_DS_:
 	BANKSEL	_rxstr
-;	.line	170; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr[0]=='m')
+;	.line	212; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr[0]=='m')
 	MOVF	_rxstr, W, B
 	XORLW	0x6d
-	BNZ	_01178_DS_
-;	.line	172; /home/valentin/github/icaro-bloques/tortucaro/user.c	motors();
+	BNZ	_01216_DS_
+;	.line	214; /home/valentin/github/icaro-bloques/tortucaro/user.c	motors();
 	CALL	_motors
-_01178_DS_:
+_01216_DS_:
 	BANKSEL	_rxstr
-;	.line	174; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr[0]=='e')
+;	.line	216; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr[0]=='e')
 	MOVF	_rxstr, W, B
 	XORLW	0x65
-	BNZ	_01182_DS_
-;	.line	176; /home/valentin/github/icaro-bloques/tortucaro/user.c	sensor();
+	BNZ	_01218_DS_
+;	.line	218; /home/valentin/github/icaro-bloques/tortucaro/user.c	sensor();
 	CALL	_sensor
-_01182_DS_:
+_01218_DS_:
+	BANKSEL	_rxstr
+;	.line	220; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr[0]=='l')
+	MOVF	_rxstr, W, B
+	XORLW	0x6c
+	BNZ	_01222_DS_
+;	.line	222; /home/valentin/github/icaro-bloques/tortucaro/user.c	l293d();
+	CALL	_l293d
+_01222_DS_:
 	BANKSEL	_receivedbyte
-;	.line	179; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte=0;
+;	.line	225; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte=0;
 	CLRF	_receivedbyte, B
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -664,27 +679,63 @@ _01182_DS_:
 ; ; Starting pCode block
 S_main__setup	code
 _setup:
-;	.line	147; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(8);
+;	.line	182; /home/valentin/github/icaro-bloques/tortucaro/user.c	pinmode(25,OUTPUT);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x19
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	184; /home/valentin/github/icaro-bloques/tortucaro/user.c	pinmode(26,OUTPUT);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x1a
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	186; /home/valentin/github/icaro-bloques/tortucaro/user.c	pinmode(27,OUTPUT);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x1b
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	188; /home/valentin/github/icaro-bloques/tortucaro/user.c	pinmode(28,OUTPUT);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x1c
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	189; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(8);
 	MOVLW	0x08
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	148; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(9);
+;	.line	190; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(9);
 	MOVLW	0x09
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	149; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(10);
+;	.line	191; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(10);
 	MOVLW	0x0a
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	150; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(11);
+;	.line	192; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(11);
 	MOVLW	0x0b
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	151; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(12);
+;	.line	193; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoAttach(12);
 	MOVLW	0x0c
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
@@ -694,7 +745,7 @@ _setup:
 ; ; Starting pCode block
 S_main__motors	code
 _motors:
-;	.line	88; /home/valentin/github/icaro-bloques/tortucaro/user.c	void motors()
+;	.line	128; /home/valentin/github/icaro-bloques/tortucaro/user.c	void motors()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
@@ -702,13 +753,13 @@ _motors:
 	MOVFF	r0x05, POSTDEC1
 	MOVFF	r0x06, POSTDEC1
 	MOVFF	r0x07, POSTDEC1
-;	.line	92; /home/valentin/github/icaro-bloques/tortucaro/user.c	int resultado=0;
+;	.line	132; /home/valentin/github/icaro-bloques/tortucaro/user.c	int resultado=0;
 	CLRF	r0x00
 	CLRF	r0x01
-;	.line	93; /home/valentin/github/icaro-bloques/tortucaro/user.c	int val=0;
+;	.line	133; /home/valentin/github/icaro-bloques/tortucaro/user.c	int val=0;
 	CLRF	r0x02
-_01130_DS_:
-;	.line	96; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
+_01168_DS_:
+;	.line	136; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
 	MOVLW	0x80
 ; #	MOVWF	r0x06
 ; #	MOVF	r0x06, W
@@ -723,55 +774,55 @@ _01130_DS_:
 	MOVLW	0x03
 	ADDWF	FSR1L, F
 ; removed redundant BANKSEL
-;	.line	97; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
+;	.line	137; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
 	MOVF	_receivedbyte2, W, B
-	BZ	_01130_DS_
-;	.line	99; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='1')
+	BZ	_01168_DS_
+;	.line	139; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='1')
 	MOVFF	_rxstr2, r0x04
 	MOVF	r0x04, W
 	XORLW	0x31
-	BNZ	_01118_DS_
-;	.line	101; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=10;
+	BNZ	_01156_DS_
+;	.line	141; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=10;
 	MOVLW	0x0a
 	MOVWF	r0x02
-_01118_DS_:
-;	.line	103; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='2')
+_01156_DS_:
+;	.line	143; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='2')
 	MOVF	r0x04, W
 	XORLW	0x32
-	BNZ	_01120_DS_
-;	.line	105; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=11;
+	BNZ	_01158_DS_
+;	.line	145; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=11;
 	MOVLW	0x0b
 	MOVWF	r0x02
-_01120_DS_:
-;	.line	107; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='3')
+_01158_DS_:
+;	.line	147; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='3')
 	MOVF	r0x04, W
 	XORLW	0x33
-	BNZ	_01122_DS_
-;	.line	109; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=12;
+	BNZ	_01160_DS_
+;	.line	149; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=12;
 	MOVLW	0x0c
 	MOVWF	r0x02
-_01122_DS_:
-;	.line	111; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='4')
+_01160_DS_:
+;	.line	151; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='4')
 	MOVF	r0x04, W
 	XORLW	0x34
-	BNZ	_01124_DS_
-;	.line	113; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=8;
+	BNZ	_01162_DS_
+;	.line	153; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=8;
 	MOVLW	0x08
 	MOVWF	r0x02
-_01124_DS_:
-;	.line	115; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='5')
+_01162_DS_:
+;	.line	155; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='5')
 	MOVF	r0x04, W
 	XORLW	0x35
-	BNZ	_01126_DS_
-;	.line	117; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=9;
+	BNZ	_01164_DS_
+;	.line	157; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=9;
 	MOVLW	0x09
 	MOVWF	r0x02
-_01126_DS_:
+_01164_DS_:
 	BANKSEL	_receivedbyte2
-;	.line	119; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=0;
+;	.line	159; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=0;
 	CLRF	_receivedbyte2, B
-_01139_DS_:
-;	.line	125; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
+_01177_DS_:
+;	.line	165; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
 	MOVLW	0x80
 ; #	MOVWF	r0x06
 ; #	MOVF	r0x06, W
@@ -786,10 +837,10 @@ _01139_DS_:
 	MOVLW	0x03
 	ADDWF	FSR1L, F
 ; removed redundant BANKSEL
-;	.line	126; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
+;	.line	166; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
 	MOVF	_receivedbyte2, W, B
-	BZ	_01139_DS_
-;	.line	128; /home/valentin/github/icaro-bloques/tortucaro/user.c	rxstr2[receivedbyte2]=0;
+	BZ	_01177_DS_
+;	.line	168; /home/valentin/github/icaro-bloques/tortucaro/user.c	rxstr2[receivedbyte2]=0;
 	MOVLW	LOW(_rxstr2)
 ; removed redundant BANKSEL
 	ADDWF	_receivedbyte2, W, B
@@ -800,19 +851,19 @@ _01139_DS_:
 	MOVFF	r0x04, FSR0L
 	MOVFF	r0x05, FSR0H
 	CLRF	INDF0
-;	.line	129; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
+;	.line	169; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
 	CLRF	r0x04
 	CLRF	r0x05
-_01134_DS_:
+_01172_DS_:
 	MOVF	r0x05, W
 	ADDLW	0x80
 	ADDLW	0x80
-	BNZ	_01165_DS_
+	BNZ	_01203_DS_
 	MOVLW	0x08
 	SUBWF	r0x04, W
-_01165_DS_:
-	BC	_01137_DS_
-;	.line	131; /home/valentin/github/icaro-bloques/tortucaro/user.c	rb=(rxstr2[posic]);
+_01203_DS_:
+	BC	_01175_DS_
+;	.line	171; /home/valentin/github/icaro-bloques/tortucaro/user.c	rb=(rxstr2[posic]);
 	MOVLW	LOW(_rxstr2)
 	ADDWF	r0x04, W
 	MOVWF	r0x06
@@ -823,18 +874,18 @@ _01165_DS_:
 	MOVFF	r0x07, FSR0H
 	MOVFF	INDF0, r0x06
 	CLRF	r0x07
-;	.line	132; /home/valentin/github/icaro-bloques/tortucaro/user.c	resultado=resultado+rb;
+;	.line	172; /home/valentin/github/icaro-bloques/tortucaro/user.c	resultado=resultado+rb;
 	MOVF	r0x06, W
 	ADDWF	r0x00, F
 	MOVF	r0x07, W
 	ADDWFC	r0x01, F
-;	.line	129; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
+;	.line	169; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
 	INCF	r0x04, F
 	BTFSC	STATUS, 0
 	INCF	r0x05, F
-	BRA	_01134_DS_
-_01137_DS_:
-;	.line	134; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoWrite(val,resultado);
+	BRA	_01172_DS_
+_01175_DS_:
+;	.line	174; /home/valentin/github/icaro-bloques/tortucaro/user.c	ServoWrite(val,resultado);
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
@@ -843,9 +894,9 @@ _01137_DS_:
 	MOVLW	0x02
 	ADDWF	FSR1L, F
 	BANKSEL	_receivedbyte2
-;	.line	135; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=0;
+;	.line	175; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=0;
 	CLRF	_receivedbyte2, B
-;	.line	136; /home/valentin/github/icaro-bloques/tortucaro/user.c	return;
+;	.line	176; /home/valentin/github/icaro-bloques/tortucaro/user.c	return;
 	MOVFF	PREINC1, r0x07
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
@@ -858,7 +909,7 @@ _01137_DS_:
 ; ; Starting pCode block
 S_main__leer	code
 _leer:
-;	.line	61; /home/valentin/github/icaro-bloques/tortucaro/user.c	void leer()
+;	.line	101; /home/valentin/github/icaro-bloques/tortucaro/user.c	void leer()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
@@ -867,15 +918,15 @@ _leer:
 	MOVFF	r0x05, POSTDEC1
 	MOVFF	r0x06, POSTDEC1
 	MOVFF	r0x07, POSTDEC1
-;	.line	65; /home/valentin/github/icaro-bloques/tortucaro/user.c	int resultado=0;
+;	.line	105; /home/valentin/github/icaro-bloques/tortucaro/user.c	int resultado=0;
 	CLRF	r0x00
 	CLRF	r0x01
-;	.line	66; /home/valentin/github/icaro-bloques/tortucaro/user.c	int	i=1;
+;	.line	106; /home/valentin/github/icaro-bloques/tortucaro/user.c	int	i=1;
 	MOVLW	0x01
 	MOVWF	r0x02
 	CLRF	r0x03
-_01103_DS_:
-;	.line	69; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
+_01141_DS_:
+;	.line	109; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
 	MOVLW	0x80
 ; #	MOVWF	r0x06
 ; #	MOVF	r0x06, W
@@ -890,10 +941,10 @@ _01103_DS_:
 	MOVLW	0x03
 	ADDWF	FSR1L, F
 ; removed redundant BANKSEL
-;	.line	70; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
+;	.line	110; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
 	MOVF	_receivedbyte2, W, B
-	BZ	_01103_DS_
-;	.line	72; /home/valentin/github/icaro-bloques/tortucaro/user.c	rxstr2[receivedbyte2]=0;
+	BZ	_01141_DS_
+;	.line	112; /home/valentin/github/icaro-bloques/tortucaro/user.c	rxstr2[receivedbyte2]=0;
 	MOVLW	LOW(_rxstr2)
 ; removed redundant BANKSEL
 	ADDWF	_receivedbyte2, W, B
@@ -904,19 +955,19 @@ _01103_DS_:
 	MOVFF	r0x04, FSR0L
 	MOVFF	r0x05, FSR0H
 	CLRF	INDF0
-;	.line	74; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
+;	.line	114; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
 	CLRF	r0x04
 	CLRF	r0x05
-_01098_DS_:
+_01136_DS_:
 	MOVF	r0x05, W
 	ADDLW	0x80
 	ADDLW	0x80
-	BNZ	_01112_DS_
+	BNZ	_01150_DS_
 	MOVLW	0x08
 	SUBWF	r0x04, W
-_01112_DS_:
-	BC	_01101_DS_
-;	.line	76; /home/valentin/github/icaro-bloques/tortucaro/user.c	rb=(rxstr2[posic]);
+_01150_DS_:
+	BC	_01139_DS_
+;	.line	116; /home/valentin/github/icaro-bloques/tortucaro/user.c	rb=(rxstr2[posic]);
 	MOVLW	LOW(_rxstr2)
 	ADDWF	r0x04, W
 	MOVWF	r0x06
@@ -927,7 +978,7 @@ _01112_DS_:
 	MOVFF	r0x07, FSR0H
 	MOVFF	INDF0, r0x06
 	CLRF	r0x07
-;	.line	77; /home/valentin/github/icaro-bloques/tortucaro/user.c	i=i*i;// en cada iteracion i se duplica: 1,2,4,8,16,32,64,128
+;	.line	117; /home/valentin/github/icaro-bloques/tortucaro/user.c	i=i*i;// en cada iteracion i se duplica: 1,2,4,8,16,32,64,128
 	MOVF	r0x03, W
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
@@ -941,21 +992,21 @@ _01112_DS_:
 	MOVFF	PRODL, r0x03
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	78; /home/valentin/github/icaro-bloques/tortucaro/user.c	resultado=resultado+rb;
+;	.line	118; /home/valentin/github/icaro-bloques/tortucaro/user.c	resultado=resultado+rb;
 	MOVF	r0x06, W
 	ADDWF	r0x00, F
 	MOVF	r0x07, W
 	ADDWFC	r0x01, F
-;	.line	74; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
+;	.line	114; /home/valentin/github/icaro-bloques/tortucaro/user.c	for (posic=0;posic<=7;posic++)
 	INCF	r0x04, F
 	BTFSC	STATUS, 0
 	INCF	r0x05, F
-	BRA	_01098_DS_
-_01101_DS_:
-;	.line	83; /home/valentin/github/icaro-bloques/tortucaro/user.c	PORTB=resultado;// en ves de usar digitalwrite, mando directamente al PORTB
+	BRA	_01136_DS_
+_01139_DS_:
+;	.line	123; /home/valentin/github/icaro-bloques/tortucaro/user.c	PORTB=resultado;// en ves de usar digitalwrite, mando directamente al PORTB
 	MOVF	r0x00, W
 	MOVWF	_PORTB
-;	.line	84; /home/valentin/github/icaro-bloques/tortucaro/user.c	return;
+;	.line	124; /home/valentin/github/icaro-bloques/tortucaro/user.c	return;
 	MOVFF	PREINC1, r0x07
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
@@ -969,14 +1020,14 @@ _01101_DS_:
 ; ; Starting pCode block
 S_main__sensor	code
 _sensor:
-;	.line	8; /home/valentin/github/icaro-bloques/tortucaro/user.c	void sensor()
+;	.line	48; /home/valentin/github/icaro-bloques/tortucaro/user.c	void sensor()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
-;	.line	13; /home/valentin/github/icaro-bloques/tortucaro/user.c	unsigned int val=0;
+;	.line	53; /home/valentin/github/icaro-bloques/tortucaro/user.c	unsigned int val=0;
 	CLRF	r0x00
-_01062_DS_:
-;	.line	18; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
+_01100_DS_:
+;	.line	58; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
 	MOVLW	0x80
 ; #	MOVWF	r0x04
 ; #	MOVF	r0x04, W
@@ -991,78 +1042,78 @@ _01062_DS_:
 	MOVLW	0x03
 	ADDWF	FSR1L, F
 ; removed redundant BANKSEL
-;	.line	19; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
+;	.line	59; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
 	MOVF	_receivedbyte2, W, B
-	BZ	_01062_DS_
-;	.line	21; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='1')
+	BZ	_01100_DS_
+;	.line	61; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='1')
 	MOVFF	_rxstr2, r0x02
 	MOVF	r0x02, W
 	XORLW	0x31
-	BNZ	_01044_DS_
-;	.line	23; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=13;
+	BNZ	_01082_DS_
+;	.line	63; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=13;
 	MOVLW	0x0d
 	MOVWF	r0x00
-_01044_DS_:
-;	.line	25; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='2')
+_01082_DS_:
+;	.line	65; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='2')
 	MOVF	r0x02, W
 	XORLW	0x32
-	BNZ	_01046_DS_
-;	.line	27; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=14;
+	BNZ	_01084_DS_
+;	.line	67; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=14;
 	MOVLW	0x0e
 	MOVWF	r0x00
-_01046_DS_:
-;	.line	29; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='3')
+_01084_DS_:
+;	.line	69; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='3')
 	MOVF	r0x02, W
 	XORLW	0x33
-	BNZ	_01048_DS_
-;	.line	31; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=15;
+	BNZ	_01086_DS_
+;	.line	71; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=15;
 	MOVLW	0x0f
 	MOVWF	r0x00
-_01048_DS_:
-;	.line	33; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='4')
+_01086_DS_:
+;	.line	73; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='4')
 	MOVF	r0x02, W
 	XORLW	0x34
-	BNZ	_01050_DS_
-;	.line	35; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=16;
+	BNZ	_01088_DS_
+;	.line	75; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=16;
 	MOVLW	0x10
 	MOVWF	r0x00
-_01050_DS_:
-;	.line	37; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='5')
+_01088_DS_:
+;	.line	77; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='5')
 	MOVF	r0x02, W
 	XORLW	0x35
-	BNZ	_01052_DS_
-;	.line	39; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=17;
+	BNZ	_01090_DS_
+;	.line	79; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=17;
 	MOVLW	0x11
 	MOVWF	r0x00
-_01052_DS_:
-;	.line	41; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='6')
+_01090_DS_:
+;	.line	81; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='6')
 	MOVF	r0x02, W
 	XORLW	0x36
-	BNZ	_01054_DS_
-;	.line	43; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=18;
+	BNZ	_01092_DS_
+;	.line	83; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=18;
 	MOVLW	0x12
 	MOVWF	r0x00
-_01054_DS_:
-;	.line	45; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='7')
+_01092_DS_:
+;	.line	85; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='7')
 	MOVF	r0x02, W
 	XORLW	0x37
-	BNZ	_01056_DS_
-;	.line	47; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=19;
+	BNZ	_01094_DS_
+;	.line	87; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=19;
 	MOVLW	0x13
 	MOVWF	r0x00
-_01056_DS_:
-;	.line	49; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='8')
+_01094_DS_:
+;	.line	89; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='8')
 	MOVF	r0x02, W
 	XORLW	0x38
-	BNZ	_01058_DS_
-;	.line	51; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=20;
+	BNZ	_01096_DS_
+;	.line	91; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=20;
 	MOVLW	0x14
 	MOVWF	r0x00
-_01058_DS_:
+_01096_DS_:
 	BANKSEL	_receivedbyte2
-;	.line	53; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=0;
+;	.line	93; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=0;
 	CLRF	_receivedbyte2, B
-;	.line	57; /home/valentin/github/icaro-bloques/tortucaro/user.c	valor=analogread(val);
+;	.line	97; /home/valentin/github/icaro-bloques/tortucaro/user.c	valor=analogread(val);
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	CALL	_analogread
@@ -1075,7 +1126,7 @@ _01058_DS_:
 ; #	MOVF	r0x00, W
 ; #	MOVF	r0x00, W
 ; #	MOVWF	r0x00
-;	.line	58; /home/valentin/github/icaro-bloques/tortucaro/user.c	CDCputs(valor,DEC);
+;	.line	98; /home/valentin/github/icaro-bloques/tortucaro/user.c	CDCputs(valor,DEC);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	MOVLW	0x80
@@ -1087,6 +1138,91 @@ _01058_DS_:
 	CALL	_CDCputs
 	MOVLW	0x04
 	ADDWF	FSR1L, F
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_main__l293d	code
+_l293d:
+;	.line	8; /home/valentin/github/icaro-bloques/tortucaro/user.c	void l293d()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+;	.line	13; /home/valentin/github/icaro-bloques/tortucaro/user.c	int val=0;
+	CLRF	r0x00
+	CLRF	r0x01
+_01056_DS_:
+;	.line	17; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=CDCgets(rxstr2);
+	MOVLW	0x80
+; #	MOVWF	r0x04
+; #	MOVF	r0x04, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr2)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr2)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	BANKSEL	_receivedbyte2
+	MOVWF	_receivedbyte2, B
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+; removed redundant BANKSEL
+;	.line	18; /home/valentin/github/icaro-bloques/tortucaro/user.c	if (receivedbyte2>0)
+	MOVF	_receivedbyte2, W, B
+	BZ	_01056_DS_
+;	.line	20; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='1')
+	MOVFF	_rxstr2, r0x02
+	MOVF	r0x02, W
+	XORLW	0x31
+	BNZ	_01044_DS_
+;	.line	22; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=96;
+	MOVLW	0x60
+	MOVWF	r0x00
+	CLRF	r0x01
+_01044_DS_:
+;	.line	24; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='2')
+	MOVF	r0x02, W
+	XORLW	0x32
+	BNZ	_01046_DS_
+;	.line	26; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=144;
+	MOVLW	0x90
+	MOVWF	r0x00
+	CLRF	r0x01
+_01046_DS_:
+;	.line	28; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='3')
+	MOVF	r0x02, W
+	XORLW	0x33
+	BNZ	_01048_DS_
+;	.line	30; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=64;
+	MOVLW	0x40
+	MOVWF	r0x00
+	CLRF	r0x01
+_01048_DS_:
+;	.line	32; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='4')
+	MOVF	r0x02, W
+	XORLW	0x34
+	BNZ	_01050_DS_
+;	.line	34; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=32;
+	MOVLW	0x20
+	MOVWF	r0x00
+	CLRF	r0x01
+_01050_DS_:
+;	.line	36; /home/valentin/github/icaro-bloques/tortucaro/user.c	if(rxstr2[0]=='5')
+	MOVF	r0x02, W
+	XORLW	0x35
+	BNZ	_01052_DS_
+;	.line	38; /home/valentin/github/icaro-bloques/tortucaro/user.c	val=0;
+	CLRF	r0x00
+	CLRF	r0x01
+_01052_DS_:
+	BANKSEL	_receivedbyte2
+;	.line	40; /home/valentin/github/icaro-bloques/tortucaro/user.c	receivedbyte2=0;
+	CLRF	_receivedbyte2, B
+;	.line	45; /home/valentin/github/icaro-bloques/tortucaro/user.c	valor=val;
+	MOVFF	r0x00, _valor
+	MOVFF	r0x01, (_valor + 1)
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -4555,14 +4691,14 @@ _00332_DS_:
 	MOVWF	r0x07
 	BANKSEL	_outPtr
 	INCF	_outPtr, F, B
-	BNC	_11214_DS_
+	BNC	_11257_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 1), F, B
-_11214_DS_:
-	BNC	_21215_DS_
+_11257_DS_:
+	BNC	_21258_DS_
 	BANKSEL	(_outPtr + 2)
 	INCF	(_outPtr + 2), F, B
-_21215_DS_:
+_21258_DS_:
 	MOVFF	r0x07, POSTDEC1
 	MOVFF	r0x04, FSR0L
 	MOVFF	r0x05, PRODL
@@ -4570,14 +4706,14 @@ _21215_DS_:
 	CALL	__gptrput1
 	BANKSEL	_inPtr
 	INCF	_inPtr, F, B
-	BNC	_31216_DS_
+	BNC	_31259_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 1), F, B
-_31216_DS_:
-	BNC	_41217_DS_
+_31259_DS_:
+	BNC	_41260_DS_
 	BANKSEL	(_inPtr + 2)
 	INCF	(_inPtr + 2), F, B
-_41217_DS_:
+_41260_DS_:
 ;	.line	427; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INCF	r0x02, F
 	BTFSC	STATUS, 0
@@ -4766,14 +4902,14 @@ _00316_DS_:
 	MOVWF	r0x06
 	BANKSEL	_outPtr
 	INCF	_outPtr, F, B
-	BNC	_51218_DS_
+	BNC	_51261_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 1), F, B
-_51218_DS_:
-	BNC	_61219_DS_
+_51261_DS_:
+	BNC	_61262_DS_
 	BANKSEL	(_outPtr + 2)
 	INCF	(_outPtr + 2), F, B
-_61219_DS_:
+_61262_DS_:
 	MOVFF	r0x06, POSTDEC1
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -4781,14 +4917,14 @@ _61219_DS_:
 	CALL	__gptrput1
 	BANKSEL	_inPtr
 	INCF	_inPtr, F, B
-	BNC	_71220_DS_
+	BNC	_71263_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 1), F, B
-_71220_DS_:
-	BNC	_81221_DS_
+_71263_DS_:
+	BNC	_81264_DS_
 	BANKSEL	(_inPtr + 2)
 	INCF	(_inPtr + 2), F, B
-_81221_DS_:
+_81264_DS_:
 ;	.line	398; /home/valentin/github/icaro-bloques/tools/bin/../share/sdcc/include/pic16/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INCF	r0x00, F
 	BRA	_00300_DS_
@@ -5453,8 +5589,8 @@ __str_0:
 
 
 ; Statistics:
-; code size:	 9010 (0x2332) bytes ( 6.87%)
-;           	 4505 (0x1199) words
+; code size:	 9232 (0x2410) bytes ( 7.04%)
+;           	 4616 (0x1208) words
 ; udata size:	  532 (0x0214) bytes (29.69%)
 ; access size:	   10 (0x000a) bytes
 

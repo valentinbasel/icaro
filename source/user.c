@@ -74,21 +74,10 @@ void loop()
 
 
 
-int a =1 ;
-int ban =0  ;
-while(a<10){
-ServoWrite(10,10);
-Delayms(1000);
-ServoWrite(10,100);
-Delayms(1000);
-a++ ;
-}
-
-
-while(ban==0 ){
 if(digitalread(21) ==1 ){
-a==1;
-ban==1 ;
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<10;tiempo2++){PORTD=64;}}
 }
+if(digitalread(21) ==0 ){
+for(tiempo=0;tiempo<100;tiempo++){for(tiempo2=0;tiempo2<10;tiempo2++){PORTD=32;}}
 }
 }
