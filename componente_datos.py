@@ -29,8 +29,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
     color=(125,100,83)
     modificable=0
     valor_cadena_no_mod="0"
-    tecla=0
-    tecla_presionada=0
+
     def __init__(self,x,y,identidad,mod,texto,color,val_no_mod,fondo,ventana,textorender):
         pygame.sprite.Sprite.__init__(self)
         #self.imagen=pygame.image.load("imagenes/componentes/componente_dato.png")
@@ -50,6 +49,8 @@ class comp_dat_arg(pygame.sprite.Sprite):
         self.pegado_a=0
         self.pegado_b=0
         self.conectado=0
+        self.tecla=0
+        self.tecla_presionada=0
         #~ self.fondo.lista_ch_dato.append((0,0,0,0))
         #~ self.fondo.lista_ch_dato2.append((0,0,0,0))
         #~ self.fondo.lista_valor_datos.append(self.cadena)
@@ -83,8 +84,34 @@ class comp_dat_arg(pygame.sprite.Sprite):
         self.conector_m[1]=self.rectan[1]
         self.conector_h[0]=self.rectan[0]+60
         self.conector_h[1]=self.rectan[1]
-        #~ self.fondo.lista_ch_dato2[self.ide]=(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3])
-        #print "id: ",self.ide," cadena_final: ",self.cadena_final
+
+        if (
+            botones_mouse[3] and
+            self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and
+            self.modificable==1
+            ):
+            self.tecla=1
+            self.texto=""
+            self.ventana.seleccionado_datos_ed=self.ide
+            self.ventana.tecla=0
+
+        if (
+            self.tecla==1 and
+            self.ventana.seleccionado_datos_ed==self.ide
+            ):
+            if self.tecla_presionada==1 and self.ventana.tecla==1:
+                #if set(self.ventana.valor_tecla)<=set("0123456789"):
+                cadena_auxiliar= self.ventana.valor_tecla
+                self.tecla_presionada=0
+                if cadena_auxiliar!="":
+                    self.texto = self.texto + cadena_auxiliar
+
+            if self.ventana.tecla==0:
+                self.tecla_presionada=1
+
+            if self.ventana.tecla_enter==1:
+                self.tecla=0
+                self.ventana.seleccionado_datos_ed=0
 
         if self.modificable==1:
             self.cadena_final=self.texto+self.cadena_intermedia
@@ -145,21 +172,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
             self.ventana.seleccionado_datos=0
         if botones_mouse[2] and self.rectan.collidepoint(self.ventana.mousexy):
             print self.ide
-        if botones_mouse[3] and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and self.modificable==1:
-            self.tecla=1
-            self.texto=""
-            self.dat_a=""
-        if self.tecla==1:
-            if self.tecla_presionada==0:
-                cadena_auxiliar= self.ventana.valor_tecla
-                self.tecla_presionada=1
-                if cadena_auxiliar!="":
-                    self.texto = self.texto + cadena_auxiliar
-            if self.ventana.tecla==0:
-                self.tecla_presionada=0
 
-        if self.ventana.tecla_enter==1:
-            self.tecla=0
         if (botones_mouse[1]==1
                 and self.rectan.collidepoint(self.ventana.mousexy)
                 and self.ventana.seleccion_menu==3):

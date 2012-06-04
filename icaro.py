@@ -97,6 +97,7 @@ class Ventana:
     boton_mouse= [0,0,0,0]
     seleccionado=0
     seleccionado_datos=0
+    seleccionado_datos_ed=0
     tecla=0
     valor_tecla=""
     tecla_enter=0
@@ -105,9 +106,8 @@ class Ventana:
     cadena_pinguino=[]
     seleccion_menu=1
     tipo_componente=1
-    diccionario={
-
-                }
+    diccionario={}
+    tooltip={}
     lista=[]
     def __init__(self):
 
@@ -130,6 +130,7 @@ class Ventana:
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
         self.carga_dicc()
+        self.carga_tooltip()
         self.lista=self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
@@ -138,7 +139,7 @@ class Ventana:
         self.window1.connect('delete-event', gtk.main_quit)
         self.window1.set_icon_from_file("imagenes/icaro.png")
         #~ self.window1.fullscreen()
-        self.window1.fullscreen()
+        #self.window1.fullscreen()
         # declaro el drawing area donde va a estar pygame
         # y los eventos del mouse y teclado
         self.area = gtk.DrawingArea()
@@ -289,7 +290,8 @@ class Ventana:
                                 self.diccionario[self.lista[1]][0]
                                 )
         button = gtk.RadioButton()
-        button.set_tooltip_text("prueba")
+        if self.tooltip.has_key(self.diccionario[self.lista[1]][0]):
+            button.set_tooltip_text(self.tooltip[self.diccionario[self.lista[1]][0]])
         # bucle principal donde se cargan los RAdioButton donde se cargan
         # los componentes del diccionario
 
@@ -312,7 +314,9 @@ class Ventana:
                                         self.diccionario[self.lista[i]][0]
                                         )
                 button = gtk.RadioButton(button)
-    #            button.set_tooltip_text("prueba")
+                if self.tooltip.has_key(self.diccionario[self.lista[i]][0]):
+                    tool=self.tooltip[self.diccionario[self.lista[i]][0]]
+                    button.set_tooltip_text(tool)
                 button.add(caja)
                 button.connect("clicked", self.botones,self.lista[i])#buffer
                 table.pack_start(button, False, True, 0)
@@ -676,6 +680,15 @@ class Ventana:
             elif response == gtk.RESPONSE_CANCEL:
                 print 'Closed, no files selected'
             dialog.destroy()
+    def carga_tooltip(self):
+        ruta=sys.path[0]
+        ff=open(ruta + "/tooltips.xml","r")
+        t=ff.readlines()
+        for a in range(len(t)):
+            cad_aux=t[a].strip("\n")
+            if cad_aux=="<tool>":
+                self.tooltip[t[a+1].strip("\n")]=t[a+2].strip("\n")
+        print self.tooltip
     def carga_dicc(self):
         """
         funcion para cargar los componentes bloques,
@@ -690,9 +703,9 @@ class Ventana:
         ff=open(ruta + "lista.dat","r")
         t=ff.read()
         temp=t.strip("\n")
-        print temp
+        #~ print temp
         archivo=temp.split(",")
-        print archivo
+        #~ print archivo
         for i in range(len(archivo)):
 
             self.diccionario[q]=["notebook",str(archivo[i])]

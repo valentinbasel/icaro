@@ -54,7 +54,7 @@ uchar loopvar;
 uchar timings[4][18];  
 uchar activatedservos[3]={0x00,0x00,0x00};
 // For referencing masks in the previous array.
-#define MaskPort_B  0
+//#define MaskPort_B  0
 #define MaskPort_C  1
 #define MaskPort_A  2
 #define timevalue   3

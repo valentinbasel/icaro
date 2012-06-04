@@ -4,7 +4,7 @@ valor
 ;
 </robot>
 <activar>
-PORTB=
+PORTB=255-
 valor
 ;
 </activar>

@@ -39,7 +39,7 @@ def parseador(lista,argumentos,texto,cadena_final,fondo,ventana):
     ventana.cadena_pinguino.append(parser_final)
 def crear_archivo(fondo, ventana):
     cadena_final=[]
-    f=open("diccionario.dat","r")
+    f=open("diccionario.xml","r")
     cadena=f.readlines()
     for a in cadena:
         cadena_final.append(a.strip("\n"))

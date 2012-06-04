@@ -1,0 +1,28 @@
+<tool>
+robot 
+función para controlar los motores cc de la placa np05. permite activar los motores y controlar la direccion de giro de cada motor. Codigo C: PORTD=valor;
+</tool>
+<tool>
+activar 
+Función para controlar el PORTB de la placa np05. envia un valor de 0 - 255 que se de multiplexa en 8 bits de los pines del puerto. Codigo C: PORTB=255-valor;
+</tool>
+<tool>
+pausa 
+Espera una seria de milisegundos antes de pasar a la siguiente instrucción. Codigo C: Delayms(valor);
+</tool>
+<tool>
+servo 
+Controla los 5 puerto destinados a servomotores, el primer parametro es el valor del servo, el segundo parametro es los grados de movimiento (0 a 255). Codigo C: ServoWrite(valor1,valor2);
+</tool>
+<tool>
+servos 
+controla los 5 servos al mismo tiempo. Cada parametro representa el valor en grados de cada servo (0 a 255). Codigo C: ServoWrite(10,valor); ServoWrite(11,valor); ServoWrite(12,valor); ServoWrite(8,valor); ServoWrite(9,valor);
+</tool>
+<tool>
+var 
+Genera un entero simple (0 -255) , el primer parametro es el nombre de la variable, el segundo valor representa el entero. Codigo C: int valor=valor;
+</tool>
+<tool>
+si 
+iteración condicional. Codigo C: if(valor){
+</tool>
