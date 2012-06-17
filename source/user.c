@@ -82,19 +82,6 @@ void loop()
 
 
 
-int a =0   ;
-int  = ;
-while(){
-if(0  >0  ){
-}
-if(digitalread(21) ==0 ){
-PORTD=64 ;
-Delayms(0  );
-a++ ;
-}
-if(digitalread(21) ==1 ){
-PORTD=32 ;
-Delayms(0  );
-}
-}
+PORTD=0;
+PORTD=889;
 }

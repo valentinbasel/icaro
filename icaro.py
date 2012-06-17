@@ -19,6 +19,7 @@ import shutil
 import sys
 import gobject
 import pygame
+import creditos
 from subprocess import Popen,PIPE,STDOUT
 import carga, abrir, nuevo, guardar, crear, navegador, visor, texto
 from componente_inicial import *
@@ -29,7 +30,6 @@ from componente import *
 # ==============================================================================
 
 BLACK = (0, 0, 0)
-FONDO=(00,22,55)
 LINEA=(255,0,0)
 
 # ==============================================================================
@@ -56,6 +56,7 @@ class puntero(pygame.sprite.Sprite):
 # FONDO
 # ==============================================================================
 class fondo(pygame.sprite.Sprite):
+    FONDO=(00,22,55)
     #variables para los componentes
     componentes=pygame.sprite.RenderClear()
     identificador=1
@@ -81,7 +82,7 @@ class fondo(pygame.sprite.Sprite):
         self.largo,self.alto=self.screen.get_size()
         self.lista_ordenada.append(0)
     def update(self):
-        self.screen.fill(FONDO)
+        self.screen.fill(self.FONDO)
         pygame.mouse.set_visible(False)
         pygame.display.update
 
@@ -154,12 +155,26 @@ class Ventana:
             menu.append(menu_items)
             menu_items.connect("activate", self.menuitem_response, i)
             menu_items.show()
+
+
+        menu2 = gtk.Menu()
+        # buf es donde se crgan todos los botones del menu
+        buf2=("color","acerca de")
+        for i in buf2:
+            menu_items2 = gtk.MenuItem(i)
+            menu2.append(menu_items2)
+            menu_items2.connect("activate", self.menuitem_response, i)
+            menu_items2.show()
+            
+            
         # los menus del toolbar se agrupan en estos dos "menus raices"
         root_menu = gtk.MenuItem("Archivo")
         root_menu.show()
         root_menu.set_submenu(menu)
+        
         root_menu2 = gtk.MenuItem("editar")
         root_menu2.show()
+        root_menu2.set_submenu(menu2)
         #los dos menus_root quedan dentro de la barra de menu
         menu_bar = gtk.MenuBar()
         menu_bar.show()
@@ -473,7 +488,7 @@ class Ventana:
             self.fondo.tipo_obj.append(self.diccionario[b][1])
             self.fondo.tipo_obj.append(0)
         if self.diccionario[b][1]==6:
-            c1=comp_dat_arg_img   (
+            c1=comp_dat_arg   (
                             self.mousexy[0]-ax,
                             self.mousexy[1]-ay,
                             self.fondo.identificador_dat,
@@ -482,7 +497,7 @@ class Ventana:
                             self.diccionario[b][3],
                             self.diccionario[b][5],
                             self.diccionario[b][0].strip(" ")+".png",
-
+                            6,
                             self.fondo,
                             self,
                             self.textorender
@@ -500,12 +515,13 @@ class Ventana:
                             self.diccionario[b][4],
                             self.diccionario[b][3],
                             self.diccionario[b][5],
+                            self.diccionario[b][0].strip(" ")+".png",
+                            7,
                             self.fondo,
                             self,
                             self.textorender
                             )
             self.fondo.identificador_dat+=1
-
             self.fondo.datos.add(c1)
             self.fondo.objetos_datos.append(c1)
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
@@ -612,14 +628,19 @@ class Ventana:
 # LAS RESPUESTAS DEL MENU
 # ==============================================================================
     def menuitem_response(self, widget, string):
+        print string
         if string=="abrir":
             dialog = gtk.FileChooserDialog(
                                             "Open..",
                                            None,
                                            gtk.FILE_CHOOSER_ACTION_OPEN,
-                                           (gtk.STOCK_CANCEL,
-                                           gtk.RESPONSE_CANCEL,
-                                            gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+                                                (
+                                                gtk.STOCK_CANCEL,
+                                                gtk.RESPONSE_CANCEL,
+                                                gtk.STOCK_OPEN, 
+                                                gtk.RESPONSE_OK
+                                                )
+                                            )
             dialog.set_default_response(gtk.RESPONSE_OK)
             filter = gtk.FileFilter()
             filter.set_name("All files")
@@ -680,6 +701,45 @@ class Ventana:
             elif response == gtk.RESPONSE_CANCEL:
                 print 'Closed, no files selected'
             dialog.destroy()
+
+        if string=="color":
+
+            colorseldlg = gtk.ColorSelectionDialog("selección de color")
+            colorsel = colorseldlg.colorsel
+            response = colorseldlg.run()
+            if response -- gtk.RESPONSE_OK:
+                color = colorsel.get_current_color()
+                # color devuelve un gtk.gdk.color
+                # pero el RGB es un integer de 65535 valores
+                # con una regla de tres simple lo adapto a los 
+                # 255 valores que soporta pygame
+                fondo.FONDO=(
+                            (color.red*255)/65535,
+                            (color.green*255)/65535,
+                            (color.blue*255)/65535
+                            )
+            else:
+                colorseldlg.hide()
+
+            colorseldlg.hide()
+        if string=="acerca de":
+            
+            about = gtk.AboutDialog()
+            about.set_logo(gtk.gdk.pixbuf_new_from_file("imagenes/icaro.png"))
+            about.set_name(creditos.Info.name)
+            about.set_authors(creditos.Info.authors)
+
+            about.set_documenters(creditos.Info.documenters)
+            about.set_artists(creditos.Info.artists)
+            about.set_translator_credits(creditos.Info.translator)
+            about.set_version(creditos.Info.version)
+            about.set_comments(creditos.Info.description)
+            about.set_copyright(creditos.Info.copyright)
+            about.set_website(creditos.Info.website)
+            about.set_license(creditos.Info.license)
+            about.set_wrap_license(True)
+            about.run()
+            about.destroy()
     def carga_tooltip(self):
         ruta=sys.path[0]
         ff=open(ruta + "/tooltips.xml","r")
@@ -688,7 +748,7 @@ class Ventana:
             cad_aux=t[a].strip("\n")
             if cad_aux=="<tool>":
                 self.tooltip[t[a+1].strip("\n")]=t[a+2].strip("\n")
-        print self.tooltip
+
     def carga_dicc(self):
         """
         funcion para cargar los componentes bloques,
@@ -729,6 +789,7 @@ class Ventana:
                     self.diccionario[q]=tupla
                     q=q+1
                 a=a+1
+                print self.diccionario
     def carga_paleta(self):
         R=G=B=""
         archivo=open("colores.dat","r")

@@ -31,6 +31,9 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             cadena3=cadena[valor+4].strip("()\n")
             cadena4=cadena3.split(',')
             tupla1=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
+            dato=cadena[valor+1].strip("()\n")
+            print dato
+            print "valor de la cadena " ,cadena[valor+4].strip("\n"),
             c1=comp_dat_arg(
                                 float(x),
                                 float(y),
@@ -39,6 +42,8 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                                 cadena[valor+3].strip("\n"),
                                 tupla1,
                                 cadena[valor+6].strip("\n"),
+                                dato,
+                                7,
                                 fon,
                                 ventana,
                                 textorender
@@ -55,8 +60,7 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             cadena3=cadena[valor+5].strip("()\n")
             cadena4=cadena3.split(',')
             tupla1=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
-            print "identificador",fon.identificador_dat,
-            c1=comp_dat_arg_img(
+            c1=comp_dat_arg(
                                 float(x),
                                 float(y),
                                 fon.identificador_dat,
@@ -65,6 +69,7 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                                 tupla1,
                                 cadena[valor+7].strip("\n"),
                                 dato,
+                                6,
                                 fon,
                                 ventana,
                                 textorender

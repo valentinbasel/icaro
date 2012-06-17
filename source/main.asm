@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Aug  9 2009) (UNIX)
-; This file was generated Sun Jun  3 23:14:07 2012
+; This file was generated Sun Jun 17 16:18:02 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -436,18 +436,11 @@ _00515_DS_:
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	85; /home/valentin/github/icaro-bloques/source/user.c	PORTD=96 ;
-	MOVLW	0x60
+;	.line	85; /home/valentin/github/icaro-bloques/source/user.c	PORTD=0;
+	CLRF	_PORTD
+;	.line	86; /home/valentin/github/icaro-bloques/source/user.c	PORTD=889;
+	MOVLW	0x79
 	MOVWF	_PORTD
-;	.line	86; /home/valentin/github/icaro-bloques/source/user.c	Delayms(0  );
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CALL	_Delayms
-	MOVLW	0x04
-	ADDWF	FSR1L, F
 	RETURN	
 
 ; ; Starting pCode block
@@ -2728,8 +2721,8 @@ _servomasks:
 
 
 ; Statistics:
-; code size:	 4842 (0x12ea) bytes ( 3.69%)
-;           	 2421 (0x0975) words
+; code size:	 4826 (0x12da) bytes ( 3.68%)
+;           	 2413 (0x096d) words
 ; udata size:	   96 (0x0060) bytes ( 5.36%)
 ; access size:	   10 (0x000a) bytes
 

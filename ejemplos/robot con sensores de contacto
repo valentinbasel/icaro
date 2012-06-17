@@ -1,0 +1,268 @@
+<objeto_inicial>
+(20, 50)
+</objeto_inicial>
+<objeto_dato_img>
+adelante.png
+1
+(80, 110)
+96 
+(230, 81, 145)
+1
+96
+
+96 
+</objeto_dato_img>
+<objeto_dato>
+2
+(80, 160)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato_img>
+sensordig1.png
+3
+(140, 210)
+dig 1 
+(2, 54, 21)
+0
+digitalread(21) 
+
+digitalread(21) ==0 
+</objeto_dato_img>
+<objeto_dato_img>
+igualdad.png
+4
+(200, 210)
+= 
+(115, 75, 26)
+0
+==
+0 
+==0 
+</objeto_dato_img>
+<objeto_dato_img>
+falso.png
+5
+(260, 210)
+0 
+(162, 67, 161)
+0
+0 
+
+0 
+</objeto_dato_img>
+<objeto_dato_img>
+atras.png
+6
+(140, 260)
+144 
+(49, 107, 222)
+1
+144
+
+144 
+</objeto_dato_img>
+<objeto_dato_img>
+izquierda.png
+7
+(140, 660)
+64 
+(71, 138, 26)
+1
+64
+
+64 
+</objeto_dato_img>
+<objeto_dato>
+8
+(140, 310)
+800
+(69, 168, 65)
+1
+0
+
+800
+</objeto_dato>
+<objeto_dato>
+9
+(140, 410)
+400
+(69, 168, 65)
+1
+0
+
+400
+</objeto_dato>
+<objeto_dato_img>
+igualdad.png
+10
+(200, 510)
+= 
+(115, 75, 26)
+0
+==
+0 
+==0 
+</objeto_dato_img>
+<objeto_dato_img>
+falso.png
+11
+(260, 510)
+0 
+(162, 67, 161)
+0
+0 
+
+0 
+</objeto_dato_img>
+<objeto_dato_img>
+sensordig2.png
+12
+(140, 510)
+dig 2 
+(76, 196, 228)
+0
+digitalread(22) 
+==0 
+digitalread(22) ==0 
+</objeto_dato_img>
+<objeto_dato_img>
+atras.png
+13
+(140, 560)
+144 
+(49, 107, 222)
+1
+144
+
+144 
+</objeto_dato_img>
+<objeto_dato_img>
+derecha.png
+14
+(140, 360)
+32 
+(73, 84, 235)
+1
+32
+
+32 
+</objeto_dato_img>
+<objeto_dato>
+15
+(140, 610)
+800
+(69, 168, 65)
+1
+0
+
+800
+</objeto_dato>
+<objeto_dato>
+16
+(140, 710)
+400
+(69, 168, 65)
+1
+0
+
+400
+</objeto_dato>
+<objeto_componente>
+robot
+1
+2
+(20, 100)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+3
+(20, 150)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_bloque>
+4
+(20, 200)
+(143, 173, 94)
+si 
+(20, 450)
+</objeto_bloque>
+<objeto_componente>
+robot
+1
+6
+(80, 250)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+robot
+1
+7
+(80, 350)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+8
+(80, 300)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+9
+(80, 400)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_bloque>
+10
+(20, 500)
+(143, 173, 94)
+si 
+(20, 750)
+</objeto_bloque>
+<objeto_componente>
+robot
+1
+12
+(80, 550)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+robot
+1
+13
+(80, 650)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+14
+(80, 600)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+15
+(80, 700)
+(97, 114, 120)
+pausa 
+</objeto_componente>

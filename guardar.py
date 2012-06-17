@@ -12,12 +12,7 @@
 # GNU General Public License for more details.
 import gtk
 import os
-#~ import json
-#~ def guardar(obj,ruta,fondo):
-    #~ print "---"
-    #~ print fondo
-    #~ print "---"
-    #~ json.dump(open("archivo.json", "w"), obj)
+
 def guardar(obj,ruta,fondo):
 
     file=open(ruta,"w")

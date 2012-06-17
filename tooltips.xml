@@ -26,3 +26,7 @@ Genera un entero simple (0 -255) , el primer parametro es el nombre de la variab
 si 
 iteración condicional. Codigo C: if(valor){
 </tool>
+<tool>
+mientras 
+Repite las instrucciones dentro del bloque mientras se cumpla una expresion determinada. Codigo C: while(valor){
+</tool>
