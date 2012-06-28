@@ -5,6 +5,7 @@ unsigned char receivedbyte,receivedbyte2;
 unsigned char rxstr[64]="";
 unsigned char rxstr2[64]="";
 int valor=0;
+int valorb=255;
 void l293d()
 {
 int posic=0;
@@ -98,7 +99,7 @@ valor=analogread(val);
 CDCputs(valor,DEC);
 }
 
-void leer()
+void activar()
 {
 int posic=0;
 int rb=0;
@@ -115,17 +116,15 @@ int	i=1;
 			{
 			rb=(rxstr2[posic]);
 			i=i*i;// en cada iteracion i se duplica: 1,2,4,8,16,32,64,128
-			resultado=resultado+rb;
+			resultado=resultado+(rb*i);
 			}
-			/*el tema es que rb tengo que sumarle 177 para que no me queden corridos los bits
-			(no se porque creo que es algo con respecto a los codigos ascii)*/
-			resultado=resultado;
-			PORTB=resultado;// en ves de usar digitalwrite, mando directamente al PORTB
+			valorb=255-resultado;
 			return;
 		}
 	}
 }
-void motors()
+
+void serv()
 {
 int posic=0;
 int rb=0;
@@ -179,6 +178,11 @@ int val=0;
 }
 void setup()
 {
+	for (i=0;i<8;i++)
+		{
+		pinmode(i,OUTPUT);
+		digitalwrite(i,LOW);
+		}
 pinmode(25,OUTPUT);
 
 pinmode(26,OUTPUT);
@@ -198,6 +202,7 @@ ServoAttach(12);
 }
 void loop()
 {
+    PORTB=valorb;
     PORTD=valor;
 	receivedbyte=CDCgets(rxstr);
 	rxstr[receivedbyte]=0;
@@ -207,11 +212,11 @@ void loop()
 		/*leo eel caracter b y devuelvo la bienvenida*/
 		if(rxstr[0]=='b')
 			{
-			CDCputs("icaro USB 01 \n",14);
+			CDCputs("icaro USB 02 \n",14);
 			}
-		if(rxstr[0]=='m')
+		if(rxstr[0]=='s')
 			{
-			motors();
+            activar();
 			}
 		if(rxstr[0]=='e')
 			{
@@ -220,6 +225,10 @@ void loop()
 		if(rxstr[0]=='l')
 			{
 			l293d();
+			}
+		if(rxstr[0]=='m')
+			{
+			serv();
 			}
 		 }
 	receivedbyte=0;

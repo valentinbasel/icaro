@@ -143,3 +143,32 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             fon.objetos.append(c1)
             fon.tipo_obj.append(5)
             fon.tipo_obj.append(0)
+        if cadena[valor]=="<objeto_cero>\n":
+            cadena1= cadena[valor+2].strip("()\n")
+            cadena2=cadena1.split(',')
+            x,y=cadena2
+            cadenap= cadena[valor+3].strip("()\n")
+            cadenap2=cadenap.split(',')
+            x1,y1=cadenap2
+            cadena3=cadena[valor+4].strip("()\n")
+            cadena4=cadena3.split(',')
+            tupla1=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
+            dato=cadena[valor+1].strip("()\n")
+            fon.identificador+=1
+            c1=componente_cero_arg (
+                                float(x),
+                                float(y),
+                                fon.identificador,
+                                tupla1,
+                                "siguiente ",
+                                fon,
+                                ventana,
+                                textorender
+                                )
+            fon.componentes.add(c1)
+            fon.objetos.append(c1)
+            fon.tipo_obj.append(4)
+            fon.objetos[fon.identificador-1].posicion2=(
+                                                        float(x1),
+                                                        float(y1)
+                                                        )

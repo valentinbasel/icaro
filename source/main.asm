@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Aug  9 2009) (UNIX)
-; This file was generated Sun Jun 17 16:18:02 2012
+; This file was generated Thu Jun 28 14:23:41 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -436,17 +436,26 @@ _00515_DS_:
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	85; /home/valentin/github/icaro-bloques/source/user.c	PORTD=0;
+;	.line	35; /home/valentin/github/icaro-bloques/source/user.c	PORTD=0  ;
 	CLRF	_PORTD
-;	.line	86; /home/valentin/github/icaro-bloques/source/user.c	PORTD=889;
-	MOVLW	0x79
-	MOVWF	_PORTD
+;	.line	36; /home/valentin/github/icaro-bloques/source/user.c	Delayms(0  );
+	MOVLW	0x00
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CALL	_Delayms
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	37; /home/valentin/github/icaro-bloques/source/user.c	PORTB=255-0  ;
+	MOVLW	0xff
+	SETF	_PORTB
 	RETURN	
 
 ; ; Starting pCode block
 S_main__sensor	code
 _sensor:
-;	.line	61; /home/valentin/github/icaro-bloques/source/user.c	unsigned int sensor(int valor)
+;	.line	24; /home/valentin/github/icaro-bloques/source/user.c	unsigned int sensor(int valor)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -455,13 +464,13 @@ _sensor:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	67; /home/valentin/github/icaro-bloques/source/user.c	an=analogread(valor);
+;	.line	27; /home/valentin/github/icaro-bloques/source/user.c	an=analogread(valor);
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	CALL	_analogread
 	MOVFF	PRODL, r0x01
 	INCF	FSR1L, F
-;	.line	69; /home/valentin/github/icaro-bloques/source/user.c	return an;
+;	.line	28; /home/valentin/github/icaro-bloques/source/user.c	return an;
 	MOVFF	r0x01, PRODL
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -471,9 +480,9 @@ _sensor:
 ; ; Starting pCode block
 S_main__setup	code
 _setup:
-;	.line	25; /home/valentin/github/icaro-bloques/source/user.c	TRISB=0;
+;	.line	7; /home/valentin/github/icaro-bloques/source/user.c	TRISB=0;
 	CLRF	_TRISB
-;	.line	27; /home/valentin/github/icaro-bloques/source/user.c	pinmode(15,INPUT);
+;	.line	8; /home/valentin/github/icaro-bloques/source/user.c	pinmode(15,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -483,7 +492,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	29; /home/valentin/github/icaro-bloques/source/user.c	pinmode(21,INPUT);
+;	.line	9; /home/valentin/github/icaro-bloques/source/user.c	pinmode(21,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -493,7 +502,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	31; /home/valentin/github/icaro-bloques/source/user.c	pinmode(22,INPUT);
+;	.line	10; /home/valentin/github/icaro-bloques/source/user.c	pinmode(22,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -503,7 +512,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	33; /home/valentin/github/icaro-bloques/source/user.c	pinmode(23,INPUT);
+;	.line	11; /home/valentin/github/icaro-bloques/source/user.c	pinmode(23,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -513,7 +522,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	35; /home/valentin/github/icaro-bloques/source/user.c	pinmode(24,INPUT);
+;	.line	12; /home/valentin/github/icaro-bloques/source/user.c	pinmode(24,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -523,7 +532,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	37; /home/valentin/github/icaro-bloques/source/user.c	pinmode(25,OUTPUT);
+;	.line	13; /home/valentin/github/icaro-bloques/source/user.c	pinmode(25,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -532,7 +541,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	39; /home/valentin/github/icaro-bloques/source/user.c	pinmode(26,OUTPUT);
+;	.line	14; /home/valentin/github/icaro-bloques/source/user.c	pinmode(26,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -541,7 +550,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	41; /home/valentin/github/icaro-bloques/source/user.c	pinmode(27,OUTPUT);
+;	.line	15; /home/valentin/github/icaro-bloques/source/user.c	pinmode(27,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -550,7 +559,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	43; /home/valentin/github/icaro-bloques/source/user.c	pinmode(28,OUTPUT);
+;	.line	16; /home/valentin/github/icaro-bloques/source/user.c	pinmode(28,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -559,27 +568,27 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	45; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(10);
+;	.line	17; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(10);
 	MOVLW	0x0a
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	47; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(11);
+;	.line	18; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(11);
 	MOVLW	0x0b
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	49; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(12);
+;	.line	19; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(12);
 	MOVLW	0x0c
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	51; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(8);
+;	.line	20; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(8);
 	MOVLW	0x08
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	53; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(9);
+;	.line	21; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(9);
 	MOVLW	0x09
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
@@ -2721,8 +2730,8 @@ _servomasks:
 
 
 ; Statistics:
-; code size:	 4826 (0x12da) bytes ( 3.68%)
-;           	 2413 (0x096d) words
+; code size:	 4844 (0x12ec) bytes ( 3.70%)
+;           	 2422 (0x0976) words
 ; udata size:	   96 (0x0060) bytes ( 5.36%)
 ; access size:	   10 (0x000a) bytes
 

@@ -6,9 +6,9 @@ class Info:
     name = "icaro-bloques"
     version = "1.0"
     copyright = "Copyright © 2012 Valentin Basel."
-    authors = ["Valentin Basel, <valetinbasel@gmail.com>"]
-    documenters = [" "]
-    artists =[" "]
+    authors = ["Valentin Basel - valetinbasel@gmail.com"]
+    documenters = ["Neville A. Cross - yn1v@fedoraproject.org","Lucas Costas - puixima@gmail.com","Javier Castrillo - jcastrillo@educ.ar"  ]
+    artists =["María Leandro - tatica@fedoraproject.org"]
     translator ="todavia sin traductores"
     website = "http://sistema-icaro.blogspot.com"
     description = "Un front end para la generación de codigo C para las placas NP05"

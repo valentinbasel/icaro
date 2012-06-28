@@ -23,10 +23,25 @@ class componente(pygame.sprite.Sprite):
     color=(110,20,90)
     texto=""
 
-    def __init__(self,x,y,identidad,argumentos,color,texto,fondo,ventana,textorender):
+    def __init__(
+                    self,
+                    x,y,
+                    identidad,
+                    argumentos,
+                    color,
+                    texto,
+                    fondo,
+                    ventana,
+                    textorender
+                ):
         pygame.sprite.Sprite.__init__(self)
-        self.imagenintermedia=texto.strip(" ") #esto es para poder mandar los datos a guardar
-        self.imagen=pygame.image.load("imagenes/componentes/"+texto.strip(" ")+".png")
+        #esto es para poder mandar los datos a guardar
+        self.imagenintermedia=texto.strip(" ")
+        self.imagen=pygame.image.load   (
+                                        "imagenes/componentes/"+
+                                        texto.strip(" ")+
+                                        ".png"
+                                        )
         self.arg=argumentos
         self.ide=identidad
         self.posicion=(x,y)
@@ -36,7 +51,13 @@ class componente(pygame.sprite.Sprite):
         self.textorender=textorender
         self.texto=texto
         self.color_texto=self.fondo.color_texto
-        self.rectan=pygame.Rect(self.posicion[0],self.posicion[1],60,60)#rectangulo que representa toda el area del componente
+        #rectangulo que representa toda el area del componente
+        self.rectan=pygame.Rect(
+                                self.posicion[0],
+                                self.posicion[1],
+                                60,
+                                60
+                                )
         self.conector_m=pygame.Rect(0,0,40,10)#conector macho
         self.conector_h=pygame.Rect(0,0,40,10)#conector hembra
         self.fondo.lista_ordenada.append(0)
@@ -46,37 +67,148 @@ class componente(pygame.sprite.Sprite):
         self.pegado_a=0
         self.vivo=True
         for a in range(self.arg):
-            # creo dos lista con los valores del rect de cada conector que creo
+            # creo dos lista con los valores del rect
+            # de cada conector que creo
             # y sus valores.
             # estas listas son las que parsean los componentes_datos
             self.lista_conector_h_datos.append((0,0,0,0))
             self.lista_valores.append("")
         self.dibujar()
     def dibujar(self):
+
         self.conector_h[0]=self.rectan[0]+10
         self.conector_h[1]=self.rectan[1]
-        # estos son los cuadrados que forman el vacio que representa el conector hembra
-        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1]-10, 10,10),0)
-        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+50,self.posicion[1]-10, 10,10),0)
+        # estos son los cuadrados que forman el vacio
+        # que representa el conector hembra
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (self.posicion[0],self.posicion[1]-10, 10,10),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (self.posicion[0]+50,self.posicion[1]-10,10,10),
+                        0
+                        )
         factor=0
-        #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]+60,self.posicion[1]-2),(self.posicion[0]+69,self.posicion[1]-2),5)
-        for a in range(self.arg):
+        if self.arg==0:
             # el cuerpo del componente
-            pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1]+factor, 60,40),0)
+            pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
+                            (
+                            self.posicion[0],
+                            self.posicion[1]+factor, 60,40
+                            ),
+                            0
+                            )
             # conector hembra datos
 
-            pygame.draw.rect(self.fondo.screen,self.color,((self.posicion[0]+60),(self.posicion[1]+factor), 10,10),0)
-            pygame.draw.rect(self.fondo.screen,self.color,((self.posicion[0]+60),(self.posicion[1]+30+factor), 10,10),0)
+            #~ pygame.draw.rect(
+                            #~ self.fondo.screen,
+                            #~ self.color,
+                            #~ (
+                            #~ (self.posicion[0]+60),
+                            #~ (self.posicion[1]+factor
+                            #~ ),
+                            #~ 10,10
+                            #~ ),
+                            #~ 0
+                            #~ )
+            #~ pygame.draw.rect(
+                            #~ self.fondo.screen,
+                            #~ self.color,
+                            #~ (
+                            #~ (self.posicion[0]+60),
+                            #~ (self.posicion[1]+30+factor),
+                            #~ 10,
+                            #~ 10
+                            #~ ),
+                            #~ 0
+                            #~ )
+            #~ self.conector_h_dato[0]=self.rectan[0]+60
+            #~ self.conector_h_dato[1]=self.rectan[1]+20+factor
+            #~ self.lista_conector_h_datos[0]= (
+                                            #~ self.conector_h_dato[0],
+                                            #~ self.conector_h_dato[1],
+                                            #~ self.conector_h_dato[2],
+                                            #~ self.conector_h_dato[3]
+                                            #~ )
+            factor +=40
+        for a in range(self.arg):
+            # el cuerpo del componente
+            pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
+                            (
+                            self.posicion[0],
+                            self.posicion[1]+factor, 60,40
+                            ),
+                            0
+                            )
+            # conector hembra datos
+
+            pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
+                            (
+                            (self.posicion[0]+60),
+                            (self.posicion[1]+factor
+                            ),
+                            10,10
+                            ),
+                            0
+                            )
+            pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
+                            (
+                            (self.posicion[0]+60),
+                            (self.posicion[1]+30+factor),
+                            10,
+                            10
+                            ),
+                            0
+                            )
             self.conector_h_dato[0]=self.rectan[0]+60
             self.conector_h_dato[1]=self.rectan[1]+20+factor
-            self.lista_conector_h_datos[a]=(self.conector_h_dato[0],self.conector_h_dato[1],self.conector_h_dato[2],self.conector_h_dato[3])
+            self.lista_conector_h_datos[a]= (
+                                            self.conector_h_dato[0],
+                                            self.conector_h_dato[1],
+                                            self.conector_h_dato[2],
+                                            self.conector_h_dato[3]
+                                            )
             factor +=40
         self.rectan[3]=factor
         self.conector_m[0]=self.rectan[0]+10
         self.conector_m[1]=self.rectan[1]+factor+10
-        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,(self.posicion[1]+factor), 40,10),0)
-        self.fondo.screen.blit(self.imagen,(self.posicion[0]+(self.rectan[2]/2)-15,self.posicion[1]+(self.rectan[3]/2)-5))
-        self.textorender.render(self.texto,self.color_texto,((self.posicion[0]+10),(self.posicion[1]+(self.rectan[3]/2)-20)))
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                        self.posicion[0]+10,
+                        (self.posicion[1]+factor),
+                        40,
+                        10
+                        ),
+                        0
+                        )
+        self.fondo.screen.blit(
+                                self.imagen,
+                                (self.posicion[0]+(self.rectan[2]/2)-15,
+                                self.posicion[1]+(self.rectan[3]/2)-5)
+                                )
+        self.textorender.render(
+                                self.texto,
+                                self.color_texto,
+                                (
+                                (
+                                self.posicion[0]+10),
+                                (self.posicion[1]+(self.rectan[3]/2)-20)
+                                )
+                                )
 
     def update(self):
         ban_a=0
@@ -88,7 +220,13 @@ class componente(pygame.sprite.Sprite):
             if self.pegado==0:
                 self.fondo.lista_ordenada[self.ide]=0
                 for a in range(len(self.fondo.objetos)):
-                    if self.conector_h.colliderect(self.fondo.objetos[a].conector_m) and self.fondo.objetos[a].vivo==True:
+                    if (self.conector_h.colliderect
+                            (
+                            self.fondo.objetos[a].conector_m
+                            )
+                        and
+                        self.fondo.objetos[a].vivo)==True:
+
                         self.pegado=1
                         self.pegado_a=a
                         break
@@ -150,14 +288,15 @@ class componente(pygame.sprite.Sprite):
 
 class componente_bloque_dos(pygame.sprite.Sprite):
     pulsado=0
-    rectan=pygame.Rect(0,0,60,60)#rectangulo que representa toda el area del componente
+    #rectangulo que representa toda el area del componente
+    rectan=pygame.Rect(0,0,60,60)
     ide=0
     color=(110,20,90)
     texto=""
     def __init__(self,x,y,identidad,color,texto,fondo,ventana,textorender):
         pygame.sprite.Sprite.__init__(self)
-        self.imagenintermedia=texto.strip(" ") #esto es para poder mandar los datos a guardar
-        #self.imagen=pygame.image.load("imagenes/componentes/"+texto.strip(" ")+".png")
+         #esto es para poder mandar los datos a guardar
+        self.imagenintermedia=texto.strip(" ")
         self.arg=0
         self.ide=identidad
         self.posicion=(x,y)
@@ -167,9 +306,12 @@ class componente_bloque_dos(pygame.sprite.Sprite):
         self.textorender=textorender
         self.texto=texto
         self.color_texto=self.fondo.color_texto
-        self.rectan=pygame.Rect(self.posicion[0],self.posicion[1],60,60)#rectangulo que representa toda el area del componente
-        self.conector_m=pygame.Rect(0,0,40,10)#conector macho
-        self.conector_h=pygame.Rect(0,0,40,10)#conector hembra
+        #rectangulo que representa toda el area del componente
+        self.rectan=pygame.Rect(self.posicion[0],self.posicion[1],60,60)
+        #conector macho
+        self.conector_m=pygame.Rect(0,0,40,10)
+        #conector hembra
+        self.conector_h=pygame.Rect(0,0,40,10)
         self.fondo.lista_ordenada.append(0)
         self.lista_conector_h_datos=[]
         self.lista_valores=[]
@@ -184,12 +326,9 @@ class componente_bloque_dos(pygame.sprite.Sprite):
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+60,self.posicion[1]-10, 10,10),0)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+110,self.posicion[1]-10, 10,10),0)
         # el cuerpo del componente
-
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1], 120,40),0)
         # el conector macho
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,self.posicion[1]+40, 40,10),0)
-
-#        texto.render(str(self.ide),self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
         self.textorender.render(self.texto,self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
         self.conector_m[0]=self.rectan[0]+10
         self.conector_m[1]=self.rectan[1]+50

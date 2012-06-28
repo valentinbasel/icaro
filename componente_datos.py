@@ -41,7 +41,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
                     fondo,
                     ventana,
                     textorender
-                    
+
                 ):
         pygame.sprite.Sprite.__init__(self)
         self.ide=identidad
@@ -99,7 +99,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
                         self.color,
                         (
                         self.posicion[0],
-                        self.posicion[1], 
+                        self.posicion[1],
                         60,
                         20
                         ),
@@ -141,7 +141,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
         cadena_auxiliar=""
         posic_mouse= self.ventana.mousexy
         botones_mouse = self.ventana.boton_mouse
-        # self.rectan es el rect 
+        # self.rectan es el rect
         # que representa la totalidad de la figura
         self.rectan[0]=self.posicion[0]
         self.rectan[1]=self.posicion[1]
@@ -182,7 +182,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
                                 +
                                 self.cadena_intermedia
                                 )
-        self.cadena_final=self.cadena_final.replace("\r", '')        
+        self.cadena_final=self.cadena_final.replace("\r", '')
         if self.conectado==0:
             if self.pegado==0:
                 for a in range(1,len(self.fondo.objetos)):
@@ -223,9 +223,9 @@ class comp_dat_arg(pygame.sprite.Sprite):
         else:
             self.cadena_intermedia=""
         if (
-            botones_mouse[1]==1 and 
-            self.rectan.collidepoint(self.ventana.mousexy) and 
-            self.pulsado==0 and 
+            botones_mouse[1]==1 and
+            self.rectan.collidepoint(self.ventana.mousexy) and
+            self.pulsado==0 and
             self.ventana.seleccionado_datos==0
             ):
             posic_mouse= self.ventana.mousexy

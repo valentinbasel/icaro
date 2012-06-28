@@ -30,3 +30,39 @@ iteración condicional. Codigo C: if(valor){
 mientras 
 Repite las instrucciones dentro del bloque mientras se cumpla una expresion determinada. Codigo C: while(valor){
 </tool>
+<tool>
+mover
+herramienta para mover los componentes
+</tool>
+<tool>
+borrar
+herramienta para borrar los componentes
+</tool>
+<tool>
+lapiz
+herramienta para colocación de componentes
+</tool>
+<tool>
+compilar
+compila el bloque
+</tool>
+<tool>
+cargar
+carga el codigo en el pic
+</tool>
+<tool>
+tortucaro
+prepara la placa para trabajar con turtleart
+</tool>
+<tool>
+ayuda
+menu de ayuda
+</tool>
+<tool>
+ver_codigo
+muestra el codigo fuente generado por icaro
+</tool>
+<tool>
+salir
+sale del programe
+</tool>

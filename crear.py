@@ -36,7 +36,7 @@ def parseador(lista,argumentos,texto,cadena_final,fondo,ventana):
                     parser_final=parser_final+cadena_final[b]
                 b=b+1
         b=b+1
-    ventana.cadena_pinguino.append(parser_final)
+    ventana.cadena_pinguino.append(parser_final+"\n")
 def crear_archivo(fondo, ventana):
     cadena_final=[]
     f=open("diccionario.xml","r")
@@ -101,6 +101,6 @@ def crear_archivo(fondo, ventana):
     fw=open("source/user.c","w")
     for a in range (len(ventana.cadena_pinguino)):
         fw.writelines(ventana.cadena_pinguino[a])
-        fw.write("\n")
+        #fw.write("\n")
     fw.close()
 

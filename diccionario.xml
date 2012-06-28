@@ -49,6 +49,11 @@ if(
 valor
 ){
 </si>
+<sino>
+}
+else
+{
+</sino>
 <fin>
 }
 </fin>

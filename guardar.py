@@ -110,7 +110,8 @@ def guardar(obj,ruta,fondo):
 
             file.writelines(str(fondo.objetos[i].posicion))
             file.write("\n")
-
+            file.writelines(str(fondo.objetos[i].posicion2))
+            file.write("\n")
             file.writelines(str(fondo.objetos[i].color))
             file.write("\n")
 

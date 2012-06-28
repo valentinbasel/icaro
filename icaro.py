@@ -165,13 +165,13 @@ class Ventana:
             menu2.append(menu_items2)
             menu_items2.connect("activate", self.menuitem_response, i)
             menu_items2.show()
-            
-            
+
+
         # los menus del toolbar se agrupan en estos dos "menus raices"
         root_menu = gtk.MenuItem("Archivo")
         root_menu.show()
         root_menu.set_submenu(menu)
-        
+
         root_menu2 = gtk.MenuItem("editar")
         root_menu2.show()
         root_menu2.set_submenu(menu2)
@@ -191,7 +191,7 @@ class Ventana:
         iconw.set_from_file("imagenes/icaro.png")
         compilar_button = toolbar.append_item(
                         "compilar",
-                        "compila el bloque",
+                        self.tooltip["compilar"],
                         "Private",
                         iconw,
                         self.compilar)
@@ -200,7 +200,7 @@ class Ventana:
         iconw.set_from_file("imagenes/compilar.png")
         cargar_button = toolbar.append_item(
                         "cargar",
-                        "carga el codigo en el pic",
+                        self.tooltip["cargar"],
                         "Private",
                         iconw,
                         self.upload)
@@ -209,7 +209,7 @@ class Ventana:
         iconw.set_from_file("imagenes/tortucaro.png")
         cargar_button = toolbar.append_item(
                         "tortucaro",
-                        "prepara la placa para trabajar con turtleart",
+                        self.tooltip["tortucaro"],
                         "Private",
                         iconw,
                         self.tortucaro)
@@ -219,7 +219,7 @@ class Ventana:
         iconw.set_from_stock(gtk.STOCK_HELP,30)
         salir_button = toolbar.append_item(
                         "ayuda",
-                        "menu de ayuda",
+                        self.tooltip["ayuda"],
                         "Private",
                         iconw,
                         self.ayuda)
@@ -227,7 +227,7 @@ class Ventana:
         iconw.set_from_stock(gtk.STOCK_PROPERTIES,30)
         salir_button = toolbar.append_item(
                         "ver codigo",
-                        "muestra el codigo fuente generado por icaro",
+                        self.tooltip["ver_codigo"],
                         "Private",
                         iconw,
                         self.ver)
@@ -235,20 +235,19 @@ class Ventana:
         iconw.set_from_stock(gtk.STOCK_QUIT,30)
         salir_button = toolbar.append_item(
                         "salir",
-                        "sale del programa",
+                        self.tooltip["salir"],
                         "Private",
                         iconw,
                         exit)
 
         # un espacio en blanco para separar
         toolbar.append_space()
-
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_EDIT,30)
         dibujar_button = toolbar.append_element(
                         gtk.TOOLBAR_CHILD_RADIOBUTTON,None,
                         "lapiz",
-                        "herramienta para colocación de componentes",
+                        self.tooltip["lapiz"],
                         "Private",
                         iconw,
                         self.dibujo,1)
@@ -257,7 +256,7 @@ class Ventana:
         mover_button = toolbar.append_element(
                         gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
                         "mover",
-                        "herramienta para mover los componentes",
+                        self.tooltip["mover"],
                         "Private",
                         iconw,
                         self.dibujo,2)
@@ -267,7 +266,7 @@ class Ventana:
         mover_button = toolbar.append_element(
                         gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
                         "borrar",
-                        "herramienta para borrar los componentes",
+                        self.tooltip["borrar"],
                         "Private",
                         iconw,
                         self.dibujo,3)
@@ -306,7 +305,8 @@ class Ventana:
                                 )
         button = gtk.RadioButton()
         if self.tooltip.has_key(self.diccionario[self.lista[1]][0]):
-            button.set_tooltip_text(self.tooltip[self.diccionario[self.lista[1]][0]])
+            val=self.tooltip[self.diccionario[self.lista[1]][0]]
+            button.set_tooltip_text(val)
         # bucle principal donde se cargan los RAdioButton donde se cargan
         # los componentes del diccionario
 
@@ -325,15 +325,19 @@ class Ventana:
             else:
                 buffer = self.diccionario[self.lista[i]][0]
                 caja = self.imagen_boton(
-                                        self.diccionario[self.lista[i]][0],
-                                        self.diccionario[self.lista[i]][0]
+                                    self.diccionario[self.lista[i]][0],
+                                    self.diccionario[self.lista[i]][0]
                                         )
                 button = gtk.RadioButton(button)
-                if self.tooltip.has_key(self.diccionario[self.lista[i]][0]):
-                    tool=self.tooltip[self.diccionario[self.lista[i]][0]]
+                if self.tooltip.has_key(
+                                self.diccionario[self.lista[i]][0]
+                                        ):
+                    tool=self.tooltip   [
+                                self.diccionario[self.lista[i]][0]
+                                        ]
                     button.set_tooltip_text(tool)
                 button.add(caja)
-                button.connect("clicked", self.botones,self.lista[i])#buffer
+                button.connect("clicked", self.botones,self.lista[i])
                 table.pack_start(button, False, True, 0)
                 button.show()
             #empaqueto todo
@@ -569,7 +573,9 @@ class Ventana:
 
     def upload(self,b):
         resultado=1
-        self.mensajes(3,"aprete el boton RESET de la placa pinguino antes de continuar")
+        self.mensajes   (3,
+        "aprete el boton RESET de la placa pinguino antes de continuar"
+                        )
         i=carga.upload_pic("/source/main")
         for d in i.readlines():
             if d.find("writing")==0:
@@ -590,7 +596,10 @@ class Ventana:
             self.mensajes(0,"hubo un error de compilacion")
             comp=1
         if comp==0:
-            self.mensajes(3,"aprete el boton RESET de la placa pinguino antes de continuar")
+            self.mensajes   (
+                            3,
+        "aprete el boton RESET de la placa pinguino antes de continuar"
+                            )
             i=carga.upload_pic("/tortucaro/main")
             for d in i.readlines():
                 if d.find("writing")==0:
@@ -628,7 +637,7 @@ class Ventana:
 # LAS RESPUESTAS DEL MENU
 # ==============================================================================
     def menuitem_response(self, widget, string):
-        print string
+
         if string=="abrir":
             dialog = gtk.FileChooserDialog(
                                             "Open..",
@@ -637,7 +646,7 @@ class Ventana:
                                                 (
                                                 gtk.STOCK_CANCEL,
                                                 gtk.RESPONSE_CANCEL,
-                                                gtk.STOCK_OPEN, 
+                                                gtk.STOCK_OPEN,
                                                 gtk.RESPONSE_OK
                                                 )
                                             )
@@ -711,7 +720,7 @@ class Ventana:
                 color = colorsel.get_current_color()
                 # color devuelve un gtk.gdk.color
                 # pero el RGB es un integer de 65535 valores
-                # con una regla de tres simple lo adapto a los 
+                # con una regla de tres simple lo adapto a los
                 # 255 valores que soporta pygame
                 fondo.FONDO=(
                             (color.red*255)/65535,
@@ -723,12 +732,12 @@ class Ventana:
 
             colorseldlg.hide()
         if string=="acerca de":
-            
+
             about = gtk.AboutDialog()
-            about.set_logo(gtk.gdk.pixbuf_new_from_file("imagenes/icaro.png"))
+            logo=gtk.gdk.pixbuf_new_from_file("imagenes/icaro.png")
+            about.set_logo(logo)
             about.set_name(creditos.Info.name)
             about.set_authors(creditos.Info.authors)
-
             about.set_documenters(creditos.Info.documenters)
             about.set_artists(creditos.Info.artists)
             about.set_translator_credits(creditos.Info.translator)
@@ -770,7 +779,7 @@ class Ventana:
 
             self.diccionario[q]=["notebook",str(archivo[i])]
             q=q+1
-            f=open(ruta + archivo[i],"r")
+            f=open(ruta + archivo[i]+".xml","r")
             cadena=f.readlines()
             a=0
             for n in range(len(cadena)):
@@ -789,7 +798,7 @@ class Ventana:
                     self.diccionario[q]=tupla
                     q=q+1
                 a=a+1
-                print self.diccionario
+                #print self.diccionario
     def carga_paleta(self):
         R=G=B=""
         archivo=open("colores.dat","r")
@@ -800,7 +809,11 @@ class Ventana:
         for a in range(len(self.lista)):
             if self.diccionario[self.lista[a]][0]<>"notebook":
                  R,G,B=tupla[a].split(",")
-                 self.diccionario[self.lista[a]][3]=(int(R),int(G),int(B))
+                 self.diccionario[self.lista[a]][3]=(
+                                                    int(R),
+                                                    int(G),
+                                                    int(B)
+                                                    )
 
 #
 # ==============================================================================
