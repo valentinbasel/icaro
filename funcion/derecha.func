@@ -1,0 +1,11 @@
+void derecha(){
+ServoWrite(10,100);ServoWrite(11,120);ServoWrite(12,100);ServoWrite(8,120);ServoWrite(9,0  );
+Delayms(1000);
+ServoWrite(10,100);ServoWrite(11,120);ServoWrite(12,30);ServoWrite(8,120);ServoWrite(9,0  );
+Delayms(1000);
+ServoWrite(10,100);ServoWrite(11,40);ServoWrite(12,30);ServoWrite(8,80);ServoWrite(9,0  );
+Delayms(1000);
+
+ServoWrite(10,100);ServoWrite(11,30);ServoWrite(12,100);ServoWrite(8,80);ServoWrite(9,0  );
+Delayms(1000);
+}

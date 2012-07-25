@@ -44,11 +44,11 @@ class puntero(pygame.sprite.Sprite):
     def update(self):
         posic_mouse= self.ventana.mousexy
         if self.ventana.seleccion_menu==1:
-            self.imagen=pygame.image.load("imagenes/mouse/lapiz.png")
+            self.imagen=pygame.image.load(sys.path[0] + "/imagenes/mouse/lapiz.png")
         if self.ventana.seleccion_menu==2:
-            self.imagen=pygame.image.load("imagenes/mouse/puntero.png")
+            self.imagen=pygame.image.load(sys.path[0] + "/imagenes/mouse/puntero.png")
         if self.ventana.seleccion_menu==3:
-            self.imagen=pygame.image.load("imagenes/mouse/borrar.png")
+            self.imagen=pygame.image.load(sys.path[0] + "/imagenes/mouse/borrar.png")
         xy=posic_mouse[0]-10,posic_mouse[1]-10
         self.fondo.screen.blit(self.imagen,xy)
 
@@ -75,14 +75,24 @@ class fondo(pygame.sprite.Sprite):
     #variables globales
     color_texto=(255,255,255)
     poscion_botones=0
+    band=0
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         size = width, height = 1100, 2000
         self.screen = pygame.display.set_mode(size)
         self.largo,self.alto=self.screen.get_size()
         self.lista_ordenada.append(0)
+        self.img=""
+    def carga_img(self,img):
+        self.img=img
+        self.imagen=pygame.image.load(self.img)
+        self.img_rect=self.imagen.get_rect()
+        self.band=1
     def update(self):
         self.screen.fill(self.FONDO)
+        if self.band==1:
+            self.screen.blit(self.imagen,(0,0))
         pygame.mouse.set_visible(False)
         pygame.display.update
 
@@ -138,7 +148,10 @@ class Ventana:
         #declaro la ventana principal
         self.window1 = gtk.Window()
         self.window1.connect('delete-event', gtk.main_quit)
-        self.window1.set_icon_from_file("imagenes/icaro.png")
+        self.window1.set_icon_from_file(
+                                        sys.path[0] +
+                                         "/imagenes/icaro.png"
+                                         )
         #~ self.window1.fullscreen()
         #self.window1.fullscreen()
         # declaro el drawing area donde va a estar pygame
@@ -149,7 +162,15 @@ class Ventana:
         # declaro los botones del menu 'menu' y 'edicion'
         menu = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
-        buf=("nuevo","abrir","guardar","guardar como","salir")
+        buf=(
+                "nuevo",
+                "abrir",
+                "guardar",
+#                "guardar como",
+                "guardar como función",
+                "ejemplos",
+                "salir"
+            )
         for i in buf:
             menu_items = gtk.MenuItem(i)
             menu.append(menu_items)
@@ -159,7 +180,7 @@ class Ventana:
 
         menu2 = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
-        buf2=("color","acerca de")
+        buf2=("fondo","color","acerca de")
         for i in buf2:
             menu_items2 = gtk.MenuItem(i)
             menu2.append(menu_items2)
@@ -188,7 +209,45 @@ class Ventana:
         toolbar.show()
         # creo los botones de la toolbar
         iconw = gtk.Image()
-        iconw.set_from_file("imagenes/icaro.png")
+        iconw.set_from_stock(gtk.STOCK_NEW,30)
+        salir_button = toolbar.append_item(
+                        "Nuevo",
+                        self.tooltip["nuevo"],
+                        "Private",
+                        iconw,
+                        self.nuevo)
+
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_OPEN,30)
+        salir_button = toolbar.append_item(
+                        "Abrir",
+                        self.tooltip["abrir"],
+                        "Private",
+                        iconw,
+                        self.abrir)
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_SAVE,30)
+        salir_button = toolbar.append_item(
+                        "Guardar",
+                        self.tooltip["guardar"],
+                        "Private",
+                        iconw,
+                        self.guardar)
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_QUIT,30)
+        salir_button = toolbar.append_item(
+                        "salir",
+                        self.tooltip["salir"],
+                        "Private",
+                        iconw,
+                        exit)
+
+        toolbar.append_space()
+
+
+
+        iconw = gtk.Image()
+        iconw.set_from_file(sys.path[0] + "/imagenes/icaro.png")
         compilar_button = toolbar.append_item(
                         "compilar",
                         self.tooltip["compilar"],
@@ -197,7 +256,7 @@ class Ventana:
                         self.compilar)
 
         iconw = gtk.Image()
-        iconw.set_from_file("imagenes/compilar.png")
+        iconw.set_from_file(sys.path[0] + "/imagenes/compilar.png")
         cargar_button = toolbar.append_item(
                         "cargar",
                         self.tooltip["cargar"],
@@ -206,7 +265,7 @@ class Ventana:
                         self.upload)
 
         iconw = gtk.Image()
-        iconw.set_from_file("imagenes/tortucaro.png")
+        iconw.set_from_file(sys.path[0] + "/imagenes/tortucaro.png")
         cargar_button = toolbar.append_item(
                         "tortucaro",
                         self.tooltip["tortucaro"],
@@ -231,14 +290,7 @@ class Ventana:
                         "Private",
                         iconw,
                         self.ver)
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_QUIT,30)
-        salir_button = toolbar.append_item(
-                        "salir",
-                        self.tooltip["salir"],
-                        "Private",
-                        iconw,
-                        exit)
+
 
         # un espacio en blanco para separar
         toolbar.append_space()
@@ -390,7 +442,7 @@ class Ventana:
         box1.set_border_width(0)
         image = gtk.Image()
         xpm_filename=xpm_filename.strip(" ")
-        buf="imagenes/componentes/"+xpm_filename+".png"
+        buf=sys.path[0] + "/imagenes/componentes/"+xpm_filename+".png"
         image.set_from_file(buf)
         label = gtk.Label(label_text)
         box1.pack_start(image, False, True, 1)
@@ -409,12 +461,22 @@ class Ventana:
                 gtk.MESSAGE_ERROR,
                 gtk.MESSAGE_INFO
                 )
+        botones=(
+                gtk.BUTTONS_OK,
+                gtk.BUTTONS_OK_CANCEL,
+                gtk.BUTTONS_OK,
+                gtk.BUTTONS_OK
+                )
         md = gtk.MessageDialog(None,
             gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
             tipo[num],
-            gtk.BUTTONS_OK, mensa)
-        md.run()
+            botones[num], mensa)
+        resp=md.run()
         md.destroy()
+        if resp == gtk.RESPONSE_OK:
+            return True
+        elif resp == gtk.RESPONSE_CANCEL:
+            return False
 
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
@@ -558,14 +620,14 @@ class Ventana:
     # cadena_pinguino
     def carga(self):
         self.cadena_pinguino[:]=[]
-        archivo=open("source/template.pde","r")
+        archivo=open(sys.path[0] +"/source/template.pde","r")
         for linea in archivo:
             self.cadena_pinguino.append(linea)
 
     def compilar(self,b):
         self.carga()
         crear.crear_archivo(self.fondo,self)
-        i=carga.compilar_pic("/source/main")
+        i=carga.compilar_pic("/source/")
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
         else:
@@ -588,7 +650,7 @@ class Ventana:
     def tortucaro(self,b):
         resultado=1
         comp=1
-        i=carga.compilar_pic("/tortucaro/main")
+        i=carga.compilar_pic("/tortucaro/")
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
             comp=0
@@ -608,6 +670,99 @@ class Ventana:
                 self.mensajes(3,"la carga fue exitosa")
             else:
                 self.mensajes(0,"hubo un error en la carga del PIC")
+    def guardar(self,dato):
+        dialog = gtk.FileChooserDialog("save..",
+                                        None,
+                                        gtk.FILE_CHOOSER_ACTION_SAVE,
+                                            (
+                                            gtk.STOCK_CANCEL,
+                                            gtk.RESPONSE_CANCEL,
+                                            gtk.STOCK_SAVE,
+                                            gtk.RESPONSE_OK
+                                            )
+                                        )
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            cadena=dialog.get_filename()
+            if os.path.isfile(cadena):
+                resp=self.mensajes(
+                            1,
+                            "Ya existe un archivo con el nombre "+
+                            cadena + "¿Quiere reemplazarlo?"
+                                    )
+            else:
+                resp=False
+            if resp==True or os.path.isfile(cadena)==False :
+                guardar.guardar(
+                                self.fondo.objetos,
+                                cadena,
+                                self.fondo
+                                )
+        elif response == gtk.RESPONSE_CANCEL:
+            print 'Closed, no files selected'
+        dialog.destroy()
+
+    def abrir(self,dato):
+
+        dialog = gtk.FileChooserDialog(
+                                        "Open..",
+                                        None,
+                                        gtk.FILE_CHOOSER_ACTION_OPEN,
+                                            (
+                                            gtk.STOCK_CANCEL,
+                                            gtk.RESPONSE_CANCEL,
+                                            gtk.STOCK_OPEN,
+                                            gtk.RESPONSE_OK
+                                            )
+                                        )
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        if dato <>"":
+            print dato
+            dialog.set_current_folder(dato)
+        #~ filter = gtk.FileFilter()
+        #~ filter.set_name("All files")
+        #~ filter.add_pattern("*")
+        #~ dialog.add_filter(filter)
+        filter = gtk.FileFilter()
+        filter.set_name("icaro")
+        filter.add_pattern("*.icr")
+        dialog.add_filter(filter)
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            nuevo.nuevo(self.fondo)
+            inicial=componente_inicial (
+                                        20,50,1,
+                                        self.fondo,
+                                        self,self.textorender
+                                        )
+            self.fondo.componentes.add(inicial)
+            self.fondo.objetos.append(inicial)
+            cadena= dialog.get_filename()
+            abrir.abrir(
+                        self.diccionario,
+                        cadena,
+                        self.fondo,
+                        self,
+                        self.textorender
+                        )
+        elif response == gtk.RESPONSE_CANCEL:
+            print 'Closed, no files selected'
+        dialog.destroy()
+    def nuevo(self,dato):
+        nuevo.nuevo(self.fondo)
+        self.fondo.band=0
+        self.fondo.FONDO=(00,22,55)
+        inicial=componente_inicial(
+                                    20,
+                                    50,
+                                    1,
+                                    self.fondo,
+                                    self,
+                                    self.textorender
+                                    )
+        self.fondo.componentes.add(inicial)
+        self.fondo.objetos.append(inicial)
 # ==============================================================================
 # FUNCIONES DE LOS EVENTOS DEL MOUSE Y TECLADO
 # ==============================================================================
@@ -625,7 +780,13 @@ class Ventana:
 
     def keypress_cb(self,win,event):
         self.tecla=1
+        #~ print event.keyval
+        #~ if event.keyval==32:
+            #~ self.valor_tecla=" "
+        #~ else:
+            #~ self.valor_tecla= event.string
         self.valor_tecla= event.string
+
         if event.keyval==65293:
             self.tecla_enter=1
 
@@ -639,56 +800,17 @@ class Ventana:
     def menuitem_response(self, widget, string):
 
         if string=="abrir":
-            dialog = gtk.FileChooserDialog(
-                                            "Open..",
-                                           None,
-                                           gtk.FILE_CHOOSER_ACTION_OPEN,
-                                                (
-                                                gtk.STOCK_CANCEL,
-                                                gtk.RESPONSE_CANCEL,
-                                                gtk.STOCK_OPEN,
-                                                gtk.RESPONSE_OK
-                                                )
-                                            )
-            dialog.set_default_response(gtk.RESPONSE_OK)
-            filter = gtk.FileFilter()
-            filter.set_name("All files")
-            filter.add_pattern("*")
-            dialog.add_filter(filter)
-            filter = gtk.FileFilter()
-            filter.set_name("icaro")
-            filter.add_pattern("*.icr2")
-            dialog.add_filter(filter)
-            response = dialog.run()
-            if response == gtk.RESPONSE_OK:
-                nuevo.nuevo(self.fondo)
-                inicial=componente_inicial (
-                                            20,50,1,
-                                            self.fondo,
-                                            self,self.textorender
-                                            )
-                self.fondo.componentes.add(inicial)
-                self.fondo.objetos.append(inicial)
-                cadena= dialog.get_filename()
-                abrir.abrir(
-                            self.diccionario,
-                            cadena,
-                            self.fondo,
-                            self,
-                            self.textorender
-                            )
-            elif response == gtk.RESPONSE_CANCEL:
-                print 'Closed, no files selected'
-            dialog.destroy()
-
+            # tengo que madar un -dato- para mantener compatibilidad con
+            # los botones de la barra de herramienta que generan un dato
+            # -b- que envian a la funcion.
+            self.abrir("")
         if string=="salir":
             exit()
         if string=="nuevo":
-            nuevo.nuevo(self.fondo)
-            inicial=componente_inicial(20,50,1,self.fondo,self,self.textorender)
-            self.fondo.componentes.add(inicial)
-            self.fondo.objetos.append(inicial)
+            self.nuevo(0)
         if string=="guardar":
+            self.guardar(0)
+        if string=="guardar como función":
             dialog = gtk.FileChooserDialog("save..",
                                            None,
                                            gtk.FILE_CHOOSER_ACTION_SAVE,
@@ -702,15 +824,37 @@ class Ventana:
             dialog.set_default_response(gtk.RESPONSE_OK)
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
-                guardar.guardar(
-                                self.fondo.objetos,
-                                dialog.get_filename(),
-                                self.fondo
-                                )
+                crear.funcion(self.fondo,self,dialog.get_filename(),)
             elif response == gtk.RESPONSE_CANCEL:
                 print 'Closed, no files selected'
             dialog.destroy()
+        if string=="ejemplos":
+            self.abrir(sys.path[0]+"/ejemplos")
+        if string=="fondo":
+            dialog = gtk.FileChooserDialog(
+                                            "Open..",
+                                            None,
+                                            gtk.FILE_CHOOSER_ACTION_OPEN,
+                                                (
+                                                gtk.STOCK_CANCEL,
+                                                gtk.RESPONSE_CANCEL,
+                                                gtk.STOCK_OPEN,
+                                                gtk.RESPONSE_OK
+                                                )
+                                            )
+            dialog.set_default_response(gtk.RESPONSE_OK)
+            response = dialog.run()
+            cadena= dialog.get_filename()
+            if response == gtk.RESPONSE_OK:
+                print "imagen", cadena
+                try:
+                    self.fondo.carga_img(cadena)
+                except Exception, ex:
+                    self.mensajes(2,"archivo no valido")
 
+            elif response == gtk.RESPONSE_CANCEL:
+                print 'Closed, no files selected'
+            dialog.destroy()
         if string=="color":
 
             colorseldlg = gtk.ColorSelectionDialog("selección de color")
@@ -722,7 +866,7 @@ class Ventana:
                 # pero el RGB es un integer de 65535 valores
                 # con una regla de tres simple lo adapto a los
                 # 255 valores que soporta pygame
-                fondo.FONDO=(
+                self.fondo.FONDO=(
                             (color.red*255)/65535,
                             (color.green*255)/65535,
                             (color.blue*255)/65535
@@ -734,7 +878,7 @@ class Ventana:
         if string=="acerca de":
 
             about = gtk.AboutDialog()
-            logo=gtk.gdk.pixbuf_new_from_file("imagenes/icaro.png")
+            logo=gtk.gdk.pixbuf_new_from_file(sys.path[0]+"/imagenes/icaro.png")
             about.set_logo(logo)
             about.set_name(creditos.Info.name)
             about.set_authors(creditos.Info.authors)
@@ -801,7 +945,7 @@ class Ventana:
                 #print self.diccionario
     def carga_paleta(self):
         R=G=B=""
-        archivo=open("colores.dat","r")
+        archivo=open(sys.path[0] + "/colores.dat","r")
         tupla=[]
         cadena=archivo.readlines()
         for n in cadena:

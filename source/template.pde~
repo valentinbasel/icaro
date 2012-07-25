@@ -1,46 +1,52 @@
 float tiempo=0;
 float tiempo2=0;
 unsigned char i;
-const uchar maska[29]={0X01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,		// PORTB
-					  0x40,0X80,0x01,0x02,0x04,						// PORTC
-					  0x01,0x02,0x04,0x08,0x20,						// PORTA
-					  0X01,0X02,0X04,								// PORTE
-					  0X01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};		// PORTD
+
 void setup()
 {
-/*
-for(i=0;i<8;i++)
-{
-pinmode(i,OUTPUT);
-digitalwrite(i,HIGH);
-}*/
-TRISB=0;
-pinmode(15,INPUT);
-pinmode(21,INPUT);
-pinmode(22,INPUT);
-pinmode(23,INPUT);
-pinmode(24,INPUT);
-pinmode(25,OUTPUT);
-pinmode(26,OUTPUT);
-pinmode(27,OUTPUT);
-pinmode(28,OUTPUT);
-ServoAttach(10);
-ServoAttach(11);
-ServoAttach(12);
-ServoAttach(8);
-ServoAttach(9);
+    TRISB=0;
+    pinmode(15,INPUT);
+    pinmode(21,INPUT);
+    pinmode(22,INPUT);
+    pinmode(23,INPUT);
+    pinmode(24,INPUT);
+    pinmode(25,OUTPUT);
+    pinmode(26,OUTPUT);
+    pinmode(27,OUTPUT);
+    pinmode(28,OUTPUT);
+    ServoAttach(10);
+    ServoAttach(11);
+    ServoAttach(12);
+    ServoAttach(8);
+    ServoAttach(9);
 }
-
 
 unsigned int sensor(int valor)
 {
-unsigned int an;
-an=analogread(valor);
-return an;
+    unsigned int an;
+    an=analogread(valor);
+    return an;
 }
 
-
+void ServoLento(int servo,int inicial,int final,int tiempo)
+{
+	int grado=0;
+	if (inicia<final)
+	{
+	for (grado=inicial;grado<final;grado++)
+	{
+		ServoWrite(servo,grado);
+		Delayms(tiempo);
+	}
+	}
+	if (inicial>final)
+	{
+	for (grado=inicial;grado>final;grado--)
+	{
+		ServoWrite(servo,grado);
+		Delayms(tiempo);
+	}
+	}
+}
 void loop()
 {
-
-

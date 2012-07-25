@@ -21,8 +21,7 @@ def compilar_pic(ruta):
 
     chemin = sys.path[0]
     fichier = open(sys.path[0] + "/tmp/stdout", 'w+')
-    sortie = str(sys.path[0] +
-                        "/tools/bin/sdcc "+
+    sortie = str("sdcc-sdcc "+
                         " -mpic16"+
                         " --denable-peeps"+
                         " --obanksel=9"+
@@ -31,19 +30,20 @@ def compilar_pic(ruta):
                         " --optimize-df"+
                         " -p" + processor +
                         " -I" + sys.path[0] +
-                        "/include"+ " -I" + chemin +
-                        "/"+
+                        "/include"+ " -I" + chemin +ruta
+                        +
                         " -c"+
                         " -c"+
                         " -o" +
                         sys.path[0] +
-                        ruta +".o " +
+                        ruta +"main.o " +
                         sys.path[0] +
-                        ruta + ".c")
+                        ruta + "main.c")
+    print sortie
     i=os.system(sortie)
     return i
 def upload_pic(ruta):
-    sortie2=str(sys.path[0]+"/tools/bin/sdcc"+
+    sortie2=str(        "sdcc-sdcc"+
                         " -o"+sys.path[0].replace(" ","\\ ")+ ruta +".hex"+
                         " --denable-peeps"+
                         " --obanksel=9"+
@@ -54,15 +54,19 @@ def upload_pic(ruta):
                         " -Wl-s"+sys.path[0].replace(" ","\\ ")+"/lkr/18f2550.lkr,-m "+
                         " -mpic16"+
                         " -p"+processor+
-                        " -l"+sys.path[0].replace(" ","\\ ")+"/lib/libpuf.lib "+
-                        " -llibio"+processor+".lib"+
-                        " -llibc18f.lib "+
-                        " -llibm18f.lib "+
+                        " -l "+sys.path[0].replace(" ","\\ ")+"/lib/libpuf.lib "+
+                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libio"+processor+".lib"+
+                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libc18f.lib "+
+                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libdev18f4550.lib"+
+
+                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libm18f.lib "+
                         sys.path[0].replace(" ","\\ ")+"/obj/application_iface.o "+
                         sys.path[0].replace(" ","\\ ")+"/obj/usb_descriptors.o "+
                         sys.path[0].replace(" ","\\ ")+"/obj/crt0ipinguino.o "+
                         sys.path[0].replace(" ","\\ ")+ruta + ".o ")
+    print sortie2
     i=os.system(sortie2)
+
     sortie3=str(sys.path[0]+"/tools/bin/docker "+
                         "-v "+
                         "04d8 "+

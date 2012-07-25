@@ -1,0 +1,138 @@
+<fondo>
+(165, 113, 113)
+1
+/home/valentin/github/icaro-bloques/ejemplos/servos/hola mundo servo/hola mundo.png
+</fondo>
+<objeto_inicial>
+(150.0, 123.0)
+</objeto_inicial>
+<objeto_dato_img>
+servo1.png
+1
+(217, 283)
+srv1 
+(112, 236, 173)
+0
+10
+
+10
+</objeto_dato_img>
+<objeto_dato_img>
+servo1.png
+2
+(217, 423)
+srv1 
+(112, 236, 173)
+0
+10
+
+10
+</objeto_dato_img>
+<objeto_dato>
+3
+(217, 463)
+250
+(49, 107, 222)
+1
+0
+
+250
+</objeto_dato>
+<objeto_dato>
+4
+(217, 513)
+1000
+(49, 107, 222)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+5
+(217, 373)
+1000
+(49, 107, 222)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+6
+(217, 323)
+10
+(49, 107, 222)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato>
+7
+(259, 183)
+El primer valor es el servo
+(71, 138, 26)
+1
+a
+
+El primer valor es el servo
+</objeto_dato>
+<objeto_dato>
+8
+(259, 233)
+El segundo valor son los grados de 0 a 255
+(71, 138, 26)
+1
+a
+
+El segundo valor son los grados de 0 a 255
+</objeto_dato>
+<objeto_componente>
+servo
+2
+2
+(150, 273)
+(2, 154, 66)
+servo 
+</objeto_componente>
+<objeto_componente>
+servo
+2
+3
+(150, 413)
+(2, 154, 66)
+servo 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+4
+(150, 363)
+(230, 81, 145)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+5
+(150, 503)
+(230, 81, 145)
+pausa 
+</objeto_componente>
+<objeto_componente>
+comentarios
+1
+6
+(150, 173)
+(203, 72, 245)
+comentarios 
+</objeto_componente>
+<objeto_componente>
+comentarios
+1
+7
+(150, 223)
+(203, 72, 245)
+comentarios 
+</objeto_componente>

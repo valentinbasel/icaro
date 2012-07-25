@@ -1,0 +1,100 @@
+<fondo>
+(79, 187, 188)
+1
+/home/valentin/github/icaro-bloques/imagenes/fondos/hola_mundo.png
+</fondo>
+<objeto_inicial>
+(222.0, 66.0)
+</objeto_inicial>
+<objeto_dato>
+1
+(289, 326)
+1000
+(49, 107, 222)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+2
+(289, 226)
+1000
+(49, 107, 222)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato_img>
+parar.png
+3
+(289, 276)
+0 
+(95, 240, 64)
+0
+0
+
+0
+</objeto_dato_img>
+<objeto_dato_img>
+adelante.png
+4
+(289, 176)
+96 
+(97, 114, 120)
+0
+96
+
+96
+</objeto_dato_img>
+<objeto_dato>
+5
+(331, 126)
+Prueba de motores CC
+(71, 138, 26)
+1
+a
+
+Prueba de motores CC
+</objeto_dato>
+<objeto_componente>
+robot
+1
+2
+(222, 166)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+robot
+1
+3
+(222, 266)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+4
+(222, 216)
+(230, 81, 145)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+5
+(222, 316)
+(230, 81, 145)
+pausa 
+</objeto_componente>
+<objeto_componente>
+comentarios
+1
+6
+(222, 116)
+(203, 72, 245)
+comentarios 
+</objeto_componente>

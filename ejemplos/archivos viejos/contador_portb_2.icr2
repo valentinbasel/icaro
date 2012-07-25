@@ -1,0 +1,240 @@
+<objeto_inicial>
+(125.0, 21.0)
+</objeto_inicial>
+<objeto_dato>
+1
+(245, 411)
+a
+(69, 168, 65)
+1
+0
+=a* 2
+a=a* 2
+</objeto_dato>
+<objeto_dato>
+2
+(245, 311)
+a
+(69, 168, 65)
+1
+0
+
+a
+</objeto_dato>
+<objeto_dato>
+3
+(245, 361)
+1000
+(69, 168, 65)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+4
+(245, 261)
+b
+(69, 168, 65)
+1
+0
+<8
+b<8
+</objeto_dato>
+<objeto_dato_img>
+menor.png
+5
+(305, 261)
+< 
+(232, 67, 222)
+0
+<
+8
+<8
+</objeto_dato_img>
+<objeto_dato>
+6
+(185, 121)
+1
+(69, 168, 65)
+1
+0
+
+1
+</objeto_dato>
+<objeto_dato>
+7
+(185, 81)
+a
+(69, 168, 65)
+1
+0
+
+a
+</objeto_dato>
+<objeto_dato>
+8
+(365, 261)
+8
+(69, 168, 65)
+1
+0
+
+8
+</objeto_dato>
+<objeto_dato_img>
+asignacion.png
+10
+(305, 411)
+= 
+(66, 194, 50)
+0
+=
+a* 2
+=a* 2
+</objeto_dato_img>
+<objeto_dato>
+11
+(365, 411)
+a
+(69, 168, 65)
+1
+0
+
+a* 2
+</objeto_dato>
+<objeto_dato>
+13
+(485, 411)
+2
+(69, 168, 65)
+1
+0
+
+2
+</objeto_dato>
+<objeto_dato_img>
+multiplicar.png
+14
+(425, 411)
+* 
+(186, 245, 117)
+1
+*
+2
+* 2
+</objeto_dato_img>
+<objeto_dato_img>
+verdadero.png
+15
+(245, 561)
+1 
+(22, 182, 92)
+0
+1 
+
+1 
+</objeto_dato_img>
+<objeto_dato>
+16
+(185, 171)
+b
+(69, 168, 65)
+1
+0
+
+b
+</objeto_dato>
+<objeto_dato>
+17
+(185, 211)
+0
+(69, 168, 65)
+1
+0
+
+0
+</objeto_dato>
+<objeto_dato>
+18
+(245, 461)
+b
+(69, 168, 65)
+1
+0
+++ 
+b++ 
+</objeto_dato>
+<objeto_dato_img>
+masmas.png
+19
+(305, 461)
+++ 
+(109, 96, 120)
+1
+++
+
+++ 
+</objeto_dato_img>
+<objeto_componente>
+activar
+1
+2
+(185, 301)
+(95, 240, 64)
+activar 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+3
+(185, 351)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_bloque>
+4
+(125, 251)
+(19, 251, 138)
+mientras 
+(125, 501)
+</objeto_bloque>
+<objeto_componente>
+var
+2
+6
+(125, 71)
+(97, 53, 237)
+var 
+</objeto_componente>
+<objeto_componente>
+linea
+1
+7
+(185, 401)
+(91, 105, 190)
+linea 
+</objeto_componente>
+<objeto_bloque>
+8
+(125, 551)
+(19, 251, 138)
+mientras 
+(125, 601)
+</objeto_bloque>
+<objeto_componente>
+var
+2
+10
+(125, 161)
+(97, 53, 237)
+var 
+</objeto_componente>
+<objeto_componente>
+linea
+1
+11
+(185, 451)
+(91, 105, 190)
+linea  
+</objeto_componente>

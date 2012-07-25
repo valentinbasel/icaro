@@ -31,6 +31,18 @@ mientras
 Repite las instrucciones dentro del bloque mientras se cumpla una expresion determinada. Codigo C: while(valor){
 </tool>
 <tool>
+nuevo
+Nuevo.
+</tool>
+<tool>
+abrir
+Abrir.
+</tool>
+<tool>
+guardar
+Guardar.
+</tool>
+<tool>
 mover
 herramienta para mover los componentes
 </tool>
@@ -65,4 +77,24 @@ muestra el codigo fuente generado por icaro
 <tool>
 salir
 sale del programe
+</tool>
+<tool>
+servo_pausado 
+Controla un servomotor con pausa en su recorrido para que vaya mas despacio. Codigo C: ServoLento(int servo,int inicial,int final,int tiempo);
+</tool>
+<tool>
+incluir 
+Permite incluir como una función, bloques de codigo previamente guardadas con la opcion -gardar como funcion-. Los archivos deben guardarce dentro de la carpeta funciones con la extension .func. EXPERIMENTAL
+</tool>
+<tool>
+accion 
+Llamada a una funcion previamente declarada con el componente incluir. 
+</tool>
+<tool>
+siguiente 
+Dos bloques que sirven para separa la cadena de componentes y ordenar.
+</tool>
+<tool>
+comentarios 
+Es un comentario, no tiene efecto sobre el codigo fuente.
 </tool>

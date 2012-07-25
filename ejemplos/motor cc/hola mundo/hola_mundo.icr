@@ -1,0 +1,136 @@
+<fondo>
+(167, 237, 255)
+1
+/home/valentin/github/icaro-bloques/ejemplos/motor cc/hola mundo/hola_mundo.png
+</fondo>
+<objeto_inicial>
+(103.0, 38.0)
+</objeto_inicial>
+<objeto_dato>
+1
+(170, 198)
+1000
+(49, 107, 222)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+2
+(170, 348)
+1000
+(49, 107, 222)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato_img>
+adelante.png
+3
+(170, 148)
+96 
+(97, 114, 120)
+0
+96
+
+96
+</objeto_dato_img>
+<objeto_dato_img>
+parar.png
+4
+(170, 298)
+0 
+(95, 240, 64)
+0
+0
+
+0
+</objeto_dato_img>
+<objeto_dato>
+5
+(212, 98)
+Avanza el robot
+(71, 138, 26)
+1
+a
+
+Avanza el robot
+</objeto_dato>
+<objeto_dato>
+6
+(212, 248)
+stop
+(71, 138, 26)
+1
+a
+
+stop
+</objeto_dato>
+<objeto_dato>
+7
+(212, 398)
+Vuelve al inicio
+(71, 138, 26)
+1
+a
+
+Vuelve al inicio
+</objeto_dato>
+<objeto_componente>
+robot
+1
+2
+(103, 138)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+robot
+1
+3
+(103, 288)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+4
+(103, 188)
+(230, 81, 145)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+5
+(103, 338)
+(230, 81, 145)
+pausa 
+</objeto_componente>
+<objeto_componente>
+comentarios
+1
+6
+(103, 88)
+(203, 72, 245)
+comentarios 
+</objeto_componente>
+<objeto_componente>
+comentarios
+1
+7
+(103, 238)
+(203, 72, 245)
+comentarios 
+</objeto_componente>
+<objeto_componente>
+comentarios
+1
+8
+(103, 388)
+(203, 72, 245)
+comentarios 
+</objeto_componente>

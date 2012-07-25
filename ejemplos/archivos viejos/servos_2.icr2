@@ -1,0 +1,155 @@
+<objeto_inicial>
+(138.0, 71.0)
+</objeto_inicial>
+<objeto_dato>
+1
+(198, 131)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato>
+2
+(198, 171)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato>
+3
+(198, 211)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato>
+4
+(198, 251)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato>
+5
+(198, 291)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato>
+6
+(198, 341)
+1000
+(69, 168, 65)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+7
+(198, 391)
+250
+(69, 168, 65)
+1
+0
+
+250
+</objeto_dato>
+<objeto_dato>
+8
+(198, 431)
+250
+(69, 168, 65)
+1
+0
+
+250
+</objeto_dato>
+<objeto_dato>
+9
+(198, 471)
+250
+(69, 168, 65)
+1
+0
+
+250
+</objeto_dato>
+<objeto_dato>
+10
+(198, 511)
+250
+(69, 168, 65)
+1
+0
+
+250
+</objeto_dato>
+<objeto_dato>
+11
+(198, 551)
+250
+(69, 168, 65)
+1
+0
+
+250
+</objeto_dato>
+<objeto_dato>
+12
+(198, 601)
+1000
+(69, 168, 65)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_componente>
+servos
+5
+2
+(138, 121)
+(107, 121, 53)
+servos 
+</objeto_componente>
+<objeto_componente>
+servos
+5
+3
+(138, 381)
+(107, 121, 53)
+servos 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+4
+(138, 331)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+5
+(138, 591)
+(97, 114, 120)
+pausa 
+</objeto_componente>

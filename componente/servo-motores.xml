@@ -15,6 +15,14 @@ servos
 0
 </componente>
 <componente>
+servo_pausado 
+1
+4
+(0,190,100)
+0
+0
+</componente>
+<componente>
 servo1 
 6
 0
@@ -30,6 +38,7 @@ servo2
 srv2 
 11
 </componente>
+
 <componente>
 servo3 
 6

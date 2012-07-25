@@ -19,6 +19,30 @@ def abrir(diccio,ruta,fon,ventana,textorender):
     cadena=file.readlines()
     tupla=(0,0,0,0)
     for valor in range(len(cadena)):
+        if cadena[valor]=="<fondo>\n":
+            cadena3=cadena[valor+1].strip("()\n")
+            cadena4=cadena3.split(',')
+            color=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
+            band=cadena[valor+2]
+            img=cadena[valor+3]
+            fon.FONDO=color
+            fon.band=int(band)
+            
+            fon.img=img.strip("\n")
+            if int(band)==1:
+                try:
+                    fon.carga_img(img.strip("\n"))
+                except Exception, ex:
+                    try:
+                        (filepath, filename) = os.path.split(ruta)
+                        (filepath2, filename2) = os.path.split(img.strip("\n"))
+                        print filepath+"/"+filename2
+                        fon.carga_img(filepath+"/"+filename2)
+                    except Exception, ex:
+                        ventana.mensajes(2,"no se pudo abrir la imagen de fondo")
+                        fon.band=0
+
+                
         if cadena[valor]=="<objeto_inicial>\n":
             cadena1= cadena[valor+1].strip("()\n")
             cadena2=cadena1.split(',')

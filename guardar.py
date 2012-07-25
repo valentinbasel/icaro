@@ -23,6 +23,16 @@ def guardar(obj,ruta,fondo):
     print "tamaño obj",len(fondo.tipo_obj)
     print "obj",fondo.objetos
     print "-------------------"
+    file.writelines("<fondo>")
+    file.write("\n")
+    file.writelines(str(fondo.FONDO))
+    file.write("\n")
+    file.writelines(str(fondo.band))
+    file.write("\n")
+    file.writelines(str(fondo.img))
+    file.write("\n")
+    file.writelines("</fondo>")
+    file.write("\n")
     file.writelines("<objeto_inicial>")
     file.write("\n")
     file.writelines(str(fondo.objetos[0].posicion))

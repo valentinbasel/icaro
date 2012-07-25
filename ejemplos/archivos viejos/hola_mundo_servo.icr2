@@ -1,0 +1,97 @@
+<objeto_inicial>
+(69.0, 37.0)
+</objeto_inicial>
+<objeto_dato_img>
+servo1.png
+1
+(129, 97)
+srv1 
+(13, 213, 211)
+0
+10
+
+10
+</objeto_dato_img>
+<objeto_dato_img>
+servo1.png
+2
+(129, 237)
+srv1 
+(13, 213, 211)
+0
+10
+
+10
+</objeto_dato_img>
+<objeto_dato>
+3
+(129, 137)
+1
+(69, 168, 65)
+1
+0
+
+1
+</objeto_dato>
+<objeto_dato>
+4
+(129, 187)
+1000
+(69, 168, 65)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+5
+(129, 327)
+1000
+(69, 168, 65)
+1
+0
+
+1000
+</objeto_dato>
+<objeto_dato>
+6
+(129, 277)
+250
+(69, 168, 65)
+1
+0
+
+250
+</objeto_dato>
+<objeto_componente>
+servo
+2
+2
+(69, 87)
+(35, 122, 60)
+servo 
+</objeto_componente>
+<objeto_componente>
+servo
+2
+3
+(69, 227)
+(35, 122, 60)
+servo 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+4
+(69, 177)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+5
+(69, 317)
+(97, 114, 120)
+pausa 
+</objeto_componente>

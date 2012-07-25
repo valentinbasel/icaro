@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "manual_np05.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-manual_icaro-bloques">
+	<title>Manual de usuario icaro-bloques</title>
+	<section id="manual_icaro-bloques">
+		<title> <command>icaro-bloques</command></title>
+		<para>
+         <command>icaro-bloques</command> es un programa para generar y cargar firmware en los pics 18f4550
+        con bootloaders, VASCO-PUF (del proyecto PINGUINO). Su funicionamiento se basa en "apilar" bloques que representan 
+        lineas de instrucciones ANSI C (SDCC), permitiendo generar codigo C de forma muy sencilla sin conociminetos de programación o electronica.
+        </para>
+        
+    </section> 
+	<section id="manual_icaro-bloques_ventana">
+		<title>dispocision de la ventana  <command>icaro-bloques</command></title>
+        <para>
+        <command>icaro-bloques</command> tienen 3 areas de trabajo, 
+        la barra de heramientas, de componentes y la zona de trabajo.
+        </para>
+        
+		<para>
+                <mediaobject>
+		<imageobject>
+			<imagedata fileref="./images/pantalla-principal.png" />
+		</imageobject>
+		</mediaobject>
+
+        </para>
+
+    </section>
+	<section id="manual_icaro-barra-de-herramineta">
+		<title>Barra de herramienta</title>
+        <para>
+                <mediaobject>
+		<imageobject>
+			<imagedata fileref="./images/barra_herramientas.png" />
+		</imageobject>
+		</mediaobject>
+        </para>
+		<para>
+        La barra de herramientas aloja los botones basicos para 
+        trabajar con <command>icaro-bloques</command>.
+        </para>
+        
+			<orderedlist>
+				<listitem>
+					<para>
+                    <command>Nuevo</command>: borra los bloques y deja solamente
+                    el bloque "inicio"
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>abrir</command>: Muestra el selector de archivos para 
+                    abrir un archivo .icr
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>guardar</command>: Muestra el selector de archivos para 
+                    guardar un archivo .irc
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>salir</command>: Sale del programa
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Compilar</command>: Una ves montados los bloques, 
+                    concatenados al bloque "inicio", hay que apretar el boton <command>Compilar</command> 
+                    para poder generar el codigo fuente C
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Cargar</command>: Despues de <command>Compilar</command> nuestro codigo y que no muestre error
+                    se puede proceder a usar el boton <command>Cargar</command> para subir el archivo como firmware
+                    a nuestra placa.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Tortucaro</command>: Carga un firmware especifico para poder trabajar con apicaro, python y con el plugin 
+                    Tortucaro para turtleart
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Ayuda</command>: Muestra este manual
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Ver codigo</command>: Muestra el codigo fuente C generado por el boton <command>Compilar</command>, sirve 
+                    para revisar las lineas de codgio generadas.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Lapiz</command>: Dibuja los componentes seleccionados en la <command>Barra de componentes</command>.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Mover</command>: Mueve los componentes de la <command>Zona de trabajo</command>.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+                    <command>Borrar</command>: Borra los componentes de la <command>Zona de trabajo</command>
+					</para>
+				</listitem>
+			</orderedlist>
+        <para>
+        		 <note>
+			<title>Nota</title>
+			 <para>
+				Siempre para poder crear un programa, primero hay que compilarlo con el boton <command>compilar</command> y despues cargarlo
+                 con el boton <command>cargar</command>. 
+			</para>
+		</note>
+        </para>
+        
+    </section>
+	<section id="manual_icaro-barra-de-componentes">
+
+		<title>Barra de componente</title>
+        <para>
+        <mediaobject>
+		<imageobject>
+        <imagedata fileref="./images/barra_componentes.png" />
+		</imageobject>
+		</mediaobject>
+        </para>
+		<para>
+        La barra de componentes es donde estan todos los bloques que se pueden
+        acoplar entre si.
+        </para>
+        <para>
+        Se separa en dos partes, a la derecha estan los grupos (general,robot,matematica etc etc) y a la
+        izquierda estan los componentes de cada grupo. Solo se puede seleccionar un componente a la ves de cada
+        grupo.  
+        </para>
+    </section>
+	<section id="manual_icaro-zona-de-trabajo">
+		<title>Zona de trabajo</title>
+        <para>
+        <mediaobject>
+		<imageobject>
+        <imagedata fileref="./images/zona_trabajo.png" />
+		</imageobject>
+		</mediaobject>
+        </para>
+		<para>
+        La zona de trabajo es donde van los bloques de componenentes que
+        formaran el codigo fuente. Solo tiene un componente que es el 
+        bloque "inicio", todos los demas bloques deben estar unidos a este bloque en forma
+        de cadena.
+        "inicio" es el primer bloque de la cadena de codigo y es el unico bloque que no puede ser 
+        borrado.
+        </para>
+    </section>
+	<section id="manual_icaro-tipo_componentes">
+		<title>tipo de componentes de  <command>icaro-bloques</command></title>
+		<para>
+        test test test test
+        </para>
+    </section>
+	<section id="manual_icaro-creando_programas">
+		<title>como crear un programa</title>
+		<para>
+        test test test test
+        </para>
+    </section>
+	<section id="manual_icaro-compilar">
+		<title>compilar</title>
+		<para>
+        test test test test
+        </para>
+    </section>
+	<section id="manual_icaro-cargar">
+		<title>cargar el firmware a la placa</title>
+		<para>
+        test test test test
+        </para>
+    </section>
+</chapter>

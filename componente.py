@@ -38,7 +38,9 @@ class componente(pygame.sprite.Sprite):
         #esto es para poder mandar los datos a guardar
         self.imagenintermedia=texto.strip(" ")
         self.imagen=pygame.image.load   (
-                                        "imagenes/componentes/"+
+                                        sys.path[0] + 
+                                        
+                                        "/imagenes/componentes/"+
                                         texto.strip(" ")+
                                         ".png"
                                         )
@@ -104,39 +106,8 @@ class componente(pygame.sprite.Sprite):
                             ),
                             0
                             )
-            # conector hembra datos
-
-            #~ pygame.draw.rect(
-                            #~ self.fondo.screen,
-                            #~ self.color,
-                            #~ (
-                            #~ (self.posicion[0]+60),
-                            #~ (self.posicion[1]+factor
-                            #~ ),
-                            #~ 10,10
-                            #~ ),
-                            #~ 0
-                            #~ )
-            #~ pygame.draw.rect(
-                            #~ self.fondo.screen,
-                            #~ self.color,
-                            #~ (
-                            #~ (self.posicion[0]+60),
-                            #~ (self.posicion[1]+30+factor),
-                            #~ 10,
-                            #~ 10
-                            #~ ),
-                            #~ 0
-                            #~ )
-            #~ self.conector_h_dato[0]=self.rectan[0]+60
-            #~ self.conector_h_dato[1]=self.rectan[1]+20+factor
-            #~ self.lista_conector_h_datos[0]= (
-                                            #~ self.conector_h_dato[0],
-                                            #~ self.conector_h_dato[1],
-                                            #~ self.conector_h_dato[2],
-                                            #~ self.conector_h_dato[3]
-                                            #~ )
             factor +=40
+        factory=(len(self.texto)*7)
         for a in range(self.arg):
             # el cuerpo del componente
             pygame.draw.rect(
@@ -144,7 +115,7 @@ class componente(pygame.sprite.Sprite):
                             self.color,
                             (
                             self.posicion[0],
-                            self.posicion[1]+factor, 60,40
+                            self.posicion[1]+factor, 25+factory,40
                             ),
                             0
                             )
@@ -154,7 +125,7 @@ class componente(pygame.sprite.Sprite):
                             self.fondo.screen,
                             self.color,
                             (
-                            (self.posicion[0]+60),
+                            (self.posicion[0]+25+factory),
                             (self.posicion[1]+factor
                             ),
                             10,10
@@ -165,14 +136,14 @@ class componente(pygame.sprite.Sprite):
                             self.fondo.screen,
                             self.color,
                             (
-                            (self.posicion[0]+60),
+                            (self.posicion[0]+25+factory),
                             (self.posicion[1]+30+factor),
                             10,
                             10
                             ),
                             0
                             )
-            self.conector_h_dato[0]=self.rectan[0]+60
+            self.conector_h_dato[0]=self.rectan[0]+25+factory
             self.conector_h_dato[1]=self.rectan[1]+20+factor
             self.lista_conector_h_datos[a]= (
                                             self.conector_h_dato[0],
@@ -408,7 +379,12 @@ class componente_bloque_uno(pygame.sprite.Sprite):
     def __init__(self,x,y,identidad,color,texto,fondo,ventana,textorender):
         pygame.sprite.Sprite.__init__(self)
         self.imagenintermedia=texto.strip(" ") #esto es para poder mandar los datos a guardar
-        self.imagen=pygame.image.load("imagenes/componentes/"+texto.strip(" ")+".png")
+        self.imagen=pygame.image.load(
+                                        sys.path[0] +
+                                        "/imagenes/componentes/"+
+                                        texto.strip(" ")+
+                                        ".png"
+                                    )
         self.arg=1
         self.ide=identidad
         self.posicion=(x,y)

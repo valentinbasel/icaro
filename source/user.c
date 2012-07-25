@@ -28,11 +28,28 @@ unsigned int sensor(int valor)
     return an;
 }
 
-
+void ServoLento(int servo,int inicial,int final,int tiempo)
+{
+	int grado=0;
+	if (inicial<final)
+	{
+	for (grado=inicial;grado<final;grado++)
+	{
+		ServoWrite(servo,grado);
+		Delayms(tiempo);
+	}
+	}
+	if (inicial>final)
+	{
+	for (grado=inicial;grado>final;grado--)
+	{
+		ServoWrite(servo,grado);
+		Delayms(tiempo);
+	}
+	}
+}
+/*funciones*/
 void loop()
 {
-int a =1 ;
-PORTD=0  ;
-Delayms(0  );
-PORTB=255-0  ;
+
 }

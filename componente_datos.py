@@ -67,16 +67,24 @@ class comp_dat_arg(pygame.sprite.Sprite):
         self.tipo=tipo
         if self.tipo==6:
             self.imagenintermedia=img
-            self.img="imagenes/componentes/"+ img
+            self.img=sys.path[0] +"/imagenes/componentes/"+ img
             self.imagen=pygame.image.load(self.img)
             self.img_rect=self.imagen.get_rect()
     def dibujar(self):
-        # el cuerpo del componente
+        #tomo el valor del texto para agrandar el tamaño del
+        # cuerpo del componente.
+        # si es una imagen le pongo un valor fijo
+        TamaComp=0
+        if self.tipo==7:
+            TamaComp=len(self.texto)
+        else:
+            TamaComp=3
+        #cubos que representan el conector hembra
         pygame.draw.rect(
                         self.fondo.screen,
                         self.color,
                         (
-                        self.posicion[0]+60,
+                        self.posicion[0]+30+(7*TamaComp),
                         self.posicion[1]-10,
                          10,
                          10
@@ -87,31 +95,35 @@ class comp_dat_arg(pygame.sprite.Sprite):
                         self.fondo.screen,
                         self.color,
                         (
-                        self.posicion[0]+60,
+                        self.posicion[0]+30+(7*TamaComp),
                         self.posicion[1]+20,
                         10,
                         10
                         ),
                         0
                         )
+        self.conector_h[0]=self.rectan[0]+30+(7*TamaComp)
+        self.conector_h[1]=self.rectan[1]
+        # conector macho
         pygame.draw.rect(
                         self.fondo.screen,
                         self.color,
                         (
                         self.posicion[0],
                         self.posicion[1],
-                        60,
+                        10,
                         20
                         ),
                         0
                         )
+        # cuerpo del componente
         pygame.draw.rect(
                         self.fondo.screen,
                         self.color,
                         (
                         self.posicion[0]+10,
                         self.posicion[1]-10,
-                        50,
+                        7*TamaComp+20,
                         40
                         ),
                         0
@@ -136,6 +148,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
                                 self.posicion[1]-5
                                 )
                                 )
+
     def update(self):
         ban_a=0
         cadena_auxiliar=""
@@ -148,8 +161,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
         # self.conector_m es la ficha "macho"
         self.conector_m[0]=self.rectan[0]
         self.conector_m[1]=self.rectan[1]
-        self.conector_h[0]=self.rectan[0]+60
-        self.conector_h[1]=self.rectan[1]
+
 
         if (
             botones_mouse[3] and
@@ -164,12 +176,27 @@ class comp_dat_arg(pygame.sprite.Sprite):
             self.tecla==1 and
             self.ventana.seleccionado_datos_ed==self.ide
             ):
-            if self.tecla_presionada==1 and self.ventana.tecla==1:
-                cadena_auxiliar= self.ventana.valor_tecla
-                self.tecla_presionada=0
-                if cadena_auxiliar!="":
-                    self.texto = self.texto + cadena_auxiliar
+            if self.valor_cadena_no_mod=="a":
+                if (
+                    self.tecla_presionada==1 and 
+                    self.ventana.tecla==1 
+                    ):
+                    cadena_auxiliar= self.ventana.valor_tecla
+                    self.tecla_presionada=0
+                    if cadena_auxiliar!="":
+                        self.texto = self.texto + cadena_auxiliar
+            if self.valor_cadena_no_mod=="0":
+                if (
+                    self.tecla_presionada==1 and 
+                    self.ventana.tecla==1 and 
+                    self.ventana.valor_tecla.isdigit() 
+                    ):
+                    cadena_auxiliar= self.ventana.valor_tecla
+                    self.tecla_presionada=0
+                    if cadena_auxiliar!="":
+                        self.texto = self.texto + cadena_auxiliar
             if self.ventana.tecla==0:
+                
                 self.tecla_presionada=1
             if self.ventana.tecla_enter==1:
                 self.tecla=0
