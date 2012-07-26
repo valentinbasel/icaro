@@ -717,9 +717,13 @@ class Ventana:
                                             )
                                         )
         dialog.set_default_response(gtk.RESPONSE_OK)
-        if dato <>"":
-            print dato
+        print dato
+        try:
             dialog.set_current_folder(dato)
+        except Exception, ex:
+            dialog.set_current_folder(sys.path[0])
+            
+            
         #~ filter = gtk.FileFilter()
         #~ filter.set_name("All files")
         #~ filter.add_pattern("*")
@@ -803,7 +807,7 @@ class Ventana:
             # tengo que madar un -dato- para mantener compatibilidad con
             # los botones de la barra de herramienta que generan un dato
             # -b- que envian a la funcion.
-            self.abrir("")
+            self.abrir(sys.path[0])
         if string=="salir":
             exit()
         if string=="nuevo":
