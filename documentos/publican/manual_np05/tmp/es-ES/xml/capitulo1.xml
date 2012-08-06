@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "manual_np05.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-manual_np05-Test_Chapter" lang="es-ES">
+	<title>introducción</title>
+	 <para>
+		La placa ICARO NP05 está diseñada para trabajar nativamente con el puerto USB de su computadora. Por defecto, toma la alimentación del puerto USB para encender el microcontrolador y arrancar el sistema. 
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="./images/np05.svg" />
+			</imageobject>
+
+		</mediaobject>
+		 Placa np05. 
+		<note>
+			<title>Nota</title>
+			 <para>
+				Con el selector K1 se puede seleccionar la alimentación directa de USB o de una fuente externa.
+			</para>
+
+		</note>
+
+	</para>
+	 <para>
+		El primer paso es conectar el cable USB a la placa y encenderla apretando el boton SW1. El LED verde (D2) se encenderá indicando que hay tensión en el circuito que va al microcontrolador. Luego de 3 segundos, se encenderça el LED rojo (D1) indicando que el PIC esta operativo.
+	</para>
+	 <para>
+		El LED rojo inidica que el pic se inició correctamente y está ejecutando el código cargado previamente; de esa forma se puede saber si el sistema tiene tensión y está operativo. 
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="./images/np05_1.svg" width="444" />
+			</imageobject>
+
+		</mediaobject>
+		 Esquema de conexión inicial
+	</para>
+	 <para>
+		Con la placa ya conectada y encendida, podemos ver si la pc reconoce al microcontrolador. Para eso usamos el comando <command>lsusb</command>, el cual debería mostrar en la salida el id de la placa (entre otros).
+	</para>
+	
+<screen> 
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+</screen>
+	<para>
+		En principio los sitemas GNU/linux bloquean al usuario normal para poder trabajar con los puertos USB directamente. Para tener los privilegios de usuario y poder mandar datos por el puerto USB a nuestra placa hay varias formas, la más sencilla es ser usuario <command>root</command> y trabajar desde ahí. 
+		<warning>
+			<title>Advertencia</title>
+			 <para>
+				Es muy arriesgado trabajar como root, lo ideal es dar permisos de escritura en el puerto mediante <command>udev</command> como se explicará más adelante.
+			</para>
+
+		</warning>
+	</para>
+	<note>
+		<title> Nota</title>
+		<para>
+			Las placas ICARO np05 trabajan basadas en el bootlader del proyecto Pinguino, por lo tanto todo el desarrollo para este proyecto es aplicable a las placas np05.
+		</para>
+	</note>
+	<para>
+		Una vez que el sistema está funcionando, podemos comenzar a cargar el firmware que vamos a usar. El firmware es código C++ compilado con <command>SDCC</command> que se puede subir a la placa mediante el programa <command>docker</command>, el cual se puede conseguir del proyecto VASCO PUF.
+	</para>
+	<para>
+		Sin embargo, las placas ICARO np05 estan preparadas para trabajar de 2 formas: con un firmware estándar previamente cargado para funcionar conectado al puerto usb y usar el programa <command>TurtleArt</command>, o con un firmware a medida diseñado con el programa <command>icaro-bloques</command>
+	</para>
+	 <section id="sect-manual_np05-esquema-electrico">
+		<title>Esquema eléctrico de la placa NP05</title>
+		 <para>
+			El esquema de conexión eléctrico de las placas Np05 está separado en dos: por un lado la alimentación del PIC (que puede ser directamente desde USB o baterías) y la conexión para el driver L293D (que usa baterías directamente). Para poder seleccionar el voltaje USB o de pilas (para el PIC) se usa el JUMPER (puente) K1 (justo arriba del conector USB de tipo D). 
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="./images/np05_3.svg" width="444" />
+				</imageobject>
+
+			</mediaobject>
+
+		</para>
+		 <para>
+			Las borneras P5 y P14 son para conectar las baterías, tanto del pic como para el driver de potecia para motores CC. Es importante ver las conexiones de los polos de las baterías, en el esquema siguiente se puede apreciar cómo deben ir conectados los polos positivos y negativos de las pilas que usemos con la placa. 
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="./images/np05_4.svg" />
+				</imageobject>
+
+			</mediaobject>
+
+		</para>
+
+	</section>
+	
+	 <section id="sect-manual_np05-reglas">
+		<title>Habilitación de escritura en el puerto</title>
+		 <para>
+			Cuando se conecta por primera vez una placa NP05 a una computadora, por defecto los sistemas GNU/linux no habilitan el modo escritura en el puerto, para ello tenemos que habilitarlo manualmente.
+		</para>
+		 <para>
+			La forma más sencilla es la dicha más arriba, que es trabajar como <command>root</command>, sin embargo esta práctica no es recomendada. Una de las formas es siendo <command>root</command> y dar permisos de lectura y escritura al puerto <command>/dev/ttyACM0</command>.
+		</para>
+		 <para>
+			<command>chmod 777 <replaceable>/det/ttyACM0</replaceable></command>
+		</para>
+		 <note>
+			<title>Nota</title>
+			 <para>
+				El valor de ACM, varía en función de los puertos que hay conectados, puede ser /dev/ttyACM0, 1, 2, 3 etc.
+			</para>
+
+		</note>
+		 <para>
+			Sin embargo, cada vez que se desconecte la placa de la computadora, los privilegios de usuario se borrarán y habrá que aplicarlos de vuelta.
+		</para>
+		 <para>
+			Para poder trabajar con el puerto ttyACM hay que agregar nuestro usuario al grupo <command>dialout</command>
+		</para>
+		 <blockquote>
+			<para>
+				#&gt; usermod -a -G dialout $USER
+			</para>
+
+		</blockquote>
+		 <note>
+			<title>Nota</title>
+			 <para>
+				En realidad icaro-bloques no necesita específicamente tener permisos de escritura en el puerto /dev/ttyACM. ACM es para poder comunicar con el plugin Tortcaro o para usar Python con el modulo pyserial directamente,
+			</para>
+
+		</note>
+
+	</section>
+	
+	 <section id="sect-manual_np05-reglas-udev">
+		<title>Creación de reglas <command>udev</command></title>
+		 <para>
+			<command>udev</command> es el gestor de dispositivos que usa el kernel Linux en su versión 2.6. Su función es controlar los ficheros de dispositivo en /dev. Es el sucesor de devfs y de hotplug, lo que significa que maneja el directorio /dev y todas las acciones del espacio de usuario al agregar o quitar dispositivos, incluyendo la carga de firmwares.
+		</para>
+		 <para>
+			Mediante <command>udev</command>, podemos darles permisos de escritura para un grupo a nuestro hardware, y evitar la necesidad de se <command>root</command> con los posibles problemas de seguridad que eso implica.
+		</para>
+		 <para>
+			Para crear las reglas <command>udev</command> necesarias para poder trabajar con la placa np05, tenemos que copiar los 2 archivos .udev de la carpeta <literal>udev</literal> donde tenemos instalado <literal>icaro-bloques</literal> a la dirección <filename>/etc/udev/rules.d/</filename>.
+		</para>
+		 <blockquote>
+			<para>
+				#&gt; su -c "cp *.udev /etc/udev/rules.d"
+			</para>
+			 <para>
+				#&gt; groupadd microchip
+			</para>
+			 <para>
+				#&gt; usermod -a -G microchip $USER
+			</para>
+
+		</blockquote>
+		 <note>
+			<title>Nota</title>
+			 <para>
+				Para poder copiar lor archivos udev a <filename>/etc/udev/rules.d/</filename> hay que tener privilegios <command>root</command>. Pero solo se usa una única vez.
+			</para>
+
+		</note>
+
+	</section>
+	
+	 <section id="sect-manual_np05-listado">
+		<title>Lista de componentes</title>
+		 <para>
+			La mayoría de los compontentes de la placa np05 son de fácil adquisición, generalmente lo más difícil de conseguir son el pic y el driver de potencia L293B.
+		</para>
+		 <para>
+			<table>
+				<title>Listado de componentes placa np05</title>
+				 <tgroup cols="2">
+					<colspec colname="col1" colnum="1" colwidth="2*"></colspec>
+					 <colspec colname="col2" colnum="2" colwidth="2*"></colspec>
+					 <thead>
+						<row>
+							<entry>
+								cantidad
+							</entry>
+							 <entry>
+								Descripcion
+							</entry>
+
+						</row>
+
+					</thead>
+					 <tbody>
+						<row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								PIC 18f4550
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								L293D (o L293B)
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								2
+							</entry>
+							 <entry>
+								Diodos 1n4007
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								2
+							</entry>
+							 <entry>
+								LM7805
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Zócalo 2x8 pines
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Zócalo 2x20 pines
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Tira de pines (40 pines)
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								3
+							</entry>
+							 <entry>
+								Leds 5 mm de distintos colores (rojo , verde ,amarillo)
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Conector USB hembra tipo B
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Cristal de 20 MHz
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								2
+							</entry>
+							 <entry>
+								Capacitores ceramicos 22 PF
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								capacitor ceramico 220 nF
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Capacitor electrolítico 10 uFx 16V
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								2
+							</entry>
+							 <entry>
+								Capacitor electrolítico 100 uFx 16V
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Pushbutton para pcb
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								1
+							</entry>
+							 <entry>
+								Botón de encendido para pcb (botón interruptor)
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								8
+							</entry>
+							 <entry>
+								Borneras
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								10
+							</entry>
+							<entry>
+								Resistencias 10K Ohms
+							</entry>
+						</row>
+						 <row>
+							<entry>
+								10
+							</entry>
+							<entry>
+								Resistencias 470 Ohms
+							</entry>
+						</row>
+
+					</tbody>
+
+				</tgroup>
+
+			</table>
+		</para>
+
+	</section>
+	
+	 <section id="instalar_icaro-bloques">
+		<title>Instalación manual de <command>icaro-bloques</command>.</title>
+		 <para>
+			Para instalar manualmente <command>icaro-bloques</command> hay que seguir los siguientes pasos (como <command>root</command>):
+		</para>
+		 <para>
+			<orderedlist>
+				<listitem>
+					<para>
+						#&gt; yum -y install pygame pywebkitgtk pygtksourceview
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						#&gt; yum -y install sdcc
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						copiar el archivo pic18f4550.h en la carpeta include a <filename>/usr/share/sdcc/include/pic16/</filename>
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						copiar el archivo pic18f2455.h en la carpeta include a <filename>/usr/share/sdcc/include/pic16/</filename>
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						copiar el archivo libdev18f4550.lib en la carpeta include a <filename>/usr/share/sdcc/lib/pic16/</filename>
+					</para>
+
+				</listitem>
+				 <listitem>
+					<para>
+						Dar permiso de ejecución al binario <command>docker</command> en la carpeta tools/bin/.
+					</para>
+
+				</listitem>
+
+			</orderedlist>
+
+		</para>
+
+	</section>
+
+</chapter>
+
