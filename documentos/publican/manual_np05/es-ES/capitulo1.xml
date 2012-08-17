@@ -23,8 +23,8 @@
         
 	</para>
     <para>
-    El primer paso es conectar el cable USB a la placa y encenderla apretando el boton SW1. El LED verde (D2) se encenderá
-    indicando que hay tensión en el circuito que va al microcontrolador. Luego de 3 segundos, se encenderça el LED rojo (D1) indicando que 
+    El primer paso es conectar el cable USB a la placa y encenderla apretando el boton SW2. El LED verde (D2) se encenderá
+    indicando que hay tensión en el circuito que va al microcontrolador. Luego de 3 segundos, se encendera el LED rojo (D1) indicando que 
     el PIC esta operativo.
     </para>
 
@@ -240,22 +240,32 @@ puerto usb y usar el programa <command>TurtleArt</command>, o con un firmware a 
 				</listitem>
 				<listitem>
 					<para>
-                    copiar el archivo pic18f4550.h en la carpeta include a <filename>/usr/share/sdcc/include/pic16/</filename>
+                    copiar el archivo pic18f4550.h en la carpeta sdcc-include a <filename>/usr/share/sdcc/include/pic16/</filename>
                     </para>
                 </listitem>
 				<listitem>
 					<para>
-                    copiar el archivo pic18f2455.h en la carpeta include a <filename>/usr/share/sdcc/include/pic16/</filename>
+                    copiar el archivo pic18f2455.h en la carpeta sdcc-include a <filename>/usr/share/sdcc/include/pic16/</filename>
                     </para>
                 </listitem>
 				<listitem>
 					<para>
-                    copiar el archivo libdev18f4550.lib en la carpeta include a <filename>/usr/share/sdcc/lib/pic16/</filename>
+                    copiar el archivo libdev18f4550.lib en la carpeta sdcc-include a <filename>/usr/share/sdcc/lib/pic16/</filename>
+                    </para>
+                </listitem>
+				<listitem>
+					<para>
+                    copiar el archivo macro.h en la carpeta sdcc-include a <filename>/usr/share/sdcc/include/pic16/</filename>
                     </para>
                 </listitem>
 				<listitem>
 					<para>
                     Dar permiso de ejecución al binario <command>docker</command> en la carpeta tools/bin/.
+                    </para>
+                </listitem>
+				<listitem>
+					<para>
+                    En algunos sistemas linux puede suceder que necesitemos pertenecer al grupo "admin" para poder acceder al dispositivo USB que representa la placa.
                     </para>
                 </listitem>
     			</orderedlist>
