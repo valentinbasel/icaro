@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>gtk.CellRendererSpinner</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        gtk ::
+        CellRendererSpinner ::
+        Class&nbsp;CellRendererSpinner
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="gtk.CellRendererSpinner-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class CellRendererSpinner</h1><p class="nomargin-top"><span class="codelink"><a href="gtk-pysrc.html#CellRendererSpinner">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+     object --+            
+              |            
+gobject.GObject --+        
+                  |        
+             <a href="gtk.Object-class.html">Object</a> --+    
+                      |    
+           <a href="gtk.CellRenderer-class.html">CellRenderer</a> --+
+                          |
+                         <strong class="uidshort">CellRendererSpinner</strong>
+</pre>
+
+<hr />
+<pre class="literalblock">
+Object GtkCellRendererSpinner
+
+Properties from GtkCellRendererSpinner:
+  active -&gt; gboolean: Activo
+    Indica si el marcador incrementable est&#195;&#161; activo (ej. mostrado) en la celda
+  pulse -&gt; guint: Pulso
+    Pulso del marcador incrementable
+  size -&gt; GtkIconSize: Tama&#195;&#177;o
+    El valor de GTKIconSize que especifica el tama&#195;&#177;o del marcador incrementable renderizado
+
+Signals from GtkCellRenderer:
+  editing-canceled ()
+  editing-started (GtkCellEditable, gchararray)
+
+Properties from GtkCellRenderer:
+  mode -&gt; GtkCellRendererMode: modo
+    Modo editable del CellRenderer
+  visible -&gt; gboolean: visible
+    Mostrar la celda
+  sensitive -&gt; gboolean: Sensible
+    Mostrar la celda sensible
+  xalign -&gt; gfloat: xalign
+    La alineaci&#195;&#179;n x
+  yalign -&gt; gfloat: yalign
+    La alineaci&#195;&#179;n y
+  xpad -&gt; guint: xpad
+    La separaci&#195;&#179;n x
+  ypad -&gt; guint: ypad
+    La separaci&#195;&#179;n y
+  width -&gt; gint: anchura
+    La anchura fija
+  height -&gt; gint: altura
+    La altura fija
+  is-expander -&gt; gboolean: Es expansor
+    La fila tiene hijos
+  is-expanded -&gt; gboolean: Est&#195;&#161; expandido
+    La fila es una fila de expansor, y est&#195;&#161; expandida
+  cell-background -&gt; gchararray: Nombre del color de fondo de la celda
+    Color de fondo de la celda como una cadena
+  cell-background-gdk -&gt; GdkColor: Color de fondo de la celda
+    Color de fondo de la celda como GdkColor
+  cell-background-set -&gt; gboolean: Establece el fondo de la celda
+    Indica si esta etiqueta afecta el color de fondo de la celda
+  editing -&gt; gboolean: Editando
+    Indica si la renderizaci&#195;&#179;n de la celda est&#195;&#161; en modo de edici&#195;&#179;n
+
+Signals from GtkObject:
+  destroy ()
+
+Properties from GtkObject:
+  user-data -&gt; gpointer: Datos del usuario
+    Puntero de datos del usuario an&#195;&#179;nimo
+
+Signals from GObject:
+  notify (GParam)
+
+</pre>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gtk.CellRendererSpinner-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      x.__init__(...) initializes x; see help(type(x)) for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#CellRendererSpinner.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.CellRenderer-class.html">CellRenderer</a></code></b>:
+      <code><a href="gtk.CellRenderer-class.html#activate">activate</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#do_activate">do_activate</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#do_editing_canceled">do_editing_canceled</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#do_editing_started">do_editing_started</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#do_get_size">do_get_size</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#do_render">do_render</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#do_start_editing">do_start_editing</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#editing_canceled">editing_canceled</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#get_alignment">get_alignment</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#get_fixed_size">get_fixed_size</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#get_padding">get_padding</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#get_sensitive">get_sensitive</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#get_size">get_size</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#get_visible">get_visible</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#render">render</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#set_alignment">set_alignment</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#set_fixed_size">set_fixed_size</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#set_padding">set_padding</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#set_sensitive">set_sensitive</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#set_visible">set_visible</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#start_editing">start_editing</a></code>,
+      <code><a href="gtk.CellRenderer-class.html#stop_editing">stop_editing</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Object-class.html">Object</a></code></b>:
+      <code><a href="gtk.Object-class.html#destroy">destroy</a></code>,
+      <code><a href="gtk.Object-class.html#do_destroy">do_destroy</a></code>,
+      <code><a href="gtk.Object-class.html#flags">flags</a></code>,
+      <code><a href="gtk.Object-class.html#remove_data">remove_data</a></code>,
+      <code><a href="gtk.Object-class.html#remove_no_notify">remove_no_notify</a></code>,
+      <code><a href="gtk.Object-class.html#set_flags">set_flags</a></code>,
+      <code><a href="gtk.Object-class.html#unset_flags">unset_flags</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__eq__</code>,
+      <code>__gdoc__</code>,
+      <code>__ge__</code>,
+      <code>__gobject_init__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__le__</code>,
+      <code>__lt__</code>,
+      <code>__ne__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType GtkCellRendererSpinner (31938416)&gt;">&lt;GType GtkCellRendererSpinner (31938416)&gt;</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">...</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="gtk-pysrc.html#CellRendererSpinner.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Aug 31 16:14:48 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

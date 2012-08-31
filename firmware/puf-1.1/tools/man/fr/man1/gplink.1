@@ -1,0 +1,101 @@
+.TH gplink 1 "(c) 2002, 2003, 2004, 2005 Craig Franklin"
+
+.SH NOM
+gplink - Éditeur de liens GNU PIC
+
+.SH SYNOPSIS
+.B gplink [options] [objets] [bibliothèques]
+
+.SH AVERTISSEMENT
+Les informations de cette page de manuel sont extraites de la documentation 
+complète de gputils et sont limitées à la signification des options. Pour une 
+documentation complète, reportez-vous au fichier «\ gputils.ps\ » (en anglais) 
+situé dans le répertoire doc de gputils.
+
+.SH DESCRIPTION
+.B gplink
+conbine un nombre de fichiers objets et archives, reloge leurs données, et lie
+leurs références symboles. Il produit en sortie un exécutable pour les
+microcontrôleurs PIC (TM) de Microchip (TM).
+.B gplink
+est une partie de gputils. Consultez la page manuel gputils(1) pour avoir
+des détails sur les autres utilitaires GNU PIC.
+
+.SH OPTIONS
+.TP
+.B -a FMT, --hex-format FMT       
+gplink reconnaît les formats de fichiers hexadécimaux inhx8m, inhx8s, inhx16,
+et inhx32. Cette option contrôle quel format de fichier hexadécimal est
+utilisé. La valeur par défaut est inhx32.
+.TP
+.B -c, --object 
+Produire en sortie un objet exécutable.
+.TP
+.B -d, --debug 
+Produire des messages de débogage.
+.TP
+.B -f VALEUR, --fill VALEUR
+Remplir la mémoire programme inutilisée et non protégée avec VALEUR. VALEUR 
+supplante la valeur de remplissage du script éditeur de liens. VALEUR ne doit
+pas être supérieure à 0xffff. VALEUR est en hexadécimal et doit être précédée
+par «\ 0x\ ».
+.TP
+.B -h, --help
+Afficher un message d'usage.
+.TP
+.B -I RÉP, --include RÉP
+Spécifier le répertoire d'inclusion d'en-tête.
+.TP
+.B -m, --map
+Produire en sortie un fichier d'équivalence.
+.TP
+.B -o FICHIER, --output FICHIER
+Nom alternatif du fichier de sortie.
+.TP
+.B -q, --quiet
+Supprimer tout ce qui est envoyé sur la sortie standard.
+.TP
+.B -r, --use-shared
+Essayer de reloger des sections de données non partagées vers la mémoire
+partagée si la translation échoue.
+.TP
+.B -s FICHIER, --script FICHIER
+Choisir le script éditeur de lien.
+.TP
+.B -v, --version
+Afficher la version.
+
+.SH VOIR AUSSI
+gputils(1)
+
+.SH AUTEUR
+Craig Franklin <craigfranklin@users.sourceforge.net>
+
+.SH TRADUCTION
+.PP
+Ce document est une traduction réalisée par Alain Portal
+<aportal AT univ-montp2 DOT fr> le 14 octobre 2004 et révisée
+le 24 mai 2005.
+.PP
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité. La version anglaise la plus à jour de ce document est
+toujours consultable via la commande\ : «\ \fBLANG=en\ man\ 1\ gplink\fR\ ».
+N'hésitez pas à signaler à l'auteur ou au traducteur, selon le cas, toute
+erreur dans cette page de manuel.
+
+.SH COPYRIGHT
+Copyright (C) 2002, 2003, 2004, 2005 Craig Franklin
+
+Ce programme est un logiciel libre\ ; vous pouvez le redistribuer et/ou le
+modifier sous les termes de la licence GNU GPL telle que publiée par la Free
+Software Foundation\ ; soit la version 2, soit (à votre convenance) toute
+version ultérieure.
+
+Ce programme est distribué dans l'espoir qu'il soit utile, mais
+SANS AUCUNE GARANTIE\ ; même sans la garantie implicite d'UTILISABILITÉ
+ou d'ADAPTATION À UN USAGE PRÉCIS. Lisez la licence GNU GPL pour plus
+de détails.
+
+Vous devriez avoir reçu une copie de la licence GNU GPL avec ce programme\ ;
+si ce n'est pas le cas, écrivez à Free Software Foundation, Inc., 675 Mass Ave,
+Cambridge, MA 02139, USA.

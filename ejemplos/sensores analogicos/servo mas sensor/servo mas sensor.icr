@@ -26,10 +26,10 @@ dig 4
 0
 analogread(13) 
 
-analogread(13) 
+analogread(13) /10
 </objeto_dato_img>
 <objeto_dato>
-4
+3
 (262, 124)
 conectar el potenciometro a 5V
 (71, 138, 26)
@@ -37,6 +37,27 @@ conectar el potenciometro a 5V
 a
 
 conectar el potenciometro a 5V
+</objeto_dato>
+<objeto_dato_img>
+dividir.png
+4
+(271, 214)
+/ 
+(115, 75, 26)
+0
+/
+10
+/10
+</objeto_dato_img>
+<objeto_dato>
+6
+(322, 214)
+10
+(49, 107, 222)
+1
+0
+
+10
 </objeto_dato>
 <objeto_componente>
 servo

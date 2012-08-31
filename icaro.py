@@ -79,7 +79,7 @@ class fondo(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        size = width, height = 1100, 2000
+        size = 1100, 2000
         self.screen = pygame.display.set_mode(size)
         self.largo,self.alto=self.screen.get_size()
         self.lista_ordenada.append(0)
@@ -112,7 +112,6 @@ class Ventana:
     tecla=0
     valor_tecla=""
     tecla_enter=0
-
     processor="18f4550"
     cadena_pinguino=[]
     seleccion_menu=1
@@ -140,6 +139,9 @@ class Ventana:
         ################################################
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
+        arch=open(sys.path[0] + "/version", "r")
+        a=arch.readline()
+        creditos.Info.version= a
         self.carga_dicc()
         self.carga_tooltip()
         self.lista=self.diccionario.keys()
@@ -210,7 +212,7 @@ class Ventana:
         # creo los botones de la toolbar
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_NEW,30)
-        salir_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "Nuevo",
                         self.tooltip["nuevo"],
                         "Private",
@@ -219,7 +221,7 @@ class Ventana:
 
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_OPEN,30)
-        salir_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "Abrir",
                         self.tooltip["abrir"],
                         "Private",
@@ -227,7 +229,7 @@ class Ventana:
                         self.abrir)
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_SAVE,30)
-        salir_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "Guardar",
                         self.tooltip["guardar"],
                         "Private",
@@ -235,7 +237,7 @@ class Ventana:
                         self.guardar)
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_QUIT,30)
-        salir_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "salir",
                         self.tooltip["salir"],
                         "Private",
@@ -248,7 +250,7 @@ class Ventana:
 
         iconw = gtk.Image()
         iconw.set_from_file(sys.path[0] + "/imagenes/icaro.png")
-        compilar_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "compilar",
                         self.tooltip["compilar"],
                         "Private",
@@ -257,7 +259,7 @@ class Ventana:
 
         iconw = gtk.Image()
         iconw.set_from_file(sys.path[0] + "/imagenes/compilar.png")
-        cargar_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "cargar",
                         self.tooltip["cargar"],
                         "Private",
@@ -266,7 +268,7 @@ class Ventana:
 
         iconw = gtk.Image()
         iconw.set_from_file(sys.path[0] + "/imagenes/tortucaro.png")
-        cargar_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "tortucaro",
                         self.tooltip["tortucaro"],
                         "Private",
@@ -276,7 +278,7 @@ class Ventana:
 
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_HELP,30)
-        salir_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "ayuda",
                         self.tooltip["ayuda"],
                         "Private",
@@ -284,7 +286,7 @@ class Ventana:
                         self.ayuda)
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_PROPERTIES,30)
-        salir_button = toolbar.append_item(
+        tool_button = toolbar.append_item(
                         "ver codigo",
                         self.tooltip["ver_codigo"],
                         "Private",
@@ -305,7 +307,7 @@ class Ventana:
                         self.dibujo,1)
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_SELECT_COLOR,30)
-        mover_button = toolbar.append_element(
+        tool_button = toolbar.append_element(
                         gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
                         "mover",
                         self.tooltip["mover"],
@@ -315,7 +317,7 @@ class Ventana:
 
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_DELETE,30)
-        mover_button = toolbar.append_element(
+        tool_button = toolbar.append_element(
                         gtk.TOOLBAR_CHILD_RADIOBUTTON,dibujar_button,
                         "borrar",
                         self.tooltip["borrar"],
@@ -428,7 +430,7 @@ class Ventana:
 # ==============================================================================
     def ayuda(self,b):
         browser = navegador.SimpleBrowser()
-        browser.open(sys.path[0]+'/html/index.html')
+        browser.open(sys.path[0]+'/documentos/publican/manual_np05/tmp/es-ES/html/index.html')
         browser.show()
 
     def dibujo(self,event,b):
@@ -898,7 +900,7 @@ class Ventana:
             about.run()
             about.destroy()
     def carga_tooltip(self):
-        ruta=sys.path[0]
+        ruta=os.path.abspath(os.path.dirname(__file__)) 
         ff=open(ruta + "/tooltips.xml","r")
         t=ff.readlines()
         for a in range(len(t)):
@@ -914,7 +916,7 @@ class Ventana:
         y tipo de los bloques que cargo en el dic
         """
         q=0
-        ruta=sys.path[0] + "/componente/"
+        ruta=os.path.abspath(os.path.dirname(__file__))  + "/componente/"
 
 #        archivo=os.listdir(ruta)
         ff=open(ruta + "lista.dat","r")
@@ -949,7 +951,7 @@ class Ventana:
                 #print self.diccionario
     def carga_paleta(self):
         R=G=B=""
-        archivo=open(sys.path[0] + "/colores.dat","r")
+        archivo=open(os.path.abspath(os.path.dirname(__file__))  + "/colores.dat","r")
         tupla=[]
         cadena=archivo.readlines()
         for n in cadena:

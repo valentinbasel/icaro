@@ -4,7 +4,7 @@ import pygtk
 # Creamos una clase que almacena la información del programa (después se usara)
 class Info:
     name = "icaro-bloques"
-    version = "1.0"
+    version = "beta"
     copyright = "Copyright © 2012 Valentin Basel."
     authors = ["Valentin Basel - valetinbasel@gmail.com"]
     documenters = ["Neville A. Cross - yn1v@fedoraproject.org","Lucas Costas - puixima@gmail.com","Javier Castrillo - jcastrillo@educ.ar"  ]

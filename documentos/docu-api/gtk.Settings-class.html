@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>gtk.Settings</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        gtk ::
+        Settings ::
+        Class&nbsp;Settings
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="gtk.Settings-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Settings</h1><p class="nomargin-top"><span class="codelink"><a href="gtk-pysrc.html#Settings">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+     object --+    
+              |    
+gobject.GObject --+
+                  |
+                 <strong class="uidshort">Settings</strong>
+</pre>
+
+<hr />
+<pre class="literalblock">
+Object GtkSettings
+
+Properties from GtkSettings:
+  gtk-double-click-time -&gt; gint: Tiempo del doble pulsaci&#195;&#179;n
+    Tiempo m&#195;&#161;ximo permitido entre dos pulsaciones para ser considerados como una pulsaci&#195;&#179;n doble (en milisegundos)
+  gtk-double-click-distance -&gt; gint: Distancia de la pulsaci&#195;&#179;n doble
+    Distancia m&#195;&#161;xima permitida entre dos pulsaciones para ser considerados como una pulsaci&#195;&#179;n doble (en p&#195;&#173;xeles)
+  gtk-cursor-blink -&gt; gboolean: Parpadeo del cursor
+    Indica si el cursor debe parpadear
+  gtk-cursor-blink-time -&gt; gint: Tiempo de parpadeo del cursor
+    Longitud del ciclo de parpadeo del cursor, en milisegundos
+  gtk-cursor-blink-timeout -&gt; gint: Intervalo de parpadeo del cursor
+    Tiempo tras el que el cursor para de parpadear, en segundos
+  gtk-split-cursor -&gt; gboolean: Dividir cursor
+    Indica si deben mostrarse dos cursores para el texto mezclado de izquierda-a-derecha y derecha-a-izquierda
+  gtk-theme-name -&gt; gchararray: Nombre del tema
+    Nombre del archivo RC de tema que cargar
+  gtk-icon-theme-name -&gt; gchararray: Nombre del tema de iconos
+    Nombre del tema de iconos que utilizar
+  gtk-fallback-icon-theme -&gt; gchararray: Nombre del tema de iconos de resguardo
+    Nombre del tema de iconos que utilizar como resguardo
+  gtk-key-theme-name -&gt; gchararray: Nombre del tema de teclas
+    Nombre del archivo RC de tema de teclas que cargar
+  gtk-menu-bar-accel -&gt; gchararray: Acelerador de la barra de men&#195;&#186;s
+    Combinaci&#195;&#179;n de teclas para activar la barra de men&#195;&#186;s
+  gtk-dnd-drag-threshold -&gt; gint: Umbral del arrastre
+    N&#195;&#186;mero de p&#195;&#173;xeles que el cursor puede mover antes de iniciar el arrastre
+  gtk-font-name -&gt; gchararray: Nombre de la tipograf&#195;&#173;a
+    Nombre de la tipograf&#195;&#173;a predeterminada a utilizar
+  gtk-icon-sizes -&gt; gchararray: Tama&#195;&#177;os de los iconos
+    Lista de tama&#195;&#177;os de los iconos (gtk-menu=16,16:gtk-button=20,20...
+  gtk-modules -&gt; gchararray: M&#195;&#179;dulos GTK
+    Lista de m&#195;&#179;dulos GTK activos actualmente
+  gtk-xft-antialias -&gt; gint: Suavizado Xft
+    Indica si se deben suavizar los bordes de las tipograf&#195;&#173;as Xft; 0=no,1=s&#195;&#173;, -1=predeterminado
+  gtk-xft-hinting -&gt; gint: Sugerencias Xft
+    Indica si se deben usar las sugerencias de las tipograf&#195;&#173;as Xft; 0=no, 1 =s&#195;&#173;, -1=predeterminado
+  gtk-xft-hintstyle -&gt; gchararray: Estilo de sugerencias Xft
+    Qu&#195;&#169; grado de sugerencias usar: ninguno, ligero, medio o completo
+  gtk-xft-rgba -&gt; gchararray: Xft RGBA
+    Tipo de suavizado de subp&#195;&#173;xel: ninguno, rgb, bgr, vrgb, vbgr
+  gtk-xft-dpi -&gt; gint: PPP Xft (DPI)
+    Resoluci&#195;&#179;n para Xft, en 1024 * puntos/pulgada. -1 para usar el valor predeterminado
+  gtk-cursor-theme-name -&gt; gchararray: Nombre del tema del cursor
+    Nombre del tema de cursor que utilizar, o NULL para usar el tema predeterminado
+  gtk-cursor-theme-size -&gt; gint: Tama&#195;&#177;o del tema del cursor
+    Tama&#195;&#177;o que se va a usar para los cursores, o 0 para usar el tama&#195;&#177;o predeterminado
+  gtk-alternative-button-order -&gt; gboolean: Orden de los botones alternativo
+    Indica si los botones en los di&#195;&#161;logos deben usar un orden de botones alternativo
+  gtk-alternative-sort-arrows -&gt; gboolean: Direcci&#195;&#179;n alternativa del indicador de ordenamiento
+    Indica si la direcci&#195;&#179;n de los indicadores de ordenamiento en la lista y vista de &#195;&#161;rbol est&#195;&#161; invertida en comparaci&#195;&#179;n con la predeterminada (donde abajo significa ascendente)
+  gtk-show-input-method-menu -&gt; gboolean: Mostrar el men&#195;&#186; de m&#195;&#169;todos de entrada
+    Indica si los men&#195;&#186;s de contexto y las vistas de texto deben ofrecer cambiar el m&#195;&#169;todo de entrada
+  gtk-show-unicode-menu -&gt; gboolean: Mostrar el men&#195;&#186; &#194;&#171;Insertar car&#195;&#161;cter de control Unicode&#194;&#187;
+    Indica si los men&#195;&#186;s de contexto de las estradas y las vistas de texto deben ofrecer insertar caracteres de control
+  gtk-timeout-initial -&gt; gint: Tiempo de expiraci&#195;&#179;n de inicio
+    Valor de inicio para las expiraciones, cuando se pulsa el bot&#195;&#179;n
+  gtk-timeout-repeat -&gt; gint: Expiraci&#195;&#179;n de repetici&#195;&#179;n
+    Valor de repetici&#195;&#179;n para expiraciones, cuando el bot&#195;&#179;n se pulsa
+  gtk-timeout-expand -&gt; gint: Expiraci&#195;&#179;n del expansor
+    Valor de expansi&#195;&#179;n para las expiraciones, cuando un widget est&#195;&#161; expandiendo una regi&#195;&#179;n nueva
+  gtk-color-scheme -&gt; gchararray: Esquema de color
+    Una paleta de colores con nombre para usar en los temas
+  gtk-enable-animations -&gt; gboolean: Activar animaciones
+    Indica si se activan las animaciones para todo el toolkit.
+  gtk-touchscreen-mode -&gt; gboolean: Activar modo pantalla t&#195;&#161;ctil
+    Cuando est&#195;&#169; a TRUE, no hay eventos de notificaci&#195;&#179;n de movimiento entregados en esta pantalla
+  gtk-tooltip-timeout -&gt; gint: Tiempo de expiraci&#195;&#179;n del consejo
+    Tiempo de expiraci&#195;&#179;n antes de que se muestre el consejo
+  gtk-tooltip-browse-timeout -&gt; gint: Tiempo de los consejos de navegaci&#195;&#179;n
+    Tiempo de expiraci&#195;&#179;n antes de que se muestre el consejo cuando el modo de navegaci&#195;&#179;n est&#195;&#161; activado
+  gtk-tooltip-browse-mode-timeout -&gt; gint: Tiempo de los consejos en modo navegaci&#195;&#179;n
+    Tiempo de expiraci&#195;&#179;n despu&#195;&#169;s del cual se desactiva el modo de navegaci&#195;&#179;n
+  gtk-keynav-cursor-only -&gt; gboolean: S&#195;&#179;lo cursor para navegar con teclas
+    Cuando sea TRUE, s&#195;&#179;lo hay teclas de cursos disponibles para navegar por los widgets
+  gtk-keynav-wrap-around -&gt; gboolean: Saltar al navegar con el teclado
+    Indica si se ha de saltar alrededor cuando se navegue por los widgets con el teclado
+  gtk-error-bell -&gt; gboolean: Campana de error
+    Cuando sea TRUE, la navegaci&#195;&#179;n con el teclado y otros errores causar&#195;&#161;n un bip
+  color-hash -&gt; GHashTable: Hash del color
+    Una representaci&#195;&#179;n en tabla hash del esquema de color.
+  gtk-file-chooser-backend -&gt; gchararray: Backend predeterminado del selector de archivos
+    Nombre del backend predeterminado del GtkFileChooser
+  gtk-print-backends -&gt; gchararray: Backend predeterminado de impresi&#195;&#179;n
+    Lista de backends GtkPrintBackend para usar por omisi&#195;&#179;n
+  gtk-print-preview-command -&gt; gchararray: Comando predeterminado que ejecutar al mostrar una vista previa de impresi&#195;&#179;n
+    Comando que ejecutar al mostrar una vista previa de impresi&#195;&#179;n
+  gtk-enable-mnemonics -&gt; gboolean: Activar mnem&#195;&#179;nicos
+    Indica si las etiquetas deben tener mnem&#195;&#179;nicos
+  gtk-enable-accels -&gt; gboolean: Activar aceleradores
+    Indica si los elementos del men&#195;&#186; deben tener aceleradores
+  gtk-recent-files-limit -&gt; gint: L&#195;&#173;mite de archivos recientes
+    N&#195;&#186;mero de archivos usados recientemente
+  gtk-im-module -&gt; gchararray: M&#195;&#179;dulo de m&#195;&#169;todo de entrada predeterminado
+    Qu&#195;&#169; m&#195;&#179;dulo de m&#195;&#169;todo de entrada se debe usar de forma predeterminada
+  gtk-recent-files-max-age -&gt; gint: Antig&#195;&#188;edad m&#195;&#161;xima de los archivos recientes
+    M&#195;&#161;xima antig&#195;&#188;edad para los archivos recientemente usados, en d&#195;&#173;as
+  gtk-fontconfig-timestamp -&gt; guint: Configuraci&#195;&#179;n de la marca de tiempo de fontconfig
+    Marca de tiempo de la configuraci&#195;&#179;n actual de fontconfig
+  gtk-sound-theme-name -&gt; gchararray: Nombre del tema de sonido
+    Nombre del tema de sonido XDG
+  gtk-enable-input-feedback-sounds -&gt; gboolean: Contexto de entrada audible
+    Indica si se deben reproducir eventos como respuesta a las entradas del usuario
+  gtk-enable-event-sounds -&gt; gboolean: Activar eventos de sonido
+    Indica si se debe reproducir cualquier evento de sonido
+  gtk-enable-tooltips -&gt; gboolean: Activar consejos
+    Indica si se deben mostrar los consejos en los widgets
+  gtk-toolbar-style -&gt; GtkToolbarStyle: Estilo de la barra de herramientas
+    Indica si las barras de herramientas predeterminadas tienen s&#195;&#179;lo texto, texto e iconos, s&#195;&#179;lo iconos, etc.
+  gtk-toolbar-icon-size -&gt; GtkIconSize: Tama&#195;&#177;o del icono de la barra de herramientas
+    El tama&#195;&#177;o de los iconos el las barras de herramientas.
+  gtk-auto-mnemonics -&gt; gboolean: Mnem&#195;&#179;nicos autom&#195;&#161;ticos
+    Indica si se deben mostrar y ocultar autom&#195;&#161;ticamente los mnem&#195;&#179;nicos cuando el usuario pulsa el activador de mnem&#195;&#179;nicos.
+  gtk-button-images -&gt; gboolean: Mostrar im&#195;&#161;genes en los botones
+    Indica si se deben mostrar las im&#195;&#161;genes en los botones
+  gtk-label-select-on-focus -&gt; gboolean: Seleccionar al enfocar
+    Indica si se debe seleccionar el contenido de una etiqueta seleccionable cuando obtiene el foco
+  gtk-color-palette -&gt; gchararray: Paleta personalizada
+    Paleta que se usar&#195;&#161; en el selector de colores
+  gtk-entry-select-on-focus -&gt; gboolean: Seleccionar al enfocar
+    Indica si se deben seleccionar los contenidos de una entrada cuando obtiene el foco
+  gtk-entry-password-hint-timeout -&gt; guint: Tiempo de expiraci&#195;&#179;n del hint de contrase&#195;&#177;a
+    Indica durante cu&#195;&#161;nto tiempo mostrar el &#195;&#186;ltimo car&#195;&#161;cter en las entradas ocultas
+  gtk-menu-images -&gt; gboolean: Mostrar im&#195;&#161;genes del men&#195;&#186;
+    Indica si deben mostrarse o no las im&#195;&#161;genes en los men&#195;&#186;s
+  gtk-can-change-accels -&gt; gboolean: Puede cambiar aceleradores
+    Indica si los aceleradores del men&#195;&#186; pueden cambiarse pulsando una tecla sobre el elemento del men&#195;&#186;
+  gtk-menu-popup-delay -&gt; gint: Retraso antes de que aparezcan los submen&#195;&#186;s
+    Tiempo m&#195;&#173;nimo en que el puntero debe permanecer sobre un elemento de men&#195;&#186; antes de que el submen&#195;&#186; aparezca
+  gtk-menu-popdown-delay -&gt; gint: Retraso antes de ocultar un submen&#195;&#186;
+    El tiempo antes de ocultar un submen&#195;&#186; cuando el puntero se este moviendo hacia el submen&#195;&#186;
+  gtk-menu-bar-popup-delay -&gt; gint: Retardo antes de que aparezcan los men&#195;&#186;s desplegables
+    Retardo antes de que aparezcan los submen&#195;&#186;s de una barra de men&#195;&#186;s
+  gtk-scrolled-window-placement -&gt; GtkCornerType: Colocaci&#195;&#179;n de la ventana donde se ha desplazado
+    D&#195;&#179;nde se coloca el contenido de las ventanas donde se hace scroll con respecto a las barras de desplazamiento, si no toma precedencia por el propio emplazamiento de la ventana donde se hizo scroll.
+
+Signals from GObject:
+  notify (GParam)
+
+</pre>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_double_property"></a><span class="summary-sig-name">set_double_property</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Settings.set_double_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_long_property"></a><span class="summary-sig-name">set_long_property</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Settings.set_long_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_string_property"></a><span class="summary-sig-name">set_string_property</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Settings.set_string_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__eq__</code>,
+      <code>__gdoc__</code>,
+      <code>__ge__</code>,
+      <code>__gobject_init__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__le__</code>,
+      <code>__lt__</code>,
+      <code>__ne__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType GtkSettings (31512576)&gt;">&lt;GType GtkSettings (31512576)&gt;</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Aug 31 16:14:50 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

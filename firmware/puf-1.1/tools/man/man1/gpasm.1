@@ -1,0 +1,123 @@
+.TH gpasm 1 "(c) 2002, 2003, 2004, 2005 James Bowman, Craig Franklin"
+.SH NAME
+gpasm - GNU PIC assembler
+.SH SYNOPSIS
+.B gpasm [options] file
+.SH WARNING
+The information in this man page is an extract from the full documentation of
+gputils and is limited to the meaning of the options.  For complete and 
+current documentation, refer to "gputils.ps" located in the gputils docs 
+directory.
+.SH DESCRIPTION
+.B gpasm
+is an assembler for Microchip (TM) PIC (TM) micro-controllers.
+It's intended to be compatible with the manufacturer's MPASM
+assembler.
+.B gpasm
+is part of gputils.  Check the gputils(1) manpage for details on other GNU 
+PIC utilities.
+.SH OPTIONS
+Below is a summary of the
+.B gpasm 
+options.
+.B gpasm
+options always supersede any settings in the source code.
+.TP
+.B -a FMT, --hex-format FMT       
+GPASM supports inhx8m, inhx8s, inhx16, and inhx32 hex file formats.  This 
+option controls which hex file format is used.  The default is inhx32.
+.TP
+.B -c, --object 
+Output a relocatable object.
+.TP
+.B -d, --debug   
+Output debug messages.
+.TP
+.B -D SYM=VAL, --define SYM=VAL   
+Define SYM with value VAL. This is equivalent to placing "#define SYM VAL" in 
+the source.
+.TP
+.B -e [ON|OFF], --expand [ON|OFF] 
+Macro expansion in the listing file is controlled using the EXPAND and NOEXPAND
+directives.  This option can force either directive to be ignored.  When "ON"
+is selected the macros are always expanded regardless of the presence of 
+NOEXPAND.  Likewise, "OFF" will force macros not to be expanded. 
+.TP
+.B -g, --debug-info   
+Use debug directives for COFF.
+.TP
+.B -h, --help
+Show the usage message.
+.TP
+.B -i, --ignore-case 
+All user defined symbols and macros are case sensitive.  This option makes them
+case insensitive.
+.TP
+.B -I DIR, --include DIR
+The top level assembly file is passed to gpasm as an argument.  This file can
+contain INCLUDE directives.  These directives open the specified file and 
+then its contents are assembled.  GPASM searches for these files in the local 
+directory.  If the file is not located, the default header path is checked.  
+Finally, all paths specified using this argument are searched. 
+.TP
+.B -L, --force-list 
+Ignore NOLIST directives.  This forces gpasm to print every line assembled in 
+the list file output.
+.TP
+.B -l, --list-chips
+List the supported processors.
+.TP
+.B -m, --dump
+Upon completion of the final pass of assembly, display the contents of 
+instruction memory.
+.TP
+.B -M, --deps
+Output a dependency file.
+.TP
+.B -n, --dos
+By default, gpasm generates hex files using ISO format.  However, some device 
+programmers required a DOS formatted file.  This option will cause gpasm to 
+generate a DOS formatted hex file.
+.TP
+.B -o FILE, --output FILE
+Alternate name of the output file.
+.TP
+.B -p PROC, --processor PROC
+Select the processor.
+.TP
+.B -q, --quiet
+Suppress anything sent to standard output.
+.TP
+.B -r RADIX, --radix RADIX
+The supported radices are BIN, DEC, OCT, and HEX.  The default is HEX.
+.TP
+.B -v, --version
+Show the version.
+.TP
+.B -w [0|1|2], --warning [0|1|2]
+This option sets the message level. "0" is the default.  It will allow all 
+messages, warnings, and errors to be reported.  "1" will suppress the messages.
+"2" will suppress the messages and warnings.
+.TP
+.B -y, --extended
+Enable 18xx extended mode.
+.SH SEE ALSO
+gputils(1)
+.SH AUTHOR
+Craig Franklin <craigfranklin@users.sourceforge.net>
+.SH COPYRIGHT
+Copyright (C) 2002, 2003, 2004, 2005 James Bowman, Craig Franklin
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.

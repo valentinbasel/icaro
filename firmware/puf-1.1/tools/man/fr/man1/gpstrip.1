@@ -1,0 +1,89 @@
+.TH gpstrip 1 "(c) 2005 Craig Franklin"
+
+.SH NOM
+gpstrip - retire les symboles d'un fichier objet
+
+.SH SYNOPSIS
+.B gpstrip [options] [fichier]
+
+.SH AVERTISSEMENT
+Les informations de cette page de manuel sont extraites de la documentation
+complète de gputils et sont limitées à la signification des options. Pour une
+documentation complète, reportez-vous au fichier «\ gputils.ps\ » (en anglais)
+situé dans le répertoire doc de gputils.
+
+.SH DESCRIPTION
+.B gpstrip
+retire les symboles des fichiers objet GNU PIC
+.B gpstrip
+est une partie de gputils. Consultez la page manuel gputils(1) pour avoir
+des détails sur les autres utilitaires GNU PIC.
+
+.SH OPTIONS
+.TP
+.B -g, --strip-debug
+Éliminer les symboles de débogage.
+.TP
+.B -h, --help
+Afficher ce message d'usage.
+.TP
+.B -k SYMBOL, --keep-symbol SYMBOLE
+Conserver le symbole SYMBOLE. 
+.TP
+.B -n SYMBOL, --strip-symbol SYMBOLE
+Supprimer le symbole SYMBOLE. 
+.TP
+.B -o FICHIER,, --output FICHIER,
+Nom alternatif du fichier de sortie.
+.TP
+.B -p, --preserve-dates
+Préserver les dates. 
+.TP
+.B -r SECTION, --remove-section SECTION
+Retirer la section SECTION. 
+.TP
+.B -s, --strip-all
+Retirer tous les symboles.
+.TP
+.B -u, --strip-unneeded
+Retirer les symboles qui ne sont pas nécessaires à la translation (NdT\ : relocation).
+.TP
+.B -v, --version
+Afficher la version.
+.TP
+.B -x, --discard-all
+Retirer les symboles non globaux.
+
+.SH VOIR AUSSI
+gputils(1)
+
+.SH AUTEUR
+Craig Franklin <craigfranklin@users.sourceforge.net>
+
+.SH TRADUCTION
+.PP
+Ce document est une traduction réalisée par Alain Portal
+<aportal AT univ-montp2 DOT fr> le 24 mai 2005.
+.PP
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité. La version anglaise la plus à jour de ce document est
+toujours consultable via la commande\ : «\ \fBLANG=en\ man\ 1\ gpstrip\fR\ ».
+N'hésitez pas à signaler à l'auteur ou au traducteur, selon le cas, toute
+erreur dans cette page de manuel.
+
+.SH COPYRIGHT
+Copyright (C) 2005 Craig Franklin
+
+Ce programme est un logiciel libre\ ; vous pouvez le redistribuer et/ou le
+modifier sous les termes de la licence GNU GPL telle que publiée par la Free
+Software Foundation\ ; soit la version 2, soit (à votre convenance) toute
+version ultérieure.
+
+Ce programme est distribué dans l'espoir qu'il soit utile, mais
+SANS AUCUNE GARANTIE\ ; même sans la garantie implicite d'UTILISABILITÉ
+ou d'ADAPTATION À UN USAGE PRÉCIS. Lisez la licence GNU GPL pour plus
+de détails.
+
+Vous devriez avoir reçu une copie de la licence GNU GPL avec ce programme\ ;
+si ce n'est pas le cas, écrivez à Free Software Foundation, Inc., 675 Mass Ave,
+Cambridge, MA 02139, USA.

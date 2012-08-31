@@ -2,6 +2,20 @@ float tiempo=0;
 float tiempo2=0;
 unsigned char i;
 
+int sensordigital(int valor)
+{
+/*funcion para cambiar el valor de los sens digitales (estan invertidos con respecto a la placa)*/
+	int temp=0;
+	temp=digitalread(valor);
+	if (temp==0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
 void setup()
 {
     TRISB=0;

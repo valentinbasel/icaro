@@ -1,16 +1,16 @@
 void adelante(){
-int t =300 ;
-ServoWrite(10,50);ServoWrite(11,120);ServoWrite(12,150);ServoWrite(8,120);ServoWrite(9,0  );
+int t =400 ;
+ServoWrite(10,40);ServoWrite(11,60);ServoWrite(12,80);ServoWrite(8,40);ServoWrite(9,0  );
 Delayms(t);
-ServoWrite(10,50);ServoWrite(11,150);ServoWrite(12,150);ServoWrite(8,200);ServoWrite(9,0  );
+ServoWrite(10,40);ServoWrite(11,85);ServoWrite(12,80);ServoWrite(8,85);ServoWrite(9,0  );
 Delayms(t);
-ServoWrite(10,150);ServoWrite(11,150);ServoWrite(12,50);ServoWrite(8,200);ServoWrite(9,0);
+ServoWrite(10,40);ServoWrite(11,130);ServoWrite(12,80);ServoWrite(8,110);ServoWrite(9,0);
 Delayms(t);
 
-ServoWrite(10,150);ServoWrite(11,120);ServoWrite(12,50);ServoWrite(8,120);ServoWrite(9,0  );
+ServoWrite(10,100);ServoWrite(11,130);ServoWrite(12,20);ServoWrite(8,110);ServoWrite(9,0  );
 Delayms(t);
-ServoWrite(10,150);ServoWrite(11,40);ServoWrite(12,50);ServoWrite(8,80);ServoWrite(9,0  );
+ServoWrite(10,100);ServoWrite(11,85);ServoWrite(12,20);ServoWrite(8,85);ServoWrite(9,0  );
 Delayms(t);
-ServoWrite(10,50);ServoWrite(11,40);ServoWrite(12,150);ServoWrite(8,80);ServoWrite(9,0  );
+ServoWrite(10,100);ServoWrite(11,60);ServoWrite(12,20);ServoWrite(8,40);ServoWrite(9,0  );
 Delayms(t);
 }

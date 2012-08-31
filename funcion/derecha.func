@@ -1,11 +1,12 @@
 void derecha(){
-ServoWrite(10,100);ServoWrite(11,120);ServoWrite(12,100);ServoWrite(8,120);ServoWrite(9,0  );
-Delayms(1000);
-ServoWrite(10,100);ServoWrite(11,120);ServoWrite(12,30);ServoWrite(8,120);ServoWrite(9,0  );
-Delayms(1000);
-ServoWrite(10,100);ServoWrite(11,40);ServoWrite(12,30);ServoWrite(8,80);ServoWrite(9,0  );
-Delayms(1000);
+int t =300 ;
+ServoWrite(10,70);ServoWrite(11,85);ServoWrite(12,70);ServoWrite(8,85);ServoWrite(9,0  );
+Delayms(t);
+ServoWrite(10,70);ServoWrite(11,85);ServoWrite(12,110);ServoWrite(8,85);ServoWrite(9,0  );
+Delayms(t);
+ServoWrite(10,70);ServoWrite(11,150);ServoWrite(12,110);ServoWrite(8,126);ServoWrite(9,0);
+Delayms(t);
 
-ServoWrite(10,100);ServoWrite(11,30);ServoWrite(12,100);ServoWrite(8,80);ServoWrite(9,0  );
-Delayms(1000);
+ServoWrite(10,70);ServoWrite(11,150);ServoWrite(12,70);ServoWrite(8,126);ServoWrite(9,0  );
+Delayms(t);
 }

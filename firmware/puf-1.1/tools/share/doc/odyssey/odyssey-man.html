@@ -1,0 +1,245 @@
+Content-type: text/html
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of ODYSSEY</TITLE>
+</HEAD><BODY>
+<H1>ODYSSEY</H1>
+Section: User Commands  (1)<BR>Updated: $Date: 2009-08-22 12:51:41 $<BR><A HREF="#index">Index</A>
+<A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+odyssey - PIC serial microcontroller programming utility
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>odyssey [</B><I>options</I><B>] init</B>
+
+<BR>
+
+<B>odyssey [</B><I>options</I><B>] </B><I>chiptype command</I><B> [</B><I>command arguments</I><B>]</B>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>odyssey</B>
+
+is a serial device programming utility designed for use under Linux and
+other alternative operating systems. At the moment, it only supports
+programming PIC microcontrollers but it is designed to support many different
+types of devices and many different types of programming hardware.
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<DL COMPACT>
+<DT><B>-V</B>
+
+<DD>
+Print the Odyssey version
+<DT><B>-q</B>
+
+<DD>
+Quiet mode. Don't display the progress counters during an operation.
+<DT><B>-f filename</B>
+
+<DD>
+Specify an alternate configuration file in ~/.odyssey/ to use. The default
+value for this option is &quot;config&quot;.
+<DT><B>-v section.variable=value</B>
+
+<DD>
+Set the value of a configuration variable, overriding the previous value. For
+example, to temporarily change the I/O driver to direct hardware access, the
+option would be
+<B>-v io.driver=directpp</B>
+
+<DT><B>-l</B>
+
+<DD>
+Lists the supported values for the
+<I>chiptype</I>
+
+parameter. Device names prefixed with a * have not yet been tested. You should
+not include the * character when specifying an untested device.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>COMMANDS</H2>
+
+<DL COMPACT>
+<DT><B>init</B>
+
+<DD>
+Initializes the PIC programmer hardware and turns off all the power and
+data lines. You should do this before inserting a PIC into the programming
+socket. A
+<I>chiptype</I>
+
+does not need to be specified for this command.
+<DT><B>write</B><I> filename</I>
+
+<DD>
+Programs the data in
+<I>filename</I>
+
+to a PIC. Odyssey autodetects the file type and currently supports Intel
+8, 16, and 32-bit hex files.
+<DT><B>read</B><I> filename</I>
+
+<DD>
+Reads the memory contents of a PIC and writes it to
+<I>filename.</I>
+
+The default output file format is Intel 32-bit hex.
+<DT><B>verify</B><I> filename</I>
+
+<DD>
+Compares the contents of a PIC's memory against
+<I>filename</I>
+
+and reports the first location that doesn't match.
+<DT><B>check</B>
+
+<DD>
+Checks that the PIC is connected and of the correct type, and reports
+the device ID.  (This is not yet implemented for all PIC families; on
+other families it will succeed, but print a warning.)
+<DT><B>erase</B>
+
+<DD>
+Erases an electrically erasable PIC.
+<DT><B>blankcheck</B>
+
+<DD>
+Checks if a PIC is blank. This is especially useful when using EPROM based PICs.
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>CONFIGURATION FILES</H2>
+
+On startup,
+<B>odyssey</B>
+
+will load its hardware configuration from two places. The system-wide
+configuration file
+<B>/usr/local/etc/odyssey.conf</B>
+
+will be read first. After that, the user-specific configuration file,
+<B>$HOME/.odyssey/config,</B>
+
+is read. The variables in the user configuration override any settings in
+the system-wide configuration.
+<P>
+
+For your convienence, if the
+<B>$CONFIG</B>
+
+environment variable is set, the user configuration will be read from
+<B>$CONFIG/odyssey/config.</B>
+
+This is a futile attempt to reduce the number of dotfiles in
+<B>$HOME.</B>
+
+<A NAME="lbAH">&nbsp;</A>
+<H3>CONFIGURATION FILE FORMAT</H3>
+
+The configuration file is a plain ASCII text file that is divided into
+sections, each which contain variable/value pairs. Comments can be included
+by starting a line with a pound sign (#).
+<P>
+
+A section is started with a line containing only the section name enclosed in
+square brackets. After a section is started, variables can be assigned values.
+Section and variable names must only contain characters from the set
+[0-9A-Za-z _-]. Values can contain any characters. Variable assignment is
+accomplished by text lines of the form
+<I>variable</I><B>=</B><I>value.</I>
+
+<P>
+
+Here is a sample section definition
+<DL COMPACT><DT><DD>
+<B>[</B><I>section</I><B>]</B>
+
+</DL>
+
+<DL COMPACT><DT><DD>
+<I>variable1</I><B>=</B><I>value1</I>
+
+</DL>
+
+<DL COMPACT><DT><DD>
+<I>variable2</I><B>=</B><I>value2</I>
+
+</DL>
+
+<DL COMPACT><DT><DD>
+<I>foo</I><B>=</B><I>true</I>
+
+</DL>
+
+<A NAME="lbAI">&nbsp;</A>
+<H3>VALUE SYNTAX</H3>
+
+Values given to variables must match the type of the variable being assigned.
+The following types are defined
+<DL COMPACT>
+<DT><B>integer</B>
+
+<DD>
+An integer can be in standard decimal form (&quot;123&quot;) or in hexadecimal form
+(&quot;0x7B&quot;). Integers in standard decimal form are signed and can be positive or
+negative.
+<DT><B>boolean</B>
+
+<DD>
+A boolean indicates either true or false. To indicate a true boolean value,
+the value should be one of &quot;1&quot;, &quot;true&quot;, &quot;yes&quot;, or &quot;on&quot;. To indicate a false
+boolean value, the value should be one of &quot;0&quot;, &quot;false&quot;, &quot;no&quot;, or &quot;off&quot;.
+<DT><B>string</B>
+
+<DD>
+The value of a string variable will be used verbatim. There are no constraints
+on string variables.
+</DL>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>LICENSE</H2>
+
+<B>odyssey</B>
+
+is distributed under the terms of the GNU General Public License version 2.
+<A NAME="lbAK">&nbsp;</A>
+<H2>AUTHORS</H2>
+
+<BR>&nbsp;&nbsp;Mark&nbsp;Aikens&nbsp;&lt;<A HREF="mailto:marka@desert.cx">marka@desert.cx</A>&gt;
+<BR>&nbsp;&nbsp;Pierre&nbsp;Gaufillet&nbsp;&lt;<A HREF="mailto:pierre.gaufillet@magic.fr">pierre.gaufillet@magic.fr</A>&gt;
+<A NAME="lbAL">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="/cgi-bin/man/man2html?5+pic.conf">pic.conf</A></B>(5)
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">COMMANDS</A><DD>
+<DT><A HREF="#lbAG">CONFIGURATION FILES</A><DD>
+<DL>
+<DT><A HREF="#lbAH">CONFIGURATION FILE FORMAT</A><DD>
+<DT><A HREF="#lbAI">VALUE SYNTAX</A><DD>
+</DL>
+<DT><A HREF="#lbAJ">LICENSE</A><DD>
+<DT><A HREF="#lbAK">AUTHORS</A><DD>
+<DT><A HREF="#lbAL">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:15:38 GMT, August 22, 2009
+</BODY>
+</HTML>

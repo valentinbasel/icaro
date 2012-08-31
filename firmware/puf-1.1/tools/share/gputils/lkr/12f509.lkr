@@ -1,0 +1,20 @@
+// Sample linker command file for 12F509
+
+LIBPATH  .
+
+CODEPAGE   NAME=page0    START=0x0     END=0x1FF
+CODEPAGE   NAME=page1    START=0x200   END=0x3FF
+CODEPAGE   NAME=.idlocs  START=0x400   END=0x403     PROTECTED
+CODEPAGE   NAME=.config  START=0xFFF   END=0xFFF     PROTECTED
+
+SHAREBANK  NAME=sfrs     START=0x0     END=0x06     PROTECTED
+SHAREBANK  NAME=sfrs     START=0x20    END=0x26     PROTECTED
+SHAREBANK  NAME=gprnobnk START=0x07    END=0x0F
+SHAREBANK  NAME=gprnobnk START=0x27    END=0x2F
+DATABANK   NAME=gpr0     START=0x10    END=0x1F
+DATABANK   NAME=gpr1     START=0x30    END=0x3F
+
+SECTION    NAME=PROG0    ROM=page0     // ROM code space
+SECTION    NAME=PROG1    ROM=page1     // ROM code space
+SECTION    NAME=IDLOCS   ROM=.idlocs   // ID locations
+

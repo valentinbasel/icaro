@@ -1,0 +1,21 @@
+// $Id: 18f4321_e.lkr,v 1.1 2006/08/19 02:50:45 craigfranklin Exp $
+// File: 18f4321_e.lkr
+// Sample linker script for the PIC18F4321 processor
+
+// Not intended for use with MPLAB C18.  For C18 projects,
+// use the linker scripts provided with that product.
+
+LIBPATH .
+
+CODEPAGE   NAME=vectors    START=0x0            END=0x29           PROTECTED
+CODEPAGE   NAME=page       START=0x2A           END=0x1FFF
+CODEPAGE   NAME=idlocs     START=0x200000       END=0x200007       PROTECTED
+CODEPAGE   NAME=config     START=0x300000       END=0x30000D       PROTECTED
+CODEPAGE   NAME=devid      START=0x3FFFFE       END=0x3FFFFF       PROTECTED
+CODEPAGE   NAME=eedata     START=0xF00000       END=0xF000FF       PROTECTED
+
+DATABANK   NAME=gpre       START=0x0            END=0x5F
+ACCESSBANK NAME=accessram  START=0x60           END=0x7F
+DATABANK   NAME=gpr0       START=0x80           END=0xFF
+DATABANK   NAME=gpr1       START=0x100          END=0x1FF
+ACCESSBANK NAME=accesssfr  START=0xF80          END=0xFFF          PROTECTED

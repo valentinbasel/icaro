@@ -1,0 +1,220 @@
+<fondo>
+(0, 22, 55)
+0
+
+</fondo>
+<objeto_inicial>
+(78.0, 7.0)
+</objeto_inicial>
+<objeto_dato>
+1
+(131, 107)
+0
+(49, 107, 222)
+1
+0
+
+0
+</objeto_dato>
+<objeto_dato>
+2
+(131, 67)
+a
+(71, 138, 26)
+1
+a
+
+a
+</objeto_dato>
+<objeto_dato_img>
+sensordig1.png
+3
+(258, 307)
+dig 1 
+(38, 105, 93)
+0
+sensordigital(21) 
+
+sensordigital(21) 
+</objeto_dato_img>
+<objeto_dato>
+4
+(265, 407)
+100
+(49, 107, 222)
+1
+0
+
+100
+</objeto_dato>
+<objeto_dato>
+5
+(272, 457)
+a
+(71, 138, 26)
+1
+a
+++
+a++
+</objeto_dato>
+<objeto_dato>
+6
+(219, 257)
+a
+(71, 138, 26)
+1
+a
+
+a
+</objeto_dato>
+<objeto_dato_img>
+masmas.png
+7
+(309, 457)
+++ 
+(118, 177, 99)
+0
+++
+
+++
+</objeto_dato_img>
+<objeto_dato>
+8
+(272, 557)
+a
+(71, 138, 26)
+1
+a
+=0
+a=0
+</objeto_dato>
+<objeto_dato_img>
+asignacion.png
+10
+(309, 557)
+= 
+(186, 245, 117)
+0
+=
+0
+=0
+</objeto_dato_img>
+<objeto_dato>
+11
+(360, 557)
+0
+(49, 107, 222)
+1
+0
+
+0
+</objeto_dato>
+<objeto_dato_img>
+verdadero.png
+12
+(198, 207)
+1 
+(138, 6, 1)
+0
+1 
+
+1 
+</objeto_dato_img>
+<objeto_dato>
+14
+(187, 157)
+inicia un bucle infinito
+(71, 138, 26)
+1
+a
+
+inicia un bucle infinito
+</objeto_dato>
+<objeto_dato>
+15
+(307, 357)
+incrementa "a"
+(71, 138, 26)
+1
+a
+
+incrementa "a"
+</objeto_dato>
+<objeto_componente>
+var
+2
+2
+(78, 57)
+(109, 96, 120)
+var 
+</objeto_componente>
+<objeto_bloque>
+3
+(138, 297)
+(91, 105, 190)
+si 
+(138, 597)
+</objeto_bloque>
+<objeto_componente>
+sino
+0
+5
+(198, 497)
+(135, 145, 240)
+sino 
+</objeto_componente>
+<objeto_componente>
+linea
+1
+6
+(198, 447)
+(182, 113, 84)
+linea  
+</objeto_componente>
+<objeto_componente>
+activar
+1
+7
+(138, 247)
+(213, 72, 62)
+activar 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+8
+(198, 397)
+(230, 81, 145)
+pausa 
+</objeto_componente>
+<objeto_componente>
+linea
+1
+9
+(198, 547)
+(182, 113, 84)
+linea  
+</objeto_componente>
+<objeto_bloque>
+10
+(78, 197)
+(69, 168, 65)
+mientras 
+(78, 647)
+</objeto_bloque>
+<objeto_componente>
+comentarios
+1
+12
+(78, 147)
+(203, 72, 245)
+comentarios 
+</objeto_componente>
+<objeto_componente>
+comentarios
+1
+13
+(198, 347)
+(203, 72, 245)
+comentarios 
+</objeto_componente>

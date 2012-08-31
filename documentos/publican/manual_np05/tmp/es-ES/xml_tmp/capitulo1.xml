@@ -235,7 +235,7 @@ puerto usb y usar el programa <command>TurtleArt</command>, o con un firmware a 
 				</listitem>
 				<listitem>
 					<para>
-						#> yum -y install sdcc
+						#> yum -y install sdcc gputils
 					</para>
 				</listitem>
 				<listitem>

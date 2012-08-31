@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>gtk.TextTag</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        gtk ::
+        TextTag ::
+        Class&nbsp;TextTag
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="gtk.TextTag-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class TextTag</h1><p class="nomargin-top"><span class="codelink"><a href="gtk-pysrc.html#TextTag">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+     object --+    
+              |    
+gobject.GObject --+
+                  |
+                 <strong class="uidshort">TextTag</strong>
+</pre>
+
+<hr />
+<pre class="literalblock">
+Object GtkTextTag
+
+Signals from GtkTextTag:
+  event (GObject, GdkEvent, GtkTextIter) -&gt; gboolean
+
+Properties from GtkTextTag:
+  name -&gt; gchararray: Nombre de etiqueta
+    Nombre utilizado para referirse a la etiqueta del texto. NULL para etiquetas an&#195;&#179;nimas
+  background -&gt; gchararray: Nombre del color de fondo
+    Color de fondo como una cadena
+  foreground -&gt; gchararray: Nombre del color de primer plano
+    Color de primer plano como una cadena
+  background-gdk -&gt; GdkColor: Color de fondo
+    Color de fondo como un (posiblemente no asignado) GdkColor
+  foreground-gdk -&gt; GdkColor: Color de primer plano
+    Color de frente como un (posiblemente no asignado) GdkColor
+  background-stipple -&gt; GdkPixmap: M&#195;&#161;scara de puntos del fondo
+    Bitmap a utilizar como una m&#195;&#161;scara cuando se dibuje el fondo del texto
+  foreground-stipple -&gt; GdkPixmap: M&#195;&#161;scara de puntos del primer plano
+    Bitmap a utilizar como una m&#195;&#161;scara cuando se arrastre primer plano del texto
+  font -&gt; gchararray: Tipograf&#195;&#173;a
+    Descripci&#195;&#179;n de la tipograf&#195;&#173;a como una cadena, ejemplo: &#194;&#171;Sans Italic 12&#194;&#187;
+  font-desc -&gt; PangoFontDescription: Tipograf&#195;&#173;a
+    Descripci&#195;&#179;n de la tipograf&#195;&#173;a como una estructura PangoFontDescription
+  family -&gt; gchararray: Familia tipogr&#195;&#161;fica
+    Nombre de la familia tipogr&#195;&#161;fica, ej. Sans, Helv&#195;&#169;tica, Times, Monospace
+  style -&gt; PangoStyle: Estilo de la tipograf&#195;&#173;a
+    Estilo de la tipograf&#195;&#173;a como un PangoStyle, por ejemplo: PANGO_STYLE_ITALIC
+  variant -&gt; PangoVariant: Variante de la tipograf&#195;&#173;a
+    Variante de la tipograf&#195;&#173;a como una PangoVariant, por ejemplo: PANGO_VARIANT_SMALL_CAPS
+  weight -&gt; gint: Anchura de la tipograf&#195;&#173;a
+    Peso de la tipograf&#195;&#173;a como un entero, vea valores predefinidos en PangoWeight; por ejemplo: PANGO_WEIGHT_BOLD
+  stretch -&gt; PangoStretch: Estiramiento de la tipograf&#195;&#173;a
+    Ajuste de la tipograf&#195;&#173;a como un PangoStretch, ejemplo: PANGO_STRETCH_CONDENSED
+  size -&gt; gint: Tama&#195;&#177;o de la tipograf&#195;&#173;a
+    Tama&#195;&#177;o de la tipograf&#195;&#173;a en unidades de Pango
+  size-points -&gt; gdouble: Puntos de la tipograf&#195;&#173;a
+    Tama&#195;&#177;o de la tipograf&#195;&#173;a en puntos
+  scale -&gt; gdouble: Escala de la tipograf&#195;&#173;a
+    Tama&#195;&#177;o de la tipograf&#195;&#173;a como un factor de escala relativo al tama&#195;&#177;o predeterminado de la tipograf&#195;&#173;a. Esta propiedad se adapta a los cambios del tema, etc. por lo cual se recomienda. Pango define previamente algunas escalas tales como PANGO_SCALE_X_LARGE
+  pixels-above-lines -&gt; gint: P&#195;&#173;xeles encima de las l&#195;&#173;neas
+    P&#195;&#173;xeles de espacio en blanco encima de los p&#195;&#161;rrafos
+  pixels-below-lines -&gt; gint: P&#195;&#173;xeles debajo de las l&#195;&#173;neas
+    P&#195;&#173;xeles de espacio en blanco debajo de los p&#195;&#161;rrafos
+  pixels-inside-wrap -&gt; gint: P&#195;&#173;xeles dentro del ajuste
+    P&#195;&#173;xeles de espacio en blanco entre las l&#195;&#173;neas ajustadas en un p&#195;&#161;rrafo
+  editable -&gt; gboolean: Editable
+    Indica si el texto puede modificarse por el usuario
+  wrap-mode -&gt; GtkWrapMode: Modo de ajuste
+    Indica si deben ajustarse las l&#195;&#173;neas, a los l&#195;&#173;mites de las palabras, a los l&#195;&#173;mites de los caracteres, o nunca
+  justification -&gt; GtkJustification: Justificaci&#195;&#179;n
+    Justificaci&#195;&#179;n a la izquierda, derecha o centro
+  direction -&gt; GtkTextDirection: Direcci&#195;&#179;n del texto
+    Direcci&#195;&#179;n del texto, por ejemplo: de izquierda-a-derecha o de derecha-a-izquierda
+  left-margin -&gt; gint: Margen izquierdo
+    Anchura del margen izquierdo en p&#195;&#173;xeles
+  indent -&gt; gint: Sangrar
+    N&#195;&#186;mero de p&#195;&#173;xeles para el sangrado del p&#195;&#161;rrafo
+  strikethrough -&gt; gboolean: Tachar
+    Indica si se tacha el texto
+  right-margin -&gt; gint: Margen derecho
+    Anchura del margen derecho en p&#195;&#173;xeles
+  underline -&gt; PangoUnderline: Subrayado
+    Estilo de subrayado de este texto
+  rise -&gt; gint: Elevar
+    Desplazamiento del texto por encima de la l&#195;&#173;nea base (por debajo de la l&#195;&#173;nea base si la elevaci&#195;&#179;n es negativa) en unidades Pango
+  background-full-height -&gt; gboolean: Altura completa del fondo
+    Indica si el color de fondo rellena el ancho completo de la l&#195;&#173;nea o s&#195;&#179;lo el ancho de los caracteres etiquetados
+  language -&gt; gchararray: Idioma
+    El idioma en que est&#195;&#161; este texto, como un c&#195;&#179;digo ISO. Pango puede usar esto como una ayuda cuando esta renderizando el texto. Si no se establece este par&#195;&#161;metro se usar&#195;&#161; por omisi&#195;&#179;n lo m&#195;&#161;s apropiado.
+  tabs -&gt; PangoTabArray: Solapas
+    Pesta&#195;&#177;as personalizadas para este texto
+  invisible -&gt; gboolean: Invisible
+    Indica si este texto est&#195;&#161; oculto.
+  paragraph-background -&gt; gchararray: Nombre del color de fondo del par&#195;&#161;grafo
+    Nombre del color de fondo del par&#195;&#161;grafo como una cadena
+  paragraph-background-gdk -&gt; GdkColor: Color de fondo del par&#195;&#161;grafo
+    Color de fondo del par&#195;&#161;grafo como un (posiblemente no asignado) GdkColor
+  accumulative-margin -&gt; gboolean: Acumulaci&#195;&#179;n de m&#195;&#161;rgenes
+    Indica si los m&#195;&#161;rgenes izquierdo y derecho son acumulativos.
+  background-set -&gt; gboolean: Establece el fondo
+    Indica si esta etiqueta afecta el color de fondo
+  foreground-set -&gt; gboolean: Establece el primer plano
+    Indica si esta etiqueta afecta al color de frente
+  background-stipple-set -&gt; gboolean: Establece los puntos del fondo
+    Indica si esta etiqueta afecta el fondo punteado
+  foreground-stipple-set -&gt; gboolean: Punteo del primer plano establecido
+    Indica si esta etiqueta afecta al punteo del primer plano
+  family-set -&gt; gboolean: Establece familia tipogr&#195;&#161;fica
+    Indica si esta etiqueta afecta a la familia de la tipograf&#195;&#173;a
+  style-set -&gt; gboolean: Establece el estilo de la tipograf&#195;&#173;a
+    Indica si esta etiqueta afecta el estilo de la tipograf&#195;&#173;a
+  variant-set -&gt; gboolean: Establece la variante de la tipograf&#195;&#173;a
+    Indica si esta etiqueta afecta la variante de la tipograf&#195;&#173;a
+  weight-set -&gt; gboolean: Establece el peso de la tipograf&#195;&#173;a
+    Indica si esta etiqueta afecta el peso de la tipograf&#195;&#173;a
+  stretch-set -&gt; gboolean: Establece el ancho de la tipograf&#195;&#173;a
+    Indica si esta etiqueta afecta el estiramiento de la tipograf&#195;&#173;a
+  size-set -&gt; gboolean: Establece el tama&#195;&#177;o de tipograf&#195;&#173;a
+    Indica si esta etiqueta afecta el tama&#195;&#177;o de la tipograf&#195;&#173;a
+  scale-set -&gt; gboolean: Establece la escala de la tipograf&#195;&#173;a
+    Indica si esta etiqueta escala el tama&#195;&#177;o de la tipograf&#195;&#173;a por un factor
+  pixels-above-lines-set -&gt; gboolean: P&#195;&#173;xeles por encima de las l&#195;&#173;neas establecido
+    Indica si esta etiqueta afecta la cantidad de p&#195;&#173;xeles sobre las l&#195;&#173;neas
+  pixels-below-lines-set -&gt; gboolean: P&#195;&#173;xeles por debajo de las l&#195;&#173;neas establecido
+    Indica si esta etiqueta afecta la cantidad de p&#195;&#173;xeles sobre las l&#195;&#173;neas
+  pixels-inside-wrap-set -&gt; gboolean: P&#195;&#173;xeles dentro del ajuste establecido
+    Indica si esta etiqueta afecta la cantidad de p&#195;&#173;xeles entre las l&#195;&#173;neas ajustadas
+  editable-set -&gt; gboolean: Establece la editabilidad
+    Indica si esta etiqueta afecta la editabilidad del texto
+  wrap-mode-set -&gt; gboolean: Modo de ajuste establecido
+    Indica si esta etiqueta afecta el modo de ajuste de l&#195;&#173;nea
+  justification-set -&gt; gboolean: Justificaci&#195;&#179;n establecida
+    Indica si esta etiqueta afecta la justificaci&#195;&#179;n del p&#195;&#161;rrafo
+  left-margin-set -&gt; gboolean: Margen izquierdo establecido
+    Indica si esta etiqueta afecta el margen izquierdo
+  indent-set -&gt; gboolean: Sangrado establecido
+    Indica si esta etiqueta afecta al sangrado
+  strikethrough-set -&gt; gboolean: Establece el tachado
+    Indica si esta etiqueta afecta el tachado
+  right-margin-set -&gt; gboolean: Margen derecho establecido
+    Indica si esta etiqueta afecta el margen derecho
+  underline-set -&gt; gboolean: Establece el subrayado
+    Indica si esta etiqueta afecta el subrayado
+  rise-set -&gt; gboolean: Establece el elevamiento
+    Indica si esta etiqueta afecta la elevaci&#195;&#179;n
+  background-full-height-set -&gt; gboolean: Establece la altura completa del fondo
+    Indica si esta etiqueta afecta a la altura del fondo
+  language-set -&gt; gboolean: Establece el idioma
+    Indica si esta etiqueta afecta al idioma en que se renderiza el texto
+  tabs-set -&gt; gboolean: Tabuladores establecidos
+    Indica si esta etiqueta afecta las tabulaciones
+  invisible-set -&gt; gboolean: Invisibilidad establecida
+    Indica si esta etiqueta afecta la visibilidad del texto
+  paragraph-background-set -&gt; gboolean: Fondo de par&#195;&#161;grafo establecido
+    Indica si esta etiqueta afecta el color de fondo del par&#195;&#161;grafo
+
+Signals from GObject:
+  notify (GParam)
+
+</pre>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gtk.TextTag-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      x.__init__(...) initializes x; see help(type(x)) for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#TextTag.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="do_event"></a><span class="summary-sig-name">do_event</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#TextTag.do_event">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="event"></a><span class="summary-sig-name">event</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#TextTag.event">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_priority"></a><span class="summary-sig-name">get_priority</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#TextTag.get_priority">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_priority"></a><span class="summary-sig-name">set_priority</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#TextTag.set_priority">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__eq__</code>,
+      <code>__gdoc__</code>,
+      <code>__ge__</code>,
+      <code>__gobject_init__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__le__</code>,
+      <code>__lt__</code>,
+      <code>__ne__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType GtkTextTag (31535408)&gt;">&lt;GType GtkTextTag (31535408)&gt;</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">...</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="gtk-pysrc.html#TextTag.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Aug 31 16:14:51 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -98,6 +98,42 @@ int i=0;
 valor=analogread(val);
 CDCputs(valor,DEC);
 }
+void sensordig()
+{
+int posic=0;
+unsigned int rb=0;
+unsigned int valor=0;
+unsigned int val=0;
+int puerto=0;
+int i=0;
+	for(;;)
+	{
+	    receivedbyte2=CDCgets(rxstr2);
+		if (receivedbyte2>0)
+		{
+		if(rxstr2[0]=='1')
+			{
+			val=21;
+			}
+		if(rxstr2[0]=='2')
+			{
+			val=22;
+			}
+		if(rxstr2[0]=='3')
+			{
+			val=23;
+			}
+		if(rxstr2[0]=='4')
+			{
+			val=24;
+			}
+			receivedbyte2=0;
+			break;
+		}
+	}
+valor=digitalread(val);
+CDCputs(valor,DEC);
+}
 
 void activar()
 {
@@ -222,6 +258,11 @@ void loop()
 			{
 			sensor();
 			}
+		if(rxstr[0]=='d')
+			{
+			sensordig();
+			}
+
 		if(rxstr[0]=='l')
 			{
 			l293d();

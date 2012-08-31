@@ -1,0 +1,18 @@
+digraph "packages_uml" {
+charset="utf-8"
+rankdir=BT
+"3" [shape="box", label="/home/valentin/github/icaro-bloques/icaro.py"];
+"7" [shape="box", label="/home/valentin/github/icaro-bloques/creditos.py"];
+"9" [shape="box", label="/home/valentin/github/icaro-bloques/nuevo.py"];
+"10" [shape="box", label="/home/valentin/github/icaro-bloques/componente_inicial.py"];
+"12" [shape="box", label="/home/valentin/github/icaro-bloques/texto.py"];
+"14" [shape="box", label="/home/valentin/github/icaro-bloques/visor.py"];
+"16" [shape="box", label="/home/valentin/github/icaro-bloques/abrir.py"];
+"17" [shape="box", label="/home/valentin/github/icaro-bloques/__init__.py"];
+"18" [shape="box", label="/home/valentin/github/icaro-bloques/crear.py"];
+"19" [shape="box", label="/home/valentin/github/icaro-bloques/carga.py"];
+"20" [shape="box", label="/home/valentin/github/icaro-bloques/componente_datos.py"];
+"22" [shape="box", label="/home/valentin/github/icaro-bloques/guardar.py"];
+"23" [shape="box", label="/home/valentin/github/icaro-bloques/navegador.py"];
+"25" [shape="box", label="/home/valentin/github/icaro-bloques/componente.py"];
+}

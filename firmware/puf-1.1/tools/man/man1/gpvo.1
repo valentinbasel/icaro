@@ -1,0 +1,71 @@
+.TH gpvo 1 "(c) 2002, 2003, 2004, 2005 Craig Franklin"
+.SH NAME
+gpvo - GNU PIC object file Viewer
+.SH SYNOPSIS
+.B gpvo [options] file
+.SH WARNING
+The information in this man page is an extract from the full documentation of
+gputils and is limited to the meaning of the options.  For complete and 
+current documentation, refer to "gputils.ps" located in the gputils docs 
+directory.
+.SH DESCRIPTION
+.B gpvo
+is an COFF object file viewer for Microchip (TM) PIC (TM) micro-controllers.  
+COFF files are relocatable objects output from gpasm.
+.B gpvo
+is part of gputils.  Check the gputils(1) manpage for details on other GNU 
+PIC utilities.
+.SH OPTIONS
+.TP
+.B -b, --binary
+Display binary data.
+.TP
+.B -c, --mnemonics
+Decode special mnemonics.
+.TP
+.B -f, --file
+Display file header.
+.TP
+.B -h, --help
+Show the usage message. 
+.TP
+.B -o, --optional 
+Display optional header.
+.TP
+.B -r, --string
+Display the string table.
+.TP
+.B -s, --section 
+Display sections.
+.TP
+.B -t, --symbol
+Display symbol table.
+.TP
+.B -v, --version
+Show the version.
+.TP
+.B -x FILE, --export FILE
+Export the external symbols.
+.TP
+.B -y, --extended
+Enable 18xx extended mode.
+.SH SEE ALSO
+gputils(1)
+.SH AUTHOR
+Craig Franklin <craigfranklin@users.sourceforge.net>
+.SH COPYRIGHT
+Copyright (C) 2002, 2003, 2004, 2005 Craig Franklin
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.

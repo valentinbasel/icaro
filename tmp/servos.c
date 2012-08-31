@@ -101,8 +101,9 @@ static void ServosPulseDown()
 			timingindex++;
 		}
 		// the following routine adds the requiered delay for every tick of timedivision, so every timedivision last 4 usec.
-		__asm 
-			movlw 6
+		// le cambie el tiempo de espera de 6 a 12 para mejorar el recorrido del servo. (ahora hace todo el recorrido).
+        __asm 
+			movlw 12
 			movwf _loopvar
 		bucle:
 			NOP

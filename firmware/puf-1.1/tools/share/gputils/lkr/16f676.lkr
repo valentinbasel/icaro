@@ -1,0 +1,29 @@
+// Sample linker command file for 16F676
+
+LIBPATH  .
+
+CODEPAGE   NAME=vectors    START=0x0      END=0x4      PROTECTED
+CODEPAGE   NAME=page       START=0x5      END=0x3FE
+CODEPAGE   NAME=oscval     START=0x3FF    END=0x3FF    PROTECTED
+CODEPAGE   NAME=.idlocs    START=0x2000   END=0x2003   PROTECTED
+CODEPAGE   NAME=icd_inst   START=0x2004   END=0x2004   PROTECTED
+CODEPAGE   NAME=mfg_code   START=0x2005   END=0x2005   PROTECTED
+CODEPAGE   NAME=.device_id START=0x2006   END=0x2006   PROTECTED
+CODEPAGE   NAME=.config    START=0x2007   END=0x2007   PROTECTED
+CODEPAGE   NAME=eedata     START=0x2100   END=0x217F   PROTECTED
+
+DATABANK  NAME=sfr0     START=0x0      END=0x1F     PROTECTED
+DATABANK  NAME=sfr1     START=0x80     END=0x9F     PROTECTED
+
+SHAREBANK  NAME=gpr0     START=0x20     END=0x5F
+SHAREBANK  NAME=gpr0     START=0xA0     END=0xDF
+ 
+
+SECTION    NAME=STARTUP  ROM=vectors    // Reset and interrupt vectors
+SECTION    NAME=PROG     ROM=page       // ROM code space 
+SECTION    NAME=OSCVAL   ROM=oscval     // Oscillator value
+SECTION    NAME=IDLOCS   ROM=.idlocs    // ID locations
+SECTION    NAME=ICD_INST ROM=icd_inst   // ICD instruction
+SECTION    NAME=MFG_CODE ROM=mfg_code   // Manufacturing code
+SECTION    NAME=DEVICEID ROM=.device_id // Device ID
+SECTION    NAME=DEEPROM  ROM=eedata     // Data EEPROM

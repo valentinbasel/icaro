@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.0.0 #6037 (Jan 14 2012) (Linux)
-; This file was generated Tue Jul 24 18:32:18 2012
+; This file was generated Thu Aug 30 15:33:18 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -42,6 +42,7 @@
 	global _epap_out
 	global _epapin_init
 	global _epapout_init
+	global _sensordigital
 	global _setup
 	global _sensor
 	global _ServoLento
@@ -431,22 +432,22 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	90; /home/valentin/github/icaro-bloques/source/main.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_00545_DS_:
+_00553_DS_:
 ;	.line	95; /home/valentin/github/icaro-bloques/source/main.c	loop();
 	CALL	_loop
-	BRA	_00545_DS_
+	BRA	_00553_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	55; /home/valentin/github/icaro-bloques/source/user.c	}
+;	.line	70; /home/valentin/github/icaro-bloques/source/user.c	}
 	RETURN	
 
 ; ; Starting pCode block
 S_main__ServoLento	code
 _ServoLento:
-;	.line	31; /home/valentin/github/icaro-bloques/source/user.c	void ServoLento(int servo,int inicial,int final,int tiempo)
+;	.line	45; /home/valentin/github/icaro-bloques/source/user.c	void ServoLento(int servo,int inicial,int final,int tiempo)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -478,34 +479,34 @@ _ServoLento:
 	MOVFF	PLUSW2, r0x06
 	MOVLW	0x09
 	MOVFF	PLUSW2, r0x07
-;	.line	34; /home/valentin/github/icaro-bloques/source/user.c	if (inicial<final)
+;	.line	48; /home/valentin/github/icaro-bloques/source/user.c	if (inicial<final)
 	MOVF	r0x03, W
 	ADDLW	0x80
 	MOVWF	PRODL
 	MOVF	r0x05, W
 	ADDLW	0x80
 	SUBWF	PRODL, W
-	BNZ	_00531_DS_
+	BNZ	_00539_DS_
 	MOVF	r0x04, W
 	SUBWF	r0x02, W
-_00531_DS_:
-	BC	_00510_DS_
-;	.line	36; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado<final;grado++)
+_00539_DS_:
+	BC	_00518_DS_
+;	.line	50; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado<final;grado++)
 	MOVFF	r0x02, r0x08
 	MOVFF	r0x03, r0x09
-_00513_DS_:
+_00521_DS_:
 	MOVF	r0x09, W
 	ADDLW	0x80
 	MOVWF	PRODL
 	MOVF	r0x05, W
 	ADDLW	0x80
 	SUBWF	PRODL, W
-	BNZ	_00532_DS_
+	BNZ	_00540_DS_
 	MOVF	r0x04, W
 	SUBWF	r0x08, W
-_00532_DS_:
-	BC	_00510_DS_
-;	.line	38; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(servo,grado);
+_00540_DS_:
+	BC	_00518_DS_
+;	.line	52; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(servo,grado);
 	MOVF	r0x00, W
 	MOVWF	r0x0a
 ; #	MOVF	r0x08, W
@@ -518,7 +519,7 @@ _00532_DS_:
 	CALL	_ServoWrite
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	39; /home/valentin/github/icaro-bloques/source/user.c	Delayms(tiempo);
+;	.line	53; /home/valentin/github/icaro-bloques/source/user.c	Delayms(tiempo);
 	MOVFF	r0x06, r0x0a
 	MOVFF	r0x07, r0x0b
 	CLRF	WREG
@@ -537,38 +538,38 @@ _00532_DS_:
 	CALL	_Delayms
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	36; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado<final;grado++)
+;	.line	50; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado<final;grado++)
 	INCF	r0x08, F
 	BTFSC	STATUS, 0
 	INCF	r0x09, F
-	BRA	_00513_DS_
-_00510_DS_:
-;	.line	42; /home/valentin/github/icaro-bloques/source/user.c	if (inicial>final)
+	BRA	_00521_DS_
+_00518_DS_:
+;	.line	56; /home/valentin/github/icaro-bloques/source/user.c	if (inicial>final)
 	MOVF	r0x05, W
 	ADDLW	0x80
 	MOVWF	PRODL
 	MOVF	r0x03, W
 	ADDLW	0x80
 	SUBWF	PRODL, W
-	BNZ	_00533_DS_
+	BNZ	_00541_DS_
 	MOVF	r0x02, W
 	SUBWF	r0x04, W
-_00533_DS_:
-	BC	_00521_DS_
-_00517_DS_:
-;	.line	44; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado>final;grado--)
+_00541_DS_:
+	BC	_00529_DS_
+_00525_DS_:
+;	.line	58; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado>final;grado--)
 	MOVF	r0x05, W
 	ADDLW	0x80
 	MOVWF	PRODL
 	MOVF	r0x03, W
 	ADDLW	0x80
 	SUBWF	PRODL, W
-	BNZ	_00534_DS_
+	BNZ	_00542_DS_
 	MOVF	r0x02, W
 	SUBWF	r0x04, W
-_00534_DS_:
-	BC	_00521_DS_
-;	.line	46; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(servo,grado);
+_00542_DS_:
+	BC	_00529_DS_
+;	.line	60; /home/valentin/github/icaro-bloques/source/user.c	ServoWrite(servo,grado);
 	MOVF	r0x00, W
 	MOVWF	r0x08
 ; #	MOVF	r0x02, W
@@ -581,7 +582,7 @@ _00534_DS_:
 	CALL	_ServoWrite
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	47; /home/valentin/github/icaro-bloques/source/user.c	Delayms(tiempo);
+;	.line	61; /home/valentin/github/icaro-bloques/source/user.c	Delayms(tiempo);
 	MOVFF	r0x06, r0x08
 	MOVFF	r0x07, r0x09
 	CLRF	WREG
@@ -600,13 +601,13 @@ _00534_DS_:
 	CALL	_Delayms
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	44; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado>final;grado--)
+;	.line	58; /home/valentin/github/icaro-bloques/source/user.c	for (grado=inicial;grado>final;grado--)
 	MOVLW	0xff
 	ADDWF	r0x02, F
 	BTFSS	STATUS, 0
 	DECF	r0x03, F
-	BRA	_00517_DS_
-_00521_DS_:
+	BRA	_00525_DS_
+_00529_DS_:
 	MOVFF	PREINC1, r0x0c
 	MOVFF	PREINC1, r0x0b
 	MOVFF	PREINC1, r0x0a
@@ -626,7 +627,7 @@ _00521_DS_:
 ; ; Starting pCode block
 S_main__sensor	code
 _sensor:
-;	.line	24; /home/valentin/github/icaro-bloques/source/user.c	unsigned int sensor(int valor)
+;	.line	38; /home/valentin/github/icaro-bloques/source/user.c	unsigned int sensor(int valor)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -635,13 +636,13 @@ _sensor:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	27; /home/valentin/github/icaro-bloques/source/user.c	an=analogread(valor);
+;	.line	41; /home/valentin/github/icaro-bloques/source/user.c	an=analogread(valor);
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	CALL	_analogread
 	MOVFF	PRODL, r0x01
 	INCF	FSR1L, F
-;	.line	28; /home/valentin/github/icaro-bloques/source/user.c	return an;
+;	.line	42; /home/valentin/github/icaro-bloques/source/user.c	return an;
 	MOVFF	r0x01, PRODL
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -651,9 +652,9 @@ _sensor:
 ; ; Starting pCode block
 S_main__setup	code
 _setup:
-;	.line	7; /home/valentin/github/icaro-bloques/source/user.c	TRISB=0;
+;	.line	21; /home/valentin/github/icaro-bloques/source/user.c	TRISB=0;
 	CLRF	_TRISB
-;	.line	8; /home/valentin/github/icaro-bloques/source/user.c	pinmode(15,INPUT);
+;	.line	22; /home/valentin/github/icaro-bloques/source/user.c	pinmode(15,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -663,7 +664,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	9; /home/valentin/github/icaro-bloques/source/user.c	pinmode(21,INPUT);
+;	.line	23; /home/valentin/github/icaro-bloques/source/user.c	pinmode(21,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -673,7 +674,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	10; /home/valentin/github/icaro-bloques/source/user.c	pinmode(22,INPUT);
+;	.line	24; /home/valentin/github/icaro-bloques/source/user.c	pinmode(22,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -683,7 +684,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	11; /home/valentin/github/icaro-bloques/source/user.c	pinmode(23,INPUT);
+;	.line	25; /home/valentin/github/icaro-bloques/source/user.c	pinmode(23,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -693,7 +694,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	12; /home/valentin/github/icaro-bloques/source/user.c	pinmode(24,INPUT);
+;	.line	26; /home/valentin/github/icaro-bloques/source/user.c	pinmode(24,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -703,7 +704,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	13; /home/valentin/github/icaro-bloques/source/user.c	pinmode(25,OUTPUT);
+;	.line	27; /home/valentin/github/icaro-bloques/source/user.c	pinmode(25,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -712,7 +713,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	14; /home/valentin/github/icaro-bloques/source/user.c	pinmode(26,OUTPUT);
+;	.line	28; /home/valentin/github/icaro-bloques/source/user.c	pinmode(26,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -721,7 +722,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	15; /home/valentin/github/icaro-bloques/source/user.c	pinmode(27,OUTPUT);
+;	.line	29; /home/valentin/github/icaro-bloques/source/user.c	pinmode(27,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -730,7 +731,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	16; /home/valentin/github/icaro-bloques/source/user.c	pinmode(28,OUTPUT);
+;	.line	30; /home/valentin/github/icaro-bloques/source/user.c	pinmode(28,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -739,31 +740,71 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	17; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(10);
+;	.line	31; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(10);
 	MOVLW	0x0a
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	18; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(11);
+;	.line	32; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(11);
 	MOVLW	0x0b
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	19; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(12);
+;	.line	33; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(12);
 	MOVLW	0x0c
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	20; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(8);
+;	.line	34; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(8);
 	MOVLW	0x08
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
-;	.line	21; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(9);
+;	.line	35; /home/valentin/github/icaro-bloques/source/user.c	ServoAttach(9);
 	MOVLW	0x09
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	INCF	FSR1L, F
+	RETURN	
+
+; ; Starting pCode block
+S_main__sensordigital	code
+_sensordigital:
+;	.line	5; /home/valentin/github/icaro-bloques/source/user.c	int sensordigital(int valor)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+;	.line	9; /home/valentin/github/icaro-bloques/source/user.c	temp=digitalread(valor);
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVWF	r0x00
+	MOVFF	PRODL, r0x01
+	MOVLW	0x02
+	ADDWF	FSR1L, F
+;	.line	10; /home/valentin/github/icaro-bloques/source/user.c	if (temp==0)
+	MOVF	r0x00, W
+	IORWF	r0x01, W
+	BNZ	_00500_DS_
+;	.line	12; /home/valentin/github/icaro-bloques/source/user.c	return 1;
+	CLRF	PRODL
+	MOVLW	0x01
+	BRA	_00502_DS_
+_00500_DS_:
+;	.line	16; /home/valentin/github/icaro-bloques/source/user.c	return 0;
+	CLRF	PRODL
+	CLRF	WREG
+_00502_DS_:
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
 	RETURN	
 
 ; ; Starting pCode block
@@ -982,39 +1023,39 @@ _analog_init:
 ; ; Starting pCode block
 S_main__servos_interrupt	code
 _servos_interrupt:
-;	.line	288; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (PIR1bits.TMR1IF) {
+;	.line	289; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (PIR1bits.TMR1IF) {
 	BTFSS	_PIR1bits, 0
 	BRA	_00430_DS_
-;	.line	289; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	PIR1bits.TMR1IF=0;
+;	.line	290; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	PIR1bits.TMR1IF=0;
 	BCF	_PIR1bits, 0
-;	.line	290; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	T1CON=0x00;
+;	.line	291; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	T1CON=0x00;
 	CLRF	_T1CON
 	BANKSEL	_phase
-;	.line	291; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (phase) {
+;	.line	292; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (phase) {
 	MOVF	_phase, W, B
 	BZ	_00426_DS_
-;	.line	293; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	ServosPulseUp();
+;	.line	294; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	ServosPulseUp();
 	CALL	_ServosPulseUp
-;	.line	295; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1H= 0xd3;
+;	.line	296; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1H= 0xd3;
 	MOVLW	0xd3
 	MOVWF	_TMR1H
-;	.line	296; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1L= 0x8f;
+;	.line	297; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1L= 0x8f;
 	MOVLW	0x8f
 	MOVWF	_TMR1L
-;	.line	298; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	T1CON=1;
+;	.line	299; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	T1CON=1;
 	MOVLW	0x01
 	MOVWF	_T1CON
 	BANKSEL	_phase
-;	.line	299; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	phase = 0;
+;	.line	300; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	phase = 0;
 	CLRF	_phase, B
 	BRA	_00430_DS_
 _00426_DS_:
-;	.line	304; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	ServosPulseDown();
+;	.line	305; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	ServosPulseDown();
 	CALL	_ServosPulseDown
-;	.line	308; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1H= 0x2d;
+;	.line	309; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1H= 0x2d;
 	MOVLW	0x2d
 	MOVWF	_TMR1H
-;	.line	309; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1L= 0x0f;
+;	.line	310; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TMR1L= 0x0f;
 	MOVLW	0x0f
 	MOVWF	_TMR1L
 ; #	MOVF	_needreordering, W, B
@@ -1023,42 +1064,42 @@ _00426_DS_:
 ; #	CALL	_SortServoTimings
 ; #	MOVLW	0x21
 	BANKSEL	_needreordering
-;	.line	311; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (needreordering)	
+;	.line	312; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (needreordering)	
 	MOVF	_needreordering, W, B
-;	.line	312; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	SortServoTimings();  // This takes more than 1 ms, but it's call only if needed.
+;	.line	313; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	SortServoTimings();  // This takes more than 1 ms, but it's call only if needed.
 	BTFSS	STATUS, 2
-;	.line	313; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	T1CON= ( 1 | 2 << 4 ) ; // activate timer1 and prescaler = 1:4
+;	.line	314; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	T1CON= ( 1 | 2 << 4 ) ; // activate timer1 and prescaler = 1:4
 	CALL	_SortServoTimings
 	MOVLW	0x21
 	MOVWF	_T1CON
-;	.line	314; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	phase = 1;  //This indicates that after next interrupt it will start the servos cycle.
+;	.line	315; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	phase = 1;  //This indicates that after next interrupt it will start the servos cycle.
 	MOVLW	0x01
 	BANKSEL	_phase
 	MOVWF	_phase, B
 _00430_DS_:
-;	.line	317; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
+;	.line	318; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
 	RETURN	
 
 ; ; Starting pCode block
 S_main__ServoMaximumPulse	code
 _ServoMaximumPulse:
-;	.line	273; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoMaximumPulse(uchar servo)
+;	.line	274; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoMaximumPulse(uchar servo)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	275; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
+;	.line	276; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
 ; #	GOTO	_00414_DS_
 ; #	GOTO	_00415_DS_
 ; #	CLRF	r0x01
-;	.line	276; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
+;	.line	277; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
 	SUBWF	r0x00, W
-;	.line	278; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	servovalues[servo]=SERVOMAX;  //  250 = 2000 useg pulse
+;	.line	279; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	servovalues[servo]=SERVOMAX;  //  250 = 2000 useg pulse
 	BC	_00415_DS_
 	CLRF	r0x01
 	MOVLW	LOW(_servovalues)
@@ -1069,7 +1110,7 @@ _ServoMaximumPulse:
 	MOVFF	r0x01, FSR0H
 	MOVLW	0xfa
 	MOVWF	INDF0
-;	.line	280; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
+;	.line	281; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
 	MOVLW	0x01
 	BANKSEL	_needreordering
 	MOVWF	_needreordering, B
@@ -1082,23 +1123,23 @@ _00415_DS_:
 ; ; Starting pCode block
 S_main__ServoMinimumPulse	code
 _ServoMinimumPulse:
-;	.line	262; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoMinimumPulse(uchar servo)
+;	.line	263; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoMinimumPulse(uchar servo)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	264; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
+;	.line	265; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
 ; #	GOTO	_00404_DS_
 ; #	GOTO	_00405_DS_
 ; #	CLRF	r0x01
-;	.line	265; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
+;	.line	266; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
 	SUBWF	r0x00, W
-;	.line	267; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	servovalues[servo]=SERVOMIN;  //  1 = 1000 useg pulse
+;	.line	268; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	servovalues[servo]=SERVOMIN;  //  1 = 1000 useg pulse
 	BC	_00405_DS_
 	CLRF	r0x01
 	MOVLW	LOW(_servovalues)
@@ -1110,7 +1151,7 @@ _ServoMinimumPulse:
 	MOVLW	0x01
 	MOVWF	INDF0
 	BANKSEL	_needreordering
-;	.line	269; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
+;	.line	270; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
 	MOVWF	_needreordering, B
 _00405_DS_:
 	MOVFF	PREINC1, r0x01
@@ -1121,22 +1162,22 @@ _00405_DS_:
 ; ; Starting pCode block
 S_main__ServoRead	code
 _ServoRead:
-;	.line	254; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	unsigned char ServoRead(uchar servo)
+;	.line	255; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	unsigned char ServoRead(uchar servo)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	256; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
+;	.line	257; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
 	MOVLW	0x12
 	SUBWF	r0x00, W
 	BNC	_00394_DS_
-;	.line	257; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return 0;
+;	.line	258; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return 0;
 	CLRF	WREG
 	BRA	_00395_DS_
 _00394_DS_:
-;	.line	258; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return servovalues[servo];
+;	.line	259; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return servovalues[servo];
 	CLRF	r0x01
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x00, F
@@ -1155,7 +1196,7 @@ _00395_DS_:
 ; ; Starting pCode block
 S_main__ServoWrite	code
 _ServoWrite:
-;	.line	239; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoWrite(uchar servo, uchar value)
+;	.line	240; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoWrite(uchar servo, uchar value)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -1165,33 +1206,33 @@ _ServoWrite:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	241; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
+;	.line	242; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(servo>=18)        // test if numservo is valid
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
 ; #	GOTO	_00376_DS_
 ; #	GOTO	_00381_DS_
 ; #	MOVLW	0x01
-;	.line	242; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
+;	.line	243; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	return;
 	SUBWF	r0x00, W
-;	.line	244; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(value<SERVOMIN)  //  1 = 1000 useg pulse
+;	.line	245; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(value<SERVOMIN)  //  1 = 1000 useg pulse
 	BC	_00381_DS_
 	MOVLW	0x01
 	SUBWF	r0x01, W
 	BC	_00378_DS_
-;	.line	245; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	value=SERVOMIN;
+;	.line	246; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	value=SERVOMIN;
 	MOVLW	0x01
 	MOVWF	r0x01
 _00378_DS_:
-;	.line	246; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(value>SERVOMAX) // 250 = 2000 useg pulse
+;	.line	247; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(value>SERVOMAX) // 250 = 2000 useg pulse
 	MOVLW	0xfb
 	SUBWF	r0x01, W
 	BNC	_00380_DS_
-;	.line	247; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	value=SERVOMAX;
+;	.line	248; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	value=SERVOMAX;
 	MOVLW	0xfa
 	MOVWF	r0x01
 _00380_DS_:
-;	.line	248; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	servovalues[servo]=value;
+;	.line	249; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	servovalues[servo]=value;
 	CLRF	r0x02
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x00, F
@@ -1200,7 +1241,7 @@ _00380_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x02, FSR0H
 	MOVFF	r0x01, INDF0
-;	.line	250; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
+;	.line	251; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
 	MOVLW	0x01
 	BANKSEL	_needreordering
 	MOVWF	_needreordering, B
@@ -1214,7 +1255,7 @@ _00381_DS_:
 ; ; Starting pCode block
 S_main__ServoDetach	code
 _ServoDetach:
-;	.line	225; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoDetach(uchar pin)
+;	.line	226; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoDetach(uchar pin)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -1223,21 +1264,21 @@ _ServoDetach:
 	MOVFF	r0x03, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	227; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin>=18) return;
+;	.line	228; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin>=18) return;
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
 ; #	GOTO	_00355_DS_
 ; #	GOTO	_00362_DS_
 ; #	MOVLW	0x08
-;	.line	229; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin<8){
+;	.line	230; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin<8){
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
 	BRA	_00362_DS_
 	MOVLW	0x08
 	SUBWF	r0x00, W
 	BC	_00360_DS_
-;	.line	230; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_B] = activatedservos[MaskPort_B] ^ servomasks[pin];
+;	.line	231; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_B] = activatedservos[MaskPort_B] ^ servomasks[pin];
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -1260,11 +1301,11 @@ _ServoDetach:
 	MOVWF	_activatedservos, B
 	BRA	_00362_DS_
 _00360_DS_:
-;	.line	231; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	} else if (pin>12) {
+;	.line	232; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	} else if (pin>12) {
 	MOVLW	0x0d
 	SUBWF	r0x00, W
 	BNC	_00357_DS_
-;	.line	232; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_A] = activatedservos[MaskPort_A] ^ servomasks[pin];
+;	.line	233; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_A] = activatedservos[MaskPort_A] ^ servomasks[pin];
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -1287,7 +1328,7 @@ _00360_DS_:
 	MOVWF	(_activatedservos + 2), B
 	BRA	_00362_DS_
 _00357_DS_:
-;	.line	234; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_C] = activatedservos[MaskPort_C] ^ servomasks[pin];
+;	.line	235; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_C] = activatedservos[MaskPort_C] ^ servomasks[pin];
 	CLRF	r0x01
 	CLRF	r0x02
 	MOVLW	LOW(_servomasks)
@@ -1318,7 +1359,7 @@ _00362_DS_:
 ; ; Starting pCode block
 S_main__ServoAttach	code
 _ServoAttach:
-;	.line	208; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoAttach(uchar pin)
+;	.line	209; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	void ServoAttach(uchar pin)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -1327,21 +1368,21 @@ _ServoAttach:
 	MOVFF	r0x03, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	210; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin>=18) return;
+;	.line	211; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin>=18) return;
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
 ; #	GOTO	_00333_DS_
 ; #	GOTO	_00340_DS_
 ; #	MOVLW	0x08
-;	.line	212; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin<8){
+;	.line	213; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if(pin<8){
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
 	BRA	_00340_DS_
 	MOVLW	0x08
 	SUBWF	r0x00, W
 	BC	_00338_DS_
-;	.line	213; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_B] = activatedservos[MaskPort_B] | servomasks[pin];  // list pin as servo driver.
+;	.line	214; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_B] = activatedservos[MaskPort_B] | servomasks[pin];  // list pin as servo driver.
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -1362,7 +1403,7 @@ _ServoAttach:
 ; #	MOVWF	r0x02
 ; #	MOVF	r0x02, W
 	MOVWF	_activatedservos, B
-;	.line	214; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TRISB = TRISB & (255 - servomasks[pin]); // set as output pin
+;	.line	215; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TRISB = TRISB & (255 - servomasks[pin]); // set as output pin
 	MOVF	r0x01, W
 	SUBLW	0xff
 ; #	MOVWF	r0x01
@@ -1370,11 +1411,11 @@ _ServoAttach:
 	ANDWF	_TRISB, F
 	BRA	_00340_DS_
 _00338_DS_:
-;	.line	215; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	} else if (pin>12) {
+;	.line	216; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	} else if (pin>12) {
 	MOVLW	0x0d
 	SUBWF	r0x00, W
 	BNC	_00335_DS_
-;	.line	216; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_A] = activatedservos[MaskPort_A] | servomasks[pin];  // list pin as servo driver.
+;	.line	217; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_A] = activatedservos[MaskPort_A] | servomasks[pin];  // list pin as servo driver.
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -1395,7 +1436,7 @@ _00338_DS_:
 ; #	MOVWF	r0x02
 ; #	MOVF	r0x02, W
 	MOVWF	(_activatedservos + 2), B
-;	.line	217; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TRISA = TRISA & (255 - servomasks[pin]); // set as output pin
+;	.line	218; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TRISA = TRISA & (255 - servomasks[pin]); // set as output pin
 	MOVF	r0x01, W
 	SUBLW	0xff
 ; #	MOVWF	r0x01
@@ -1403,7 +1444,7 @@ _00338_DS_:
 	ANDWF	_TRISA, F
 	BRA	_00340_DS_
 _00335_DS_:
-;	.line	219; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_C] = activatedservos[MaskPort_C] | servomasks[pin];  // list pin as servo driver.
+;	.line	220; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	activatedservos[MaskPort_C] = activatedservos[MaskPort_C] | servomasks[pin];  // list pin as servo driver.
 	CLRF	r0x01
 	CLRF	r0x02
 	MOVLW	LOW(_servomasks)
@@ -1423,7 +1464,7 @@ _00335_DS_:
 ; #	MOVWF	r0x01
 ; #	MOVF	r0x01, W
 	MOVWF	(_activatedservos + 1), B
-;	.line	220; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TRISC = TRISC & (255 - servomasks[pin]); // set as output pin
+;	.line	221; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	TRISC = TRISC & (255 - servomasks[pin]); // set as output pin
 	MOVF	r0x00, W
 	SUBLW	0xff
 ; #	MOVWF	r0x00
@@ -1440,7 +1481,7 @@ _00340_DS_:
 ; ; Starting pCode block
 S_main__SortServoTimings	code
 _SortServoTimings:
-;	.line	124; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	static void SortServoTimings()
+;	.line	125; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	static void SortServoTimings()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
@@ -1452,19 +1493,19 @@ _SortServoTimings:
 	MOVFF	r0x08, POSTDEC1
 	MOVFF	r0x09, POSTDEC1
 	BANKSEL	_SortServoTimings_mascaratotal_1_1
-;	.line	131; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	uchar mascaratotal[3]={0x00,0x00,0x00};
+;	.line	132; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	uchar mascaratotal[3]={0x00,0x00,0x00};
 	CLRF	_SortServoTimings_mascaratotal_1_1, B
 ; removed redundant BANKSEL
 	CLRF	(_SortServoTimings_mascaratotal_1_1 + 1), B
 ; removed redundant BANKSEL
 	CLRF	(_SortServoTimings_mascaratotal_1_1 + 2), B
-;	.line	134; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(t=0;t<18;t++){
+;	.line	135; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(t=0;t<18;t++){
 	CLRF	r0x00
 _00280_DS_:
 	MOVLW	0x12
 	SUBWF	r0x00, W
 	BC	_00283_DS_
-;	.line	135; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=255;
+;	.line	136; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=255;
 	MOVLW	LOW(_timings + 54)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -1474,7 +1515,7 @@ _00280_DS_:
 	MOVFF	r0x01, FSR0L
 	MOVFF	r0x02, FSR0H
 	SETF	INDF0
-;	.line	137; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=0x00;
+;	.line	138; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=0x00;
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -1484,7 +1525,7 @@ _00280_DS_:
 	MOVFF	r0x01, FSR0L
 	MOVFF	r0x02, FSR0H
 	CLRF	INDF0
-;	.line	138; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=0x00;
+;	.line	139; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=0x00;
 	MOVLW	LOW(_timings + 36)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -1494,35 +1535,35 @@ _00280_DS_:
 	MOVFF	r0x01, FSR0L
 	MOVFF	r0x02, FSR0H
 	CLRF	INDF0
-;	.line	134; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(t=0;t<18;t++){
+;	.line	135; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(t=0;t<18;t++){
 	INCF	r0x00, F
 	BRA	_00280_DS_
 _00283_DS_:
-;	.line	141; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	totalservos=0;
+;	.line	142; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	totalservos=0;
 	CLRF	r0x00
-;	.line	143; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	while(totalservos<18) {
+;	.line	144; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	while(totalservos<18) {
 	CLRF	r0x01
 _00277_DS_:
 	MOVLW	0x12
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
 	BRA	_00279_DS_
-;	.line	144; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
+;	.line	145; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
-;	.line	145; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(s=0;s<18;s++) { 
+;	.line	146; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(s=0;s<18;s++) { 
 	CLRF	r0x03
 _00284_DS_:
 	MOVLW	0x12
 	SUBWF	r0x03, W
 	BTFSC	STATUS, 0
 	BRA	_00287_DS_
-;	.line	147; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (s<8){
+;	.line	148; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (s<8){
 	MOVLW	0x08
 	SUBWF	r0x03, W
 	BTFSC	STATUS, 0
 	BRA	_00275_DS_
-;	.line	148; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_B] & activatedservos[MaskPort_B]){
+;	.line	149; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_B] & activatedservos[MaskPort_B]){
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x03, W
 	MOVWF	r0x04
@@ -1546,7 +1587,7 @@ _00284_DS_:
 	MOVF	r0x04, W
 	BTFSS	STATUS, 2
 	BRA	_00286_DS_
-;	.line	150; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
+;	.line	151; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x03, W
 	MOVWF	r0x04
@@ -1568,11 +1609,11 @@ _00284_DS_:
 	MOVF	r0x07, W
 	SUBWF	r0x04, W
 	BC	_00250_DS_
-;	.line	151; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=servovalues[s];
+;	.line	152; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=servovalues[s];
 	MOVFF	r0x05, FSR0L
 	MOVFF	r0x06, FSR0H
 	MOVFF	r0x04, INDF0
-;	.line	153; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=0x00;
+;	.line	154; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=0x00;
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x01, W
 	MOVWF	r0x07
@@ -1582,7 +1623,7 @@ _00284_DS_:
 	MOVFF	r0x07, FSR0L
 	MOVFF	r0x08, FSR0H
 	CLRF	INDF0
-;	.line	154; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=0x00;
+;	.line	155; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=0x00;
 	MOVLW	LOW(_timings + 36)
 	ADDWF	r0x01, W
 	MOVWF	r0x07
@@ -1592,12 +1633,12 @@ _00284_DS_:
 	MOVFF	r0x07, FSR0L
 	MOVFF	r0x08, FSR0H
 	CLRF	INDF0
-;	.line	155; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
+;	.line	156; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
 	BRA	_00286_DS_
 _00250_DS_:
-;	.line	157; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] == timings[timevalue][t]){
+;	.line	158; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] == timings[timevalue][t]){
 	MOVFF	r0x05, FSR0L
 	MOVFF	r0x06, FSR0H
 	MOVFF	INDF0, r0x05
@@ -1606,16 +1647,16 @@ _00250_DS_:
 	BZ	_00317_DS_
 	BRA	_00286_DS_
 _00317_DS_:
-;	.line	159; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos++;
+;	.line	160; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos++;
 	INCF	r0x02, F
 	BRA	_00286_DS_
 _00275_DS_:
-;	.line	163; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (s>12){
+;	.line	164; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (s>12){
 	MOVLW	0x0d
 	SUBWF	r0x03, W
 	BTFSS	STATUS, 0
 	BRA	_00272_DS_
-;	.line	164; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_A] & activatedservos[MaskPort_A]){
+;	.line	165; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_A] & activatedservos[MaskPort_A]){
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x03, W
 	MOVWF	r0x04
@@ -1640,7 +1681,7 @@ _00275_DS_:
 	MOVF	r0x05, W
 	BTFSS	STATUS, 2
 	BRA	_00286_DS_
-;	.line	166; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
+;	.line	167; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x03, W
 	MOVWF	r0x05
@@ -1662,11 +1703,11 @@ _00275_DS_:
 	MOVF	r0x08, W
 	SUBWF	r0x05, W
 	BC	_00258_DS_
-;	.line	167; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=servovalues[s];
+;	.line	168; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=servovalues[s];
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
 	MOVFF	r0x05, INDF0
-;	.line	169; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=0x00;
+;	.line	170; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=0x00;
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x01, W
 	MOVWF	r0x08
@@ -1676,7 +1717,7 @@ _00275_DS_:
 	MOVFF	r0x08, FSR0L
 	MOVFF	r0x09, FSR0H
 	CLRF	INDF0
-;	.line	170; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=servomasks[s];
+;	.line	171; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=servomasks[s];
 	MOVLW	LOW(_timings + 36)
 	ADDWF	r0x01, W
 	MOVWF	r0x08
@@ -1686,12 +1727,12 @@ _00275_DS_:
 	MOVFF	r0x08, FSR0L
 	MOVFF	r0x09, FSR0H
 	MOVFF	r0x04, INDF0
-;	.line	171; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
+;	.line	172; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
 	BRA	_00286_DS_
 _00258_DS_:
-;	.line	173; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] == timings[timevalue][t]){
+;	.line	174; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] == timings[timevalue][t]){
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
 	MOVFF	INDF0, r0x06
@@ -1700,7 +1741,7 @@ _00258_DS_:
 	BZ	_00322_DS_
 	BRA	_00286_DS_
 _00322_DS_:
-;	.line	174; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t] |= servomasks[s];
+;	.line	175; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t] |= servomasks[s];
 	MOVLW	LOW(_timings + 36)
 	ADDWF	r0x01, W
 	MOVWF	r0x05
@@ -1715,11 +1756,11 @@ _00322_DS_:
 	MOVFF	r0x05, FSR0L
 	MOVFF	r0x06, FSR0H
 	MOVFF	r0x04, INDF0
-;	.line	175; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos++;
+;	.line	176; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos++;
 	INCF	r0x02, F
 	BRA	_00286_DS_
 _00272_DS_:
-;	.line	180; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_C] & activatedservos[MaskPort_C]){ 
+;	.line	181; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_C] & activatedservos[MaskPort_C]){ 
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x03, W
 	MOVWF	r0x04
@@ -1744,7 +1785,7 @@ _00272_DS_:
 	MOVF	r0x05, W
 	BTFSS	STATUS, 2
 	BRA	_00286_DS_
-;	.line	182; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
+;	.line	183; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x03, W
 	MOVWF	r0x05
@@ -1766,11 +1807,11 @@ _00272_DS_:
 	MOVF	r0x08, W
 	SUBWF	r0x05, W
 	BC	_00266_DS_
-;	.line	183; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=servovalues[s];
+;	.line	184; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[timevalue][t]=servovalues[s];
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
 	MOVFF	r0x05, INDF0
-;	.line	185; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=servomasks[s];
+;	.line	186; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t]=servomasks[s];
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x01, W
 	MOVWF	r0x08
@@ -1780,7 +1821,7 @@ _00272_DS_:
 	MOVFF	r0x08, FSR0L
 	MOVFF	r0x09, FSR0H
 	MOVFF	r0x04, INDF0
-;	.line	186; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=0x00;
+;	.line	187; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_A][t]=0x00;
 	MOVLW	LOW(_timings + 36)
 	ADDWF	r0x01, W
 	MOVWF	r0x08
@@ -1790,19 +1831,19 @@ _00272_DS_:
 	MOVFF	r0x08, FSR0L
 	MOVFF	r0x09, FSR0H
 	CLRF	INDF0
-;	.line	187; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
+;	.line	188; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
 	BRA	_00286_DS_
 _00266_DS_:
-;	.line	189; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] == timings [timevalue][t]){
+;	.line	190; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	else if (servovalues[s] == timings [timevalue][t]){
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
 	MOVFF	INDF0, r0x06
 	MOVF	r0x05, W
 	XORWF	r0x06, W
 	BNZ	_00286_DS_
-;	.line	190; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t] |= servomasks[s];
+;	.line	191; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timings[MaskPort_C][t] |= servomasks[s];
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x01, W
 	MOVWF	r0x05
@@ -1817,14 +1858,14 @@ _00266_DS_:
 	MOVFF	r0x05, FSR0L
 	MOVFF	r0x06, FSR0H
 	MOVFF	r0x04, INDF0
-;	.line	191; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos++;
+;	.line	192; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	numservos++;
 	INCF	r0x02, F
 _00286_DS_:
-;	.line	145; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(s=0;s<18;s++) { 
+;	.line	146; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	for(s=0;s<18;s++) { 
 	INCF	r0x03, F
 	BRA	_00284_DS_
 _00287_DS_:
-;	.line	197; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	mascaratotal[MaskPort_C] |= timings[MaskPort_C][t];
+;	.line	198; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	mascaratotal[MaskPort_C] |= timings[MaskPort_C][t];
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x01, W
 	MOVWF	r0x03
@@ -1840,7 +1881,7 @@ _00287_DS_:
 	MOVF	r0x03, W
 ; removed redundant BANKSEL
 	MOVWF	(_SortServoTimings_mascaratotal_1_1 + 1), B
-;	.line	198; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	mascaratotal[MaskPort_A] |= timings[MaskPort_A][t];
+;	.line	199; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	mascaratotal[MaskPort_A] |= timings[MaskPort_A][t];
 	MOVLW	LOW(_timings + 36)
 	ADDWF	r0x01, W
 	MOVWF	r0x03
@@ -1856,15 +1897,15 @@ _00287_DS_:
 	MOVF	r0x03, W
 ; removed redundant BANKSEL
 	MOVWF	(_SortServoTimings_mascaratotal_1_1 + 2), B
-;	.line	199; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	totalservos += numservos;
+;	.line	200; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	totalservos += numservos;
 	MOVF	r0x02, W
 	ADDWF	r0x00, F
-;	.line	200; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	t++;
+;	.line	201; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	t++;
 	INCF	r0x01, F
 	BRA	_00277_DS_
 _00279_DS_:
 	BANKSEL	_needreordering
-;	.line	203; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=0;  // This indicates that servo timings is ordered.	
+;	.line	204; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	needreordering=0;  // This indicates that servo timings is ordered.	
 	CLRF	_needreordering, B
 	MOVFF	PREINC1, r0x09
 	MOVFF	PREINC1, r0x08
@@ -1881,9 +1922,9 @@ _00279_DS_:
 ; ; Starting pCode block
 S_main__ServosPulseUp	code
 _ServosPulseUp:
-;	.line	119; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	PORTC = activatedservos[MaskPort_C] & 0xFF;
+;	.line	120; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	PORTC = activatedservos[MaskPort_C] & 0xFF;
 	MOVFF	(_activatedservos + 1), _PORTC
-;	.line	120; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	PORTA = activatedservos[MaskPort_A] & 0xFF;	
+;	.line	121; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	PORTA = activatedservos[MaskPort_A] & 0xFF;	
 	MOVFF	(_activatedservos + 2), _PORTA
 	RETURN	
 
@@ -1949,7 +1990,7 @@ _00226_DS_:
 ;	.line	101; /home/valentin/github/icaro-bloques/include/../tmp/servos.c	timingindex++;
 	INCF	_timingindex, F, B
 _00225_DS_:
-	movlw 6
+	movlw 12
 	movwf _loopvar
 bucle:
 	NOP
@@ -2901,8 +2942,8 @@ _servomasks:
 
 
 ; Statistics:
-; code size:	 5208 (0x1458) bytes ( 3.97%)
-;           	 2604 (0x0a2c) words
+; code size:	 5288 (0x14a8) bytes ( 4.03%)
+;           	 2644 (0x0a54) words
 ; udata size:	   96 (0x0060) bytes ( 5.36%)
 ; access size:	   13 (0x000d) bytes
 

@@ -1,0 +1,1479 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>gtk.Assistant</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        gtk ::
+        Assistant ::
+        Class&nbsp;Assistant
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="gtk.Assistant-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Assistant</h1><p class="nomargin-top"><span class="codelink"><a href="gtk-pysrc.html#Assistant">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+        object --+                        
+                 |                        
+   gobject.GObject --+                    
+                     |                    
+                <a href="gtk.Object-class.html">Object</a> --+                
+                         |                
+        object --+       |                
+                 |       |                
+<a href="gobject.GInterface-class.html">gobject.GInterface</a> --+   |                
+                     |   |                
+  atk.ImplementorIface --+                
+                         |                
+        object --+       |                
+                 |       |                
+<a href="gobject.GInterface-class.html">gobject.GInterface</a> --+   |                
+                     |   |                
+             <a href="gtk.Buildable-class.html">Buildable</a> --+                
+                         |                
+                    <a href="gtk.Widget-class.html">Widget</a> --+            
+                             |            
+                     <a href="gtk.Container-class.html">Container</a> --+        
+                                 |        
+                               <a href="gtk.Bin-class.html">Bin</a> --+    
+                                     |    
+                                <a href="gtk.Window-class.html">Window</a> --+
+                                         |
+                                        <strong class="uidshort">Assistant</strong>
+</pre>
+
+<hr />
+<pre class="literalblock">
+Object GtkAssistant
+
+Signals from GtkAssistant:
+  close ()
+  cancel ()
+  prepare (GtkWidget)
+  apply ()
+
+Signals from GtkWindow:
+  set-focus (GtkWidget)
+  frame-event (GdkEvent) -&gt; gboolean
+  activate-focus ()
+  activate-default ()
+  keys-changed ()
+
+Properties from GtkWindow:
+  type -&gt; GtkWindowType: Tipo de ventana
+    El tipo de la ventana
+  title -&gt; gchararray: T&#195;&#173;tulo de la ventana
+    El t&#195;&#173;tulo de la ventana
+  role -&gt; gchararray: Rol de la ventana
+    Identificador &#195;&#186;nico para la ventana para usarlo al restaurar una sesi&#195;&#179;n
+  allow-shrink -&gt; gboolean: Permitir encoger
+    Si es TRUE la ventana no tiene tama&#195;&#177;o m&#195;&#173;nimo. Colocar este valor como TRUE es una mala idea el 99% de las veces
+  allow-grow -&gt; gboolean: Permitir crecer
+    Si es TRUE los usuarios pueden expandir la ventana mas all&#195;&#161; de su tama&#195;&#177;o m&#195;&#173;nimo
+  resizable -&gt; gboolean: Redimensionable
+    Si es TRUE los usuario pueden redimensionar la ventana
+  modal -&gt; gboolean: Modal
+    Si es TRUE, esta ventana es modal (no se pueden utilizar otras ventanas mientras &#195;&#169;sta este encima)
+  window-position -&gt; GtkWindowPosition: Posici&#195;&#179;n de la ventana
+    La posici&#195;&#179;n inicial de la ventana
+  default-width -&gt; gint: Anchura predeterminada
+    El ancho predeterminado de la ventana, utilizado cuando se muestra inicialmente la ventana
+  default-height -&gt; gint: Altura predeterminada
+    La altura predeterminada de la ventana, utilizado cuando se muestra inicialmente la ventana
+  destroy-with-parent -&gt; gboolean: Destruir con el padre
+    Indica si esta ventana debe ser destruida cuando el padre se destruye
+  icon -&gt; GdkPixbuf: Icono
+    Icono para esta ventana
+  icon-name -&gt; gchararray: Nombre del icono
+    Nombre del icono del tema para esta ventana
+  screen -&gt; GdkScreen: Pantalla
+    La pantalla donde se mostrar&#195;&#161; esta ventana
+  type-hint -&gt; GdkWindowTypeHint: Pista de tipo
+    Pista para ayudar al entorno de escritorio a entender qu&#195;&#169; clase de ventana es &#195;&#169;sta y c&#195;&#179;mo tratar con ella.
+  skip-taskbar-hint -&gt; gboolean: Ignorar barra de tareas
+    TRUE si la ventana no debe estar en la barra de tareas.
+  skip-pager-hint -&gt; gboolean: Ignorar paginador
+    TRUE si la ventana no debe estar en el paginador.
+  urgency-hint -&gt; gboolean: Urgente
+    TRUE si la ventana debe llamar la atenci&#195;&#179;n del usuario.
+  accept-focus -&gt; gboolean: Aceptar foco
+    TRUE si la ventana no debe recibir el foco de entrada.
+  focus-on-map -&gt; gboolean: Foco en el mapa
+    TRUE si la ventana debe recibir el foco de entrada al ser mapeada.
+  decorated -&gt; gboolean: Decorado
+    Indica si la ventana debe ser decorada por el gestor de ventanas
+  deletable -&gt; gboolean: Borrable
+    Indica si el marco de la ventana debe tener un bot&#195;&#179;n de cierre
+  gravity -&gt; GdkGravity: Gravedad
+    La gravedad de la ventana
+  transient-for -&gt; GtkWindow: Transitorio para la ventana
+    El padre transitorio del di&#195;&#161;logo
+  opacity -&gt; gdouble: Opacidad para la ventana
+    La opacidad de la ventana, desde 0 hasta 1
+  is-active -&gt; gboolean: Est&#195;&#161; activo
+    Indica si el nivel superior es la ventana activa actual
+  has-toplevel-focus -&gt; gboolean: Foco en el nivel superior
+    Indica si el foco de entrada esta dentro de este GtkWindow
+  startup-id -&gt; gchararray: ID de inicio
+    Identificador &#195;&#186;nico de inicio para la ventana usado por startup-notification
+  mnemonics-visible -&gt; gboolean: Mnem&#195;&#179;nicos visibles
+    Indica si los mnem&#195;&#179;nicos son visibles actualmente en esta ventana
+
+Signals from GtkContainer:
+  add (GtkWidget)
+  remove (GtkWidget)
+  check-resize ()
+  set-focus-child (GtkWidget)
+
+Properties from GtkContainer:
+  border-width -&gt; guint: Anchura del borde
+    La anchura del borde vac&#195;&#173;o fuera de los contenedores hijos
+  resize-mode -&gt; GtkResizeMode: Modo de redimensi&#195;&#179;n
+    Especifica c&#195;&#179;mo se manipulan los eventos de redimensionado
+  child -&gt; GtkWidget: Hijo
+    Puede usarse para a&#195;&#177;adir un hijo nuevo al contenedor
+
+Signals from GtkWidget:
+  composited-changed ()
+  show ()
+  hide ()
+  map ()
+  unmap ()
+  realize ()
+  unrealize ()
+  size-request (GtkRequisition)
+  size-allocate (GdkRectangle)
+  state-changed (GtkStateType)
+  parent-set (GtkWidget)
+  hierarchy-changed (GtkWidget)
+  style-set (GtkStyle)
+  direction-changed (GtkTextDirection)
+  grab-notify (gboolean)
+  child-notify (GParam)
+  mnemonic-activate (gboolean) -&gt; gboolean
+  grab-focus ()
+  focus (GtkDirectionType) -&gt; gboolean
+  move-focus (GtkDirectionType)
+  event (GdkEvent) -&gt; gboolean
+  event-after (GdkEvent)
+  button-press-event (GdkEvent) -&gt; gboolean
+  button-release-event (GdkEvent) -&gt; gboolean
+  scroll-event (GdkEvent) -&gt; gboolean
+  motion-notify-event (GdkEvent) -&gt; gboolean
+  keynav-failed (GtkDirectionType) -&gt; gboolean
+  delete-event (GdkEvent) -&gt; gboolean
+  destroy-event (GdkEvent) -&gt; gboolean
+  expose-event (GdkEvent) -&gt; gboolean
+  key-press-event (GdkEvent) -&gt; gboolean
+  key-release-event (GdkEvent) -&gt; gboolean
+  enter-notify-event (GdkEvent) -&gt; gboolean
+  leave-notify-event (GdkEvent) -&gt; gboolean
+  configure-event (GdkEvent) -&gt; gboolean
+  focus-in-event (GdkEvent) -&gt; gboolean
+  focus-out-event (GdkEvent) -&gt; gboolean
+  map-event (GdkEvent) -&gt; gboolean
+  unmap-event (GdkEvent) -&gt; gboolean
+  property-notify-event (GdkEvent) -&gt; gboolean
+  selection-clear-event (GdkEvent) -&gt; gboolean
+  selection-request-event (GdkEvent) -&gt; gboolean
+  selection-notify-event (GdkEvent) -&gt; gboolean
+  selection-received (GtkSelectionData, guint)
+  selection-get (GtkSelectionData, guint, guint)
+  proximity-in-event (GdkEvent) -&gt; gboolean
+  proximity-out-event (GdkEvent) -&gt; gboolean
+  drag-leave (GdkDragContext, guint)
+  drag-begin (GdkDragContext)
+  drag-end (GdkDragContext)
+  drag-data-delete (GdkDragContext)
+  drag-failed (GdkDragContext, GtkDragResult) -&gt; gboolean
+  drag-motion (GdkDragContext, gint, gint, guint) -&gt; gboolean
+  drag-drop (GdkDragContext, gint, gint, guint) -&gt; gboolean
+  drag-data-get (GdkDragContext, GtkSelectionData, guint, guint)
+  drag-data-received (GdkDragContext, gint, gint, GtkSelectionData, guint, guint)
+  visibility-notify-event (GdkEvent) -&gt; gboolean
+  client-event (GdkEvent) -&gt; gboolean
+  no-expose-event (GdkEvent) -&gt; gboolean
+  window-state-event (GdkEvent) -&gt; gboolean
+  damage-event (GdkEvent) -&gt; gboolean
+  grab-broken-event (GdkEvent) -&gt; gboolean
+  query-tooltip (gint, gint, gboolean, GtkTooltip) -&gt; gboolean
+  popup-menu () -&gt; gboolean
+  show-help (GtkWidgetHelpType) -&gt; gboolean
+  accel-closures-changed ()
+  screen-changed (GdkScreen)
+  can-activate-accel (guint) -&gt; gboolean
+
+Properties from GtkWidget:
+  name -&gt; gchararray: Nombre del widget
+    El nombre del widget
+  parent -&gt; GtkContainer: Widget padre
+    El widget padre de este widget. Debe ser un widget contenedor
+  width-request -&gt; gint: Petici&#195;&#179;n de anchura
+    Sobreescribir el ancho solicitado del widget, o -1 si deber ser utilizado la solicitud natural
+  height-request -&gt; gint: Petici&#195;&#179;n de altura
+    Sobreescribir la altura solicitada del widget, o -1 si deber ser utilizada la solicitud natural
+  visible -&gt; gboolean: Visible
+    Indica si el widget es visible
+  sensitive -&gt; gboolean: Sensible
+    Indica si el widget responde al ingreso
+  app-paintable -&gt; gboolean: Pintable por la aplicaci&#195;&#179;n
+    Indica si la aplicaci&#195;&#179;n pintar&#195;&#161; directamente sobre el widget
+  can-focus -&gt; gboolean: Puede enfocar
+    Indica si el widget puede aceptar el foco de entrada
+  has-focus -&gt; gboolean: Tiene foco
+    Indica si el widget tiene el foco de entrada
+  is-focus -&gt; gboolean: Tiene el foco
+    Indica si el widget es el widget con foco dentro del nivel superior
+  can-default -&gt; gboolean: Puede por omisi&#195;&#179;n
+    Indica si el widget puede ser el widget predeterminado
+  has-default -&gt; gboolean: Tiene por omisi&#195;&#179;n
+    Indica si el widget es el widget predeterminado
+  receives-default -&gt; gboolean: Recibe por omisi&#195;&#179;n
+    Si es TRUE el widget recibir&#195;&#161; la acci&#195;&#179;n predeterminada cuando obtiene el foco
+  composite-child -&gt; gboolean: Hijo compuesto
+    Indica si el widget es parte de un widget compuesto
+  style -&gt; GtkStyle: Estilo
+    El estilo del widget, que contiene informaci&#195;&#179;n sobre la apariencia (colores, etc)
+  events -&gt; GdkEventMask: Eventos
+    La m&#195;&#161;scara de eventos que decide que tipo de GtkEvents recibe este widget
+  extension-events -&gt; GdkExtensionMode: Eventos de extensi&#195;&#179;n
+    La m&#195;&#161;scara que decide que clase de eventos de extensi&#195;&#179;n conseguir&#195;&#161; este widget
+  no-show-all -&gt; gboolean: No mostrar todo
+    Indica que gtk_widget_show_all() no debe afectar a este widget
+  has-tooltip -&gt; gboolean: Tiene consejo
+    Indica si el widget tiene un consejo
+  tooltip-markup -&gt; gchararray: Marcado de consejos
+    El contenido de los consejos para este widget
+  tooltip-text -&gt; gchararray: Texto del consejo
+    El contenido de los consejos para este widget
+  window -&gt; GdkWindow: Ventana
+    La ventana del widget si se realiza
+  double-buffered -&gt; gboolean: B&#195;&#186;fer doble
+    Indica si el widget tiene b&#195;&#186;fer doble
+
+Signals from GtkObject:
+  destroy ()
+
+Properties from GtkObject:
+  user-data -&gt; gpointer: Datos del usuario
+    Puntero de datos del usuario an&#195;&#179;nimo
+
+Signals from GObject:
+  notify (GParam)
+
+</pre>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gtk.Assistant-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      x.__init__(...) initializes x; see help(type(x)) for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gtk.Assistant-class.html#__iter__" class="summary-sig-name">__iter__</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      iter(x)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.__iter__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="add_action_widget"></a><span class="summary-sig-name">add_action_widget</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.add_action_widget">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="append_page"></a><span class="summary-sig-name">append_page</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.append_page">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="commit"></a><span class="summary-sig-name">commit</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.commit">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="do_apply"></a><span class="summary-sig-name">do_apply</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.do_apply">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="do_cancel"></a><span class="summary-sig-name">do_cancel</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.do_cancel">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="do_close"></a><span class="summary-sig-name">do_close</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.do_close">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="do_prepare"></a><span class="summary-sig-name">do_prepare</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.do_prepare">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_current_page"></a><span class="summary-sig-name">get_current_page</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_current_page">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_n_pages"></a><span class="summary-sig-name">get_n_pages</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_n_pages">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_nth_page"></a><span class="summary-sig-name">get_nth_page</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_nth_page">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_page_complete"></a><span class="summary-sig-name">get_page_complete</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_page_complete">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_page_header_image"></a><span class="summary-sig-name">get_page_header_image</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_page_header_image">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_page_side_image"></a><span class="summary-sig-name">get_page_side_image</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_page_side_image">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_page_title"></a><span class="summary-sig-name">get_page_title</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_page_title">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_page_type"></a><span class="summary-sig-name">get_page_type</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.get_page_type">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="insert_page"></a><span class="summary-sig-name">insert_page</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.insert_page">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="prepend_page"></a><span class="summary-sig-name">prepend_page</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.prepend_page">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="remove_action_widget"></a><span class="summary-sig-name">remove_action_widget</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.remove_action_widget">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_current_page"></a><span class="summary-sig-name">set_current_page</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.set_current_page">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_forward_page_func"></a><span class="summary-sig-name">set_forward_page_func</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.set_forward_page_func">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_page_complete"></a><span class="summary-sig-name">set_page_complete</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.set_page_complete">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_page_header_image"></a><span class="summary-sig-name">set_page_header_image</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.set_page_header_image">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_page_side_image"></a><span class="summary-sig-name">set_page_side_image</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.set_page_side_image">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_page_title"></a><span class="summary-sig-name">set_page_title</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.set_page_title">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_page_type"></a><span class="summary-sig-name">set_page_type</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.set_page_type">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="update_buttons_state"></a><span class="summary-sig-name">update_buttons_state</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gtk-pysrc.html#Assistant.update_buttons_state">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Window-class.html">Window</a></code></b>:
+      <code><a href="gtk.Window-class.html#activate_default">activate_default</a></code>,
+      <code><a href="gtk.Window-class.html#activate_focus">activate_focus</a></code>,
+      <code><a href="gtk.Window-class.html#activate_key">activate_key</a></code>,
+      <code><a href="gtk.Window-class.html#add_accel_group">add_accel_group</a></code>,
+      <code><a href="gtk.Window-class.html#add_mnemonic">add_mnemonic</a></code>,
+      <code><a href="gtk.Window-class.html#begin_move_drag">begin_move_drag</a></code>,
+      <code><a href="gtk.Window-class.html#begin_resize_drag">begin_resize_drag</a></code>,
+      <code><a href="gtk.Window-class.html#deiconify">deiconify</a></code>,
+      <code><a href="gtk.Window-class.html#do_activate_default">do_activate_default</a></code>,
+      <code><a href="gtk.Window-class.html#do_activate_focus">do_activate_focus</a></code>,
+      <code><a href="gtk.Window-class.html#do_frame_event">do_frame_event</a></code>,
+      <code><a href="gtk.Window-class.html#do_keys_changed">do_keys_changed</a></code>,
+      <code><a href="gtk.Window-class.html#do_move_focus">do_move_focus</a></code>,
+      <code><a href="gtk.Window-class.html#do_set_focus">do_set_focus</a></code>,
+      <code><a href="gtk.Window-class.html#fullscreen">fullscreen</a></code>,
+      <code><a href="gtk.Window-class.html#get_accept_focus">get_accept_focus</a></code>,
+      <code><a href="gtk.Window-class.html#get_decorated">get_decorated</a></code>,
+      <code><a href="gtk.Window-class.html#get_default_size">get_default_size</a></code>,
+      <code><a href="gtk.Window-class.html#get_default_widget">get_default_widget</a></code>,
+      <code><a href="gtk.Window-class.html#get_deletable">get_deletable</a></code>,
+      <code><a href="gtk.Window-class.html#get_destroy_with_parent">get_destroy_with_parent</a></code>,
+      <code><a href="gtk.Window-class.html#get_focus">get_focus</a></code>,
+      <code><a href="gtk.Window-class.html#get_focus_on_map">get_focus_on_map</a></code>,
+      <code><a href="gtk.Window-class.html#get_frame_dimensions">get_frame_dimensions</a></code>,
+      <code><a href="gtk.Window-class.html#get_gravity">get_gravity</a></code>,
+      <code><a href="gtk.Window-class.html#get_group">get_group</a></code>,
+      <code><a href="gtk.Window-class.html#get_has_frame">get_has_frame</a></code>,
+      <code><a href="gtk.Window-class.html#get_icon">get_icon</a></code>,
+      <code><a href="gtk.Window-class.html#get_icon_list">get_icon_list</a></code>,
+      <code><a href="gtk.Window-class.html#get_icon_name">get_icon_name</a></code>,
+      <code><a href="gtk.Window-class.html#get_mnemonic_modifier">get_mnemonic_modifier</a></code>,
+      <code><a href="gtk.Window-class.html#get_mnemonics_visible">get_mnemonics_visible</a></code>,
+      <code><a href="gtk.Window-class.html#get_modal">get_modal</a></code>,
+      <code><a href="gtk.Window-class.html#get_opacity">get_opacity</a></code>,
+      <code><a href="gtk.Window-class.html#get_position">get_position</a></code>,
+      <code><a href="gtk.Window-class.html#get_resizable">get_resizable</a></code>,
+      <code><a href="gtk.Window-class.html#get_role">get_role</a></code>,
+      <code><a href="gtk.Window-class.html#get_screen">get_screen</a></code>,
+      <code><a href="gtk.Window-class.html#get_size">get_size</a></code>,
+      <code><a href="gtk.Window-class.html#get_skip_pager_hint">get_skip_pager_hint</a></code>,
+      <code><a href="gtk.Window-class.html#get_skip_taskbar_hint">get_skip_taskbar_hint</a></code>,
+      <code><a href="gtk.Window-class.html#get_title">get_title</a></code>,
+      <code><a href="gtk.Window-class.html#get_transient_for">get_transient_for</a></code>,
+      <code><a href="gtk.Window-class.html#get_type_hint">get_type_hint</a></code>,
+      <code><a href="gtk.Window-class.html#get_urgency_hint">get_urgency_hint</a></code>,
+      <code><a href="gtk.Window-class.html#get_window_type">get_window_type</a></code>,
+      <code><a href="gtk.Window-class.html#has_group">has_group</a></code>,
+      <code><a href="gtk.Window-class.html#has_toplevel_focus">has_toplevel_focus</a></code>,
+      <code><a href="gtk.Window-class.html#iconify">iconify</a></code>,
+      <code><a href="gtk.Window-class.html#is_active">is_active</a></code>,
+      <code><a href="gtk.Window-class.html#maximize">maximize</a></code>,
+      <code><a href="gtk.Window-class.html#mnemonic_activate">mnemonic_activate</a></code>,
+      <code><a href="gtk.Window-class.html#move">move</a></code>,
+      <code><a href="gtk.Window-class.html#parse_geometry">parse_geometry</a></code>,
+      <code><a href="gtk.Window-class.html#present">present</a></code>,
+      <code><a href="gtk.Window-class.html#present_with_time">present_with_time</a></code>,
+      <code><a href="gtk.Window-class.html#propagate_key_event">propagate_key_event</a></code>,
+      <code><a href="gtk.Window-class.html#remove_accel_group">remove_accel_group</a></code>,
+      <code><a href="gtk.Window-class.html#remove_mnemonic">remove_mnemonic</a></code>,
+      <code><a href="gtk.Window-class.html#reshow_with_initial_size">reshow_with_initial_size</a></code>,
+      <code><a href="gtk.Window-class.html#resize">resize</a></code>,
+      <code><a href="gtk.Window-class.html#set_accept_focus">set_accept_focus</a></code>,
+      <code><a href="gtk.Window-class.html#set_decorated">set_decorated</a></code>,
+      <code><a href="gtk.Window-class.html#set_default">set_default</a></code>,
+      <code><a href="gtk.Window-class.html#set_default_size">set_default_size</a></code>,
+      <code><a href="gtk.Window-class.html#set_deletable">set_deletable</a></code>,
+      <code><a href="gtk.Window-class.html#set_destroy_with_parent">set_destroy_with_parent</a></code>,
+      <code><a href="gtk.Window-class.html#set_focus">set_focus</a></code>,
+      <code><a href="gtk.Window-class.html#set_focus_on_map">set_focus_on_map</a></code>,
+      <code><a href="gtk.Window-class.html#set_frame_dimensions">set_frame_dimensions</a></code>,
+      <code><a href="gtk.Window-class.html#set_geometry_hints">set_geometry_hints</a></code>,
+      <code><a href="gtk.Window-class.html#set_gravity">set_gravity</a></code>,
+      <code><a href="gtk.Window-class.html#set_has_frame">set_has_frame</a></code>,
+      <code><a href="gtk.Window-class.html#set_icon">set_icon</a></code>,
+      <code><a href="gtk.Window-class.html#set_icon_from_file">set_icon_from_file</a></code>,
+      <code><a href="gtk.Window-class.html#set_icon_list">set_icon_list</a></code>,
+      <code><a href="gtk.Window-class.html#set_icon_name">set_icon_name</a></code>,
+      <code><a href="gtk.Window-class.html#set_keep_above">set_keep_above</a></code>,
+      <code><a href="gtk.Window-class.html#set_keep_below">set_keep_below</a></code>,
+      <code><a href="gtk.Window-class.html#set_mnemonic_modifier">set_mnemonic_modifier</a></code>,
+      <code><a href="gtk.Window-class.html#set_mnemonics_visible">set_mnemonics_visible</a></code>,
+      <code><a href="gtk.Window-class.html#set_modal">set_modal</a></code>,
+      <code><a href="gtk.Window-class.html#set_opacity">set_opacity</a></code>,
+      <code><a href="gtk.Window-class.html#set_policy">set_policy</a></code>,
+      <code><a href="gtk.Window-class.html#set_position">set_position</a></code>,
+      <code><a href="gtk.Window-class.html#set_resizable">set_resizable</a></code>,
+      <code><a href="gtk.Window-class.html#set_role">set_role</a></code>,
+      <code><a href="gtk.Window-class.html#set_screen">set_screen</a></code>,
+      <code><a href="gtk.Window-class.html#set_skip_pager_hint">set_skip_pager_hint</a></code>,
+      <code><a href="gtk.Window-class.html#set_skip_taskbar_hint">set_skip_taskbar_hint</a></code>,
+      <code><a href="gtk.Window-class.html#set_startup_id">set_startup_id</a></code>,
+      <code><a href="gtk.Window-class.html#set_title">set_title</a></code>,
+      <code><a href="gtk.Window-class.html#set_transient_for">set_transient_for</a></code>,
+      <code><a href="gtk.Window-class.html#set_type_hint">set_type_hint</a></code>,
+      <code><a href="gtk.Window-class.html#set_urgency_hint">set_urgency_hint</a></code>,
+      <code><a href="gtk.Window-class.html#set_wmclass">set_wmclass</a></code>,
+      <code><a href="gtk.Window-class.html#stick">stick</a></code>,
+      <code><a href="gtk.Window-class.html#tooltips_get_info_from_tip_window">tooltips_get_info_from_tip_window</a></code>,
+      <code><a href="gtk.Window-class.html#unfullscreen">unfullscreen</a></code>,
+      <code><a href="gtk.Window-class.html#unmaximize">unmaximize</a></code>,
+      <code><a href="gtk.Window-class.html#unstick">unstick</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Bin-class.html">Bin</a></code></b>:
+      <code><a href="gtk.Bin-class.html#get_child">get_child</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Container-class.html">Container</a></code></b>:
+      <code><a href="gtk.Container-class.html#__len__">__len__</a></code>,
+      <code><a href="gtk.Container-class.html#__nonzero__">__nonzero__</a></code>,
+      <code><a href="gtk.Container-class.html#add">add</a></code>,
+      <code><a href="gtk.Container-class.html#add_with_properties">add_with_properties</a></code>,
+      <code><a href="gtk.Container-class.html#check_resize">check_resize</a></code>,
+      <code><a href="gtk.Container-class.html#child_get">child_get</a></code>,
+      <code><a href="gtk.Container-class.html#child_get_property">child_get_property</a></code>,
+      <code><a href="gtk.Container-class.html#child_set">child_set</a></code>,
+      <code><a href="gtk.Container-class.html#child_set_property">child_set_property</a></code>,
+      <code><a href="gtk.Container-class.html#child_type">child_type</a></code>,
+      <code><a href="gtk.Container-class.html#children">children</a></code>,
+      <code><a href="gtk.Container-class.html#do_add">do_add</a></code>,
+      <code><a href="gtk.Container-class.html#do_check_resize">do_check_resize</a></code>,
+      <code><a href="gtk.Container-class.html#do_child_type">do_child_type</a></code>,
+      <code><a href="gtk.Container-class.html#do_composite_name">do_composite_name</a></code>,
+      <code><a href="gtk.Container-class.html#do_forall">do_forall</a></code>,
+      <code><a href="gtk.Container-class.html#do_get_child_property">do_get_child_property</a></code>,
+      <code><a href="gtk.Container-class.html#do_remove">do_remove</a></code>,
+      <code><a href="gtk.Container-class.html#do_set_child_property">do_set_child_property</a></code>,
+      <code><a href="gtk.Container-class.html#do_set_focus_child">do_set_focus_child</a></code>,
+      <code><a href="gtk.Container-class.html#forall">forall</a></code>,
+      <code><a href="gtk.Container-class.html#foreach">foreach</a></code>,
+      <code><a href="gtk.Container-class.html#get_border_width">get_border_width</a></code>,
+      <code><a href="gtk.Container-class.html#get_children">get_children</a></code>,
+      <code><a href="gtk.Container-class.html#get_focus_chain">get_focus_chain</a></code>,
+      <code><a href="gtk.Container-class.html#get_focus_child">get_focus_child</a></code>,
+      <code><a href="gtk.Container-class.html#get_focus_hadjustment">get_focus_hadjustment</a></code>,
+      <code><a href="gtk.Container-class.html#get_focus_vadjustment">get_focus_vadjustment</a></code>,
+      <code><a href="gtk.Container-class.html#get_resize_mode">get_resize_mode</a></code>,
+      <code><a href="gtk.Container-class.html#install_child_property">install_child_property</a></code>,
+      <code><a href="gtk.Container-class.html#list_child_properties">list_child_properties</a></code>,
+      <code><a href="gtk.Container-class.html#propagate_expose">propagate_expose</a></code>,
+      <code><a href="gtk.Container-class.html#remove">remove</a></code>,
+      <code><a href="gtk.Container-class.html#resize_children">resize_children</a></code>,
+      <code><a href="gtk.Container-class.html#set_border_width">set_border_width</a></code>,
+      <code><a href="gtk.Container-class.html#set_focus_chain">set_focus_chain</a></code>,
+      <code><a href="gtk.Container-class.html#set_focus_child">set_focus_child</a></code>,
+      <code><a href="gtk.Container-class.html#set_focus_hadjustment">set_focus_hadjustment</a></code>,
+      <code><a href="gtk.Container-class.html#set_focus_vadjustment">set_focus_vadjustment</a></code>,
+      <code><a href="gtk.Container-class.html#set_reallocate_redraws">set_reallocate_redraws</a></code>,
+      <code><a href="gtk.Container-class.html#set_resize_mode">set_resize_mode</a></code>,
+      <code><a href="gtk.Container-class.html#unset_focus_chain">unset_focus_chain</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Widget-class.html">Widget</a></code></b>:
+      <code><a href="gtk.Widget-class.html#activate">activate</a></code>,
+      <code><a href="gtk.Widget-class.html#add_accelerator">add_accelerator</a></code>,
+      <code><a href="gtk.Widget-class.html#add_events">add_events</a></code>,
+      <code><a href="gtk.Widget-class.html#add_mnemonic_label">add_mnemonic_label</a></code>,
+      <code><a href="gtk.Widget-class.html#can_activate_accel">can_activate_accel</a></code>,
+      <code><a href="gtk.Widget-class.html#child_focus">child_focus</a></code>,
+      <code><a href="gtk.Widget-class.html#child_notify">child_notify</a></code>,
+      <code><a href="gtk.Widget-class.html#class_path">class_path</a></code>,
+      <code><a href="gtk.Widget-class.html#create_pango_context">create_pango_context</a></code>,
+      <code><a href="gtk.Widget-class.html#create_pango_layout">create_pango_layout</a></code>,
+      <code><a href="gtk.Widget-class.html#destroy">destroy</a></code>,
+      <code><a href="gtk.Widget-class.html#do_button_press_event">do_button_press_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_button_release_event">do_button_release_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_can_activate_accel">do_can_activate_accel</a></code>,
+      <code><a href="gtk.Widget-class.html#do_client_event">do_client_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_composited_changed">do_composited_changed</a></code>,
+      <code><a href="gtk.Widget-class.html#do_configure_event">do_configure_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_delete_event">do_delete_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_destroy_event">do_destroy_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_direction_changed">do_direction_changed</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_begin">do_drag_begin</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_data_delete">do_drag_data_delete</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_data_get">do_drag_data_get</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_data_received">do_drag_data_received</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_drop">do_drag_drop</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_end">do_drag_end</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_leave">do_drag_leave</a></code>,
+      <code><a href="gtk.Widget-class.html#do_drag_motion">do_drag_motion</a></code>,
+      <code><a href="gtk.Widget-class.html#do_enter_notify_event">do_enter_notify_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_event">do_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_expose_event">do_expose_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_focus">do_focus</a></code>,
+      <code><a href="gtk.Widget-class.html#do_focus_in_event">do_focus_in_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_focus_out_event">do_focus_out_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_get_accessible">do_get_accessible</a></code>,
+      <code><a href="gtk.Widget-class.html#do_grab_broken_event">do_grab_broken_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_grab_focus">do_grab_focus</a></code>,
+      <code><a href="gtk.Widget-class.html#do_grab_notify">do_grab_notify</a></code>,
+      <code><a href="gtk.Widget-class.html#do_hide">do_hide</a></code>,
+      <code><a href="gtk.Widget-class.html#do_hide_all">do_hide_all</a></code>,
+      <code><a href="gtk.Widget-class.html#do_hierarchy_changed">do_hierarchy_changed</a></code>,
+      <code><a href="gtk.Widget-class.html#do_key_press_event">do_key_press_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_key_release_event">do_key_release_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_leave_notify_event">do_leave_notify_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_map">do_map</a></code>,
+      <code><a href="gtk.Widget-class.html#do_map_event">do_map_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_mnemonic_activate">do_mnemonic_activate</a></code>,
+      <code><a href="gtk.Widget-class.html#do_motion_notify_event">do_motion_notify_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_no_expose_event">do_no_expose_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_parent_set">do_parent_set</a></code>,
+      <code><a href="gtk.Widget-class.html#do_popup_menu">do_popup_menu</a></code>,
+      <code><a href="gtk.Widget-class.html#do_property_notify_event">do_property_notify_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_proximity_in_event">do_proximity_in_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_proximity_out_event">do_proximity_out_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_realize">do_realize</a></code>,
+      <code><a href="gtk.Widget-class.html#do_screen_changed">do_screen_changed</a></code>,
+      <code><a href="gtk.Widget-class.html#do_scroll_event">do_scroll_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_selection_clear_event">do_selection_clear_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_selection_get">do_selection_get</a></code>,
+      <code><a href="gtk.Widget-class.html#do_selection_notify_event">do_selection_notify_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_selection_received">do_selection_received</a></code>,
+      <code><a href="gtk.Widget-class.html#do_selection_request_event">do_selection_request_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_show">do_show</a></code>,
+      <code><a href="gtk.Widget-class.html#do_show_all">do_show_all</a></code>,
+      <code><a href="gtk.Widget-class.html#do_show_help">do_show_help</a></code>,
+      <code><a href="gtk.Widget-class.html#do_size_allocate">do_size_allocate</a></code>,
+      <code><a href="gtk.Widget-class.html#do_size_request">do_size_request</a></code>,
+      <code><a href="gtk.Widget-class.html#do_state_changed">do_state_changed</a></code>,
+      <code><a href="gtk.Widget-class.html#do_style_set">do_style_set</a></code>,
+      <code><a href="gtk.Widget-class.html#do_unmap">do_unmap</a></code>,
+      <code><a href="gtk.Widget-class.html#do_unmap_event">do_unmap_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_unrealize">do_unrealize</a></code>,
+      <code><a href="gtk.Widget-class.html#do_visibility_notify_event">do_visibility_notify_event</a></code>,
+      <code><a href="gtk.Widget-class.html#do_window_state_event">do_window_state_event</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_begin">drag_begin</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_check_threshold">drag_check_threshold</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_add_image_targets">drag_dest_add_image_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_add_text_targets">drag_dest_add_text_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_add_uri_targets">drag_dest_add_uri_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_find_target">drag_dest_find_target</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_get_target_list">drag_dest_get_target_list</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_get_track_motion">drag_dest_get_track_motion</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_set">drag_dest_set</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_set_proxy">drag_dest_set_proxy</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_set_target_list">drag_dest_set_target_list</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_set_track_motion">drag_dest_set_track_motion</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_dest_unset">drag_dest_unset</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_get_data">drag_get_data</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_highlight">drag_highlight</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_add_image_targets">drag_source_add_image_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_add_text_targets">drag_source_add_text_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_add_uri_targets">drag_source_add_uri_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_get_target_list">drag_source_get_target_list</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_set">drag_source_set</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_set_icon">drag_source_set_icon</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_set_icon_name">drag_source_set_icon_name</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_set_icon_pixbuf">drag_source_set_icon_pixbuf</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_set_icon_stock">drag_source_set_icon_stock</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_set_target_list">drag_source_set_target_list</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_source_unset">drag_source_unset</a></code>,
+      <code><a href="gtk.Widget-class.html#drag_unhighlight">drag_unhighlight</a></code>,
+      <code><a href="gtk.Widget-class.html#draw">draw</a></code>,
+      <code><a href="gtk.Widget-class.html#ensure_style">ensure_style</a></code>,
+      <code><a href="gtk.Widget-class.html#error_bell">error_bell</a></code>,
+      <code><a href="gtk.Widget-class.html#event">event</a></code>,
+      <code><a href="gtk.Widget-class.html#freeze_child_notify">freeze_child_notify</a></code>,
+      <code><a href="gtk.Widget-class.html#get_accessible">get_accessible</a></code>,
+      <code><a href="gtk.Widget-class.html#get_action">get_action</a></code>,
+      <code><a href="gtk.Widget-class.html#get_activate_signal">get_activate_signal</a></code>,
+      <code><a href="gtk.Widget-class.html#get_allocation">get_allocation</a></code>,
+      <code><a href="gtk.Widget-class.html#get_ancestor">get_ancestor</a></code>,
+      <code><a href="gtk.Widget-class.html#get_app_paintable">get_app_paintable</a></code>,
+      <code><a href="gtk.Widget-class.html#get_can_default">get_can_default</a></code>,
+      <code><a href="gtk.Widget-class.html#get_can_focus">get_can_focus</a></code>,
+      <code><a href="gtk.Widget-class.html#get_child_requisition">get_child_requisition</a></code>,
+      <code><a href="gtk.Widget-class.html#get_child_visible">get_child_visible</a></code>,
+      <code><a href="gtk.Widget-class.html#get_clipboard">get_clipboard</a></code>,
+      <code><a href="gtk.Widget-class.html#get_colormap">get_colormap</a></code>,
+      <code><a href="gtk.Widget-class.html#get_composite_name">get_composite_name</a></code>,
+      <code><a href="gtk.Widget-class.html#get_direction">get_direction</a></code>,
+      <code><a href="gtk.Widget-class.html#get_display">get_display</a></code>,
+      <code><a href="gtk.Widget-class.html#get_double_buffered">get_double_buffered</a></code>,
+      <code><a href="gtk.Widget-class.html#get_events">get_events</a></code>,
+      <code><a href="gtk.Widget-class.html#get_extension_events">get_extension_events</a></code>,
+      <code><a href="gtk.Widget-class.html#get_has_tooltip">get_has_tooltip</a></code>,
+      <code><a href="gtk.Widget-class.html#get_has_window">get_has_window</a></code>,
+      <code><a href="gtk.Widget-class.html#get_mapped">get_mapped</a></code>,
+      <code><a href="gtk.Widget-class.html#get_modifier_style">get_modifier_style</a></code>,
+      <code><a href="gtk.Widget-class.html#get_name">get_name</a></code>,
+      <code><a href="gtk.Widget-class.html#get_no_show_all">get_no_show_all</a></code>,
+      <code><a href="gtk.Widget-class.html#get_pango_context">get_pango_context</a></code>,
+      <code><a href="gtk.Widget-class.html#get_parent">get_parent</a></code>,
+      <code><a href="gtk.Widget-class.html#get_parent_window">get_parent_window</a></code>,
+      <code><a href="gtk.Widget-class.html#get_pointer">get_pointer</a></code>,
+      <code><a href="gtk.Widget-class.html#get_realized">get_realized</a></code>,
+      <code><a href="gtk.Widget-class.html#get_receives_default">get_receives_default</a></code>,
+      <code><a href="gtk.Widget-class.html#get_requisition">get_requisition</a></code>,
+      <code><a href="gtk.Widget-class.html#get_root_window">get_root_window</a></code>,
+      <code><a href="gtk.Widget-class.html#get_sensitive">get_sensitive</a></code>,
+      <code><a href="gtk.Widget-class.html#get_settings">get_settings</a></code>,
+      <code><a href="gtk.Widget-class.html#get_size_request">get_size_request</a></code>,
+      <code><a href="gtk.Widget-class.html#get_snapshot">get_snapshot</a></code>,
+      <code><a href="gtk.Widget-class.html#get_state">get_state</a></code>,
+      <code><a href="gtk.Widget-class.html#get_style">get_style</a></code>,
+      <code><a href="gtk.Widget-class.html#get_tooltip_markup">get_tooltip_markup</a></code>,
+      <code><a href="gtk.Widget-class.html#get_tooltip_text">get_tooltip_text</a></code>,
+      <code><a href="gtk.Widget-class.html#get_tooltip_window">get_tooltip_window</a></code>,
+      <code><a href="gtk.Widget-class.html#get_toplevel">get_toplevel</a></code>,
+      <code><a href="gtk.Widget-class.html#get_visible">get_visible</a></code>,
+      <code><a href="gtk.Widget-class.html#get_visual">get_visual</a></code>,
+      <code><a href="gtk.Widget-class.html#get_window">get_window</a></code>,
+      <code><a href="gtk.Widget-class.html#grab_add">grab_add</a></code>,
+      <code><a href="gtk.Widget-class.html#grab_default">grab_default</a></code>,
+      <code><a href="gtk.Widget-class.html#grab_focus">grab_focus</a></code>,
+      <code><a href="gtk.Widget-class.html#grab_remove">grab_remove</a></code>,
+      <code><a href="gtk.Widget-class.html#has_default">has_default</a></code>,
+      <code><a href="gtk.Widget-class.html#has_grab">has_grab</a></code>,
+      <code><a href="gtk.Widget-class.html#has_rc_style">has_rc_style</a></code>,
+      <code><a href="gtk.Widget-class.html#has_screen">has_screen</a></code>,
+      <code><a href="gtk.Widget-class.html#hide">hide</a></code>,
+      <code><a href="gtk.Widget-class.html#hide_all">hide_all</a></code>,
+      <code><a href="gtk.Widget-class.html#hide_on_delete">hide_on_delete</a></code>,
+      <code><a href="gtk.Widget-class.html#input_shape_combine_mask">input_shape_combine_mask</a></code>,
+      <code><a href="gtk.Widget-class.html#intersect">intersect</a></code>,
+      <code><a href="gtk.Widget-class.html#is_ancestor">is_ancestor</a></code>,
+      <code><a href="gtk.Widget-class.html#is_composited">is_composited</a></code>,
+      <code><a href="gtk.Widget-class.html#is_drawable">is_drawable</a></code>,
+      <code><a href="gtk.Widget-class.html#is_focus">is_focus</a></code>,
+      <code><a href="gtk.Widget-class.html#is_sensitive">is_sensitive</a></code>,
+      <code><a href="gtk.Widget-class.html#is_toplevel">is_toplevel</a></code>,
+      <code><a href="gtk.Widget-class.html#keynav_failed">keynav_failed</a></code>,
+      <code><a href="gtk.Widget-class.html#list_accel_closures">list_accel_closures</a></code>,
+      <code><a href="gtk.Widget-class.html#list_mnemonic_labels">list_mnemonic_labels</a></code>,
+      <code><a href="gtk.Widget-class.html#map">map</a></code>,
+      <code><a href="gtk.Widget-class.html#menu_get_for_attach_widget">menu_get_for_attach_widget</a></code>,
+      <code><a href="gtk.Widget-class.html#modify_base">modify_base</a></code>,
+      <code><a href="gtk.Widget-class.html#modify_bg">modify_bg</a></code>,
+      <code><a href="gtk.Widget-class.html#modify_cursor">modify_cursor</a></code>,
+      <code><a href="gtk.Widget-class.html#modify_fg">modify_fg</a></code>,
+      <code><a href="gtk.Widget-class.html#modify_font">modify_font</a></code>,
+      <code><a href="gtk.Widget-class.html#modify_style">modify_style</a></code>,
+      <code><a href="gtk.Widget-class.html#modify_text">modify_text</a></code>,
+      <code><a href="gtk.Widget-class.html#path">path</a></code>,
+      <code><a href="gtk.Widget-class.html#queue_clear">queue_clear</a></code>,
+      <code><a href="gtk.Widget-class.html#queue_clear_area">queue_clear_area</a></code>,
+      <code><a href="gtk.Widget-class.html#queue_draw">queue_draw</a></code>,
+      <code><a href="gtk.Widget-class.html#queue_draw_area">queue_draw_area</a></code>,
+      <code><a href="gtk.Widget-class.html#queue_resize">queue_resize</a></code>,
+      <code><a href="gtk.Widget-class.html#queue_resize_no_redraw">queue_resize_no_redraw</a></code>,
+      <code><a href="gtk.Widget-class.html#rc_get_style">rc_get_style</a></code>,
+      <code><a href="gtk.Widget-class.html#realize">realize</a></code>,
+      <code><a href="gtk.Widget-class.html#region_intersect">region_intersect</a></code>,
+      <code><a href="gtk.Widget-class.html#remove_accelerator">remove_accelerator</a></code>,
+      <code><a href="gtk.Widget-class.html#remove_mnemonic_label">remove_mnemonic_label</a></code>,
+      <code><a href="gtk.Widget-class.html#render_icon">render_icon</a></code>,
+      <code><a href="gtk.Widget-class.html#reparent">reparent</a></code>,
+      <code><a href="gtk.Widget-class.html#reset_rc_styles">reset_rc_styles</a></code>,
+      <code><a href="gtk.Widget-class.html#reset_shapes">reset_shapes</a></code>,
+      <code><a href="gtk.Widget-class.html#selection_add_target">selection_add_target</a></code>,
+      <code><a href="gtk.Widget-class.html#selection_add_targets">selection_add_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#selection_clear_targets">selection_clear_targets</a></code>,
+      <code><a href="gtk.Widget-class.html#selection_convert">selection_convert</a></code>,
+      <code><a href="gtk.Widget-class.html#selection_owner_set">selection_owner_set</a></code>,
+      <code><a href="gtk.Widget-class.html#selection_remove_all">selection_remove_all</a></code>,
+      <code><a href="gtk.Widget-class.html#send_expose">send_expose</a></code>,
+      <code><a href="gtk.Widget-class.html#send_focus_change">send_focus_change</a></code>,
+      <code><a href="gtk.Widget-class.html#set_accel_path">set_accel_path</a></code>,
+      <code><a href="gtk.Widget-class.html#set_activate_signal">set_activate_signal</a></code>,
+      <code><a href="gtk.Widget-class.html#set_allocation">set_allocation</a></code>,
+      <code><a href="gtk.Widget-class.html#set_app_paintable">set_app_paintable</a></code>,
+      <code><a href="gtk.Widget-class.html#set_can_default">set_can_default</a></code>,
+      <code><a href="gtk.Widget-class.html#set_can_focus">set_can_focus</a></code>,
+      <code><a href="gtk.Widget-class.html#set_child_visible">set_child_visible</a></code>,
+      <code><a href="gtk.Widget-class.html#set_colormap">set_colormap</a></code>,
+      <code><a href="gtk.Widget-class.html#set_composite_name">set_composite_name</a></code>,
+      <code><a href="gtk.Widget-class.html#set_direction">set_direction</a></code>,
+      <code><a href="gtk.Widget-class.html#set_double_buffered">set_double_buffered</a></code>,
+      <code><a href="gtk.Widget-class.html#set_events">set_events</a></code>,
+      <code><a href="gtk.Widget-class.html#set_extension_events">set_extension_events</a></code>,
+      <code><a href="gtk.Widget-class.html#set_has_tooltip">set_has_tooltip</a></code>,
+      <code><a href="gtk.Widget-class.html#set_has_window">set_has_window</a></code>,
+      <code><a href="gtk.Widget-class.html#set_mapped">set_mapped</a></code>,
+      <code><a href="gtk.Widget-class.html#set_name">set_name</a></code>,
+      <code><a href="gtk.Widget-class.html#set_no_show_all">set_no_show_all</a></code>,
+      <code><a href="gtk.Widget-class.html#set_parent">set_parent</a></code>,
+      <code><a href="gtk.Widget-class.html#set_parent_window">set_parent_window</a></code>,
+      <code><a href="gtk.Widget-class.html#set_realized">set_realized</a></code>,
+      <code><a href="gtk.Widget-class.html#set_receives_default">set_receives_default</a></code>,
+      <code><a href="gtk.Widget-class.html#set_redraw_on_allocate">set_redraw_on_allocate</a></code>,
+      <code><a href="gtk.Widget-class.html#set_scroll_adjustments">set_scroll_adjustments</a></code>,
+      <code><a href="gtk.Widget-class.html#set_sensitive">set_sensitive</a></code>,
+      <code><a href="gtk.Widget-class.html#set_set_scroll_adjustments_signal">set_set_scroll_adjustments_signal</a></code>,
+      <code><a href="gtk.Widget-class.html#set_size_request">set_size_request</a></code>,
+      <code><a href="gtk.Widget-class.html#set_state">set_state</a></code>,
+      <code><a href="gtk.Widget-class.html#set_style">set_style</a></code>,
+      <code><a href="gtk.Widget-class.html#set_tooltip_markup">set_tooltip_markup</a></code>,
+      <code><a href="gtk.Widget-class.html#set_tooltip_text">set_tooltip_text</a></code>,
+      <code><a href="gtk.Widget-class.html#set_tooltip_window">set_tooltip_window</a></code>,
+      <code><a href="gtk.Widget-class.html#set_uposition">set_uposition</a></code>,
+      <code><a href="gtk.Widget-class.html#set_usize">set_usize</a></code>,
+      <code><a href="gtk.Widget-class.html#set_visible">set_visible</a></code>,
+      <code><a href="gtk.Widget-class.html#set_window">set_window</a></code>,
+      <code><a href="gtk.Widget-class.html#shape_combine_mask">shape_combine_mask</a></code>,
+      <code><a href="gtk.Widget-class.html#show">show</a></code>,
+      <code><a href="gtk.Widget-class.html#show_all">show_all</a></code>,
+      <code><a href="gtk.Widget-class.html#show_now">show_now</a></code>,
+      <code><a href="gtk.Widget-class.html#size_allocate">size_allocate</a></code>,
+      <code><a href="gtk.Widget-class.html#size_request">size_request</a></code>,
+      <code><a href="gtk.Widget-class.html#style_attach">style_attach</a></code>,
+      <code><a href="gtk.Widget-class.html#style_get_property">style_get_property</a></code>,
+      <code><a href="gtk.Widget-class.html#thaw_child_notify">thaw_child_notify</a></code>,
+      <code><a href="gtk.Widget-class.html#translate_coordinates">translate_coordinates</a></code>,
+      <code><a href="gtk.Widget-class.html#trigger_tooltip_query">trigger_tooltip_query</a></code>,
+      <code><a href="gtk.Widget-class.html#unmap">unmap</a></code>,
+      <code><a href="gtk.Widget-class.html#unparent">unparent</a></code>,
+      <code><a href="gtk.Widget-class.html#unrealize">unrealize</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Object-class.html">Object</a></code></b>:
+      <code><a href="gtk.Object-class.html#do_destroy">do_destroy</a></code>,
+      <code><a href="gtk.Object-class.html#flags">flags</a></code>,
+      <code><a href="gtk.Object-class.html#remove_data">remove_data</a></code>,
+      <code><a href="gtk.Object-class.html#remove_no_notify">remove_no_notify</a></code>,
+      <code><a href="gtk.Object-class.html#set_flags">set_flags</a></code>,
+      <code><a href="gtk.Object-class.html#unset_flags">unset_flags</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__eq__</code>,
+      <code>__gdoc__</code>,
+      <code>__ge__</code>,
+      <code>__gobject_init__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__le__</code>,
+      <code>__lt__</code>,
+      <code>__ne__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>atk.ImplementorIface</code></b>:
+      <code>ref_accessible</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Buildable-class.html">Buildable</a></code></b>:
+      <code><a href="gtk.Buildable-class.html#add_child">add_child</a></code>,
+      <code><a href="gtk.Buildable-class.html#construct_child">construct_child</a></code>,
+      <code><a href="gtk.Buildable-class.html#do_add_child">do_add_child</a></code>,
+      <code><a href="gtk.Buildable-class.html#do_construct_child">do_construct_child</a></code>,
+      <code><a href="gtk.Buildable-class.html#do_get_internal_child">do_get_internal_child</a></code>,
+      <code><a href="gtk.Buildable-class.html#do_parser_finished">do_parser_finished</a></code>,
+      <code><a href="gtk.Buildable-class.html#do_set_name">do_set_name</a></code>,
+      <code><a href="gtk.Buildable-class.html#get_internal_child">get_internal_child</a></code>,
+      <code><a href="gtk.Buildable-class.html#parser_finished">parser_finished</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType GtkAssistant (32118448)&gt;">&lt;GType GtkAssistant (32118448)&gt;</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Window-class.html">Window</a></code></b>:
+      <code><a href="gtk.Window-class.html#allow_grow">allow_grow</a></code>,
+      <code><a href="gtk.Window-class.html#allow_shrink">allow_shrink</a></code>,
+      <code><a href="gtk.Window-class.html#configure_notify_received">configure_notify_received</a></code>,
+      <code><a href="gtk.Window-class.html#configure_request_count">configure_request_count</a></code>,
+      <code><a href="gtk.Window-class.html#decorated">decorated</a></code>,
+      <code><a href="gtk.Window-class.html#default_widget">default_widget</a></code>,
+      <code><a href="gtk.Window-class.html#destroy_with_parent">destroy_with_parent</a></code>,
+      <code><a href="gtk.Window-class.html#focus_widget">focus_widget</a></code>,
+      <code><a href="gtk.Window-class.html#frame">frame</a></code>,
+      <code><a href="gtk.Window-class.html#frame_bottom">frame_bottom</a></code>,
+      <code><a href="gtk.Window-class.html#frame_left">frame_left</a></code>,
+      <code><a href="gtk.Window-class.html#frame_right">frame_right</a></code>,
+      <code><a href="gtk.Window-class.html#frame_top">frame_top</a></code>,
+      <code><a href="gtk.Window-class.html#gravity">gravity</a></code>,
+      <code><a href="gtk.Window-class.html#group">group</a></code>,
+      <code><a href="gtk.Window-class.html#has_focus">has_focus</a></code>,
+      <code><a href="gtk.Window-class.html#has_frame">has_frame</a></code>,
+      <code><a href="gtk.Window-class.html#has_user_ref_count">has_user_ref_count</a></code>,
+      <code><a href="gtk.Window-class.html#iconify_initially">iconify_initially</a></code>,
+      <code><a href="gtk.Window-class.html#keys_changed_handler">keys_changed_handler</a></code>,
+      <code><a href="gtk.Window-class.html#maximize_initially">maximize_initially</a></code>,
+      <code><a href="gtk.Window-class.html#mnemonic_modifier">mnemonic_modifier</a></code>,
+      <code><a href="gtk.Window-class.html#modal">modal</a></code>,
+      <code><a href="gtk.Window-class.html#need_default_position">need_default_position</a></code>,
+      <code><a href="gtk.Window-class.html#need_default_size">need_default_size</a></code>,
+      <code><a href="gtk.Window-class.html#position">position</a></code>,
+      <code><a href="gtk.Window-class.html#stick_initially">stick_initially</a></code>,
+      <code><a href="gtk.Window-class.html#title">title</a></code>,
+      <code><a href="gtk.Window-class.html#transient_parent">transient_parent</a></code>,
+      <code><a href="gtk.Window-class.html#type">type</a></code>,
+      <code><a href="gtk.Window-class.html#type_hint">type_hint</a></code>,
+      <code><a href="gtk.Window-class.html#wm_role">wm_role</a></code>,
+      <code><a href="gtk.Window-class.html#wmclass_class">wmclass_class</a></code>,
+      <code><a href="gtk.Window-class.html#wmclass_name">wmclass_name</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Bin-class.html">Bin</a></code></b>:
+      <code><a href="gtk.Bin-class.html#child">child</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Container-class.html">Container</a></code></b>:
+      <code><a href="gtk.Container-class.html#border_width">border_width</a></code>,
+      <code><a href="gtk.Container-class.html#focus_child">focus_child</a></code>,
+      <code><a href="gtk.Container-class.html#has_focus_chain">has_focus_chain</a></code>,
+      <code><a href="gtk.Container-class.html#need_resize">need_resize</a></code>,
+      <code><a href="gtk.Container-class.html#reallocate_redraws">reallocate_redraws</a></code>,
+      <code><a href="gtk.Container-class.html#resize_mode">resize_mode</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="gtk.Widget-class.html">Widget</a></code></b>:
+      <code><a href="gtk.Widget-class.html#allocation">allocation</a></code>,
+      <code><a href="gtk.Widget-class.html#name">name</a></code>,
+      <code><a href="gtk.Widget-class.html#parent">parent</a></code>,
+      <code><a href="gtk.Widget-class.html#requisition">requisition</a></code>,
+      <code><a href="gtk.Widget-class.html#saved_state">saved_state</a></code>,
+      <code><a href="gtk.Widget-class.html#state">state</a></code>,
+      <code><a href="gtk.Widget-class.html#style">style</a></code>,
+      <code><a href="gtk.Widget-class.html#window">window</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gobject.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">...</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="gtk-pysrc.html#Assistant.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__iter__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__iter__</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="gtk-pysrc.html#Assistant.__iter__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>iter(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        Container.__iter__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Aug 31 16:14:47 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
