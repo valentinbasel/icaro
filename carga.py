@@ -17,11 +17,11 @@ import sys
 from subprocess import Popen,PIPE,STDOUT
 processor="18f4550"
 
-def compilar_pic(ruta):
+def compilar_pic(ruta,sdcc):
 
     chemin = sys.path[0]
     fichier = open(sys.path[0] + "/tmp/stdout", 'w+')
-    sortie = str("sdcc-sdcc "+
+    sortie = str(sdcc.strip("\n") +" "+
                         " -mpic16"+
                         " --denable-peeps"+
                         " --obanksel=9"+
@@ -42,8 +42,8 @@ def compilar_pic(ruta):
     print sortie
     i=os.system(sortie)
     return i
-def upload_pic(ruta):
-    sortie2=str(        "sdcc-sdcc"+
+def upload_pic(ruta,sdcc,docker):
+    sortie2=str(        sdcc.strip("\n") +" "
                         " -o"+sys.path[0].replace(" ","\\ ")+ ruta +".hex"+
                         " --denable-peeps"+
                         " --obanksel=9"+
@@ -67,7 +67,7 @@ def upload_pic(ruta):
     print sortie2
     i=os.system(sortie2)
 
-    sortie3=str(sys.path[0]+"/tools/bin/docker "+
+    sortie3=str(docker.strip("\n") +" "
                         "-v "+
                         "04d8 "+
                         "write " +

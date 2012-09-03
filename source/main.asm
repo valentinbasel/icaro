@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.0.0 #6037 (Jan 14 2012) (Linux)
-; This file was generated Thu Aug 30 15:33:18 2012
+; This file was generated Mon Sep  3 00:57:19 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -432,16 +432,30 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	90; /home/valentin/github/icaro-bloques/source/main.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_00553_DS_:
+_00556_DS_:
 ;	.line	95; /home/valentin/github/icaro-bloques/source/main.c	loop();
 	CALL	_loop
-	BRA	_00553_DS_
+	BRA	_00556_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	70; /home/valentin/github/icaro-bloques/source/user.c	}
+;	.line	69; /home/valentin/github/icaro-bloques/source/user.c	PORTD=96;
+	MOVLW	0x60
+	MOVWF	_PORTD
+;	.line	70; /home/valentin/github/icaro-bloques/source/user.c	Delayms(1000);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x03
+	MOVWF	POSTDEC1
+	MOVLW	0xe8
+	MOVWF	POSTDEC1
+	CALL	_Delayms
+_00548_DS_:
+;	.line	72; /home/valentin/github/icaro-bloques/source/user.c	PORTD=0;
+	CLRF	_PORTD
+	BRA	_00548_DS_
 	RETURN	
 
 ; ; Starting pCode block
@@ -2942,8 +2956,8 @@ _servomasks:
 
 
 ; Statistics:
-; code size:	 5288 (0x14a8) bytes ( 4.03%)
-;           	 2644 (0x0a54) words
+; code size:	 5312 (0x14c0) bytes ( 4.05%)
+;           	 2656 (0x0a60) words
 ; udata size:	   96 (0x0060) bytes ( 5.36%)
 ; access size:	   13 (0x000d) bytes
 

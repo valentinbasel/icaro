@@ -66,5 +66,9 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 void loop()
 {
 
-//sensordigital(21) sensordigital(22) sensordigital(23) sensordigital(24) 
+PORTD=96;
+Delayms(1000);
+while(1 ){
+PORTD=0;
+}
 }

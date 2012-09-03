@@ -119,6 +119,7 @@ class Ventana:
     diccionario={}
     tooltip={}
     lista=[]
+    config=[]
     def __init__(self):
 
         ###############################################
@@ -147,6 +148,12 @@ class Ventana:
         self.lista=self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
+        conf=open("config.dat","r")
+        dat=conf.readlines()
+        for txt in dat:
+            self.config.append(txt)
+        conf.close()
+
         #declaro la ventana principal
         self.window1 = gtk.Window()
         self.window1.connect('delete-event', gtk.main_quit)
@@ -629,7 +636,7 @@ class Ventana:
     def compilar(self,b):
         self.carga()
         crear.crear_archivo(self.fondo,self)
-        i=carga.compilar_pic("/source/")
+        i=carga.compilar_pic("/source/",self.config[0])
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
         else:
@@ -640,7 +647,7 @@ class Ventana:
         self.mensajes   (3,
         "aprete el boton RESET de la placa pinguino antes de continuar"
                         )
-        i=carga.upload_pic("/source/main")
+        i=carga.upload_pic("/source/main",self.config[0],self.config[1])
         for d in i.readlines():
             if d.find("writing")==0:
                 resultado=0
@@ -652,7 +659,7 @@ class Ventana:
     def tortucaro(self,b):
         resultado=1
         comp=1
-        i=carga.compilar_pic("/tortucaro/")
+        i=carga.compilar_pic("/tortucaro/",self.config[0])
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
             comp=0
@@ -664,7 +671,7 @@ class Ventana:
                             3,
         "aprete el boton RESET de la placa pinguino antes de continuar"
                             )
-            i=carga.upload_pic("/tortucaro/main")
+            i=carga.upload_pic("/tortucaro/main",self.config[0],self.config[1])
             for d in i.readlines():
                 if d.find("writing")==0:
                     resultado=0
