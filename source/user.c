@@ -66,9 +66,7 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 void loop()
 {
 
-PORTD=96;
-Delayms(1000);
-while(1 ){
-PORTD=0;
-}
+PORTD=0  ;
+PORTB=255-0  ;
+Delayms(0  );
 }

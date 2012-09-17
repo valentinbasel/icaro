@@ -91,7 +91,19 @@ class componente(pygame.sprite.Sprite):
         pygame.draw.rect(
                         self.fondo.screen,
                         self.color,
+                        (self.posicion[0]+10,self.posicion[1]-7, 4,4),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
                         (self.posicion[0]+50,self.posicion[1]-10,10,10),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (self.posicion[0]+46,self.posicion[1]-7,4,4),
                         0
                         )
         factor=0
@@ -136,10 +148,32 @@ class componente(pygame.sprite.Sprite):
                             self.fondo.screen,
                             self.color,
                             (
+                            (self.posicion[0]+25+factory+3),
+                            (self.posicion[1]+factor+10
+                            ),
+                            4,4
+                            ),
+                            0
+                            )
+            pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
+                            (
                             (self.posicion[0]+25+factory),
                             (self.posicion[1]+30+factor),
                             10,
                             10
+                            ),
+                            0
+                            )
+            pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
+                            (
+                            (self.posicion[0]+25+factory+3),
+                            (self.posicion[1]+30+factor-4),
+                            4,
+                            4
                             ),
                             0
                             )
@@ -159,13 +193,41 @@ class componente(pygame.sprite.Sprite):
                         self.fondo.screen,
                         self.color,
                         (
-                        self.posicion[0]+10,
+                        self.posicion[0]+14,
                         (self.posicion[1]+factor),
-                        40,
+                        32,
                         10
                         ),
                         0
                         )
+#===============================================================================
+# 
+#===============================================================================
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                        self.posicion[0]+10,
+                        (self.posicion[1]+factor),
+                        40,
+                        3
+                        ),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                        self.posicion[0]+10,
+                        (self.posicion[1]+factor+7),
+                        40,
+                        3
+                        ),
+                        0
+                        )
+#===============================================================================
+# 
+#===============================================================================
         self.fondo.screen.blit(
                                 self.imagen,
                                 (self.posicion[0]+(self.rectan[2]/2)-15,
@@ -295,11 +357,17 @@ class componente_bloque_dos(pygame.sprite.Sprite):
     def dibujar(self):
         # estos son los cuadrados que forman el vacio que representa el conector hembra
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+60,self.posicion[1]-10, 10,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+70,self.posicion[1]-7, 4,4),0)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+110,self.posicion[1]-10, 10,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+106,self.posicion[1]-7, 4,4),0)
+
         # el cuerpo del componente
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1], 120,40),0)
         # el conector macho
-        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,self.posicion[1]+40, 40,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+14,self.posicion[1]+40, 32,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,self.posicion[1]+40, 40,3),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,self.posicion[1]+47, 40,3),0)
+
         self.textorender.render(self.texto,self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
         self.conector_m[0]=self.rectan[0]+10
         self.conector_m[1]=self.rectan[1]+50
@@ -413,18 +481,28 @@ class componente_bloque_uno(pygame.sprite.Sprite):
 
         # estos son los cuadrados que forman el vacio que representa el conector hembra
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1]-10, 10,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+10,self.posicion[1]-7, 4,4),0)
+
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+50,self.posicion[1]-10, 10,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+46,self.posicion[1]-7, 4,4),0)
+
         # el cuerpo del componente
         #~ pygame.draw.line(self.fondo.screen,(0,0,0),(self.posicion[0]+60,self.posicion[1]-2),(self.posicion[0]+129,self.posicion[1]-2),5)
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0],self.posicion[1], 120,40),0)
         # el conector macho
-        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+70,self.posicion[1]+40, 40,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+74,self.posicion[1]+40, 32,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+70,self.posicion[1]+40, 40,3),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+70,self.posicion[1]+47, 40,3),0)
         # conector hembra datos
         self.conector_h_dato[0]=self.rectan[0]+120
         self.conector_h_dato[1]=self.rectan[1]+20
         self.lista_conector_h_datos[0]=(self.conector_h_dato[0],self.conector_h_dato[1],self.conector_h_dato[2],self.conector_h_dato[3])
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+120,self.posicion[1], 10,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+123,self.posicion[1]+10, 4,4),0)
+
         pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+120,self.posicion[1]+30, 10,10),0)
+        pygame.draw.rect(self.fondo.screen,self.color,(self.posicion[0]+123,self.posicion[1]+26, 4,4),0)
+
 #        texto.render(str(self.ide),self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
         #self.fondo.screen.blit(self.imagen,(self.posicion[0],self.posicion[1]-11))
         self.textorender.render(self.texto,self.color_texto,((self.posicion[0]+10),(self.posicion[1]+10)))
@@ -543,7 +621,19 @@ class componente_cero_arg(pygame.sprite.Sprite):
         pygame.draw.rect(
                             self.fondo.screen,
                             self.color,
+                            (self.posicion[0]+10,self.posicion[1]-7, 4,4),
+                            0
+                        )
+        pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
                             (self.posicion[0]+50,self.posicion[1]-10, 10,10),
+                            0
+                        )
+        pygame.draw.rect(
+                            self.fondo.screen,
+                            self.color,
+                            (self.posicion[0]+46,self.posicion[1]-7, 4,4),
                             0
                         )
         #cuerpo del componente
@@ -573,10 +663,21 @@ class componente_cero_arg(pygame.sprite.Sprite):
         pygame.draw.rect(
                         self.fondo.screen,
                         self.color,
-                        (self.posicion2[0]+10,(self.posicion2[1]+40), 40,10),
+                        (self.posicion2[0]+14,(self.posicion2[1]+40), 32,10),
                         0
                         )
-
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (self.posicion2[0]+10,(self.posicion2[1]+40), 40,3),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (self.posicion2[0]+10,(self.posicion2[1]+47), 40,3),
+                        0
+                        )
         # self.conector_h es la ficha "hembra"
         self.conector_h[0]=self.rectan[0]+10
         self.conector_h[1]=self.rectan[1]

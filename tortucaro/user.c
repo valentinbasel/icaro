@@ -98,11 +98,28 @@ int i=0;
 valor=analogread(val);
 CDCputs(valor,DEC);
 }
+int sensordigital(int v)
+{
+/*funcion para cambiar el valor de los sens digitales (estan invertidos con respecto a la placa)*/
+	int temp=0;
+	temp=digitalread(v);
+	if (temp==0)
+	{
+		CDCputs("1\n",1);
+		return 1;
+	}
+	else
+	{
+		CDCputs("0\n",1);
+
+		return 0;
+	}
+}
 void sensordig()
 {
 int posic=0;
 unsigned int rb=0;
-unsigned int valor=0;
+unsigned int valors=0;
 unsigned int val=0;
 int puerto=0;
 int i=0;
@@ -131,8 +148,8 @@ int i=0;
 			break;
 		}
 	}
-valor=digitalread(val);
-CDCputs(valor,DEC);
+valors=sensordigital(val);
+//CDCputs(valors,DEC);
 }
 
 void activar()
@@ -214,6 +231,7 @@ int val=0;
 }
 void setup()
 {
+	int a=0;
 	for (i=0;i<8;i++)
 		{
 		pinmode(i,OUTPUT);
@@ -226,6 +244,16 @@ pinmode(26,OUTPUT);
 pinmode(27,OUTPUT);
 
 pinmode(28,OUTPUT);
+for (a=13;a<=20;a++)
+{
+pinmode(a,INPUT);
+}
+
+
+pinmode(21,INPUT);
+pinmode(22,INPUT);
+pinmode(23,INPUT);
+pinmode(24,INPUT);
 ServoAttach(8);
 ServoAttach(9);
 ServoAttach(10);

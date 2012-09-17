@@ -51,12 +51,29 @@ class componente_inicial(pygame.sprite.Sprite):
                         self.fondo.screen,
                         self.color,
                         (
-                            self.posicion[0]+10,
-                            self.posicion[1]+40, 40,10
+                            self.posicion[0]+14,
+                            self.posicion[1]+40, 32,10
                         ),
                         0
                         )
-                    
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                            self.posicion[0]+10,
+                            self.posicion[1]+40, 40,3
+                        ),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                            self.posicion[0]+10,
+                            self.posicion[1]+47, 40,3
+                        ),
+                        0
+                        )
         self.texto.render(
                             "inicio",
                             self.color_texto,

@@ -95,11 +95,33 @@ class comp_dat_arg(pygame.sprite.Sprite):
                         self.fondo.screen,
                         self.color,
                         (
+                        self.posicion[0]+30+(7*TamaComp)+3,
+                        self.posicion[1],
+                         4,
+                         4
+                         ),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
                         self.posicion[0]+30+(7*TamaComp),
                         self.posicion[1]+20,
                         10,
                         10
                         ),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                        self.posicion[0]+30+(7*TamaComp)+3,
+                        self.posicion[1]+20-4,
+                         4,
+                         4
+                         ),
                         0
                         )
         self.conector_h[0]=self.rectan[0]+30+(7*TamaComp)
@@ -110,8 +132,30 @@ class comp_dat_arg(pygame.sprite.Sprite):
                         self.color,
                         (
                         self.posicion[0],
-                        self.posicion[1],
+                        self.posicion[1]+4,
                         10,
+                        20-8
+                        ),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                        self.posicion[0],
+                        self.posicion[1],
+                        3,
+                        20
+                        ),
+                        0
+                        )
+        pygame.draw.rect(
+                        self.fondo.screen,
+                        self.color,
+                        (
+                        self.posicion[0]+7,
+                        self.posicion[1],
+                        3,
                         20
                         ),
                         0

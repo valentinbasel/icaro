@@ -22,7 +22,7 @@
 #  
 #  
 import pygame
-import os
+import os, sys
 pygame.init()
 class Text:
     def __init__(self, fondo,FontName = None, FontSize = 40):
@@ -45,7 +45,7 @@ class VENTANA(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.pantalla=pygame.display.set_mode((800,600))
         pygame.display.set_caption("proyecto icaro")
-        icono=pygame.image.load("imagenes/icaro.png")
+        icono=pygame.image.load(sys.path[0] +"/imagenes/icaro.png")
         pygame.display.set_icon(icono)
         self.cadena=""
     def update(self):
@@ -126,17 +126,17 @@ pyt= ["Lanza la teminal interactiva ","con el modulo apicaro. Necesita ","tener 
 tur= ["Lanza TurtleArt con el modulo ","Tortucaro. ","para manejo conectado ","a la netbook"]
 icr= ["Lanza Icaro-bloques para ","manejo de robots autonomos"]
 sal=["Sale del sistema"]
-conf=open("config.dat","r")
+conf=open(sys.path[0] +"/config.dat","r")
 dat=conf.readlines()
 for txt in dat:
     config.append(txt)
 conf.close()
 ventana=VENTANA()
-BotonPython=BOTON(ventana.pantalla,100,10,"imagenes/main/python.png","idle -c 'import apicaro'",pyt)
-BotonIcaro=BOTON(ventana.pantalla,100,150,"imagenes/main/icaro.png","python icaro.py",icr)
-BotonTurtle=BOTON(ventana.pantalla,100,290,"imagenes/main/tortucaro.png",config[2],tur)
+BotonPython=BOTON(ventana.pantalla,100,10,sys.path[0] +"/imagenes/main/python.png","idle -c 'import apicaro; icaro=apicaro.puerto(); icaro.iniciar()'",pyt)
+BotonIcaro=BOTON(ventana.pantalla,100,150,sys.path[0] +"/imagenes/main/icaro.png","python "+sys.path[0] +"/icaro.py",icr)
+BotonTurtle=BOTON(ventana.pantalla,100,290,sys.path[0] +"/imagenes/main/tortucaro.png",config[1],tur)
 texto=Text(ventana)
-salir=SALIR(ventana.pantalla,100,430,"imagenes/main/salir.png",sal)
+salir=SALIR(ventana.pantalla,100,430,sys.path[0] +"/imagenes/main/salir.png",sal)
 def main():
 
     while True:

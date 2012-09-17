@@ -80,7 +80,7 @@ class fondo(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         size = 1100, 2000
-        self.screen = pygame.display.set_mode(size)
+        self.screen = pygame.display.set_mode(size,pygame.DOUBLEBUF,32)
         self.largo,self.alto=self.screen.get_size()
         self.lista_ordenada.append(0)
         self.img=""
@@ -148,7 +148,7 @@ class Ventana:
         self.lista=self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
-        conf=open("config.dat","r")
+        conf=open(sys.path[0] +"/config.dat","r")
         dat=conf.readlines()
         for txt in dat:
             self.config.append(txt)
@@ -429,7 +429,7 @@ class Ventana:
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ==============================================================================
     def ver(self,b):
-        ver=visor.visor_codigo()
+        ver=visor.visor_codigo(self)
         ver.window.show_all()
 
 # ==============================================================================
@@ -637,6 +637,11 @@ class Ventana:
         self.carga()
         crear.crear_archivo(self.fondo,self)
         i=carga.compilar_pic("/source/",self.config[0])
+        if i==1:
+            self.mensajes(0,("no se encuentra el compilador sdcc en" +  
+                                " la ruta " + self.config[0] + 
+                                " . Pruebe configurar el archivo"+ 
+                                " config.dat y corregirlo"))
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
         else:
@@ -647,15 +652,24 @@ class Ventana:
         self.mensajes   (3,
         "aprete el boton RESET de la placa pinguino antes de continuar"
                         )
-        i=carga.upload_pic("/source/main",self.config[0],self.config[1])
-        for d in i.readlines():
-            if d.find("writing")==0:
-                resultado=0
-        if resultado==0:
+                    
+        i=carga.upload_pic("/source/main",self.config[0])
+        if i==0:
             self.mensajes(3,"la carga fue exitosa")
-        else:
-            self.mensajes(0,"hubo un error en la carga del PIC")
-
+            return 0
+        if i==1:
+            self.mensajes(0,"no se a detectado ningun dispositivo conectada. ¿esta conectado y encendido el PIC?")
+            return 1
+        if i==2:
+            self.mensajes(0,"Se detecto el dispositivo, pero no se puede cargar el firmware, hay que cargar el firmware antes de que se prenda el led rojo del dispositivo")
+            return 2
+        if i==2:
+            self.mensajes(0,"no se genero el archivo .hex para cargar")
+            return 3
+        if i==2:
+            self.mensajes(0,"error al compilar y generar el archivo .hex")
+            return 4
+        
     def tortucaro(self,b):
         resultado=1
         comp=1
@@ -671,14 +685,23 @@ class Ventana:
                             3,
         "aprete el boton RESET de la placa pinguino antes de continuar"
                             )
-            i=carga.upload_pic("/tortucaro/main",self.config[0],self.config[1])
-            for d in i.readlines():
-                if d.find("writing")==0:
-                    resultado=0
-            if resultado==0:
-                self.mensajes(3,"la carga fue exitosa")
-            else:
-                self.mensajes(0,"hubo un error en la carga del PIC")
+        i=carga.upload_pic("/tortucaro/main",self.config[0])
+        if i==0:
+            self.mensajes(3,"la carga fue exitosa")
+            return 0
+        if i==1:
+            self.mensajes(0,"no se a detectado ningun dispositivo conectada. ¿esta conectado y encendido el PIC?")
+            return 1
+        if i==2:
+            self.mensajes(0,"Se detecto el dispositivo, pero no se puede cargar el firmware, hay que cargar el firmware antes de que se prenda el led rojo del dispositivo")
+            return 2
+        if i==2:
+            self.mensajes(0,"no se genero el archivo .hex para cargar")
+            return 3
+        if i==2:
+            self.mensajes(0,"error al compilar y generar el archivo .hex")
+            return 4
+
     def guardar(self,dato):
         dialog = gtk.FileChooserDialog("save..",
                                         None,

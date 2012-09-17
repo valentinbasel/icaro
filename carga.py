@@ -11,6 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 import os
+import docker
 import re
 import shutil
 import sys
@@ -19,6 +20,9 @@ processor="18f4550"
 
 def compilar_pic(ruta,sdcc):
 
+    val=os.system(sdcc.strip("\n")+" -v")
+    if val<>0:
+        return 1
     chemin = sys.path[0]
     fichier = open(sys.path[0] + "/tmp/stdout", 'w+')
     sortie = str(sdcc.strip("\n") +" "+
@@ -40,9 +44,10 @@ def compilar_pic(ruta,sdcc):
                         sys.path[0] +
                         ruta + "main.c")
     print sortie
+    
     i=os.system(sortie)
     return i
-def upload_pic(ruta,sdcc,docker):
+def upload_pic(ruta,sdcc):
     sortie2=str(        sdcc.strip("\n") +" "
                         " -o"+sys.path[0].replace(" ","\\ ")+ ruta +".hex"+
                         " --denable-peeps"+
@@ -66,18 +71,10 @@ def upload_pic(ruta,sdcc,docker):
                         sys.path[0].replace(" ","\\ ")+ruta + ".o ")
     print sortie2
     i=os.system(sortie2)
+    if i==0:
 
-    sortie3=str(docker.strip("\n") +" "
-                        "-v "+
-                        "04d8 "+
-                        "write " +
-                        sys.path[0] +
-                        ruta+".hex")
-    i=os.popen(sortie3)
-    #~ print i
-    #~ resultado=1
-    #~ for d in i.readlines():
-        #~ if d.find("writing")==0:
-            #~ resultado=0
+        i=docker.docker(sys.path[0]+ruta+".hex")
+    else:
+        return 4
     return i
 

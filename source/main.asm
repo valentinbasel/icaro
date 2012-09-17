@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.0.0 #6037 (Jan 14 2012) (Linux)
-; This file was generated Mon Sep  3 00:57:19 2012
+; This file was generated Sun Sep 16 17:12:23 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -432,30 +432,28 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	90; /home/valentin/github/icaro-bloques/source/main.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_00556_DS_:
+_00553_DS_:
 ;	.line	95; /home/valentin/github/icaro-bloques/source/main.c	loop();
 	CALL	_loop
-	BRA	_00556_DS_
+	BRA	_00553_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	69; /home/valentin/github/icaro-bloques/source/user.c	PORTD=96;
-	MOVLW	0x60
-	MOVWF	_PORTD
-;	.line	70; /home/valentin/github/icaro-bloques/source/user.c	Delayms(1000);
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVLW	0x03
-	MOVWF	POSTDEC1
-	MOVLW	0xe8
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-_00548_DS_:
-;	.line	72; /home/valentin/github/icaro-bloques/source/user.c	PORTD=0;
+;	.line	69; /home/valentin/github/icaro-bloques/source/user.c	PORTD=0  ;
 	CLRF	_PORTD
-	BRA	_00548_DS_
+;	.line	70; /home/valentin/github/icaro-bloques/source/user.c	PORTB=255-0  ;
+	SETF	_PORTB
+;	.line	71; /home/valentin/github/icaro-bloques/source/user.c	Delayms(0  );
+	MOVLW	0x00
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CALL	_Delayms
+	MOVLW	0x04
+	ADDWF	FSR1L, F
 	RETURN	
 
 ; ; Starting pCode block
@@ -2956,8 +2954,8 @@ _servomasks:
 
 
 ; Statistics:
-; code size:	 5312 (0x14c0) bytes ( 4.05%)
-;           	 2656 (0x0a60) words
+; code size:	 5310 (0x14be) bytes ( 4.05%)
+;           	 2655 (0x0a5f) words
 ; udata size:	   96 (0x0060) bytes ( 5.36%)
 ; access size:	   13 (0x000d) bytes
 

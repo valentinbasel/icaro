@@ -13,6 +13,7 @@
 import os, os.path
 import sys
 import pygtk
+import carga
 pygtk.require ('2.0')
 
 import gtk
@@ -23,36 +24,59 @@ if gtk.pygtk_version < (2,10,0):
 import gtksourceview2
 import pango
 class visor_codigo():
-    def __init__(self):
+    def __init__(self,ventana):
         # create buffer
         lm = gtksourceview2.LanguageManager()
         buffer = gtksourceview2.Buffer()
         buffer.set_data('languages-manager', lm)
         view = gtksourceview2.View(buffer)
-
+        self.ventana=ventana
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.set_border_width(0)
         self.window.set_title('codigo fuente generado por el sistema')
         #windows.append(window) # this list contains all view windows
         self.window.set_default_size(500, 500)
         self.window.show()
-
+        
         vbox = gtk.VBox(0, True)
         self.window.add(vbox)
+        tool1=gtk.Toolbar()
+        tool1.show()
 
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_EXECUTE,15)
+        tool_button = tool1.append_item(
+                        "re compilar",
+                        "compila la version modificada en el editor.",
+                        "Private",
+                        iconw,
+                        self.compilar)
+                        
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_NEW,15)
+        tool_button = tool1.append_item(
+                        "Salir",
+                        self.ventana.tooltip["salir"],
+                        "Private",
+                        iconw,
+                        self.close)
+
+        vbox.pack_start(tool1, fill=False, expand=False)
         sw = gtk.ScrolledWindow()
         sw.set_shadow_type(gtk.SHADOW_IN)
         sw.add(view)
         vbox.pack_start(sw, fill=True, expand=True)
+#~ 
+        #~ toolbar = gtk.HBox(spacing=0)
+        #~ vbox.pack_start(toolbar,False,False)
+        #~ button = gtk.Button('salir')
+        #~ button.connect('clicked',self.close)
+        #~ toolbar.pack_start(button,False,False,0)
 
-        toolbar = gtk.HBox(spacing=0)
-        vbox.pack_start(toolbar,False,False)
-        button = gtk.Button('salir')
-        button.connect('clicked',self.close)
-        toolbar.pack_start(button,False,False,0)
+
         vbox.show_all()
         # main loop
-        self.open_file(buffer,sys.path[0]+ "/source/user.c")
+        self.buf=self.open_file(buffer,sys.path[0]+ "/source/user.c")
     def open_file(self,buffer, filename):
         # get the new language for the file mimetype
         manager = buffer.get_data('languages-manager')
@@ -72,7 +96,8 @@ class visor_codigo():
 
         #remove_all_marks(buffer)
         self.load_file(buffer, path) # TODO: check return
-        return True
+        return buffer
+
     def load_file(self,buffer, path):
         buffer.begin_not_undoable_action()
         try:
@@ -82,23 +107,26 @@ class visor_codigo():
         buffer.set_text(txt)
         buffer.set_data('filename', path)
         buffer.end_not_undoable_action()
-
         buffer.set_modified(False)
         buffer.place_cursor(buffer.get_start_iter())
+        
         return True
     def close(self,arg):
         #~ gtk.main_quit()
         self.window.hide()
+        
+    def compilar(self,arg):
+        print arg
+        cadena=sys.path[0]+ "/source/user.c"
+        cadena2=self.buf.props.text
+        a= self.ventana.mensajes(1,"Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
+        if a==True:
+            file=open(cadena,"w")
+            file.writelines(cadena2)
+            file.close()
+            i=carga.compilar_pic("/source/",self.ventana.config[0])
+            if i==0:
+                self.ventana.mensajes(3,"la compilacion fue exitosa")
+            else:
+                self.ventana.mensajes(0,"hubo un error de compilacion")
 
-
-#~ VI= visor_codigo()
-#~ VI.window.show_all()
-#~ gtk.main()
-
-#if __name__ == '__main__':
-#
-#    if '--debug' in sys.argv:
-#        import pdb
-#        pdb.run('main(sys.argv)')
-#    else:
-#        main(sys.argv)
