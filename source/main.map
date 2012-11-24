@@ -1,5 +1,5 @@
-gplink-0.14.2 #711 (Jul 28 2012)
-Map File - Created 9-16-2012  23:27:19
+gplink-0.13.7 beta
+Map File - Created 5-20-2012  23:10:14
  
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -9,50 +9,48 @@ S_application_iface__application_data       code   0x002000    program   0x00001
 S_crt0ipinguino__application_main       code   0x00201a    program   0x000004
 S_usb_descriptors__null_function       code   0x00201e    program   0x000002
 S_main__high_priority_isr       code   0x002020    program   0x00004e
- S_main__SortServoTimings       code   0x00206e    program   0x0003be
-                    .code       code   0x00242c    program   0x00036a
-          S_main__pinmode       code   0x002796    program   0x0002c6
-     S_main__digitalwrite       code   0x002a5c    program   0x0002c6
-      S_main__digitalread       code   0x002d22    program   0x0001e8
-       S_main__ServoLento       code   0x002f0a    program   0x000184
-            S_main__setup       code   0x00308e    program   0x0000e2
-      S_main__ServoAttach       code   0x003170    program   0x0000e0
-      S_main__ServoDetach       code   0x003250    program   0x0000d4
-  S_main__ServosPulseDown       code   0x003324    program   0x0000a2
-          S_main__Delayms       code   0x0033c6    program   0x00009c
-S_crt0ipinguino___do_cinit       code   0x003462    program   0x000098
-       S_main__analogread       code   0x0034fa    program   0x000088
-       S_main__ServoWrite       code   0x003582    program   0x000068
-          S_main__Delayus       code   0x0035ea    program   0x000052
-    S_main__sensordigital       code   0x00363c    program   0x000050
-      S_main__servos_init       code   0x00368c    program   0x00004a
- S_main__servos_interrupt       code   0x0036d6    program   0x000046
-S_main__ServoMaximumPulse       code   0x00371c    program   0x000046
-        S_main__ServoRead       code   0x003762    program   0x000046
-S_main__ServoMinimumPulse       code   0x0037a8    program   0x000044
-           S_main__sensor       code   0x0037ec    program   0x00003c
-    S_main__pinguino_main       code   0x003828    program   0x000020
-S_crt0ipinguino___startup       code   0x003848    program   0x000018
-             S_main__loop       code   0x003860    program   0x000018
-                 .idata_i       code   0x003878    program   0x000010
-      S_main__analog_init       code   0x003888    program   0x000010
-                   .cinit       code   0x003898    program   0x00000e
-    S_main__ServosPulseUp       code   0x0038a6    program   0x00000a
-     S_main__epapout_init       code   0x0038b0    program   0x000002
-      S_main__epapin_init       code   0x0038b2    program   0x000002
-         S_main__epap_out       code   0x0038b4    program   0x000002
-          S_main__epap_in       code   0x0038b6    program   0x000002
+ S_main__SortServoTimings       code   0x00206e    program   0x000462
+                    .code       code   0x0024d0    program   0x00036a
+          S_main__pinmode       code   0x00283a    program   0x0002c6
+     S_main__digitalwrite       code   0x002b00    program   0x0002c6
+      S_main__digitalread       code   0x002dc6    program   0x0001e8
+            S_main__setup       code   0x002fae    program   0x000126
+      S_main__ServoAttach       code   0x0030d4    program   0x0000e0
+      S_main__ServoDetach       code   0x0031b4    program   0x0000d4
+  S_main__ServosPulseDown       code   0x003288    program   0x0000c0
+          S_main__Delayms       code   0x003348    program   0x00009c
+S_crt0ipinguino___do_cinit       code   0x0033e4    program   0x000098
+       S_main__analogread       code   0x00347c    program   0x000088
+       S_main__ServoWrite       code   0x003504    program   0x000068
+          S_main__Delayus       code   0x00356c    program   0x000052
+      S_main__servos_init       code   0x0035be    program   0x00004a
+             S_main__loop       code   0x003608    program   0x000048
+ S_main__servos_interrupt       code   0x003650    program   0x000046
+S_main__ServoMaximumPulse       code   0x003696    program   0x000046
+        S_main__ServoRead       code   0x0036dc    program   0x000046
+S_main__ServoMinimumPulse       code   0x003722    program   0x000044
+           S_main__sensor       code   0x003766    program   0x00003c
+    S_main__pinguino_main       code   0x0037a2    program   0x000020
+S_crt0ipinguino___startup       code   0x0037c2    program   0x000018
+                 .idata_i       code   0x0037da    program   0x000010
+      S_main__analog_init       code   0x0037ea    program   0x000010
+    S_main__ServosPulseUp       code   0x0037fa    program   0x00000e
+                   .cinit       code   0x003808    program   0x00000e
+     S_main__epapout_init       code   0x003816    program   0x000002
+      S_main__epapin_init       code   0x003818    program   0x000002
+         S_main__epap_out       code   0x00381a    program   0x000002
+          S_main__epap_in       code   0x00381c    program   0x000002
  S_main__low_priority_isr       code   0x004000    program   0x00004a
                    .idata      idata   0x00025a       data   0x00000f
-               .registers      udata   00000000       data   0x00000d
+               .registers      udata   00000000       data   0x00000a
       ustat_boot_iface_00      udata   0x00005d       data   0x000003
             stack_section      udata   0x000100       data   0x000100
-             udata_main_4      udata   0x000200       data   0x000048
-             udata_main_2      udata   0x000248       data   0x000012
-             udata_main_5      udata   0x000269       data   0x000003
+             udata_main_3      udata   0x000200       data   0x000048
+             udata_main_1      udata   0x000248       data   0x000012
+             udata_main_4      udata   0x000269       data   0x000003
              udata_main_0      udata   0x00026c       data   0x000001
-             udata_main_1      udata   0x00026d       data   0x000001
-             udata_main_3      udata   0x00026e       data   0x000001
+             udata_main_2      udata   0x00026d       data   0x000001
+             udata_main_5      udata   0x00026e       data   0x000001
       ustat_pic18f4550_00      udata   0x000f62       data   0x000023
       ustat_pic18f4550_01      udata   0x000f89       data   0x000005
       ustat_pic18f4550_02      udata   0x000f92       data   0x000005
@@ -68,88 +66,86 @@ S_crt0ipinguino___startup       code   0x003848    program   0x000018
                            ---------   ---------
                             0x002000    0x002019
                             0x00201e    0x00201f
-                            0x00242c    0x002795
-                            0x003878    0x003887
-                            0x003462    0x0034f9
-                            0x003848    0x00385f
+                            0x0024d0    0x002839
+                            0x0037da    0x0037e9
+                            0x0033e4    0x00347b
+                            0x0037c2    0x0037d9
                             0x00201a    0x00201d
                             0x002020    0x00206d
                             0x004000    0x004049
-                            0x003828    0x003847
-                            0x003860    0x003877
-                            0x002f0a    0x00308d
-                            0x0037ec    0x003827
-                            0x00308e    0x00316f
-                            0x00363c    0x00368b
-                            0x0038b0    0x0038b1
-                            0x0038b2    0x0038b3
-                            0x0038b4    0x0038b5
-                            0x0038b6    0x0038b7
-                            0x0035ea    0x00363b
-                            0x0033c6    0x003461
-                            0x0034fa    0x003581
-                            0x003888    0x003897
-                            0x0036d6    0x00371b
-                            0x00371c    0x003761
-                            0x0037a8    0x0037eb
-                            0x003762    0x0037a7
-                            0x003582    0x0035e9
-                            0x003250    0x003323
-                            0x003170    0x00324f
-                            0x00206e    0x00242b
-                            0x0038a6    0x0038af
-                            0x003324    0x0033c5
-                            0x00368c    0x0036d5
-                            0x002796    0x002a5b
-                            0x002d22    0x002f09
-                            0x002a5c    0x002d21
+                            0x0037a2    0x0037c1
+                            0x003608    0x00364f
+                            0x003766    0x0037a1
+                            0x002fae    0x0030d3
+                            0x003816    0x003817
+                            0x003818    0x003819
+                            0x00381a    0x00381b
+                            0x00381c    0x00381d
+                            0x00356c    0x0035bd
+                            0x003348    0x0033e3
+                            0x00347c    0x003503
+                            0x0037ea    0x0037f9
+                            0x003650    0x003695
+                            0x003696    0x0036db
+                            0x003722    0x003765
+                            0x0036dc    0x003721
+                            0x003504    0x00356b
+                            0x0031b4    0x003287
+                            0x0030d4    0x0031b3
+                            0x00206e    0x0024cf
+                            0x0037fa    0x003807
+                            0x003288    0x003347
+                            0x0035be    0x003607
+                            0x00283a    0x002aff
+                            0x002dc6    0x002fad
+                            0x002b00    0x002dc5
                             0x00001c    0x000079
-                            0x003898    0x0038a5
+                            0x003808    0x003815
  
-                            3248 program addresses used
+                            3171 program addresses used
  
                               Symbols
                      Name    Address   Location    Storage File
                 ---------  ---------  ---------  --------- ---------
         _application_data   0x002000    program     extern application_iface.asm
            _null_function   0x00201e    program     extern usb_descriptors.asm
-       _device_descriptor   0x00242c    program     extern usb_descriptors.asm
-             _default_cfg   0x00243e    program     extern usb_descriptors.asm
-               _flash_cfg   0x002450    program     extern usb_descriptors.asm
-         _application_cfg   0x002470    program     extern usb_descriptors.asm
-_configuration_descriptor   0x002490    program     extern usb_descriptors.asm
-                    _str0   0x00249a    program     extern usb_descriptors.asm
-                    _str1   0x00249e    program     extern usb_descriptors.asm
-                    _str2   0x0024c4    program     extern usb_descriptors.asm
-                    _str3   0x0024e6    program     extern usb_descriptors.asm
-                    _str4   0x0024ea    program     extern usb_descriptors.asm
-                    _str5   0x0024fa    program     extern usb_descriptors.asm
-                    _str6   0x002506    program     extern usb_descriptors.asm
-       _string_descriptor   0x002522    program     extern usb_descriptors.asm
-            _ep_init_cfg0   0x002538    program     static usb_descriptors.asm
-            _ep_init_cfg1   0x002568    program     static usb_descriptors.asm
-            _ep_init_cfg2   0x002598    program     static usb_descriptors.asm
-                 _ep_init   0x0025c8    program     extern usb_descriptors.asm
-              _ep_in_cfg0   0x0025d4    program     static usb_descriptors.asm
-              _ep_in_cfg1   0x002604    program     static usb_descriptors.asm
-              _ep_in_cfg2   0x002634    program     static usb_descriptors.asm
-                   _ep_in   0x002664    program     extern usb_descriptors.asm
-             _ep_out_cfg0   0x002670    program     static usb_descriptors.asm
-             _ep_out_cfg1   0x0026a0    program     static usb_descriptors.asm
-             _ep_out_cfg2   0x0026d0    program     static usb_descriptors.asm
-                  _ep_out   0x002700    program     extern usb_descriptors.asm
-           _ep_setup_cfg0   0x00270c    program     static usb_descriptors.asm
-                _ep_setup   0x00273c    program     extern usb_descriptors.asm
+       _device_descriptor   0x0024d0    program     extern usb_descriptors.asm
+             _default_cfg   0x0024e2    program     extern usb_descriptors.asm
+               _flash_cfg   0x0024f4    program     extern usb_descriptors.asm
+         _application_cfg   0x002514    program     extern usb_descriptors.asm
+_configuration_descriptor   0x002534    program     extern usb_descriptors.asm
+                    _str0   0x00253e    program     extern usb_descriptors.asm
+                    _str1   0x002542    program     extern usb_descriptors.asm
+                    _str2   0x002568    program     extern usb_descriptors.asm
+                    _str3   0x00258a    program     extern usb_descriptors.asm
+                    _str4   0x00258e    program     extern usb_descriptors.asm
+                    _str5   0x00259e    program     extern usb_descriptors.asm
+                    _str6   0x0025aa    program     extern usb_descriptors.asm
+       _string_descriptor   0x0025c6    program     extern usb_descriptors.asm
+            _ep_init_cfg0   0x0025dc    program     static usb_descriptors.asm
+            _ep_init_cfg1   0x00260c    program     static usb_descriptors.asm
+            _ep_init_cfg2   0x00263c    program     static usb_descriptors.asm
+                 _ep_init   0x00266c    program     extern usb_descriptors.asm
+              _ep_in_cfg0   0x002678    program     static usb_descriptors.asm
+              _ep_in_cfg1   0x0026a8    program     static usb_descriptors.asm
+              _ep_in_cfg2   0x0026d8    program     static usb_descriptors.asm
+                   _ep_in   0x002708    program     extern usb_descriptors.asm
+             _ep_out_cfg0   0x002714    program     static usb_descriptors.asm
+             _ep_out_cfg1   0x002744    program     static usb_descriptors.asm
+             _ep_out_cfg2   0x002774    program     static usb_descriptors.asm
+                  _ep_out   0x0027a4    program     extern usb_descriptors.asm
+           _ep_setup_cfg0   0x0027b0    program     static usb_descriptors.asm
+                _ep_setup   0x0027e0    program     extern usb_descriptors.asm
                 ___uflags   0x00025a       data     extern obj/Debug/crt0ipinguino.asm
-               __do_cinit   0x003462    program     extern obj/Debug/crt0ipinguino.asm
-                     test   0x00347c    program     static obj/Debug/crt0ipinguino.asm
-                    cont1   0x003482    program     static obj/Debug/crt0ipinguino.asm
-                copy_loop   0x0034d0    program     static obj/Debug/crt0ipinguino.asm
-            copy_one_byte   0x0034d6    program     static obj/Debug/crt0ipinguino.asm
-             done_copying   0x0034e4    program     static obj/Debug/crt0ipinguino.asm
-                     done   0x0034f8    program     static obj/Debug/crt0ipinguino.asm
-                __startup   0x003848    program     extern obj/Debug/crt0ipinguino.asm
-                   lockup   0x00385e    program     static obj/Debug/crt0ipinguino.asm
+               __do_cinit   0x0033e4    program     extern obj/Debug/crt0ipinguino.asm
+                     test   0x0033fe    program     static obj/Debug/crt0ipinguino.asm
+                    cont1   0x003404    program     static obj/Debug/crt0ipinguino.asm
+                copy_loop   0x003452    program     static obj/Debug/crt0ipinguino.asm
+            copy_one_byte   0x003458    program     static obj/Debug/crt0ipinguino.asm
+             done_copying   0x003466    program     static obj/Debug/crt0ipinguino.asm
+                     done   0x00347a    program     static obj/Debug/crt0ipinguino.asm
+                __startup   0x0037c2    program     extern obj/Debug/crt0ipinguino.asm
+                   lockup   0x0037d8    program     static obj/Debug/crt0ipinguino.asm
         _application_main   0x00201a    program     extern obj/Debug/crt0ipinguino.asm
                    _phase   0x00025b       data     extern /home/valentin/github/icaro-bloques/source/main.asm
           _needreordering   0x00025c       data     extern /home/valentin/github/icaro-bloques/source/main.asm
@@ -167,139 +163,126 @@ _configuration_descriptor   0x002490    program     extern usb_descriptors.asm
                     r0x07   0x000007       data     static /home/valentin/github/icaro-bloques/source/main.asm
                     r0x08   0x000008       data     static /home/valentin/github/icaro-bloques/source/main.asm
                     r0x09   0x000009       data     static /home/valentin/github/icaro-bloques/source/main.asm
-                    r0x0a   0x00000a       data     static /home/valentin/github/icaro-bloques/source/main.asm
-                    r0x0b   0x00000b       data     static /home/valentin/github/icaro-bloques/source/main.asm
-                    r0x0c   0x00000c       data     static /home/valentin/github/icaro-bloques/source/main.asm
                  _loopvar   0x00026c       data     extern /home/valentin/github/icaro-bloques/source/main.asm
-                       _i   0x00026d       data     extern /home/valentin/github/icaro-bloques/source/main.asm
              _servovalues   0x000248       data     extern /home/valentin/github/icaro-bloques/source/main.asm
-             _timingindex   0x00026e       data     extern /home/valentin/github/icaro-bloques/source/main.asm
+             _timingindex   0x00026d       data     extern /home/valentin/github/icaro-bloques/source/main.asm
                  _timings   0x000200       data     extern /home/valentin/github/icaro-bloques/source/main.asm
 _SortServoTimings_mascaratotal_1_1   0x000269       data     static /home/valentin/github/icaro-bloques/source/main.asm
+                       _i   0x00026e       data     extern /home/valentin/github/icaro-bloques/source/main.asm
        _high_priority_isr   0x002020    program     extern /home/valentin/github/icaro-bloques/source/main.asm
         _low_priority_isr   0x004000    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-           _pinguino_main   0x003828    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00553_DS_   0x003840    program     static /home/valentin/github/icaro-bloques/source/main.asm
-                    _loop   0x003860    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-              _ServoLento   0x002f0a    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00539_DS_   0x002f88    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00521_DS_   0x002f92    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00540_DS_   0x002fa4    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00518_DS_   0x002fe8    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00541_DS_   0x002ffa    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00525_DS_   0x002ffc    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00542_DS_   0x00300e    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00529_DS_   0x003054    program     static /home/valentin/github/icaro-bloques/source/main.asm
-                  _sensor   0x0037ec    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-                   _setup   0x00308e    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-           _sensordigital   0x00363c    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00500_DS_   0x00367a    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00502_DS_   0x00367e    program     static /home/valentin/github/icaro-bloques/source/main.asm
-            _epapout_init   0x0038b0    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-             _epapin_init   0x0038b2    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-                _epap_out   0x0038b4    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-                 _epap_in   0x0038b6    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-                 _Delayus   0x0035ea    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00465_DS_   0x003612    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00474_DS_   0x00361c    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00469_DS_   0x003626    program     static /home/valentin/github/icaro-bloques/source/main.asm
-                 _Delayms   0x0033c6    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00451_DS_   0x00340e    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00460_DS_   0x003424    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00455_DS_   0x00343c    program     static /home/valentin/github/icaro-bloques/source/main.asm
-              _analogread   0x0034fa    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00445_DS_   0x003534    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00440_DS_   0x003546    program     static /home/valentin/github/icaro-bloques/source/main.asm
-             _analog_init   0x003888    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-        _servos_interrupt   0x0036d6    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00426_DS_   0x0036fa    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00430_DS_   0x00371a    program     static /home/valentin/github/icaro-bloques/source/main.asm
-       _ServoMaximumPulse   0x00371c    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00415_DS_   0x003754    program     static /home/valentin/github/icaro-bloques/source/main.asm
-       _ServoMinimumPulse   0x0037a8    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00405_DS_   0x0037de    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _ServoRead   0x003762    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00394_DS_   0x003782    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00395_DS_   0x00379a    program     static /home/valentin/github/icaro-bloques/source/main.asm
-              _ServoWrite   0x003582    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00378_DS_   0x0035b2    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00380_DS_   0x0035bc    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00381_DS_   0x0035d8    program     static /home/valentin/github/icaro-bloques/source/main.asm
-             _ServoDetach   0x003250    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00360_DS_   0x0032ac    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00357_DS_   0x0032e2    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00362_DS_   0x00330e    program     static /home/valentin/github/icaro-bloques/source/main.asm
-             _ServoAttach   0x003170    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00338_DS_   0x0031d0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00335_DS_   0x00320a    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00340_DS_   0x00323a    program     static /home/valentin/github/icaro-bloques/source/main.asm
+           _pinguino_main   0x0037a2    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00524_DS_   0x0037ba    program     static /home/valentin/github/icaro-bloques/source/main.asm
+                    _loop   0x003608    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+                  _sensor   0x003766    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+                   _setup   0x002fae    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00500_DS_   0x002fb6    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00503_DS_   0x002ff0    program     static /home/valentin/github/icaro-bloques/source/main.asm
+            _epapout_init   0x003816    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+             _epapin_init   0x003818    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+                _epap_out   0x00381a    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+                 _epap_in   0x00381c    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+                 _Delayus   0x00356c    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00466_DS_   0x003594    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00475_DS_   0x00359e    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00470_DS_   0x0035a8    program     static /home/valentin/github/icaro-bloques/source/main.asm
+                 _Delayms   0x003348    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00452_DS_   0x003390    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00461_DS_   0x0033a6    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00456_DS_   0x0033be    program     static /home/valentin/github/icaro-bloques/source/main.asm
+              _analogread   0x00347c    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00446_DS_   0x0034b6    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00441_DS_   0x0034c8    program     static /home/valentin/github/icaro-bloques/source/main.asm
+             _analog_init   0x0037ea    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+        _servos_interrupt   0x003650    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00427_DS_   0x003674    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00431_DS_   0x003694    program     static /home/valentin/github/icaro-bloques/source/main.asm
+       _ServoMaximumPulse   0x003696    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00416_DS_   0x0036ce    program     static /home/valentin/github/icaro-bloques/source/main.asm
+       _ServoMinimumPulse   0x003722    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00406_DS_   0x003758    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _ServoRead   0x0036dc    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00395_DS_   0x0036fc    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00396_DS_   0x003714    program     static /home/valentin/github/icaro-bloques/source/main.asm
+              _ServoWrite   0x003504    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00379_DS_   0x003534    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00381_DS_   0x00353e    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00382_DS_   0x00355a    program     static /home/valentin/github/icaro-bloques/source/main.asm
+             _ServoDetach   0x0031b4    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00361_DS_   0x003210    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00358_DS_   0x003246    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00363_DS_   0x003272    program     static /home/valentin/github/icaro-bloques/source/main.asm
+             _ServoAttach   0x0030d4    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00339_DS_   0x003134    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00336_DS_   0x00316e    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00341_DS_   0x00319e    program     static /home/valentin/github/icaro-bloques/source/main.asm
         _SortServoTimings   0x00206e    program     static /home/valentin/github/icaro-bloques/source/main.asm
                _00280_DS_   0x0020a0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00283_DS_   0x0020ec    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00277_DS_   0x0020f0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00284_DS_   0x0020fe    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00250_DS_   0x0021b8    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00317_DS_   0x0021cc    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00275_DS_   0x0021d0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00258_DS_   0x002286    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00322_DS_   0x00229a    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00272_DS_   0x0022c6    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00266_DS_   0x002374    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00286_DS_   0x0023b0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00287_DS_   0x0023b4    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00279_DS_   0x0023fe    program     static /home/valentin/github/icaro-bloques/source/main.asm
-           _ServosPulseUp   0x0038a6    program     static /home/valentin/github/icaro-bloques/source/main.asm
-         _ServosPulseDown   0x003324    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00226_DS_   0x00333c    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00225_DS_   0x0033a6    program     static /home/valentin/github/icaro-bloques/source/main.asm
-                    bucle   0x0033aa    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00230_DS_   0x0033b8    program     static /home/valentin/github/icaro-bloques/source/main.asm
-             _servos_init   0x00368c    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00210_DS_   0x00369a    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00213_DS_   0x0036ba    program     static /home/valentin/github/icaro-bloques/source/main.asm
-                 _pinmode   0x002796    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00205_DS_   0x002838    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00175_DS_   0x00284c    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00177_DS_   0x002880    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00179_DS_   0x0028b0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00181_DS_   0x0028e4    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00183_DS_   0x002914    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00185_DS_   0x002948    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00187_DS_   0x002978    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00189_DS_   0x0029ac    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00191_DS_   0x0029dc    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00193_DS_   0x002a10    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00196_DS_   0x002a3a    program     static /home/valentin/github/icaro-bloques/source/main.asm
-             _digitalread   0x002d22    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00170_DS_   0x002db0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00140_DS_   0x002dc4    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00142_DS_   0x002dfa    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00144_DS_   0x002e00    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00146_DS_   0x002e36    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00148_DS_   0x002e3c    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00150_DS_   0x002e72    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00152_DS_   0x002e78    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00154_DS_   0x002eae    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00156_DS_   0x002eb4    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00158_DS_   0x002ee6    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00160_DS_   0x002eec    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00161_DS_   0x002ef0    program     static /home/valentin/github/icaro-bloques/source/main.asm
-            _digitalwrite   0x002a5c    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-               _00135_DS_   0x002afe    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00105_DS_   0x002b12    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00107_DS_   0x002b46    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00109_DS_   0x002b76    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00111_DS_   0x002baa    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00113_DS_   0x002bda    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00115_DS_   0x002c0e    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00117_DS_   0x002c3e    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00119_DS_   0x002c72    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00121_DS_   0x002ca2    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00123_DS_   0x002cd6    program     static /home/valentin/github/icaro-bloques/source/main.asm
-               _00126_DS_   0x002d00    program     static /home/valentin/github/icaro-bloques/source/main.asm
-                    _mask   0x002748    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-                    _port   0x002766    program     extern /home/valentin/github/icaro-bloques/source/main.asm
-              _servomasks   0x002784    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00283_DS_   0x002102    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00277_DS_   0x002106    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00284_DS_   0x002114    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00250_DS_   0x0021e8    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00317_DS_   0x0021fc    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00275_DS_   0x002228    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00258_DS_   0x0022f4    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00323_DS_   0x002308    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00272_DS_   0x002334    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00266_DS_   0x0023f8    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00286_DS_   0x002434    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00287_DS_   0x002438    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00279_DS_   0x0024a2    program     static /home/valentin/github/icaro-bloques/source/main.asm
+           _ServosPulseUp   0x0037fa    program     static /home/valentin/github/icaro-bloques/source/main.asm
+         _ServosPulseDown   0x003288    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00226_DS_   0x0032a0    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00225_DS_   0x003328    program     static /home/valentin/github/icaro-bloques/source/main.asm
+                    bucle   0x00332c    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00230_DS_   0x00333a    program     static /home/valentin/github/icaro-bloques/source/main.asm
+             _servos_init   0x0035be    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00210_DS_   0x0035cc    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00213_DS_   0x0035ec    program     static /home/valentin/github/icaro-bloques/source/main.asm
+                 _pinmode   0x00283a    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00205_DS_   0x0028dc    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00175_DS_   0x0028f0    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00177_DS_   0x002924    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00179_DS_   0x002954    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00181_DS_   0x002988    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00183_DS_   0x0029b8    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00185_DS_   0x0029ec    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00187_DS_   0x002a1c    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00189_DS_   0x002a50    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00191_DS_   0x002a80    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00193_DS_   0x002ab4    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00196_DS_   0x002ade    program     static /home/valentin/github/icaro-bloques/source/main.asm
+             _digitalread   0x002dc6    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00170_DS_   0x002e54    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00140_DS_   0x002e68    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00142_DS_   0x002e9e    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00144_DS_   0x002ea4    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00146_DS_   0x002eda    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00148_DS_   0x002ee0    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00150_DS_   0x002f16    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00152_DS_   0x002f1c    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00154_DS_   0x002f52    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00156_DS_   0x002f58    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00158_DS_   0x002f8a    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00160_DS_   0x002f90    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00161_DS_   0x002f94    program     static /home/valentin/github/icaro-bloques/source/main.asm
+            _digitalwrite   0x002b00    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+               _00135_DS_   0x002ba2    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00105_DS_   0x002bb6    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00107_DS_   0x002bea    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00109_DS_   0x002c1a    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00111_DS_   0x002c4e    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00113_DS_   0x002c7e    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00115_DS_   0x002cb2    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00117_DS_   0x002ce2    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00119_DS_   0x002d16    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00121_DS_   0x002d46    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00123_DS_   0x002d7a    program     static /home/valentin/github/icaro-bloques/source/main.asm
+               _00126_DS_   0x002da4    program     static /home/valentin/github/icaro-bloques/source/main.asm
+                    _mask   0x0027ec    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+                    _port   0x00280a    program     extern /home/valentin/github/icaro-bloques/source/main.asm
+              _servomasks   0x002828    program     extern /home/valentin/github/icaro-bloques/source/main.asm
   _usb_active_alt_setting   0x00005d       data     extern boot_iface.asm
           _usb_active_cfg   0x00005e       data     extern boot_iface.asm
         _usb_device_state   0x00005f       data     extern boot_iface.asm
@@ -556,7 +539,7 @@ _SortServoTimings_mascaratotal_1_1   0x000269       data     static /home/valent
                     _TOSH   0x000ffe       data     extern libdev18f4550_a-pic18f4550.asm
                     _TOSU   0x000fff       data     extern libdev18f4550_a-pic18f4550.asm
                 _TOSUbits   0x000fff       data     extern libdev18f4550_a-pic18f4550.asm
-                   _stack   0x000100       data     extern stack/stack.S
-               _stack_end   0x0001ff       data     extern stack/stack.S
-                   _cinit   0x003898    program     extern  
+                   _stack   0x000100       data     extern /home/sdcc-builder/build/sdcc-build/orig/sdcc/device/lib/pic16/libsdcc/stack/stack.S
+               _stack_end   0x0001ff       data     extern /home/sdcc-builder/build/sdcc-build/orig/sdcc/device/lib/pic16/libsdcc/stack/stack.S
+                   _cinit   0x003808    program     extern  
  

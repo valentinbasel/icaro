@@ -1,0 +1,136 @@
+
+SECTIONS
+===============================================================================
+1.- About this document, and this Translation Pack
+2.- Language support (for this version)
+3.- Instructions to install this (Beta) Translation Pack
+4.- The "locale" directory structure and content
+5.- Instructions to modify or update the traduction files
+
+
+1.- ABOUT THIS DOCUMENT, AND THIS TRANSLATION PACK
+===============================================================================
+This document and the internationalization beta code for Pinguino IDE, was
+created by PingüinoVE community members. You can feel free to contact us, by
+send us a mail at pinguino-internationalization@lists.coactivate.org.
+
+Also you can visit us (Official site of Venezuelan Community - in Spanish) at:
+http://www.coactivate.org/projects/pinguinove.
+
+This document includes general information about how to install this translation
+pack, and how to modify or update the built-in translation files.
+
+This Translation Pack, includes a new directory (locale), new binary files, and
+new python files, that includes code to implement i18n (Internationalization)
+based on GNU gettext utilities, and pygettext library.
+
+
+2.- LANGUAGE SUPPORT
+===============================================================================
+In this Translation Pack, whe had include traduction files for these languages:
+	(en) English		(da) Danish
+	(fr) French			(hr) Croatian
+	(es) Spanish		(it) Italian
+	(de) Germany		(pt) Portuguese
+
+This is a initial selection, based on the list of countries of Pinguino users
+and activist around the world, refered by J.P.Mandon at HackingLab's Blog.
+
+Of course, more language support can be easily incorporated, edited by others
+developers (themselves), or requiere to us, to develop and deploy with new
+versions of Pinguino IDE.
+
+
+3.- INSTRUCTIONS TO INSTALL THIS (Beta) TRANSLATION PACK
+===============================================================================
+Install this translation pack is very easy and simple.
+
+You only must to do these steps:
+	A) Download and decompress the Translation Pack (tar.gz file)
+	B) Copy the decompress locale directory into your pinguino IDE directory
+	C) Replace the your original ./pinguinobeta7.py file with the new
+		./locale/sources/pinguinobeta7.py file included in the Transl-Pack
+	D) Execute the new ./pinguinobeta7.py file
+
+Ready!! the Pinguino IDE will display all menus, labels and messages with the
+default language of your system.
+
+You can test or check your language configuration, verifying the environment's
+variables of your system, with "locale" command at your shell or command line:
+	$> locale <ENTER>
+
+
+4.- THE "locale" DIRECTORY STRUCTURE AND CONTENT
+===============================================================================
+After decompress the pinguino-translation-pack.tar.gz file, and copy the
+content in the pinguino IDE directory, you can see a new directory "locale":
+
+	.
+	|-- HOW TO
+	|-- da
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	|-- de
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	|-- en
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	|-- es
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	|-- fr
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	|-- hr
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	|-- it
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	|-- pt
+	|   `-- LC_MESSAGES
+	|       |-- pinguino.mo
+	|       `-- pinguino.po
+	`-- sources
+	    |-- messages.pot
+	    `-- pinguinobeta7.py
+
+Each directory language, are indentified with two-letter codes of ISO-639-1
+internationalization standard.
+
+The ".mo" files (MACHINE Objects) are BINARY files, than contains the
+no-traduced/traduced pairs. These are used by the pygettext code included into
+the new pinguinobeta7.py file, to traduce the application at run time.
+
+The ".po" files (PORTABLE Objects) are TEXT files, than also contains the
+no-traduced/traduced pairs. These are used by developers, to edit all words
+needed to traduce the application, before compilate them to ".mo" files.
+
+The source directory, includes:
+	.- Template Traduction Portable Object File (to generate the .so files)
+	.- pinguinobeta7.py file, with pygettext functionalities implemented
+
+
+5.- Instructions to Modify or Update the traduction files
+===============================================================================
+Modify or Update the portable objects (*.po) and machine objects (*.mo) files
+is very easy and simple to.
+
+You only need to do these steps to modify or update your language files:
+	A) Download/Install "poedit" (Easy to use GUI tool to edit po/mo files)
+	B) Execute poedit, and open the pinguino.po file of your language dir
+	C) Edit the traduced values, and save. poedit will re-generate .mo file
+	D) Execute your pinguino IDE !! you can see your changes
+
+Please, don't forget to send us your modified files (.po/.mo) to include them
+in the new versions of PinguinoIDE. Thanks a lot !!
+
+

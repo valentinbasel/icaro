@@ -1,43 +1,42 @@
 <objeto_inicial>
-(236.0, 150.0)
+(248.0, 131.0)
 </objeto_inicial>
 <objeto_dato_img>
-parar.png
-6
-(296, 310)
-0 
-(213, 72, 62)
-1
-0
-
-0 
-</objeto_dato_img>
-<objeto_dato_img>
 adelante.png
-7
-(296, 210)
+1
+(308, 191)
 96 
-(230, 81, 145)
+(213, 72, 62)
 1
 96
 
 96 
 </objeto_dato_img>
 <objeto_dato>
-8
-(296, 360)
+2
+(308, 231)
 1000
-(69, 168, 65)
+(135, 145, 240)
 1
 0
 
 1000
 </objeto_dato>
 <objeto_dato>
-9
-(296, 260)
+4
+(308, 281)
+0  
+(135, 145, 240)
+1
+0
+
+0  
+</objeto_dato>
+<objeto_dato>
+5
+(308, 321)
 1000
-(69, 168, 65)
+(135, 145, 240)
 1
 0
 
@@ -45,33 +44,17 @@ adelante.png
 </objeto_dato>
 <objeto_componente>
 robot
-1
-4
-(236, 200)
+2
+2
+(248, 181)
 (30, 34, 66)
 robot 
 </objeto_componente>
 <objeto_componente>
 robot
-1
-5
-(236, 300)
+2
+4
+(248, 271)
 (30, 34, 66)
 robot 
-</objeto_componente>
-<objeto_componente>
-pausa
-1
-6
-(236, 250)
-(97, 114, 120)
-pausa 
-</objeto_componente>
-<objeto_componente>
-pausa
-1
-7
-(236, 350)
-(97, 114, 120)
-pausa 
 </objeto_componente>

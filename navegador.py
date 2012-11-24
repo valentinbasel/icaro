@@ -14,7 +14,7 @@
 import sys, re
 import gtk, gobject
 import webkit
-DEFAULT_URL = sys.path[0]+'/documentos/publican/manual_np05/tmp/es-ES/html/index.html'
+DEFAULT_URL = sys.path[0]+'/html/index.html' # Change this as you Wish
 class SimpleBrowser: # needs GTK, Python, Webkit-GTK
     tam=1
     def __init__(self):
