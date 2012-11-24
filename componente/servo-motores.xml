@@ -1,5 +1,5 @@
 <componente>
-servo 
+servo
 1
 2
 (0,50,100)
@@ -7,7 +7,7 @@ servo
 0
 </componente>
 <componente>
-servos 
+servos
 1
 5
 (0,190,100)
@@ -15,7 +15,7 @@ servos
 0
 </componente>
 <componente>
-servo_pausado 
+servo_pausado
 1
 4
 (0,190,100)
@@ -23,7 +23,7 @@ servo_pausado
 0
 </componente>
 <componente>
-servo1 
+servo1
 6
 0
 (100,190,90)
@@ -31,7 +31,7 @@ srv1
 10
 </componente>
 <componente>
-servo2 
+servo2
 6
 0
 (100,190,90)
@@ -40,7 +40,7 @@ srv2
 </componente>
 
 <componente>
-servo3 
+servo3
 6
 0
 (100,190,90)
@@ -48,7 +48,7 @@ srv3
 12
 </componente>
 <componente>
-servo4 
+servo4
 6
 0
 (100,190,90)
@@ -56,7 +56,7 @@ srv4
 8
 </componente>
 <componente>
-servo5 
+servo5
 6
 0
 (100,190,90)

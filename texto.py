@@ -22,6 +22,7 @@ class Text:
     def render(self,  text, color, pos):
         #text = unicode(text, "UTF-8")
         x, y = pos
+        #~ print text
         for i in text.split("\r"):
             self.fondo.screen.blit(self.font.render(i, 1, color), (x, y))
             y += self.size

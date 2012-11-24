@@ -1,5 +1,5 @@
 #PICKit 1
-SYSFS{idVendor}=="04d8", SYSFS{idProduct}=="feaa", MODE="0660",GROUP="microchip"
+ATTR{idVendor}=="04d8", ATTR{idProduct}=="feaa", MODE="0660",GROUP="microchip"
 
 
 

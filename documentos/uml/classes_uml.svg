@@ -189,42 +189,42 @@
 </g>
 <!-- 19 -->
 <g id="node8" class="node"><title>19</title>
-<polygon fill="none" stroke="black" points="745.5,-293.5 745.5,-392.5 808.5,-392.5 808.5,-293.5 745.5,-293.5"/>
-<text text-anchor="middle" x="777" y="-377.3" font-family="Times,serif" font-size="14.00">Text</text>
-<polyline fill="none" stroke="black" points="745.5,-369.5 808.5,-369.5 "/>
-<text text-anchor="start" x="753.5" y="-354.3" font-family="Times,serif" font-size="14.00">size : int</text>
-<text text-anchor="start" x="753.5" y="-339.3" font-family="Times,serif" font-size="14.00">font</text>
-<text text-anchor="start" x="753.5" y="-324.3" font-family="Times,serif" font-size="14.00">fondo</text>
-<polyline fill="none" stroke="black" points="745.5,-316.5 808.5,-316.5 "/>
-<text text-anchor="start" x="753.5" y="-301.3" font-family="Times,serif" font-size="14.00">render()</text>
+<polygon fill="none" stroke="black" points="745.5,-263.5 745.5,-422.5 846.5,-422.5 846.5,-263.5 745.5,-263.5"/>
+<text text-anchor="middle" x="796" y="-407.3" font-family="Times,serif" font-size="14.00">BOTON</text>
+<polyline fill="none" stroke="black" points="745.5,-399.5 846.5,-399.5 "/>
+<text text-anchor="start" x="753.5" y="-384.3" font-family="Times,serif" font-size="14.00">imagen</text>
+<text text-anchor="start" x="753.5" y="-369.3" font-family="Times,serif" font-size="14.00">texto</text>
+<text text-anchor="start" x="753.5" y="-354.3" font-family="Times,serif" font-size="14.00">ejecuta</text>
+<text text-anchor="start" x="753.5" y="-339.3" font-family="Times,serif" font-size="14.00">posicion : tuple</text>
+<text text-anchor="start" x="753.5" y="-324.3" font-family="Times,serif" font-size="14.00">pantalla</text>
+<text text-anchor="start" x="753.5" y="-309.3" font-family="Times,serif" font-size="14.00">rect</text>
+<text text-anchor="start" x="753.5" y="-294.3" font-family="Times,serif" font-size="14.00">redct : int</text>
+<polyline fill="none" stroke="black" points="745.5,-286.5 846.5,-286.5 "/>
+<text text-anchor="start" x="753.5" y="-271.3" font-family="Times,serif" font-size="14.00">update()</text>
 </g>
 <!-- 20 -->
 <g id="node9" class="node"><title>20</title>
-<polygon fill="none" stroke="black" points="827,-278.5 827,-407.5 917,-407.5 917,-278.5 827,-278.5"/>
-<text text-anchor="middle" x="872" y="-392.3" font-family="Times,serif" font-size="14.00">VENTANA</text>
-<polyline fill="none" stroke="black" points="827,-384.5 917,-384.5 "/>
-<text text-anchor="start" x="835" y="-369.3" font-family="Times,serif" font-size="14.00">cadena : str</text>
-<text text-anchor="start" x="835" y="-354.3" font-family="Times,serif" font-size="14.00">pantalla</text>
-<text text-anchor="start" x="835" y="-339.3" font-family="Times,serif" font-size="14.00">mouse_y</text>
-<text text-anchor="start" x="835" y="-324.3" font-family="Times,serif" font-size="14.00">mouse_x</text>
-<text text-anchor="start" x="835" y="-309.3" font-family="Times,serif" font-size="14.00">mouse_buton</text>
-<polyline fill="none" stroke="black" points="827,-301.5 917,-301.5 "/>
-<text text-anchor="start" x="835" y="-286.3" font-family="Times,serif" font-size="14.00">update()</text>
+<polygon fill="none" stroke="black" points="864.5,-293.5 864.5,-392.5 927.5,-392.5 927.5,-293.5 864.5,-293.5"/>
+<text text-anchor="middle" x="896" y="-377.3" font-family="Times,serif" font-size="14.00">Text</text>
+<polyline fill="none" stroke="black" points="864.5,-369.5 927.5,-369.5 "/>
+<text text-anchor="start" x="872.5" y="-354.3" font-family="Times,serif" font-size="14.00">size : int</text>
+<text text-anchor="start" x="872.5" y="-339.3" font-family="Times,serif" font-size="14.00">font</text>
+<text text-anchor="start" x="872.5" y="-324.3" font-family="Times,serif" font-size="14.00">fondo</text>
+<polyline fill="none" stroke="black" points="864.5,-316.5 927.5,-316.5 "/>
+<text text-anchor="start" x="872.5" y="-301.3" font-family="Times,serif" font-size="14.00">render()</text>
 </g>
 <!-- 21 -->
 <g id="node10" class="node"><title>21</title>
-<polygon fill="none" stroke="black" points="935.5,-263.5 935.5,-422.5 1036.5,-422.5 1036.5,-263.5 935.5,-263.5"/>
-<text text-anchor="middle" x="986" y="-407.3" font-family="Times,serif" font-size="14.00">BOTON</text>
-<polyline fill="none" stroke="black" points="935.5,-399.5 1036.5,-399.5 "/>
-<text text-anchor="start" x="943.5" y="-384.3" font-family="Times,serif" font-size="14.00">imagen</text>
-<text text-anchor="start" x="943.5" y="-369.3" font-family="Times,serif" font-size="14.00">texto</text>
-<text text-anchor="start" x="943.5" y="-354.3" font-family="Times,serif" font-size="14.00">ejecuta</text>
-<text text-anchor="start" x="943.5" y="-339.3" font-family="Times,serif" font-size="14.00">posicion : tuple</text>
-<text text-anchor="start" x="943.5" y="-324.3" font-family="Times,serif" font-size="14.00">pantalla</text>
-<text text-anchor="start" x="943.5" y="-309.3" font-family="Times,serif" font-size="14.00">rect</text>
-<text text-anchor="start" x="943.5" y="-294.3" font-family="Times,serif" font-size="14.00">redct : int</text>
-<polyline fill="none" stroke="black" points="935.5,-286.5 1036.5,-286.5 "/>
-<text text-anchor="start" x="943.5" y="-271.3" font-family="Times,serif" font-size="14.00">update()</text>
+<polygon fill="none" stroke="black" points="946,-278.5 946,-407.5 1036,-407.5 1036,-278.5 946,-278.5"/>
+<text text-anchor="middle" x="991" y="-392.3" font-family="Times,serif" font-size="14.00">VENTANA</text>
+<polyline fill="none" stroke="black" points="946,-384.5 1036,-384.5 "/>
+<text text-anchor="start" x="954" y="-369.3" font-family="Times,serif" font-size="14.00">cadena : str</text>
+<text text-anchor="start" x="954" y="-354.3" font-family="Times,serif" font-size="14.00">pantalla</text>
+<text text-anchor="start" x="954" y="-339.3" font-family="Times,serif" font-size="14.00">mouse_y</text>
+<text text-anchor="start" x="954" y="-324.3" font-family="Times,serif" font-size="14.00">mouse_x</text>
+<text text-anchor="start" x="954" y="-309.3" font-family="Times,serif" font-size="14.00">mouse_buton</text>
+<polyline fill="none" stroke="black" points="946,-301.5 1036,-301.5 "/>
+<text text-anchor="start" x="954" y="-286.3" font-family="Times,serif" font-size="14.00">update()</text>
 </g>
 <!-- 22 -->
 <g id="node11" class="node"><title>22</title>

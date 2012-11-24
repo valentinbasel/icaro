@@ -1,5 +1,5 @@
 <componente>
-sensordig1 
+sensordig1
 6
 0
 (90,200,90)
@@ -7,7 +7,7 @@ dig 1
 sensordigital(21) 
 </componente>
 <componente>
-sensordig2 
+sensordig2
 6
 0
 (90,200,90)
@@ -15,7 +15,7 @@ dig 2
 sensordigital(22) 
 </componente>
 <componente>
-sensordig3 
+sensordig3
 6
 0
 (90,200,90)
@@ -23,7 +23,7 @@ dig 3
 sensordigital(23) 
 </componente>
 <componente>
-sensordig4 
+sensordig4
 6
 0
 (90,200,90)

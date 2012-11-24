@@ -8,9 +8,9 @@ rankdir=BT
 "11" [shape="record", label="{componente_inicial|ide\lfondo\lventana\lposic_rel_x\ltexto\lposic_rel_y\lpulsado : int\lposicion : tuple\lcolor_texto\lrectan\lcolor : tuple\lposic_rel_x : int\lposic_rel_y : int\lvivo : bool\lconector_m\lpegado_a : int\lpulsado : int\lposicion : tuple\lide : int\l|dibujar()\lupdate()\l}"];
 "13" [shape="record", label="{Text|size : int\lfont\lfondo\l|render()\l}"];
 "15" [shape="record", label="{visor_codigo|ventana\lbuf\lwindow : Window\l|open_file()\lclose()\lcompilar()\lload_file()\l}"];
-"19" [shape="record", label="{Text|size : int\lfont\lfondo\l|render()\l}"];
-"20" [shape="record", label="{VENTANA|cadena : str\lpantalla\lmouse_y\lmouse_x\lmouse_buton\l|update()\l}"];
-"21" [shape="record", label="{BOTON|imagen\ltexto\lejecuta\lposicion : tuple\lpantalla\lrect\lredct : int\l|update()\l}"];
+"19" [shape="record", label="{BOTON|imagen\ltexto\lejecuta\lposicion : tuple\lpantalla\lrect\lredct : int\l|update()\l}"];
+"20" [shape="record", label="{Text|size : int\lfont\lfondo\l|render()\l}"];
+"21" [shape="record", label="{VENTANA|cadena : str\lpantalla\lmouse_y\lmouse_x\lmouse_buton\l|update()\l}"];
 "22" [shape="record", label="{SALIR|posicion : tuple\lpantalla\limagen\lrect\ltexto\l|update()\l}"];
 "27" [shape="record", label="{comp_dat_arg|img_rect\limagen\lfondo\lcolor\ltexto : str\lposicion : tuple\lcadena_intermedia : str\lcadena_final\ltipo\limagenintermedia\ltextorender\lpegado_a2 : int\ltecla : int\lvalor_cadena_no_mod\lmodificable : int\ltecla_presionada : int\lpegado2 : int\lconector_h\lventana\lposic_rel_x\lconector_m\lconectado : int\lpegado_b : int\lpegado_a : int\lpegado : int\lcolor_texto\limg\lpulsado : int\lposic_rel_y\lide\lcadena_final : str\lrectan\lcolor : tuple\lposic_rel_x : int\lposic_rel_y : int\lpulsado : int\lposicion : tuple\lvalor_cadena_no_mod : str\lcadena_intermedia : str\lide : int\lmodificable : int\l|dibujar()\lupdate()\l}"];
 "30" [shape="record", label="{SimpleBrowser|status : Label\ltxt_url : Entry\lscrolled_window : ScrolledWindow\lwindow : Window\lpbar : ProgressBar\lbtnback : Button\lwebview\lbtnforward : Button\ltam : int\l|close_application()\lshow()\lzoom()\lclose()\lopen()\l}"];

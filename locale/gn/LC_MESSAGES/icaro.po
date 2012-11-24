@@ -1,0 +1,110 @@
+# Spanish translations for PACKAGE package.
+# Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# valentin basel <valentinbasel@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-25 13:54-0300\n"
+"PO-Revision-Date: 2012-10-25 13:59-0300\n"
+"Last-Translator: valentin basel <valentinbasel@gmail.com>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: icaro.py:177 icaro.py:225 icaro.py:857
+msgid "New"
+msgstr "Nuevo"
+
+#: icaro.py:178 icaro.py:234 icaro.py:849
+msgid "Open"
+msgstr "Abrir"
+
+#: icaro.py:179 icaro.py:242 icaro.py:859
+msgid "Save"
+msgstr "Guardar"
+
+#: icaro.py:180
+msgid "Save as"
+msgstr "Guardar como"
+
+#: icaro.py:181 icaro.py:861
+msgid "Save as function"
+msgstr "Guardar como función"
+
+#: icaro.py:182 icaro.py:879
+msgid "Examples"
+msgstr "Ejemplos"
+
+#: icaro.py:183 icaro.py:250 icaro.py:854
+msgid "Exit"
+msgstr "Salir"
+
+#: icaro.py:194 icaro.py:881
+msgid "Background"
+msgstr "Fondo"
+
+#: icaro.py:194 icaro.py:906
+msgid "Color"
+msgstr "Color"
+
+#: icaro.py:194 icaro.py:926
+msgid "About"
+msgstr "Acerca de"
+
+#: icaro.py:203
+msgid "File"
+msgstr "Archivo"
+
+#: icaro.py:207
+msgid "Edit"
+msgstr "Editar"
+
+#: icaro.py:263
+msgid "Compile"
+msgstr "Compilar"
+
+#: icaro.py:272
+msgid "Load"
+msgstr "Cargar"
+
+#: icaro.py:281
+msgid "Tortucaro"
+msgstr "Tortucaro"
+
+#: icaro.py:291
+msgid "Help"
+msgstr "Ayuda"
+
+#: icaro.py:299
+msgid "View source"
+msgstr "Ver codigo fuente"
+
+#: icaro.py:312
+msgid "Pen"
+msgstr "Lapiz"
+
+#: icaro.py:321
+msgid "Move"
+msgstr "Mover"
+
+#: icaro.py:331
+msgid "Erase"
+msgstr "Borrar"
+
+#: navegador.py:40
+msgid "Home"
+msgstr "Inicio"
+
+#: navegador.py:53
+msgid "increase"
+msgstr "Aumentar"
+
+#: navegador.py:56
+msgid "Decrease"
+msgstr "Achicar"

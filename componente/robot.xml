@@ -1,5 +1,5 @@
 <componente>
-parar 
+parar
 6
 1
 (100,50,80)
@@ -8,7 +8,7 @@ parar
 </componente>
 
 <componente>
-adelante 
+adelante
 6
 1
 (100,50,80)
@@ -16,7 +16,7 @@ adelante
 96
 </componente>
 <componente>
-atras 
+atras
 6
 1
 (100,50,80)
@@ -24,7 +24,7 @@ atras
 144
 </componente>
 <componente>
-izquierda 
+izquierda
 6
 1
 (100,50,80)
@@ -32,7 +32,7 @@ izquierda
 64
 </componente>
 <componente>
-derecha 
+derecha
 6
 1
 (100,50,80)

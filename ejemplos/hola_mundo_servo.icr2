@@ -1,10 +1,10 @@
 <objeto_inicial>
-(130.0, 172.0)
+(69.0, 37.0)
 </objeto_inicial>
 <objeto_dato_img>
 servo1.png
 1
-(190, 232)
+(129, 97)
 srv1 
 (13, 213, 211)
 0
@@ -15,7 +15,7 @@ srv1
 <objeto_dato_img>
 servo1.png
 2
-(190, 372)
+(129, 237)
 srv1 
 (13, 213, 211)
 0
@@ -25,17 +25,17 @@ srv1
 </objeto_dato_img>
 <objeto_dato>
 3
-(190, 272)
-10
+(129, 137)
+1
 (69, 168, 65)
 1
 0
 
-10
+1
 </objeto_dato>
 <objeto_dato>
 4
-(190, 322)
+(129, 187)
 1000
 (69, 168, 65)
 1
@@ -45,29 +45,29 @@ srv1
 </objeto_dato>
 <objeto_dato>
 5
-(190, 412)
-250
+(129, 327)
+1000
 (69, 168, 65)
 1
 0
 
-250
+1000
 </objeto_dato>
 <objeto_dato>
 6
-(190, 462)
-1000
+(129, 277)
+250
 (69, 168, 65)
 1
 0
 
-1000
+250
 </objeto_dato>
 <objeto_componente>
 servo
 2
 2
-(130, 222)
+(69, 87)
 (35, 122, 60)
 servo 
 </objeto_componente>
@@ -75,7 +75,7 @@ servo
 servo
 2
 3
-(130, 362)
+(69, 227)
 (35, 122, 60)
 servo 
 </objeto_componente>
@@ -83,7 +83,7 @@ servo
 pausa
 1
 4
-(130, 312)
+(69, 177)
 (97, 114, 120)
 pausa 
 </objeto_componente>
@@ -91,7 +91,7 @@ pausa
 pausa
 1
 5
-(130, 452)
+(69, 317)
 (97, 114, 120)
 pausa 
 </objeto_componente>

@@ -1,5 +1,5 @@
 <componente>
-asignacion 
+asignacion
 6
 0
 (10,100,190)
@@ -7,7 +7,7 @@ asignacion
 =
 </componente>
 <componente>
-masmas 
+masmas
 6
 1
 (0,50,80)
@@ -15,7 +15,7 @@ masmas
 ++
 </componente>
 <componente>
-mas 
+mas
 6
 1
 (0,50,80)
@@ -23,7 +23,7 @@ mas
 +
 </componente>
 <componente>
-menos 
+menos
 6
 1
 (0,50,80)
@@ -31,7 +31,7 @@ menos
 -
 </componente>
 <componente>
-multiplicar 
+multiplicar
 6
 1
 (0,50,80)
@@ -39,7 +39,7 @@ multiplicar
 *
 </componente>
 <componente>
-dividir 
+dividir
 6
 1
 (0,50,80)

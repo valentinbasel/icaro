@@ -95,7 +95,7 @@ static void ServosPulseDown()
 	
 	for(timedivision=0;timedivision < 251;timedivision++){
 		if (timings[timevalue][timingindex] == timedivision){
-			PORTB = PORTB ^ timings[MaskPort_B][timingindex];
+//			PORTB = PORTB ^ timings[MaskPort_B][timingindex];
 			PORTC = PORTC ^ timings[MaskPort_C][timingindex];
 			PORTA = PORTA ^ timings[MaskPort_A][timingindex];
 			timingindex++;
@@ -115,7 +115,7 @@ static void ServosPulseDown()
 static void ServosPulseUp()
 {
 // This function starts up pulses for all activated servos.
-	PORTB = activatedservos[MaskPort_B] & 0xFF;
+//	PORTB = activatedservos[MaskPort_B] & 0xFF;
 	PORTC = activatedservos[MaskPort_C] & 0xFF;
 	PORTA = activatedservos[MaskPort_A] & 0xFF;	
 }
@@ -133,7 +133,7 @@ static void SortServoTimings()
 	// inicializamos la tabla:
 	for(t=0;t<18;t++){
 		timings[timevalue][t]=255;
-		timings[MaskPort_B][t]=0x00;
+//		timings[MaskPort_B][t]=0x00;
 		timings[MaskPort_C][t]=0x00;
 		timings[MaskPort_A][t]=0x00;
 	}
@@ -149,13 +149,13 @@ static void SortServoTimings()
 				}
 				else if (servovalues[s] < timings[timevalue][t]){
 					timings[timevalue][t]=servovalues[s];
-					timings[MaskPort_B][t]=servomasks[s];
+//					timings[MaskPort_B][t]=servomasks[s];
 					timings[MaskPort_C][t]=0x00;
 					timings[MaskPort_A][t]=0x00;
 					numservos=1;
 				}
 				else if (servovalues[s] == timings[timevalue][t]){
-					timings[MaskPort_B][t] |= servomasks[s];
+//					timings[MaskPort_B][t] |= servomasks[s];
 					numservos++;
 				}
 			}
@@ -165,7 +165,7 @@ static void SortServoTimings()
 				}
 				else if (servovalues[s] < timings[timevalue][t]){
 					timings[timevalue][t]=servovalues[s];
-					timings[MaskPort_B][t]=0x00;
+					//timings[MaskPort_B][t]=0x00;
 					timings[MaskPort_C][t]=0x00;
 					timings[MaskPort_A][t]=servomasks[s];
 					numservos=1;
@@ -181,7 +181,7 @@ static void SortServoTimings()
 				}
 				else if (servovalues[s] < timings[timevalue][t]){
 					timings[timevalue][t]=servovalues[s];
-					timings[MaskPort_B][t]=0x00;
+					//timings[MaskPort_B][t]=0x00;
 					timings[MaskPort_C][t]=servomasks[s];
 					timings[MaskPort_A][t]=0x00;
 					numservos=1;
@@ -193,7 +193,7 @@ static void SortServoTimings()
 			}				
 			
 		}
-		mascaratotal[MaskPort_B] |= timings[MaskPort_B][t];
+		//mascaratotal[MaskPort_B] |= timings[MaskPort_B][t];
 		mascaratotal[MaskPort_C] |= timings[MaskPort_C][t];
 		mascaratotal[MaskPort_A] |= timings[MaskPort_A][t];
 		totalservos += numservos;

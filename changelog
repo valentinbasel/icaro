@@ -14,3 +14,7 @@ Version  1.0
 ---  jue sep 13 18:28:03 ART 2012  ---
 Version  1.0
 *  se remplazo docker, ahora esta integrado con python
+=====================================================
+---  dom sep 16 23:31:09 ART 2012  ---
+Version  1.0
+*  modificaciones esteticas a los bloques, nuevo docker con python, lanzador con main.py

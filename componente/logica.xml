@@ -1,5 +1,5 @@
 <componente>
-verdadero 
+verdadero
 6
 0
 (160,50,210)
@@ -7,7 +7,7 @@ verdadero
 1 
 </componente>
 <componente>
-falso  
+falso
 6
 0
 (0,50,150)
@@ -15,7 +15,7 @@ falso
 0 
 </componente>
 <componente>
-igualdad 
+igualdad
 6
 0
 (10,100,190)
@@ -31,7 +31,7 @@ desigual
 !=
 </componente>
 <componente>
-menor 
+menor
 6
 0
 (10,100,190)
@@ -39,7 +39,7 @@ menor
 <
 </componente>
 <componente>
-mayor 
+mayor
 6
 0
 (10,100,190)

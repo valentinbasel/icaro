@@ -916,13 +916,13 @@ icaro-bloques.icaro.ventana_principal	icaro-bloques.icaro-module.html#ventana_pr
 icaro-bloques.icaro.punt	icaro-bloques.icaro-module.html#punt
 icaro-bloques.icaro.loop	icaro-bloques.icaro-module.html#loop
 icaro-bloques.main	icaro-bloques.main-module.html
-icaro-bloques.main.texto	icaro-bloques.main-module.html#texto
+icaro-bloques.main.dat	icaro-bloques.main-module.html#dat
 icaro-bloques.main.main	icaro-bloques.main-module.html#main
 icaro-bloques.main.BotonIcaro	icaro-bloques.main-module.html#BotonIcaro
 icaro-bloques.main.sal	icaro-bloques.main-module.html#sal
+icaro-bloques.main.texto	icaro-bloques.main-module.html#texto
 icaro-bloques.main.pyt	icaro-bloques.main-module.html#pyt
 icaro-bloques.main.BotonPython	icaro-bloques.main-module.html#BotonPython
-icaro-bloques.main.dat	icaro-bloques.main-module.html#dat
 icaro-bloques.main.salir	icaro-bloques.main-module.html#salir
 icaro-bloques.main.ventana	icaro-bloques.main-module.html#ventana
 icaro-bloques.main.conf	icaro-bloques.main-module.html#conf

@@ -1,5 +1,5 @@
 <componente>
-si 
+si
 5
 0
 (200,190,0)
@@ -7,7 +7,7 @@ fin
  
 </componente>
 <componente>
-sino 
+sino
 1
 0
 (0,190,10)
@@ -15,7 +15,7 @@ sino
 0 
 </componente>
 <componente>
-mientras 
+mientras
 5
 0
 (10,30,90)

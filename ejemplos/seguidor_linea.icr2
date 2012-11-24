@@ -1,48 +1,6 @@
 <objeto_inicial>
 (160.0, 27.0)
 </objeto_inicial>
-<objeto_dato>
-1
-(280, 137)
-10
-(100, 150, 80)
-1
-0
-
-10
-</objeto_dato>
-<objeto_dato_img>
-izquierda.png
-2
-(280, 177)
-64 
-(100, 50, 80)
-0
-64
-
-64
-</objeto_dato_img>
-<objeto_dato>
-3
-(280, 327)
-10
-(100, 150, 80)
-1
-0
-
-10
-</objeto_dato>
-<objeto_dato_img>
-derecha.png
-4
-(280, 367)
-32 
-(100, 50, 80)
-0
-32
-
-32
-</objeto_dato_img>
 <objeto_dato_img>
 sensordig1.png
 5
@@ -51,29 +9,29 @@ dig 1
 (90, 200, 90)
 0
 digitalread(21) 
-==1 
+
 digitalread(21) ==1 
 </objeto_dato_img>
 <objeto_dato_img>
 sensordig1.png
 6
-(280, 277)
+(280, 287)
 dig 1 
 (90, 200, 90)
 0
 digitalread(21) 
-==0 
+
 digitalread(21) ==0 
 </objeto_dato_img>
 <objeto_dato_img>
 asignacion.png
 7
-(340, 277)
+(340, 287)
 = 
 (189, 50, 10)
 0
 ==
-0 
+
 ==0 
 </objeto_dato_img>
 <objeto_dato_img>
@@ -101,7 +59,7 @@ verdadero.png
 <objeto_dato_img>
 falso.png
 10
-(400, 277)
+(400, 287)
 0 
 (0, 50, 150)
 0
@@ -109,33 +67,91 @@ falso.png
 
 0 
 </objeto_dato_img>
+<objeto_dato_img>
+izquierda.png
+11
+(280, 137)
+64 
+(71, 138, 26)
+1
+64
+
+64 
+</objeto_dato_img>
+<objeto_dato_img>
+derecha.png
+12
+(280, 337)
+32 
+(73, 84, 235)
+1
+32
+
+32 
+</objeto_dato_img>
+<objeto_dato>
+13
+(280, 187)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
+<objeto_dato>
+14
+(280, 387)
+10
+(69, 168, 65)
+1
+0
+
+10
+</objeto_dato>
 <objeto_bloque>
 2
 (160, 77)
 (200, 190, 0)
 si 
-(160, 217)
+(160, 227)
 </objeto_bloque>
-<objeto_componente>
-robot
-2
-4
-(220, 127)
-(0, 190, 10)
-robot 
-</objeto_componente>
 <objeto_bloque>
 5
-(160, 267)
+(160, 277)
 (200, 190, 0)
 si 
-(160, 407)
+(160, 427)
 </objeto_bloque>
 <objeto_componente>
 robot
-2
-7
-(220, 317)
-(0, 190, 10)
+1
+8
+(220, 127)
+(30, 34, 66)
+robot 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+9
+(220, 177)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_componente>
+pausa
+1
+10
+(220, 377)
+(97, 114, 120)
+pausa 
+</objeto_componente>
+<objeto_componente>
+robot
+1
+11
+(220, 327)
+(30, 34, 66)
 robot 
 </objeto_componente>

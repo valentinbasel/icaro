@@ -26,7 +26,13 @@
 #include "common_types.h"
 #include "boot_iface.h"
 #include "../tmp/define.h"
+#include <../tmp/digitalw.c>
 
+#include <../tmp/servos.c>
+
+#include <../tmp/analog.c>
+
+#include <../tmp/arduinodelay.c>
 #ifdef __USB__
 #include "../include/usb.h"
 #include <usb.c>

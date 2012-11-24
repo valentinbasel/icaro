@@ -260,11 +260,6 @@ puerto usb y usar el programa <command>TurtleArt</command>, o con un firmware a 
                 </listitem>
 				<listitem>
 					<para>
-                    Dar permiso de ejecución al binario <command>docker</command> en la carpeta tools/bin/.
-                    </para>
-                </listitem>
-				<listitem>
-					<para>
                     En algunos sistemas linux puede suceder que necesitemos pertenecer al grupo "admin" para poder acceder al dispositivo USB que representa la placa.
                     </para>
                 </listitem>

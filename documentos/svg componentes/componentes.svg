@@ -1436,16 +1436,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.3592754"
-     inkscape:cx="-10.95231"
+     inkscape:cx="-37.821614"
      inkscape:cy="181.84977"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="712"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1"
+     inkscape:window-width="665"
+     inkscape:window-height="476"
+     inkscape:window-x="640"
+     inkscape:window-y="103"
+     inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
      fit-margin-top="0"
@@ -6308,6 +6308,34 @@
          id="rect3896"
          d="m -626.87792,1353.9424 17.64821,0 c 0.92302,0 1.66609,0.7431 1.66609,1.6661 l 0,8.3921 c 0,0.9231 -0.74307,1.6661 -1.66609,1.6661 l -9.56459,0 -1.7278,4.5663 -2.46827,-4.5663 -3.88755,0 c -0.92301,0 -1.66609,-0.743 -1.66609,-1.6661 l 0,-8.3921 c 0,-0.923 0.74308,-1.6661 1.66609,-1.6661 z"
          style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </svg:g>
+    <svg:g
+       id="g3899"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:export-filename="/home/valentin/github/icaro-bloques/imagenes/componentes/desconocido.png">
+      <svg:rect
+         ry="6.7163119"
+         inkscape:export-ydpi="3.5366945"
+         inkscape:export-xdpi="3.5366945"
+         inkscape:export-filename="/home/valentin/github/icaro-bloques/imagenes/componentes/sensoran1.png"
+         y="1375.0758"
+         x="-622.5769"
+         height="28.560221"
+         width="28.560217"
+         id="rect3000-01-7-2-3-8-9-7-2-5-6-0-0-4-8-0-9-1-7"
+         style="fill:#ffffff;stroke:#000000;stroke-width:1.43978274;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <svg:text
+         sodipodi:linespacing="125%"
+         id="text3895"
+         y="1394.2264"
+         x="-615.65045"
+         style="font-size:14.00952435px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Impact;-inkscape-font-specification:Impact Bold"
+         xml:space="preserve"><svg:tspan
+           y="1394.2264"
+           x="-615.65045"
+           id="tspan3897"
+           sodipodi:role="line">¿?</svg:tspan></svg:text>
     </svg:g>
   </svg:g>
 </svg:svg>

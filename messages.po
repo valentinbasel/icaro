@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-25 17:58-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: icaro.py:178
+msgid "Newó"
+msgstr ""
+
+#: icaro.py:179 icaro.py:235 icaro.py:851
+msgid "Open"
+msgstr ""
+
+#: icaro.py:180 icaro.py:243 icaro.py:861
+msgid "Save"
+msgstr ""
+
+#: icaro.py:181
+msgid "Save as"
+msgstr ""
+
+#: icaro.py:182 icaro.py:863
+msgid "Save as function"
+msgstr ""
+
+#: icaro.py:183 icaro.py:881
+msgid "Examples"
+msgstr ""
+
+#: icaro.py:184 icaro.py:251 icaro.py:856
+msgid "Exit"
+msgstr ""
+
+#: icaro.py:195 icaro.py:883
+msgid "Background"
+msgstr ""
+
+#: icaro.py:195 icaro.py:908
+msgid "Color"
+msgstr ""
+
+#: icaro.py:195 icaro.py:928
+msgid "About"
+msgstr ""
+
+#: icaro.py:204
+msgid "File"
+msgstr ""
+
+#: icaro.py:208
+msgid "Edit"
+msgstr ""
+
+#: icaro.py:226 icaro.py:859
+msgid "New"
+msgstr ""
+
+#: icaro.py:264
+msgid "Compile"
+msgstr ""
+
+#: icaro.py:273
+msgid "Load"
+msgstr ""
+
+#: icaro.py:282
+msgid "Tortucaro"
+msgstr ""
+
+#: icaro.py:292
+msgid "Help"
+msgstr ""
+
+#: icaro.py:300
+msgid "View source"
+msgstr ""
+
+#: icaro.py:313
+msgid "Pen"
+msgstr ""
+
+#: icaro.py:322
+msgid "Move"
+msgstr ""
+
+#: icaro.py:332
+msgid "Erase"
+msgstr ""

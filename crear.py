@@ -11,7 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-import os
+import os,sys
 
 # revizar parseador, reescribir
 def parseador(lista,argumentos,texto,cadena_final,fondo,ventana):
@@ -36,25 +36,17 @@ def parseador(lista,argumentos,texto,cadena_final,fondo,ventana):
                     parser_final=parser_final+cadena_final[b]
                 b=b+1
         b=b+1
-    ventana.cadena_pinguino.append(parser_final)
+    return parser_final+"\n"
+    
+
 def crear_archivo(fondo, ventana):
     cadena_final=[]
-    f=open("diccionario.dat","r")
+    f=open(sys.path[0] +"/diccionario.xml","r")
     cadena=f.readlines()
     for a in cadena:
         cadena_final.append(a.strip("\n"))
-
-    #~ print "lista_cm ",fondo.lista_cm
-    #~ print "lista_ch ", fondo.lista_ch
-    #~ print "lista_ordenada ",fondo.lista_ordenada
-    #~ print "lista_fina ",fondo.lista_fina
-    #~ print "lista_ch_dato ",fondo.lista_ch_dato
-    #~ print "lista_ch_dato2 " ,fondo.lista_ch_dato2
-    #~ print "identificador ", fondo.identificador
-    #~ print "identificador_dat ",fondo.identificador_dat
-    #~ print "identificador_dat2 ",fondo.identificador_dat2
-
     conectado=1
+
     fondo.lista_fina=[]
     for a in range(len(fondo.lista_ordenada)):
         for a in range(len(fondo.lista_ordenada)):
@@ -63,44 +55,76 @@ def crear_archivo(fondo, ventana):
                 conectado=a
     fondo.lista_fina.append(conectado)
     fondo.lista_fina.remove(1)
-    print fondo.lista_fina
+    #~ print fondo.lista_fina
+    for a in fondo.lista_fina:
+       
+        for b in range(len(fondo.objetos)):
+            if fondo.objetos[b].ide==a:
+                caden=parseador(
+                            fondo.objetos[b].lista_valores,
+                            fondo.objetos[b].arg,
+                            fondo.objetos[b].texto,
+                            cadena_final,fondo,ventana
+                            )
+                if caden.find("incluir")==0:
+                    fun=caden.split(",")
+                    incluir(fondo,ventana,fun)
+                else:
+                    ventana.cadena_pinguino.append(caden)
+    ventana.cadena_pinguino.append("}")
+    fw=open(sys.path[0] +"/source/user.c","w")
+    for a in range (len(ventana.cadena_pinguino)):
+        fw.writelines(ventana.cadena_pinguino[a])
+    fw.close()
+
+def funcion(fondo,ventana,ruta):
+    cadena_funcion=[]
+    cadena_final=[]
+    f=open(sys.path[0] +"/diccionario.xml","r")
+    cadena=f.readlines()
+    for a in cadena:
+        cadena_final.append(a.strip("\n"))
+    conectado=1
+    fondo.lista_fina=[]
+    print fondo.lista_ordenada
+
+    for a in range(len(fondo.lista_ordenada)):
+        for a in range(len(fondo.lista_ordenada)):
+            print fondo.lista_ordenada[a]
+            if fondo.lista_ordenada[a]==conectado:
+                fondo.lista_fina.append(conectado)
+                conectado=a
+    fondo.lista_fina.append(conectado)
+    fondo.lista_fina.remove(1)
+    print "--------------------",fondo.lista_fina
     for a in fondo.lista_fina:
         for b in range(len(fondo.objetos)):
             if fondo.objetos[b].ide==a:
-                print fondo.objetos[b].texto
-                print fondo.objetos[b].lista_valores
-                print fondo.objetos[b].arg
-                parseador(fondo.objetos[b].lista_valores,fondo.objetos[b].arg,fondo.objetos[b].texto,cadena_final,fondo,ventana)
+                caden=parseador(
+                            fondo.objetos[b].lista_valores,
+                            fondo.objetos[b].arg,
+                            fondo.objetos[b].texto,
+                            cadena_final,fondo,ventana
+                            )
+                
+                cadena_funcion.append(caden)
+    archivo = os.path.basename(ruta)
+    archivostrip=archivo.split(".")
 
-    #~ for a in range (len(fondo.lista_fina)-1):
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='robot ':
-            #~ parseador(a,2,'robot ',cadena_final,fondo,ventana)
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='activar ':
-            #~ parseador(a,2,'activar ',cadena_final,fondo,ventana)
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='pausa ':
-            #~ parseador(a,1,'pausa ',cadena_final,fondo,ventana)
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='servo ':
-            #~ parseador(a,2,'servo ',cadena_final,fondo,ventana)
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='servos ':
-            #~ parseador(a,5,'servos ',cadena_final,fondo,ventana)
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='var ':
-            #~ parseador(a,2,'var ',cadena_final,fondo,ventana)
-#~
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='si ':
-            #~ cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
-            #~ valor=cadena[3:len(cadena)]
-            #~ ventana.cadena_pinguino.append("if ("+valor+"){")
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='mientras ':
-            #~ cadena= fondo.lista_parser_final[fondo.lista_fina[a]]
-            #~ valor=cadena[8:len(cadena)]
-            #~ ventana.cadena_pinguino.append("while("+valor+"){")
-        #~ if fondo.lista_parser[fondo.lista_fina[a]]=='fin ':
-            #~ ventana.cadena_pinguino.append("}")
-    ventana.cadena_pinguino.append("}")
-        #~ #print ventana.cadena_pinguino
-    fw=open("source/user.c","w")
-    for a in range (len(ventana.cadena_pinguino)):
-        fw.writelines(ventana.cadena_pinguino[a])
-        fw.write("\n")
-    fw.close()
+    file=open(ruta,"w")
+    file.writelines("void " + archivostrip[0] +"(){\n")
+    for cad in cadena_funcion:
+        file.writelines(cad)
+    file.writelines("}\n")
+def incluir(fondo,ventana,fun):
+    ruta=sys.path[0]+ "/funcion/"+str(fun[1].strip(" \n"))+".func"
+    print ruta
+    file=open(ruta,"r")
+    for cadena in range(len(ventana.cadena_pinguino)):
+        if ventana.cadena_pinguino[cadena]=="/*funciones*/\n":
+            cadenarch=file.readlines()
+            a=1
+            for val in cadenarch:
+                ventana.cadena_pinguino.insert(cadena+a,val)
+                a=a+1
 

@@ -12,12 +12,7 @@
 # GNU General Public License for more details.
 import gtk
 import os
-#~ import json
-#~ def guardar(obj,ruta,fondo):
-    #~ print "---"
-    #~ print fondo
-    #~ print "---"
-    #~ json.dump(open("archivo.json", "w"), obj)
+
 def guardar(obj,ruta,fondo):
 
     file=open(ruta,"w")
@@ -28,6 +23,16 @@ def guardar(obj,ruta,fondo):
     print "tamaño obj",len(fondo.tipo_obj)
     print "obj",fondo.objetos
     print "-------------------"
+    file.writelines("<fondo>")
+    file.write("\n")
+    file.writelines(str(fondo.FONDO))
+    file.write("\n")
+    file.writelines(str(fondo.band))
+    file.write("\n")
+    file.writelines(str(fondo.img))
+    file.write("\n")
+    file.writelines("</fondo>")
+    file.write("\n")
     file.writelines("<objeto_inicial>")
     file.write("\n")
     file.writelines(str(fondo.objetos[0].posicion))
@@ -115,7 +120,8 @@ def guardar(obj,ruta,fondo):
 
             file.writelines(str(fondo.objetos[i].posicion))
             file.write("\n")
-
+            file.writelines(str(fondo.objetos[i].posicion2))
+            file.write("\n")
             file.writelines(str(fondo.objetos[i].color))
             file.write("\n")
 

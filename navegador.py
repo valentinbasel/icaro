@@ -14,7 +14,7 @@
 import sys, re
 import gtk, gobject
 import webkit
-DEFAULT_URL = sys.path[0]+'/html/index.html' # Change this as you Wish
+DEFAULT_URL = sys.path[0]+'/documentos/publican/manual_np05/tmp/es-ES/html/index.html'
 class SimpleBrowser: # needs GTK, Python, Webkit-GTK
     tam=1
     def __init__(self):
@@ -37,7 +37,7 @@ class SimpleBrowser: # needs GTK, Python, Webkit-GTK
         self.btnback.connect('clicked',self._go_back)
         toolbar.pack_start(self.btnback,False,False)
         # Agrego el boton de "Ir"
-        button = gtk.Button('Inicio')
+        button = gtk.Button(_('Home'))
         button.connect('clicked',self._open_bar_url)
         toolbar.pack_start(button,False,False)
         # Agrego el boton "Adelante"
@@ -46,14 +46,14 @@ class SimpleBrowser: # needs GTK, Python, Webkit-GTK
         self.btnforward.connect('clicked',self._go_forward)
         toolbar.pack_start(self.btnforward,False,False)
         # Agrego el boton de "close"
-        button = gtk.Button('salir')
+        button = gtk.Button(_('Exit'))
         button.connect('clicked',self.close)
         toolbar.pack_start(button,False,False)
         # Agrego el boton de "zoom"
-        button = gtk.Button('Aumentar')
+        button = gtk.Button(_('increase'))
         button.connect('clicked',self.zoom,1)
         toolbar.pack_start(button,False,False)
-        button = gtk.Button('Disminuir')
+        button = gtk.Button(_('Decrease'))
         button.connect('clicked',self.zoom,-1)
         toolbar.pack_start(button,False,False)
         #~ # Agrego el boton "Actualizar"
