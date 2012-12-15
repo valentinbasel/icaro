@@ -1,4 +1,0 @@
-void ad(){
-PORTD=1;
-PORTD=12;
-}

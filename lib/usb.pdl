@@ -1,6 +1,0 @@
-CDC.print CDCputs#include <__cdc.c>
-CDC.read CDCgets#include <__cdc.c>
-USB.read usbread#define __USB__
-USB.send usbsend#define __USB__
-USB.sendint usbsendint#define __USB__
-USB.available usbavailable#define __USB__ 
