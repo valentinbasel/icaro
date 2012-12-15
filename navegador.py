@@ -143,13 +143,3 @@ class SimpleBrowser: # needs GTK, Python, Webkit-GTK
         else:
             self.status.set_text("")
 
-#~ if __name__ == '__main__':
-    #~ if len(sys.argv) > 1:
-        #~ url = sys.argv[1]
-    #~ else:
-        #~ url = DEFAULT_URL
-#~ gtk.gdk.threads_init()
-#~ browser = SimpleBrowser()
-#~ browser.open(url)
-#~ browser.show()
-#~ gtk.main()

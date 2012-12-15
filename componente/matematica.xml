@@ -15,6 +15,14 @@ masmas
 ++
 </componente>
 <componente>
+decremento
+6
+1
+(0,50,80)
+-- 
+--
+</componente>
+<componente>
 mas
 6
 1
@@ -45,4 +53,12 @@ dividir
 (0,50,80)
 / 
 /
+</componente>
+<componente>
+modulo
+6
+0
+(10,100,190)
+% 
+%
 </componente>

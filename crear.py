@@ -117,14 +117,19 @@ def funcion(fondo,ventana,ruta):
         file.writelines(cad)
     file.writelines("}\n")
 def incluir(fondo,ventana,fun):
-    ruta=sys.path[0]+ "/funcion/"+str(fun[1].strip(" \n"))+".func"
-    print ruta
-    file=open(ruta,"r")
-    for cadena in range(len(ventana.cadena_pinguino)):
-        if ventana.cadena_pinguino[cadena]=="/*funciones*/\n":
-            cadenarch=file.readlines()
-            a=1
-            for val in cadenarch:
-                ventana.cadena_pinguino.insert(cadena+a,val)
-                a=a+1
+    if ventana.archivo=="":
+        ventana.mensajes(2,"debes grabar el archivo primero para poder usar llamadas a funciones")
+        return 0
+    else:
+        directorio=os.path.dirname(ventana.archivo)
+        ruta=directorio+"/"+str(fun[1].strip(" \n"))+".func"
+        print ruta
+        file=open(ruta,"r")
+        for cadena in range(len(ventana.cadena_pinguino)):
+            if ventana.cadena_pinguino[cadena]=="/*funciones*/\n":
+                cadenarch=file.readlines()
+                a=1
+                for val in cadenarch:
+                    ventana.cadena_pinguino.insert(cadena+a,val)
+                    a=a+1
 

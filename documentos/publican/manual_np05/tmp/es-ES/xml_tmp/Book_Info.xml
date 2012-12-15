@@ -4,10 +4,10 @@
 %BOOK_ENTITIES;
 ]>
 <bookinfo id="book-manual_np05-manual_np05">
-	<title>placa np05</title>
-	<subtitle>Guia de usuario</subtitle>
-	<productname>Manual</productname>
-	<productnumber>0.1</productnumber>
+	<title>&icaro; </title>
+	<subtitle>&version;</subtitle>
+	<productname>Guia de usuario</productname>
+	<productnumber></productnumber>
 	<edition>0</edition>
 	<pubsnumber>0</pubsnumber>
 	<abstract>
@@ -17,6 +17,7 @@
 	<corpauthor>
 		<inlinemediaobject>
 			<imageobject>
+                
 				<imagedata fileref="images/caratula.png" format="PNG" />
 			</imageobject>
 		</inlinemediaobject>

@@ -26,7 +26,7 @@ from componente_inicial import *
 from componente import *
 import lenguaje
 import tooltips
-
+import config
 
 # ==============================================================================
 # variables globales de color
@@ -109,6 +109,7 @@ class Ventana:
 
     # variables globales para manejar posicion del mouse, clicks y pulsaciones
     # de teclas dentro de la ventana
+    archivo=""
     mousexy=(0,0)
     boton_mouse= [0,0,0,0]
     seleccionado=0
@@ -195,7 +196,7 @@ class Ventana:
 
         menu2 = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
-        buf2=(_("Background"),_("Color"),_("About"))
+        buf2=(_("Background"),_("Color"),_("About"), _("Config"))
         for i in buf2:
             menu_items2 = gtk.MenuItem(i)
             menu2.append(menu_items2)
@@ -513,7 +514,10 @@ class Ventana:
 # FUNCION PARA GENERAR LOS COMPONENTES DESDE EL DICCIONARIO
 # ==============================================================================
     def crear_componente(self,b):
-        ax=ay=30
+        ax=0
+        ay=30
+        dx=10
+        dy=20
         # siempre hay que tratar de que el foco quede en el drawing area
         self.area.grab_focus()
 
@@ -581,8 +585,8 @@ class Ventana:
             self.fondo.tipo_obj.append(0)
         if self.diccionario[b][1]==6:
             c1=comp_dat_arg   (
-                            self.mousexy[0]-ax,
-                            self.mousexy[1]-ay,
+                            self.mousexy[0]-dx,
+                            self.mousexy[1]-dy,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],
@@ -600,8 +604,8 @@ class Ventana:
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
         if self.diccionario[b][1]==7:
             c1=comp_dat_arg   (
-                            self.mousexy[0]-ax,
-                            self.mousexy[1]-ay,
+                            self.mousexy[0]-dx,
+                            self.mousexy[1]-dy,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],
@@ -754,10 +758,11 @@ class Ventana:
                                 cadena,
                                 self.fondo
                                 )
+                self.archivo=cadena
         elif response == gtk.RESPONSE_CANCEL:
             pass
         dialog.destroy()
-
+        
     def abrir(self,dato):
 
         dialog = gtk.FileChooserDialog(
@@ -772,7 +777,6 @@ class Ventana:
                                             )
                                         )
         dialog.set_default_response(gtk.RESPONSE_OK)
-        print dato
         try:
             dialog.set_current_folder(dato)
         except Exception, ex:
@@ -805,10 +809,12 @@ class Ventana:
                         self,
                         self.textorender
                         )
+            self.archivo=cadena
         elif response == gtk.RESPONSE_CANCEL:
             print 'Closed, no files selected'
         dialog.destroy()
     def nuevo(self,dato):
+        self.archivo=""
         nuevo.nuevo(self.fondo)
         self.fondo.band=0
         self.fondo.FONDO=(00,22,55)
@@ -850,10 +856,10 @@ class Ventana:
         menu = gtk.Menu()
 
         # Items del menu
-        dibujar = gtk.MenuItem("dibujar")
-        mover = gtk.MenuItem("mover")
-        editar = gtk.MenuItem("Editar")
-        eliminar = gtk.MenuItem("Eliminar")
+        dibujar = gtk.MenuItem(_("Pen"))
+        mover = gtk.MenuItem(_("Move"))
+        editar = gtk.MenuItem(_("Edit"))
+        eliminar = gtk.MenuItem(_("Erase"))
 
         # Agregar los items al menu
         menu.append(dibujar)
@@ -993,7 +999,10 @@ class Ventana:
             about.set_wrap_license(True)
             about.run()
             about.destroy()
-    
+        if string==_("Config"):
+            print " menu de congifuracion"
+            conf=config.CONFIG()
+            conf.show()
     #~ def carga_tooltip(self):
         #~ ruta=os.path.abspath(os.path.dirname(__file__)) 
         #~ ff=open(ruta + "/tooltips.xml","r")

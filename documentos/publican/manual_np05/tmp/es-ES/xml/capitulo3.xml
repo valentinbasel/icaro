@@ -8,7 +8,7 @@
 	 <section id="sect-manual_np05-Test_Chapter-Test_Section_1">
 		<title>Primer programa</title>
 		 <para>
-			Vamos a hacer el primer test de la placa ICARO np05; para ello necesitamos: 
+			Vamos a hacer el primer test de la placa ICARO &np05;; para ello necesitamos: 
 			<orderedlist>
 				<listitem>
 					<para>
@@ -24,13 +24,13 @@
 				</listitem>
 				 <listitem>
 					<para>
-						1 placa ICARO np05 y cable USB tipo D
+						1 placa ICARO &np05; y cable USB tipo D
 					</para>
 
 				</listitem>
 				 <listitem>
 					<para>
-						el software <command>icaro-bloques</command>
+						el software <command>&icaro-bloques;</command>
 					</para>
 
 				</listitem>
@@ -46,7 +46,7 @@
 				</imageobject>
 
 			</mediaobject>
-			 Los conectores P2 y P7 son para controlar motores de corriente continua (o un motor paso a paso del tipo unipolar). la placa ICARO np05 trae incorporada un driver de potencia (puente H) de tipo L293D que puede manejar tensiones de hasta 36 volts. Sin embargo, en el esquema de la placa, la tensión se reduce a 5 volt para poder trabajar con motores de poca potencia (típicamente motores CC de juguetes).
+			 Los conectores P2 y P7 son para controlar motores de corriente continua (o un motor paso a paso del tipo unipolar). la placa ICARO &np05; trae incorporada un driver de potencia (puente H) de tipo L293D que puede manejar tensiones de hasta 36 volts. Sin embargo, en el esquema de la placa, la tensión se reduce a 5 volt para poder trabajar con motores de poca potencia (típicamente motores CC de juguetes).
 		</para>
 		 <para>
 			Por seguridad el driver de potencia tiene una alimentación separada del resto de la placa, por eso necesita pilas (o una fuente de hasta 12 volt) para poder funcionar.
@@ -63,7 +63,7 @@
 
 		</para>
 		<para>
-			Con el cableado ya conectado abrimos el programa <command>icaro-bloques</command>, y cargamos nuestro primer programa para icaro desde la carpeta <filename>ejemplos/hola_mundo.icr2</filename>. 
+			Con el cableado ya conectado abrimos el programa <command>&icaro-bloques;</command>, y cargamos nuestro primer programa para icaro desde la carpeta <filename>ejemplos/hola_mundo.icr2</filename>. 
 			<mediaobject>
 				<imageobject>
 					<imagedata fileref="./images/Pantallazo-1.png" width="444" />
@@ -93,11 +93,11 @@
 			 Servomotor de aeromodelismo.
 		</para>
 		 <para>
-			La placa NP05 posee 5 conectores para servos, los cuales pueden ser controlados al mismo tiempo. Toman la tensión de alimentación de la misma fuente que el PIC, por lo tanto se pueden usar desde la alimentación de USB sin necesidad de baterías. 
+			La placa &np05; posee 5 conectores para servos, los cuales pueden ser controlados al mismo tiempo. Toman la tensión de alimentación de la misma fuente que el PIC, por lo tanto se pueden usar desde la alimentación de USB sin necesidad de baterías. 
 			<warning>
 				<title>Advertencia</title>
 				 <para>
-					Los servomotores necesitan voltaje para funcionar, la placa np05 provee 5 volts para su funcionamiento. Sin embargo, si se inserta el conector del servo al revés (es un conector de 3 pines, donde el blanco suele ser la señal, rojo voltaje y negro masa) se puede quemar el servo. Observar el diagrama siguiente para ver la forma correcta de instalar un servo en la placa.
+					Los servomotores necesitan voltaje para funcionar, la placa &np05; provee 5 volts para su funcionamiento. Sin embargo, si se inserta el conector del servo al revés (es un conector de 3 pines, donde el blanco suele ser la señal, rojo voltaje y negro masa) se puede quemar el servo. Observar el diagrama siguiente para ver la forma correcta de instalar un servo en la placa.
 				</para>
 
 			</warning>
@@ -118,7 +118,7 @@
 	 <section id="sect-manual_np05-conectando_servo">
 		<title>Conectando un servomotor</title>
 		 <para>
-			Para conectar un servo a la placa NP05 hay que seguir el diagrama siguiente. Generalmente el cable más claro es el que envía la señal de PWM (en los servos FUTABA S3003 es blanco), el del centro es el voltaje positivo (rojo) y el de la otra punta es la masa (negro). Pueden variar entre fabricantes los códigos de colores, pero en general se respeta el orden de los cables (positivo al medio).
+			Para conectar un servo a la placa &np05; hay que seguir el diagrama siguiente. Generalmente el cable más claro es el que envía la señal de PWM (en los servos FUTABA S3003 es blanco), el del centro es el voltaje positivo (rojo) y el de la otra punta es la masa (negro). Pueden variar entre fabricantes los códigos de colores, pero en general se respeta el orden de los cables (positivo al medio).
 		</para>
 		 <para>
 			<mediaobject>
@@ -143,7 +143,7 @@
 
 		</para>
 		 <para>
-			Luego de cargar el firmware, la placa NP05 se activará (a los 5 segundos) y el servo, si está correctamente instalado y andando, comenzará a moverse para un lado y para el otro.
+			Luego de cargar el firmware, la placa &np05; se activará (a los 5 segundos) y el servo, si está correctamente instalado y andando, comenzará a moverse para un lado y para el otro.
 		</para>
 
 	</section>

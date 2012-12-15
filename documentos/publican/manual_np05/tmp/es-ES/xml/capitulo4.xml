@@ -4,7 +4,7 @@
 %BOOK_ENTITIES;
 ]>
 <chapter id="chap-manual_icaro-bloques_avanzados" lang="es-ES">
-	<title>Uso avanzado de <command>icaro-bloques</command></title>
+	<title>Uso avanzado de <command>&icaro-bloques;</command></title>
 	 <section id="icaro-bloques_2">
 		<title>Crear componentes nuevos</title>
 		 <para>

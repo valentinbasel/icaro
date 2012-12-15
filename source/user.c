@@ -66,10 +66,4 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 void loop()
 {
 
-//El primer valor es el servo
-//El segundo valor son los grados de 0 a 255
-ServoWrite(10,0);
-Delayms(1000);
-ServoWrite(10,255);
-Delayms(1000);
 }

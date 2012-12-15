@@ -33,9 +33,11 @@ def compilar_pic(ruta,sdcc):
                         " --optimize-cmp"+
                         " --optimize-df"+
                         " -p" + processor +
-                        " -I" + sys.path[0] +
-                        "/include"+ " -I" + chemin +ruta
-                        +
+                        " -I " + chemin +ruta +
+                        " -I " + chemin +"/tmp/ "+
+                        " -I /usr/share/sdcc/non-free/include/pic16/ " +
+                        " -I /usr/share/sdcc/include/pic16/ " +
+
                         " -c"+
                         " -c"+
                         " -o" +
@@ -56,20 +58,26 @@ def upload_pic(ruta,sdcc):
                         " --optimize-cmp"+
                         " --optimize-df"+
                         " --no-crt"+
-                        " -Wl-s"+sys.path[0].replace(" ","\\ ")+"/lkr/18f2550.lkr,-m "+
+                        " -Wl-s"+sys.path[0].replace(" ","\\ ")+"/sdcc/lkr/18f2550.lkr,-m "+
                         " -mpic16"+
                         " -p"+processor+
-                        " -l "+sys.path[0].replace(" ","\\ ")+"/lib/libpuf.lib "+
-                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libio"+processor+".lib"+
-                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libc18f.lib "+
-                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libdev18f4550.lib"+
-
-                        " -l " +sys.path[0].replace(" ","\\ ")+"/lib/libm18f.lib "+
-                        sys.path[0].replace(" ","\\ ")+"/obj/application_iface.o "+
-                        sys.path[0].replace(" ","\\ ")+"/obj/usb_descriptors.o "+
-                        sys.path[0].replace(" ","\\ ")+"/obj/crt0ipinguino.o "+
+                        " -l "+sys.path[0].replace(" ","\\ ")+"/sdcc/lib/libpuf.lib "+
+                        " -l " +sys.path[0].replace(" ","\\ ")+"/sdcc/lib/libc18f.lib "+
+                        " --lib-path  " +sys.path[0].replace(" ","\\ ")+"/sdcc/lib/pic16 "+
+                        " --lib-path /usr/share/sdcc/non-free/lib/pic16/ " +
+                        " -l " +sys.path[0].replace(" ","\\ ")+"/sdcc/lib/libm18f.lib "+
+                        sys.path[0].replace(" ","\\ ")+"/sdcc/obj/application_iface.o "+
+                        sys.path[0].replace(" ","\\ ")+"/sdcc/obj/usb_descriptors.o "+
+                        sys.path[0].replace(" ","\\ ")+"/sdcc/obj/crt0ipinguino.o "+
+                        
+                        
+                        
                         sys.path[0].replace(" ","\\ ")+ruta + ".o ")
+    print "--------------------------------------------------------------------------------------------------------"
     print sortie2
+    print "--------------------------------------------------------------------------------------------------------"
+                        #~ " -l " +sys.path[0].replace(" ","\\ ")+"/sdcc/lib/libio"+processor+".lib"+
+
     i=os.system(sortie2)
     if i==0:
 

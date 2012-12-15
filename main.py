@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  mainn.py
+#  main.py
 #  
 #  Copyright 2012 Valentin Basel <valentinbasel@gmail.com>
 #  
@@ -122,7 +122,7 @@ class SALIR(pygame.sprite.Sprite):
             exit()
         pass
 config=[]
-pyt= ["Lanza la teminal interactiva ","con el modulo apicaro. Necesita ","tener IDLE instalado"]
+pyt= ["Lanza la teminal interactiva ","con el modulo apicaro. Necesita ","tener apicaro instalado"]
 tur= ["Lanza TurtleArt con el modulo ","Tortucaro. ","para manejo conectado ","a la netbook"]
 icr= ["Lanza Icaro-bloques para ","manejo de robots autonomos"]
 sal=["Sale del sistema"]
@@ -132,9 +132,10 @@ for txt in dat:
     config.append(txt)
 conf.close()
 ventana=VENTANA()
-BotonPython=BOTON(ventana.pantalla,100,10,sys.path[0] +"/imagenes/main/python.png","idle -c 'import apicaro; icaro=apicaro.puerto(); icaro.iniciar()'",pyt)
+BotonTurtle=BOTON(ventana.pantalla,100,10,sys.path[0] +"/imagenes/main/tortucaro.png",config[1],tur)
 BotonIcaro=BOTON(ventana.pantalla,100,150,sys.path[0] +"/imagenes/main/icaro.png","python "+sys.path[0] +"/icaro.py",icr)
-BotonTurtle=BOTON(ventana.pantalla,100,290,sys.path[0] +"/imagenes/main/tortucaro.png",config[1],tur)
+BotonPython=BOTON(ventana.pantalla,100,290,sys.path[0] +"/imagenes/main/python.png","idle -c 'import apicaro; icaro=apicaro.puerto(); icaro.iniciar()'",pyt)
+
 texto=Text(ventana)
 salir=SALIR(ventana.pantalla,100,430,sys.path[0] +"/imagenes/main/salir.png",sal)
 def main():

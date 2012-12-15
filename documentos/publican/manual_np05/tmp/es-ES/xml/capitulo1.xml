@@ -4,16 +4,16 @@
 %BOOK_ENTITIES;
 ]>
 <chapter id="chap-manual_np05-Test_Chapter" lang="es-ES">
-	<title>introducción</title>
+	<title>Placa &np05;</title>
 	 <para>
-		La placa ICARO NP05 está diseñada para trabajar nativamente con el puerto USB de su computadora. Por defecto, toma la alimentación del puerto USB para encender el microcontrolador y arrancar el sistema. 
+		La placa ICARO &np05; está diseñada para trabajar nativamente con el puerto USB de su computadora. Por defecto, toma la alimentación del puerto USB para encender el microcontrolador y arrancar el sistema. 
 		<mediaobject>
 			<imageobject>
 				<imagedata fileref="./images/np05.svg" />
 			</imageobject>
 
 		</mediaobject>
-		 Placa np05. 
+		 Placa &np05;. 
 		<note>
 			<title>Nota</title>
 			 <para>
@@ -57,19 +57,19 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 	<note>
 		<title> Nota</title>
 		<para>
-			Las placas ICARO np05 trabajan basadas en el bootlader del proyecto Pinguino, por lo tanto todo el desarrollo para este proyecto es aplicable a las placas np05.
+			Las placas ICARO &np05; trabajan basadas en el bootlader del proyecto Pinguino, por lo tanto todo el desarrollo para este proyecto es aplicable a las placas &np05;.
 		</para>
 	</note>
 	<para>
 		Una vez que el sistema está funcionando, podemos comenzar a cargar el firmware que vamos a usar. El firmware es código C++ compilado con <command>SDCC</command> que se puede subir a la placa mediante el programa <command>docker</command>, el cual se puede conseguir del proyecto VASCO PUF.
 	</para>
 	<para>
-		Sin embargo, las placas ICARO np05 estan preparadas para trabajar de 2 formas: con un firmware estándar previamente cargado para funcionar conectado al puerto usb y usar el programa <command>TurtleArt</command>, o con un firmware a medida diseñado con el programa <command>icaro-bloques</command>
+		Sin embargo, las placas ICARO &np05; estan preparadas para trabajar de 2 formas: con un firmware estándar previamente cargado para funcionar conectado al puerto usb y usar el programa <command>TurtleArt</command>, o con un firmware a medida diseñado con el programa <command>&icaro-bloques;</command>
 	</para>
 	 <section id="sect-manual_np05-esquema-electrico">
-		<title>Esquema eléctrico de la placa NP05</title>
+		<title>Esquema eléctrico de la placa &np05;</title>
 		 <para>
-			El esquema de conexión eléctrico de las placas Np05 está separado en dos: por un lado la alimentación del PIC (que puede ser directamente desde USB o baterías) y la conexión para el driver L293D (que usa baterías directamente). Para poder seleccionar el voltaje USB o de pilas (para el PIC) se usa el JUMPER (puente) K1 (justo arriba del conector USB de tipo D). 
+			El esquema de conexión eléctrico de las placas &np05; está separado en dos: por un lado la alimentación del PIC (que puede ser directamente desde USB o baterías) y la conexión para el driver L293D (que usa baterías directamente). Para poder seleccionar el voltaje USB o de pilas (para el PIC) se usa el JUMPER (puente) K1 (justo arriba del conector USB de tipo D). 
 			<mediaobject>
 				<imageobject>
 					<imagedata fileref="./images/np05_3.svg" width="444" />
@@ -94,7 +94,7 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 	 <section id="sect-manual_np05-reglas">
 		<title>Habilitación de escritura en el puerto</title>
 		 <para>
-			Cuando se conecta por primera vez una placa NP05 a una computadora, por defecto los sistemas GNU/linux no habilitan el modo escritura en el puerto, para ello tenemos que habilitarlo manualmente.
+			Cuando se conecta por primera vez una placa &np05; a una computadora, por defecto los sistemas GNU/linux no habilitan el modo escritura en el puerto, para ello tenemos que habilitarlo manualmente.
 		</para>
 		 <para>
 			La forma más sencilla es la dicha más arriba, que es trabajar como <command>root</command>, sin embargo esta práctica no es recomendada. Una de las formas es siendo <command>root</command> y dar permisos de lectura y escritura al puerto <command>/dev/ttyACM0</command>.
@@ -124,7 +124,7 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 		 <note>
 			<title>Nota</title>
 			 <para>
-				En realidad icaro-bloques no necesita específicamente tener permisos de escritura en el puerto /dev/ttyACM. ACM es para poder comunicar con el plugin Tortcaro o para usar Python con el modulo pyserial directamente,
+				En realidad &icaro-bloques; no necesita específicamente tener permisos de escritura en el puerto /dev/ttyACM. ACM es para poder comunicar con el plugin Tortcaro o para usar Python con el modulo pyserial directamente,
 			</para>
 
 		</note>
@@ -140,7 +140,7 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 			Mediante <command>udev</command>, podemos darles permisos de escritura para un grupo a nuestro hardware, y evitar la necesidad de se <command>root</command> con los posibles problemas de seguridad que eso implica.
 		</para>
 		 <para>
-			Para crear las reglas <command>udev</command> necesarias para poder trabajar con la placa np05, tenemos que copiar los 2 archivos .udev de la carpeta <literal>udev</literal> donde tenemos instalado <literal>icaro-bloques</literal> a la dirección <filename>/etc/udev/rules.d/</filename>.
+			Para crear las reglas <command>udev</command> necesarias para poder trabajar con la placa &np05;, tenemos que copiar los 2 archivos .udev de la carpeta <literal>udev</literal> donde tenemos instalado <literal>&icaro-bloques;</literal> a la dirección <filename>/etc/udev/rules.d/</filename>.
 		</para>
 		 <blockquote>
 			<para>
@@ -167,11 +167,11 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 	 <section id="sect-manual_np05-listado">
 		<title>Lista de componentes</title>
 		 <para>
-			La mayoría de los compontentes de la placa np05 son de fácil adquisición, generalmente lo más difícil de conseguir son el pic y el driver de potencia L293B.
+			La mayoría de los compontentes de la placa &np05; son de fácil adquisición, generalmente lo más difícil de conseguir son el pic y el driver de potencia L293B.
 		</para>
 		 <para>
 			<table>
-				<title>Listado de componentes placa np05</title>
+				<title>Listado de componentes placa &np05;</title>
 				 <tgroup cols="2">
 					<colspec colname="col1" colnum="1" colwidth="2*"></colspec>
 					 <colspec colname="col2" colnum="2" colwidth="2*"></colspec>
@@ -350,61 +350,6 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 	</section>
 	
-	 <section id="instalar_icaro-bloques">
-		<title>Instalación manual de <command>icaro-bloques</command>.</title>
-		 <para>
-			Para instalar manualmente <command>icaro-bloques</command> hay que seguir los siguientes pasos (como <command>root</command>):
-		</para>
-		 <para>
-			<orderedlist>
-				<listitem>
-					<para>
-						#&gt; yum -y install pygame pywebkitgtk pygtksourceview
-					</para>
-
-				</listitem>
-				 <listitem>
-					<para>
-						#&gt; yum -y install sdcc gputils
-					</para>
-
-				</listitem>
-				 <listitem>
-					<para>
-						copiar el archivo pic18f4550.h en la carpeta sdcc-include a <filename>/usr/share/sdcc/include/pic16/</filename>
-					</para>
-
-				</listitem>
-				 <listitem>
-					<para>
-						copiar el archivo pic18f2455.h en la carpeta sdcc-include a <filename>/usr/share/sdcc/include/pic16/</filename>
-					</para>
-
-				</listitem>
-				 <listitem>
-					<para>
-						copiar el archivo libdev18f4550.lib en la carpeta sdcc-include a <filename>/usr/share/sdcc/lib/pic16/</filename>
-					</para>
-
-				</listitem>
-				 <listitem>
-					<para>
-						copiar el archivo macro.h en la carpeta sdcc-include a <filename>/usr/share/sdcc/include/pic16/</filename>
-					</para>
-
-				</listitem>
-				 <listitem>
-					<para>
-						En algunos sistemas linux puede suceder que necesitemos pertenecer al grupo "admin" para poder acceder al dispositivo USB que representa la placa.
-					</para>
-
-				</listitem>
-
-			</orderedlist>
-
-		</para>
-
-	</section>
 
 </chapter>
 

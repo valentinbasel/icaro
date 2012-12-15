@@ -22,7 +22,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
     cadena_final=""
     cadena_intermedia=""
     #rectangulo que representa toda el area del componente
-    rectan=pygame.Rect(0,0,80,20)
+    rectan=pygame.Rect(0,0,80,40)
     ide=0
     color=(125,100,83)
     modificable=0
@@ -41,7 +41,6 @@ class comp_dat_arg(pygame.sprite.Sprite):
                     fondo,
                     ventana,
                     textorender
-
                 ):
         pygame.sprite.Sprite.__init__(self)
         self.ide=identidad
@@ -172,6 +171,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
                         ),
                         0
                         )
+        self.rectan[2]=7*TamaComp+20
         if self.tipo==7:
             self.textorender.render(
                                     str(self.texto),
@@ -205,43 +205,32 @@ class comp_dat_arg(pygame.sprite.Sprite):
         # self.conector_m es la ficha "macho"
         self.conector_m[0]=self.rectan[0]
         self.conector_m[1]=self.rectan[1]
-
-
         if (
             botones_mouse[1] and
             self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and
             self.modificable==1 and
             self.ventana.seleccion_menu==4
             ):
+            print "habilito la edicion del boton"
             self.tecla=1
-            self.texto=""
             self.ventana.seleccionado_datos_ed=self.ide
-            self.ventana.tecla=0
-        if (
-            self.tecla==1 and
-            self.ventana.seleccionado_datos_ed==self.ide
-            ):
+            self.texto=""
+        if self.tecla==1 and self.ventana.seleccionado_datos_ed==self.ide:
             if self.valor_cadena_no_mod=="a":
-                if (
-                    self.tecla_presionada==1 and 
-                    self.ventana.tecla==1 
-                    ):
+                if (self.tecla_presionada==1 and self.ventana.tecla==1):
                     cadena_auxiliar= self.ventana.valor_tecla
                     self.tecla_presionada=0
                     if cadena_auxiliar!="":
                         self.texto = self.texto + cadena_auxiliar
             if self.valor_cadena_no_mod=="0":
-                if (
-                    self.tecla_presionada==1 and 
-                    self.ventana.tecla==1 and 
-                    self.ventana.valor_tecla.isdigit() 
-                    ):
+                if (self.tecla_presionada==1 and 
+                    self.ventana.tecla==1 and
+                    self.ventana.valor_tecla.isdigit()):
                     cadena_auxiliar= self.ventana.valor_tecla
                     self.tecla_presionada=0
                     if cadena_auxiliar!="":
                         self.texto = self.texto + cadena_auxiliar
             if self.ventana.tecla==0:
-                
                 self.tecla_presionada=1
             if self.ventana.tecla_enter==1:
                 self.tecla=0
@@ -255,6 +244,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
                                 self.cadena_intermedia
                                 )
         self.cadena_final=self.cadena_final.replace("\r", '')
+
         if self.conectado==0:
             if self.pegado==0:
                 for a in range(1,len(self.fondo.objetos)):
@@ -262,8 +252,7 @@ class comp_dat_arg(pygame.sprite.Sprite):
                     for b in range(len(valor1)):
                         valor2=self.fondo.objetos[a]
                         valor3=valor2.lista_conector_h_datos[b]
-                        if (
-                            self.conector_m.colliderect(valor3)):
+                        if (self.conector_m.colliderect(valor3)):
                             self.pegado=1
                             self.conectado=1
                             self.pegado_a=a
@@ -337,7 +326,6 @@ class comp_dat_arg(pygame.sprite.Sprite):
             self.fondo.objetos_datos.remove(self)
         self.dibujar()
         self.cadena_intermedia=""
-                      self.pegado_b=b
         if self.pegado==1:
             ob=self.fondo.objetos
             x,y,aa,bb=ob[self.pegado_a].lista_conector_h_datos[self.pegado_b]
@@ -379,23 +367,6 @@ class comp_dat_arg(pygame.sprite.Sprite):
             self.pulsado=0
             self.ventana.seleccionado_datos=0
 
-        if botones_mouse[2] and self.rectan.collidepoint(self.ventana.mousexy):
-            print self.ide
-        if botones_mouse[3] and self.rectan.collidepoint(posic_mouse[0],posic_mouse[1]) and self.modificable==1:
-            self.tecla=1
-            self.texto=""
-            self.dat_a=""
-        if self.tecla==1:
-            if self.tecla_presionada==0:
-                cadena_auxiliar= self.ventana.valor_tecla
-                self.tecla_presionada=1
-                if cadena_auxiliar!="":
-                    self.texto = self.texto + cadena_auxiliar
-            if self.ventana.tecla==0:
-                self.tecla_presionada=0
-
-        if self.ventana.tecla_enter==1:
-            self.tecla=0
         if (botones_mouse[1]==1
                 and self.rectan.collidepoint(self.ventana.mousexy)
                 and self.ventana.seleccion_menu==3):
@@ -406,15 +377,15 @@ class comp_dat_arg(pygame.sprite.Sprite):
                 self.fondo.objetos_datos[i].pegado_b=0
                 self.fondo.objetos_datos[i].pegado2=0
                 self.fondo.objetos_datos[i].pegado_a2=0
-            a=self.fondo.objetos_datos.index(self)
-            ident=self.fondo.objetos_datos[a].ide
+            #~ a=self.fondo.objetos_datos.index(self)
+            #~ ident=self.fondo.objetos_datos[a].ide
                 #~ for i in range(len(self.fondo.objetos)):
                     #~ self.fondo.objetos[i].pegado_a=0
                     #~ self.fondo.objetos[i].pegado=0
                 #~ self.fondo.objetos_datos[a].vivo=False
-            del self.fondo.tipo_obj_datos[a]
+            #~ del self.fondo.tipo_obj_datos[a]
             self.kill()
-            self.fondo.objetos_datos.remove(self)
+            #~ self.fondo.objetos_datos.remove(self)
                 #~ self.fondo.lista_ordenada[self.ide]=0
         self.dibujar()
         self.cadena_intermedia=""

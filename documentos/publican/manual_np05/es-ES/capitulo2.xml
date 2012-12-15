@@ -4,20 +4,20 @@
 %BOOK_ENTITIES;
 ]>
 <chapter id="chap-manual_icaro-bloques">
-	<title>Manual de usuario icaro-bloques</title>
+	<title>Manual de usuario &icaro-bloques; </title>
 	<section id="manual_icaro-bloques">
-		<title> <command>icaro-bloques</command></title>
+		<title> <command>&icaro-bloques;</command></title>
 		<para>
-         <command>icaro-bloques</command> es un programa para generar y cargar firmware en los pics 18f4550
+         <command>&icaro-bloques; </command> es un programa para generar y cargar firmware en los pics 18f4550
         con bootloaders, VASCO-PUF (del proyecto PINGUINO). Su funcionamiento se basa en "apilar" bloques que representan 
         líneas de instrucciones ANSI C (SDCC), permitiendo generar código C de forma muy sencilla sin conociminetos de programación o electrónica.
         </para>
         
     </section> 
 	<section id="manual_icaro-bloques_ventana">
-		<title>Disposición de la ventana  <command>icaro-bloques</command></title>
+		<title>Disposición de la ventana  <command>&icaro-bloques;</command></title>
         <para>
-        <command>icaro-bloques</command> tienen 3 áreas de trabajo: 
+        <command>&icaro-bloques;</command> tienen 3 áreas de trabajo: 
         la barra de heramientas, la de componentes y la zona de trabajo.
         </para>
         
@@ -42,7 +42,7 @@
         </para>
 		<para>
         La barra de herramientas aloja los botones básicos para 
-        trabajar con <command>icaro-bloques</command>.
+        trabajar con <command>&icaro-bloques;</command>.
         </para>
         
 			<orderedlist>
@@ -166,7 +166,7 @@
         </para>
     </section>
 	<section id="manual_icaro-tipo_componentes">
-		<title>Tipo de componentes de  <command>icaro-bloques</command></title>
+		<title>Tipo de componentes de  <command>&icaro-bloques;</command></title>
 		<para>
         test test test test
         </para>
