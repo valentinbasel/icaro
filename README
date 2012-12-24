@@ -1,7 +1,9 @@
 ﻿#===============================================================================
 # ACERCA DE.
 #===============================================================================
+Prpyeto ICARO es una serie de paquetes de software diesñado para enseñar robotica de forma facil en los colegios. Se basa en 
 
+TORTUCARO es un plugin para TurtleArt, que permite agregar las primitivas necesarias para poder controlar robots echcos con hardware basado en pinguino (concretamente con las placas NP05 del proyecto icaro).
 ICARO-BLOQUES es un Front-end para desarrollar código C para el compilador SDCC
 y el proyecto Pinguino-Usb. Esta diseñado para trabajar con niños en edad escolar para hacer practicas de robótica educativa con hardware de bajo costo.
 Genera código fuente en C para   los PICs 18f4550 y el bootloader VASCO – PUF
