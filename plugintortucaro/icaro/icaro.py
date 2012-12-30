@@ -88,6 +88,65 @@ class Icaro(Plugin):
                      help_string=_('lee el valor del sensor 1 y devuelve 0 o 255'))
         self._parent.lc.def_prim('sensoran1', 0, lambda self: primitive_dictionary['sensoran1'](1))
 
+        primitive_dictionary['sensoran2'] = self._sensor_analog
+        palette.add_block('sensoran2',  
+                     style='box-style',  
+                     label=_('sensoran2'),  
+                     prim_name='sensoran2',  
+                     help_string=_('lee el valor del sensor 2 y devuelve 0 o 255'))
+        self._parent.lc.def_prim('sensoran2', 0, lambda self: primitive_dictionary['sensoran2'](2))
+        
+
+        primitive_dictionary['sensoran3'] = self._sensor_analog
+        palette.add_block('sensoran3',  
+                     style='box-style',  
+                     label=_('sensoran3'),  
+                     prim_name='sensoran3',  
+                     help_string=_('lee el valor del sensor 3 y devuelve 0 o 255'))
+        self._parent.lc.def_prim('sensoran3', 0, lambda self: primitive_dictionary['sensoran3'](3))
+
+        primitive_dictionary['sensoran4'] = self._sensor_analog
+        palette.add_block('sensoran4',  
+                     style='box-style',  
+                     label=_('sensoran4'),  
+                     prim_name='sensoran4',  
+                     help_string=_('lee el valor del sensor 4 y devuelve 0 o 255'))
+        self._parent.lc.def_prim('sensoran4', 0, lambda self: primitive_dictionary['sensoran4'](4))
+
+        primitive_dictionary['sensoran5'] = self._sensor_analog
+        palette.add_block('sensoran5',  
+                     style='box-style',  
+                     label=_('sensoran5'),  
+                     prim_name='sensoran5',  
+                     help_string=_('lee el valor del sensor 5 y devuelve 0 o 255'))
+        self._parent.lc.def_prim('sensoran5', 0, lambda self: primitive_dictionary['sensoran5'](5))
+        
+        primitive_dictionary['sensoran6'] = self._sensor_analog
+        palette.add_block('sensoran6',  
+                     style='box-style',  
+                     label=_('sensoran6'),  
+                     prim_name='sensoran6',  
+                     help_string=_('lee el valor del sensor 6 y devuelve 0 o 255'))
+        self._parent.lc.def_prim('sensoran6', 0, lambda self: primitive_dictionary['sensoran6'](6))
+
+        primitive_dictionary['sensoran7'] = self._sensor_analog
+        palette.add_block('sensoran7',  
+                     style='box-style',  
+                     label=_('sensoran7'),  
+                     prim_name='sensoran7',  
+                     help_string=_('lee el valor del sensor 7 y devuelve 0 o 255'))
+        self._parent.lc.def_prim('sensoran7', 0, lambda self: primitive_dictionary['sensoran7'](7))        
+        
+        
+        primitive_dictionary['sensoran8'] = self._sensor_analog
+        palette.add_block('sensoran8',  
+                     style='box-style',  
+                     label=_('sensoran8'),  
+                     prim_name='sensoran8',  
+                     help_string=_('lee el valor del sensor 8 y devuelve 0 o 255'))
+        self._parent.lc.def_prim('sensoran8', 0, lambda self: primitive_dictionary['sensoran8'](8))
+        
+
         primitive_dictionary['sensor1'] = self._sensor2
         palette.add_block('sensor1',  
                      style='box-style',  
