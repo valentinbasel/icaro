@@ -22,8 +22,40 @@
 #  
 #  
 import pygame
-import os, sys
+import os, sys, grp, gtk,pygtk
 pygame.init()
+class mensajes:
+    """ Class doc """
+    
+    def __init__ (self):
+        """ Class initialiser """
+        self.window1 = gtk.Window()
+        self.window1.connect('delete-event', gtk.main_quit)
+        #~ self.window1.show()
+        #~ print "ventana"
+    def mensajes(self,num,mensa):
+        tipo=   (
+                gtk.MESSAGE_WARNING,
+                gtk.MESSAGE_QUESTION,
+                gtk.MESSAGE_ERROR,
+                gtk.MESSAGE_INFO
+                )
+        botones=(
+                gtk.BUTTONS_OK,
+                gtk.BUTTONS_OK_CANCEL,
+                gtk.BUTTONS_OK,
+                gtk.BUTTONS_OK
+                )
+        md = gtk.MessageDialog(None,
+            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+            tipo[num],
+            botones[num], mensa)
+        resp=md.run()
+        md.destroy()
+        if resp == gtk.RESPONSE_OK:
+            return True
+        elif resp == gtk.RESPONSE_CANCEL:
+            return False
 class Text:
     def __init__(self, fondo,FontName = None, FontSize = 40):
         pygame.font.init()
@@ -37,6 +69,7 @@ class Text:
             self.fondo.pantalla.blit(self.font.render(i, 1, color), (x, y))
             
             y += self.size
+
 class VENTANA(pygame.sprite.Sprite):
     """ Class doc """
     
@@ -55,8 +88,6 @@ class VENTANA(pygame.sprite.Sprite):
         self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
         self.mouse_buton=pygame.mouse.get_pressed()   
 
-
-            
 class BOTON(pygame.sprite.Sprite):
     """ Class doc """
     redct=0
@@ -89,7 +120,6 @@ class BOTON(pygame.sprite.Sprite):
             ventana.mouse_buton[0]):
             os.system(self.ejecuta)
 
-
 class SALIR(pygame.sprite.Sprite):
     """ Class doc """
     
@@ -121,6 +151,45 @@ class SALIR(pygame.sprite.Sprite):
             ventana.mouse_buton[0]):
             exit()
         pass
+men=mensajes()
+Error=0
+CadenaMensaje="Se encontraron los siguientes errores: \n"
+MicrochipBool="false"
+DialoutBool="false"
+grupos=grp.getgrall()
+microchip=""
+dialout=""
+CadenaScript=""" 
+para crear el grupo microchip, agregar el usuario a microchip y dialout hacer en la terminal lo siguiente:
+
+sudo groupadd microchip
+sudo usermod -a -G microchip $USER
+sudo usermod -a -G dialout $USER
+"""
+for gr in grupos:
+    if gr[0]=="microchip":
+        microchip=gr[2]
+    if gr[0]=="dialout":
+        dialout=gr[2]
+
+misgrupos=os.getgroups()
+if microchip in misgrupos:
+    MicrochipBool="true"
+if dialout in misgrupos:
+    DialoutBool="true"
+if microchip=="":
+    CadenaMensaje=CadenaMensaje +"  - No se ha detectado el grupo microchip. \n"
+    Error=1
+if MicrochipBool=="false":
+    CadenaMensaje=CadenaMensaje +"  - El usuario no pertenece al grupo microchip \n"
+    Error=1
+if DialoutBool=="false":
+    CadenaMensaje=CadenaMensaje +"  - El usuario no pertenece al grupo dialout \n"
+    Error=1
+if Error==1:
+    CadenaMensaje=CadenaMensaje+CadenaScript
+    men.mensajes(2,CadenaMensaje)
+    exit()
 config=[]
 pyt= ["Lanza la teminal interactiva ","con el modulo apicaro. Necesita ","tener apicaro instalado"]
 tur= ["Lanza TurtleArt con el modulo ","Tortucaro. ","para manejo conectado ","a la netbook"]
@@ -140,6 +209,7 @@ texto=Text(ventana)
 salir=SALIR(ventana.pantalla,100,430,sys.path[0] +"/imagenes/main/salir.png",sal)
 def main():
 
+        
     while True:
         for evento in pygame.event.get():
             if evento.type==pygame.QUIT:

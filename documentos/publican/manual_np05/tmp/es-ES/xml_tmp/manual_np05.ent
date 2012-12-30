@@ -1,9 +1,0 @@
-<!ENTITY PRODUCT "Documentation">
-<!ENTITY BOOKID "manual_np05">
-<!ENTITY YEAR "2012">
-<!ENTITY HOLDER "| You need to change the HOLDER entity in the es-ES/manual_np05.ent file |">
-<!ENTITY version "1.0">
-<!ENTITY icaro "ICARO">
-<!ENTITY np05 "NP05 ">
-<!ENTITY icaro-bloques "icaro-bloques 1.0">
-
