@@ -3,3 +3,4 @@ encoding/docker.py=utf-8
 encoding/guardar.py=utf-8
 encoding/icaro.py=utf-8
 encoding/main.py=utf-8
+encoding/navegador.py=utf-8

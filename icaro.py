@@ -455,7 +455,7 @@ class Ventana:
 # ==============================================================================
     def ayuda(self,b):
         browser = navegador.SimpleBrowser()
-        browser.open(sys.path[0]+'/documentos/publican/manual_np05/tmp/es-ES/html/index.html')
+        browser.open('http://roboticaro.org/documentacion/index.html')
         browser.show()
 
     def dibujo(self,event,b):
