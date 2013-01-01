@@ -1,9 +1,11 @@
 [Desktop Entry]
 Version=1.0
-Type=Application
+Encoding=UTF-8
+Name=icaro
+Comment=
 Terminal=false
-Exec=python /usr/share/icaro-bloques/main.py
-Name=icaro-bloques
-Comment=proyeto de robotica educativa libre
-Icon=/usr/share/icaro-bloques/imagenes/logo.png
+Type=Application
+Categories=GTK;Education;
+Icon=icarologo
+Exec=icaro
 Name[es_ES]=icaro
