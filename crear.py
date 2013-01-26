@@ -40,6 +40,7 @@ def parseador(lista,argumentos,texto,cadena_final,fondo,ventana):
     
 
 def crear_archivo(fondo, ventana):
+    dir_conf=os.path.expanduser('~') + "/.icaro/np05/"
     cadena_final=[]
     f=open(sys.path[0] +"/diccionario.xml","r")
     cadena=f.readlines()
@@ -72,7 +73,8 @@ def crear_archivo(fondo, ventana):
                 else:
                     ventana.cadena_pinguino.append(caden)
     ventana.cadena_pinguino.append("}")
-    fw=open(sys.path[0] +"/source/user.c","w")
+    
+    fw=open(dir_conf +"/source/user.c","w")
     for a in range (len(ventana.cadena_pinguino)):
         fw.writelines(ventana.cadena_pinguino[a])
     fw.close()

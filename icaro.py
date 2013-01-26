@@ -650,14 +650,15 @@ class Ventana:
     # cadena_pinguino
     def carga(self):
         self.cadena_pinguino[:]=[]
-        archivo=open(sys.path[0] +"/source/template.pde","r")
+        dir_conf=os.path.expanduser('~') + "/.icaro/np05/"
+        archivo=open(dir_conf +"/source/template.pde","r")
         for linea in archivo:
             self.cadena_pinguino.append(linea)
 
     def compilar(self,b):
         self.carga()
         crear.crear_archivo(self.fondo,self)
-        i=carga.compilar_pic("/source/",self.config[0])
+        i=carga.compilar_pic("main",self.config[0])
         if i==1:
             self.mensajes(0,("no se encuentra el compilador sdcc en" +  
                                 " la ruta " + self.config[0] + 
@@ -674,7 +675,7 @@ class Ventana:
         "aprete el boton RESET de la placa pinguino antes de continuar"
                         )
                     
-        i=carga.upload_pic("/source/main",self.config[0])
+        i=carga.upload_pic("main",self.config[0])
         if i==0:
             self.mensajes(3,"la carga fue exitosa")
             return 0
@@ -694,7 +695,7 @@ class Ventana:
     def tortucaro(self,b):
         resultado=1
         comp=1
-        i=carga.compilar_pic("/tortucaro/",self.config[0])
+        i=carga.compilar_pic("tortucaro",self.config[0])
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
             comp=0
@@ -706,7 +707,7 @@ class Ventana:
                             3,
         "aprete el boton RESET de la placa pinguino antes de continuar"
                             )
-        i=carga.upload_pic("/tortucaro/main",self.config[0])
+        i=carga.upload_pic("tortucaro",self.config[0])
         if i==0:
             self.mensajes(3,"la carga fue exitosa")
             return 0
