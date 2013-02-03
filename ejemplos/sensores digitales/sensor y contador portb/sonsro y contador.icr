@@ -4,11 +4,11 @@
 
 </fondo>
 <objeto_inicial>
-(78.0, 7.0)
+(226.0, 45.0)
 </objeto_inicial>
 <objeto_dato>
 1
-(131, 107)
+(272, 145)
 0
 (49, 107, 222)
 1
@@ -18,7 +18,7 @@
 </objeto_dato>
 <objeto_dato>
 2
-(131, 67)
+(272, 105)
 a
 (71, 138, 26)
 1
@@ -29,7 +29,7 @@ a
 <objeto_dato_img>
 sensordig1.png
 3
-(258, 307)
+(406, 345)
 dig 1 
 (38, 105, 93)
 0
@@ -39,7 +39,7 @@ sensordigital(21)
 </objeto_dato_img>
 <objeto_dato>
 4
-(265, 407)
+(413, 445)
 100
 (49, 107, 222)
 1
@@ -49,17 +49,17 @@ sensordigital(21)
 </objeto_dato>
 <objeto_dato>
 5
-(272, 457)
+(413, 495)
 a
 (71, 138, 26)
 1
 a
-++
+
 a++
 </objeto_dato>
 <objeto_dato>
 6
-(219, 257)
+(367, 295)
 a
 (71, 138, 26)
 1
@@ -70,7 +70,7 @@ a
 <objeto_dato_img>
 masmas.png
 7
-(309, 457)
+(450, 495)
 ++ 
 (118, 177, 99)
 0
@@ -80,7 +80,7 @@ masmas.png
 </objeto_dato_img>
 <objeto_dato>
 8
-(272, 557)
+(413, 595)
 a
 (71, 138, 26)
 1
@@ -90,18 +90,18 @@ a=0
 </objeto_dato>
 <objeto_dato_img>
 asignacion.png
-10
-(309, 557)
+9
+(450, 595)
 = 
 (186, 245, 117)
 0
 =
-0
+
 =0
 </objeto_dato_img>
 <objeto_dato>
-11
-(360, 557)
+10
+(501, 595)
 0
 (49, 107, 222)
 1
@@ -111,8 +111,8 @@ asignacion.png
 </objeto_dato>
 <objeto_dato_img>
 verdadero.png
-12
-(198, 207)
+11
+(346, 245)
 1 
 (138, 6, 1)
 0
@@ -121,8 +121,8 @@ verdadero.png
 1 
 </objeto_dato_img>
 <objeto_dato>
-14
-(187, 157)
+12
+(335, 195)
 inicia un bucle infinito
 (71, 138, 26)
 1
@@ -131,8 +131,8 @@ a
 inicia un bucle infinito
 </objeto_dato>
 <objeto_dato>
-15
-(307, 357)
+13
+(455, 395)
 incrementa "a"
 (71, 138, 26)
 1
@@ -140,26 +140,18 @@ a
 
 incrementa "a"
 </objeto_dato>
-<objeto_componente>
-var
-2
-2
-(78, 57)
-(109, 96, 120)
-var 
-</objeto_componente>
 <objeto_bloque>
 3
-(138, 297)
+(286, 335)
 (91, 105, 190)
 si 
-(138, 597)
+(286, 635)
 </objeto_bloque>
 <objeto_componente>
 sino
 0
 5
-(198, 497)
+(346, 535)
 (135, 145, 240)
 sino 
 </objeto_componente>
@@ -167,15 +159,15 @@ sino
 linea
 1
 6
-(198, 447)
+(346, 485)
 (182, 113, 84)
-linea  
+linea 
 </objeto_componente>
 <objeto_componente>
 activar
 1
 7
-(138, 247)
+(286, 285)
 (213, 72, 62)
 activar 
 </objeto_componente>
@@ -183,7 +175,7 @@ activar
 pausa
 1
 8
-(198, 397)
+(346, 435)
 (230, 81, 145)
 pausa 
 </objeto_componente>
@@ -191,22 +183,22 @@ pausa
 linea
 1
 9
-(198, 547)
+(346, 585)
 (182, 113, 84)
-linea  
+linea 
 </objeto_componente>
 <objeto_bloque>
 10
-(78, 197)
+(226, 235)
 (69, 168, 65)
 mientras 
-(78, 647)
+(226, 685)
 </objeto_bloque>
 <objeto_componente>
 comentarios
 1
 12
-(78, 147)
+(226, 185)
 (203, 72, 245)
 comentarios 
 </objeto_componente>
@@ -214,7 +206,15 @@ comentarios
 comentarios
 1
 13
-(198, 347)
+(346, 385)
 (203, 72, 245)
 comentarios 
+</objeto_componente>
+<objeto_componente>
+int
+2
+14
+(226, 95)
+(118, 177, 99)
+int
 </objeto_componente>
