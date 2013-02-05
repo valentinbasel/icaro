@@ -72,17 +72,14 @@ def upload_pic(ruta,sdcc):
                         " -mpic16"+
                         " -p"+processor+
                         " -l "+dir_conf+"/sdcc/lib/libpuf.lib "+
-                        " -l " +dir_conf+"/sdcc/lib/libc18f.lib "+
-                        " --lib-path  " +dir_conf+"/sdcc/lib/pic16 "+
+                        " -l /usr/share/sdcc/lib/pic16/libc18f.lib "+
                         " --lib-path "+ "/usr/share/sdcc/non-free/lib/pic16/ " +
-                        " -l " +dir_conf+"/sdcc/lib/libm18f.lib "+
-                        dir_conf+"/sdcc/obj/application_iface.o "+
+                        " -l /usr/share/sdcc/lib/pic16/libm18f.lib "+
                         dir_conf+"/sdcc/obj/usb_descriptors.o "+
                         dir_conf+"/sdcc/obj/crt0ipinguino.o "+
-                        
-                        
-                        
+                        dir_conf+"/sdcc/obj/application_iface.o "+
                         dir_conf+ "/temporal/"+ruta+".o ")
+
     print "--------------------------------------------------------------------------------------------------------"
     print sortie2
     print "--------------------------------------------------------------------------------------------------------"
