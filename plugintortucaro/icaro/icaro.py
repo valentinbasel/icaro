@@ -22,7 +22,7 @@ _logger = logging.getLogger('turtleart-activity icaro plugin')
 import apicaro
 import time
 puerto = apicaro.puerto()
-puerto.PUERTO='/dev/ttyUSB0'
+puerto.PUERTO='/dev/ttyACM0'
 puerto.iniciar()
 class Icaro(Plugin):
     def __init__(self, parent):
