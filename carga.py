@@ -50,7 +50,7 @@ def compilar_pic(ruta,sdcc):
                         " -c"+
                         " -o" +
                         
-                        dir_conf +"/temporal/"+ruta+".o " +
+                        dir_conf + "/source/"+ruta+".o " +
                         dir_conf + "/source/"+ruta+".c ")
     print sortie
     
@@ -68,16 +68,16 @@ def upload_pic(ruta,sdcc):
                         " --optimize-cmp"+
                         " --optimize-df"+
                         " --no-crt"+
-                        " -Wl-s"+dir_conf+"/sdcc/lkr/18f2550.lkr,-m "+
+                        " -Wl-s /usr/share/icaro/pic16/lkr/18f2550.lkr,-m "+
                         " -mpic16"+
                         " -p"+processor+
-                        " -l "+dir_conf+"/sdcc/lib/libpuf.lib "+
+                        " -l /usr/share/icaro/pic16/lib/libpuf.lib " +
                         " -l /usr/share/sdcc/lib/pic16/libc18f.lib "+
                         " --lib-path "+ "/usr/share/sdcc/non-free/lib/pic16/ " +
                         " -l /usr/share/sdcc/lib/pic16/libm18f.lib "+
-                        dir_conf+"/sdcc/obj/usb_descriptors.o "+
-                        dir_conf+"/sdcc/obj/crt0ipinguino.o "+
-                        dir_conf+"/sdcc/obj/application_iface.o "+
+                        "/usr/share/icaro/pic16/obj/usb_descriptors.o "+
+                        "/usr/share/icaro/pic16/obj/crt0ipinguino.o "+
+                        "/usr/share/icaro/pic16/obj/application_iface.o "+
                         dir_conf+ "/temporal/"+ruta+".o ")
 
     print "--------------------------------------------------------------------------------------------------------"

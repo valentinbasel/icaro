@@ -155,6 +155,7 @@ class Ventana:
         self.lista=self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
+        # cargo la configuracion de icaro
         conf=open(sys.path[0] +"/config.dat","r")
         dat=conf.readlines()
         for txt in dat:

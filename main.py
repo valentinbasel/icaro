@@ -197,17 +197,18 @@ if os.path.isdir(dir_conf)==0:
     os.mkdir(dir_conf)
 
 if os.path.isdir(dir_conf+"/np05/")==0:
-    respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
+    #respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
     #print respuesta
-    if respuesta==True:
-        try:
-            archivo=urllib.urlretrieve("http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz",dir_conf+"np05.tar.gz",None)
-            tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
-            tar.extractall(dir_conf)
-            tar.close
-        except:
-            men.mensajes(2,"no se pudo descargar el archivo")
-            exit()
+    #if respuesta==True:
+    try:
+        #archivo=urllib.urlretrieve("http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz",dir_conf+"np05.tar.gz",None)
+        #tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
+        #tar.extractall(dir_conf)
+        #tar.close
+        shutil.copytree("/usr/share/icaro/pic18/np05",dir_conf+"/np05/")
+    except:
+        men.mensajes(2,"no se pudo copiar el directorio")
+        exit()
 #    shutil.copytree(sys.path[0]+"/temp/tmp/",dir_conf+"/tmp" )
 #    shutil.copytree(sys.path[0]+"/temp/source/",dir_conf+"/source" )
 config=[]
