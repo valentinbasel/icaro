@@ -50,14 +50,14 @@ def compilar_pic(ruta,sdcc):
                         " -c"+
                         " -o" +
                         
-                        dir_conf + "/source/"+ruta+".o " +
+                        dir_conf + "/temporal/"+ruta+".o " +
                         dir_conf + "/source/"+ruta+".c ")
     print sortie
     
     i=os.system(sortie)
     return i
 def upload_pic(ruta,sdcc):
-    dir_conf=os.path.expanduser('~') + "/.icaro/np05/"  
+    dir_conf=os.path.expanduser('~') + "/.icaro/np05"  
 
     print ruta
     sortie2=str(        sdcc.strip("\n") +" "
@@ -68,7 +68,7 @@ def upload_pic(ruta,sdcc):
                         " --optimize-cmp"+
                         " --optimize-df"+
                         " --no-crt"+
-                        " -Wl-s /usr/share/icaro/pic16/lkr/18f2550.lkr,-m "+
+                        " -Wl-s/usr/share/icaro/pic16/lkr/18f2550.lkr,-m "+
                         " -mpic16"+
                         " -p"+processor+
                         " -l /usr/share/icaro/pic16/lib/libpuf.lib " +

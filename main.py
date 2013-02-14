@@ -205,7 +205,7 @@ if os.path.isdir(dir_conf+"/np05/")==0:
         #tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
         #tar.extractall(dir_conf)
         #tar.close
-        shutil.copytree("/usr/share/icaro/pic18/np05",dir_conf+"/np05/")
+        shutil.copytree("/usr/share/icaro/pic16/np05",dir_conf+"/np05/")
     except:
         men.mensajes(2,"no se pudo copiar el directorio")
         exit()
