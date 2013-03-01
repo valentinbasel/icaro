@@ -43,6 +43,7 @@ def compilar_pic(ruta,sdcc):
                         " --optimize-df"+
                         " -p" + processor +
                         " -I " + dir_conf +"/source/" +
+                        " -I " + dir_conf +"/tmp/" +
                         " -I /usr/share/sdcc/non-free/include/pic16/ " +
                         " -I /usr/share/sdcc/include/pic16/ " +
 

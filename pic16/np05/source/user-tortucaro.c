@@ -5,6 +5,30 @@ unsigned char receivedbyte,receivedbyte2;
 unsigned char rxstr[64]="";
 unsigned char rxstr2[64]="";
 int valor=0;
+void digital()
+{
+int sens=0;
+while ((receivedbyte=CDCgets(rxstr))==0);
+rxstr[receivedbyte]=0;
+if (receivedbyte>0)
+{
+if(rxstr[0]=='4')
+    sens=21;
+if(rxstr[0]=='3')
+    sens=22;
+if(rxstr[0]=='2')
+    sens=23;
+if(rxstr[0]=='1')
+    sens=24;
+}
+rxstr[0]=0;
+receivedbyte=0;
+if (digitalread(sens)) 
+CDCputs("0",1);
+        else 
+CDCputs("1",1);
+}
+
 void l293d()
 {
 int posic=0;
@@ -45,7 +69,7 @@ int a=0;
 valor=val;
 
 }
-void sensor()
+void analogico()
 {
 int posic=0;
 unsigned int rb=0;
@@ -125,85 +149,91 @@ int	i=1;
 		}
 	}
 }
-void motors()
+void servos()
 {
 int posic=0;
 int rb=0;
 int resultado=0;
 int val=0;
-	for(;;)
-	{
-	    receivedbyte2=CDCgets(rxstr2);
-		if (receivedbyte2>0)
+
+	while ((receivedbyte=CDCgets(rxstr))==0);
+	rxstr[receivedbyte]=0;
+	if (receivedbyte>0)
 		{
-		if(rxstr2[0]=='1')
+		if(rxstr[0]=='1')
 			{
 			val=10;
 			}
-		if(rxstr2[0]=='2')
+		if(rxstr[0]=='2')
 			{
 			val=11;
 			}
-		if(rxstr2[0]=='3')
+		if(rxstr[0]=='3')
 			{
 			val=12;
 			}
-		if(rxstr2[0]=='4')
+		if(rxstr[0]=='4')
 			{
 			val=8;
 			}
-		if(rxstr2[0]=='5')
+		if(rxstr[0]=='5')
 			{
 			val=9;
 			}
-			receivedbyte2=0;
-			break;
 		}
-	}
-	for(;;)
-	{
-	    receivedbyte2=CDCgets(rxstr2);
-		if (receivedbyte2>0)
+    rxstr[0]=0;
+	receivedbyte=0;
+	while ((receivedbyte=CDCgets(rxstr))==0);
+	rxstr[receivedbyte]=0;
+	if (receivedbyte>0)
 		{
-		rxstr2[receivedbyte2]=0;
+		rxstr[receivedbyte]=0;
 			for (posic=0;posic<=7;posic++)
 			{
-			rb=(rxstr2[posic]);
+			rb=(rxstr[posic]);
 			resultado=resultado+rb;
 			}
 		ServoWrite(val,resultado);
-		receivedbyte2=0;
-		return;
 		}
-	}
+rxstr[0]=0;
+receivedbyte=0;
+
+CDCputs("muevo el servo ",15);
+
+CDCputs(resultado,DEC);
+
+		return;
+
 }
 void setup()
 {
+pinmode(21,INPUT);
+pinmode(22,INPUT);
+pinmode(23,INPUT);
+pinmode(24,INPUT);
+
 pinmode(25,OUTPUT);
-
 pinmode(26,OUTPUT);
-
 pinmode(27,OUTPUT);
-
 pinmode(28,OUTPUT);
 ServoAttach(8);
 ServoAttach(9);
 ServoAttach(10);
 ServoAttach(11);
 ServoAttach(12);
-
-
-//
-//
 }
+
+//
+//
+
 void loop()
 {
+//Delayms(1000);
     PORTD=valor;
-	receivedbyte=CDCgets(rxstr);
+	while ((receivedbyte=CDCgets(rxstr))==0);
 	rxstr[receivedbyte]=0;
 	if (receivedbyte>0)
 		{
-
 		/*leo eel caracter b y devuelvo la bienvenida*/
 		if(rxstr[0]=='b')
 			{
@@ -211,16 +241,23 @@ void loop()
 			}
 		if(rxstr[0]=='m')
 			{
-			motors();
+			servos();
 			}
 		if(rxstr[0]=='e')
 			{
-			sensor();
+			analogico();
 			}
 		if(rxstr[0]=='l')
 			{
 			l293d();
 			}
+		if(rxstr[0]=='d')
+			{
+			digital();
+			}
+            
 		 }
+    rxstr[0]=0;
 	receivedbyte=0;
+
 }

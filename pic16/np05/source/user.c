@@ -63,49 +63,13 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 	}
 }
 /*funciones*/
-void derecha(){
-int texto  =400 ;
-ServoWrite(10,140);ServoWrite(11,50);ServoWrite(12,70);ServoWrite(8,0  );ServoWrite(9,0  );
-Delayms(texto );
-ServoWrite(10,70);ServoWrite(11,120);ServoWrite(12,140);ServoWrite(8,100);ServoWrite(9,100);
-Delayms(texto );
-}
-void atras(){
-int texto  =400 ;
-ServoWrite(10,100);ServoWrite(11,60);ServoWrite(12,100);ServoWrite(8,0  );ServoWrite(9,0  );
-Delayms(texto );
-ServoWrite(10,70);ServoWrite(11,60);ServoWrite(12,70);ServoWrite(8,100);ServoWrite(9,100);
-Delayms(texto );
-ServoWrite(10,70);ServoWrite(11,110);ServoWrite(12,70);ServoWrite(8,0  );ServoWrite(9,0  );
-Delayms(texto );
-ServoWrite(10,100);ServoWrite(11,110);ServoWrite(12,100);ServoWrite(8,0  );ServoWrite(9,0  );
-Delayms(texto );
-}
-void adelante(){
-int texto  =400 ;
-ServoWrite(10,100);ServoWrite(11,110);ServoWrite(12,100);ServoWrite(8,0  );ServoWrite(9,0  );
-Delayms(texto );
-ServoWrite(10,70);ServoWrite(11,110);ServoWrite(12,70);ServoWrite(8,0  );ServoWrite(9,0  );
-Delayms(texto );
-ServoWrite(10,70);ServoWrite(11,60);ServoWrite(12,70);ServoWrite(8,100);ServoWrite(9,100);
-Delayms(texto );
-ServoWrite(10,100);ServoWrite(11,60);ServoWrite(12,100);ServoWrite(8,0  );ServoWrite(9,0  );
-Delayms(texto );
-}
 void loop()
 {
 
-int a =1 ;
-adelante();
-if(sensordigital(23) ){
-while(a<=5){
-atras();
-a++;
-}
-a=1;
-while(a<=5){
-derecha();
-a++;
-}
-}
+//El primer valor es el servo
+//El segundo valor son los grados de 0 a 255
+ServoWrite(10,10);
+Delayms(1000);
+ServoWrite(10,250);
+Delayms(1000);
 }
