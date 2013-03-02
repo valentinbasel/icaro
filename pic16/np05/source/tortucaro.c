@@ -23,12 +23,11 @@
 
 #include <pic18fregs.h>
 #include <macro.h>
-#include "common_types.h"
+#include "common_types2.h"
 #include "boot_iface.h"
-#include "define.h"
-
+#include "define2.h"
 #ifdef __USB__
-#include "../include/usb.h"
+#include "../tmp/usb.h"
 #include <usb.c>
 #endif
 
