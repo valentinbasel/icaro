@@ -59,7 +59,7 @@ void ProcessCDCRequest(void)
 			  	#ifdef DEBUG_PRINT_CDC
   				printf("set line\r\n");
   				#endif
-			outPtr = (data byte *)&line_config;
+			outPtr = (__data byte *)&line_config;
 			wCount = sizeof(USB_CDC_Line_Coding) ;
 			requestHandled = 1;				
             break;
@@ -68,7 +68,7 @@ void ProcessCDCRequest(void)
 			  	#ifdef DEBUG_PRINT_CDC
   				printf("get line\r\n");
   				#endif
-			outPtr = (data byte *)&line_config;
+			outPtr = (__data byte *)&line_config;
 			wCount = sizeof(USB_CDC_Line_Coding) ;
 			requestHandled = 1;
             break;
@@ -81,7 +81,7 @@ void ProcessCDCRequest(void)
   				#endif
 			if (SetupPacket.wValue0==3) CONTROL_LINE=1;
 			else CONTROL_LINE=0;		
-			outPtr = (data byte *)&zlp;
+			outPtr = (__data byte *)&zlp;
 			wCount = sizeof(Zero_Packet_Length) ;
 			requestHandled = 1;						
             break;								
