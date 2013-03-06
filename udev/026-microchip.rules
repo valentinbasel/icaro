@@ -1,0 +1,8 @@
+#PICKit
+SUBSYSTEM=="usb", ACTION=="add", ATTR{idVendor}=="04d8", ATTR{idProduct}=="0032", SYMLINK+="pickit1-%k"
+#PICKit2
+SUBSYSTEM=="usb", ACTION=="add", ATTR{idVendor}=="04d8", ATTR{idProduct}=="0033", SYMLINK+="pickit2-%k"
+#ICD2
+SUBSYSTEM=="usb", ACTION=="add", ATTR{idVendor}=="04d8", ATTR{idProduct}=="8000", SYMLINK+="icd2-%k"
+#ICD21
+SUBSYSTEM=="usb", ACTION=="add", ATTR{idVendor}=="04d8", ATTR{idProduct}=="8001", SYMLINK+="icd2-%k"
