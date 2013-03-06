@@ -25,6 +25,7 @@ TODO:
 #define PICUSB_H
 
 #include <pic18fregs.h>
+#include <typedef.h>
 
 #ifdef USB_USE_UART
 #include "usb_uart.h"
@@ -33,7 +34,7 @@ TODO:
 #include "usb_cdc.h"
 #endif
 
-#define PTR16(x) ((unsigned int)(((unsigned long)x) & 0xFFFF))
+#define PTR16(x) ((u16)(((unsigned long)x) & 0xFFFF))
 
 #define LSB(x) (x & 0xFF)
 #define MSB(x) ((x & 0xFF00) >> 8)
@@ -89,8 +90,8 @@ definition for the initial ep0, most are defined here since they are used be the
 #define BDS_INCDIS 0x10 // Address Increment Disable Bit
 #define BDS_DTSEN  0x08 // Data Toggle Synchronization Enable Bit
 #define BDS_BSTALL 0x04 // Buffer Stall Enable Bit
-#define BDS_BC9    0x02 // Byte count bit 9
-#define BDS_BC8    0x01 // Byte count bit 8
+#define BDS_BC9    0x02 // u8 count bit 9
+#define BDS_BC8    0x01 // u8 count bit 8
 
 #define BDS_DAT0   0x00 //DATA0 packet expected next
 #define BDS_DAT1   0x40 //DATA1 packet expected next
@@ -106,7 +107,7 @@ definition for the initial ep0, most are defined here since they are used be the
 /** Buffer Descriptor Status Register **/
 typedef union
 {
-    unsigned char uc;
+    u8 uc;
     struct{
         unsigned BC8:1;
         unsigned BC9:1;
@@ -140,15 +141,15 @@ typedef union
     struct
     {
         BDStat Stat;                    /*!< Buffer Descriptor Status Register */
-        unsigned char Cnt;              /*!< Number of bytes to send/sent/(that can be )received */
-        unsigned char ADRL;             /*!< Buffer Address Low */
-        unsigned char ADRH;             /*!< Buffer Address High */
+        u8 Cnt;              /*!< Number of u8s to send/sent/(that can be )received */
+        u8 ADRL;             /*!< Buffer Address Low */
+        u8 ADRH;             /*!< Buffer Address High */
     };
     struct
     {
         unsigned :8;
         unsigned :8;
-        __data unsigned int *ADDR;      /*!< Buffer Address */
+        __data u16 *ADDR;      /*!< Buffer Address */
     };
 } BufferDescriptorTable;
 
@@ -162,24 +163,24 @@ s the device can have.
  **/
 typedef struct
 {
-    unsigned char bLength;              /*!< Size of the Descriptor in Bytes (18 bytes = 0x12) */
-    unsigned char bDescriptorType;      /*!< Device Descriptor (0x01) */
-    unsigned int  bcdUSB;               /*!< USB Specification Number which device complies to. */
-    unsigned char bDeviceClass;         /*!< Class Code (Assigned by USB Org). If equal to Zero, each inte
+    u8 bLength;              /*!< Size of the Descriptor in u8s (18 u8s = 0x12) */
+    u8 bDescriptorType;      /*!< Device Descriptor (0x01) */
+    u16  bcdUSB;               /*!< USB Specification Number which device complies to. */
+    u8 bDeviceClass;         /*!< Class Code (Assigned by USB Org). If equal to Zero, each inte
 rface specifies it’s own class code. If equal to 0xFF, the class code is vendor specified. Otherwise field
  is valid Class Code.*/
-    unsigned char bDeviceSubClass;      /*!< Subclass Code (Assigned by USB Org) */
-    unsigned char bDeviceProtocol;      /*!< Protocol Code (Assigned by USB Org) */
-    unsigned char bMaxPacketSize0;      /*!< Maximum Packet Size for Zero Endpoint. Valid Sizes are 8, 16,
+    u8 bDeviceSubClass;      /*!< Subclass Code (Assigned by USB Org) */
+    u8 bDeviceProtocol;      /*!< Protocol Code (Assigned by USB Org) */
+    u8 bMaxPacketSize0;      /*!< Maximum Packet Size for Zero Endpoint. Valid Sizes are 8, 16,
  32, 64 */
-    unsigned int  idVendor;             /*!< Vendor ID (Assigned by USB Org). Microchip Vendor ID is 0x04D
+    u16  idVendor;             /*!< Vendor ID (Assigned by USB Org). Microchip Vendor ID is 0x04D
 8 */
-    unsigned int  idProduct;            /*!< Product ID (Assigned by Manufacturer) */
-    unsigned int  bcdDevice;            /*!< Device Release Number */
-    unsigned char iManufacturer;        /*!< Index of Manufacturer String Descriptor */
-    unsigned char iProduct;             /*!< Index of Product String Descriptor */
-    unsigned char iSerialNumber;        /*!< Index of Serial Number String Descriptor */
-    unsigned char bNumConfigurations;   /*!< Number of Possible Configurations */
+    u16  idProduct;            /*!< Product ID (Assigned by Manufacturer) */
+    u16  bcdDevice;            /*!< Device Release Number */
+    u8 iManufacturer;        /*!< Index of Manufacturer String Descriptor */
+    u8 iProduct;             /*!< Index of Product String Descriptor */
+    u8 iSerialNumber;        /*!< Index of Serial Number String Descriptor */
+    u8 bNumConfigurations;   /*!< Number of Possible Configurations */
 } USB_Device_Descriptor;
 
 
@@ -197,23 +198,23 @@ select the desired configuration.
 **/
 typedef struct
 {
-    unsigned char bLength;              /*!< Size of Descriptor in Bytes */
-    unsigned char bDescriptorType;      /*!< Configuration Descriptor (0x02) */
-    unsigned int  wTotalLength;         /*!< Total length in bytes of data returned (Configuration Descriptor + Interface Descriptor + n* Endpoint Descriptor */
-    unsigned char bNumInterfaces;       /*!< Number of Interfaces */
-    unsigned char bConfigurationValue;  /*!< Value to use as an argument to select this configuration */
-    unsigned char iConfiguration;       /*!< Index of String Descriptor describing this configuration */
-    unsigned char bmAttributes;         /*!< <ul><li>D7 Reserved, set to 1.(USB 1.0 Bus Powered).</li><li>D6 Self Powered.</li><li>D5 Remote Wakeup.</li><li>D4..0 Reserved, set to 0.</li></ul> */
-    unsigned char bMaxPower;            /*!< Maximum Power Consumption in 2mA units */
+    u8 bLength;              /*!< Size of Descriptor in u8s */
+    u8 bDescriptorType;      /*!< Configuration Descriptor (0x02) */
+    u16  wTotalLength;         /*!< Total length in u8s of data returned (Configuration Descriptor + Interface Descriptor + n* Endpoint Descriptor */
+    u8 bNumInterfaces;       /*!< Number of Interfaces */
+    u8 bConfigurationValue;  /*!< Value to use as an argument to select this configuration */
+    u8 iConfiguration;       /*!< Index of String Descriptor describing this configuration */
+    u8 bmAttributes;         /*!< <ul><li>D7 Reserved, set to 1.(USB 1.0 Bus Powered).</li><li>D6 Self Powered.</li><li>D5 Remote Wakeup.</li><li>D4..0 Reserved, set to 0.</li></ul> */
+    u8 bMaxPower;            /*!< Maximum Power Consumption in 2mA units */
 } USB_Configuration_Descriptor_Header;
 
 
 //
 // Global variables
-extern byte deviceState;    // Visible device states (from USB 2.0, chap 9.1.1)
-extern byte selfPowered;
-extern byte remoteWakeup;
-extern byte currentConfiguration;
+extern u8 deviceState;    // Visible device states (from USB 2.0, chap 9.1.1)
+extern u8 selfPowered;
+extern u8 remoteWakeup;
+extern u8 currentConfiguration;
 
 extern volatile BufferDescriptorTable __at (0x400) ep_bdt[32];
 /* Out buffer descriptor of endpoint ep */
@@ -223,26 +224,26 @@ extern volatile BufferDescriptorTable __at (0x400) ep_bdt[32];
 #define EP_IN_BD(ep)  (ep_bdt[(ep << 1) + 1])
 
 /**
-Every device request starts with an 8 byte setup packet (USB 2.0, chap 9.3)
+Every device request starts with an 8 u8 setup packet (USB 2.0, chap 9.3)
 with a standard layout.  The meaning of wValue and wIndex will
 vary depending on the request type and specific request.
 See also: http://www.beyondlogic.org/usbnutshell/usb6.htm
 TODO: split this Array up to be more precise
-TODO: use word instead of LSB/MSB bytes
+TODO: use word instead of LSB/MSB u8s
 **/
 typedef union //_setupPacketStruct
 {
   struct {
-    byte bmRequestType; /*!< D7 Data Phase Transfer Direction<ul><li>0 = Host to Device</li><li>1 = Device to Host</li></ul>D6..5 Typ<ul><li>0 = Standard</li><li>1 = Class</li><li>2 = Vendor</li><li>3 = Reserved</li></ul>D4..0 Recipient<ul><li>0 = Device</li><li>1 = Interface</li><li>2 = Endpoint</li><li>3 = Other</li></ul> */
-    byte bRequest;      // Specific request
-    byte wValue0;       // LSB of wValue
-    byte wValue1;       // MSB of wValue
-    byte wIndex0;       // LSB of wIndex
-    byte wIndex1;       // MSB of wIndex
-    word wLength;       // Number of bytes to transfer if there's a data stage
+    u8 bmRequestType; /*!< D7 Data Phase Transfer Direction<ul><li>0 = Host to Device</li><li>1 = Device to Host</li></ul>D6..5 Typ<ul><li>0 = Standard</li><li>1 = Class</li><li>2 = Vendor</li><li>3 = Reserved</li></ul>D4..0 Recipient<ul><li>0 = Device</li><li>1 = Interface</li><li>2 = Endpoint</li><li>3 = Other</li></ul> */
+    u8 bRequest;      // Specific request
+    u8 wValue0;       // LSB of wValue
+    u8 wValue1;       // MSB of wValue
+    u8 wIndex0;       // LSB of wIndex
+    u8 wIndex1;       // MSB of wIndex
+    word wLength;       // Number of u8s to transfer if there's a data stage
   };
   struct {
-    byte extra[EP0_BUFFER_SIZE];     // Fill out to same size as Endpoint 0 max buffer
+    u8 extra[EP0_BUFFER_SIZE];     // Fill out to same size as Endpoint 0 max buffer
   };
 } setupPacketStruct;
 
@@ -253,15 +254,15 @@ The interface descriptor could be seen as a header or grouping of the endpoints 
 **/
 typedef struct
 {
-    unsigned char bLength;              /*!< Size of Descriptor in Bytes (9 Bytes) */
-    unsigned char bDescriptorType;      /*!< Interface Descriptor (0x04) */
-    unsigned char bInterfaceNumber;     /*!< Number of Interface */
-    unsigned char bAlternateSetting;    /*!< Value used to select alternative setting */
-    unsigned char bNumEndpoints;        /*!< Number of Endpoints used for this interface */
-    unsigned char bInterfaceClass;      /*!< Class Code (Assigned by USB Org) e.g. HID, communications, mass storage etc.*/
-    unsigned char bInterfaceSubClass;   /*!< Subclass Code (Assigned by USB Org) */
-    unsigned char bInterfaceProtocol;   /*!< Protocol Code (Assigned by USB Org) */
-    unsigned char iInterface;           /*!< Index of String Descriptor Describing this interface */
+    u8 bLength;              /*!< Size of Descriptor in u8s (9 u8s) */
+    u8 bDescriptorType;      /*!< Interface Descriptor (0x04) */
+    u8 bInterfaceNumber;     /*!< Number of Interface */
+    u8 bAlternateSetting;    /*!< Value used to select alternative setting */
+    u8 bNumEndpoints;        /*!< Number of Endpoints used for this interface */
+    u8 bInterfaceClass;      /*!< Class Code (Assigned by USB Org) e.g. HID, communications, mass storage etc.*/
+    u8 bInterfaceSubClass;   /*!< Subclass Code (Assigned by USB Org) */
+    u8 bInterfaceProtocol;   /*!< Protocol Code (Assigned by USB Org) */
+    u8 iInterface;           /*!< Index of String Descriptor Describing this interface */
 } USB_Interface_Descriptor;
 
 
@@ -270,28 +271,28 @@ Endpoint Descriptor
 **/
 typedef struct
 {
-    unsigned char bLength;              /*!< Size of Descriptor in Bytes (7 bytes) */
-    unsigned char bDescriptorType;      /*!< Endpoint Descriptor (0x05) */
-    unsigned char bEndpointAddress;     /*!< Endpoint Address<ul><li>Bits 0..3b Endpoint Number.</li><li>Bits 4..6b Reserved. Set to Zero</li><li>Bits 7 Direction 0 = Out, 1 = In (Ignored for Control Endpoints)</li></ul> */
-    unsigned char bmAttributes;         /*!< Bits 0..1 Transfer Type<br><ul><li>00 = Control</li><li>01 = Isochronous</li><li>10 = Bulk</li><li>11 = Interrupt</li></ul><br>Bits 2..7 are reserved. If Isochronous endpoint,<br>Bits 3..2 = Synchronisation Type (Iso Mode)<br><ul><li>00 = No Synchonisation</li><li>01 = Asynchronous</li><li>10 = Adaptive</li><li>11 = Synchronous</li></ul><br>Bits 5..4 = Usage Type (Iso Mode)<ul><li>00 = Data Endpoint</li><li>01 = Feedback Endpoint</li><li>10 = Explicit Feedback Data Endpoint</li><li>11 = Reserved</li></ul> */
-    unsigned int  wMaxPacketSize;       /*!< Maximum Packet Size this endpoint is capable of sending or receiving */
-    unsigned char bInterval;            /*!< Interval for polling endpoint data transfers. Value in frame counts. Ignored for Bulk & Control Endpoints. Isochronous must equal 1 and field may range from 1 to 255 for interrupt endpoints. */
+    u8 bLength;              /*!< Size of Descriptor in u8s (7 u8s) */
+    u8 bDescriptorType;      /*!< Endpoint Descriptor (0x05) */
+    u8 bEndpointAddress;     /*!< Endpoint Address<ul><li>Bits 0..3b Endpoint Number.</li><li>Bits 4..6b Reserved. Set to Zero</li><li>Bits 7 Direction 0 = Out, 1 = In (Ignored for Control Endpoints)</li></ul> */
+    u8 bmAttributes;         /*!< Bits 0..1 Transfer Type<br><ul><li>00 = Control</li><li>01 = Isochronous</li><li>10 = Bulk</li><li>11 = Interrupt</li></ul><br>Bits 2..7 are reserved. If Isochronous endpoint,<br>Bits 3..2 = Synchronisation Type (Iso Mode)<br><ul><li>00 = No Synchonisation</li><li>01 = Asynchronous</li><li>10 = Adaptive</li><li>11 = Synchronous</li></ul><br>Bits 5..4 = Usage Type (Iso Mode)<ul><li>00 = Data Endpoint</li><li>01 = Feedback Endpoint</li><li>10 = Explicit Feedback Data Endpoint</li><li>11 = Reserved</li></ul> */
+    u16  wMaxPacketSize;       /*!< Maximum Packet Size this endpoint is capable of sending or receiving */
+    u8 bInterval;            /*!< Interval for polling endpoint data transfers. Value in frame counts. Ignored for Bulk & Control Endpoints. Isochronous must equal 1 and field may range from 1 to 255 for interrupt endpoints. */
 } USB_Endpoint_Descriptor;
 
 extern volatile setupPacketStruct SetupPacket;
 
 // inPtr/OutPtr are used to move data from user memory (RAM/ROM/EEPROM) buffers
 // from/to USB dual port buffers.
-extern byte *outPtr;        // Address of buffer to send to host
-extern byte *inPtr;         // Address of buffer to receive data from host
-extern unsigned int wCount; // Total # of bytes to move
-extern byte deviceState;
+extern u8 *outPtr;        // Address of buffer to send to host
+extern u8 *inPtr;         // Address of buffer to receive data from host
+extern u16 wCount; // Total # of u8s to move
+extern u8 deviceState;
 
 // USB Functions
 void EnableUSBModule(void);
 void ProcessUSBTransactions(void);
 
-// # of bytes from last HID transaction
-extern byte hidRxLen;
+// # of u8s from last HID transaction
+extern u8 hidRxLen;
 
 #endif //PICUSB_H

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.1.0 #7066 (Feb 26 2012) (Linux)
-; This file was generated Fri Mar  1 21:34:53 2013
+; This file was generated Wed Mar  6 17:19:34 2013
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -70,6 +70,7 @@
 	global _Delayus
 	global _init_CDC
 	global _analog_init
+	global _analogReference
 	global _analogread
 	global _servos_init
 	global _ServoAttach
@@ -457,7 +458,7 @@ udata_tortucaro_15	udata
 _ctrlTransferStage	res	1
 
 udata_tortucaro_16	udata
-_line_config	res	7
+_line_config	res	5
 
 udata_tortucaro_17	udata
 _zlp	res	8
@@ -493,7 +494,7 @@ _ep_bdt        	res	128
 ; ; Starting pCode block
 S_tortucaro__high_priority_isr	code	0X002020
 _high_priority_isr:
-;	.line	95; /home/valentin/.icaro/np05/source/tortucaro.c	void high_priority_isr(void) interrupt
+;	.line	95; /home/valentin/.icaro/np05/source/tortucaro.c	void high_priority_isr(void) __interrupt
 	MOVFF	WREG, POSTDEC1
 	MOVFF	STATUS, POSTDEC1
 	MOVFF	BSR, POSTDEC1
@@ -505,7 +506,7 @@ _high_priority_isr:
 	MOVFF	PCLATU, POSTDEC1
 ;	.line	98; /home/valentin/.icaro/np05/source/tortucaro.c	if(PIR2bits.USBIF)
 	BTFSS	_PIR2bits, 5
-	BRA	_01300_DS_
+	BRA	_01315_DS_
 ;	.line	100; /home/valentin/.icaro/np05/source/tortucaro.c	ProcessUSBTransactions();
 	CALL	_ProcessUSBTransactions
 ;	.line	101; /home/valentin/.icaro/np05/source/tortucaro.c	UIRbits.SOFIF = 0;
@@ -516,7 +517,7 @@ _high_priority_isr:
 	BCF	_PIR2bits, 5
 ;	.line	104; /home/valentin/.icaro/np05/source/tortucaro.c	UEIR = 0;
 	CLRF	_UEIR
-_01300_DS_:
+_01315_DS_:
 ;	.line	131; /home/valentin/.icaro/np05/source/tortucaro.c	servos_interrupt();
 	CALL	_servos_interrupt
 	MOVFF	PREINC1, PCLATU
@@ -533,7 +534,7 @@ _01300_DS_:
 ; ; Starting pCode block
 S_tortucaro__low_priority_isr	code	0X004000
 _low_priority_isr:
-;	.line	139; /home/valentin/.icaro/np05/source/tortucaro.c	void low_priority_isr(void) interrupt
+;	.line	139; /home/valentin/.icaro/np05/source/tortucaro.c	void low_priority_isr(void) __interrupt
 	MOVFF	WREG, POSTDEC1
 	MOVFF	STATUS, POSTDEC1
 	MOVFF	BSR, POSTDEC1
@@ -583,10 +584,10 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	83; /home/valentin/.icaro/np05/source/tortucaro.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_01292_DS_:
+_01307_DS_:
 ;	.line	88; /home/valentin/.icaro/np05/source/tortucaro.c	loop();
 	CALL	_loop
-	BRA	_01292_DS_
+	BRA	_01307_DS_
 	RETURN	
 
 ; ; Starting pCode block
@@ -599,7 +600,7 @@ _loop:
 ;	.line	232; /home/valentin/.icaro/np05/source/user-tortucaro.c	PORTD=valor;
 	MOVF	_valor, W, B
 	MOVWF	_PORTD
-_01252_DS_:
+_01267_DS_:
 ;	.line	233; /home/valentin/.icaro/np05/source/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
 	MOVLW	0x80
 ; #	MOVWF	r0x02
@@ -615,7 +616,7 @@ _01252_DS_:
 	ADDWF	FSR1L, F
 	MOVFF	r0x00, _receivedbyte
 	MOVF	r0x00, W
-	BZ	_01252_DS_
+	BZ	_01267_DS_
 ;	.line	234; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[receivedbyte]=0;
 	MOVLW	LOW(_rxstr)
 	BANKSEL	_receivedbyte
@@ -630,12 +631,12 @@ _01252_DS_:
 ; removed redundant BANKSEL
 ;	.line	235; /home/valentin/.icaro/np05/source/user-tortucaro.c	if (receivedbyte>0)
 	MOVF	_receivedbyte, W, B
-	BZ	_01266_DS_
+	BZ	_01281_DS_
 	BANKSEL	_rxstr
 ;	.line	238; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='b')
 	MOVF	_rxstr, W, B
 	XORLW	0x62
-	BNZ	_01256_DS_
+	BNZ	_01271_DS_
 ;	.line	240; /home/valentin/.icaro/np05/source/user-tortucaro.c	CDCputs("icaro USB 01 \n",14);
 	MOVLW	0x0e
 	MOVWF	POSTDEC1
@@ -648,39 +649,39 @@ _01252_DS_:
 	CALL	_CDCputs
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-_01256_DS_:
+_01271_DS_:
 	BANKSEL	_rxstr
 ;	.line	242; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='m')
 	MOVF	_rxstr, W, B
 	XORLW	0x6d
-	BNZ	_01258_DS_
+	BNZ	_01273_DS_
 ;	.line	244; /home/valentin/.icaro/np05/source/user-tortucaro.c	servos();
 	CALL	_servos
-_01258_DS_:
+_01273_DS_:
 	BANKSEL	_rxstr
 ;	.line	246; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='e')
 	MOVF	_rxstr, W, B
 	XORLW	0x65
-	BNZ	_01260_DS_
+	BNZ	_01275_DS_
 ;	.line	248; /home/valentin/.icaro/np05/source/user-tortucaro.c	analogico();
 	CALL	_analogico
-_01260_DS_:
+_01275_DS_:
 	BANKSEL	_rxstr
 ;	.line	250; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='l')
 	MOVF	_rxstr, W, B
 	XORLW	0x6c
-	BNZ	_01262_DS_
+	BNZ	_01277_DS_
 ;	.line	252; /home/valentin/.icaro/np05/source/user-tortucaro.c	l293d();
 	CALL	_l293d
-_01262_DS_:
+_01277_DS_:
 	BANKSEL	_rxstr
 ;	.line	254; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='d')
 	MOVF	_rxstr, W, B
 	XORLW	0x64
-	BNZ	_01266_DS_
+	BNZ	_01281_DS_
 ;	.line	256; /home/valentin/.icaro/np05/source/user-tortucaro.c	digital();
 	CALL	_digital
-_01266_DS_:
+_01281_DS_:
 	BANKSEL	_rxstr
 ;	.line	260; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[0]=0;
 	CLRF	_rxstr, B
@@ -813,7 +814,7 @@ _servos:
 	CLRF	r0x01
 ;	.line	157; /home/valentin/.icaro/np05/source/user-tortucaro.c	int val=0;
 	CLRF	r0x02
-_01192_DS_:
+_01207_DS_:
 ;	.line	159; /home/valentin/.icaro/np05/source/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
 	MOVLW	0x80
 ; #	MOVWF	r0x06
@@ -829,7 +830,7 @@ _01192_DS_:
 	ADDWF	FSR1L, F
 	MOVFF	r0x04, _receivedbyte
 	MOVF	r0x04, W
-	BZ	_01192_DS_
+	BZ	_01207_DS_
 ;	.line	160; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[receivedbyte]=0;
 	MOVLW	LOW(_rxstr)
 	BANKSEL	_receivedbyte
@@ -844,55 +845,55 @@ _01192_DS_:
 ; removed redundant BANKSEL
 ;	.line	161; /home/valentin/.icaro/np05/source/user-tortucaro.c	if (receivedbyte>0)
 	MOVF	_receivedbyte, W, B
-	BZ	_01206_DS_
+	BZ	_01221_DS_
 ;	.line	163; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='1')
 	MOVFF	_rxstr, r0x04
 	MOVF	r0x04, W
 	XORLW	0x31
-	BNZ	_01196_DS_
+	BNZ	_01211_DS_
 ;	.line	165; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=10;
 	MOVLW	0x0a
 	MOVWF	r0x02
-_01196_DS_:
+_01211_DS_:
 ;	.line	167; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='2')
 	MOVF	r0x04, W
 	XORLW	0x32
-	BNZ	_01198_DS_
+	BNZ	_01213_DS_
 ;	.line	169; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=11;
 	MOVLW	0x0b
 	MOVWF	r0x02
-_01198_DS_:
+_01213_DS_:
 ;	.line	171; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='3')
 	MOVF	r0x04, W
 	XORLW	0x33
-	BNZ	_01200_DS_
+	BNZ	_01215_DS_
 ;	.line	173; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=12;
 	MOVLW	0x0c
 	MOVWF	r0x02
-_01200_DS_:
+_01215_DS_:
 ;	.line	175; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='4')
 	MOVF	r0x04, W
 	XORLW	0x34
-	BNZ	_01202_DS_
+	BNZ	_01217_DS_
 ;	.line	177; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=8;
 	MOVLW	0x08
 	MOVWF	r0x02
-_01202_DS_:
+_01217_DS_:
 ;	.line	179; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='5')
 	MOVF	r0x04, W
 	XORLW	0x35
-	BNZ	_01206_DS_
+	BNZ	_01221_DS_
 ;	.line	181; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=9;
 	MOVLW	0x09
 	MOVWF	r0x02
-_01206_DS_:
+_01221_DS_:
 	BANKSEL	_rxstr
 ;	.line	184; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[0]=0;
 	CLRF	_rxstr, B
 	BANKSEL	_receivedbyte
 ;	.line	185; /home/valentin/.icaro/np05/source/user-tortucaro.c	receivedbyte=0;
 	CLRF	_receivedbyte, B
-_01207_DS_:
+_01222_DS_:
 ;	.line	186; /home/valentin/.icaro/np05/source/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
 	MOVLW	0x80
 ; #	MOVWF	r0x06
@@ -908,7 +909,7 @@ _01207_DS_:
 	ADDWF	FSR1L, F
 	MOVFF	r0x04, _receivedbyte
 	MOVF	r0x04, W
-	BZ	_01207_DS_
+	BZ	_01222_DS_
 ;	.line	187; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[receivedbyte]=0;
 	MOVLW	LOW(_rxstr)
 	BANKSEL	_receivedbyte
@@ -923,7 +924,7 @@ _01207_DS_:
 ; removed redundant BANKSEL
 ;	.line	188; /home/valentin/.icaro/np05/source/user-tortucaro.c	if (receivedbyte>0)
 	MOVF	_receivedbyte, W, B
-	BZ	_01211_DS_
+	BZ	_01226_DS_
 ;	.line	190; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[receivedbyte]=0;
 	MOVFF	r0x04, FSR0L
 	MOVFF	r0x05, FSR0H
@@ -931,15 +932,15 @@ _01207_DS_:
 ;	.line	191; /home/valentin/.icaro/np05/source/user-tortucaro.c	for (posic=0;posic<=7;posic++)
 	CLRF	r0x04
 	CLRF	r0x05
-_01212_DS_:
+_01227_DS_:
 	MOVF	r0x05, W
 	ADDLW	0x80
 	ADDLW	0x80
-	BNZ	_01242_DS_
+	BNZ	_01257_DS_
 	MOVLW	0x08
 	SUBWF	r0x04, W
-_01242_DS_:
-	BC	_01215_DS_
+_01257_DS_:
+	BC	_01230_DS_
 ;	.line	193; /home/valentin/.icaro/np05/source/user-tortucaro.c	rb=(rxstr[posic]);
 	MOVLW	LOW(_rxstr)
 	ADDWF	r0x04, W
@@ -960,8 +961,8 @@ _01242_DS_:
 	INCF	r0x04, F
 	BTFSC	STATUS, 0
 	INCF	r0x05, F
-	BRA	_01212_DS_
-_01215_DS_:
+	BRA	_01227_DS_
+_01230_DS_:
 ;	.line	196; /home/valentin/.icaro/np05/source/user-tortucaro.c	ServoWrite(val,resultado);
 	MOVF	r0x00, W
 ; #	MOVWF	r0x03
@@ -972,7 +973,7 @@ _01215_DS_:
 	CALL	_ServoWrite
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-_01211_DS_:
+_01226_DS_:
 	BANKSEL	_rxstr
 ;	.line	198; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[0]=0;
 	CLRF	_rxstr, B
@@ -1038,7 +1039,7 @@ _leer:
 	MOVLW	0x01
 	MOVWF	r0x02
 	CLRF	r0x03
-_01178_DS_:
+_01193_DS_:
 ;	.line	133; /home/valentin/.icaro/np05/source/user-tortucaro.c	receivedbyte2=CDCgets(rxstr2);
 	MOVLW	0x80
 ; #	MOVWF	r0x06
@@ -1056,7 +1057,7 @@ _01178_DS_:
 ; removed redundant BANKSEL
 ;	.line	134; /home/valentin/.icaro/np05/source/user-tortucaro.c	if (receivedbyte2>0)
 	MOVF	_receivedbyte2, W, B
-	BZ	_01178_DS_
+	BZ	_01193_DS_
 ;	.line	136; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr2[receivedbyte2]=0;
 	MOVLW	LOW(_rxstr2)
 ; removed redundant BANKSEL
@@ -1071,15 +1072,15 @@ _01178_DS_:
 ;	.line	138; /home/valentin/.icaro/np05/source/user-tortucaro.c	for (posic=0;posic<=7;posic++)
 	CLRF	r0x04
 	CLRF	r0x05
-_01173_DS_:
+_01188_DS_:
 	MOVF	r0x05, W
 	ADDLW	0x80
 	ADDLW	0x80
-	BNZ	_01187_DS_
+	BNZ	_01202_DS_
 	MOVLW	0x08
 	SUBWF	r0x04, W
-_01187_DS_:
-	BC	_01176_DS_
+_01202_DS_:
+	BC	_01191_DS_
 ;	.line	140; /home/valentin/.icaro/np05/source/user-tortucaro.c	rb=(rxstr2[posic]);
 	MOVLW	LOW(_rxstr2)
 	ADDWF	r0x04, W
@@ -1114,8 +1115,8 @@ _01187_DS_:
 	INCF	r0x04, F
 	BTFSC	STATUS, 0
 	INCF	r0x05, F
-	BRA	_01173_DS_
-_01176_DS_:
+	BRA	_01188_DS_
+_01191_DS_:
 ;	.line	147; /home/valentin/.icaro/np05/source/user-tortucaro.c	PORTB=resultado;// en ves de usar digitalwrite, mando directamente al PORTB
 	MOVF	r0x00, W
 	MOVWF	_PORTB
@@ -1139,7 +1140,7 @@ _analogico:
 	MOVFF	r0x02, POSTDEC1
 ;	.line	77; /home/valentin/.icaro/np05/source/user-tortucaro.c	unsigned int val=0;
 	CLRF	r0x00
-_01137_DS_:
+_01152_DS_:
 ;	.line	82; /home/valentin/.icaro/np05/source/user-tortucaro.c	receivedbyte2=CDCgets(rxstr2);
 	MOVLW	0x80
 ; #	MOVWF	r0x04
@@ -1157,72 +1158,72 @@ _01137_DS_:
 ; removed redundant BANKSEL
 ;	.line	83; /home/valentin/.icaro/np05/source/user-tortucaro.c	if (receivedbyte2>0)
 	MOVF	_receivedbyte2, W, B
-	BZ	_01137_DS_
+	BZ	_01152_DS_
 ;	.line	85; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='1')
 	MOVFF	_rxstr2, r0x02
 	MOVF	r0x02, W
 	XORLW	0x31
-	BNZ	_01119_DS_
+	BNZ	_01134_DS_
 ;	.line	87; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=13;
 	MOVLW	0x0d
 	MOVWF	r0x00
-_01119_DS_:
+_01134_DS_:
 ;	.line	89; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='2')
 	MOVF	r0x02, W
 	XORLW	0x32
-	BNZ	_01121_DS_
+	BNZ	_01136_DS_
 ;	.line	91; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=14;
 	MOVLW	0x0e
 	MOVWF	r0x00
-_01121_DS_:
+_01136_DS_:
 ;	.line	93; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='3')
 	MOVF	r0x02, W
 	XORLW	0x33
-	BNZ	_01123_DS_
+	BNZ	_01138_DS_
 ;	.line	95; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=15;
 	MOVLW	0x0f
 	MOVWF	r0x00
-_01123_DS_:
+_01138_DS_:
 ;	.line	97; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='4')
 	MOVF	r0x02, W
 	XORLW	0x34
-	BNZ	_01125_DS_
+	BNZ	_01140_DS_
 ;	.line	99; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=16;
 	MOVLW	0x10
 	MOVWF	r0x00
-_01125_DS_:
+_01140_DS_:
 ;	.line	101; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='5')
 	MOVF	r0x02, W
 	XORLW	0x35
-	BNZ	_01127_DS_
+	BNZ	_01142_DS_
 ;	.line	103; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=17;
 	MOVLW	0x11
 	MOVWF	r0x00
-_01127_DS_:
+_01142_DS_:
 ;	.line	105; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='6')
 	MOVF	r0x02, W
 	XORLW	0x36
-	BNZ	_01129_DS_
+	BNZ	_01144_DS_
 ;	.line	107; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=18;
 	MOVLW	0x12
 	MOVWF	r0x00
-_01129_DS_:
+_01144_DS_:
 ;	.line	109; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='7')
 	MOVF	r0x02, W
 	XORLW	0x37
-	BNZ	_01131_DS_
+	BNZ	_01146_DS_
 ;	.line	111; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=19;
 	MOVLW	0x13
 	MOVWF	r0x00
-_01131_DS_:
+_01146_DS_:
 ;	.line	113; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='8')
 	MOVF	r0x02, W
 	XORLW	0x38
-	BNZ	_01133_DS_
+	BNZ	_01148_DS_
 ;	.line	115; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=20;
 	MOVLW	0x14
 	MOVWF	r0x00
-_01133_DS_:
+_01148_DS_:
 	BANKSEL	_receivedbyte2
 ;	.line	117; /home/valentin/.icaro/np05/source/user-tortucaro.c	receivedbyte2=0;
 	CLRF	_receivedbyte2, B
@@ -1266,7 +1267,7 @@ _l293d:
 ;	.line	37; /home/valentin/.icaro/np05/source/user-tortucaro.c	int val=0;
 	CLRF	r0x00
 	CLRF	r0x01
-_01093_DS_:
+_01108_DS_:
 ;	.line	41; /home/valentin/.icaro/np05/source/user-tortucaro.c	receivedbyte2=CDCgets(rxstr2);
 	MOVLW	0x80
 ; #	MOVWF	r0x04
@@ -1284,52 +1285,52 @@ _01093_DS_:
 ; removed redundant BANKSEL
 ;	.line	42; /home/valentin/.icaro/np05/source/user-tortucaro.c	if (receivedbyte2>0)
 	MOVF	_receivedbyte2, W, B
-	BZ	_01093_DS_
+	BZ	_01108_DS_
 ;	.line	44; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='1')
 	MOVFF	_rxstr2, r0x02
 	MOVF	r0x02, W
 	XORLW	0x31
-	BNZ	_01081_DS_
+	BNZ	_01096_DS_
 ;	.line	46; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=96;
 	MOVLW	0x60
 	MOVWF	r0x00
 	CLRF	r0x01
-_01081_DS_:
+_01096_DS_:
 ;	.line	48; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='2')
 	MOVF	r0x02, W
 	XORLW	0x32
-	BNZ	_01083_DS_
+	BNZ	_01098_DS_
 ;	.line	50; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=144;
 	MOVLW	0x90
 	MOVWF	r0x00
 	CLRF	r0x01
-_01083_DS_:
+_01098_DS_:
 ;	.line	52; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='3')
 	MOVF	r0x02, W
 	XORLW	0x33
-	BNZ	_01085_DS_
+	BNZ	_01100_DS_
 ;	.line	54; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=64;
 	MOVLW	0x40
 	MOVWF	r0x00
 	CLRF	r0x01
-_01085_DS_:
+_01100_DS_:
 ;	.line	56; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='4')
 	MOVF	r0x02, W
 	XORLW	0x34
-	BNZ	_01087_DS_
+	BNZ	_01102_DS_
 ;	.line	58; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=32;
 	MOVLW	0x20
 	MOVWF	r0x00
 	CLRF	r0x01
-_01087_DS_:
+_01102_DS_:
 ;	.line	60; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr2[0]=='5')
 	MOVF	r0x02, W
 	XORLW	0x35
-	BNZ	_01089_DS_
+	BNZ	_01104_DS_
 ;	.line	62; /home/valentin/.icaro/np05/source/user-tortucaro.c	val=0;
 	CLRF	r0x00
 	CLRF	r0x01
-_01089_DS_:
+_01104_DS_:
 	BANKSEL	_receivedbyte2
 ;	.line	64; /home/valentin/.icaro/np05/source/user-tortucaro.c	receivedbyte2=0;
 	CLRF	_receivedbyte2, B
@@ -1352,7 +1353,7 @@ _digital:
 ;	.line	10; /home/valentin/.icaro/np05/source/user-tortucaro.c	int sens=0;
 	CLRF	r0x00
 	CLRF	r0x01
-_01042_DS_:
+_01057_DS_:
 ;	.line	11; /home/valentin/.icaro/np05/source/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
 	MOVLW	0x80
 ; #	MOVWF	r0x04
@@ -1368,7 +1369,7 @@ _01042_DS_:
 	ADDWF	FSR1L, F
 	MOVFF	r0x02, _receivedbyte
 	MOVF	r0x02, W
-	BZ	_01042_DS_
+	BZ	_01057_DS_
 ;	.line	12; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[receivedbyte]=0;
 	MOVLW	LOW(_rxstr)
 	BANKSEL	_receivedbyte
@@ -1383,44 +1384,44 @@ _01042_DS_:
 ; removed redundant BANKSEL
 ;	.line	13; /home/valentin/.icaro/np05/source/user-tortucaro.c	if (receivedbyte>0)
 	MOVF	_receivedbyte, W, B
-	BZ	_01054_DS_
+	BZ	_01069_DS_
 ;	.line	15; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='4')
 	MOVFF	_rxstr, r0x02
 	MOVF	r0x02, W
 	XORLW	0x34
-	BNZ	_01046_DS_
+	BNZ	_01061_DS_
 ;	.line	16; /home/valentin/.icaro/np05/source/user-tortucaro.c	sens=21;
 	MOVLW	0x15
 	MOVWF	r0x00
 	CLRF	r0x01
-_01046_DS_:
+_01061_DS_:
 ;	.line	17; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='3')
 	MOVF	r0x02, W
 	XORLW	0x33
-	BNZ	_01048_DS_
+	BNZ	_01063_DS_
 ;	.line	18; /home/valentin/.icaro/np05/source/user-tortucaro.c	sens=22;
 	MOVLW	0x16
 	MOVWF	r0x00
 	CLRF	r0x01
-_01048_DS_:
+_01063_DS_:
 ;	.line	19; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='2')
 	MOVF	r0x02, W
 	XORLW	0x32
-	BNZ	_01050_DS_
+	BNZ	_01065_DS_
 ;	.line	20; /home/valentin/.icaro/np05/source/user-tortucaro.c	sens=23;
 	MOVLW	0x17
 	MOVWF	r0x00
 	CLRF	r0x01
-_01050_DS_:
+_01065_DS_:
 ;	.line	21; /home/valentin/.icaro/np05/source/user-tortucaro.c	if(rxstr[0]=='1')
 	MOVF	r0x02, W
 	XORLW	0x31
-	BNZ	_01054_DS_
+	BNZ	_01069_DS_
 ;	.line	22; /home/valentin/.icaro/np05/source/user-tortucaro.c	sens=24;
 	MOVLW	0x18
 	MOVWF	r0x00
 	CLRF	r0x01
-_01054_DS_:
+_01069_DS_:
 	BANKSEL	_rxstr
 ;	.line	24; /home/valentin/.icaro/np05/source/user-tortucaro.c	rxstr[0]=0;
 	CLRF	_rxstr, B
@@ -1439,7 +1440,7 @@ _01054_DS_:
 	ADDWF	FSR1L, F
 	MOVF	r0x00, W
 	IORWF	r0x01, W
-	BZ	_01056_DS_
+	BZ	_01071_DS_
 ;	.line	27; /home/valentin/.icaro/np05/source/user-tortucaro.c	CDCputs("0",1);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -1452,8 +1453,8 @@ _01054_DS_:
 	CALL	_CDCputs
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-	BRA	_01058_DS_
-_01056_DS_:
+	BRA	_01073_DS_
+_01071_DS_:
 ;	.line	29; /home/valentin/.icaro/np05/source/user-tortucaro.c	CDCputs("1",1);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -1466,7 +1467,7 @@ _01056_DS_:
 	CALL	_CDCputs
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-_01058_DS_:
+_01073_DS_:
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -1538,7 +1539,7 @@ _pinmode:
 	MOVLW	0x05
 	SUBWF	r0x04, W
 	BTFSC	STATUS, 0
-	BRA	_01008_DS_
+	BRA	_01023_DS_
 	MOVFF	r0x07, POSTDEC1
 	MOVFF	r0x08, POSTDEC1
 	CLRF	r0x08
@@ -1548,11 +1549,11 @@ _pinmode:
 	RLCF	r0x08, F
 	ANDLW	0xfc
 	MOVWF	r0x07
-	MOVLW	UPPER(_01017_DS_)
+	MOVLW	UPPER(_01032_DS_)
 	MOVWF	PCLATU
-	MOVLW	HIGH(_01017_DS_)
+	MOVLW	HIGH(_01032_DS_)
 	MOVWF	PCLATH
-	MOVLW	LOW(_01017_DS_)
+	MOVLW	LOW(_01032_DS_)
 	ADDWF	r0x07, F
 	MOVF	r0x08, W
 	ADDWFC	PCLATH, F
@@ -1562,17 +1563,17 @@ _pinmode:
 	MOVFF	PREINC1, r0x08
 	MOVFF	PREINC1, r0x07
 	MOVWF	PCL
-_01017_DS_:
-	GOTO	_00987_DS_
-	GOTO	_00991_DS_
-	GOTO	_00995_DS_
-	GOTO	_00999_DS_
-	GOTO	_01003_DS_
-_00987_DS_:
+_01032_DS_:
+	GOTO	_01002_DS_
+	GOTO	_01006_DS_
+	GOTO	_01010_DS_
+	GOTO	_01014_DS_
+	GOTO	_01018_DS_
+_01002_DS_:
 ;	.line	73; /home/valentin/.icaro/np05/tmp/digitalw.c	case 0: if (state) TRISB=TRISB | mask[input];
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00989_DS_
+	BZ	_01004_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -1591,8 +1592,8 @@ _00987_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_TRISB, F
-	BRA	_01008_DS_
-_00989_DS_:
+	BRA	_01023_DS_
+_01004_DS_:
 ;	.line	74; /home/valentin/.icaro/np05/tmp/digitalw.c	else TRISB=TRISB & (255-mask[input]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1616,12 +1617,12 @@ _00989_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_TRISB, F
 ;	.line	75; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_01008_DS_
-_00991_DS_:
+	BRA	_01023_DS_
+_01006_DS_:
 ;	.line	76; /home/valentin/.icaro/np05/tmp/digitalw.c	case 1: if (state) TRISC=TRISC | mask[input];
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00993_DS_
+	BZ	_01008_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -1640,8 +1641,8 @@ _00991_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_TRISC, F
-	BRA	_01008_DS_
-_00993_DS_:
+	BRA	_01023_DS_
+_01008_DS_:
 ;	.line	77; /home/valentin/.icaro/np05/tmp/digitalw.c	else TRISC=TRISC & (255-mask[input]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1665,12 +1666,12 @@ _00993_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_TRISC, F
 ;	.line	78; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_01008_DS_
-_00995_DS_:
+	BRA	_01023_DS_
+_01010_DS_:
 ;	.line	79; /home/valentin/.icaro/np05/tmp/digitalw.c	case 2: if (state) TRISA=TRISA | mask[input];
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00997_DS_
+	BZ	_01012_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -1689,8 +1690,8 @@ _00995_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_TRISA, F
-	BRA	_01008_DS_
-_00997_DS_:
+	BRA	_01023_DS_
+_01012_DS_:
 ;	.line	80; /home/valentin/.icaro/np05/tmp/digitalw.c	else TRISA=TRISA & (255-mask[input]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1714,12 +1715,12 @@ _00997_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_TRISA, F
 ;	.line	81; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_01008_DS_
-_00999_DS_:
+	BRA	_01023_DS_
+_01014_DS_:
 ;	.line	83; /home/valentin/.icaro/np05/tmp/digitalw.c	case 3: if (state) TRISD=TRISD | mask[input];
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_01001_DS_
+	BZ	_01016_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -1738,8 +1739,8 @@ _00999_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_TRISD, F
-	BRA	_01008_DS_
-_01001_DS_:
+	BRA	_01023_DS_
+_01016_DS_:
 ;	.line	84; /home/valentin/.icaro/np05/tmp/digitalw.c	else TRISD=TRISD & (255-mask[input]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1763,12 +1764,12 @@ _01001_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_TRISD, F
 ;	.line	85; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_01008_DS_
-_01003_DS_:
+	BRA	_01023_DS_
+_01018_DS_:
 ;	.line	86; /home/valentin/.icaro/np05/tmp/digitalw.c	case 4: if (state) TRISE=TRISE | mask[input];
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_01005_DS_
+	BZ	_01020_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x02
@@ -1787,8 +1788,8 @@ _01003_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	IORWF	_TRISE, F
-	BRA	_01008_DS_
-_01005_DS_:
+	BRA	_01023_DS_
+_01020_DS_:
 ;	.line	87; /home/valentin/.icaro/np05/tmp/digitalw.c	else TRISE=TRISE & (255-mask[input]);
 	CLRF	r0x02
 	BTFSC	r0x01, 7
@@ -1809,7 +1810,7 @@ _01005_DS_:
 ; #	MOVWF	r0x00
 ; #	MOVF	r0x00, W
 	ANDWF	_TRISE, F
-_01008_DS_:
+_01023_DS_:
 ;	.line	90; /home/valentin/.icaro/np05/tmp/digitalw.c	}
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
@@ -1856,7 +1857,7 @@ _digitalread:
 	MOVLW	0x05
 	SUBWF	r0x02, W
 	BTFSC	STATUS, 0
-	BRA	_00972_DS_
+	BRA	_00987_DS_
 	MOVFF	r0x05, POSTDEC1
 	MOVFF	r0x06, POSTDEC1
 	CLRF	r0x06
@@ -1866,11 +1867,11 @@ _digitalread:
 	RLCF	r0x06, F
 	ANDLW	0xfc
 	MOVWF	r0x05
-	MOVLW	UPPER(_00982_DS_)
+	MOVLW	UPPER(_00997_DS_)
 	MOVWF	PCLATU
-	MOVLW	HIGH(_00982_DS_)
+	MOVLW	HIGH(_00997_DS_)
 	MOVWF	PCLATH
-	MOVLW	LOW(_00982_DS_)
+	MOVLW	LOW(_00997_DS_)
 	ADDWF	r0x05, F
 	MOVF	r0x06, W
 	ADDWFC	PCLATH, F
@@ -1880,13 +1881,13 @@ _digitalread:
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
 	MOVWF	PCL
-_00982_DS_:
-	GOTO	_00952_DS_
-	GOTO	_00956_DS_
-	GOTO	_00960_DS_
-	GOTO	_00964_DS_
-	GOTO	_00968_DS_
-_00952_DS_:
+_00997_DS_:
+	GOTO	_00967_DS_
+	GOTO	_00971_DS_
+	GOTO	_00975_DS_
+	GOTO	_00979_DS_
+	GOTO	_00983_DS_
+_00967_DS_:
 ;	.line	48; /home/valentin/.icaro/np05/tmp/digitalw.c	case 0: if ((PORTB & mask[input])!=0) return (1);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1907,16 +1908,16 @@ _00952_DS_:
 	MOVF	_PORTB, W
 	ANDWF	r0x02, F
 	MOVF	r0x02, W
-	BZ	_00954_DS_
+	BZ	_00969_DS_
 	CLRF	PRODL
 	MOVLW	0x01
-	BRA	_00973_DS_
-_00954_DS_:
+	BRA	_00988_DS_
+_00969_DS_:
 ;	.line	49; /home/valentin/.icaro/np05/tmp/digitalw.c	else return (0);
 	CLRF	PRODL
 	CLRF	WREG
-	BRA	_00973_DS_
-_00956_DS_:
+	BRA	_00988_DS_
+_00971_DS_:
 ;	.line	51; /home/valentin/.icaro/np05/tmp/digitalw.c	case 1: if ((PORTC & mask[input])!=0) return (1);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1937,16 +1938,16 @@ _00956_DS_:
 	MOVF	_PORTC, W
 	ANDWF	r0x02, F
 	MOVF	r0x02, W
-	BZ	_00958_DS_
+	BZ	_00973_DS_
 	CLRF	PRODL
 	MOVLW	0x01
-	BRA	_00973_DS_
-_00958_DS_:
+	BRA	_00988_DS_
+_00973_DS_:
 ;	.line	52; /home/valentin/.icaro/np05/tmp/digitalw.c	else return (0);
 	CLRF	PRODL
 	CLRF	WREG
-	BRA	_00973_DS_
-_00960_DS_:
+	BRA	_00988_DS_
+_00975_DS_:
 ;	.line	54; /home/valentin/.icaro/np05/tmp/digitalw.c	case 2: if ((PORTA & mask[input])!=0) return (1);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1967,16 +1968,16 @@ _00960_DS_:
 	MOVF	_PORTA, W
 	ANDWF	r0x02, F
 	MOVF	r0x02, W
-	BZ	_00962_DS_
+	BZ	_00977_DS_
 	CLRF	PRODL
 	MOVLW	0x01
-	BRA	_00973_DS_
-_00962_DS_:
+	BRA	_00988_DS_
+_00977_DS_:
 ;	.line	55; /home/valentin/.icaro/np05/tmp/digitalw.c	else return (0);
 	CLRF	PRODL
 	CLRF	WREG
-	BRA	_00973_DS_
-_00964_DS_:
+	BRA	_00988_DS_
+_00979_DS_:
 ;	.line	58; /home/valentin/.icaro/np05/tmp/digitalw.c	case 3: if ((PORTD & mask[input])!=0) return (1);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -1997,16 +1998,16 @@ _00964_DS_:
 	MOVF	_PORTD, W
 	ANDWF	r0x02, F
 	MOVF	r0x02, W
-	BZ	_00966_DS_
+	BZ	_00981_DS_
 	CLRF	PRODL
 	MOVLW	0x01
-	BRA	_00973_DS_
-_00966_DS_:
+	BRA	_00988_DS_
+_00981_DS_:
 ;	.line	59; /home/valentin/.icaro/np05/tmp/digitalw.c	else return (0);
 	CLRF	PRODL
 	CLRF	WREG
-	BRA	_00973_DS_
-_00968_DS_:
+	BRA	_00988_DS_
+_00983_DS_:
 ;	.line	61; /home/valentin/.icaro/np05/tmp/digitalw.c	case 4: if ((PORTE & mask[input])!=0) return (1);
 	CLRF	r0x02
 	BTFSC	r0x01, 7
@@ -2025,20 +2026,20 @@ _00968_DS_:
 	MOVF	_PORTE, W
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
-	BZ	_00970_DS_
+	BZ	_00985_DS_
 	CLRF	PRODL
 	MOVLW	0x01
-	BRA	_00973_DS_
-_00970_DS_:
+	BRA	_00988_DS_
+_00985_DS_:
 ;	.line	62; /home/valentin/.icaro/np05/tmp/digitalw.c	else return (0);
 	CLRF	PRODL
 	CLRF	WREG
-	BRA	_00973_DS_
-_00972_DS_:
+	BRA	_00988_DS_
+_00987_DS_:
 ;	.line	66; /home/valentin/.icaro/np05/tmp/digitalw.c	return (0);
 	CLRF	PRODL
 	CLRF	WREG
-_00973_DS_:
+_00988_DS_:
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
@@ -2088,7 +2089,7 @@ _digitalwrite:
 	MOVLW	0x05
 	SUBWF	r0x04, W
 	BTFSC	STATUS, 0
-	BRA	_00938_DS_
+	BRA	_00953_DS_
 	MOVFF	r0x07, POSTDEC1
 	MOVFF	r0x08, POSTDEC1
 	CLRF	r0x08
@@ -2098,11 +2099,11 @@ _digitalwrite:
 	RLCF	r0x08, F
 	ANDLW	0xfc
 	MOVWF	r0x07
-	MOVLW	UPPER(_00947_DS_)
+	MOVLW	UPPER(_00962_DS_)
 	MOVWF	PCLATU
-	MOVLW	HIGH(_00947_DS_)
+	MOVLW	HIGH(_00962_DS_)
 	MOVWF	PCLATH
-	MOVLW	LOW(_00947_DS_)
+	MOVLW	LOW(_00962_DS_)
 	ADDWF	r0x07, F
 	MOVF	r0x08, W
 	ADDWFC	PCLATH, F
@@ -2112,17 +2113,17 @@ _digitalwrite:
 	MOVFF	PREINC1, r0x08
 	MOVFF	PREINC1, r0x07
 	MOVWF	PCL
-_00947_DS_:
-	GOTO	_00917_DS_
-	GOTO	_00921_DS_
-	GOTO	_00925_DS_
-	GOTO	_00929_DS_
-	GOTO	_00933_DS_
-_00917_DS_:
+_00962_DS_:
+	GOTO	_00932_DS_
+	GOTO	_00936_DS_
+	GOTO	_00940_DS_
+	GOTO	_00944_DS_
+	GOTO	_00948_DS_
+_00932_DS_:
 ;	.line	24; /home/valentin/.icaro/np05/tmp/digitalw.c	case 0: if (state) PORTB=PORTB | mask[output]; 
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00919_DS_
+	BZ	_00934_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -2141,8 +2142,8 @@ _00917_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_PORTB, F
-	BRA	_00938_DS_
-_00919_DS_:
+	BRA	_00953_DS_
+_00934_DS_:
 ;	.line	25; /home/valentin/.icaro/np05/tmp/digitalw.c	else PORTB=PORTB & (255-mask[output]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -2166,12 +2167,12 @@ _00919_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_PORTB, F
 ;	.line	26; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_00938_DS_
-_00921_DS_:
+	BRA	_00953_DS_
+_00936_DS_:
 ;	.line	27; /home/valentin/.icaro/np05/tmp/digitalw.c	case 1: if (state) PORTC=PORTC | mask[output];
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00923_DS_
+	BZ	_00938_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -2190,8 +2191,8 @@ _00921_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_PORTC, F
-	BRA	_00938_DS_
-_00923_DS_:
+	BRA	_00953_DS_
+_00938_DS_:
 ;	.line	28; /home/valentin/.icaro/np05/tmp/digitalw.c	else PORTC=PORTC & (255-mask[output]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -2215,12 +2216,12 @@ _00923_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_PORTC, F
 ;	.line	29; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_00938_DS_
-_00925_DS_:
+	BRA	_00953_DS_
+_00940_DS_:
 ;	.line	30; /home/valentin/.icaro/np05/tmp/digitalw.c	case 2: if (state) PORTA=PORTA | mask[output];
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00927_DS_
+	BZ	_00942_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -2239,8 +2240,8 @@ _00925_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_PORTA, F
-	BRA	_00938_DS_
-_00927_DS_:
+	BRA	_00953_DS_
+_00942_DS_:
 ;	.line	31; /home/valentin/.icaro/np05/tmp/digitalw.c	else PORTA=PORTA & (255-mask[output]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -2264,12 +2265,12 @@ _00927_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_PORTA, F
 ;	.line	32; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_00938_DS_
-_00929_DS_:
+	BRA	_00953_DS_
+_00944_DS_:
 ;	.line	34; /home/valentin/.icaro/np05/tmp/digitalw.c	case 3: if (state) PORTD=PORTD | mask[output]; 
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00931_DS_
+	BZ	_00946_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x04
@@ -2288,8 +2289,8 @@ _00929_DS_:
 	MOVFF	TABLAT, r0x04
 	MOVF	r0x04, W
 	IORWF	_PORTD, F
-	BRA	_00938_DS_
-_00931_DS_:
+	BRA	_00953_DS_
+_00946_DS_:
 ;	.line	35; /home/valentin/.icaro/np05/tmp/digitalw.c	else PORTD=PORTD & (255-mask[output]);
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -2313,12 +2314,12 @@ _00931_DS_:
 ; #	MOVF	r0x04, W
 	ANDWF	_PORTD, F
 ;	.line	36; /home/valentin/.icaro/np05/tmp/digitalw.c	break;
-	BRA	_00938_DS_
-_00933_DS_:
+	BRA	_00953_DS_
+_00948_DS_:
 ;	.line	37; /home/valentin/.icaro/np05/tmp/digitalw.c	case 4: if (state) PORTE=PORTE | mask[output]; 
 	MOVF	r0x02, W
 	IORWF	r0x03, W
-	BZ	_00935_DS_
+	BZ	_00950_DS_
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
 	MOVWF	r0x02
@@ -2337,8 +2338,8 @@ _00933_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	IORWF	_PORTE, F
-	BRA	_00938_DS_
-_00935_DS_:
+	BRA	_00953_DS_
+_00950_DS_:
 ;	.line	38; /home/valentin/.icaro/np05/tmp/digitalw.c	else PORTE=PORTE & (255-mask[output]);
 	CLRF	r0x02
 	BTFSC	r0x01, 7
@@ -2359,7 +2360,7 @@ _00935_DS_:
 ; #	MOVWF	r0x00
 ; #	MOVF	r0x00, W
 	ANDWF	_PORTE, F
-_00938_DS_:
+_00953_DS_:
 ;	.line	41; /home/valentin/.icaro/np05/tmp/digitalw.c	}
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
@@ -2376,7 +2377,7 @@ S_tortucaro__servos_interrupt	code
 _servos_interrupt:
 ;	.line	289; /home/valentin/.icaro/np05/tmp/servos.c	if (PIR1bits.TMR1IF) {
 	BTFSS	_PIR1bits, 0
-	BRA	_00912_DS_
+	BRA	_00927_DS_
 ;	.line	290; /home/valentin/.icaro/np05/tmp/servos.c	PIR1bits.TMR1IF=0;
 	BCF	_PIR1bits, 0
 ;	.line	291; /home/valentin/.icaro/np05/tmp/servos.c	T1CON=0x00;
@@ -2384,7 +2385,7 @@ _servos_interrupt:
 	BANKSEL	_phase
 ;	.line	292; /home/valentin/.icaro/np05/tmp/servos.c	if (phase) {
 	MOVF	_phase, W, B
-	BZ	_00908_DS_
+	BZ	_00923_DS_
 ;	.line	294; /home/valentin/.icaro/np05/tmp/servos.c	ServosPulseUp();
 	CALL	_ServosPulseUp
 ;	.line	296; /home/valentin/.icaro/np05/tmp/servos.c	TMR1H= 0xd3;
@@ -2399,8 +2400,8 @@ _servos_interrupt:
 	BANKSEL	_phase
 ;	.line	300; /home/valentin/.icaro/np05/tmp/servos.c	phase = 0;
 	CLRF	_phase, B
-	BRA	_00912_DS_
-_00908_DS_:
+	BRA	_00927_DS_
+_00923_DS_:
 ;	.line	305; /home/valentin/.icaro/np05/tmp/servos.c	ServosPulseDown();
 	CALL	_ServosPulseDown
 ;	.line	309; /home/valentin/.icaro/np05/tmp/servos.c	TMR1H= 0x2d;
@@ -2411,7 +2412,7 @@ _00908_DS_:
 	MOVWF	_TMR1L
 ; #	MOVF	_needreordering, W, B
 ; #	BTFSC	STATUS, 2
-; #	GOTO	_00906_DS_
+; #	GOTO	_00921_DS_
 ; #	CALL	_SortServoTimings
 ; #	MOVLW	0x21
 	BANKSEL	_needreordering
@@ -2427,7 +2428,7 @@ _00908_DS_:
 	MOVLW	0x01
 	BANKSEL	_phase
 	MOVWF	_phase, B
-_00912_DS_:
+_00927_DS_:
 ;	.line	318; /home/valentin/.icaro/np05/tmp/servos.c	return;
 	RETURN	
 
@@ -2445,13 +2446,13 @@ _ServoMaximumPulse:
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00896_DS_
-; #	GOTO	_00897_DS_
+; #	GOTO	_00911_DS_
+; #	GOTO	_00912_DS_
 ; #	CLRF	r0x01
 ;	.line	277; /home/valentin/.icaro/np05/tmp/servos.c	return;
 	SUBWF	r0x00, W
 ;	.line	279; /home/valentin/.icaro/np05/tmp/servos.c	servovalues[servo]=SERVOMAX;  //  250 = 2000 useg pulse
-	BC	_00897_DS_
+	BC	_00912_DS_
 	CLRF	r0x01
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x00, F
@@ -2465,7 +2466,7 @@ _ServoMaximumPulse:
 	MOVLW	0x01
 	BANKSEL	_needreordering
 	MOVWF	_needreordering, B
-_00897_DS_:
+_00912_DS_:
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -2485,13 +2486,13 @@ _ServoMinimumPulse:
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00886_DS_
-; #	GOTO	_00887_DS_
+; #	GOTO	_00901_DS_
+; #	GOTO	_00902_DS_
 ; #	CLRF	r0x01
 ;	.line	266; /home/valentin/.icaro/np05/tmp/servos.c	return;
 	SUBWF	r0x00, W
 ;	.line	268; /home/valentin/.icaro/np05/tmp/servos.c	servovalues[servo]=SERVOMIN;  //  1 = 1000 useg pulse
-	BC	_00887_DS_
+	BC	_00902_DS_
 	CLRF	r0x01
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x00, F
@@ -2504,7 +2505,7 @@ _ServoMinimumPulse:
 	BANKSEL	_needreordering
 ;	.line	270; /home/valentin/.icaro/np05/tmp/servos.c	needreordering=1;  // This indicates servo timings must be reordered.
 	MOVWF	_needreordering, B
-_00887_DS_:
+_00902_DS_:
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -2523,11 +2524,11 @@ _ServoRead:
 ;	.line	257; /home/valentin/.icaro/np05/tmp/servos.c	if(servo>=18)        // test if numservo is valid
 	MOVLW	0x12
 	SUBWF	r0x00, W
-	BNC	_00876_DS_
+	BNC	_00891_DS_
 ;	.line	258; /home/valentin/.icaro/np05/tmp/servos.c	return 0;
 	CLRF	WREG
-	BRA	_00877_DS_
-_00876_DS_:
+	BRA	_00892_DS_
+_00891_DS_:
 ;	.line	259; /home/valentin/.icaro/np05/tmp/servos.c	return servovalues[servo];
 	CLRF	r0x01
 	MOVLW	LOW(_servovalues)
@@ -2538,7 +2539,7 @@ _00876_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVF	r0x00, W
-_00877_DS_:
+_00892_DS_:
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -2561,28 +2562,28 @@ _ServoWrite:
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00858_DS_
-; #	GOTO	_00863_DS_
+; #	GOTO	_00873_DS_
+; #	GOTO	_00878_DS_
 ; #	MOVLW	0x01
 ;	.line	243; /home/valentin/.icaro/np05/tmp/servos.c	return;
 	SUBWF	r0x00, W
 ;	.line	245; /home/valentin/.icaro/np05/tmp/servos.c	if(value<SERVOMIN)  //  1 = 1000 useg pulse
-	BC	_00863_DS_
+	BC	_00878_DS_
 	MOVLW	0x01
 	SUBWF	r0x01, W
-	BC	_00860_DS_
+	BC	_00875_DS_
 ;	.line	246; /home/valentin/.icaro/np05/tmp/servos.c	value=SERVOMIN;
 	MOVLW	0x01
 	MOVWF	r0x01
-_00860_DS_:
+_00875_DS_:
 ;	.line	247; /home/valentin/.icaro/np05/tmp/servos.c	if(value>SERVOMAX) // 250 = 2000 useg pulse
 	MOVLW	0xfb
 	SUBWF	r0x01, W
-	BNC	_00862_DS_
+	BNC	_00877_DS_
 ;	.line	248; /home/valentin/.icaro/np05/tmp/servos.c	value=SERVOMAX;
 	MOVLW	0xfa
 	MOVWF	r0x01
-_00862_DS_:
+_00877_DS_:
 ;	.line	249; /home/valentin/.icaro/np05/tmp/servos.c	servovalues[servo]=value;
 	CLRF	r0x02
 	MOVLW	LOW(_servovalues)
@@ -2596,7 +2597,7 @@ _00862_DS_:
 	MOVLW	0x01
 	BANKSEL	_needreordering
 	MOVWF	_needreordering, B
-_00863_DS_:
+_00878_DS_:
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -2619,16 +2620,16 @@ _ServoDetach:
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00837_DS_
-; #	GOTO	_00844_DS_
+; #	GOTO	_00852_DS_
+; #	GOTO	_00859_DS_
 ; #	MOVLW	0x08
 ;	.line	230; /home/valentin/.icaro/np05/tmp/servos.c	if(pin<8){
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00844_DS_
+	BRA	_00859_DS_
 	MOVLW	0x08
 	SUBWF	r0x00, W
-	BC	_00842_DS_
+	BC	_00857_DS_
 ;	.line	231; /home/valentin/.icaro/np05/tmp/servos.c	activatedservos[MaskPort_B] = activatedservos[MaskPort_B] ^ servomasks[pin];
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
@@ -2650,12 +2651,12 @@ _ServoDetach:
 	MOVF	r0x01, W
 ; removed redundant BANKSEL
 	MOVWF	_activatedservos, B
-	BRA	_00844_DS_
-_00842_DS_:
+	BRA	_00859_DS_
+_00857_DS_:
 ;	.line	232; /home/valentin/.icaro/np05/tmp/servos.c	} else if (pin>12) {
 	MOVLW	0x0d
 	SUBWF	r0x00, W
-	BNC	_00839_DS_
+	BNC	_00854_DS_
 ;	.line	233; /home/valentin/.icaro/np05/tmp/servos.c	activatedservos[MaskPort_A] = activatedservos[MaskPort_A] ^ servomasks[pin];
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
@@ -2677,8 +2678,8 @@ _00842_DS_:
 	MOVF	r0x01, W
 ; removed redundant BANKSEL
 	MOVWF	(_activatedservos + 2), B
-	BRA	_00844_DS_
-_00839_DS_:
+	BRA	_00859_DS_
+_00854_DS_:
 ;	.line	235; /home/valentin/.icaro/np05/tmp/servos.c	activatedservos[MaskPort_C] = activatedservos[MaskPort_C] ^ servomasks[pin];
 	CLRF	r0x01
 	CLRF	r0x02
@@ -2699,7 +2700,7 @@ _00839_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	MOVWF	(_activatedservos + 1), B
-_00844_DS_:
+_00859_DS_:
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -2723,16 +2724,16 @@ _ServoAttach:
 	MOVLW	0x12
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00815_DS_
-; #	GOTO	_00822_DS_
+; #	GOTO	_00830_DS_
+; #	GOTO	_00837_DS_
 ; #	MOVLW	0x08
 ;	.line	213; /home/valentin/.icaro/np05/tmp/servos.c	if(pin<8){
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00822_DS_
+	BRA	_00837_DS_
 	MOVLW	0x08
 	SUBWF	r0x00, W
-	BC	_00820_DS_
+	BC	_00835_DS_
 ;	.line	214; /home/valentin/.icaro/np05/tmp/servos.c	activatedservos[MaskPort_B] = activatedservos[MaskPort_B] | servomasks[pin];  // list pin as servo driver.
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
@@ -2760,12 +2761,12 @@ _ServoAttach:
 ; #	MOVWF	r0x01
 ; #	MOVF	r0x01, W
 	ANDWF	_TRISB, F
-	BRA	_00822_DS_
-_00820_DS_:
+	BRA	_00837_DS_
+_00835_DS_:
 ;	.line	216; /home/valentin/.icaro/np05/tmp/servos.c	} else if (pin>12) {
 	MOVLW	0x0d
 	SUBWF	r0x00, W
-	BNC	_00817_DS_
+	BNC	_00832_DS_
 ;	.line	217; /home/valentin/.icaro/np05/tmp/servos.c	activatedservos[MaskPort_A] = activatedservos[MaskPort_A] | servomasks[pin];  // list pin as servo driver.
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x00, W
@@ -2793,8 +2794,8 @@ _00820_DS_:
 ; #	MOVWF	r0x01
 ; #	MOVF	r0x01, W
 	ANDWF	_TRISA, F
-	BRA	_00822_DS_
-_00817_DS_:
+	BRA	_00837_DS_
+_00832_DS_:
 ;	.line	220; /home/valentin/.icaro/np05/tmp/servos.c	activatedservos[MaskPort_C] = activatedservos[MaskPort_C] | servomasks[pin];  // list pin as servo driver.
 	CLRF	r0x01
 	CLRF	r0x02
@@ -2821,7 +2822,7 @@ _00817_DS_:
 ; #	MOVWF	r0x00
 ; #	MOVF	r0x00, W
 	ANDWF	_TRISC, F
-_00822_DS_:
+_00837_DS_:
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -2852,10 +2853,10 @@ _SortServoTimings:
 	CLRF	(_SortServoTimings_mascaratotal_1_1 + 2), B
 ;	.line	135; /home/valentin/.icaro/np05/tmp/servos.c	for(t=0;t<18;t++){
 	CLRF	r0x00
-_00762_DS_:
+_00777_DS_:
 	MOVLW	0x12
 	SUBWF	r0x00, W
-	BC	_00765_DS_
+	BC	_00780_DS_
 ;	.line	136; /home/valentin/.icaro/np05/tmp/servos.c	timings[timevalue][t]=255;
 	MOVLW	LOW(_timings + 54)
 	ADDWF	r0x00, W
@@ -2888,32 +2889,32 @@ _00762_DS_:
 	CLRF	INDF0
 ;	.line	135; /home/valentin/.icaro/np05/tmp/servos.c	for(t=0;t<18;t++){
 	INCF	r0x00, F
-	BRA	_00762_DS_
-_00765_DS_:
+	BRA	_00777_DS_
+_00780_DS_:
 ;	.line	142; /home/valentin/.icaro/np05/tmp/servos.c	totalservos=0;
 	CLRF	r0x00
 ;	.line	144; /home/valentin/.icaro/np05/tmp/servos.c	while(totalservos<18) {
 	CLRF	r0x01
-_00759_DS_:
+_00774_DS_:
 	MOVLW	0x12
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00761_DS_
+	BRA	_00776_DS_
 ;	.line	145; /home/valentin/.icaro/np05/tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
 ;	.line	146; /home/valentin/.icaro/np05/tmp/servos.c	for(s=0;s<18;s++) { 
 	CLRF	r0x03
-_00766_DS_:
+_00781_DS_:
 	MOVLW	0x12
 	SUBWF	r0x03, W
 	BTFSC	STATUS, 0
-	BRA	_00769_DS_
+	BRA	_00784_DS_
 ;	.line	148; /home/valentin/.icaro/np05/tmp/servos.c	if (s<8){
 	MOVLW	0x08
 	SUBWF	r0x03, W
 	BTFSC	STATUS, 0
-	BRA	_00757_DS_
+	BRA	_00772_DS_
 ;	.line	149; /home/valentin/.icaro/np05/tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_B] & activatedservos[MaskPort_B]){
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x03, W
@@ -2937,7 +2938,7 @@ _00766_DS_:
 	ANDWF	r0x04, F
 	MOVF	r0x04, W
 	BTFSS	STATUS, 2
-	BRA	_00768_DS_
+	BRA	_00783_DS_
 ;	.line	151; /home/valentin/.icaro/np05/tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x03, W
@@ -2959,7 +2960,7 @@ _00766_DS_:
 	MOVFF	INDF0, r0x07
 	MOVF	r0x07, W
 	SUBWF	r0x04, W
-	BC	_00732_DS_
+	BC	_00747_DS_
 ;	.line	152; /home/valentin/.icaro/np05/tmp/servos.c	timings[timevalue][t]=servovalues[s];
 	MOVFF	r0x05, FSR0L
 	MOVFF	r0x06, FSR0H
@@ -2987,26 +2988,26 @@ _00766_DS_:
 ;	.line	156; /home/valentin/.icaro/np05/tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
-	BRA	_00768_DS_
-_00732_DS_:
+	BRA	_00783_DS_
+_00747_DS_:
 ;	.line	158; /home/valentin/.icaro/np05/tmp/servos.c	else if (servovalues[s] == timings[timevalue][t]){
 	MOVFF	r0x05, FSR0L
 	MOVFF	r0x06, FSR0H
 	MOVFF	INDF0, r0x05
 	MOVF	r0x04, W
 	XORWF	r0x05, W
-	BZ	_00799_DS_
-	BRA	_00768_DS_
-_00799_DS_:
+	BZ	_00814_DS_
+	BRA	_00783_DS_
+_00814_DS_:
 ;	.line	160; /home/valentin/.icaro/np05/tmp/servos.c	numservos++;
 	INCF	r0x02, F
-	BRA	_00768_DS_
-_00757_DS_:
+	BRA	_00783_DS_
+_00772_DS_:
 ;	.line	164; /home/valentin/.icaro/np05/tmp/servos.c	else if (s>12){
 	MOVLW	0x0d
 	SUBWF	r0x03, W
 	BTFSS	STATUS, 0
-	BRA	_00754_DS_
+	BRA	_00769_DS_
 ;	.line	165; /home/valentin/.icaro/np05/tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_A] & activatedservos[MaskPort_A]){
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x03, W
@@ -3031,7 +3032,7 @@ _00757_DS_:
 	ANDWF	r0x05, F
 	MOVF	r0x05, W
 	BTFSS	STATUS, 2
-	BRA	_00768_DS_
+	BRA	_00783_DS_
 ;	.line	167; /home/valentin/.icaro/np05/tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x03, W
@@ -3053,7 +3054,7 @@ _00757_DS_:
 	MOVFF	INDF0, r0x08
 	MOVF	r0x08, W
 	SUBWF	r0x05, W
-	BC	_00740_DS_
+	BC	_00755_DS_
 ;	.line	168; /home/valentin/.icaro/np05/tmp/servos.c	timings[timevalue][t]=servovalues[s];
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
@@ -3081,17 +3082,17 @@ _00757_DS_:
 ;	.line	172; /home/valentin/.icaro/np05/tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
-	BRA	_00768_DS_
-_00740_DS_:
+	BRA	_00783_DS_
+_00755_DS_:
 ;	.line	174; /home/valentin/.icaro/np05/tmp/servos.c	else if (servovalues[s] == timings[timevalue][t]){
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
 	MOVFF	INDF0, r0x06
 	MOVF	r0x05, W
 	XORWF	r0x06, W
-	BZ	_00804_DS_
-	BRA	_00768_DS_
-_00804_DS_:
+	BZ	_00819_DS_
+	BRA	_00783_DS_
+_00819_DS_:
 ;	.line	175; /home/valentin/.icaro/np05/tmp/servos.c	timings[MaskPort_A][t] |= servomasks[s];
 	MOVLW	LOW(_timings + 36)
 	ADDWF	r0x01, W
@@ -3109,8 +3110,8 @@ _00804_DS_:
 	MOVFF	r0x04, INDF0
 ;	.line	176; /home/valentin/.icaro/np05/tmp/servos.c	numservos++;
 	INCF	r0x02, F
-	BRA	_00768_DS_
-_00754_DS_:
+	BRA	_00783_DS_
+_00769_DS_:
 ;	.line	181; /home/valentin/.icaro/np05/tmp/servos.c	if (servomasks[s] & mascaratotal[MaskPort_C] & activatedservos[MaskPort_C]){ 
 	MOVLW	LOW(_servomasks)
 	ADDWF	r0x03, W
@@ -3135,7 +3136,7 @@ _00754_DS_:
 	ANDWF	r0x05, F
 	MOVF	r0x05, W
 	BTFSS	STATUS, 2
-	BRA	_00768_DS_
+	BRA	_00783_DS_
 ;	.line	183; /home/valentin/.icaro/np05/tmp/servos.c	else if (servovalues[s] < timings[timevalue][t]){
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x03, W
@@ -3157,7 +3158,7 @@ _00754_DS_:
 	MOVFF	INDF0, r0x08
 	MOVF	r0x08, W
 	SUBWF	r0x05, W
-	BC	_00748_DS_
+	BC	_00763_DS_
 ;	.line	184; /home/valentin/.icaro/np05/tmp/servos.c	timings[timevalue][t]=servovalues[s];
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
@@ -3185,15 +3186,15 @@ _00754_DS_:
 ;	.line	188; /home/valentin/.icaro/np05/tmp/servos.c	numservos=1;
 	MOVLW	0x01
 	MOVWF	r0x02
-	BRA	_00768_DS_
-_00748_DS_:
+	BRA	_00783_DS_
+_00763_DS_:
 ;	.line	190; /home/valentin/.icaro/np05/tmp/servos.c	else if (servovalues[s] == timings [timevalue][t]){
 	MOVFF	r0x06, FSR0L
 	MOVFF	r0x07, FSR0H
 	MOVFF	INDF0, r0x06
 	MOVF	r0x05, W
 	XORWF	r0x06, W
-	BNZ	_00768_DS_
+	BNZ	_00783_DS_
 ;	.line	191; /home/valentin/.icaro/np05/tmp/servos.c	timings[MaskPort_C][t] |= servomasks[s];
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x01, W
@@ -3211,11 +3212,11 @@ _00748_DS_:
 	MOVFF	r0x04, INDF0
 ;	.line	192; /home/valentin/.icaro/np05/tmp/servos.c	numservos++;
 	INCF	r0x02, F
-_00768_DS_:
+_00783_DS_:
 ;	.line	146; /home/valentin/.icaro/np05/tmp/servos.c	for(s=0;s<18;s++) { 
 	INCF	r0x03, F
-	BRA	_00766_DS_
-_00769_DS_:
+	BRA	_00781_DS_
+_00784_DS_:
 ;	.line	198; /home/valentin/.icaro/np05/tmp/servos.c	mascaratotal[MaskPort_C] |= timings[MaskPort_C][t];
 	MOVLW	LOW(_timings + 18)
 	ADDWF	r0x01, W
@@ -3253,8 +3254,8 @@ _00769_DS_:
 	ADDWF	r0x00, F
 ;	.line	201; /home/valentin/.icaro/np05/tmp/servos.c	t++;
 	INCF	r0x01, F
-	BRA	_00759_DS_
-_00761_DS_:
+	BRA	_00774_DS_
+_00776_DS_:
 	BANKSEL	_needreordering
 ;	.line	204; /home/valentin/.icaro/np05/tmp/servos.c	needreordering=0;  // This indicates that servo timings is ordered.	
 	CLRF	_needreordering, B
@@ -3293,12 +3294,12 @@ _ServosPulseDown:
 	BANKSEL	_timedivision
 ;	.line	96; /home/valentin/.icaro/np05/tmp/servos.c	for(timedivision=0;timedivision < 251;timedivision++){
 	CLRF	_timedivision, B
-_00708_DS_:
+_00723_DS_:
 	MOVLW	0xfb
 	BANKSEL	_timedivision
 	SUBWF	_timedivision, W, B
 	BTFSC	STATUS, 0
-	BRA	_00712_DS_
+	BRA	_00727_DS_
 ;	.line	97; /home/valentin/.icaro/np05/tmp/servos.c	if (timings[timevalue][timingindex] == timedivision){
 	MOVFF	_timingindex, r0x00
 	CLRF	r0x01
@@ -3312,7 +3313,7 @@ _00708_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	XORWF	_timedivision, W, B
-	BNZ	_00707_DS_
+	BNZ	_00722_DS_
 ;	.line	99; /home/valentin/.icaro/np05/tmp/servos.c	PORTC = PORTC ^ timings[MaskPort_C][timingindex];
 	MOVFF	_timingindex, r0x00
 	CLRF	r0x01
@@ -3340,7 +3341,7 @@ _00708_DS_:
 	BANKSEL	_timingindex
 ;	.line	101; /home/valentin/.icaro/np05/tmp/servos.c	timingindex++;
 	INCF	_timingindex, F, B
-_00707_DS_:
+_00722_DS_:
 	movlw 12
 	movwf _loopvar
 bucle:
@@ -3351,8 +3352,8 @@ bucle:
 	BANKSEL	_timedivision
 ;	.line	96; /home/valentin/.icaro/np05/tmp/servos.c	for(timedivision=0;timedivision < 251;timedivision++){
 	INCF	_timedivision, F, B
-	BRA	_00708_DS_
-_00712_DS_:
+	BRA	_00723_DS_
+_00727_DS_:
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -3367,10 +3368,10 @@ _servos_init:
 	MOVFF	r0x02, POSTDEC1
 ;	.line	75; /home/valentin/.icaro/np05/tmp/servos.c	for(a=0;a<18;a++) servovalues[a]=255;
 	CLRF	r0x00
-_00692_DS_:
+_00707_DS_:
 	MOVLW	0x12
 	SUBWF	r0x00, W
-	BC	_00695_DS_
+	BC	_00710_DS_
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -3381,8 +3382,8 @@ _00692_DS_:
 	MOVFF	r0x02, FSR0H
 	SETF	INDF0
 	INCF	r0x00, F
-	BRA	_00692_DS_
-_00695_DS_:
+	BRA	_00707_DS_
+_00710_DS_:
 ;	.line	78; /home/valentin/.icaro/np05/tmp/servos.c	TMR1H=0xFF;
 	SETF	_TMR1H
 ;	.line	79; /home/valentin/.icaro/np05/tmp/servos.c	TMR1L=0x00;
@@ -3404,7 +3405,7 @@ _00695_DS_:
 ; ; Starting pCode block
 S_tortucaro__analogread	code
 _analogread:
-;	.line	24; /home/valentin/.icaro/np05/tmp/analog.c	unsigned int analogread(unsigned char channel)
+;	.line	40; /home/valentin/.icaro/np05/tmp/analog.c	unsigned int analogread(unsigned char channel)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -3413,10 +3414,7 @@ _analogread:
 	MOVFF	r0x03, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	28; /home/valentin/.icaro/np05/tmp/analog.c	ADCON1=0x0A;
-	MOVLW	0x0a
-	MOVWF	_ADCON1
-;	.line	29; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0=(channel-13)*4;
+;	.line	55; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0=(channel-13)*4;
 	MOVLW	0xf3
 	ADDWF	r0x00, F
 ; ;multiply lit val:0x04 by variable r0x00 and store in _ADCON0
@@ -3425,16 +3423,13 @@ _analogread:
 	MOVF	r0x00, W
 	MULLW	0x04
 	MOVFF	PRODL, _ADCON0
-;	.line	30; /home/valentin/.icaro/np05/tmp/analog.c	ADCON2=0xBD;
-	MOVLW	0xbd
-	MOVWF	_ADCON2
-;	.line	31; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0bits.ADON=1;
+;	.line	59; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0bits.ADON=1;
 	BSF	_ADCON0bits, 0
-;	.line	32; /home/valentin/.icaro/np05/tmp/analog.c	for (result=1;result<10;result++) __asm NOP __endasm;
+;	.line	60; /home/valentin/.icaro/np05/tmp/analog.c	for (result=1;result<10;result++) __asm NOP __endasm;
 	MOVLW	0x09
 	MOVWF	r0x00
 	CLRF	r0x01
-_00686_DS_:
+_00701_DS_:
 	NOP 
 	MOVLW	0xff
 	ADDWF	r0x00, F
@@ -3442,14 +3437,14 @@ _00686_DS_:
 	DECF	r0x01, F
 	MOVF	r0x00, W
 	IORWF	r0x01, W
-	BNZ	_00686_DS_
-;	.line	33; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0bits.GO=1;
+	BNZ	_00701_DS_
+;	.line	61; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0bits.GO=1;
 	BSF	_ADCON0bits, 1
-_00681_DS_:
-;	.line	34; /home/valentin/.icaro/np05/tmp/analog.c	while (ADCON0bits.GO);
+_00696_DS_:
+;	.line	62; /home/valentin/.icaro/np05/tmp/analog.c	while (ADCON0bits.GO);
 	BTFSC	_ADCON0bits, 1
-	BRA	_00681_DS_
-;	.line	35; /home/valentin/.icaro/np05/tmp/analog.c	result=ADRESH<<8;
+	BRA	_00696_DS_
+;	.line	63; /home/valentin/.icaro/np05/tmp/analog.c	result=ADRESH<<8;
 	MOVFF	_ADRESH, r0x00
 	CLRF	r0x01
 	MOVF	r0x00, W
@@ -3459,16 +3454,16 @@ _00681_DS_:
 	MOVWF	r0x00
 	MOVF	r0x03, W
 	MOVWF	r0x01
-;	.line	36; /home/valentin/.icaro/np05/tmp/analog.c	result+=ADRESL;
+;	.line	64; /home/valentin/.icaro/np05/tmp/analog.c	result+=ADRESL;
 	MOVFF	_ADRESL, r0x02
 	CLRF	r0x03
 	MOVF	r0x02, W
 	ADDWF	r0x00, F
 	MOVF	r0x03, W
 	ADDWFC	r0x01, F
-;	.line	37; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0bits.ADON=0;
+;	.line	65; /home/valentin/.icaro/np05/tmp/analog.c	ADCON0bits.ADON=0;
 	BCF	_ADCON0bits, 0
-;	.line	38; /home/valentin/.icaro/np05/tmp/analog.c	return(result);
+;	.line	66; /home/valentin/.icaro/np05/tmp/analog.c	return(result);
 	MOVFF	r0x01, PRODL
 	MOVF	r0x00, W
 	MOVFF	PREINC1, r0x03
@@ -3479,17 +3474,46 @@ _00681_DS_:
 	RETURN	
 
 ; ; Starting pCode block
+S_tortucaro__analogReference	code
+_analogReference:
+;	.line	32; /home/valentin/.icaro/np05/tmp/analog.c	void analogReference(unsigned char Type)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+; #	MOVF	r0x00, W
+; #	BTFSS	STATUS, 2
+; #	GOTO	_00684_DS_
+; #	GOTO	_00686_DS_
+; #	MOVF	r0x00, W
+;	.line	34; /home/valentin/.icaro/np05/tmp/analog.c	if(Type == DEFAULT)			//the default analog reference of 5 volts (on 5V Arduino boards) or 3.3 volts (on 3.3V Arduino boards)
+	MOVF	r0x00, W
+;	.line	35; /home/valentin/.icaro/np05/tmp/analog.c	ADCON1|=0x00;			//Vref+ = VDD
+	BZ	_00686_DS_
+;	.line	36; /home/valentin/.icaro/np05/tmp/analog.c	else if(Type == EXTERNAL)	//the voltage applied to the AREF pin (0 to 5V only) is used as the reference.
+	MOVF	r0x00, W
+	XORLW	0x01
+	BNZ	_00686_DS_
+;	.line	37; /home/valentin/.icaro/np05/tmp/analog.c	ADCON1|=0x10;			//Vref+ = External source
+	BSF	_ADCON1, 4
+_00686_DS_:
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
 S_tortucaro__analog_init	code
 _analog_init:
-;	.line	13; /home/valentin/.icaro/np05/tmp/analog.c	TRISA=TRISA | 0x2F;
+;	.line	15; /home/valentin/.icaro/np05/tmp/analog.c	TRISA=TRISA | 0x2F;
 	MOVLW	0x2f
 	IORWF	_TRISA, F
-;	.line	14; /home/valentin/.icaro/np05/tmp/analog.c	TRISE=TRISE | 0x07;
+;	.line	16; /home/valentin/.icaro/np05/tmp/analog.c	TRISE=TRISE | 0x07;	
 	MOVLW	0x07
 	IORWF	_TRISE, F
-;	.line	15; /home/valentin/.icaro/np05/tmp/analog.c	ADCON1=0x07;
+;	.line	17; /home/valentin/.icaro/np05/tmp/analog.c	ADCON1=0x07;
 	MOVWF	_ADCON1
-;	.line	16; /home/valentin/.icaro/np05/tmp/analog.c	ADCON2=0xBD;
+;	.line	18; /home/valentin/.icaro/np05/tmp/analog.c	ADCON2=0xBD;
 	MOVLW	0xbd
 	MOVWF	_ADCON2
 	RETURN	
@@ -3677,21 +3701,16 @@ _CDCInitEndpoint:
 	MOVLW	0xc2
 ; removed redundant BANKSEL
 	MOVWF	(_line_config + 1), B
-	MOVLW	0x01
-; removed redundant BANKSEL
-	MOVWF	(_line_config + 2), B
-; removed redundant BANKSEL
-	CLRF	(_line_config + 3), B
 ; removed redundant BANKSEL
 ;	.line	168; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	line_config.bCharFormat = USB_CDC_STOP_BITS;
-	CLRF	(_line_config + 4), B
+	CLRF	(_line_config + 2), B
 ; removed redundant BANKSEL
 ;	.line	169; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	line_config.bParityType = USB_CDC_PARITY;
-	CLRF	(_line_config + 5), B
+	CLRF	(_line_config + 3), B
 ;	.line	170; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	line_config.bDataBits = USB_CDC_DATA_BITS;
 	MOVLW	0x08
 ; removed redundant BANKSEL
-	MOVWF	(_line_config + 6), B
+	MOVWF	(_line_config + 4), B
 	BANKSEL	_zlp
 ;	.line	171; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	zlp.wValue0=0;
 	CLRF	_zlp, B
@@ -3770,7 +3789,7 @@ _CDCInitEndpoint:
 ; ; Starting pCode block
 S_tortucaro__CDCputs	code
 _CDCputs:
-;	.line	131; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	byte CDCputs(char *buffer, byte length) {
+;	.line	131; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	u8 CDCputs(char *buffer, u8 length) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -3791,7 +3810,7 @@ _CDCputs:
 	MOVFF	PLUSW2, r0x02
 	MOVLW	0x05
 	MOVFF	PLUSW2, r0x03
-;	.line	132; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	byte i=0;
+;	.line	132; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	u8 i=0;
 	CLRF	r0x04
 	BANKSEL	_deviceState
 ;	.line	134; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	if (deviceState != CONFIGURED) return 0;
@@ -3912,7 +3931,7 @@ _00613_DS_:
 ; ; Starting pCode block
 S_tortucaro__CDCgets	code
 _CDCgets:
-;	.line	98; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	byte CDCgets(char *buffer) {
+;	.line	98; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	u8 CDCgets(char *buffer) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -3931,7 +3950,7 @@ _CDCgets:
 	MOVFF	PLUSW2, r0x01
 	MOVLW	0x04
 	MOVFF	PLUSW2, r0x02
-;	.line	99; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	byte i=0;
+;	.line	99; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	u8 i=0;
 	CLRF	r0x03
 	BANKSEL	_deviceState
 ;	.line	101; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	if (deviceState != CONFIGURED) return 0;
@@ -4094,7 +4113,7 @@ _00559_DS_:
 	BZ	_00539_DS_
 	BRA	_00544_DS_
 _00537_DS_:
-;	.line	62; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	outPtr = (data byte *)&line_config;
+;	.line	62; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	outPtr = (__data u8 *)&line_config;
 	MOVLW	HIGH(_line_config)
 ; #	MOVWF	r0x01
 ; #	MOVF	r0x01, W
@@ -4107,7 +4126,7 @@ _00537_DS_:
 ; removed redundant BANKSEL
 	MOVWF	(_outPtr + 2), B
 ;	.line	63; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	wCount = sizeof(USB_CDC_Line_Coding) ;
-	MOVLW	0x07
+	MOVLW	0x05
 	BANKSEL	_wCount
 	MOVWF	_wCount, B
 ; removed redundant BANKSEL
@@ -4119,7 +4138,7 @@ _00537_DS_:
 ;	.line	65; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	break;
 	BRA	_00544_DS_
 _00538_DS_:
-;	.line	71; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	outPtr = (data byte *)&line_config;
+;	.line	71; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	outPtr = (__data u8 *)&line_config;
 	MOVLW	HIGH(_line_config)
 ; #	MOVWF	r0x01
 ; #	MOVF	r0x01, W
@@ -4132,7 +4151,7 @@ _00538_DS_:
 ; removed redundant BANKSEL
 	MOVWF	(_outPtr + 2), B
 ;	.line	72; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	wCount = sizeof(USB_CDC_Line_Coding) ;
-	MOVLW	0x07
+	MOVLW	0x05
 	BANKSEL	_wCount
 	MOVWF	_wCount, B
 ; removed redundant BANKSEL
@@ -4158,7 +4177,7 @@ _00541_DS_:
 ;	.line	83; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	else CONTROL_LINE=0;		
 	CLRF	_CONTROL_LINE, B
 _00542_DS_:
-;	.line	84; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	outPtr = (data byte *)&zlp;
+;	.line	84; /home/valentin/.icaro/np05/tmp/usb/usb_cdc.c	outPtr = (__data u8 *)&zlp;
 	MOVLW	HIGH(_zlp)
 ; #	MOVWF	r0x01
 ; #	MOVF	r0x01, W
@@ -4188,7 +4207,7 @@ _00544_DS_:
 ; ; Starting pCode block
 S_tortucaro__ProcessUSBTransactions	code
 _ProcessUSBTransactions:
-;	.line	740; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void ProcessUSBTransactions(void) {
+;	.line	743; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void ProcessUSBTransactions(void) {
 	MOVFF	r0x00, POSTDEC1
 ; #	MOVF	_deviceState, W, B
 ; #	BTFSS	STATUS, 2
@@ -4196,20 +4215,20 @@ _ProcessUSBTransactions:
 ; #	GOTO	_00507_DS_
 ; #	BTFSS	_UIRbits, 2
 	BANKSEL	_deviceState
-;	.line	742; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(deviceState == DETACHED)
+;	.line	745; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(deviceState == DETACHED)
 	MOVF	_deviceState, W, B
-;	.line	743; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
+;	.line	746; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
 	BZ	_00507_DS_
-;	.line	746; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UIRbits.ACTVIF && UIEbits.ACTVIE)
+;	.line	749; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UIRbits.ACTVIF && UIEbits.ACTVIE)
 	BTFSS	_UIRbits, 2
 ; #	GOTO	_00483_DS_
 ; #	BTFSS	_UIEbits, 2
 ; #	GOTO	_00483_DS_
 ; #	CALL	_UnSuspend
 ; #	CLRF	r0x00
-;	.line	747; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UnSuspend();
+;	.line	750; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UnSuspend();
 	BRA	_00483_DS_
-;	.line	751; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UCONbits.SUSPND == 1)
+;	.line	754; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UCONbits.SUSPND == 1)
 	BTFSC	_UIEbits, 2
 	CALL	_UnSuspend
 _00483_DS_:
@@ -4218,18 +4237,18 @@ _00483_DS_:
 	INCF	r0x00, F
 	MOVF	r0x00, W
 	XORLW	0x01
-;	.line	752; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
+;	.line	755; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
 	BZ	_00507_DS_
-;	.line	755; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.URSTIF && UIEbits.URSTIE) {
+;	.line	758; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.URSTIF && UIEbits.URSTIE) {
 	BTFSS	_UIRbits, 0
 ; #	GOTO	_00488_DS_
 ; #	BTFSS	_UIEbits, 0
 ; #	GOTO	_00488_DS_
 ; #	CALL	_BusReset
 ; #	BTFSS	_UIRbits, 4
-;	.line	756; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	BusReset();
+;	.line	759; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	BusReset();
 	BRA	_00488_DS_
-;	.line	759; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.IDLEIF && UIEbits.IDLEIE) {
+;	.line	762; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.IDLEIF && UIEbits.IDLEIE) {
 	BTFSC	_UIEbits, 0
 	CALL	_BusReset
 _00488_DS_:
@@ -4239,9 +4258,9 @@ _00488_DS_:
 ; #	GOTO	_00491_DS_
 ; #	CALL	_Suspend
 ; #	BTFSS	_UIRbits, 6
-;	.line	761; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	Suspend();
+;	.line	764; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	Suspend();
 	BRA	_00491_DS_
-;	.line	763; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.SOFIF && UIEbits.SOFIE) {
+;	.line	766; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.SOFIF && UIEbits.SOFIE) {
 	BTFSC	_UIEbits, 4
 	CALL	_Suspend
 _00491_DS_:
@@ -4251,9 +4270,9 @@ _00491_DS_:
 ; #	GOTO	_00494_DS_
 ; #	CALL	_StartOfFrame
 ; #	BTFSS	_UIRbits, 5
-;	.line	764; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	StartOfFrame();
+;	.line	767; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	StartOfFrame();
 	BRA	_00494_DS_
-;	.line	766; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.STALLIF && UIEbits.STALLIE) {
+;	.line	769; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.STALLIF && UIEbits.STALLIE) {
 	BTFSC	_UIEbits, 6
 	CALL	_StartOfFrame
 _00494_DS_:
@@ -4263,9 +4282,9 @@ _00494_DS_:
 ; #	GOTO	_00497_DS_
 ; #	CALL	_Stall
 ; #	BTFSS	_UIRbits, 1
-;	.line	767; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	Stall();
+;	.line	770; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	Stall();
 	BRA	_00497_DS_
-;	.line	770; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.UERRIF && UIEbits.UERRIE) {
+;	.line	773; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (UIRbits.UERRIF && UIEbits.UERRIE) {
 	BTFSC	_UIEbits, 5
 	CALL	_Stall
 _00497_DS_:
@@ -4275,9 +4294,9 @@ _00497_DS_:
 ; #	GOTO	_00500_DS_
 ; #	BCF	_UIRbits, 1
 ; #	MOVLW	0x03
-;	.line	774; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.UERRIF = 0;
+;	.line	777; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.UERRIF = 0;
 	BRA	_00500_DS_
-;	.line	778; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (deviceState < DEFAULT)
+;	.line	781; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (deviceState < DEFAULT)
 	BTFSC	_UIEbits, 1
 	BCF	_UIRbits, 1
 _00500_DS_:
@@ -4288,17 +4307,17 @@ _00500_DS_:
 ; #	GOTO	_00507_DS_
 ; #	BTFSS	_UIRbits, 3
 	BANKSEL	_deviceState
-;	.line	779; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
+;	.line	782; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
 	SUBWF	_deviceState, W, B
-;	.line	782; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UIRbits.TRNIF && UIEbits.TRNIE) {
+;	.line	785; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UIRbits.TRNIF && UIEbits.TRNIE) {
 	BNC	_00507_DS_
 	BTFSS	_UIRbits, 3
 	BRA	_00507_DS_
 	BTFSS	_UIEbits, 3
 	BRA	_00507_DS_
-;	.line	783; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ProcessControlTransfer();
+;	.line	786; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ProcessControlTransfer();
 	CALL	_ProcessControlTransfer
-;	.line	786; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.TRNIF = 0;
+;	.line	789; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.TRNIF = 0;
 	BCF	_UIRbits, 3
 _00507_DS_:
 	MOVFF	PREINC1, r0x00
@@ -4307,49 +4326,49 @@ _00507_DS_:
 ; ; Starting pCode block
 S_tortucaro__BusReset	code
 _BusReset:
-;	.line	712; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void BusReset() {
+;	.line	715; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void BusReset() {
 	MOVFF	r0x00, POSTDEC1
-;	.line	713; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEIR  = 0x00;
+;	.line	716; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEIR  = 0x00;
 	CLRF	_UEIR
-;	.line	714; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIR   = 0x00;
+;	.line	717; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIR   = 0x00;
 	CLRF	_UIR
-;	.line	715; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEIE  = 0x9f;
+;	.line	718; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEIE  = 0x9f;
 	MOVLW	0x9f
 	MOVWF	_UEIE
-;	.line	716; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIE   = 0x7b;
+;	.line	719; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIE   = 0x7b;
 	MOVLW	0x7b
 	MOVWF	_UIE
-;	.line	717; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UADDR = 0x00;
+;	.line	720; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UADDR = 0x00;
 	CLRF	_UADDR
-;	.line	720; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEP0 = EP_CTRL | HSHK_EN;
+;	.line	723; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEP0 = EP_CTRL | HSHK_EN;
 	MOVLW	0x16
 	MOVWF	_UEP0
 _00467_DS_:
-;	.line	723; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	while (UIRbits.TRNIF == 1)
+;	.line	726; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	while (UIRbits.TRNIF == 1)
 	CLRF	r0x00
 	BTFSC	_UIRbits, 3
 	INCF	r0x00, F
 	MOVF	r0x00, W
 	XORLW	0x01
 	BNZ	_00469_DS_
-;	.line	724; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.TRNIF = 0;
+;	.line	727; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.TRNIF = 0;
 	BCF	_UIRbits, 3
 	BRA	_00467_DS_
 _00469_DS_:
-;	.line	727; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.PKTDIS = 0;
+;	.line	730; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.PKTDIS = 0;
 	BCF	_UCONbits, 4
-;	.line	730; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
+;	.line	733; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
 	CALL	_WaitForSetupStage
 	BANKSEL	_remoteWakeup
-;	.line	732; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	remoteWakeup = 0;                     // Remote wakeup is off by default
+;	.line	735; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	remoteWakeup = 0;                     // Remote wakeup is off by default
 	CLRF	_remoteWakeup, B
 	BANKSEL	_selfPowered
-;	.line	733; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	selfPowered = 0;                      // Self powered is off by default
+;	.line	736; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	selfPowered = 0;                      // Self powered is off by default
 	CLRF	_selfPowered, B
 	BANKSEL	_currentConfiguration
-;	.line	734; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	currentConfiguration = 0;             // Clear active configuration
+;	.line	737; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	currentConfiguration = 0;             // Clear active configuration
 	CLRF	_currentConfiguration, B
-;	.line	735; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = DEFAULT;
+;	.line	738; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = DEFAULT;
 	MOVLW	0x03
 	BANKSEL	_deviceState
 	MOVWF	_deviceState, B
@@ -4359,35 +4378,35 @@ _00469_DS_:
 ; ; Starting pCode block
 S_tortucaro__Suspend	code
 _Suspend:
-;	.line	682; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void Suspend(void) {
+;	.line	685; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void Suspend(void) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	687; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.ACTVIE = 1;
+;	.line	690; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.ACTVIE = 1;
 	BSF	_UIEbits, 2
-;	.line	688; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.IDLEIF = 0;
+;	.line	691; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.IDLEIF = 0;
 	BCF	_UIRbits, 4
-;	.line	689; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.SUSPND = 1;
+;	.line	692; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.SUSPND = 1;
 	BSF	_UCONbits, 1
-;	.line	691; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	PIR2bits.USBIF = 0;
+;	.line	694; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	PIR2bits.USBIF = 0;
 	BCF	_PIR2bits, 5
-;	.line	692; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	INTCONbits.RBIF = 0;
+;	.line	695; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	INTCONbits.RBIF = 0;
 	BCF	_INTCONbits, 0
-;	.line	693; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	PIE2bits.USBIE = 1;
+;	.line	696; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	PIE2bits.USBIE = 1;
 	BSF	_PIE2bits, 5
-;	.line	694; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	INTCONbits.RBIE = 1;
+;	.line	697; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	INTCONbits.RBIE = 1;
 	BSF	_INTCONbits, 3
-;	.line	697; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	RCSTAbits.CREN = 0;
+;	.line	700; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	RCSTAbits.CREN = 0;
 	BCF	_RCSTAbits, 4
-;	.line	698; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	TXSTAbits.TXEN = 0;
+;	.line	701; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	TXSTAbits.TXEN = 0;
 	BCF	_TXSTAbits, 5
 	sleep 
-;	.line	703; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	RCSTAbits.CREN = 1;
+;	.line	706; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	RCSTAbits.CREN = 1;
 	BSF	_RCSTAbits, 4
-;	.line	704; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	TXSTAbits.TXEN = 1;
+;	.line	707; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	TXSTAbits.TXEN = 1;
 	BSF	_TXSTAbits, 5
-;	.line	706; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	PIE2bits.USBIE = 0;
+;	.line	709; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	PIE2bits.USBIE = 0;
 	BCF	_PIE2bits, 5
-;	.line	707; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	INTCONbits.RBIE = 0;
+;	.line	710; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	INTCONbits.RBIE = 0;
 	BCF	_INTCONbits, 3
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -4395,21 +4414,21 @@ _Suspend:
 ; ; Starting pCode block
 S_tortucaro__Stall	code
 _Stall:
-;	.line	668; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void Stall(void) {
+;	.line	671; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void Stall(void) {
 	MOVFF	r0x00, POSTDEC1
-;	.line	672; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UEP0bits.EPSTALL == 1) {
+;	.line	675; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UEP0bits.EPSTALL == 1) {
 	CLRF	r0x00
 	BTFSC	_UEP0bits, 0
 	INCF	r0x00, F
 	MOVF	r0x00, W
 	XORLW	0x01
 	BNZ	_00449_DS_
-;	.line	674; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
+;	.line	677; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
 	CALL	_WaitForSetupStage
-;	.line	675; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEP0bits.EPSTALL = 0;
+;	.line	678; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UEP0bits.EPSTALL = 0;
 	BCF	_UEP0bits, 0
 _00449_DS_:
-;	.line	677; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.STALLIF = 0;
+;	.line	680; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.STALLIF = 0;
 	BCF	_UIRbits, 5
 	MOVFF	PREINC1, r0x00
 	RETURN	
@@ -4417,54 +4436,54 @@ _00449_DS_:
 ; ; Starting pCode block
 S_tortucaro__StartOfFrame	code
 _StartOfFrame:
-;	.line	663; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.SOFIF = 0;
+;	.line	666; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.SOFIF = 0;
 	BCF	_UIRbits, 6
 	RETURN	
 
 ; ; Starting pCode block
 S_tortucaro__UnSuspend	code
 _UnSuspend:
-;	.line	653; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.SUSPND = 0;
+;	.line	656; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.SUSPND = 0;
 	BCF	_UCONbits, 1
-;	.line	654; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.ACTVIE = 0;
+;	.line	657; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.ACTVIE = 0;
 	BCF	_UIEbits, 2
-;	.line	655; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.ACTVIF = 0;
+;	.line	658; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIRbits.ACTVIF = 0;
 	BCF	_UIRbits, 2
 	RETURN	
 
 ; ; Starting pCode block
 S_tortucaro__EnableUSBModule	code
 _EnableUSBModule:
-;	.line	623; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UCONbits.USBEN == 0) {
+;	.line	626; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UCONbits.USBEN == 0) {
 	BTFSC	_UCONbits, 3
 	BRA	_00423_DS_
-;	.line	627; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCON = 0;
+;	.line	630; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCON = 0;
 	CLRF	_UCON
-;	.line	628; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIE = 0;
+;	.line	631; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIE = 0;
 	CLRF	_UIE
-;	.line	629; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.USBEN = 1;
+;	.line	632; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.USBEN = 1;
 	BSF	_UCONbits, 3
-;	.line	630; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = ATTACHED;
+;	.line	633; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = ATTACHED;
 	MOVLW	0x01
 	BANKSEL	_deviceState
 	MOVWF	_deviceState, B
 _00423_DS_:
 	BANKSEL	_deviceState
-;	.line	634; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((deviceState == ATTACHED) && !UCONbits.SE0) {
+;	.line	637; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((deviceState == ATTACHED) && !UCONbits.SE0) {
 	MOVF	_deviceState, W, B
 	XORLW	0x01
 	BNZ	_00427_DS_
 	BTFSC	_UCONbits, 5
 	BRA	_00427_DS_
-;	.line	635; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIR = 0;
+;	.line	638; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIR = 0;
 	CLRF	_UIR
-;	.line	636; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIE = 0;
+;	.line	639; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIE = 0;
 	CLRF	_UIE
-;	.line	637; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.URSTIE = 1;
+;	.line	640; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.URSTIE = 1;
 	BSF	_UIEbits, 0
-;	.line	638; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.IDLEIE = 1;
+;	.line	641; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UIEbits.IDLEIE = 1;
 	BSF	_UIEbits, 4
-;	.line	639; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = POWERED;
+;	.line	642; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = POWERED;
 	MOVLW	0x02
 	BANKSEL	_deviceState
 	MOVWF	_deviceState, B
@@ -4474,12 +4493,12 @@ _00427_DS_:
 ; ; Starting pCode block
 S_tortucaro__ProcessControlTransfer	code
 _ProcessControlTransfer:
-;	.line	533; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void ProcessControlTransfer(void) {
+;	.line	536; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void ProcessControlTransfer(void) {
 	MOVFF	r0x00, POSTDEC1
-;	.line	537; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (USTATbits.DIR == OUT) {
+;	.line	540; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (USTATbits.DIR == OUT) {
 	BTFSC	_USTATbits, 2
 	BRA	_00393_DS_
-;	.line	540; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte PID = (EP_OUT_BD(0).Stat.uc & 0x3C) >> 2;
+;	.line	543; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 PID = (EP_OUT_BD(0).Stat.uc & 0x3C) >> 2;
 	MOVLW	0x3c
 	BANKSEL	_ep_bdt
 	ANDWF	_ep_bdt, W, B
@@ -4489,94 +4508,94 @@ _ProcessControlTransfer:
 	ANDLW	0x3f
 ; #	MOVWF	r0x00
 ; #	MOVF	r0x00, W
-;	.line	541; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (PID == 0x0D)
+;	.line	544; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (PID == 0x0D)
 	XORLW	0x0d
 	BNZ	_00377_DS_
-;	.line	543; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	SetupStage();
+;	.line	546; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	SetupStage();
 	CALL	_SetupStage
 	BRA	_00395_DS_
 _00377_DS_:
 	BANKSEL	_ctrlTransferStage
-;	.line	544; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (ctrlTransferStage == DATA_OUT_STAGE) {
+;	.line	547; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (ctrlTransferStage == DATA_OUT_STAGE) {
 	MOVF	_ctrlTransferStage, W, B
 	XORLW	0x01
 	BNZ	_00374_DS_
-;	.line	547; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	OutDataStage(0);
+;	.line	550; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	OutDataStage(0);
 	MOVLW	0x00
 	CLRF	POSTDEC1
 	CALL	_OutDataStage
 	INCF	FSR1L, F
 	BANKSEL	_ep_bdt
-;	.line	571; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(EP_OUT_BD(0).Stat.DTS)
+;	.line	574; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(EP_OUT_BD(0).Stat.DTS)
 	BTFSS	_ep_bdt, 6, B
 	BRA	_00371_DS_
-;	.line	572; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTSEN;
+;	.line	575; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTSEN;
 	MOVLW	0x88
 ; removed redundant BANKSEL
 	MOVWF	_ep_bdt, B
 	BRA	_00395_DS_
 _00371_DS_:
-;	.line	574; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
+;	.line	577; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
 	MOVLW	0xc8
 	BANKSEL	_ep_bdt
 	MOVWF	_ep_bdt, B
 	BRA	_00395_DS_
 _00374_DS_:
-;	.line	578; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
+;	.line	581; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
 	CALL	_WaitForSetupStage
 	BRA	_00395_DS_
 _00393_DS_:
-;	.line	581; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if(USTATbits.DIR == IN) {
+;	.line	584; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if(USTATbits.DIR == IN) {
 	CLRF	r0x00
 	BTFSC	_USTATbits, 2
 	INCF	r0x00, F
 	MOVF	r0x00, W
 	XORLW	0x01
 	BNZ	_00395_DS_
-;	.line	583; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((UADDR == 0) && (deviceState == ADDRESS)) {
+;	.line	586; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((UADDR == 0) && (deviceState == ADDRESS)) {
 	MOVF	_UADDR, W
 	BNZ	_00382_DS_
 	BANKSEL	_deviceState
 	MOVF	_deviceState, W, B
 	XORLW	0x04
 	BNZ	_00382_DS_
-;	.line	586; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UADDR = SetupPacket.wValue0;
+;	.line	589; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UADDR = SetupPacket.wValue0;
 	MOVFF	(_SetupPacket + 2), _UADDR
-;	.line	590; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UADDR == 0)
+;	.line	593; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(UADDR == 0)
 	MOVF	_UADDR, W
 	BNZ	_00382_DS_
-;	.line	593; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = DEFAULT;
+;	.line	596; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = DEFAULT;
 	MOVLW	0x03
 	BANKSEL	_deviceState
 	MOVWF	_deviceState, B
 _00382_DS_:
 	BANKSEL	_ctrlTransferStage
-;	.line	596; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (ctrlTransferStage == DATA_IN_STAGE) {
+;	.line	599; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (ctrlTransferStage == DATA_IN_STAGE) {
 	MOVF	_ctrlTransferStage, W, B
 	XORLW	0x02
 	BNZ	_00388_DS_
-;	.line	598; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	InDataStage(0);
+;	.line	601; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	InDataStage(0);
 	MOVLW	0x00
 	CLRF	POSTDEC1
 	CALL	_InDataStage
 	INCF	FSR1L, F
 	BANKSEL	(_ep_bdt + 4)
-;	.line	601; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(EP_IN_BD(0).Stat.DTS)
+;	.line	604; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(EP_IN_BD(0).Stat.DTS)
 	BTFSS	(_ep_bdt + 4), 6, B
 	BRA	_00385_DS_
-;	.line	602; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTSEN;
+;	.line	605; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTSEN;
 	MOVLW	0x88
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 4), B
 	BRA	_00395_DS_
 _00385_DS_:
-;	.line	604; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
+;	.line	607; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
 	MOVLW	0xc8
 	BANKSEL	(_ep_bdt + 4)
 	MOVWF	(_ep_bdt + 4), B
 	BRA	_00395_DS_
 _00388_DS_:
-;	.line	608; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
+;	.line	611; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	WaitForSetupStage();
 	CALL	_WaitForSetupStage
 _00395_DS_:
 	MOVFF	PREINC1, r0x00
@@ -4586,35 +4605,35 @@ _00395_DS_:
 S_tortucaro__WaitForSetupStage	code
 _WaitForSetupStage:
 	BANKSEL	_ctrlTransferStage
-;	.line	520; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = SETUP_STAGE;
+;	.line	523; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = SETUP_STAGE;
 	CLRF	_ctrlTransferStage, B
-;	.line	521; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
+;	.line	524; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
 	MOVLW	0x40
 	BANKSEL	(_ep_bdt + 1)
 	MOVWF	(_ep_bdt + 1), B
-;	.line	522; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&SetupPacket);
+;	.line	525; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&SetupPacket);
 	MOVLW	LOW(_SetupPacket)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 2), B
 	MOVLW	HIGH(_SetupPacket)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 3), B
-;	.line	524; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTSEN;
+;	.line	527; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTSEN;
 	MOVLW	0x88
 ; removed redundant BANKSEL
 	MOVWF	_ep_bdt, B
 ; removed redundant BANKSEL
-;	.line	525; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = 0x00;           // Give control to CPU
+;	.line	528; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = 0x00;           // Give control to CPU
 	CLRF	(_ep_bdt + 4), B
 	RETURN	
 
 ; ; Starting pCode block
 S_tortucaro__SetupStage	code
 _SetupStage:
-;	.line	447; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void SetupStage(void) {
+;	.line	450; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void SetupStage(void) {
 	MOVFF	r0x00, POSTDEC1
 	BANKSEL	(_ep_bdt + 4)
-;	.line	450; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc &= ~BDS_UOWN;
+;	.line	453; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc &= ~BDS_UOWN;
 	MOVF	(_ep_bdt + 4), W, B
 	MOVWF	r0x00
 	BCF	r0x00, 7
@@ -4622,7 +4641,7 @@ _SetupStage:
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 4), B
 ; removed redundant BANKSEL
-;	.line	451; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc &= ~BDS_UOWN;
+;	.line	454; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc &= ~BDS_UOWN;
 	MOVF	_ep_bdt, W, B
 	MOVWF	r0x00
 	BCF	r0x00, 7
@@ -4630,22 +4649,22 @@ _SetupStage:
 ; removed redundant BANKSEL
 	MOVWF	_ep_bdt, B
 	BANKSEL	_ctrlTransferStage
-;	.line	454; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = SETUP_STAGE;
+;	.line	457; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = SETUP_STAGE;
 	CLRF	_ctrlTransferStage, B
 	BANKSEL	_requestHandled
-;	.line	455; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 0;                   // Default is that request hasn't been handled
+;	.line	458; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 0;                   // Default is that request hasn't been handled
 	CLRF	_requestHandled, B
 	BANKSEL	_HIDPostProcess
-;	.line	456; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	HIDPostProcess = 0;                   // Assume standard request until know otherwise
+;	.line	459; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	HIDPostProcess = 0;                   // Assume standard request until know otherwise
 	CLRF	_HIDPostProcess, B
 	BANKSEL	_wCount
-;	.line	457; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 0;                           // No bytes transferred
+;	.line	460; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 0;                           // No u8s transferred
 	CLRF	_wCount, B
 ; removed redundant BANKSEL
 	CLRF	(_wCount + 1), B
-;	.line	460; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ProcessStandardRequest();
+;	.line	463; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ProcessStandardRequest();
 	CALL	_ProcessStandardRequest
-;	.line	470; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((SetupPacket.bmRequestType & USB_RECIP_MASK) == USB_RECIP_INTERFACE)  
+;	.line	473; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((SetupPacket.bmRequestType & USB_RECIP_MASK) == USB_RECIP_INTERFACE)  
 	MOVLW	0x1f
 	BANKSEL	_SetupPacket
 	ANDWF	_SetupPacket, W, B
@@ -4653,18 +4672,18 @@ _SetupStage:
 ; #	MOVF	r0x00, W
 	XORLW	0x01
 	BNZ	_00338_DS_
-;	.line	471; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ProcessCDCRequest();
+;	.line	474; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ProcessCDCRequest();
 	CALL	_ProcessCDCRequest
 _00338_DS_:
 	BANKSEL	_requestHandled
-;	.line	474; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (!requestHandled) {
+;	.line	477; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (!requestHandled) {
 	MOVF	_requestHandled, W, B
 	BNZ	_00345_DS_
-;	.line	476; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
+;	.line	479; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
 	MOVLW	0x40
 	BANKSEL	(_ep_bdt + 1)
 	MOVWF	(_ep_bdt + 1), B
-;	.line	477; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&SetupPacket);
+;	.line	480; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&SetupPacket);
 	MOVLW	LOW(_SetupPacket)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 2), B
@@ -4674,21 +4693,21 @@ _00338_DS_:
 ; #	MOVLW	0x84
 ; #	MOVWF	_ep_bdt, B
 ; #	MOVLW	0x84
-;	.line	478; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_BSTALL;
+;	.line	481; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_BSTALL;
 	MOVLW	0x84
 ; removed redundant BANKSEL
-;	.line	479; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_BSTALL;
+;	.line	482; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_BSTALL;
 	MOVWF	_ep_bdt, B
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 4), B
 	BRA	_00346_DS_
 _00345_DS_:
 	BANKSEL	_SetupPacket
-;	.line	481; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (SetupPacket.bmRequestType & 0x80) {
+;	.line	484; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (SetupPacket.bmRequestType & 0x80) {
 	BTFSS	_SetupPacket, 7, B
 	BRA	_00342_DS_
 	BANKSEL	(_wCount + 1)
-;	.line	483; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(SetupPacket.wLength < wCount)
+;	.line	486; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(SetupPacket.wLength < wCount)
 	MOVF	(_wCount + 1), W, B
 	BANKSEL	(_SetupPacket + 7)
 	SUBWF	(_SetupPacket + 7), W, B
@@ -4699,75 +4718,75 @@ _00345_DS_:
 	SUBWF	(_SetupPacket + 6), W, B
 _00360_DS_:
 	BC	_00340_DS_
-;	.line	484; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = SetupPacket.wLength;
+;	.line	487; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = SetupPacket.wLength;
 	MOVFF	(_SetupPacket + 6), _wCount
 	MOVFF	(_SetupPacket + 7), (_wCount + 1)
 _00340_DS_:
-;	.line	485; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	InDataStage(0);
+;	.line	488; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	InDataStage(0);
 	MOVLW	0x00
 	CLRF	POSTDEC1
 	CALL	_InDataStage
 	INCF	FSR1L, F
-;	.line	486; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = DATA_IN_STAGE;
+;	.line	489; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = DATA_IN_STAGE;
 	MOVLW	0x02
 	BANKSEL	_ctrlTransferStage
 	MOVWF	_ctrlTransferStage, B
-;	.line	488; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
+;	.line	491; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
 	MOVLW	0x40
 	BANKSEL	(_ep_bdt + 1)
 	MOVWF	(_ep_bdt + 1), B
-;	.line	489; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&SetupPacket);
+;	.line	492; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&SetupPacket);
 	MOVLW	LOW(_SetupPacket)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 2), B
 	MOVLW	HIGH(_SetupPacket)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 3), B
-;	.line	490; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN;
+;	.line	493; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN;
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	MOVWF	_ep_bdt, B
-;	.line	493; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).ADDR = PTR16(&controlTransferBuffer);
+;	.line	496; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).ADDR = PTR16(&controlTransferBuffer);
 	MOVLW	LOW(_controlTransferBuffer)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 6), B
 	MOVLW	HIGH(_controlTransferBuffer)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 7), B
-;	.line	495; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
+;	.line	498; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
 	MOVLW	0xc8
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 4), B
 	BRA	_00346_DS_
 _00342_DS_:
-;	.line	499; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = DATA_OUT_STAGE;
+;	.line	502; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	ctrlTransferStage = DATA_OUT_STAGE;
 	MOVLW	0x01
 	BANKSEL	_ctrlTransferStage
 	MOVWF	_ctrlTransferStage, B
 	BANKSEL	(_ep_bdt + 5)
-;	.line	502; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Cnt = 0;
+;	.line	505; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Cnt = 0;
 	CLRF	(_ep_bdt + 5), B
-;	.line	503; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
+;	.line	506; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
 	MOVLW	0xc8
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 4), B
-;	.line	506; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
+;	.line	509; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Cnt = EP0_BUFFER_SIZE;
 	MOVLW	0x40
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 1), B
-;	.line	507; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&controlTransferBuffer);
+;	.line	510; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).ADDR = PTR16(&controlTransferBuffer);
 	MOVLW	LOW(_controlTransferBuffer)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 2), B
 	MOVLW	HIGH(_controlTransferBuffer)
 ; removed redundant BANKSEL
 	MOVWF	(_ep_bdt + 3), B
-;	.line	509; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
+;	.line	512; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_OUT_BD(0).Stat.uc = BDS_UOWN | BDS_DTS | BDS_DTSEN;
 	MOVLW	0xc8
 ; removed redundant BANKSEL
 	MOVWF	_ep_bdt, B
 _00346_DS_:
-;	.line	513; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.PKTDIS = 0;
+;	.line	516; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	UCONbits.PKTDIS = 0;
 	BCF	_UCONbits, 4
 	MOVFF	PREINC1, r0x00
 	RETURN	
@@ -4775,7 +4794,7 @@ _00346_DS_:
 ; ; Starting pCode block
 S_tortucaro__OutDataStage	code
 _OutDataStage:
-;	.line	411; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void OutDataStage(unsigned char ep) {
+;	.line	414; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void OutDataStage(unsigned char ep) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -4790,7 +4809,7 @@ _OutDataStage:
 	MOVFF	r0x09, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	414; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	bufferSize = ((0x03 & EP_OUT_BD(ep).Stat.uc) << 8) | EP_OUT_BD(ep).Cnt;
+;	.line	417; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	bufferSize = ((0x03 & EP_OUT_BD(ep).Stat.uc) << 8) | EP_OUT_BD(ep).Cnt;
 	RLNCF	r0x00, W
 	ANDLW	0xfe
 ; #	MOVWF	r0x01
@@ -4834,14 +4853,14 @@ _OutDataStage:
 	MOVWF	r0x00
 	MOVF	r0x04, W
 	MOVWF	r0x01
-;	.line	421; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = wCount + bufferSize;
+;	.line	424; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = wCount + bufferSize;
 	MOVF	r0x00, W
 	BANKSEL	_wCount
 	ADDWF	_wCount, F, B
 	MOVF	r0x01, W
 ; removed redundant BANKSEL
 	ADDWFC	(_wCount + 1), F, B
-;	.line	423; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (byte*)&controlTransferBuffer;
+;	.line	426; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (u8*)&controlTransferBuffer;
 	MOVLW	HIGH(_controlTransferBuffer)
 	BANKSEL	(_outPtr + 1)
 	MOVWF	(_outPtr + 1), B
@@ -4851,7 +4870,7 @@ _OutDataStage:
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	MOVWF	(_outPtr + 2), B
-;	.line	427; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
+;	.line	430; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	CLRF	r0x02
 	CLRF	r0x03
 _00321_DS_:
@@ -4862,7 +4881,7 @@ _00321_DS_:
 	SUBWF	r0x02, W
 _00332_DS_:
 	BC	_00325_DS_
-;	.line	431; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr++ = *outPtr++;
+;	.line	434; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr++ = *outPtr++;
 	MOVFF	_inPtr, r0x04
 	MOVFF	(_inPtr + 1), r0x05
 	MOVFF	(_inPtr + 2), r0x06
@@ -4876,14 +4895,14 @@ _00332_DS_:
 	MOVWF	r0x07
 	BANKSEL	_outPtr
 	INCF	_outPtr, F, B
-	BNC	_11306_DS_
+	BNC	_11321_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 1), F, B
-_11306_DS_:
-	BNC	_21307_DS_
+_11321_DS_:
+	BNC	_21322_DS_
 	BANKSEL	(_outPtr + 2)
 	INCF	(_outPtr + 2), F, B
-_21307_DS_:
+_21322_DS_:
 	MOVFF	r0x07, POSTDEC1
 	MOVFF	r0x04, FSR0L
 	MOVFF	r0x05, PRODL
@@ -4891,15 +4910,15 @@ _21307_DS_:
 	CALL	__gptrput1
 	BANKSEL	_inPtr
 	INCF	_inPtr, F, B
-	BNC	_31308_DS_
+	BNC	_31323_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 1), F, B
-_31308_DS_:
-	BNC	_41309_DS_
+_31323_DS_:
+	BNC	_41324_DS_
 	BANKSEL	(_inPtr + 2)
 	INCF	(_inPtr + 2), F, B
-_41309_DS_:
-;	.line	427; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
+_41324_DS_:
+;	.line	430; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INCF	r0x02, F
 	BTFSC	STATUS, 0
 	INCF	r0x03, F
@@ -4921,7 +4940,7 @@ _00325_DS_:
 ; ; Starting pCode block
 S_tortucaro__InDataStage	code
 _InDataStage:
-;	.line	364; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void InDataStage(unsigned char ep) {
+;	.line	367; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void InDataStage(unsigned char ep) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -4935,7 +4954,7 @@ _InDataStage:
 	MOVFF	r0x08, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	371; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(wCount < EP0_BUFFER_SIZE)
+;	.line	374; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(wCount < EP0_BUFFER_SIZE)
 	MOVLW	0x00
 	BANKSEL	(_wCount + 1)
 	SUBWF	(_wCount + 1), W, B
@@ -4945,17 +4964,17 @@ _InDataStage:
 	SUBWF	_wCount, W, B
 _00310_DS_:
 	BC	_00298_DS_
-;	.line	372; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	bufferSize = wCount;
+;	.line	375; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	bufferSize = wCount;
 	MOVFF	_wCount, r0x01
 	MOVFF	(_wCount + 1), r0x02
 	BRA	_00299_DS_
 _00298_DS_:
-;	.line	374; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	bufferSize = EP0_BUFFER_SIZE;
+;	.line	377; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	bufferSize = EP0_BUFFER_SIZE;
 	MOVLW	0x40
 	MOVWF	r0x01
 	CLRF	r0x02
 _00299_DS_:
-;	.line	382; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).Stat.uc &= ~(BDS_BC8 | BDS_BC9);
+;	.line	385; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).Stat.uc &= ~(BDS_BC8 | BDS_BC9);
 	RLNCF	r0x00, W
 	ANDLW	0xfe
 	MOVWF	r0x03
@@ -4987,7 +5006,7 @@ _00299_DS_:
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, FSR0H
 	MOVFF	r0x05, INDF0
-;	.line	383; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).Stat.uc |= (byte)((bufferSize & 0x0300) >> 8);
+;	.line	386; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).Stat.uc |= (u8)((bufferSize & 0x0300) >> 8);
 	MOVLW	LOW(_ep_bdt)
 	ADDWF	r0x00, W
 	MOVWF	r0x03
@@ -5011,7 +5030,7 @@ _00299_DS_:
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, FSR0H
 	MOVFF	r0x05, INDF0
-;	.line	384; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).Cnt = (byte)(bufferSize & 0xFF);
+;	.line	387; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).Cnt = (u8)(bufferSize & 0xFF);
 	MOVLW	LOW(_ep_bdt)
 	ADDWF	r0x00, W
 	MOVWF	r0x03
@@ -5026,7 +5045,7 @@ _00299_DS_:
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, FSR0H
 	MOVFF	r0x05, INDF0
-;	.line	385; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).ADDR = PTR16(&controlTransferBuffer);
+;	.line	388; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	EP_IN_BD(ep).ADDR = PTR16(&controlTransferBuffer);
 	CLRF	r0x03
 	MOVLW	LOW(_ep_bdt)
 	ADDWF	r0x00, F
@@ -5044,14 +5063,14 @@ _00299_DS_:
 	MOVFF	r0x03, FSR0H
 	MOVFF	r0x04, POSTINC0
 	MOVFF	r0x05, INDF0
-;	.line	390; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = wCount - bufferSize;
+;	.line	393; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = wCount - bufferSize;
 	MOVF	r0x01, W
 	BANKSEL	_wCount
 	SUBWF	_wCount, F, B
 	MOVF	r0x02, W
 ; removed redundant BANKSEL
 	SUBWFB	(_wCount + 1), F, B
-;	.line	393; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr = (byte *)&controlTransferBuffer;
+;	.line	396; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr = (u8 *)&controlTransferBuffer;
 	MOVLW	HIGH(_controlTransferBuffer)
 	BANKSEL	(_inPtr + 1)
 	MOVWF	(_inPtr + 1), B
@@ -5061,7 +5080,7 @@ _00299_DS_:
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	MOVWF	(_inPtr + 2), B
-;	.line	398; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
+;	.line	401; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	CLRF	r0x00
 _00300_DS_:
 	MOVFF	r0x00, r0x03
@@ -5073,7 +5092,7 @@ _00300_DS_:
 	SUBWF	r0x03, W
 _00316_DS_:
 	BC	_00304_DS_
-;	.line	402; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr++ = *outPtr++;
+;	.line	405; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr++ = *outPtr++;
 	MOVFF	_inPtr, r0x03
 	MOVFF	(_inPtr + 1), r0x04
 	MOVFF	(_inPtr + 2), r0x05
@@ -5087,14 +5106,14 @@ _00316_DS_:
 	MOVWF	r0x06
 	BANKSEL	_outPtr
 	INCF	_outPtr, F, B
-	BNC	_51310_DS_
+	BNC	_51325_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 1), F, B
-_51310_DS_:
-	BNC	_61311_DS_
+_51325_DS_:
+	BNC	_61326_DS_
 	BANKSEL	(_outPtr + 2)
 	INCF	(_outPtr + 2), F, B
-_61311_DS_:
+_61326_DS_:
 	MOVFF	r0x06, POSTDEC1
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -5102,15 +5121,15 @@ _61311_DS_:
 	CALL	__gptrput1
 	BANKSEL	_inPtr
 	INCF	_inPtr, F, B
-	BNC	_71312_DS_
+	BNC	_71327_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 1), F, B
-_71312_DS_:
-	BNC	_81313_DS_
+_71327_DS_:
+	BNC	_81328_DS_
 	BANKSEL	(_inPtr + 2)
 	INCF	(_inPtr + 2), F, B
-_81313_DS_:
-;	.line	398; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
+_81328_DS_:
+;	.line	401; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INCF	r0x00, F
 	BRA	_00300_DS_
 _00304_DS_:
@@ -5129,83 +5148,83 @@ _00304_DS_:
 ; ; Starting pCode block
 S_tortucaro__ProcessStandardRequest	code
 _ProcessStandardRequest:
-;	.line	253; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void ProcessStandardRequest(void) {
+;	.line	256; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	void ProcessStandardRequest(void) {
 	MOVFF	r0x00, POSTDEC1
-;	.line	254; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte request = SetupPacket.bRequest;
+;	.line	257; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 request = SetupPacket.bRequest;
 	MOVFF	(_SetupPacket + 1), r0x00
 	BANKSEL	_SetupPacket
-;	.line	256; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if((SetupPacket.bmRequestType & 0x60) != 0x00)
+;	.line	259; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if((SetupPacket.bmRequestType & 0x60) != 0x00)
 	MOVF	_SetupPacket, W, B
 ; #	ANDLW	0x60
 ; #	BTFSC	STATUS, 2
 ; #	GOTO	_00231_DS_
 ; #	GOTO	_00263_DS_
 ; #	MOVF	r0x00, W
-;	.line	259; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
+;	.line	262; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	return;
 	ANDLW	0x60
-;	.line	261; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (request == SET_ADDRESS) {
+;	.line	264; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (request == SET_ADDRESS) {
 	BTFSS	STATUS, 2
 	BRA	_00263_DS_
 	MOVF	r0x00, W
 	XORLW	0x05
 	BNZ	_00261_DS_
-;	.line	269; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	272; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
-;	.line	270; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = ADDRESS;
+;	.line	273; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = ADDRESS;
 	MOVLW	0x04
 	BANKSEL	_deviceState
 	MOVWF	_deviceState, B
-;	.line	271; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceAddress = SetupPacket.wValue0;
+;	.line	274; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceAddress = SetupPacket.wValue0;
 	MOVFF	(_SetupPacket + 2), _deviceAddress
 	BRA	_00263_DS_
 _00261_DS_:
-;	.line	273; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_DESCRIPTOR) {
+;	.line	276; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_DESCRIPTOR) {
 	MOVF	r0x00, W
 	XORLW	0x06
 	BNZ	_00258_DS_
-;	.line	274; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	GetDescriptor();
+;	.line	277; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	GetDescriptor();
 	CALL	_GetDescriptor
 	BRA	_00263_DS_
 _00258_DS_:
-;	.line	276; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == SET_CONFIGURATION) {
+;	.line	279; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == SET_CONFIGURATION) {
 	MOVF	r0x00, W
 	XORLW	0x09
 	BNZ	_00255_DS_
-;	.line	280; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	283; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
-;	.line	281; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	currentConfiguration = SetupPacket.wValue0;
+;	.line	284; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	currentConfiguration = SetupPacket.wValue0;
 	MOVFF	(_SetupPacket + 2), _currentConfiguration
 	BANKSEL	_currentConfiguration
-;	.line	284; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (currentConfiguration == 0)
+;	.line	287; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (currentConfiguration == 0)
 	MOVF	_currentConfiguration, W, B
 	BNZ	_00233_DS_
-;	.line	287; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = ADDRESS;
+;	.line	290; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = ADDRESS;
 	MOVLW	0x04
 	BANKSEL	_deviceState
 	MOVWF	_deviceState, B
 	BRA	_00263_DS_
 _00233_DS_:
-;	.line	290; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = CONFIGURED;
+;	.line	293; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	deviceState = CONFIGURED;
 	MOVLW	0x05
 	BANKSEL	_deviceState
 	MOVWF	_deviceState, B
-;	.line	300; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	CDCInitEndpoint();
+;	.line	303; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	CDCInitEndpoint();
 	CALL	_CDCInitEndpoint
 	BRA	_00263_DS_
 _00255_DS_:
-;	.line	310; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_CONFIGURATION) {
+;	.line	313; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_CONFIGURATION) {
 	MOVF	r0x00, W
 	XORLW	0x08
 	BNZ	_00252_DS_
-;	.line	314; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	317; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
-;	.line	315; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (byte*)&currentConfiguration;
+;	.line	318; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (u8*)&currentConfiguration;
 	MOVLW	HIGH(_currentConfiguration)
 	BANKSEL	(_outPtr + 1)
 	MOVWF	(_outPtr + 1), B
@@ -5215,7 +5234,7 @@ _00255_DS_:
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	MOVWF	(_outPtr + 2), B
-;	.line	316; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 1;
+;	.line	319; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 1;
 	MOVLW	0x01
 	BANKSEL	_wCount
 	MOVWF	_wCount, B
@@ -5223,38 +5242,38 @@ _00255_DS_:
 	CLRF	(_wCount + 1), B
 	BRA	_00263_DS_
 _00252_DS_:
-;	.line	318; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_STATUS) {
+;	.line	321; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_STATUS) {
 	MOVF	r0x00, W
 	BNZ	_00249_DS_
-;	.line	319; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	GetStatus();
+;	.line	322; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	GetStatus();
 	CALL	_GetStatus
 	BRA	_00263_DS_
 _00249_DS_:
-;	.line	321; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if ((request == CLEAR_FEATURE) ||
+;	.line	324; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if ((request == CLEAR_FEATURE) ||
 	MOVF	r0x00, W
 	XORLW	0x01
 	BZ	_00244_DS_
-;	.line	322; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	(request == SET_FEATURE)) {
+;	.line	325; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	(request == SET_FEATURE)) {
 	MOVF	r0x00, W
 	XORLW	0x03
 	BNZ	_00245_DS_
 _00244_DS_:
-;	.line	323; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	SetFeature();
+;	.line	326; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	SetFeature();
 	CALL	_SetFeature
 	BRA	_00263_DS_
 _00245_DS_:
-;	.line	325; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_INTERFACE) {
+;	.line	328; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == GET_INTERFACE) {
 	MOVF	r0x00, W
 	XORLW	0x0a
 	BNZ	_00242_DS_
-;	.line	331; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	334; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
 	BANKSEL	_controlTransferBuffer
-;	.line	332; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] = 0;
+;	.line	335; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] = 0;
 	CLRF	_controlTransferBuffer, B
-;	.line	333; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (byte *)&controlTransferBuffer;
+;	.line	336; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (u8 *)&controlTransferBuffer;
 	MOVLW	HIGH(_controlTransferBuffer)
 	BANKSEL	(_outPtr + 1)
 	MOVWF	(_outPtr + 1), B
@@ -5264,7 +5283,7 @@ _00245_DS_:
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	MOVWF	(_outPtr + 2), B
-;	.line	334; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 1;
+;	.line	337; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 1;
 	MOVLW	0x01
 	BANKSEL	_wCount
 	MOVWF	_wCount, B
@@ -5272,92 +5291,92 @@ _00245_DS_:
 	CLRF	(_wCount + 1), B
 	BRA	_00263_DS_
 _00242_DS_:
-;	.line	336; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == SET_INTERFACE) {
+;	.line	339; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == SET_INTERFACE) {
 	MOVF	r0x00, W
 	XORLW	0x0b
 	BNZ	_00263_DS_
-;	.line	341; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	344; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
 _00263_DS_:
-;	.line	348; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == SYNCH_FRAME) {
+;	.line	351; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (request == SYNCH_FRAME) {
 	MOVFF	PREINC1, r0x00
 	RETURN	
 
 ; ; Starting pCode block
 S_tortucaro__SetFeature	code
 _SetFeature:
-;	.line	209; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	static void SetFeature(void) {
+;	.line	212; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	static void SetFeature(void) {
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
 	MOVFF	r0x04, POSTDEC1
-;	.line	210; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte recipient = SetupPacket.bmRequestType & 0x1F;
+;	.line	213; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 recipient = SetupPacket.bmRequestType & 0x1F;
 	MOVLW	0x1f
 	BANKSEL	_SetupPacket
 	ANDWF	_SetupPacket, W, B
 	MOVWF	r0x00
-;	.line	211; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte feature = SetupPacket.wValue0;
+;	.line	214; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 feature = SetupPacket.wValue0;
 	MOVFF	(_SetupPacket + 2), r0x01
-;	.line	216; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (recipient == 0x00) {
+;	.line	219; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (recipient == 0x00) {
 	MOVF	r0x00, W
 	BNZ	_00200_DS_
-;	.line	218; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (feature == DEVICE_REMOTE_WAKEUP) {
+;	.line	221; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (feature == DEVICE_REMOTE_WAKEUP) {
 	MOVF	r0x01, W
 	XORLW	0x01
 	BZ	_00215_DS_
 	BRA	_00202_DS_
 _00215_DS_:
-;	.line	219; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	222; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
 	BANKSEL	(_SetupPacket + 1)
-;	.line	220; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (SetupPacket.bRequest == SET_FEATURE)
+;	.line	223; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (SetupPacket.bRequest == SET_FEATURE)
 	MOVF	(_SetupPacket + 1), W, B
 	XORLW	0x03
 	BNZ	_00182_DS_
-;	.line	221; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	remoteWakeup = 1;
+;	.line	224; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	remoteWakeup = 1;
 	MOVLW	0x01
 	BANKSEL	_remoteWakeup
 	MOVWF	_remoteWakeup, B
 	BRA	_00202_DS_
 _00182_DS_:
 	BANKSEL	_remoteWakeup
-;	.line	223; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	remoteWakeup = 0;
+;	.line	226; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	remoteWakeup = 0;
 	CLRF	_remoteWakeup, B
 	BRA	_00202_DS_
 _00200_DS_:
-;	.line	227; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (recipient == 0x02) {
+;	.line	230; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (recipient == 0x02) {
 	MOVF	r0x00, W
 	XORLW	0x02
 	BZ	_00219_DS_
 	BRA	_00202_DS_
 _00219_DS_:
-;	.line	229; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte endpointNum = SetupPacket.wIndex0 & 0x0F;
+;	.line	232; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 endpointNum = SetupPacket.wIndex0 & 0x0F;
 	MOVLW	0x0f
 	BANKSEL	(_SetupPacket + 4)
 	ANDWF	(_SetupPacket + 4), W, B
 	MOVWF	r0x00
-;	.line	230; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte endpointDir = SetupPacket.wIndex0 & 0x80;
+;	.line	233; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 endpointDir = SetupPacket.wIndex0 & 0x80;
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	ANDWF	(_SetupPacket + 4), W, B
 	MOVWF	r0x02
-;	.line	231; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((feature == ENDPOINT_HALT) && (endpointNum != 0)) {
+;	.line	234; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if ((feature == ENDPOINT_HALT) && (endpointNum != 0)) {
 	MOVF	r0x01, W
 	BTFSS	STATUS, 2
 	BRA	_00202_DS_
 	MOVF	r0x00, W
 	BTFSC	STATUS, 2
 	BRA	_00202_DS_
-;	.line	233; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	236; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
-;	.line	236; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr = (byte *)&EP_OUT_BD(0) + (endpointNum * 8);
+;	.line	239; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr = (u8 *)&EP_OUT_BD(0) + (endpointNum * 8);
 	MOVLW	HIGH(_ep_bdt)
 	MOVWF	r0x03
 	MOVLW	LOW(_ep_bdt)
@@ -5382,10 +5401,10 @@ _00219_DS_:
 	ADDWFC	r0x04, W
 ; removed redundant BANKSEL
 	MOVWF	(_inPtr + 2), B
-;	.line	237; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (endpointDir)
+;	.line	240; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (endpointDir)
 	MOVF	r0x02, W
 	BZ	_00187_DS_
-;	.line	238; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr += 4;
+;	.line	241; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr += 4;
 	MOVLW	0x04
 ; removed redundant BANKSEL
 	ADDWF	_inPtr, F, B
@@ -5396,11 +5415,11 @@ _00219_DS_:
 	ADDWFC	(_inPtr + 2), F, B
 _00187_DS_:
 	BANKSEL	(_SetupPacket + 1)
-;	.line	240; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(SetupPacket.bRequest == SET_FEATURE)
+;	.line	243; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(SetupPacket.bRequest == SET_FEATURE)
 	MOVF	(_SetupPacket + 1), W, B
 	XORLW	0x03
 	BNZ	_00192_DS_
-;	.line	241; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr = 0x84;
+;	.line	244; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr = 0x84;
 	MOVFF	_inPtr, r0x00
 	MOVFF	(_inPtr + 1), r0x01
 	MOVFF	(_inPtr + 2), r0x03
@@ -5412,11 +5431,11 @@ _00187_DS_:
 	CALL	__gptrput1
 	BRA	_00202_DS_
 _00192_DS_:
-;	.line	243; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(endpointDir == 1)
+;	.line	246; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(endpointDir == 1)
 	MOVF	r0x02, W
 	XORLW	0x01
 	BNZ	_00189_DS_
-;	.line	244; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr = 0x00;
+;	.line	247; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr = 0x00;
 	MOVFF	_inPtr, r0x00
 	MOVFF	(_inPtr + 1), r0x01
 	MOVFF	(_inPtr + 2), r0x02
@@ -5427,7 +5446,7 @@ _00192_DS_:
 	CALL	__gptrput1
 	BRA	_00202_DS_
 _00189_DS_:
-;	.line	246; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr = 0x88;
+;	.line	249; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	*inPtr = 0x88;
 	MOVFF	_inPtr, r0x00
 	MOVFF	(_inPtr + 1), r0x01
 	MOVFF	(_inPtr + 2), r0x02
@@ -5448,35 +5467,35 @@ _00202_DS_:
 ; ; Starting pCode block
 S_tortucaro__GetStatus	code
 _GetStatus:
-;	.line	164; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	static void GetStatus(void) {
+;	.line	167; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	static void GetStatus(void) {
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
 	MOVFF	r0x04, POSTDEC1
-;	.line	166; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte recipient = SetupPacket.bmRequestType & 0x1F;
+;	.line	169; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 recipient = SetupPacket.bmRequestType & 0x1F;
 	MOVLW	0x1f
 	BANKSEL	_SetupPacket
 	ANDWF	_SetupPacket, W, B
 	MOVWF	r0x00
 	BANKSEL	_controlTransferBuffer
-;	.line	170; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] = 0;
+;	.line	173; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] = 0;
 	CLRF	_controlTransferBuffer, B
 ; removed redundant BANKSEL
-;	.line	171; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[1] = 0;
+;	.line	174; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[1] = 0;
 	CLRF	(_controlTransferBuffer + 1), B
-;	.line	174; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (recipient == 0x00) {
+;	.line	177; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (recipient == 0x00) {
 	MOVF	r0x00, W
 	BNZ	_00153_DS_
-;	.line	176; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	179; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
 	BANKSEL	_selfPowered
-;	.line	178; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (selfPowered)
+;	.line	181; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (selfPowered)
 	MOVF	_selfPowered, W, B
 	BZ	_00140_DS_
-;	.line	179; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] |= 0x01;
+;	.line	182; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] |= 0x01;
 	MOVLW	0x01
 	BANKSEL	_controlTransferBuffer
 	IORWF	_controlTransferBuffer, W, B
@@ -5485,11 +5504,11 @@ _GetStatus:
 	MOVWF	_controlTransferBuffer, B
 _00140_DS_:
 	BANKSEL	_remoteWakeup
-;	.line	180; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (remoteWakeup)
+;	.line	183; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (remoteWakeup)
 	MOVF	_remoteWakeup, W, B
 	BTFSC	STATUS, 2
 	BRA	_00154_DS_
-;	.line	181; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] |= 0x02;
+;	.line	184; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] |= 0x02;
 	MOVLW	0x02
 	BANKSEL	_controlTransferBuffer
 	IORWF	_controlTransferBuffer, W, B
@@ -5498,37 +5517,37 @@ _00140_DS_:
 	MOVWF	_controlTransferBuffer, B
 	BRA	_00154_DS_
 _00153_DS_:
-;	.line	183; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (recipient == 0x01) {
+;	.line	186; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (recipient == 0x01) {
 	MOVF	r0x00, W
 	XORLW	0x01
 	BNZ	_00150_DS_
-;	.line	185; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	188; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
 	BRA	_00154_DS_
 _00150_DS_:
-;	.line	187; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (recipient == 0x02) {
+;	.line	190; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (recipient == 0x02) {
 	MOVF	r0x00, W
 	XORLW	0x02
 	BZ	_00173_DS_
 	BRA	_00154_DS_
 _00173_DS_:
-;	.line	189; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte endpointNum = SetupPacket.wIndex0 & 0x0F;
+;	.line	192; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 endpointNum = SetupPacket.wIndex0 & 0x0F;
 	MOVLW	0x0f
 	BANKSEL	(_SetupPacket + 4)
 	ANDWF	(_SetupPacket + 4), W, B
 	MOVWF	r0x00
-;	.line	190; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte endpointDir = SetupPacket.wIndex0 & 0x80;
+;	.line	193; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 endpointDir = SetupPacket.wIndex0 & 0x80;
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	ANDWF	(_SetupPacket + 4), W, B
 	MOVWF	r0x01
-;	.line	191; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	194; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
-;	.line	194; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr = (byte *)&EP_OUT_BD(0) + (endpointNum * 8);
+;	.line	197; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr = (u8 *)&EP_OUT_BD(0) + (endpointNum * 8);
 	MOVLW	HIGH(_ep_bdt)
 	MOVWF	r0x03
 	MOVLW	LOW(_ep_bdt)
@@ -5553,10 +5572,10 @@ _00173_DS_:
 	ADDWFC	r0x04, W
 ; removed redundant BANKSEL
 	MOVWF	(_inPtr + 2), B
-;	.line	195; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (endpointDir)
+;	.line	198; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (endpointDir)
 	MOVF	r0x01, W
 	BZ	_00144_DS_
-;	.line	196; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr += 4;
+;	.line	199; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	inPtr += 4;
 	MOVLW	0x04
 ; removed redundant BANKSEL
 	ADDWF	_inPtr, F, B
@@ -5566,7 +5585,7 @@ _00173_DS_:
 ; removed redundant BANKSEL
 	ADDWFC	(_inPtr + 2), F, B
 _00144_DS_:
-;	.line	197; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(*inPtr & BDS_BSTALL)
+;	.line	200; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(*inPtr & BDS_BSTALL)
 	MOVFF	_inPtr, r0x00
 	MOVFF	(_inPtr + 1), r0x01
 	MOVFF	(_inPtr + 2), r0x02
@@ -5577,16 +5596,16 @@ _00144_DS_:
 	MOVWF	r0x00
 	BTFSS	r0x00, 2
 	BRA	_00154_DS_
-;	.line	198; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] = 0x01;
+;	.line	201; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	controlTransferBuffer[0] = 0x01;
 	MOVLW	0x01
 	BANKSEL	_controlTransferBuffer
 	MOVWF	_controlTransferBuffer, B
 _00154_DS_:
 	BANKSEL	_requestHandled
-;	.line	201; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (requestHandled) {
+;	.line	204; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (requestHandled) {
 	MOVF	_requestHandled, W, B
 	BZ	_00157_DS_
-;	.line	202; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (byte *)&controlTransferBuffer;
+;	.line	205; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (u8 *)&controlTransferBuffer;
 	MOVLW	HIGH(_controlTransferBuffer)
 	BANKSEL	(_outPtr + 1)
 	MOVWF	(_outPtr + 1), B
@@ -5596,7 +5615,7 @@ _00154_DS_:
 	MOVLW	0x80
 ; removed redundant BANKSEL
 	MOVWF	(_outPtr + 2), B
-;	.line	203; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 2;
+;	.line	206; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = 2;
 	MOVLW	0x02
 	BANKSEL	_wCount
 	MOVWF	_wCount, B
@@ -5613,31 +5632,31 @@ _00157_DS_:
 ; ; Starting pCode block
 S_tortucaro__GetDescriptor	code
 _GetDescriptor:
-;	.line	97; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	static void GetDescriptor(void) {
+;	.line	100; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	static void GetDescriptor(void) {
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
 	BANKSEL	_SetupPacket
-;	.line	101; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(SetupPacket.bmRequestType == 0x80) {
+;	.line	104; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if(SetupPacket.bmRequestType == 0x80) {
 	MOVF	_SetupPacket, W, B
 	XORLW	0x80
 	BZ	_00126_DS_
 	BRA	_00118_DS_
 _00126_DS_:
-;	.line	102; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte descriptorType  = SetupPacket.wValue1;
+;	.line	105; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 descriptorType  = SetupPacket.wValue1;
 	MOVFF	(_SetupPacket + 3), r0x00
-;	.line	103; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	byte descriptorIndex = SetupPacket.wValue0;
+;	.line	106; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	u8 descriptorIndex = SetupPacket.wValue0;
 	MOVFF	(_SetupPacket + 2), r0x01
-;	.line	105; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (descriptorType == DEVICE_DESCRIPTOR) {
+;	.line	108; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	if (descriptorType == DEVICE_DESCRIPTOR) {
 	MOVF	r0x00, W
 	XORLW	0x01
 	BNZ	_00114_DS_
-;	.line	109; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	112; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
-;	.line	110; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (byte *)&libdevice_descriptor;
+;	.line	113; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (u8 *)&libdevice_descriptor;
 	MOVLW	UPPER(_libdevice_descriptor)
 	BANKSEL	(_outPtr + 2)
 	MOVWF	(_outPtr + 2), B
@@ -5647,7 +5666,7 @@ _00126_DS_:
 	MOVLW	LOW(_libdevice_descriptor)
 ; removed redundant BANKSEL
 	MOVWF	_outPtr, B
-;	.line	111; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = sizeof(USB_Device_Descriptor);
+;	.line	114; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = sizeof(USB_Device_Descriptor);
 	MOVLW	0x12
 	BANKSEL	_wCount
 	MOVWF	_wCount, B
@@ -5655,15 +5674,15 @@ _00126_DS_:
 	CLRF	(_wCount + 1), B
 	BRA	_00118_DS_
 _00114_DS_:
-;	.line	113; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (descriptorType == CONFIGURATION_DESCRIPTOR) {
+;	.line	116; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (descriptorType == CONFIGURATION_DESCRIPTOR) {
 	MOVF	r0x00, W
 	XORLW	0x02
 	BNZ	_00111_DS_
-;	.line	117; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	120; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
-;	.line	128; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (byte *)&libconfiguration_descriptor;
+;	.line	131; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (u8 *)&libconfiguration_descriptor;
 	MOVLW	UPPER(_libconfiguration_descriptor)
 	BANKSEL	(_outPtr + 2)
 	MOVWF	(_outPtr + 2), B
@@ -5673,7 +5692,7 @@ _00114_DS_:
 	MOVLW	LOW(_libconfiguration_descriptor)
 ; removed redundant BANKSEL
 	MOVWF	_outPtr, B
-;	.line	130; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = libconfiguration_descriptor.Header.wTotalLength;
+;	.line	133; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = libconfiguration_descriptor.Header.wTotalLength;
 	MOVLW	LOW(_libconfiguration_descriptor + 2)
 	MOVWF	TBLPTRL
 	MOVLW	HIGH(_libconfiguration_descriptor + 2)
@@ -5686,18 +5705,18 @@ _00114_DS_:
 	MOVFF	TABLAT, (_wCount + 1)
 	BRA	_00118_DS_
 _00111_DS_:
-;	.line	136; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (descriptorType == STRING_DESCRIPTOR) {
+;	.line	139; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (descriptorType == STRING_DESCRIPTOR) {
 	MOVF	r0x00, W
 	XORLW	0x03
 	BNZ	_00108_DS_
-;	.line	140; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	143; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
 ; ;multiply lit val:0x03 by variable r0x01 and store in r0x01
 ; ;Unrolled 8 X 8 multiplication
 ; ;FIXME: the function does not support result==WREG
-;	.line	141; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (byte *)&libstring_descriptor[descriptorIndex];
+;	.line	144; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	outPtr = (u8 *)&libstring_descriptor[descriptorIndex];
 	MOVF	r0x01, W
 	MULLW	0x03
 	MOVFF	PRODL, r0x01
@@ -5718,7 +5737,7 @@ _00111_DS_:
 	MOVF	r0x01, W
 ; removed redundant BANKSEL
 	MOVWF	_outPtr, B
-;	.line	142; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = *outPtr;
+;	.line	145; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	wCount = *outPtr;
 	MOVFF	_outPtr, r0x01
 	MOVFF	(_outPtr + 1), r0x02
 	MOVFF	(_outPtr + 2), r0x03
@@ -5732,11 +5751,11 @@ _00111_DS_:
 	CLRF	(_wCount + 1), B
 	BRA	_00118_DS_
 _00108_DS_:
-;	.line	144; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (descriptorType == DEVICE_QUALIFIER_DESCRIPTOR) {
+;	.line	147; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	else if (descriptorType == DEVICE_QUALIFIER_DESCRIPTOR) {
 	MOVF	r0x00, W
 	XORLW	0x06
 	BNZ	_00118_DS_
-;	.line	148; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
+;	.line	151; /home/valentin/.icaro/np05/tmp/usb/picUSB.c	requestHandled = 1;
 	MOVLW	0x01
 	BANKSEL	_requestHandled
 	MOVWF	_requestHandled, B
@@ -5803,9 +5822,9 @@ __str_3:
 
 
 ; Statistics:
-; code size:	 9576 (0x2568) bytes ( 7.31%)
-;           	 4788 (0x12b4) words
-; udata size:	  532 (0x0214) bytes (29.69%)
+; code size:	 9602 (0x2582) bytes ( 7.33%)
+;           	 4801 (0x12c1) words
+; udata size:	  530 (0x0212) bytes (29.58%)
 ; access size:	   10 (0x000a) bytes
 
 

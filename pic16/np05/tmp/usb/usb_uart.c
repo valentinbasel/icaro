@@ -1,6 +1,6 @@
-  c/**
+/**
   All UART functions should go here
-  **/
+**/
 
 #include <string.h>
 #include <stdio.h>

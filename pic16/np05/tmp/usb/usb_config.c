@@ -1,4 +1,5 @@
 #include "usb_config.h"
+#include <typedef.h>
 
 /**
 This togehter with the coresponding usbconfig.c file needs to be filled up by the user according to implem
@@ -169,7 +170,7 @@ __code USB_Configuration_Descriptor libconfiguration_descriptor = {
 #endif
 
 /* String descriptors for the USB device */
-__code unsigned char libstring_descriptor[40][3] = {
+__code u8 libstring_descriptor[40][3] = {
     {40,STRING_DESCRIPTOR,'P',0x00,'i',0x00,'n',0x00,'g',0x00,'u',0x00,'i',0x00,'n',0x00,'o',0x00,' ',0x00,'J',0x00,'P',0x00,' ',0x00,'M',0x00,'A',0x00,'N',0x00,'D',0x00,'O',0x00,'N',0x00,' ',0x00},
     {12, STRING_DESCRIPTOR, 'P',0x00,'o',0x00,'r',0x00,'n',0x00,'0',0x00},
     {12, STRING_DESCRIPTOR, 'P',0x00,'o',0x00,'r',0x00,'n',0x00,'0',0x00}
