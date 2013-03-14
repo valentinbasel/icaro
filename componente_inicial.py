@@ -74,6 +74,7 @@ class componente_inicial(pygame.sprite.Sprite):
                         ),
                         0
                         )
+
         self.texto.render(
                             "inicio",
                             self.color_texto,
