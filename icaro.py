@@ -81,7 +81,7 @@ class fondo(pygame.sprite.Sprite):
     color_texto=(255,255,255)
     poscion_botones=0
     band=0
-
+    ultimo_conectado=0
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         size = 1100, 2000
@@ -127,6 +127,21 @@ class Ventana:
     lista=[]
     config=[]
     edicion=0
+    dicc_accesos_directos={
+                           65470:"f1",
+                           65471:"f2",
+                           65472:"f3",
+                           65473:"f4",
+                           65474:"f5",
+                           65475:"f6",
+                           65476:"f7",
+                           65477:"f8",
+                           65478:"f9",
+                           65479:"f10",
+                           65480:"f11",
+                           65481:"f12",
+                           
+                           }
     def __init__(self):
 
         ###############################################
@@ -509,12 +524,15 @@ class Ventana:
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
     def botones(self,event,b):
+        print "boton -" ,b
         self.tipo_componente=b
         self.seleccion_menu=1
+
+        return
 # ==============================================================================
 # FUNCION PARA GENERAR LOS COMPONENTES DESDE EL DICCIONARIO
 # ==============================================================================
-    def crear_componente(self,b):
+    def crear_componente(self,b,x,y):
         ax=0
         ay=30
         dx=10
@@ -524,8 +542,8 @@ class Ventana:
 
         if self.diccionario[b][1]==1:
             c1=componente   (
-                            self.mousexy[0]-ax,
-                            self.mousexy[1]-ay,
+                            x-ax,
+                            y-ay,
                             self.fondo.identificador+1,
                             self.diccionario[b][2],
                             self.diccionario[b][3],
@@ -542,8 +560,8 @@ class Ventana:
 
             self.fondo.identificador+=1
             c1=componente_cero_arg  (
-                                    self.mousexy[0]-ax,
-                                    self.mousexy[1]-ay,
+                                    x-ax,
+                                    y-ay,
                                     self.fondo.identificador,
                                     self.diccionario[b][3],
                                     self.diccionario[b][0],
@@ -558,8 +576,8 @@ class Ventana:
         if self.diccionario[b][1]==5:
             self.fondo.identificador+=1
             c1=componente_bloque_uno(
-                                            self.mousexy[0]-ax,
-                                            self.mousexy[1]-ay,
+                                            x-ax,
+                                            y-ay,
                                             self.fondo.identificador,
                                             self.diccionario[b][3],
                                             self.diccionario[b][0],
@@ -571,8 +589,8 @@ class Ventana:
             self.fondo.objetos.append(c1)
             self.fondo.identificador +=1
             c1=componente_bloque_dos    (
-                                        self.mousexy[0]-ax,
-                                        self.mousexy[1]+80-ay,
+                                        x-ax,
+                                        y+80-ay,
                                         self.fondo.identificador,
                                         self.diccionario[b][3],
                                         self.diccionario[b][4],
@@ -586,8 +604,8 @@ class Ventana:
             self.fondo.tipo_obj.append(0)
         if self.diccionario[b][1]==6:
             c1=comp_dat_arg   (
-                            self.mousexy[0]-dx,
-                            self.mousexy[1]-dy,
+                            x-dx,
+                            y-dy,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],
@@ -605,8 +623,8 @@ class Ventana:
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
         if self.diccionario[b][1]==7:
             c1=comp_dat_arg   (
-                            self.mousexy[0]-dx,
-                            self.mousexy[1]-dy,
+                            x-dx,
+                            y-dy,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],
@@ -820,6 +838,7 @@ class Ventana:
         nuevo.nuevo(self.fondo)
         self.fondo.band=0
         self.fondo.FONDO=(00,22,55)
+        self.fondo.ultimo_conectado=0
         inicial=componente_inicial(
                                     20,
                                     50,
@@ -847,7 +866,7 @@ class Ventana:
         print "editar",self.edicion
         self.boton_mouse[event.button]=1
         if self.seleccion_menu==1 and self.boton_mouse[1]==1:
-            self.crear_componente(self.tipo_componente)
+            self.crear_componente(self.tipo_componente,self.mousexy[0],self.mousexy[1])
         if event.button==3:
             self.boton_mouse[event.button]=0
             self.menu(event)
@@ -883,7 +902,7 @@ class Ventana:
 
     def keypress_cb(self,win,event):
         self.tecla=1
-        #~ print event.keyval
+        print event.keyval
         #~ if event.keyval==32:
             #~ self.valor_tecla=" "
         #~ else:
@@ -892,7 +911,28 @@ class Ventana:
 
         if event.keyval==65293:
             self.tecla_enter=1
+        if self.dicc_accesos_directos.has_key(event.keyval):
+            self.AccesosDirectos(self.dicc_accesos_directos[event.keyval])
+    
+    def AccesosDirectos(self,evento):
+        identificador=0
+        if evento=="f1":
+            self.seleccion_menu=1
+        if evento=="f2":
+            self.seleccion_menu=2
+        if evento=="f3":
+            self.seleccion_menu=3
+        if evento=="f4":
+            self.seleccion_menu=4
 
+        if evento=="f5":
+                for a in range(len(self.fondo.objetos)):
+                    if self.fondo.objetos[a].ide==self.fondo.ultimo_conectado:
+                        identificador=a
+                        break
+                x=self.fondo.objetos[identificador].conector_m[0]-10
+                y=self.fondo.objetos[identificador].conector_m[1]+40
+                self.crear_componente(self.tipo_componente,x,y)            
     def keyrelease_cb(self,win,event):
         self.tecla=0
         self.tecla_enter=0
