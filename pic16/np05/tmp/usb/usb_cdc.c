@@ -2,8 +2,8 @@
 All CDC functions should go here
 **/
 
-#include <string.h>
-
+//#include <string.h>
+#include <typedef.h>
 #include "usb_cdc.h"
 #include "picUSB.h"
 #include "usb_config.h"
@@ -14,14 +14,14 @@ All CDC functions should go here
 // Put USB I/O buffers into dual port RAM.
 #pragma udata usbram5 CDCRxBuffer CDCTxBuffer
 // CDC specific buffers
-volatile byte CDCControlBuffer[CDC_IN_EP_SIZE];
-volatile byte CDCRxBuffer[CDC_BULK_OUT_SIZE];
-volatile byte CDCTxBuffer[CDC_BULK_IN_SIZE];
+volatile u8 CDCControlBuffer[CDC_IN_EP_SIZE];
+volatile u8 CDCRxBuffer[CDC_BULK_OUT_SIZE];
+volatile u8 CDCTxBuffer[CDC_BULK_IN_SIZE];
 
 USB_CDC_Line_Coding line_config;
 Zero_Packet_Length zlp;
 
-byte CDCgets(char *buffer);
+u8 CDCgets(char *buffer);
 
 /**
 Special Setup function for CDC Class to handle Setup requests.
@@ -59,7 +59,7 @@ void ProcessCDCRequest(void)
 			  	#ifdef DEBUG_PRINT_CDC
   				printf("set line\r\n");
   				#endif
-			outPtr = (data byte *)&line_config;
+			outPtr = (__data u8 *)&line_config;
 			wCount = sizeof(USB_CDC_Line_Coding) ;
 			requestHandled = 1;				
             break;
@@ -68,7 +68,7 @@ void ProcessCDCRequest(void)
 			  	#ifdef DEBUG_PRINT_CDC
   				printf("get line\r\n");
   				#endif
-			outPtr = (data byte *)&line_config;
+			outPtr = (__data u8 *)&line_config;
 			wCount = sizeof(USB_CDC_Line_Coding) ;
 			requestHandled = 1;
             break;
@@ -81,7 +81,7 @@ void ProcessCDCRequest(void)
   				#endif
 			if (SetupPacket.wValue0==3) CONTROL_LINE=1;
 			else CONTROL_LINE=0;		
-			outPtr = (data byte *)&zlp;
+			outPtr = (__data u8 *)&zlp;
 			wCount = sizeof(Zero_Packet_Length) ;
 			requestHandled = 1;						
             break;								
@@ -92,12 +92,12 @@ void ProcessCDCRequest(void)
   /**
   Function to read a string from USB
   @param buffer Buffer for reading data
-  @param lenght Number of bytes to be read
-  @return number of bytes acutally read
+  @param lenght Number of u8s to be read
+  @return number of u8s acutally read
   **/
-byte CDCgets(char *buffer) {
-  byte i=0;
-  byte length=64;
+u8 CDCgets(char *buffer) {
+  u8 i=0;
+  u8 length=64;
   if (deviceState != CONFIGURED) return 0;
   // Only Process if we own the buffer aka not own by SIE
   if (!CONTROL_LINE) return 0;
@@ -128,8 +128,8 @@ byte CDCgets(char *buffer) {
   return i;
 }
 
-byte CDCputs(char *buffer, byte length) {
-  byte i=0;
+u8 CDCputs(char *buffer, u8 length) {
+  u8 i=0;
 
   if (deviceState != CONFIGURED) return 0;
   if (!CONTROL_LINE) return 0;

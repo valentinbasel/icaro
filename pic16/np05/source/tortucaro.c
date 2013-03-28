@@ -92,7 +92,7 @@ void pinguino_main(void)
 /* Interrupt vectors */
 
 #pragma code high_priority_isr 0x2020
-void high_priority_isr(void) interrupt
+void high_priority_isr(void) __interrupt
 {
 #ifdef __USBCDC
     if(PIR2bits.USBIF)
@@ -136,7 +136,7 @@ void high_priority_isr(void) interrupt
 }
 
 #pragma code low_priority_isr 0x4000
-void low_priority_isr(void) interrupt
+void low_priority_isr(void) __interrupt
 {
 }
 

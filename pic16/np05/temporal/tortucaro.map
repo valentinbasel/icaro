@@ -1,5 +1,5 @@
 gplink-0.14.3 #861 (Nov  5 2012)
-Map File - Created 3-1-2013  21:35:02
+Map File - Created 3-6-2013  17:19:49
  
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -39,33 +39,34 @@ S_tortucaro__ServosPulseDown       code   0x004254    program   0x0000a2
 S_tortucaro__ProcessControlTransfer       code   0x0042f6    program   0x0000a2
      S_tortucaro__Delayms       code   0x004398    program   0x00009c
 S_crt0ipinguino___do_cinit       code   0x004434    program   0x000098
-  S_tortucaro__analogread       code   0x0044cc    program   0x000090
-                 .idata_i       code   0x00455c    program   0x00008a
-       S_tortucaro__l293d       code   0x0045e6    program   0x000084
-S_tortucaro__ProcessUSBTransactions       code   0x00466a    program   0x00006c
-  S_tortucaro__ServoWrite       code   0x0046d6    program   0x000068
-    S_tortucaro__init_CDC       code   0x00473e    program   0x000062
-S_tortucaro__CDCInitEndpoint       code   0x0047a0    program   0x000060
-     S_tortucaro__Delayus       code   0x004800    program   0x00005e
- S_tortucaro__servos_init       code   0x00485e    program   0x00004a
-S_tortucaro__servos_interrupt       code   0x0048a8    program   0x000046
-S_tortucaro__ServoMaximumPulse       code   0x0048ee    program   0x000046
-   S_tortucaro__ServoRead       code   0x004934    program   0x000046
-S_tortucaro__ServoMinimumPulse       code   0x00497a    program   0x000044
-    S_tortucaro__BusReset       code   0x0049be    program   0x000044
-S_tortucaro__EnableUSBModule       code   0x004a02    program   0x00002c
-S_tortucaro__pinguino_main       code   0x004a2e    program   0x00002a
-     S_tortucaro__Suspend       code   0x004a58    program   0x00002a
-S_tortucaro__WaitForSetupStage       code   0x004a82    program   0x00001a
-S_crt0ipinguino___startup       code   0x004a9c    program   0x000018
- S_tortucaro__analog_init       code   0x004ab4    program   0x000010
-                   .cinit       code   0x004ac4    program   0x00000e
-S_tortucaro__ServosPulseUp       code   0x004ad2    program   0x00000a
-S_tortucaro__StartOfFrame       code   0x004adc    program   0x000004
-S_tortucaro__epapout_init       code   0x004ae0    program   0x000002
- S_tortucaro__epapin_init       code   0x004ae2    program   0x000002
-    S_tortucaro__epap_out       code   0x004ae4    program   0x000002
-     S_tortucaro__epap_in       code   0x004ae6    program   0x000002
+                 .idata_i       code   0x0044cc    program   0x00008a
+  S_tortucaro__analogread       code   0x004556    program   0x000088
+       S_tortucaro__l293d       code   0x0045de    program   0x000084
+S_tortucaro__ProcessUSBTransactions       code   0x004662    program   0x00006c
+  S_tortucaro__ServoWrite       code   0x0046ce    program   0x000068
+    S_tortucaro__init_CDC       code   0x004736    program   0x000062
+     S_tortucaro__Delayus       code   0x004798    program   0x00005e
+S_tortucaro__CDCInitEndpoint       code   0x0047f6    program   0x00005a
+ S_tortucaro__servos_init       code   0x004850    program   0x00004a
+S_tortucaro__servos_interrupt       code   0x00489a    program   0x000046
+S_tortucaro__ServoMaximumPulse       code   0x0048e0    program   0x000046
+   S_tortucaro__ServoRead       code   0x004926    program   0x000046
+S_tortucaro__ServoMinimumPulse       code   0x00496c    program   0x000044
+    S_tortucaro__BusReset       code   0x0049b0    program   0x000044
+S_tortucaro__EnableUSBModule       code   0x0049f4    program   0x00002c
+S_tortucaro__pinguino_main       code   0x004a20    program   0x00002a
+     S_tortucaro__Suspend       code   0x004a4a    program   0x00002a
+S_tortucaro__analogReference       code   0x004a74    program   0x000028
+S_tortucaro__WaitForSetupStage       code   0x004a9c    program   0x00001a
+S_crt0ipinguino___startup       code   0x004ab6    program   0x000018
+ S_tortucaro__analog_init       code   0x004ace    program   0x000010
+                   .cinit       code   0x004ade    program   0x00000e
+S_tortucaro__ServosPulseUp       code   0x004aec    program   0x00000a
+S_tortucaro__StartOfFrame       code   0x004af6    program   0x000004
+S_tortucaro__epapout_init       code   0x004afa    program   0x000002
+ S_tortucaro__epapin_init       code   0x004afc    program   0x000002
+    S_tortucaro__epap_out       code   0x004afe    program   0x000002
+     S_tortucaro__epap_in       code   0x004b00    program   0x000002
                    .idata      idata   0x000200       data   0x00008a
                .registers      udata   00000000       data   0x00000a
       ustat_boot_iface_00      udata   0x00005d       data   0x000003
@@ -75,26 +76,26 @@ S_tortucaro__epapout_init       code   0x004ae0    program   0x000002
        udata_tortucaro_18      udata   0x0002e4       data   0x000010
        udata_tortucaro_17      udata   0x0002f4       data   0x000008
         udata_tortucaro_8      udata   0x0002fc       data   0x000003
-       udata_tortucaro_16      udata   0x000300       data   0x000007
-       udata_tortucaro_10      udata   0x000307       data   0x000003
-       udata_tortucaro_22      udata   0x00030a       data   0x000003
-        udata_tortucaro_9      udata   0x00030d       data   0x000002
-        udata_tortucaro_0      udata   0x00030f       data   0x000001
-        udata_tortucaro_1      udata   0x000310       data   0x000001
-        udata_tortucaro_2      udata   0x000311       data   0x000001
-        udata_tortucaro_3      udata   0x000312       data   0x000001
-        udata_tortucaro_4      udata   0x000313       data   0x000001
-        udata_tortucaro_5      udata   0x000314       data   0x000001
-        udata_tortucaro_6      udata   0x000315       data   0x000001
-        udata_tortucaro_7      udata   0x000316       data   0x000001
-       udata_tortucaro_11      udata   0x000317       data   0x000001
-       udata_tortucaro_12      udata   0x000318       data   0x000001
-       udata_tortucaro_13      udata   0x000319       data   0x000001
-       udata_tortucaro_14      udata   0x00031a       data   0x000001
-       udata_tortucaro_15      udata   0x00031b       data   0x000001
-       udata_tortucaro_20      udata   0x00031c       data   0x000001
-       udata_tortucaro_23      udata   0x00031d       data   0x000001
-       udata_tortucaro_24      udata   0x00031e       data   0x000001
+       udata_tortucaro_16      udata   0x000300       data   0x000005
+       udata_tortucaro_10      udata   0x000305       data   0x000003
+       udata_tortucaro_22      udata   0x000308       data   0x000003
+        udata_tortucaro_9      udata   0x00030b       data   0x000002
+        udata_tortucaro_0      udata   0x00030d       data   0x000001
+        udata_tortucaro_1      udata   0x00030e       data   0x000001
+        udata_tortucaro_2      udata   0x00030f       data   0x000001
+        udata_tortucaro_3      udata   0x000310       data   0x000001
+        udata_tortucaro_4      udata   0x000311       data   0x000001
+        udata_tortucaro_5      udata   0x000312       data   0x000001
+        udata_tortucaro_6      udata   0x000313       data   0x000001
+        udata_tortucaro_7      udata   0x000314       data   0x000001
+       udata_tortucaro_11      udata   0x000315       data   0x000001
+       udata_tortucaro_12      udata   0x000316       data   0x000001
+       udata_tortucaro_13      udata   0x000317       data   0x000001
+       udata_tortucaro_14      udata   0x000318       data   0x000001
+       udata_tortucaro_15      udata   0x000319       data   0x000001
+       udata_tortucaro_20      udata   0x00031a       data   0x000001
+       udata_tortucaro_23      udata   0x00031b       data   0x000001
+       udata_tortucaro_24      udata   0x00031c       data   0x000001
        ustat_tortucaro_00      udata   0x000400       data   0x000080
                   usbram5      udata   0x000500       data   0x000100
       ustat_pic18f4550_00      udata   0x000f62       data   0x000023
@@ -112,57 +113,58 @@ S_tortucaro__epapout_init       code   0x004ae0    program   0x000002
                            ---------   ---------
                             0x00201e    0x00201f
                             0x00207e    0x0024d9
-                            0x00455c    0x0045e5
+                            0x0044cc    0x004555
                             0x004434    0x0044cb
-                            0x004a9c    0x004ab3
+                            0x004ab6    0x004acd
                             0x00201a    0x00201d
                             0x002000    0x002019
                             0x002020    0x00207d
                             0x004000    0x004049
-                            0x004a2e    0x004a57
+                            0x004a20    0x004a49
                             0x004102    0x0041ab
                             0x003f0e    0x003fd9
                             0x0031d0    0x00334f
                             0x003bb2    0x003c8d
                             0x00404a    0x004101
-                            0x0045e6    0x004669
+                            0x0045de    0x004661
                             0x0039e8    0x003ad1
-                            0x004ae0    0x004ae1
-                            0x004ae2    0x004ae3
-                            0x004ae4    0x004ae5
-                            0x004ae6    0x004ae7
+                            0x004afa    0x004afb
+                            0x004afc    0x004afd
+                            0x004afe    0x004aff
+                            0x004b00    0x004b01
                             0x002898    0x002b5d
                             0x002e24    0x00300b
                             0x002b5e    0x002e23
-                            0x0048a8    0x0048ed
-                            0x0048ee    0x004933
-                            0x00497a    0x0049bd
-                            0x004934    0x004979
-                            0x0046d6    0x00473d
+                            0x00489a    0x0048df
+                            0x0048e0    0x004925
+                            0x00496c    0x0049af
+                            0x004926    0x00496b
+                            0x0046ce    0x004735
                             0x003d68    0x003e3b
                             0x003ad2    0x003bb1
                             0x0024da    0x002897
-                            0x004ad2    0x004adb
+                            0x004aec    0x004af5
                             0x004254    0x0042f5
-                            0x00485e    0x0048a7
-                            0x0044cc    0x00455b
-                            0x004ab4    0x004ac3
-                            0x00473e    0x00479f
-                            0x004800    0x00485d
+                            0x004850    0x004899
+                            0x004556    0x0045dd
+                            0x004a74    0x004a9b
+                            0x004ace    0x004add
+                            0x004736    0x004797
+                            0x004798    0x0047f5
                             0x004398    0x004433
-                            0x0047a0    0x0047ff
+                            0x0047f6    0x00484f
                             0x0036d8    0x0037f3
                             0x0035ba    0x0036d7
                             0x0041ac    0x004253
-                            0x00466a    0x0046d5
-                            0x0049be    0x004a01
-                            0x004a58    0x004a81
+                            0x004662    0x0046cd
+                            0x0049b0    0x0049f3
+                            0x004a4a    0x004a73
                             0x003fda    0x003ff7
-                            0x004adc    0x004adf
+                            0x004af6    0x004af9
                             0x003ff8    0x003fff
-                            0x004a02    0x004a2d
+                            0x0049f4    0x004a1f
                             0x0042f6    0x004397
-                            0x004a82    0x004a9b
+                            0x004a9c    0x004ab5
                             0x003e3c    0x003f0d
                             0x003350    0x003493
                             0x00300c    0x0031cf
@@ -171,9 +173,9 @@ S_tortucaro__epapout_init       code   0x004ae0    program   0x000002
                             0x0037f4    0x0038f7
                             0x0038f8    0x0039e7
                             0x00001c    0x000079
-                            0x004ac4    0x004ad1
+                            0x004ade    0x004aeb
  
-                            5539 program addresses used
+                            5552 program addresses used
  
                               Symbols
                      Name    Address   Location    Storage File
@@ -214,8 +216,8 @@ _configuration_descriptor   0x0020e2    program     extern usb_descriptors.asm
             copy_one_byte   0x0044a8    program     static obj/Debug/crt0ipinguino.asm
              done_copying   0x0044b6    program     static obj/Debug/crt0ipinguino.asm
                      done   0x0044ca    program     static obj/Debug/crt0ipinguino.asm
-                __startup   0x004a9c    program     extern obj/Debug/crt0ipinguino.asm
-                   lockup   0x004ab2    program     static obj/Debug/crt0ipinguino.asm
+                __startup   0x004ab6    program     extern obj/Debug/crt0ipinguino.asm
+                   lockup   0x004acc    program     static obj/Debug/crt0ipinguino.asm
         _application_main   0x00201a    program     extern obj/Debug/crt0ipinguino.asm
         _application_data   0x002000    program     extern application_iface.asm
             _CONTROL_LINE   0x000201       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
@@ -240,193 +242,195 @@ _configuration_descriptor   0x0020e2    program     extern usb_descriptors.asm
    _controlTransferBuffer   0x000540       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _CDCRxBuffer   0x000580       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _CDCTxBuffer   0x0005c0       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-           _deviceAddress   0x00030f       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-          _HIDPostProcess   0x000310       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _hidIdleRate   0x000311       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _hidProtocol   0x000312       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                _hidRxLen   0x000313       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                 _loopvar   0x000314       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                       _i   0x000315       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-          _requestHandled   0x000316       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+           _deviceAddress   0x00030d       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+          _HIDPostProcess   0x00030e       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _hidIdleRate   0x00030f       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _hidProtocol   0x000310       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                _hidRxLen   0x000311       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                 _loopvar   0x000312       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                       _i   0x000313       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+          _requestHandled   0x000314       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                   _outPtr   0x0002fc       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                  _wCount   0x00030d       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                   _inPtr   0x000307       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _selfPowered   0x000317       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-            _remoteWakeup   0x000318       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _deviceState   0x000319       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-    _currentConfiguration   0x00031a       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-       _ctrlTransferStage   0x00031b       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                  _wCount   0x00030b       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                   _inPtr   0x000305       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _selfPowered   0x000315       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+            _remoteWakeup   0x000316       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _deviceState   0x000317       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+    _currentConfiguration   0x000318       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+       _ctrlTransferStage   0x000319       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _line_config   0x000300       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                      _zlp   0x0002f4       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
         _CDCControlBuffer   0x0002e4       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _servovalues   0x0002d2       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _timingindex   0x00031c       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _timingindex   0x00031a       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                  _timings   0x00028a       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-_SortServoTimings_mascaratotal_1_1   0x00030a       data     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-            _receivedbyte   0x00031d       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-           _receivedbyte2   0x00031e       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+_SortServoTimings_mascaratotal_1_1   0x000308       data     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+            _receivedbyte   0x00031b       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+           _receivedbyte2   0x00031c       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                   _ep_bdt   0x000400       data     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
        _high_priority_isr   0x002020    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01300_DS_   0x002054    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01315_DS_   0x002054    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
         _low_priority_isr   0x004000    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-           _pinguino_main   0x004a2e    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01292_DS_   0x004a50    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+           _pinguino_main   0x004a20    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01307_DS_   0x004a42    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                     _loop   0x004102    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01252_DS_   0x004110    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01256_DS_   0x00416a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01258_DS_   0x004176    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01260_DS_   0x004182    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01262_DS_   0x00418e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01266_DS_   0x00419a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01267_DS_   0x004110    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01271_DS_   0x00416a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01273_DS_   0x004176    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01275_DS_   0x004182    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01277_DS_   0x00418e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01281_DS_   0x00419a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                    _setup   0x003f0e    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                   _servos   0x0031d0    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01192_DS_   0x0031f2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01196_DS_   0x00323a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01198_DS_   0x003244    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01200_DS_   0x00324e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01202_DS_   0x003258    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01206_DS_   0x003262    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01207_DS_   0x00326a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01212_DS_   0x0032b2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01242_DS_   0x0032be    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01215_DS_   0x0032ea    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01211_DS_   0x0032fa    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01207_DS_   0x0031f2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01211_DS_   0x00323a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01213_DS_   0x003244    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01215_DS_   0x00324e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01217_DS_   0x003258    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01221_DS_   0x003262    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01222_DS_   0x00326a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01227_DS_   0x0032b2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01257_DS_   0x0032be    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01230_DS_   0x0032ea    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01226_DS_   0x0032fa    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                     _leer   0x003bb2    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01178_DS_   0x003bdc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01173_DS_   0x003c12    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01187_DS_   0x003c1e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01176_DS_   0x003c68    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01193_DS_   0x003bdc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01188_DS_   0x003c12    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01202_DS_   0x003c1e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01191_DS_   0x003c68    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _analogico   0x00404a    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01137_DS_   0x004058    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01119_DS_   0x004082    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01121_DS_   0x00408c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01123_DS_   0x004096    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01125_DS_   0x0040a0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01127_DS_   0x0040aa    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01129_DS_   0x0040b4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01131_DS_   0x0040be    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01133_DS_   0x0040c8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                   _l293d   0x0045e6    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01093_DS_   0x0045f6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01081_DS_   0x004622    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01083_DS_   0x00462e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01085_DS_   0x00463a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01087_DS_   0x004646    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01089_DS_   0x004650    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01152_DS_   0x004058    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01134_DS_   0x004082    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01136_DS_   0x00408c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01138_DS_   0x004096    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01140_DS_   0x0040a0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01142_DS_   0x0040aa    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01144_DS_   0x0040b4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01146_DS_   0x0040be    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01148_DS_   0x0040c8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                   _l293d   0x0045de    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01108_DS_   0x0045ee    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01096_DS_   0x00461a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01098_DS_   0x004626    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01100_DS_   0x004632    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01102_DS_   0x00463e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01104_DS_   0x004648    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                  _digital   0x0039e8    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01042_DS_   0x0039fc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01046_DS_   0x003a46    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01048_DS_   0x003a52    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01050_DS_   0x003a5e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01054_DS_   0x003a6a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01056_DS_   0x003aa8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01058_DS_   0x003ac0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-            _epapout_init   0x004ae0    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _epapin_init   0x004ae2    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                _epap_out   0x004ae4    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                 _epap_in   0x004ae6    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01057_DS_   0x0039fc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01061_DS_   0x003a46    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01063_DS_   0x003a52    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01065_DS_   0x003a5e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01069_DS_   0x003a6a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01071_DS_   0x003aa8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01073_DS_   0x003ac0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+            _epapout_init   0x004afa    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _epapin_init   0x004afc    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                _epap_out   0x004afe    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                 _epap_in   0x004b00    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                  _pinmode   0x002898    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01017_DS_   0x00293a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00987_DS_   0x00294e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00989_DS_   0x002982    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00991_DS_   0x0029b2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00993_DS_   0x0029e6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00995_DS_   0x002a16    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00997_DS_   0x002a4a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00999_DS_   0x002a7a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01001_DS_   0x002aae    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01003_DS_   0x002ade    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01005_DS_   0x002b12    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _01008_DS_   0x002b3c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01032_DS_   0x00293a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01002_DS_   0x00294e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01004_DS_   0x002982    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01006_DS_   0x0029b2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01008_DS_   0x0029e6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01010_DS_   0x002a16    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01012_DS_   0x002a4a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01014_DS_   0x002a7a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01016_DS_   0x002aae    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01018_DS_   0x002ade    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01020_DS_   0x002b12    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _01023_DS_   0x002b3c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _digitalread   0x002e24    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00982_DS_   0x002eb2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00952_DS_   0x002ec6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00954_DS_   0x002efc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00956_DS_   0x002f02    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00958_DS_   0x002f38    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00960_DS_   0x002f3e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00962_DS_   0x002f74    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00964_DS_   0x002f7a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00966_DS_   0x002fb0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00968_DS_   0x002fb6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00970_DS_   0x002fe8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00972_DS_   0x002fee    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00973_DS_   0x002ff2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00997_DS_   0x002eb2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00967_DS_   0x002ec6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00969_DS_   0x002efc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00971_DS_   0x002f02    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00973_DS_   0x002f38    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00975_DS_   0x002f3e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00977_DS_   0x002f74    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00979_DS_   0x002f7a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00981_DS_   0x002fb0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00983_DS_   0x002fb6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00985_DS_   0x002fe8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00987_DS_   0x002fee    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00988_DS_   0x002ff2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
             _digitalwrite   0x002b5e    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00947_DS_   0x002c00    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00917_DS_   0x002c14    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00919_DS_   0x002c48    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00921_DS_   0x002c78    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00923_DS_   0x002cac    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00925_DS_   0x002cdc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00927_DS_   0x002d10    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00929_DS_   0x002d40    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00931_DS_   0x002d74    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00933_DS_   0x002da4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00935_DS_   0x002dd8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00938_DS_   0x002e02    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-        _servos_interrupt   0x0048a8    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00908_DS_   0x0048cc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00912_DS_   0x0048ec    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-       _ServoMaximumPulse   0x0048ee    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00897_DS_   0x004926    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-       _ServoMinimumPulse   0x00497a    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00887_DS_   0x0049b0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _ServoRead   0x004934    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00876_DS_   0x004954    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00877_DS_   0x00496c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-              _ServoWrite   0x0046d6    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00860_DS_   0x004706    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00862_DS_   0x004710    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00863_DS_   0x00472c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00962_DS_   0x002c00    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00932_DS_   0x002c14    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00934_DS_   0x002c48    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00936_DS_   0x002c78    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00938_DS_   0x002cac    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00940_DS_   0x002cdc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00942_DS_   0x002d10    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00944_DS_   0x002d40    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00946_DS_   0x002d74    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00948_DS_   0x002da4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00950_DS_   0x002dd8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00953_DS_   0x002e02    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+        _servos_interrupt   0x00489a    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00923_DS_   0x0048be    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00927_DS_   0x0048de    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+       _ServoMaximumPulse   0x0048e0    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00912_DS_   0x004918    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+       _ServoMinimumPulse   0x00496c    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00902_DS_   0x0049a2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _ServoRead   0x004926    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00891_DS_   0x004946    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00892_DS_   0x00495e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+              _ServoWrite   0x0046ce    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00875_DS_   0x0046fe    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00877_DS_   0x004708    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00878_DS_   0x004724    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _ServoDetach   0x003d68    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00842_DS_   0x003dc4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00839_DS_   0x003dfa    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00844_DS_   0x003e26    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00857_DS_   0x003dc4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00854_DS_   0x003dfa    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00859_DS_   0x003e26    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _ServoAttach   0x003ad2    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00820_DS_   0x003b32    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00817_DS_   0x003b6c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00822_DS_   0x003b9c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00835_DS_   0x003b32    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00832_DS_   0x003b6c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00837_DS_   0x003b9c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
         _SortServoTimings   0x0024da    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00762_DS_   0x00250c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00765_DS_   0x002558    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00759_DS_   0x00255c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00766_DS_   0x00256a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00732_DS_   0x002624    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00799_DS_   0x002638    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00757_DS_   0x00263c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00740_DS_   0x0026f2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00804_DS_   0x002706    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00754_DS_   0x002732    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00748_DS_   0x0027e0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00768_DS_   0x00281c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00769_DS_   0x002820    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00761_DS_   0x00286a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-           _ServosPulseUp   0x004ad2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00777_DS_   0x00250c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00780_DS_   0x002558    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00774_DS_   0x00255c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00781_DS_   0x00256a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00747_DS_   0x002624    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00814_DS_   0x002638    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00772_DS_   0x00263c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00755_DS_   0x0026f2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00819_DS_   0x002706    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00769_DS_   0x002732    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00763_DS_   0x0027e0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00783_DS_   0x00281c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00784_DS_   0x002820    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00776_DS_   0x00286a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+           _ServosPulseUp   0x004aec    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
          _ServosPulseDown   0x004254    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00708_DS_   0x00426c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00707_DS_   0x0042d6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00723_DS_   0x00426c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00722_DS_   0x0042d6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                     bucle   0x0042da    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00712_DS_   0x0042e8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _servos_init   0x00485e    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00692_DS_   0x00486c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00695_DS_   0x00488c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-              _analogread   0x0044cc    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00686_DS_   0x004506    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00681_DS_   0x004518    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-             _analog_init   0x004ab4    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                _init_CDC   0x00473e    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00663_DS_   0x00478c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00666_DS_   0x00479e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                 _Delayus   0x004800    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00649_DS_   0x00482c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00658_DS_   0x00483a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00653_DS_   0x004844    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00727_DS_   0x0042e8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _servos_init   0x004850    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00707_DS_   0x00485e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00710_DS_   0x00487e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+              _analogread   0x004556    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00701_DS_   0x004588    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00696_DS_   0x00459a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+         _analogReference   0x004a74    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00686_DS_   0x004a92    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+             _analog_init   0x004ace    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                _init_CDC   0x004736    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00663_DS_   0x004784    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00666_DS_   0x004796    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                 _Delayus   0x004798    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00649_DS_   0x0047c4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00658_DS_   0x0047d2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00653_DS_   0x0047dc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                  _Delayms   0x004398    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00635_DS_   0x0043e0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00644_DS_   0x0043f6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00639_DS_   0x00440e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-         _CDCInitEndpoint   0x0047a0    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+         _CDCInitEndpoint   0x0047f6    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                  _CDCputs   0x0036d8    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00602_DS_   0x00372e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00604_DS_   0x003738    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
@@ -452,25 +456,25 @@ _SortServoTimings_mascaratotal_1_1   0x00030a       data     static /home/valent
                _00541_DS_   0x00422e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00542_DS_   0x004232    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00544_DS_   0x00424e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-  _ProcessUSBTransactions   0x00466a    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00483_DS_   0x00467e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00488_DS_   0x004694    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00491_DS_   0x00469e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00494_DS_   0x0046a8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00497_DS_   0x0046b2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00500_DS_   0x0046ba    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00507_DS_   0x0046d0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                _BusReset   0x0049be    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00467_DS_   0x0049d4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00469_DS_   0x0049e4    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-                 _Suspend   0x004a58    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+  _ProcessUSBTransactions   0x004662    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00483_DS_   0x004676    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00488_DS_   0x00468c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00491_DS_   0x004696    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00494_DS_   0x0046a0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00497_DS_   0x0046aa    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00500_DS_   0x0046b2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00507_DS_   0x0046c8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                _BusReset   0x0049b0    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00467_DS_   0x0049c6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00469_DS_   0x0049d6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+                 _Suspend   0x004a4a    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                    _Stall   0x003fda    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00449_DS_   0x003ff0    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-            _StartOfFrame   0x004adc    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+            _StartOfFrame   0x004af6    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _UnSuspend   0x003ff8    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-         _EnableUSBModule   0x004a02    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00423_DS_   0x004a12    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _00427_DS_   0x004a2c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+         _EnableUSBModule   0x0049f4    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00423_DS_   0x004a04    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _00427_DS_   0x004a1e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
   _ProcessControlTransfer   0x0042f6    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00377_DS_   0x004316    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00371_DS_   0x004334    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
@@ -480,7 +484,7 @@ _SortServoTimings_mascaratotal_1_1   0x00030a       data     static /home/valent
                _00385_DS_   0x004386    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00388_DS_   0x00438e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00395_DS_   0x004392    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-       _WaitForSetupStage   0x004a82    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
+       _WaitForSetupStage   0x004a9c    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
               _SetupStage   0x003e3c    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00338_DS_   0x003e7a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00345_DS_   0x003e96    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
@@ -491,10 +495,10 @@ _SortServoTimings_mascaratotal_1_1   0x00030a       data     static /home/valent
             _OutDataStage   0x003350    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00321_DS_   0x0033fc    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00332_DS_   0x003406    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _11306_DS_   0x003438    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _21307_DS_   0x00343e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _31308_DS_   0x003458    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _41309_DS_   0x00345e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _11321_DS_   0x003438    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _21322_DS_   0x00343e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _31323_DS_   0x003458    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _41324_DS_   0x00345e    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00325_DS_   0x003466    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
              _InDataStage   0x00300c    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00310_DS_   0x00304a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
@@ -502,10 +506,10 @@ _SortServoTimings_mascaratotal_1_1   0x00030a       data     static /home/valent
                _00299_DS_   0x00305c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00300_DS_   0x00313a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00316_DS_   0x00314a    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _51310_DS_   0x00317c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _61311_DS_   0x003182    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _71312_DS_   0x00319c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
-               _81313_DS_   0x0031a2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _51325_DS_   0x00317c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _61326_DS_   0x003182    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _71327_DS_   0x00319c    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
+               _81328_DS_   0x0031a2    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00304_DS_   0x0031a6    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
   _ProcessStandardRequest   0x003c8e    program     extern /home/valentin/.icaro/np05/temporal/tortucaro.asm
                _00261_DS_   0x003cb8    program     static /home/valentin/.icaro/np05/temporal/tortucaro.asm
@@ -809,5 +813,5 @@ _libconfiguration_descriptor   0x0023ac    program     extern /home/valentin/.ic
                 _TOSUbits   0x000fff       data     extern libdev18f4550_a-pic18f4550.asm
                    _stack   0x000100       data     extern stack/stack.S
                _stack_end   0x0001ff       data     extern stack/stack.S
-                   _cinit   0x004ac4    program     extern  
+                   _cinit   0x004ade    program     extern  
  

@@ -283,6 +283,7 @@ class componente(pygame.sprite.Sprite):
                 self.posicion=(xx,yy)
                 iden=self.fondo.objetos[self.pegado_a].ide
                 self.fondo.lista_ordenada[self.ide]=iden
+
             if (botones_mouse[1]==1 and
                 self.rectan.collidepoint(self.ventana.mousexy) and
                 self.pulsado==0 and

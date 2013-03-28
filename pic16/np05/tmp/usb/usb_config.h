@@ -19,6 +19,7 @@ TODO: implement ;)
 #define USB_MAX_CONFIGURATION 1
 
 #include <pic18fregs.h>
+#include <typedef.h>
 #include "picUSB.h"
 #ifdef USB_USE_UART
 	#include "usb_uart.h"
@@ -59,9 +60,9 @@ typedef struct
 } USB_Configuration_Descriptor;
 #endif
 
-extern code USB_Device_Descriptor libdevice_descriptor;
-extern code USB_Configuration_Descriptor libconfiguration_descriptor;
-extern code unsigned char libstring_descriptor[40][3];
+extern __code USB_Device_Descriptor libdevice_descriptor;
+extern __code USB_Configuration_Descriptor libconfiguration_descriptor;
+extern __code unsigned char libstring_descriptor[40][3];
 
 #ifdef USB_USE_CDC
 /* Definitions for CDC */

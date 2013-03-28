@@ -74,6 +74,7 @@ class componente_inicial(pygame.sprite.Sprite):
                         ),
                         0
                         )
+
         self.texto.render(
                             "inicio",
                             self.color_texto,
@@ -120,5 +121,16 @@ class componente_inicial(pygame.sprite.Sprite):
             self.pulsado=0
             self.ventana.seleccionado=0
         self.dibujar()
+        conectado=1
+        for aa in range(len(self.fondo.lista_ordenada)):
+            for aa in range(len(self.fondo.lista_ordenada)):
+                if self.fondo.lista_ordenada[aa]==conectado:
+                    conectado=aa
+        for b in range(len(self.fondo.objetos)):
+            if self.fondo.objetos[b].ide==conectado:
+                self.fondo.ultimo_conectado=self.fondo.objetos[b].ide
+                break
+        else:
+            self.fondo.ultimo_conectado=0
         pygame.display.update
 

@@ -22,7 +22,10 @@
   TODO:
   **/
 #include <pic18fregs.h>
+#ifdef DEBUG_PRINT
 #include <string.h>
+#endif
+#include <typedef.h>
 
 #include "picUSB.h"
 #include "usb_config.h"
@@ -49,11 +52,11 @@
 #define HID_HEADER_SIZE 0x09
 
   // Global variables
-byte deviceState;
-byte remoteWakeup;
-byte deviceAddress;
-byte selfPowered;
-byte currentConfiguration;
+u8 deviceState;
+u8 remoteWakeup;
+u8 deviceAddress;
+u8 selfPowered;
+u8 currentConfiguration;
 
   // Control Transfer Stages - see USB spec chapter 5
 #define SETUP_STAGE    0                // Start of a control transfer (followed by 0 or more data stages)
@@ -61,19 +64,19 @@ byte currentConfiguration;
 #define DATA_IN_STAGE  2                // Data from device to host
 #define STATUS_STAGE   3                // Unused - if data I/O went ok, then back to Setup
 
-byte ctrlTransferStage;                 // Holds the current stage in a control transfer
+u8 ctrlTransferStage;                 // Holds the current stage in a control transfer
 
-byte HIDPostProcess;                    // Set to 1 if HID needs to process after the data stage
-byte requestHandled;                    // Set to 1 if request was understood and processed.
+u8 HIDPostProcess;                    // Set to 1 if HID needs to process after the data stage
+u8 requestHandled;                    // Set to 1 if request was understood and processed.
 
-byte *outPtr;                           // Data to send to the host
-byte *inPtr;                            // Data from the host
-word wCount;                            // Number of bytes of data
+u8 *outPtr;                           // Data to send to the host
+u8 *inPtr;                            // Data from the host
+word wCount;                            // Number of u8s of data
 
   // HID Class variables
-byte hidIdleRate;
-byte hidProtocol;                       // [0] Boot Protocol [1] Report Protocol
-byte hidRxLen;                          // # of bytes put into buffer
+u8 hidIdleRate;
+u8 hidProtocol;                       // [0] Boot Protocol [1] Report Protocol
+u8 hidRxLen;                          // # of u8s put into buffer
 
   /** Buffer descriptors Table (see datasheet page 171)
   RAM Bank 4 (0x400 though 0x4ff) is used spcifically for endpoint buffer control in a structure known as Buffer Descriptor Table (BDTZ).<br>
@@ -87,7 +90,7 @@ volatile BufferDescriptorTable __at (0x400) ep_bdt[32];
   // Put endpoint 0 buffers into dual port RAM
 #pragma udata usbram5 SetupPacket controlTransferBuffer
 volatile setupPacketStruct SetupPacket;
-volatile byte controlTransferBuffer[EP0_BUFFER_SIZE];
+volatile u8 controlTransferBuffer[EP0_BUFFER_SIZE];
 
   //
   // Start of code to process standard requests (USB chapter 9)
@@ -99,15 +102,15 @@ static void GetDescriptor(void) {
   printf("GetDescriptor\r\n");
 #endif
   if(SetupPacket.bmRequestType == 0x80) {
-    byte descriptorType  = SetupPacket.wValue1;
-    byte descriptorIndex = SetupPacket.wValue0;
+    u8 descriptorType  = SetupPacket.wValue1;
+    u8 descriptorIndex = SetupPacket.wValue0;
 
     if (descriptorType == DEVICE_DESCRIPTOR) {
 #ifdef DEBUG_PRINT
       printf("DEVICE_DESCRIPTOR (0x%ux)\r\n",(word)descriptorType);
 #endif
       requestHandled = 1;
-      outPtr = (byte *)&libdevice_descriptor;
+      outPtr = (u8 *)&libdevice_descriptor;
       wCount = sizeof(USB_Device_Descriptor);
     }
     else if (descriptorType == CONFIGURATION_DESCRIPTOR) {
@@ -116,7 +119,7 @@ static void GetDescriptor(void) {
 #endif
       requestHandled = 1;
 #if 0
-      outPtr = (byte *)&libconfiguration_descriptor;
+      outPtr = (u8 *)&libconfiguration_descriptor;
   // wCount = *(outPtr + 2);
       wCount = CFSZ;
 #else
@@ -125,7 +128,7 @@ static void GetDescriptor(void) {
   // is compiled incorrectly (outPtr gets the contents of
   // libconfiguration_descriptor rather than the address), even though it
   // is the second line that changes from above.
-      outPtr = (byte *)&libconfiguration_descriptor;
+      outPtr = (u8 *)&libconfiguration_descriptor;
   //wCount = libconfiguration_descriptor.configHeader[2]; // Note: SDCC makes bad code with this
       wCount = libconfiguration_descriptor.Header.wTotalLength;
 #endif
@@ -138,7 +141,7 @@ static void GetDescriptor(void) {
       printf("STRING_DESCRIPTOR: %d\r\n", (word)descriptorIndex);
 #endif
       requestHandled = 1;
-      outPtr = (byte *)&libstring_descriptor[descriptorIndex];
+      outPtr = (u8 *)&libstring_descriptor[descriptorIndex];
       wCount = *outPtr;
     }
     else if (descriptorType == DEVICE_QUALIFIER_DESCRIPTOR) {
@@ -148,7 +151,7 @@ static void GetDescriptor(void) {
       requestHandled = 1;
   // TODO: check if this is needed if not requestHandled is not set to 1 the device will
   // stall later when the linux kernel requests this descriptor
-  //outPtr = (byte *)&libconfiguration_descriptor;
+  //outPtr = (u8 *)&libconfiguration_descriptor;
   //wCount = sizeof();
     }
     else {
@@ -163,7 +166,7 @@ static void GetDescriptor(void) {
   // Process GET_STATUS
 static void GetStatus(void) {
   // Mask off the Recipient bits
-  byte recipient = SetupPacket.bmRequestType & 0x1F;
+  u8 recipient = SetupPacket.bmRequestType & 0x1F;
 #ifdef DEBUG_PRINT
   printf("GetStatus\r\n");
 #endif
@@ -186,12 +189,12 @@ static void GetStatus(void) {
   }
   else if (recipient == 0x02) {
   // Endpoint
-    byte endpointNum = SetupPacket.wIndex0 & 0x0F;
-    byte endpointDir = SetupPacket.wIndex0 & 0x80;
+    u8 endpointNum = SetupPacket.wIndex0 & 0x0F;
+    u8 endpointDir = SetupPacket.wIndex0 & 0x80;
     requestHandled = 1;
-  // Endpoint descriptors are 8 bytes long, with each in and out taking 4 bytes
+  // Endpoint descriptors are 8 u8s long, with each in and out taking 4 u8s
   // within the endpoint. (See PIC datasheet.)
-    inPtr = (byte *)&EP_OUT_BD(0) + (endpointNum * 8);
+    inPtr = (u8 *)&EP_OUT_BD(0) + (endpointNum * 8);
     if (endpointDir)
       inPtr += 4;
     if(*inPtr & BDS_BSTALL)
@@ -199,7 +202,7 @@ static void GetStatus(void) {
   }
 
   if (requestHandled) {
-    outPtr = (byte *)&controlTransferBuffer;
+    outPtr = (u8 *)&controlTransferBuffer;
     wCount = 2;
   }
 }
@@ -207,8 +210,8 @@ static void GetStatus(void) {
 
   // Process SET_FEATURE and CLEAR_FEATURE
 static void SetFeature(void) {
-  byte recipient = SetupPacket.bmRequestType & 0x1F;
-  byte feature = SetupPacket.wValue0;
+  u8 recipient = SetupPacket.bmRequestType & 0x1F;
+  u8 feature = SetupPacket.wValue0;
 #ifdef DEBUG_PRINT
   // printf("SetFeature\r\n");
 #endif
@@ -226,14 +229,14 @@ static void SetFeature(void) {
   }
   else if (recipient == 0x02) {
   // Endpoint
-    byte endpointNum = SetupPacket.wIndex0 & 0x0F;
-    byte endpointDir = SetupPacket.wIndex0 & 0x80;
+    u8 endpointNum = SetupPacket.wIndex0 & 0x0F;
+    u8 endpointDir = SetupPacket.wIndex0 & 0x80;
     if ((feature == ENDPOINT_HALT) && (endpointNum != 0)) {
   // Halt endpoint (as long as it isn't endpoint 0)
       requestHandled = 1;
-  // Endpoint descriptors are 8 bytes long, with each in and out taking 4 bytes
+  // Endpoint descriptors are 8 u8s long, with each in and out taking 4 u8s
   // within the endpoint. (See PIC datasheet.)
-      inPtr = (byte *)&EP_OUT_BD(0) + (endpointNum * 8);
+      inPtr = (u8 *)&EP_OUT_BD(0) + (endpointNum * 8);
       if (endpointDir)
         inPtr += 4;
 
@@ -251,7 +254,7 @@ static void SetFeature(void) {
 
 
 void ProcessStandardRequest(void) {
-  byte request = SetupPacket.bRequest;
+  u8 request = SetupPacket.bRequest;
 
   if((SetupPacket.bmRequestType & 0x60) != 0x00)
   // Not a standard request - don't process here.  Class or Vendor
@@ -312,7 +315,7 @@ void ProcessStandardRequest(void) {
     printf("GET_CONFIGURATION\r\n");
 #endif
     requestHandled = 1;
-    outPtr = (byte*)&currentConfiguration;
+    outPtr = (u8*)&currentConfiguration;
     wCount = 1;
   }
   else if (request == GET_STATUS) {
@@ -330,7 +333,7 @@ void ProcessStandardRequest(void) {
 #endif
     requestHandled = 1;
     controlTransferBuffer[0] = 0;
-    outPtr = (byte *)&controlTransferBuffer;
+    outPtr = (u8 *)&controlTransferBuffer;
     wCount = 1;
   }
   else if (request == SET_INTERFACE) {
@@ -363,11 +366,11 @@ void ProcessStandardRequest(void) {
   **/
 void InDataStage(unsigned char ep) {
 #if !USE_MEMCPY
-  byte i;
+  u8 i;
 #endif
   word bufferSize;
 
-  // Determine how many bytes are going to the host
+  // Determine how many u8s are going to the host
   if(wCount < EP0_BUFFER_SIZE)
     bufferSize = wCount;
   else
@@ -377,20 +380,20 @@ void InDataStage(unsigned char ep) {
   //    printf("USBCtrlTrfTxService: %d\r\n", bufferSize);
 #endif
 
-  // Load the high two bits of the byte count into BC8:BC9
+  // Load the high two bits of the u8 count into BC8:BC9
   // Clear BC8 and BC9
   EP_IN_BD(ep).Stat.uc &= ~(BDS_BC8 | BDS_BC9);
-  EP_IN_BD(ep).Stat.uc |= (byte)((bufferSize & 0x0300) >> 8);
-  EP_IN_BD(ep).Cnt = (byte)(bufferSize & 0xFF);
+  EP_IN_BD(ep).Stat.uc |= (u8)((bufferSize & 0x0300) >> 8);
+  EP_IN_BD(ep).Cnt = (u8)(bufferSize & 0xFF);
   EP_IN_BD(ep).ADDR = PTR16(&controlTransferBuffer);
 
-  // Update the number of bytes that still need to be sent.  Getting
+  // Update the number of u8s that still need to be sent.  Getting
   // all the data back to the host can take multiple transactions, so
   // we need to track how far along we are.
   wCount = wCount - bufferSize;
 
   // Move data to the USB output buffer from wherever it sits now.
-  inPtr = (byte *)&controlTransferBuffer;
+  inPtr = (u8 *)&controlTransferBuffer;
 
 #if USE_MEMCPY
   memcpy(inPtr, outPtr, bufferSize);
@@ -417,10 +420,10 @@ void OutDataStage(unsigned char ep) {
   //    printf("OutDataStage: %d\r\n", bufferSize);
 #endif
 
-  // Accumulate total number of bytes read
+  // Accumulate total number of u8s read
   wCount = wCount + bufferSize;
 
-  outPtr = (byte*)&controlTransferBuffer;
+  outPtr = (u8*)&controlTransferBuffer;
 #if USE_MEMCPY
   memcpy(inPtr, outPtr, bufferSize);
 #else
@@ -454,7 +457,7 @@ void SetupStage(void) {
   ctrlTransferStage = SETUP_STAGE;
   requestHandled = 0;                   // Default is that request hasn't been handled
   HIDPostProcess = 0;                   // Assume standard request until know otherwise
-  wCount = 0;                           // No bytes transferred
+  wCount = 0;                           // No u8s transferred
 
   // See if this is a standard (as definded in USB chapter 9) request
   ProcessStandardRequest();
@@ -537,7 +540,7 @@ void ProcessControlTransfer(void) {
   if (USTATbits.DIR == OUT) {
   // Endpoint 0:out
   // Pull PID from middle of BD0STAT
-    byte PID = (EP_OUT_BD(0).Stat.uc & 0x3C) >> 2;
+    u8 PID = (EP_OUT_BD(0).Stat.uc & 0x3C) >> 2;
     if (PID == 0x0D)
   // SETUP PID - a transaction is starting
       SetupStage();
@@ -549,7 +552,7 @@ void ProcessControlTransfer(void) {
 #ifdef USB_USE_HID
       if (HIDPostProcess) {
   // Determine which report is being set.
-        byte reportID = SetupPacket.wValue0;
+        u8 reportID = SetupPacket.wValue0;
 
   // Find out if an Output or Feature report has arrived on the control pipe.
   // Get the report type from the Setup packet.
