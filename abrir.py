@@ -14,7 +14,7 @@ import gtk
 import os
 from componente import *
 
-def abrir(diccio,ruta,fon,ventana,textorender):
+def abrir(diccio,ruta,fon,ventana):
     file=open(ruta,"r")
     cadena=file.readlines()
     tupla=(0,0,0,0)
@@ -31,16 +31,12 @@ def abrir(diccio,ruta,fon,ventana,textorender):
             fon.img=img.strip("\n")
             if int(band)==1:
                 try:
-                    fon.carga_img(img.strip("\n"))
+                    (filepath, filename) = os.path.split(ruta)
+                    (filepath2, filename2) = os.path.split(img.strip("\n"))
+                    fon.carga_img(filepath+"/"+filename2)                
                 except Exception, ex:
-                    try:
-                        (filepath, filename) = os.path.split(ruta)
-                        (filepath2, filename2) = os.path.split(img.strip("\n"))
-                        print filepath+"/"+filename2
-                        fon.carga_img(filepath+"/"+filename2)
-                    except Exception, ex:
-                        ventana.mensajes(2,"no se pudo abrir la imagen de fondo")
-                        fon.band=0
+                    ventana.mensajes(2,"no se pudo abrir la imagen de fondo")
+                    fon.band=0
 
                 
         if cadena[valor]=="<objeto_inicial>\n":
@@ -69,11 +65,9 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                                 dato,
                                 7,
                                 fon,
-                                ventana,
-                                textorender
+                                ventana
                                 )
             fon.identificador_dat+=1
-            fon.datos.add(c1)
             fon.objetos_datos.append(c1)
             fon.tipo_obj_datos.append(7)
         if cadena[valor]=="<objeto_dato_img>\n":
@@ -95,11 +89,9 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                                 dato,
                                 6,
                                 fon,
-                                ventana,
-                                textorender
+                                ventana
                                 )
             fon.identificador_dat+=1
-            fon.datos.add(c1)
             fon.objetos_datos.append(c1)
             fon.tipo_obj_datos.append(6)
         if cadena[valor]=="<objeto_componente>\n":
@@ -122,10 +114,8 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                             color,
                             text,
                             fon,
-                            ventana,
-                            textorender
+                            ventana
                             )
-            fon.componentes.add(c1)
             fon.objetos.append(c1)
             fon.tipo_obj.append(1)
         if cadena[valor]=="<objeto_bloque>\n":
@@ -147,10 +137,8 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                                             color,
                                             text,
                                             fon,
-                                            ventana,
-                                            textorender
+                                            ventana
                                             )
-            fon.componentes.add(c1)
             fon.objetos.append(c1)
             fon.identificador +=1
             c1=componente_bloque_dos    (
@@ -160,10 +148,8 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                                         color,
                                         "fin ",
                                         fon,
-                                        ventana,
-                                        textorender
+                                        ventana
                                         )
-            fon.componentes.add(c1)
             fon.objetos.append(c1)
             fon.tipo_obj.append(5)
             fon.tipo_obj.append(0)
@@ -186,10 +172,8 @@ def abrir(diccio,ruta,fon,ventana,textorender):
                                 tupla1,
                                 "siguiente ",
                                 fon,
-                                ventana,
-                                textorender
+                                ventana
                                 )
-            fon.componentes.add(c1)
             fon.objetos.append(c1)
             fon.tipo_obj.append(4)
             fon.objetos[fon.identificador-1].posicion2=(

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  main.py
+#  sin título.py
 #  
-#  Copyright 2012 Valentin Basel <valentinbasel@gmail.com>
+#  Copyright 2013 valentin <valentin@localhost.localdomain>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,20 +21,39 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import pygame
-import os, sys, grp, gtk,pygtk
-import shutil, urllib
+import sys
+import os
+import grp
+import shutil
+import urllib
 import tarfile
-pygame.init()
-class mensajes:
+import gtk
+
+from motor import MotorCairo
+
+class VentanaGtk(MotorCairo):
     """ Class doc """
-    
+    botones=[]
+    mousexy=[0,0]
+    txt=""
+    FONDO=(00,22,55)
+
     def __init__ (self):
         """ Class initialiser """
-        self.window1 = gtk.Window()
-        self.window1.connect('delete-event', gtk.main_quit)
-        #~ self.window1.show()
-        #~ print "ventana"
+        self.window = gtk.Window()
+        self.area=gtk.DrawingArea()
+        self.area.set_app_paintable(True)
+        self.area.set_size_request(800,600)
+        self.area.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+        self.area.add_events(gtk.gdk.POINTER_MOTION_MASK)
+        self.area.connect("button-press-event", self.buttonpress_cb)
+        self.area.connect("motion-notify-event", self.move_cb)
+        self.area.connect("expose-event",self.expose)
+        self.window.connect("destroy", self.salir)
+        self.window.add(self.area)
+        self.window.show_all()
+        self.yatocado=False
+        
     def mensajes(self,num,mensa):
         tipo=   (
                 gtk.MESSAGE_WARNING,
@@ -58,191 +77,195 @@ class mensajes:
             return True
         elif resp == gtk.RESPONSE_CANCEL:
             return False
-class Text:
-    def __init__(self, fondo,FontName = None, FontSize = 40):
-        pygame.font.init()
-        self.font = pygame.font.Font(FontName, FontSize)
-        self.size = FontSize
-        self.fondo=fondo
-    def render(self,  text, color, pos):
-        #text = unicode(text, "UTF-8")
-        x, y = pos
-        for i in text.split("\r"):
-            self.fondo.pantalla.blit(self.font.render(i, 1, color), (x, y))
             
-            y += self.size
+    def move_cb(self,event,b):
+        self.mousexy= b.get_coords()
+        for boton in self.botones:
+            rectmouse=(self.mousexy[0],self.mousexy[1],10,10)
+            presionado= self.colliderect(boton.rect,rectmouse)
+            print presionado,"--",self.yatocado
+            if presionado==None:
+                presionado=False
+            if presionado==True and self.yatocado<>boton.ide:
+                self.yatocado=boton.ide
+                self.ff=self.area.window.cairo_create()
+                rgb=self.color(self.FONDO)
+                self.ff.set_source_rgb(rgb[0],rgb[1],rgb[2])
+                self.ff.paint()
+                self.cr = self.area.window.cairo_create()
+                y=100
+                for t in boton.texto:
+                    self.texto(t,300,y,(255,255,255),self.cr)
+                    y=y+20
 
-class VENTANA(pygame.sprite.Sprite):
-    """ Class doc """
-    
-    def __init__ (self):
-        """ Class initialiser """
-        pygame.sprite.Sprite.__init__(self)
-        self.pantalla=pygame.display.set_mode((800,600))
-        pygame.display.set_caption("proyecto icaro")
-        icono=pygame.image.load(sys.path[0] +"/imagenes/icaro.png")
-        pygame.display.set_icon(icono)
-        self.cadena=""
-    def update(self):
-        pygame.display.update()
-        pygame.event.get()
-        self.pantalla.fill((123,180,255))
-        self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
-        self.mouse_buton=pygame.mouse.get_pressed()   
+                for boton in self.botones:
+                    boton.update(self.cr)
+                return
 
-class BOTON(pygame.sprite.Sprite):
+    def buttonpress_cb(self,win,event):
+
+        for boton in self.botones:
+            print boton.rect
+            presionado= self.collide(boton.rect,event.x,event.y)
+            if presionado==True:
+                boton.accion()
+                return
+
+    def salir(self,b):
+        gtk.main_quit()
+
+    def fondo(self):
+        self.ff=self.area.window.cairo_create()
+        rgb=self.color(self.FONDO)
+        self.ff.set_source_rgb(rgb[0],rgb[1],rgb[2])
+        self.ff.paint()
+        self.cr = self.area.window.cairo_create()
+        for boton in self.botones:
+            boton.update(self.cr)
+
+    def expose(self,a,b):
+        self.fondo()
+
+
+class Boton():
     """ Class doc """
-    redct=0
-    def __init__ (self,pantalla,x,y,img,ej,texto):
+
+    def __init__ (self,ide,pantalla,x,y,img,ej,texto):
         """ Class initialiser """
-        pygame.sprite.Sprite.__init__(self)
-        self.imagen=pygame.image.load(img)
+        self.rect=[0,0,100,100]
         self.pantalla=pantalla
-        self.posicion=x,y
+        self.x=x
+        self.y=y
+        self.img=img
         self.ejecuta=ej
-        self.rect = self.imagen.get_rect()
-        self.rect[0]=x
-        self.rect[1]=y
+        self.rect[0]=self.x
+        self.rect[1]=self.y
         self.texto=texto
-    def update(self):
-        y=100
-        self.pantalla.blit(self.imagen,self.posicion)
-        if self.rect.collidepoint  (
-                                    ventana.mouse_x, 
-                                    ventana.mouse_y
-                                    ):
-            for txt in self.texto:
-                texto.render(txt,(255,255,255),(350,y))
-                y+=40
-        if (
-            self.rect.collidepoint  (
-                                    ventana.mouse_x, 
-                                    ventana.mouse_y
-                                    ) and 
-            ventana.mouse_buton[0]):
-            os.system(self.ejecuta)
+        self.ide=ide
 
-class SALIR(pygame.sprite.Sprite):
-    """ Class doc """
-    
-    def __init__ (self,pantalla,x,y,img,texto):
-        """ Class initialiser """
-        pygame.sprite.Sprite.__init__(self)
-        self.imagen=pygame.image.load(img)
-        self.pantalla=pantalla
-        self.posicion=x,y
-        self.rect = self.imagen.get_rect()
-        self.rect[0]=x
-        self.rect[1]=y
-        self.texto=texto
-    def update(self):
-        y=100
-        self.pantalla.blit(self.imagen,self.posicion)
-        if self.rect.collidepoint  (
-                                    ventana.mouse_x, 
-                                    ventana.mouse_y
-                                    ):
-            for txt in self.texto:
-                texto.render(txt,(255,255,255),(350,y))
-                y+=40
-        if (
-            self.rect.collidepoint  (
-                                    ventana.mouse_x, 
-                                    ventana.mouse_y
-                                    ) and 
-            ventana.mouse_buton[0]):
+    def update(self,cr):
+        self.pantalla.imagen(self.img,self.x,self.y,cr)
+
+    def accion(self):
+        if self.ejecuta=="salir":
             exit()
-        pass
-men=mensajes()
-Error=0
-CadenaMensaje="Se encontraron los siguientes errores: \n"
-MicrochipBool="false"
-DialoutBool="false"
-grupos=grp.getgrall()
-microchip=""
-dialout=""
-CadenaScript=""" 
-para crear el grupo microchip, agregar el usuario a microchip y dialout hacer en la terminal lo siguiente:
+        os.system(self.ejecuta)
 
-sudo groupadd microchip
-sudo usermod -a -G microchip $USER
-sudo usermod -a -G dialout $USER
-"""
-for gr in grupos:
-    if gr[0]=="microchip":
-        microchip=gr[2]
-    if gr[0]=="dialout":
-        dialout=gr[2]
+def comprobacion_errores(ventana):
+    Error=0
+    CadenaMensaje="Se encontraron los siguientes errores: \n"
+    MicrochipBool="false"
+    DialoutBool="false"
+    grupos=grp.getgrall()
+    microchip=""
+    dialout=""
+    CadenaScript=""" 
+    para crear el grupo microchip, agregar el usuario a microchip y 
+    dialout hacer en la terminal lo siguiente:
 
-misgrupos=os.getgroups()
-if microchip in misgrupos:
-    MicrochipBool="true"
-if dialout in misgrupos:
-    DialoutBool="true"
-if microchip=="":
-    CadenaMensaje=CadenaMensaje +"  - No se ha detectado el grupo microchip. \n"
-    Error=1
-if MicrochipBool=="false":
-    CadenaMensaje=CadenaMensaje +"  - El usuario no pertenece al grupo microchip \n"
-    Error=1
-if DialoutBool=="false":
-    CadenaMensaje=CadenaMensaje +"  - El usuario no pertenece al grupo dialout \n"
-    Error=1
-if Error==1:
-    CadenaMensaje=CadenaMensaje+CadenaScript
-    men.mensajes(2,CadenaMensaje)
-    exit()
-dir_conf=os.path.expanduser('~') + "/.icaro/"
-if os.path.isdir(dir_conf)==0:
-    os.mkdir(dir_conf)
+    sudo groupadd microchip
+    sudo usermod -a -G microchip $USER
+    sudo usermod -a -G dialout $USER
+    """
+    for gr in grupos:
+        if gr[0]=="microchip":
+            microchip=gr[2]
+        if gr[0]=="dialout":
+            dialout=gr[2]
 
-if os.path.isdir(dir_conf+"/np05/")==0:
-    #respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
-    #print respuesta
-    #if respuesta==True:
-    try:
-        #archivo=urllib.urlretrieve("http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz",dir_conf+"np05.tar.gz",None)
-        #tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
-        #tar.extractall(dir_conf)
-        #tar.close
-        shutil.copytree("/usr/share/icaro/pic16/np05",dir_conf+"/np05/")
-    except:
-        men.mensajes(2,"no se pudo copiar el directorio")
+    misgrupos=os.getgroups()
+    if microchip in misgrupos:
+        MicrochipBool="true"
+    if dialout in misgrupos:
+        DialoutBool="true"
+    if microchip=="":
+        CadenaMensaje=CadenaMensaje +"  - No se ha detectado el grupo microchip. \n"
+        Error=1
+    if MicrochipBool=="false":
+        CadenaMensaje=CadenaMensaje +"  - El usuario no pertenece al grupo microchip \n"
+        Error=1
+    if DialoutBool=="false":
+        CadenaMensaje=CadenaMensaje +"  - El usuario no pertenece al grupo dialout \n"
+        Error=1
+    if Error==1:
+        CadenaMensaje=CadenaMensaje+CadenaScript
+        ventana.mensajes(2,CadenaMensaje)
         exit()
-#    shutil.copytree(sys.path[0]+"/temp/tmp/",dir_conf+"/tmp" )
-#    shutil.copytree(sys.path[0]+"/temp/source/",dir_conf+"/source" )
-config=[]
-pyt= ["Lanza la teminal interactiva ","con el modulo apicaro. Necesita ","tener apicaro instalado"]
-tur= ["Lanza TurtleArt con el modulo ","Tortucaro. ","para manejo conectado ","a la netbook"]
-icr= ["Lanza Icaro-bloques para ","manejo de robots autonomos"]
-sal=["Sale del sistema"]
-conf=open(sys.path[0] +"/config.dat","r")
-dat=conf.readlines()
-for txt in dat:
-    config.append(txt)
-conf.close()
-ventana=VENTANA()
-BotonTurtle=BOTON(ventana.pantalla,100,10,sys.path[0] +"/imagenes/main/tortucaro.png",config[1],tur)
-BotonIcaro=BOTON(ventana.pantalla,100,150,sys.path[0] +"/imagenes/main/icaro.png","python "+sys.path[0] +"/icaro.py",icr)
-BotonPython=BOTON(ventana.pantalla,100,290,sys.path[0] +"/imagenes/main/python.png","idle -c 'import apicaro; icaro=apicaro.puerto(); icaro.iniciar()'",pyt)
+    dir_conf=os.path.expanduser('~') + "/.icaro/"
+    if os.path.isdir(dir_conf)==0:
+        os.mkdir(dir_conf)
 
-texto=Text(ventana)
-salir=SALIR(ventana.pantalla,100,430,sys.path[0] +"/imagenes/main/salir.png",sal)
+    if os.path.isdir(dir_conf+"/np05/")==0:
+        #respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
+        #print respuesta
+        #if respuesta==True:
+        try:
+            #archivo=urllib.urlretrieve("http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz",dir_conf+"np05.tar.gz",None)
+            #tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
+            #tar.extractall(dir_conf)
+            #tar.close
+            shutil.copytree("/usr/share/icaro/pic16/np05",dir_conf+"/np05/")
+        except:
+            ventana.mensajes(2,"no se pudo copiar el directorio")
+            exit()
+    #    shutil.copytree(sys.path[0]+"/temp/tmp/",dir_conf+"/tmp" )
+    #    shutil.copytree(sys.path[0]+"/temp/source/",dir_conf+"/source" )
 def main():
-
-        
-    while True:
-        for evento in pygame.event.get():
-            if evento.type==pygame.QUIT:
-                pygame.quit()
-        ventana.update()
-        BotonIcaro.update()
-        BotonTurtle.update()
-        BotonPython.update()
-        salir.update()
-
+    
+    config=[]
+    conf=open(sys.path[0] +"/config.dat","r")
+    dat=conf.readlines()
+    for txt in dat:
+        config.append(txt)
+    conf.close()
+    pyt= [  "Lanza la teminal interactiva ",
+            "con el modulo apicaro.",
+            "Necesita tener IDLE instalado"]
+    tur= [  "Lanza TurtleArt con el modulo Tortucaro.",
+            "para manejo conectado a la netbook"]
+    icr= [  "Lanza Icaro-bloques ",
+            "para manejo de robots autonomos"]
+    sal=["Sale del sistema"]
+    idle=(  "idle -c 'import apicaro;" +
+            " icaro=apicaro.puerto(); icaro.iniciar()'"
+            )
+    ventana=VentanaGtk()
+    comprobacion_errores(ventana)
+    ventana.tama_letra=20
+    BotonTurtle=Boton(  1,
+                        ventana,
+                        100,
+                        10,
+                        sys.path[0] +"/imagenes/main/tortucaro.png",
+                        config[1],
+                        tur)
+    BotonIcaro=Boton(   2,
+                        ventana,
+                        100,
+                        160,
+                        sys.path[0] +"/imagenes/main/icaro.png",
+                        "python "+sys.path[0] +"/icaro.py",
+                        icr)
+    BotonPython=Boton(  3,
+                        ventana,
+                        100,
+                        310,
+                        sys.path[0] +"/imagenes/main/python.png",
+                        idle,
+                        pyt)
+    BotonSalir=Boton(   4,
+                        ventana,
+                        100,
+                        460,
+                        sys.path[0] +"/imagenes/main/salir.png",
+                        "salir",
+                        sal)
+    ventana.botones.append(BotonTurtle)
+    ventana.botones.append(BotonIcaro)
+    ventana.botones.append(BotonPython)
+    ventana.botones.append(BotonSalir)
+    gtk.main()
     return 0
 
 if __name__ == '__main__':
     main()
-

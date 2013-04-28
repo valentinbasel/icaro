@@ -1,36 +1,36 @@
 <fondo>
 (151, 154, 165)
-1
-/home/valentin/github/icaro-bloques/ejemplos/sensores analogicos/servo mas sensor/servo mas sensor.png
+0
+/home/valentin/workspace/icaro/ejemplos/sensores analogicos/servo mas sensor/servo mas sensor.png
 </fondo>
 <objeto_inicial>
-(153.0, 64.0)
+(155.0, 58.0)
 </objeto_inicial>
 <objeto_dato_img>
 servo1.png
 1
-(220, 174)
+(222.0, 208.0)
 srv1 
 (112, 236, 173)
 0
 10
-
-10
+/10
+10/10
 </objeto_dato_img>
 <objeto_dato_img>
 sensoran1.png
 2
-(220, 214)
+(222.0, 168.0)
 dig 4 
 (10, 127, 109)
 0
 analogread(13) 
 
-analogread(13) /10
+analogread(13) 
 </objeto_dato_img>
 <objeto_dato>
 3
-(262, 124)
+(264.0, 118.0)
 conectar el potenciometro a 5V
 (71, 138, 26)
 1
@@ -41,7 +41,7 @@ conectar el potenciometro a 5V
 <objeto_dato_img>
 dividir.png
 4
-(271, 214)
+(273.0, 208.0)
 / 
 (115, 75, 26)
 0
@@ -50,8 +50,8 @@ dividir.png
 /10
 </objeto_dato_img>
 <objeto_dato>
-6
-(322, 214)
+5
+(324.0, 208.0)
 10
 (49, 107, 222)
 1
@@ -63,7 +63,7 @@ dividir.png
 servo
 2
 2
-(153, 164)
+(155.0, 158.0)
 (2, 154, 66)
 servo 
 </objeto_componente>
@@ -71,7 +71,7 @@ servo
 comentarios
 1
 3
-(153, 114)
+(155.0, 108.0)
 (203, 72, 245)
 comentarios 
 </objeto_componente>

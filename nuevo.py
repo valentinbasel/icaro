@@ -14,9 +14,9 @@ import gtk
 import os
 def nuevo(fon):
     fon.objetos=[]
-    fon.objetos_datos=[0]
+    fon.objetos_datos=[]
     fon.tipo_obj=[0]
-    fon.tipo_obj_datos=[0]
+    fon.tipo_obj_datos=[]
 
     fon.lista_ordenada=[]
     fon.lista_fina=[]
@@ -25,12 +25,13 @@ def nuevo(fon):
     fon.identificador_dat2=1
     fon.lista_valor_datos=[]
     fon.lista_valor_datos2=[]
+    fon.band=0
     #~ fon.tipo_obj=[0]
     #~ fon.tipo_obj_datos=[0]
     #~ fon.objetos=[0]
     #~ fon.objetos_datos=[0]
-    fon.componentes.empty()
-    fon.datos.empty()
+    #fon.componentes.empty()
+    #fon.datos.empty()
     #~ fon.lista_cm=[]
     #~ fon.lista_ch=[]
     #~ fon.lista_ordenada=[]
