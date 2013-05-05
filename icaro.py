@@ -32,6 +32,7 @@ import visor
 import lenguaje
 import tooltips
 import config
+import graficador
 from motor import MotorCairo
 from componente_inicial import *
 from componente import *
@@ -171,48 +172,48 @@ class Ventana:
         self.area = gtk.DrawingArea()
         #self.area.set_app_paintable(True)
         self.area.set_size_request(1500, 1500)
+        menu1=[_("File"),_("Edit"),"herramientas"]
+        menu_general=[
+                (_("New"),_("Open"),_("Save"),_("Save as"),_("Save as function"),_("Examples"),_("Exit")),
+                (_("Background"),_("Color"),_("About"), _("Config")),
+                ("graficador","calculadora")   
+                      ]
+        menu_bar = gtk.MenuBar()
+        menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
-        menu = gtk.Menu()
+        for a in range(len(menu_general)):
+            menu = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
-        buf=(
-                _("New"),
-                _("Open"),
-                _("Save"),
-                _("Save as"),
-                _("Save as function"),
-                _("Examples"),
-                _("Exit")
-            )
-        for i in buf:
-            menu_items = gtk.MenuItem(i)
-            menu.append(menu_items)
-            menu_items.connect("activate", self.menuitem_response, i)
-            menu_items.show()
 
+            for i in menu_general[a]:
+                menu_items = gtk.MenuItem(i)
+                menu.append(menu_items)
+                menu_items.connect("activate", self.menuitem_response, i)
+                menu_items.show()   
+            root_menu = gtk.MenuItem(menu1[a])
+            root_menu.show()
+            root_menu.set_submenu(menu)
+            menu_bar.append (root_menu)
 
-        menu2 = gtk.Menu()
+#        menu2 = gtk.Menu()
         # buf es donde se crgan todos los botones del menu
-        buf2=(_("Background"),_("Color"),_("About"), _("Config"))
-        for i in buf2:
-            menu_items2 = gtk.MenuItem(i)
-            menu2.append(menu_items2)
-            menu_items2.connect("activate", self.menuitem_response, i)
-            menu_items2.show()
+ #       buf2=()
+  #      for i in buf2:
+   #         menu_items2 = gtk.MenuItem(i)
+    #        menu2.append(menu_items2)
+     #       menu_items2.connect("activate", self.menuitem_response, i)
+      #      menu_items2.show()
 
 
         # los menus del toolbar se agrupan en estos dos "menus raices"
-        root_menu = gtk.MenuItem(_("File"))
-        root_menu.show()
-        root_menu.set_submenu(menu)
 
-        root_menu2 = gtk.MenuItem(_("Edit"))
-        root_menu2.show()
-        root_menu2.set_submenu(menu2)
+
+#        root_menu2 = gtk.MenuItem(_("Edit"))
+#        root_menu2.show()
+#        root_menu2.set_submenu(menu2)
         #los dos menus_root quedan dentro de la barra de menu
-        menu_bar = gtk.MenuBar()
-        menu_bar.show()
-        menu_bar.append (root_menu)
-        menu_bar.append (root_menu2)
+
+#        menu_bar.append (root_menu2)
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
         toolbar = gtk.Toolbar()
@@ -447,6 +448,9 @@ class Ventana:
         ver=visor.visor_codigo(self)
         ver.window.show_all()
 
+    def graf(self):
+        graf=graficador.VENTANA()
+        graf.window.show_all()
 # ==============================================================================
 # VENTANA DE AYUDA (NAVEGADOR)
 # ==============================================================================
@@ -1033,7 +1037,8 @@ class Ventana:
             #~ cad_aux=t[a].strip("\n")
             #~ if cad_aux=="<tool>":
                 #~ self.tooltip[t[a+1].strip("\n")]=t[a+2].strip("\n")
-
+        if string=="graficador":
+            self.graf()
     def carga_dicc(self):
         """
         funcion para cargar los componentes bloques,

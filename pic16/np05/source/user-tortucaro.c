@@ -1,5 +1,6 @@
 
-
+#include <stdlib.h>
+#include <string.h>
 unsigned char i;
 unsigned char receivedbyte,receivedbyte2;
 unsigned char rxstr[64]="";
@@ -71,11 +72,12 @@ valor=val;
 }
 void analogico()
 {
-int posic=0;
-unsigned int rb=0;
-unsigned int valor=0;
+//int posic=0;
+//unsigned int rb=0;
+float valor=0;
+unsigned char chaine[];
 unsigned int val=0;
-int puerto=0;
+//int puerto=0;
 int i=0;
 	for(;;)
 	{
@@ -119,7 +121,9 @@ int i=0;
 		}
 	}
 valor=analogread(val);
-CDCputs(valor,DEC);
+x_ftoa(valor,chaine,2,2);
+strcat(chaine,"f\n");
+CDCputs(chaine,strlen(chaine));
 }
 
 void leer()
@@ -237,7 +241,7 @@ void loop()
 		/*leo eel caracter b y devuelvo la bienvenida*/
 		if(rxstr[0]=='b')
 			{
-			CDCputs("icaro USB 01 \n",14);
+			CDCputs("icaro USB 02 \n",14);
 			}
 		if(rxstr[0]=='m')
 			{

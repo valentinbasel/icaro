@@ -126,16 +126,20 @@ class puerto():
             
             
     def leer_analogico(self,sensor):
+        buff=''
 
         if sensor > 8 or sensor <1:
             return False
         try:
             self.RS232.write("e")
             self.RS232.write(str(sensor))
-            respuesta=self.RS232.read()
-            return ord(respuesta)
+            buff = self.RS232.read(self.RS232.inWaiting())
+            time.sleep(0.05)
+            buff2=buff.split('.')
+            return int(buff2[0])
         except:
             return False
+
     def leer_digital(self,sensor):
 
         if sensor > 4 or sensor <1:
