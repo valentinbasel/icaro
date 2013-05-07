@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -8,6 +10,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+
 
 import serial
 from os import system
@@ -123,16 +126,20 @@ class puerto():
             
             
     def leer_analogico(self,sensor):
+        buff=''
 
         if sensor > 8 or sensor <1:
             return False
         try:
             self.RS232.write("e")
             self.RS232.write(str(sensor))
-            respuesta=self.RS232.read()
-            return ord(respuesta)
+            buff = self.RS232.read(self.RS232.inWaiting())
+            time.sleep(0.05)
+            buff2=buff.split('.')
+            return int(buff2[0])
         except:
             return False
+
     def leer_digital(self,sensor):
 
         if sensor > 4 or sensor <1:
