@@ -29,6 +29,9 @@ class componente_inicial():
     posic_rel_y=0
     def __init__(self,x,y,identidad,fondo,ventana):
         #~ pygame.sprite.Sprite.__init__(self)
+        self.imagenintermedia=""
+        self.arg=0
+        self.texto="inicio"
         self.ide=identidad
         self.posicion=(x,y)
         self.fondo=fondo

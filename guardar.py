@@ -12,9 +12,7 @@
 # GNU General Public License for more details.
 import gtk
 import os
-
 def guardar(obj,ruta,fondo):
-
     file=open(ruta,"w")
     print "-------------------"
     print "tamaño obj datos",len(fondo.tipo_obj_datos)
@@ -41,8 +39,8 @@ def guardar(obj,ruta,fondo):
     file.writelines("</objeto_inicial>")
     file.write("\n")
 
-    for i in range(len(fondo.tipo_obj_datos)):
-        print fondo.tipo_obj_datos
+    for i in range(len(fondo.objetos_datos)):
+        print "este es el tamañno del obj datos",len(fondo.tipo_obj_datos)
         if fondo.tipo_obj_datos[i]==7:
             file.writelines("<objeto_dato>")
             file.write("\n")

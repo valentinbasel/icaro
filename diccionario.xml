@@ -45,9 +45,7 @@ valor
  ;
 </int>
 <char>
-char 
-valor
- =
+unsigned char 
 valor
  ;
 </char>
@@ -122,6 +120,12 @@ valor
 //
 valor
 </comentarios>
-<envio>
-//------//
-</envio>
+<enviocdc>
+enviarcdcf(
+valor
+ );
+</enviocdc>
+<recepcioncdc>
+valor
+=recibircdc();
+</recepcioncdc>

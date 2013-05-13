@@ -63,7 +63,7 @@ class comp_dat_arg():
         self.valor_cadena_no_mod=val_no_mod
         self.tipo=tipo
         if self.tipo==6:
-            self.imagenintermedia=img
+            self.imagenintermedia=img        
             self.imagen=sys.path[0] +"/imagenes/componentes/"+ img
             #~ self.imagen=pygame.image.load(self.img)
             #~ self.img_rect=self.imagen.get_rect()
@@ -178,14 +178,17 @@ class comp_dat_arg():
                             self.conectado=1
                             self.pegado_a=a
                             self.pegado_b=b
-        if self.pegado==1:
-            valor1=self.fondo.objetos[self.pegado_a]
-            valor2=valor1.lista_conector_h_datos[self.pegado_b]
-            x,y,aa,bb=valor2
-            xx=x
-            yy=y
-            self.posicion=(xx,yy)
-            valor1.lista_valores[self.pegado_b]=self.cadena_final
+        try:
+            if self.pegado==1:
+                valor1=self.fondo.objetos[self.pegado_a]
+                valor2=valor1.lista_conector_h_datos[self.pegado_b]
+                x,y,aa,bb=valor2
+                xx=x
+                yy=y
+                self.posicion=(xx,yy)
+                valor1.lista_valores[self.pegado_b]=self.cadena_final
+        except:
+            self.pegado=0
         if self.conectado==0:
             if self.pegado2==0:
                 for z in range(0,len(self.fondo.objetos_datos)):

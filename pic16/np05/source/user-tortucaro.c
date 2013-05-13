@@ -126,7 +126,7 @@ strcat(chaine,"f\n");
 CDCputs(chaine,strlen(chaine));
 }
 
-void leer()
+void puertob()
 {
 int posic=0;
 int rb=0;
@@ -201,9 +201,6 @@ int val=0;
 		}
 rxstr[0]=0;
 receivedbyte=0;
-
-CDCputs("muevo el servo ",15);
-
 CDCputs(resultado,DEC);
 
 		return;
@@ -229,17 +226,9 @@ ServoAttach(12);
 
 //
 //
-
-void loop()
+void comparo()
 {
-//Delayms(1000);
-    PORTD=valor;
-	while ((receivedbyte=CDCgets(rxstr))==0);
-	rxstr[receivedbyte]=0;
-	if (receivedbyte>0)
-		{
-		/*leo eel caracter b y devuelvo la bienvenida*/
-		if(rxstr[0]=='b')
+    		if(rxstr[0]=='b')
 			{
 			CDCputs("icaro USB 02 \n",14);
 			}
@@ -259,7 +248,19 @@ void loop()
 			{
 			digital();
 			}
-            
+		if(rxstr[0]=='s')
+			{
+			puertob();
+			}
+}
+void loop()
+{
+    PORTD=valor;
+	while ((receivedbyte=CDCgets(rxstr))==0);
+	rxstr[receivedbyte]=0;
+	if (receivedbyte>0)
+		{
+        comparo();
 		 }
     rxstr[0]=0;
 	receivedbyte=0;

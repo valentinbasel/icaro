@@ -54,7 +54,7 @@ class Componentes():
     lista_ordenada=[]
     lista_fina=[]
     objetos_datos=[]
-    tipo_obj_datos=[0]
+    tipo_obj_datos=[]
     lista_valor_datos=[]
     lista_valor_datos2=[]
     def __init__ (self):
