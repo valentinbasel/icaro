@@ -53,9 +53,11 @@ def compilar_pic(ruta,sdcc):
                         
                         dir_conf + "/temporal/"+ruta+".o " +
                         dir_conf + "/source/"+ruta+".c ")
-    print sortie
-    
-    i=os.system(sortie)
+    #print sortie
+    log=sortie+" 2> " +  dir_conf +"/temporal/" + "log.dat"
+    print log
+    i=os.system(log)
+    print "este es el valor de i=",i
     return i
 def upload_pic(ruta,sdcc):
     dir_conf=os.path.expanduser('~') + "/.icaro/np05"  

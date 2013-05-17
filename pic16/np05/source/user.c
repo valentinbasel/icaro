@@ -1,6 +1,24 @@
+#include <stdlib.h>
+#include <string.h>
 float tiempo=0;
 float tiempo2=0;
 unsigned char i;
+void enviarcdcf(int a)
+{
+    unsigned char cadena[];
+    x_ftoa(a,cadena,2,2);
+    strcat(cadena,"\n");
+    CDCputs(cadena,strlen(cadena));
+}
+/*
+//esto no anda bien, hay que revizarlo
+unsigned char recibircdc()
+{
+    unsigned char receivedbyte;
+    unsigned char recdc[64];
+    while ((receivedbyte=CDCgets(recdc))==0);
+    return recdc[0];
+}*/
 
 int sensordigital(int valor)
 {
@@ -66,12 +84,4 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 void loop()
 {
 
-PORTD=96;
-Delayms(10);
-if(sensordigital(24) ==1 ){
-PORTD=144;
-Delayms(1000);
-PORTD=64;
-Delayms(600);
-}
 }

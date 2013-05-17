@@ -1,5 +1,5 @@
 #include "usb_config.h"
-#include <typedef.h>
+//#include <typedef.h>
 
 /**
 This togehter with the coresponding usbconfig.c file needs to be filled up by the user according to implem

@@ -23,9 +23,9 @@
 
 #include <pic18fregs.h>
 #include <macro.h>
-#include "common_types2.h"
+#include "common_types.h"
 #include "boot_iface.h"
-#include "define2.h"
+#include "define.h"
 #ifdef __USB__
 #include "../tmp/usb.h"
 #include <usb.c>

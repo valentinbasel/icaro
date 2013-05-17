@@ -10,30 +10,29 @@ void enviarcdcf(int a)
     strcat(cadena,"\n");
     CDCputs(cadena,strlen(cadena));
 }
-
+/*
+//esto no anda bien, hay que revizarlo
 unsigned char recibircdc()
 {
     unsigned char receivedbyte;
-//    unsigned char rxstr[64]="";
-    unsigned char recdc;
+    unsigned char recdc[64];
     while ((receivedbyte=CDCgets(recdc))==0);
-   // recdc=receivedbyte;
-    //rxstr[receivedbyte]=0;
-return recdc;
-}
+    return recdc[0];
+}*/
+
 int sensordigital(int valor)
 {
 /*funcion para cambiar el valor de los sens digitales (estan invertidos con respecto a la placa)*/
-    int temp=0;
-    temp=digitalread(valor);
-    if (temp==0)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+	int temp=0;
+	temp=digitalread(valor);
+	if (temp==0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 void setup()
 {
@@ -63,23 +62,23 @@ unsigned int sensor(int valor)
 
 void ServoLento(int servo,int inicial,int final,int tiempo)
 {
-    int grado=0;
-    if (inicial<final)
-    {
-    for (grado=inicial;grado<final;grado++)
-    {
-        ServoWrite(servo,grado);
-        Delayms(tiempo);
-    }
-    }
-    if (inicial>final)
-    {
-    for (grado=inicial;grado>final;grado--)
-    {
-        ServoWrite(servo,grado);
-        Delayms(tiempo);
-    }
-    }
+	int grado=0;
+	if (inicial<final)
+	{
+	for (grado=inicial;grado<final;grado++)
+	{
+		ServoWrite(servo,grado);
+		Delayms(tiempo);
+	}
+	}
+	if (inicial>final)
+	{
+	for (grado=inicial;grado>final;grado--)
+	{
+		ServoWrite(servo,grado);
+		Delayms(tiempo);
+	}
+	}
 }
 /*funciones*/
 void loop()

@@ -23,6 +23,9 @@
 #  
 import cairo
 
+import rsvg
+
+
 class MotorCairo():
     tipo_letra="sans"
     tama_letra=12
@@ -30,12 +33,20 @@ class MotorCairo():
     def __init():
         pass
 
+   # def dibujar_svg(self,svg,x,y,cr):
+        #svg.render_cairo(cr)
+    def zoom(self,valor,cr):
+        scaler = cairo.Matrix()
+        scaler.scale(valor,valor)
+        cr.set_matrix(scaler)
+
     def imagen(self,im,x,y,cr):
         try:
             img = cairo.ImageSurface.create_from_png(im)
         except:
             return 1
         cr.set_source_surface(img, x, y)
+        
         cr.paint()
         #~ except Exception, ex:
             #~ self.imagen=pygame.image.load   (
@@ -60,7 +71,8 @@ class MotorCairo():
         cr.rectangle(x, y, h, w)
         cr.fill()
         cr.stroke_preserve()
-
+       # matrix = cairo.Matrix(1.1,0,0,1.1,0, 0)
+        #cr.transform (matrix)
     def texto(self,txt,x,y,rgb,cr):
         cr.select_font_face(
                             self.tipo_letra,

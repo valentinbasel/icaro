@@ -11,6 +11,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 import os
+
+import rsvg
+
 class componente_inicial():
     """
     el componente inicial no tiene conector hembra porque SIEMPRE va a
@@ -38,58 +41,17 @@ class componente_inicial():
         self.ventana=ventana
         self.fondo.lista_ordenada.append(0)
         self.color_texto=self.fondo.color_texto
+        #self.svg = rsvg.Handle(file="imagenes/ini.svg")
     def dibujar(self):
         # el cuerpo del componente
+        #self.fondo.dibujar_svg(self.svg,self.posicion[0],self.posicion[1],self.ventana.cr)
+        #self.fondo.imagen("imagenes/ini.png",self.posicion[0],self.posicion[1],self.ventana.cr)
         self.fondo.draw(self.posicion[0],self.posicion[1],60,40,self.color,self.ventana.cr)
-        #~ pygame.draw.rect(
-                        #~ self.fondo.screen,
-                        #~ self.color,
-                        #~ (self.posicion[0],self.posicion[1], 60,40),
-                        #~ 0
-                        #~ )
-        #~ # el conector macho
         self.fondo.draw(self.posicion[0]+14,self.posicion[1]+40,32,10,self.color,self.ventana.cr)
-
-        #~ pygame.draw.rect(
-                        #~ self.fondo.screen,
-                        #~ self.color,
-                        #~ (
-                            #~ self.posicion[0]+14,
-                            #~ self.posicion[1]+40, 32,10
-                        #~ ),
-                        #~ 0
-                        #~ )
         self.fondo.draw(self.posicion[0]+10,self.posicion[1]+40,40,3,self.color,self.ventana.cr)
-
-        #~ pygame.draw.rect(
-                        #~ self.fondo.screen,
-                        #~ self.color,
-                        #~ (
-                            #~ self.posicion[0]+10,
-                            #~ self.posicion[1]+40, 40,3
-                        #~ ),
-                        #~ 0
-                        #~ )
         self.fondo.draw(self.posicion[0]+10,self.posicion[1]+47,40,3,self.color,self.ventana.cr)
-
-        #~ pygame.draw.rect(
-                        #~ self.fondo.screen,
-                        #~ self.color,
-                        #~ (
-                            #~ self.posicion[0]+10,
-                            #~ self.posicion[1]+47, 40,3
-                        #~ ),
-                        #~ 0
-                        #~ )
         self.fondo.texto("inicio",self.posicion[0]+10,self.posicion[1]+20,self.color_texto,self.ventana.cr)
-        #~ self.texto.render(
-                            #~ "inicio",
-                            #~ self.color_texto,
-                            #~ (
-                            #~ (self.posicion[0]+10),
-                            #~ (self.posicion[1]+10)
-                            #~ )
-                        #~ )
+
 
     def update(self):
         posic_mouse= self.ventana.mousexy

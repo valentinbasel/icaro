@@ -18,13 +18,13 @@ typedef unsigned int  word;
 typedef unsigned long dword;
 #define PIC18F4550
 
+#include <__cdc.c>
 
 #include <digitalw.c>
 
 #include <servos.c>
 
 #include <analog.c>
-#include <__cdc.c>
 
-//#include <arduinodelay.c>
+#include <arduinodelay.c>
 

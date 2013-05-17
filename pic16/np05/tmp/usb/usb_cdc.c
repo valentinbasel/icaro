@@ -3,7 +3,7 @@ All CDC functions should go here
 **/
 
 //#include <string.h>
-#include <typedef.h>
+//#include <typedef.h>
 #include "usb_cdc.h"
 #include "picUSB.h"
 #include "usb_config.h"

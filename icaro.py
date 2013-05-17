@@ -21,6 +21,9 @@ import gobject
 import cairo
 from subprocess import Popen,PIPE,STDOUT
 
+
+
+
 import creditos
 import carga
 import abrir
@@ -71,7 +74,6 @@ class fondo(MotorCairo,Componentes):
         self.img=""
         self.ultimo_conectado=0
     def carga_img(self,cadena):
-        print "cadena ",cadena
         self.band=1
         self.img=cadena
         print cadena
@@ -82,6 +84,7 @@ class fondo(MotorCairo,Componentes):
             if os.path.exists(self.img):
                 cr2 = ventana_principal.area.window.cairo_create()
                 respuesta=self.imagen(self.img,0,0,cr2)
+
                 if respuesta==1:
                     self.band=0
 # ==============================================================================
@@ -109,6 +112,8 @@ class Ventana:
     lista=[]
     config=[]
     edicion=0
+    z=1
+    cursores=[0]
     dicc_accesos_directos={
                            65470:"f1",
                            65471:"f2",
@@ -176,7 +181,7 @@ class Ventana:
         menu_general=[
                 (_("New"),_("Open"),_("Save"),_("Save as"),_("Save as function"),_("Examples"),_("Exit")),
                 (_("Background"),_("Color"),_("About"), _("Config")),
-                ("graficador","calculadora")   
+                ("graficador","calculadora", _("Log"))   
                       ]
         menu_bar = gtk.MenuBar()
         menu_bar.show()
@@ -308,7 +313,7 @@ class Ventana:
         # un espacio en blanco para separar
         toolbar.append_space()
         iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_EDIT,30)
+        iconw.set_from_stock(gtk.STOCK_ADD,30)
         dibujar_button = toolbar.append_element(
                         gtk.TOOLBAR_CHILD_BUTTON,None,
                         _("Pen"),
@@ -337,16 +342,43 @@ class Ventana:
                         self.dibujo,3)
 
         iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_ZOOM_FIT,30)
-        mover_button = toolbar.append_element(
+        iconw.set_from_stock(gtk.STOCK_EDIT,30)
+        edit_button = toolbar.append_element(
                         gtk.TOOLBAR_CHILD_BUTTON,None,
                         _("Edit"),
-                        self.tooltip["mover"],
+                        "",
                         "Private",
                         iconw,
                         self.dibujo,4)
-
-
+        # un espacio en blanco para separar
+        toolbar.append_space()
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_ZOOM_IN,30)
+        zoom_in_button = toolbar.append_element(
+                        gtk.TOOLBAR_CHILD_BUTTON,None,
+                        _("agrandar"),
+                        "",
+                        "Private",
+                        iconw,
+                        self.menuitem_response,"zoomas")
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_ZOOM_OUT,30)
+        zoom_out_button = toolbar.append_element(
+                        gtk.TOOLBAR_CHILD_BUTTON,None,
+                        _("achicar"),
+                        "",
+                        "Private",
+                        iconw,
+                        self.menuitem_response,"zoomenos")
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_ZOOM_100,30)
+        zoom_out_button = toolbar.append_element(
+                        gtk.TOOLBAR_CHILD_BUTTON,None,
+                        _("zoom 1:1"),
+                        "",
+                        "Private",
+                        iconw,
+                        self.menuitem_response,"zoomcero")
         #declaro el scroll_window donde esta inserto el drawing area
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window.set_size_request(500, 600)
@@ -439,11 +471,31 @@ class Ventana:
         self.window1.connect("key_press_event", self.keypress_cb)
         self.window1.connect("key_release_event", self.keyrelease_cb)
         self.area.realize()
+        
+        display = self.area.window.get_display()
+        
+        pixbuf = gtk.gdk.pixbuf_new_from_file("imagenes/mouse/lapiz.png")
+        lapiz = gtk.gdk.Cursor(display, pixbuf, 6, 18)
+        self.cursores.append(lapiz)
+        pixbuf = gtk.gdk.pixbuf_new_from_file("imagenes/mouse/puntero.png")
+        puntero = gtk.gdk.Cursor(display, pixbuf, 6, 18)
+        self.cursores.append(puntero)        
+        pixbuf = gtk.gdk.pixbuf_new_from_file("imagenes/mouse/borrar.png")
+        borrar = gtk.gdk.Cursor(display, pixbuf, 6, 18)
+        self.cursores.append(borrar)
+        pixbuf = gtk.gdk.pixbuf_new_from_file("imagenes/mouse/edicion.png")
+        edicion = gtk.gdk.Cursor(display, pixbuf, 6, 18)
+        self.cursores.append(edicion)
+        self.definir_cursor(1)       
 #        self.area.grab_focus()
+    def definir_cursor(self,b):
+        self.area.window.set_cursor(self.cursores[b])
 
 # ==============================================================================
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ==============================================================================
+
+        
     def ver(self,b):
         ver=visor.visor_codigo(self)
         ver.window.show_all()
@@ -455,12 +507,11 @@ class Ventana:
 # VENTANA DE AYUDA (NAVEGADOR)
 # ==============================================================================
     def ayuda(self,b):
-        browser = navegador.SimpleBrowser()
-        browser.open('http://roboticaro.org/documentacion/index.html')
-        browser.show()
+        self.visor('http://roboticaro.org/documentacion/index.html')
 
     def dibujo(self,event,b):
         self.seleccion_menu=b
+        self.definir_cursor(b)
 
 # ==============================================================================
 # ESTO ES PARA GREGAR IMAGENES AL BOTON DE LA TOOLBAR
@@ -512,31 +563,10 @@ class Ventana:
         #print "boton -" ,b
         self.tipo_componente=b
         self.seleccion_menu=1
+        self.definir_cursor(1)
 
         return
-# ==============================================================================
-# FUNCION PARA GENERAR LOS COMPONENTES DESDE EL DICCIONARIO
-# ==============================================================================
 
-# por si quiero implementar un dialogo de mensajes
-#        self.dialog = gtk.MessageDialog(None,
-#                            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-#                            gtk.MESSAGE_QUESTION,
-#                            gtk.BUTTONS_OK,None)
-#        self.dialog.set_markup('Please enter your <b>name</b>:')
-#        entry = gtk.Entry()
-#        entry.connect("activate", self.responseToDialog, self.dialog, gtk.RESPONSE_OK)
-#        hbox = gtk.HBox()
-#        hbox.pack_start(gtk.Label("valor:"), False, 5, 5)
-#        hbox.pack_end(entry)
-#        self.dialog.format_secondary_markup("ingresa el valor del componente")
-#        self.dialog.vbox.pack_end(hbox, True, True, 0)
-#
-#    def responseToDialog(self,entry, dialog, response):
-#        dialog.response(response)
-#        text= entry.get_text()
-#        dialog.hide()
-#        #return text
 
 
 # ==============================================================================
@@ -836,6 +866,7 @@ class Ventana:
         self.ff.set_source_rgb(rgb[0],rgb[1],rgb[2])
         self.ff.paint()
         self.cr = self.area.window.cairo_create()
+        self.fondo.zoom(self.z,self.cr)
         self.fondo.update()
         if fon.objetos_datos>0:
             for dat in fon.objetos_datos:
@@ -848,7 +879,10 @@ class Ventana:
         self.update()
         
     def move_cb(self,win, event):
-        self.mousexy= event.get_coords()
+        mouse=event.get_coords()
+        self.mousexy=(mouse[0]/self.z,mouse[1]/self.z) 
+        
+        print self.mousexy
         #self.area.queue_draw()
 
     def buttonpress_cb(self,win,event):
@@ -888,6 +922,7 @@ class Ventana:
 
     def MenuRespuesta(self,b):
         self.seleccion_menu=b
+        self.definir_cursor(b)
 
     def keypress_cb(self,win,event):
         self.tecla=1
@@ -1029,6 +1064,17 @@ class Ventana:
             #print " menu de congifuracion"
             conf=config.CONFIG()
             conf.show()
+        if string==_("Log"):
+            dir_conf=os.path.expanduser('~') + "/.icaro/np05/temporal/log.dat"
+            self.visor(dir_conf)
+        if string=="graficador":
+            self.graf()
+        if string=="zoomas":
+            self.z=self.z+0.1
+        if string=="zoomenos":
+            self.z=self.z-0.1
+        if string=="zoomcero":
+            self.z=1
     #~ def carga_tooltip(self):
         #~ ruta=os.path.abspath(os.path.dirname(__file__)) 
         #~ ff=open(ruta + "/tooltips.xml","r")
@@ -1037,8 +1083,12 @@ class Ventana:
             #~ cad_aux=t[a].strip("\n")
             #~ if cad_aux=="<tool>":
                 #~ self.tooltip[t[a+1].strip("\n")]=t[a+2].strip("\n")
-        if string=="graficador":
-            self.graf()
+                
+    def visor(self,dir):
+            browser = navegador.SimpleBrowser()
+            browser.open(dir)
+            browser.show()
+            
     def carga_dicc(self):
         """
         funcion para cargar los componentes bloques,
