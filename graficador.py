@@ -180,7 +180,7 @@ class VENTANA:
         self.x += 10
         self.cr.move_to(50, 500)
         for sen in range(0, len(self.snds)):
-            if check[sen] isTrue:
+            if check[sen] is True:
                 for val in self.snds[sen]:
                     self.cr.set_source_rgb(rgb[sen][
                                            0], rgb[sen][1], rgb[sen][2])
