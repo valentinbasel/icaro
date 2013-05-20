@@ -28,7 +28,6 @@
 # original project hosted on gforge
 # http://gforge.enseeiht.fr/projects/vasco/
 
-
 import sys
 import os
 import usb

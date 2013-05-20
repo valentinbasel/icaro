@@ -10,6 +10,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+
 import sys
 from os import system
 from componente_datos import *
@@ -427,7 +428,7 @@ class componente_cero_arg():
                 self.pegado_a=0
 ###############################################################################
             if (botones_mouse[1]==1 and
-                self.fondo.collide(self.rectan2,posic_mouse[0],posic_mouse[1])==True and
+                self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True and
                 self.pulsado==0 and
                 self.ventana.seleccionado==0):
                 posic_mouse2= self.ventana.mousexy

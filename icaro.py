@@ -21,9 +21,6 @@ import gobject
 import cairo
 from subprocess import Popen,PIPE,STDOUT
 
-
-
-
 import creditos
 import carga
 import abrir
