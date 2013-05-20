@@ -13,14 +13,16 @@
 
 import gtk
 import os
-def guardar(obj,ruta,fondo):
-    file=open(ruta,"w")
-    print "-------------------"
-    print "tamaño obj datos",len(fondo.tipo_obj_datos)
-    print "datos",fondo.objetos_datos
 
-    print "tamaño obj",len(fondo.tipo_obj)
-    print "obj",fondo.objetos
+
+def guardar(obj, ruta, fondo):
+    file = open(ruta, "w")
+    print "-------------------"
+    print "tamaño obj datos", len(fondo.tipo_obj_datos)
+    print "datos", fondo.objetos_datos
+
+    print "tamaño obj", len(fondo.tipo_obj)
+    print "obj", fondo.objetos
     print "-------------------"
     file.writelines("<fondo>")
     file.write("\n")
@@ -41,8 +43,8 @@ def guardar(obj,ruta,fondo):
     file.write("\n")
 
     for i in range(len(fondo.objetos_datos)):
-        print "este es el tamañno del obj datos",len(fondo.tipo_obj_datos)
-        if fondo.tipo_obj_datos[i]==7:
+        print "este es el tamañno del obj datos", len(fondo.tipo_obj_datos)
+        if fondo.tipo_obj_datos[i] == 7:
             file.writelines("<objeto_dato>")
             file.write("\n")
             file.writelines(str(fondo.objetos_datos[i].ide))
@@ -72,7 +74,7 @@ def guardar(obj,ruta,fondo):
             file.writelines("</objeto_dato>")
             file.write("\n")
 
-        if fondo.tipo_obj_datos[i]==6:
+        if fondo.tipo_obj_datos[i] == 6:
             file.writelines("<objeto_dato_img>")
             file.write("\n")
 
@@ -109,10 +111,9 @@ def guardar(obj,ruta,fondo):
         print fondo.tipo_obj
         print i
 
-        if fondo.tipo_obj[i]==4:
+        if fondo.tipo_obj[i] == 4:
             file.writelines("<objeto_cero>")
             file.write("\n")
-
 
             file.writelines(str(fondo.objetos[i].ide))
             file.write("\n")
@@ -130,10 +131,9 @@ def guardar(obj,ruta,fondo):
             file.writelines("</objeto_cero>")
             file.write("\n")
 
-        if fondo.tipo_obj[i]==5:
+        if fondo.tipo_obj[i] == 5:
             file.writelines("<objeto_bloque>")
             file.write("\n")
-
 
             file.writelines(str(fondo.objetos[i].ide))
             file.write("\n")
@@ -145,12 +145,12 @@ def guardar(obj,ruta,fondo):
             file.write("\n")
             file.writelines(str(fondo.objetos[i].texto))
             file.write("\n")
-            file.writelines(str(fondo.objetos[i+1].posicion))
+            file.writelines(str(fondo.objetos[i + 1].posicion))
             file.write("\n")
             file.writelines("</objeto_bloque>")
             file.write("\n")
-        if fondo.tipo_obj[i]==1:
-            print " error:" , i
+        if fondo.tipo_obj[i] == 1:
+            print " error:", i
             file.writelines("<objeto_componente>")
             file.write("\n")
 
@@ -176,4 +176,3 @@ def guardar(obj,ruta,fondo):
             file.write("\n")
 
     file.close()
-
