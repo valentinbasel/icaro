@@ -13,5 +13,17 @@ VERSION 1.0:
 * Manual de ayuda html
 * integración de pygtk con Pygame -SDL-
 
+VERSION 1.0.1:
+
+* reparaciones menores para sdcc
+
+VERSION 1.0.2:
+
+* ahora se usa cairo en lugar de pygame para icaro-bloques
+* se puede hacer zoom de los bloques
+* reparaciones menores sobre sdcc
+* se pueden ver los LOGs del compilador sdcc para el codigo C
+* un graficador de funciones analogicas usando tortucaro
+
 
 
