@@ -80,9 +80,11 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 	}
 	}
 }
+void motorpap()
+{
+
+}
 /*funciones*/
 void loop()
 {
 
-PORTD=1231;
-}
