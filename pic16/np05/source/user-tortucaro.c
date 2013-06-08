@@ -191,12 +191,14 @@ int val=0;
 	rxstr[receivedbyte]=0;
 	if (receivedbyte>0)
 		{
-		rxstr[receivedbyte]=0;
-			for (posic=0;posic<=7;posic++)
+		//rxstr[receivedbyte]=0;
+/*			for (posic=0;posic<=7;posic++)
 			{
 			rb=(rxstr[posic]);
 			resultado=resultado+rb;
-			}
+			}*/
+        resultado = rxstr[0];
+        rxstr[receivedbyte]=0;
 		ServoWrite(val,resultado);
 		}
 rxstr[0]=0;

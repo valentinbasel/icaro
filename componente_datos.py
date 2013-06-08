@@ -12,8 +12,12 @@
 # GNU General Public License for more details.
 
 import sys
+import gtk
 from os import system
 
+import time
+    
+    
 class comp_dat_arg():
     posic_rel_x=0
     posic_rel_y=0
@@ -116,46 +120,22 @@ class comp_dat_arg():
         self.conector_m[0]=self.rectan[0]
         self.conector_m[1]=self.rectan[1]
 
-
         if (
             botones_mouse[1] and
             self.ventana.seleccion_menu==4 
             and self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True and
-            self.modificable==1
+            self.modificable==1 and
+            self.tecla==0
             ):
+            print "hola"
+            self.cuadro_texto(1)
+            print "retomo el bucle principal"          
             self.tecla=1
-            self.texto=""
-            self.ventana.seleccionado_datos_ed=self.ide
-            self.ventana.tecla=0
-        if (
-            self.tecla==1 and
-            self.ventana.seleccionado_datos_ed==self.ide
-            ):
-            if self.valor_cadena_no_mod=="a":
-                if (
-                    self.tecla_presionada==1 and 
-                    self.ventana.tecla==1 
-                    ):
-                    cadena_auxiliar= self.ventana.valor_tecla
-                    self.tecla_presionada=0
-                    if cadena_auxiliar!="":
-                        self.texto = self.texto + cadena_auxiliar
-            if self.valor_cadena_no_mod=="0":
-                if (
-                    self.tecla_presionada==1 and 
-                    self.ventana.tecla==1 and 
-                    self.ventana.valor_tecla.isdigit() 
-                    ):
-                    cadena_auxiliar= self.ventana.valor_tecla
-                    self.tecla_presionada=0
-                    if cadena_auxiliar!="":
-                        self.texto = self.texto + cadena_auxiliar
-            if self.ventana.tecla==0:
-                
-                self.tecla_presionada=1
-            if self.ventana.tecla_enter==1:
-                self.tecla=0
-                self.ventana.seleccionado_datos_ed=0
+            
+        if botones_mouse[1]==0:
+            self.tecla=0
+            
+
         if self.modificable==1:
             self.cadena_final=self.texto+self.cadena_intermedia
         else:
@@ -251,4 +231,51 @@ class comp_dat_arg():
             self.fondo.objetos_datos.remove(self)
         self.dibujar()
         self.cadena_intermedia=""
+    def cuadro_texto(self,tipo):
+        window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        window.set_resizable(False)
+        window.set_modal(True)
+        window.set_border_width(0)
+        window.set_title('ingrese un valor')
+        window.set_default_size(100,200)
+        entry = gtk.Entry()
+        label = gtk.Label("valor")
+        BotonAceptar=gtk.Button("aceptar")
+        BotonAceptar.connect("clicked", self.boton,window,entry)
+        boxv = gtk.VBox(False, 2)
+        boxh = gtk.HBox(False, 2)
+        boxh2 = gtk.HBox(False, 2)
+        
+        boxh.pack_start(label, True, True, 1)
+        boxh.pack_start(entry, True, True, 1)
+        boxh2.pack_start(BotonAceptar, True, True, 1)
+        
+        boxv.pack_start(boxh, True, True, 1)
+        boxv.pack_start(boxh2, True, True, 2)
 
+        window.add(boxv)
+        window.show_all()
+        
+    def boton(self,b,window,entry):
+        self.texto=entry.get_text().decode('utf8')
+        print "este es el boton de la ventana",self.texto
+
+        window.hide()
+#        d = gtk.MessageDialog(None,
+#                              gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+#                              gtk.MESSAGE_QUESTION,
+#                              gtk.BUTTONS_OK_CANCEL,
+#                              "ingrese un valor")
+#        entry = gtk.Entry()
+#        entry.show()
+#        d.vbox.pack_end(entry)
+#        entry.connect('activate', lambda _: d.response(gtk.RESPONSE_OK))
+#        d.set_default_response(gtk.RESPONSE_OK)
+#        r = d.run()
+#        text = entry.get_text().decode('utf8')
+#        d.destroy()
+#        if r == gtk.RESPONSE_OK:
+#            return text
+#        else:
+#            return None           
+#            
