@@ -150,8 +150,8 @@ class Ventana:
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
         arch=open(sys.path[0] + "/version", "r")
-        a=arch.readline()
-        creditos.Info.version= a
+        version=arch.readline()
+        creditos.Info.version= version
         self.carga_dicc()
         self.tooltip=tooltips.dicc
         self.lista=self.diccionario.keys()
@@ -883,7 +883,7 @@ class Ventana:
         mouse=event.get_coords()
         self.mousexy=(mouse[0]/self.z,mouse[1]/self.z) 
         
-        print self.mousexy
+        #print self.mousexy
         #self.area.queue_draw()
 
     def buttonpress_cb(self,win,event):
@@ -936,13 +936,13 @@ class Ventana:
     def AccesosDirectos(self,evento):
         identificador=0
         if evento=="f1":
-            self.seleccion_menu=1
+            self.MenuRespuesta(1)
         if evento=="f2":
-            self.seleccion_menu=2
+            self.MenuRespuesta(2)
         if evento=="f3":
-            self.seleccion_menu=3
+            self.MenuRespuesta(3)
         if evento=="f4":
-            self.seleccion_menu=4
+            self.MenuRespuesta(4)
         if evento=="f5":
                 for a in range(1,len(self.fondo.objetos)):
                     if self.fondo.objetos[a].ide==self.fondo.ultimo_conectado:

@@ -127,14 +127,13 @@ class comp_dat_arg():
             self.modificable==1 and
             self.tecla==0
             ):
-            print "hola"
-            self.cuadro_texto(1)
-            print "retomo el bucle principal"          
+            self.cuadro_texto(int(posic_mouse[0]),int(posic_mouse[1]))
             self.tecla=1
             
         if botones_mouse[1]==0:
             self.tecla=0
-            
+            self.pulsado=0
+            self.ventana.seleccionado_datos=0
 
         if self.modificable==1:
             self.cadena_final=self.texto+self.cadena_intermedia
@@ -145,6 +144,7 @@ class comp_dat_arg():
                                 self.cadena_intermedia
                                 )
         self.cadena_final=self.cadena_final.replace("\r", '')
+        
         if self.conectado==0:
             if self.pegado==0:
                 for a in range(1,len(self.fondo.objetos)):
@@ -169,6 +169,7 @@ class comp_dat_arg():
                 valor1.lista_valores[self.pegado_b]=self.cadena_final
         except:
             self.pegado=0
+            
         if self.conectado==0:
             if self.pegado2==0:
                 for z in range(0,len(self.fondo.objetos_datos)):
@@ -191,7 +192,8 @@ class comp_dat_arg():
             botones_mouse[1]==1 and
             self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True and
             self.pulsado==0 and
-            self.ventana.seleccionado_datos==0
+            self.ventana.seleccionado_datos==0 and 
+            self.ventana.seleccion_menu==2
             ):
             posic_mouse= self.ventana.mousexy
             self.ventana.seleccionado_datos=self.ide
@@ -209,9 +211,7 @@ class comp_dat_arg():
             self.pegado_b=0
             self.pegado2=0
             self.pegado_a2=0
-        if botones_mouse[1]==0:
-            self.pulsado=0
-            self.ventana.seleccionado_datos=0
+
         if (botones_mouse[1]==1
                 and self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True
                 and self.ventana.seleccion_menu==3):
@@ -231,17 +231,21 @@ class comp_dat_arg():
             self.fondo.objetos_datos.remove(self)
         self.dibujar()
         self.cadena_intermedia=""
-    def cuadro_texto(self,tipo):
+        
+    def cuadro_texto(self,x,y):
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         window.set_resizable(False)
         window.set_modal(True)
         window.set_border_width(0)
+        window.move(x,y)
         window.set_title('ingrese un valor')
         window.set_default_size(100,200)
         entry = gtk.Entry()
         label = gtk.Label("valor")
         BotonAceptar=gtk.Button("aceptar")
         BotonAceptar.connect("clicked", self.boton,window,entry)
+        window.add_events(gtk.gdk.KEY_PRESS_MASK)
+        window.connect("key_press_event", self.keypress_cb,window,entry)
         boxv = gtk.VBox(False, 2)
         boxh = gtk.HBox(False, 2)
         boxh2 = gtk.HBox(False, 2)
@@ -255,10 +259,20 @@ class comp_dat_arg():
 
         window.add(boxv)
         window.show_all()
+    def keypress_cb(self,a,event,window,entry):
+        if event.keyval==65293:
+            self.texto=entry.get_text().decode('utf8')
+            self.pulsado=0
+            print "este es el boton de la ventana",self.texto
+            self.ventana.boton_mouse= [0,0,0,0]
+            window.hide()            
+        
         
     def boton(self,b,window,entry):
         self.texto=entry.get_text().decode('utf8')
+        self.pulsado=0
         print "este es el boton de la ventana",self.texto
+        self.ventana.boton_mouse= [0,0,0,0]
 
         window.hide()
 #        d = gtk.MessageDialog(None,

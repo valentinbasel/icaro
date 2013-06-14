@@ -62,7 +62,9 @@ class ComponenteCentral():
             if (botones_mouse[1]==1 and
                 self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True and
                 self.pulsado==0 and
-                self.ventana.seleccionado==0):
+                self.ventana.seleccionado==0 and
+                self.ventana.seleccion_menu==2
+                ):
                 posic_mouse= self.ventana.mousexy
                 self.ventana.seleccionado=self.ide
                 self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])

@@ -221,7 +221,7 @@ def main():
     pyt= [  "Lanza la teminal interactiva ",
             "con el modulo apicaro.",
             "Necesita tener IDLE instalado"]
-    tur= [  "Lanza TurtleArt con el modulo Tortucaro.",
+    tur= [  "Lanza Art con el modulo Tortucaro.",
             "para manejo conectado a la netbook"]
     icr= [  "Lanza Icaro-bloques ",
             "para manejo de robots autonomos"]
