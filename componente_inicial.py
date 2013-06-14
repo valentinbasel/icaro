@@ -73,7 +73,10 @@ class componente_inicial():
         if (botones_mouse[1]==1 and a==True and
             #~ self.rectan.collidepoint(self.ventana.mousexy) and
             self.pulsado==0 and
-            self.ventana.seleccionado==0):
+            self.ventana.seleccionado==0 and
+            self.ventana.seleccion_menu==2
+
+            ):
 #~ 
 #            posic_mouse= self.ventana.mousexy
             self.ventana.seleccionado=self.ide
