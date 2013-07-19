@@ -1097,40 +1097,31 @@ class Ventana:
         por el nombre del archivo, leyendo el archivo saco el valor
         y tipo de los bloques que cargo en el dic
         """
+        import carga_componentes
         q=0
-        ruta=os.path.abspath(os.path.dirname(__file__))  + "/componente/"
-
-#        archivo=os.listdir(ruta)
-        ff=open(ruta + "lista.dat","r")
-        t=ff.read()
-        temp=t.strip("\n")
-        #~ print temp
-        archivo=temp.split(",")
-        #~ print archivo
-        for i in range(len(archivo)):
-
-            self.diccionario[q]=["notebook",str(archivo[i])]
-            q=q+1
-            f=open(ruta + archivo[i]+".xml","r")
-            cadena=f.readlines()
-            a=0
-            for n in range(len(cadena)):
-                cadena[n]=cadena[n].strip("\n")
+        
+        carga=carga_componentes.DICC()
+        comp,grupo=carga.buscar_bloques()
+        for a in range(len(grupo)):
+            print grupo[a]
+            self.diccionario[q]=["notebook",grupo[a]]
+            q+=1
+            for cmp in comp[a]:
+                print comp[a]
+                print a
                 tupla=[]
-                if cadena[a]=="<componente>":
-                    tupla.append(cadena[a+1].strip("\n"))
-                    tupla.append(int(cadena[a+2]))
-                    tupla.append(int(cadena[a+3]))
-                    color1=cadena[a+4].strip("()\n")
-                    color2=color1.split(',')
-                    tupla1=(int(color2[0]),int(color2[1]),int(color2[2]))
-                    tupla.append(tupla1)
-                    tupla.append(str(cadena[a+5].strip("\n")))
-                    tupla.append(str(cadena[a+6]).strip("\n"))
-                    self.diccionario[q]=tupla
-                    q=q+1
-                a=a+1
-                #print self.diccionario
+                tupla.append(cmp.dicc["nombre"])
+                tupla.append(cmp.dicc["componente"])
+                tupla.append(cmp.dicc["cant_puertos"])
+                tupla.append(cmp.dicc["color"])
+                tupla.append(str(cmp.dicc["dato"]))
+                tupla.append(str(cmp.dicc["dato2"]))
+                self.diccionario[q]=tupla
+                q+=1
+                print "q=",q
+        print self.diccionario
+
+
     def carga_paleta(self):
         R=G=B=""
         archivo=open(os.path.abspath(os.path.dirname(__file__))  + "/colores.dat","r")

@@ -3,13 +3,14 @@
 float tiempo=0;
 float tiempo2=0;
 unsigned char i;
+/*
 void enviarcdcf(int a)
 {
     unsigned char cadena[];
     x_ftoa(a,cadena,2,2);
     strcat(cadena,"\n");
     CDCputs(cadena,strlen(cadena));
-}
+}*/
 /*
 //esto no anda bien, hay que revizarlo
 unsigned char recibircdc()

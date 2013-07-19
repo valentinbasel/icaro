@@ -1,7 +1,7 @@
+﻿#===============================================================================
+# ChangeLog
+#===============================================================================
 
-
-
-=====================================================
 ---  lun ago 6 00:41:06 ART 2012  ---
 Version  1.0
 *  Correción de errores menores, actualización de la documentación. Se pueden cargar imagenes de fondo a los proyectos, se puede cambiar el color de fondo. Documentación automatizada con publican, epydoc, pyreverse
@@ -24,10 +24,27 @@ Version  1.0
 
 =====================================================
 ---  sáb ene 26 13:08:41 ART 2013 ---
-Version 1.0 
+
+
+VERSION 1.0:
+
 *  Se elimino todo el codigo C de pics, ahora se descarga desde la direccion http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz
 *  Se crea una carpeta /home/user/.icaro donde se guardan los archivos main.c que genera el usuario
 *  Cuando se inicia el el programa, revisa si el usuario pertenece al grupo "dialout" y "microchip"
 *  La documentación ahora es toda en linea desde la web http://roboticaro.org/manual
+* Se junto los tre programas de icaro (icaro-bloques, tortucaro y apicaro) 
+  para tener un solo paquete con todo el proyecto
+* Se pueden borrar bloques de componentes y de datos
+* Carga de firmware especifico para TurtleArt
+* Generación de código C para SDCC
+* Manual de ayuda html
+* integración de pygtk con Pygame -SDL-
 
- 
+VERSION 1.0.2:
+
+* implemetando ZOOM
+* pycairo en lugar de pygame
+* una ventana para graficar sensores analogicos de la placa np05
+
+
+

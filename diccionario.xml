@@ -125,7 +125,12 @@ enviarcdcf(
 valor
  );
 </enviocdc>
-<recepcioncdc>
+<enviocdcchar>
+CDCputs(
+"
 valor
-=recibircdc();
-</recepcioncdc>
+",
+valor
+ );
+</enviocdcchar>
+

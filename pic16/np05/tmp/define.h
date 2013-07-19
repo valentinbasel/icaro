@@ -18,7 +18,9 @@ typedef unsigned int  word;
 typedef unsigned long dword;
 #define PIC18F4550
 
-#include <__cdc.c>
+#define __USB__
+
+//#include <usb.c>
 
 #include <digitalw.c>
 

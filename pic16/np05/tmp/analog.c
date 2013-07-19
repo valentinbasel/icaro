@@ -6,7 +6,7 @@
 #define __ANALOG__
 
 #define ANALOG 		1
-#define DEFAULTAN		0
+#define DEFAULT		0
 #define	EXTERNAL	1
 
 void analog_init(void)
@@ -31,7 +31,7 @@ void analog_init(void)
 
 void analogReference(unsigned char Type)
 {
-	if(Type == DEFAULTAN)			//the default analog reference of 5 volts (on 5V Arduino boards) or 3.3 volts (on 3.3V Arduino boards)
+	if(Type == DEFAULT)			//the default analog reference of 5 volts (on 5V Arduino boards) or 3.3 volts (on 3.3V Arduino boards)
 		ADCON1|=0x00;			//Vref+ = VDD
 	else if(Type == EXTERNAL)	//the voltage applied to the AREF pin (0 to 5V only) is used as the reference.
 		ADCON1|=0x10;			//Vref+ = External source
