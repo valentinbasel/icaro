@@ -69,14 +69,15 @@ class fondo(MotorCairo,Componentes):
     color_texto=(255,255,255)
     poscion_botones=0
     band=0
+    
     def __init__(self):
         self.lista_ordenada.append(0)
         self.img=""
-        self.ultimo_conectado=0
+        self.ultimo=1
     def carga_img(self,cadena):
         self.band=1
         self.img=cadena
-        print cadena
+        #print cadena
         
     def update(self):
 
@@ -129,6 +130,7 @@ class Ventana:
                            65481:"f12",
                            
                            }
+    valor_datos_comp={"fin ":"}"}
     def __init__(self):
 
         ###############################################
@@ -561,7 +563,7 @@ class Ventana:
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
     def botones(self,event,b):
-        #print "boton -" ,b
+        ##print "boton -" ,b
         self.tipo_componente=b
         self.seleccion_menu=1
         self.definir_cursor(1)
@@ -837,14 +839,14 @@ class Ventana:
                         )
             self.archivo=cadena
         elif response == gtk.RESPONSE_CANCEL:
-            print 'Closed, no files selected'
-        dialog.destroy()
+            #print 'Closed, no files selected'
+            dialog.destroy()
     def nuevo(self,dato):
         self.archivo=""
         nuevo.nuevo(self.fondo)
         self.fondo.band=0
         self.fondo.FONDO=(00,22,55)
-        self.fondo.ultimo_conectado=0
+        self.fondo.ultimo=0
         inicial=componente_inicial(
                                     20,
                                     50,
@@ -878,12 +880,17 @@ class Ventana:
 
     def expose(self,event,b):
         self.update()
+        #print self.fondo.ultimo
+        for a in range(len(fondo.lista_ordenada)):
+            for a in range(len(fondo.lista_ordenada)):
+                if fondo.lista_ordenada[a]==self.fondo.ultimo:
+                    self.fondo.ultimo=a
         
     def move_cb(self,win, event):
         mouse=event.get_coords()
         self.mousexy=(mouse[0]/self.z,mouse[1]/self.z) 
         
-        #print self.mousexy
+        ##print self.mousexy
         #self.area.queue_draw()
 
     def buttonpress_cb(self,win,event):
@@ -944,14 +951,15 @@ class Ventana:
         if evento=="f4":
             self.MenuRespuesta(4)
         if evento=="f5":
-                for a in range(1,len(self.fondo.objetos)):
-                    if self.fondo.objetos[a].ide==self.fondo.ultimo_conectado:
-                        identificador=a
-                        break
-                x=self.fondo.objetos[identificador].conector_m[0]-10
-                y=self.fondo.objetos[identificador].conector_m[1]+40
-                self.update()
-                self.crear_componente(self.tipo_componente,x,y)            
+                print "creo archivo"
+        #        for a in range(1,len(self.fondo.objetos)):
+        #            if self.fondo.objetos[a].ide==self.fondo.ultimo_conectado:
+        #                identificador=a
+        #                break
+        #        x=self.fondo.objetos[identificador].conector_m[0]-10
+        #        y=self.fondo.objetos[identificador].conector_m[1]+40
+        #        self.update()
+         #       self.crear_componente(self.tipo_componente,x,y)            
 
     def keyrelease_cb(self,win,event):
         self.tecla=0
@@ -994,8 +1002,8 @@ class Ventana:
             if response == gtk.RESPONSE_OK:
                 crear.funcion(self.fondo,self,dialog.get_filename(),)
             elif response == gtk.RESPONSE_CANCEL:
-                print 'Closed, no files selected'
-            dialog.destroy()
+                #print 'Closed, no files selected'
+                dialog.destroy()
         if string==_("Examples"):
             self.abrir(sys.path[0]+"/ejemplos")
         if string==_("Background"):
@@ -1014,15 +1022,15 @@ class Ventana:
             response = dialog.run()
             cadena= dialog.get_filename()
             if response == gtk.RESPONSE_OK:
-                #~ print "imagen", cadena
+                #~ #print "imagen", cadena
                 try:
                     self.fondo.carga_img(cadena)
                 except Exception, ex:
                     self.mensajes(2,"archivo no valido")
 
             elif response == gtk.RESPONSE_CANCEL:
-                print 'Closed, no files selected'
-            dialog.destroy()
+                #print 'Closed, no files selected'
+                dialog.destroy()
         if string==_("Color"):
 
             colorseldlg = gtk.ColorSelectionDialog("selección de color")
@@ -1062,7 +1070,7 @@ class Ventana:
             about.run()
             about.destroy()
         if string==_("Config"):
-            #print " menu de congifuracion"
+            ##print " menu de congifuracion"
             conf=config.CONFIG()
             conf.show()
         if string==_("Log"):
@@ -1103,12 +1111,12 @@ class Ventana:
         carga=carga_componentes.DICC()
         comp,grupo=carga.buscar_bloques()
         for a in range(len(grupo)):
-            print grupo[a]
+            #print grupo[a]
             self.diccionario[q]=["notebook",grupo[a]]
             q+=1
             for cmp in comp[a]:
-                print comp[a]
-                print a
+                ##print comp[a]
+                ##print a
                 tupla=[]
                 tupla.append(cmp.dicc["nombre"])
                 tupla.append(cmp.dicc["componente"])
@@ -1116,10 +1124,10 @@ class Ventana:
                 tupla.append(cmp.dicc["color"])
                 tupla.append(str(cmp.dicc["dato"]))
                 tupla.append(str(cmp.dicc["dato2"]))
+                self.valor_datos_comp[cmp.dicc["nombre"]]= cmp.valor
                 self.diccionario[q]=tupla
                 q+=1
-                print "q=",q
-        print self.diccionario
+        #print ".............",self.valor_datos_comp
 
 
     def carga_paleta(self):
@@ -1147,6 +1155,7 @@ inicial=componente_inicial(20,50,1,fon,ventana_principal)
 fon.objetos.append(inicial)
 ventana_principal.window1.show_all()
 gobject.timeout_add(1,ventana_principal.timeout)
+gobject.PRIORITY_DEFAULT=-1
 #gobject.idle_add(ventana_principal.timeout)
 gtk.main()
 

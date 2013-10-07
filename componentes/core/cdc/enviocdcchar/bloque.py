@@ -29,7 +29,12 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "CDCputs("
+                        '"',
+                        "valor",
+                        '",',
+                        "valor",
+                        " );"
                     ]
         self.dicc={
                     "nombre":"enviocdcchar",

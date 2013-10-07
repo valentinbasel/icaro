@@ -29,7 +29,10 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "case (",
+                        "valor",
+                        ")",
+                        ":"
                     ]
         self.dicc={
                     "nombre":"case",

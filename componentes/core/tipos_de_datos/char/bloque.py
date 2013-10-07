@@ -29,7 +29,9 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "unsigned char ",
+                        "valor",
+                        " ;"
                     ]
         self.dicc={
                     "nombre":"char",

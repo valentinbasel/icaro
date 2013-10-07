@@ -29,7 +29,21 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "ServoWrite(10,",
+                        "valor",
+                        ");",
+                        "ServoWrite(11,",
+                        "valor",
+                        ");",
+                        "ServoWrite(12,",
+                        "valor",
+                        ");",
+                        "ServoWrite(8,",
+                        "valor",
+                        ");",
+                        "ServoWrite(9,",
+                        "valor",
+                        ");"
                     ]
         self.dicc={
                     "nombre":"servos",

@@ -83,7 +83,7 @@ class VentanaGtk(MotorCairo):
         for boton in self.botones:
             rectmouse=(self.mousexy[0],self.mousexy[1],10,10)
             presionado= self.colliderect(boton.rect,rectmouse)
-            print presionado,"--",self.yatocado
+            #print presionado,"--",self.yatocado
             if presionado==None:
                 presionado=False
             if presionado==True and self.yatocado<>boton.ide:
@@ -105,7 +105,7 @@ class VentanaGtk(MotorCairo):
     def buttonpress_cb(self,win,event):
 
         for boton in self.botones:
-            print boton.rect
+            #print boton.rect
             presionado= self.collide(boton.rect,event.x,event.y)
             if presionado==True:
                 boton.accion()
@@ -197,7 +197,7 @@ def comprobacion_errores(ventana):
 
     if os.path.isdir(dir_conf+"/np05/")==0:
         #respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
-        #print respuesta
+        ##print respuesta
         #if respuesta==True:
         try:
             #archivo=urllib.urlretrieve("http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz",dir_conf+"np05.tar.gz",None)

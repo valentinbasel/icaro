@@ -29,7 +29,15 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "ServoLento(",
+                        "valor",
+                        ",",
+                        "valor",
+                        ",",
+                        "valor",
+                        ",",
+                        "valor",
+                        ");"
                     ]
         self.dicc={
                     "nombre":"servo_pausado",

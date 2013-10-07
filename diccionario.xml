@@ -4,7 +4,7 @@ valor
 ;
 </robot>
 <activar>
-PORTB=255-
+PORTB=
 valor
 ;
 </activar>
@@ -56,46 +56,12 @@ valor
 valor
  ;
 </long>
-<si>
-if(
-valor
-){
-</si>
-<break>
-break;
-</break>
-<default>
-default:
 
-</default>
-<sino>
-}
-else
-{
-</sino>
-<switch>
-switch(
-valor
-){
-</switch>
-<case>
-case (
-valor
-)
-:
-</case>
-<fin>
-}
-</fin>
 <linea>
 valor
 ;
 </linea>
-<mientras>
-while(
-valor
-){
-</mientras>
+
 <servo_pausado>
 ServoLento(
 valor
@@ -120,17 +86,6 @@ valor
 //
 valor
 </comentarios>
-<enviocdc>
-enviarcdcf(
-valor
- );
-</enviocdc>
-<enviocdcchar>
-CDCputs(
-"
-valor
-",
-valor
- );
-</enviocdcchar>
+
+
 

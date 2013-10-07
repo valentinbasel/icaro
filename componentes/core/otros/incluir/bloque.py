@@ -29,7 +29,9 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "incluir ",
+                        ",",
+                        "valor"
                     ]
         self.dicc={
                     "nombre":"incluir",

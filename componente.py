@@ -23,6 +23,7 @@ class ComponenteCentral():
     texto=""
     valx=10
     valy=10
+#    linexy=[0,0,0,0]
     def __init__ (self):
         """ Class initialiser """
         pass
@@ -33,11 +34,13 @@ class ComponenteCentral():
         self.rectan[0]=self.posicion[0]
         self.rectan[1]=self.posicion[1]-10
         if self.vivo==True:
-            
             if self.pegado==0:
                 self.fondo.lista_ordenada[self.ide]=0
                 for a in range(len(self.fondo.objetos)):
-                    
+#                    if a>0:
+                        #print "obj= ",a , "----",self.fondo.objetos[a].pegado
+#                        if self.fondo.objetos[a].pegado==0:
+#                            self.linexy=[self.conector_h[0],self.conector_h[1],self.fondo.objetos[a].conector_m[0],self.fondo.objetos[a].conector_m[1]]
                     if (self.fondo.colliderect
                             (
                             self.conector_h,self.fondo.objetos[a].conector_m
@@ -51,6 +54,7 @@ class ComponenteCentral():
                     else:
                         self.pegado=0
                         self.pegado_a=0
+
             if self.pegado==1:
                 x,y,aa,bb=self.fondo.objetos[self.pegado_a].conector_m
                 xx=x-self.valx
@@ -98,7 +102,7 @@ class ComponenteCentral():
                     self.fondo.objetos[i].pegado_a=0
                     self.fondo.objetos[i].pegado=0
                 self.fondo.objetos[a].vivo=False
-                print a
+                #print a
                 
                 del self.fondo.tipo_obj[a]
                 #self.fondo.objetos[a].borrar()
@@ -150,7 +154,7 @@ class componente(ComponenteCentral):
 #    def borrar(self):
 #        self.kill()
     def dibujar(self):
-
+        #print self.fondo.lista_ordenada
         self.conector_h[0]=self.rectan[0]+10
         self.conector_h[1]=self.rectan[1]
         cuerpo= [
@@ -191,6 +195,13 @@ class componente(ComponenteCentral):
             self.fondo.draw(self.posicion[0]+x,self.posicion[1]+y,w,h,self.color,self.ventana.cr)
         self.fondo.imagen(self.imagen,self.posicion[0]+(self.rectan[2]/2)-15,self.posicion[1]+(self.rectan[3]/2)-5,self.ventana.cr)
         self.fondo.texto(self.texto,self.posicion[0]+13,self.posicion[1]+(self.rectan[3]/2)-7,self.color_texto,self.ventana.cr)
+        if self.pulsado==1:
+            print "--",self.fondo.ultimo
+            self.ventana.cr.move_to(self.posicion[0]+30,self.posicion[1]-5)
+            self.fondo.line(
+                            self.fondo.objetos[self.fondo.ultimo-1].conector_m[0]+20,
+                            self.fondo.objetos[self.fondo.ultimo-1].conector_m[1]+10,
+                            self.ventana.cr)
 
 class componente_bloque_dos(ComponenteCentral):
     def __init__(self,x,y,identidad,color,texto,fondo,ventana):

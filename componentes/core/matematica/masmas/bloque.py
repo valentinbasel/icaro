@@ -29,15 +29,14 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
                     ]
         self.dicc={
                     "nombre":"masmas",
                     "componente":6,
                     "cant_puertos":1,
                     "color":(0,50,80),
-                    "dato":"++ ",
-                    "dato2":"1",
+                    "dato":"++",
+                    "dato2":"++",
                     "valor":self.valor
                     }
         self.tootips=""

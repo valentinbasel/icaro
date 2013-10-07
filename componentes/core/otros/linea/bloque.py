@@ -29,7 +29,8 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "valor",
+                        ";"
                     ]
         self.dicc={
                     "nombre":"linea",

@@ -37,7 +37,7 @@ class CMP:
                     "cant_puertos":1,
                     "color":(0,50,80),
                     "dato":"* ",
-                    "dato2":"1",
+                    "dato2":"* ",
                     "valor":self.valor
                     }
         self.tootips=""

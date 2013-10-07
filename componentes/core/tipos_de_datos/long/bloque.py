@@ -29,7 +29,11 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "long ",
+                        "valor",
+                        " = ",
+                        "valor",
+                        " ;"
                     ]
         self.dicc={
                     "nombre":"long",

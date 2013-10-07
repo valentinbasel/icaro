@@ -120,3 +120,14 @@ class MotorCairo():
         else:
             return False
 
+    def line(self,x,y,cr):
+        cr.set_line_width(3)
+        #rgbfin=self.color(rgb)
+        cr.set_source_rgb(1,1,1)
+        #cr.move_to(x1,y1)             
+        cr.line_to(x, y)
+        #cr.line_to(x2, y2)
+        cr.close_path()
+         #cr.rectangle(x1, y1, x2, y2)
+        #cr.fill()
+        cr.stroke_preserve()

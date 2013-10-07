@@ -29,7 +29,8 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "default:",
+                        ""
                     ]
         self.dicc={
                     "nombre":"default",

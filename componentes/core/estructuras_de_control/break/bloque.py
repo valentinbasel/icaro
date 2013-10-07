@@ -29,7 +29,7 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                      "break;"
                     ]
         self.dicc={
                     "nombre":"break",

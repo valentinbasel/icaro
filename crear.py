@@ -14,7 +14,7 @@
 import os,sys
 
 # revizar parseador, reescribir
-def parseador(lista,argumentos,texto,cadena_final,fondo,ventana):
+def parseador(lista,argumentos,texto,fondo,ventana):
     cadena=[]
     valor=[]
     parser_final=""
@@ -22,32 +22,40 @@ def parseador(lista,argumentos,texto,cadena_final,fondo,ventana):
     xml="<"+texto.strip(' ')+">"
     xmlfin="</"+texto.strip(' ')+">"
     b=0
-    while b !=(len(cadena_final)):
-        if cadena_final[b]==xml:
-            b=b+1
-            while cadena_final[b]!=xmlfin:
-                if cadena_final[b]=="valor" and argumentos<>0:
-                    print parser_final
-                    print lista[n]
-                    parser_final=parser_final+str(lista[n])
-                    print parser_final
-                    n=n+1
-                else:
-                    parser_final=parser_final+cadena_final[b]
-                b=b+1
-        b=b+1
+    print ventana.valor_datos_comp[texto]
+    for txt in ventana.valor_datos_comp[texto]:
+        if txt=="valor" and argumentos<>0:
+            parser_final=parser_final+str(lista[n])
+            n=n+1
+        else:
+            parser_final=parser_final+txt
     return parser_final+"\n"
+#    while b !=(len(cadena_final)):
+#        if cadena_final[b]==xml:
+#            b=b+1
+#            while cadena_final[b]!=xmlfin:
+#                if cadena_final[b]=="valor" and argumentos<>0:
+#                    print parser_final
+#                    print lista[n]
+#                    parser_final=parser_final+str(lista[n])
+#                    print parser_final
+#                    n=n+1
+#                else:
+#                    parser_final=parser_final+cadena_final[b]
+#                b=b+1
+#        b=b+1
+#    return parser_final+"\n"
     
 
 def crear_archivo(fondo, ventana):
     dir_conf=os.path.expanduser('~') + "/.icaro/np05/"
-    cadena_final=[]
-    f=open(sys.path[0] +"/diccionario.xml","r")
-    cadena=f.readlines()
-    for a in cadena:
-        cadena_final.append(a.strip("\n"))
+    #cadena_final=[]
+    #f=open(sys.path[0] +"/diccionario.xml","r")
+    #cadena=f.readlines()
+    #for a in cadena:
+    #    cadena_final.append(a.strip("\n"))
     conectado=1
-
+    #print "esta es la cadena final= ", cadena_final
     fondo.lista_fina=[]
     for a in range(len(fondo.lista_ordenada)):
         for a in range(len(fondo.lista_ordenada)):
@@ -65,8 +73,9 @@ def crear_archivo(fondo, ventana):
                             fondo.objetos[b].lista_valores,
                             fondo.objetos[b].arg,
                             fondo.objetos[b].texto,
-                            cadena_final,fondo,ventana
+                            fondo,ventana
                             )
+                #cadena_final
                 if caden.find("incluir")==0:
                     fun=caden.split(",")
                     incluir(fondo,ventana,fun)

@@ -29,7 +29,9 @@ class CMP:
     def __init__ (self):
 
         self.valor=  [
-
+                        "while(",
+                        "valor",
+                        "){"
                     ]
         self.dicc={
                     "nombre":"mientras",
