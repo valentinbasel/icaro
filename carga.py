@@ -44,7 +44,8 @@ def compilar_pic(ruta,sdcc):
                         " -p" + processor +
                         " -I " + dir_conf +"/source/" +
                         " -I " + dir_conf +"/tmp/" +
-                        " -I /usr/share/sdcc/non-free/include/pic16/ " +
+                        " -I " + dir_conf +"/non-free/include/pic16" +
+ 
                         " -I /usr/share/sdcc/include/pic16/ " +
 
                         " -c"+
@@ -54,6 +55,8 @@ def compilar_pic(ruta,sdcc):
                         dir_conf + "/temporal/"+ruta+".o " +
                         dir_conf + "/source/"+ruta+".c ")
     #print sortie
+    #                       " -I " + dir_conf + "/lib/ " +
+    #/usr/share/sdcc/non-free/include/pic16
     log=sortie+" 2> " +  dir_conf +"/temporal/" + "log.dat"
     print log
     i=os.system(log)
@@ -76,13 +79,13 @@ def upload_pic(ruta,sdcc):
                         " -p"+processor+
                         " -l /usr/share/icaro/pic16/lib/libpuf.lib " +
                         " -l /usr/share/sdcc/lib/pic16/libc18f.lib "+
-                        " --lib-path "+ "/usr/share/sdcc/non-free/lib/pic16/ " +
+                        " --lib-path "+ dir_conf + "/non-free/lib/pic16/ " +
                         " -l /usr/share/sdcc/lib/pic16/libm18f.lib "+
                         "/usr/share/icaro/pic16/obj/usb_descriptors.o "+
                         "/usr/share/icaro/pic16/obj/crt0ipinguino.o "+
                         "/usr/share/icaro/pic16/obj/application_iface.o "+
                         dir_conf+ "/temporal/"+ruta+".o ")
-
+#"/usr/share/sdcc/non-free/lib/pic16/ "
     print "--------------------------------------------------------------------------------------------------------"
     print sortie2
     print "--------------------------------------------------------------------------------------------------------"

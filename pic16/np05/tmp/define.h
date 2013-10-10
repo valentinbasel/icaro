@@ -17,10 +17,9 @@ typedef unsigned char byte;
 typedef unsigned int  word;
 typedef unsigned long dword;
 #define PIC18F4550
+// el tema es que si agrego __cdc.c la placa solo funciona si esta conectada al usb (espera una conexion usb y no arranca).
 
-#define __USB__
-
-//#include <usb.c>
+//#include <__cdc.c>
 
 #include <digitalw.c>
 

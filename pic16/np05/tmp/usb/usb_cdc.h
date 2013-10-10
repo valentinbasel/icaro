@@ -1,7 +1,7 @@
 #ifndef USB_CDC_H_
 #define USB_CDC_H_
 
-#include <typedef.h>
+//#include <typedef.h>
 
 //#define DEBUG_PRINT_CDC 1
 

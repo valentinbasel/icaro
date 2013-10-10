@@ -22,7 +22,7 @@ def parseador(lista,argumentos,texto,fondo,ventana):
     xml="<"+texto.strip(' ')+">"
     xmlfin="</"+texto.strip(' ')+">"
     b=0
-    print ventana.valor_datos_comp[texto]
+    #print ventana.valor_datos_comp[texto]
     for txt in ventana.valor_datos_comp[texto]:
         if txt=="valor" and argumentos<>0:
             parser_final=parser_final+str(lista[n])

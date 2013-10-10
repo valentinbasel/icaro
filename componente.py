@@ -195,13 +195,13 @@ class componente(ComponenteCentral):
             self.fondo.draw(self.posicion[0]+x,self.posicion[1]+y,w,h,self.color,self.ventana.cr)
         self.fondo.imagen(self.imagen,self.posicion[0]+(self.rectan[2]/2)-15,self.posicion[1]+(self.rectan[3]/2)-5,self.ventana.cr)
         self.fondo.texto(self.texto,self.posicion[0]+13,self.posicion[1]+(self.rectan[3]/2)-7,self.color_texto,self.ventana.cr)
-        if self.pulsado==1:
-            print "--",self.fondo.ultimo
-            self.ventana.cr.move_to(self.posicion[0]+30,self.posicion[1]-5)
-            self.fondo.line(
-                            self.fondo.objetos[self.fondo.ultimo-1].conector_m[0]+20,
-                            self.fondo.objetos[self.fondo.ultimo-1].conector_m[1]+10,
-                            self.ventana.cr)
+#        if self.pulsado==1:
+#            print "--",self.fondo.ultimo
+#            self.ventana.cr.move_to(self.posicion[0]+30,self.posicion[1]-5)
+#            self.fondo.line(
+#                            self.fondo.objetos[self.fondo.ultimo-1].conector_m[0]+20,
+#                            self.fondo.objetos[self.fondo.ultimo-1].conector_m[1]+10,
+#                            self.ventana.cr)
 
 class componente_bloque_dos(ComponenteCentral):
     def __init__(self,x,y,identidad,color,texto,fondo,ventana):

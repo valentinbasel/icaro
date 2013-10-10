@@ -839,14 +839,14 @@ class Ventana:
                         )
             self.archivo=cadena
         elif response == gtk.RESPONSE_CANCEL:
-            #print 'Closed, no files selected'
-            dialog.destroy()
+            print 'Closed, no files selected'
+        dialog.destroy()
     def nuevo(self,dato):
         self.archivo=""
         nuevo.nuevo(self.fondo)
         self.fondo.band=0
         self.fondo.FONDO=(00,22,55)
-        self.fondo.ultimo=0
+        self.fondo.ultimo=1
         inicial=componente_inicial(
                                     20,
                                     50,
@@ -880,11 +880,7 @@ class Ventana:
 
     def expose(self,event,b):
         self.update()
-        #print self.fondo.ultimo
-        for a in range(len(fondo.lista_ordenada)):
-            for a in range(len(fondo.lista_ordenada)):
-                if fondo.lista_ordenada[a]==self.fondo.ultimo:
-                    self.fondo.ultimo=a
+
         
     def move_cb(self,win, event):
         mouse=event.get_coords()
@@ -951,15 +947,20 @@ class Ventana:
         if evento=="f4":
             self.MenuRespuesta(4)
         if evento=="f5":
-                print "creo archivo"
+            print "creo archivo"
+            #print self.fondo.ultimo
+            #for a in range(len(fondo.lista_ordenada)):
+            #    for a in range(len(fondo.lista_ordenada)):
+            #        if fondo.lista_ordenada[a]==self.fondo.ultimo:
+            #            self.fondo.ultimo=a
         #        for a in range(1,len(self.fondo.objetos)):
         #            if self.fondo.objetos[a].ide==self.fondo.ultimo_conectado:
         #                identificador=a
         #                break
-        #        x=self.fondo.objetos[identificador].conector_m[0]-10
-        #        y=self.fondo.objetos[identificador].conector_m[1]+40
-        #        self.update()
-         #       self.crear_componente(self.tipo_componente,x,y)            
+            #x=self.fondo.objetos[self.fondo.ultimo].conector_m[0]-10
+            #y=self.fondo.objetos[self.fondo.ultimo].conector_m[1]+40
+            #self.update()
+            #self.crear_componente(self.tipo_componente,x,y)            
 
     def keyrelease_cb(self,win,event):
         self.tecla=0

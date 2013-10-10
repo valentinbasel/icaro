@@ -105,6 +105,7 @@ def abrir(diccio,ruta,fon,ventana):
             color=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
             text=cadena[valor+1].strip("()\n")
             text=text+" "
+            #
             print "texto", text
             c1=componente   (
                             float(x),

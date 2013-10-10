@@ -1,6 +1,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <__cdc.c>
 unsigned char i;
 unsigned char receivedbyte,receivedbyte2;
 unsigned char rxstr[64]="";
@@ -79,6 +80,7 @@ unsigned char chaine[];
 unsigned int val=0;
 //int puerto=0;
 int i=0;
+int tam=0;
 	for(;;)
 	{
 	    receivedbyte2=CDCgets(rxstr2);
@@ -123,7 +125,8 @@ int i=0;
 valor=analogread(val);
 x_ftoa(valor,chaine,2,2);
 strcat(chaine,"f\n");
-CDCputs(chaine,strlen(chaine));
+tam=strlen(chaine);
+CDCputs(chaine,tam);
 }
 
 void puertob()
@@ -132,26 +135,20 @@ int posic=0;
 int rb=0;
 int resultado=0;
 int	i=1;
-	for(;;)
-	{
-	    receivedbyte2=CDCgets(rxstr2);
-		if (receivedbyte2>0)
-		{
-		rxstr2[receivedbyte2]=0;
 
-			for (posic=0;posic<=7;posic++)
-			{
-			rb=(rxstr2[posic]);
-			i=i*i;// en cada iteracion i se duplica: 1,2,4,8,16,32,64,128
-			resultado=resultado+rb;
-			}
-			/*el tema es que rb tengo que sumarle 177 para que no me queden corridos los bits
-			(no se porque creo que es algo con respecto a los codigos ascii)*/
-			resultado=resultado;
-			PORTB=resultado;// en ves de usar digitalwrite, mando directamente al PORTB
-			return;
+	while ((receivedbyte=CDCgets(rxstr))==0);
+
+	rxstr[receivedbyte]=0;
+	if (receivedbyte>0)
+		{
+
+        resultado = rxstr[0];
+        rxstr[receivedbyte]=0;
+		PORTB=resultado;
 		}
-	}
+		
+
+	
 }
 void servos()
 {
@@ -203,13 +200,14 @@ int val=0;
 		}
 rxstr[0]=0;
 receivedbyte=0;
-CDCputs(resultado,DEC);
+//CDCputs(resultado,DEC);
 
 		return;
 
 }
 void setup()
 {
+TRISB=0;
 pinmode(21,INPUT);
 pinmode(22,INPUT);
 pinmode(23,INPUT);
@@ -219,6 +217,7 @@ pinmode(25,OUTPUT);
 pinmode(26,OUTPUT);
 pinmode(27,OUTPUT);
 pinmode(28,OUTPUT);
+
 ServoAttach(8);
 ServoAttach(9);
 ServoAttach(10);
@@ -258,6 +257,7 @@ void comparo()
 void loop()
 {
     PORTD=valor;
+    Delayms(10);
 	while ((receivedbyte=CDCgets(rxstr))==0);
 	rxstr[receivedbyte]=0;
 	if (receivedbyte>0)

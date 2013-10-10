@@ -25,7 +25,7 @@
 #ifdef DEBUG_PRINT
 #include <string.h>
 #endif
-#include <typedef.h>
+//#include <typedef.h>
 
 #include "picUSB.h"
 #include "usb_config.h"

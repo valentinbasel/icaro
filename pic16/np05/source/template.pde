@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
+
 float tiempo=0;
 float tiempo2=0;
 unsigned char i;
-/*
-void enviarcdcf(int a)
+/*void enviarcdcf(int a)
 {
     unsigned char cadena[];
     x_ftoa(a,cadena,2,2);

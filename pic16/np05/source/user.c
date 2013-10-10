@@ -1,7 +1,26 @@
+#include <stdlib.h>
+#include <string.h>
+
 float tiempo=0;
 float tiempo2=0;
 unsigned char i;
-char received_char;
+/*void enviarcdcf(int a)
+{
+    unsigned char cadena[];
+    x_ftoa(a,cadena,2,2);
+    strcat(cadena,"\n");
+    CDCputs(cadena,strlen(cadena));
+}*/
+/*
+//esto no anda bien, hay que revizarlo
+unsigned char recibircdc()
+{
+    unsigned char receivedbyte;
+    unsigned char recdc[64];
+    while ((receivedbyte=CDCgets(recdc))==0);
+    return recdc[0];
+}*/
+
 int sensordigital(int valor)
 {
 /*funcion para cambiar el valor de los sens digitales (estan invertidos con respecto a la placa)*/
@@ -65,21 +84,11 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 /*funciones*/
 void loop()
 {
-    if (usbavailable())
-    { 
-        received_char=usbread();
-        if (received_char=='L')
-        {
-            ServoWrite(10,100);
-            usbsend(received_char,4);
-            Delayms(1000);
-        }
 
-        if (received_char=='A')
-        {
-            ServoWrite(10,20);
-            usbsend(received_char,4);
-            Delayms(1000);
-        }
-    }
+while(1 ){
+PORTD=144;
+Delayms(1000);
+PORTD=96;
+Delayms(900);
+}
 }
