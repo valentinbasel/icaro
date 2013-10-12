@@ -33,7 +33,7 @@ class CMP:
                         "valor"
                     ]
         self.dicc={
-                    "nombre":"comentarios ",
+                    "nombre":"comentarios",
                     "componente":1,
                     "cant_puertos":1,
                     "color":(0,190,10),

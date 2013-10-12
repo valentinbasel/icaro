@@ -195,7 +195,7 @@ def comprobacion_errores(ventana):
     if os.path.isdir(dir_conf)==0:
         os.mkdir(dir_conf)
 
-    if os.path.isdir(dir_conf+"/np05/")==0:
+    if os.path.isdir(dir_conf+"/firmware/")==0:
         #respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
         ##print respuesta
         #if respuesta==True:
@@ -204,7 +204,7 @@ def comprobacion_errores(ventana):
             #tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
             #tar.extractall(dir_conf)
             #tar.close
-            shutil.copytree("/usr/share/icaro/pic16/np05",dir_conf+"/np05/")
+            shutil.copytree("/usr/share/icaro/pic16/np05",dir_conf+"/firmware/")
         except:
             ventana.mensajes(2,"no se pudo copiar el directorio")
             exit()

@@ -65,6 +65,7 @@ class comp_dat_arg():
         self.tecla_presionada=0
         self.modificable=mod
         self.valor_cadena_no_mod=val_no_mod
+        self.imagen=sys.path[0] +"/imagenes/componentes/"+ img
         self.tipo=tipo
         if self.tipo==6:
             self.imagenintermedia=img        

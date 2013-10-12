@@ -1,4 +1,5 @@
 #!/usr/bin/python
+
 # -*- coding: utf-8 -*-
 
 # This program is free software: you can redistribute it and/or modify
@@ -12,15 +13,132 @@
 # GNU General Public License for more details.
 import gtk
 import os
+import pickle
 from componente import *
 
 def abrir(diccio,ruta,fon,ventana):
+    # Ahora uso pickle para guardar los objectos
     file=open(ruta,"r")
+    # La lista_auxiliar guarda los valores del tam 
+    # de objetos_datos y de objetos
+    lista_auxiliar=pickle.load(file)
+    obj_inic_pos=pickle.load(file)
+    fon.objetos[0].posicion=obj_inic_pos
+    fon_lto=pickle.load(file)
+    fon.lista_ordenada=fon_lto
+    for obj_dato in range(lista_auxiliar[0]):
+        obj_ide=pickle.load(file)
+        obj_pos=pickle.load(file)
+        obj_txt=pickle.load(file)
+        obj_col=pickle.load(file)
+        obj_mod=pickle.load(file)
+        obj_vnm=pickle.load(file)
+        obj_cdi=pickle.load(file)
+        obj_cdf=pickle.load(file)
+        obj_img=pickle.load(file)
+        obj_tip=pickle.load(file)
+        obj_mod=pickle.load(file)
+        obj_pg2=pickle.load(file)
+        obj_pa2=pickle.load(file)        
+        obj_peg=pickle.load(file)
+        obj_pea=pickle.load(file)
+        obj_peb=pickle.load(file)
+        obj_img=os.path.basename(obj_img)
+        c1=comp_dat_arg(
+                                obj_pos[0],
+                                obj_pos[1],
+                                fon.identificador_dat,
+                                obj_mod,
+                                obj_txt,
+                                obj_col,
+                                obj_vnm,
+                                obj_img,
+                                obj_tip,
+                                fon,
+                                ventana
+                                )
+        c1.pegado2=obj_pg2
+        c1.pegado_a2=obj_pa2
+        c1.pegado=obj_peg
+        c1.pegado_a=obj_pea
+        c1.pegado_b=obj_peb
+        fon.identificador_dat+=1
+        fon.objetos_datos.append(c1)
+        fon.tipo_obj_datos.append(obj_tip)
+    for i in range (1,lista_auxiliar[1]):
+        try:
+            obj_tip=pickle.load(file)
+        except:
+            return 0
+        
+        if obj_tip==1:
+            obj_pos=pickle.load(file)
+            obj_imi=pickle.load(file)
+            obj_arg=pickle.load(file)
+            obj_ide=pickle.load(file)
+            obj_col=pickle.load(file)
+            obj_txt=pickle.load(file)
+            obj_pga=pickle.load(file)
+            fon.identificador+=1
+            c1=componente   (
+                            obj_pos[0],
+                            obj_pos[1],
+                            fon.identificador,
+                            int(obj_arg),
+                            obj_col,
+                            obj_txt,
+                            fon,
+                            ventana
+                            )
+            c1.pegado=1
+            c1.pegado_a=obj_pga
+            fon.objetos.append(c1)
+            fon.tipo_obj.append(obj_tip)
+            
+        if obj_tip==5:
+            obj_ide=pickle.load(file)
+            obj_pos=pickle.load(file)
+            obj_col=pickle.load(file)
+            obj_txt=pickle.load(file)
+            obj_pga=pickle.load(file)
+            obj2_pos=pickle.load(file)
+            obj2_pga=pickle.load(file)
+            fon.identificador+=1
+            c1=componente_bloque_uno(
+                                            obj_pos[0],
+                                            obj_pos[1],
+                                            fon.identificador,
+                                            obj_col,
+                                            obj_txt,
+                                            fon,
+                                            ventana
+                                            )
+            fon.objetos.append(c1)
+            c1.pegado=1
+            c1.pegado_a=obj_pga
+            fon.identificador +=1
+            c1=componente_bloque_dos    (
+                                        obj2_pos[0],
+                                        obj2_pos[1],
+                                        fon.identificador,
+                                        obj_col,
+                                        "fin ",
+                                        fon,
+                                        ventana
+                                        )
+            fon.objetos.append(c1)
+            c1.pegado=1
+            c1.pegado_a=obj2_pga
+            fon.tipo_obj.append(5)
+            fon.tipo_obj.append(0)
+
+    return 0
+            
     cadena=file.readlines()
     tupla=(0,0,0,0)
     for valor in range(len(cadena)):
         if cadena[valor]=="<fondo>\n":
-            cadena3=cadena[valor+1].strip("()\n")
+            cadena3=cadena[valor+1].strip("( )\n")
             cadena4=cadena3.split(',')
             color=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
             band=cadena[valor+2]
@@ -32,7 +150,7 @@ def abrir(diccio,ruta,fon,ventana):
             if int(band)==1:
                 try:
                     (filepath, filename) = os.path.split(ruta)
-                    (filepath2, filename2) = os.path.split(img.strip("\n"))
+                    (filepath2, filename2) = os.path.split(img.strip(" \n"))
                     fon.carga_img(filepath+"/"+filename2)                
                 except Exception, ex:
                     ventana.mensajes(2,"no se pudo abrir la imagen de fondo")
@@ -40,28 +158,28 @@ def abrir(diccio,ruta,fon,ventana):
 
                 
         if cadena[valor]=="<objeto_inicial>\n":
-            cadena1= cadena[valor+1].strip("()\n")
+            cadena1= cadena[valor+1].strip("( )\n")
             cadena2=cadena1.split(',')
             x,y=cadena2
             fon.objetos[0].posicion=float(x),float(y)
         if cadena[valor]=="<objeto_dato>\n":
-            cadena1= cadena[valor+2].strip("()\n")
+            cadena1= cadena[valor+2].strip("( )\n")
             cadena2=cadena1.split(',')
             x,y=cadena2
-            cadena3=cadena[valor+4].strip("()\n")
+            cadena3=cadena[valor+4].strip("( )\n")
             cadena4=cadena3.split(',')
             tupla1=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
-            dato=cadena[valor+1].strip("()\n")
+            dato=cadena[valor+1].strip("( )\n")
             print dato
-            print "valor de la cadena " ,cadena[valor+4].strip("\n"),
+            print "valor de la cadena " ,cadena[valor+4].strip(" \n"),
             c1=comp_dat_arg(
                                 float(x),
                                 float(y),
                                 fon.identificador_dat,
                                 1,
-                                cadena[valor+3].strip("\n"),
+                                cadena[valor+3].strip(" \n"),
                                 tupla1,
-                                cadena[valor+6].strip("\n"),
+                                cadena[valor+6].strip(" \n"),
                                 dato,
                                 7,
                                 fon,
@@ -71,8 +189,8 @@ def abrir(diccio,ruta,fon,ventana):
             fon.objetos_datos.append(c1)
             fon.tipo_obj_datos.append(7)
         if cadena[valor]=="<objeto_dato_img>\n":
-            dato=cadena[valor+1].strip("()\n")
-            cadena1= cadena[valor+3].strip("()\n")
+            dato=cadena[valor+1].strip("( )\n")
+            cadena1= cadena[valor+3].strip("( )\n")
             cadena2=cadena1.split(',')
             x,y=cadena2
             cadena3=cadena[valor+5].strip("()\n")
@@ -83,9 +201,9 @@ def abrir(diccio,ruta,fon,ventana):
                                 float(y),
                                 fon.identificador_dat,
                                 0,
-                                cadena[valor+4].strip("\n"),
+                                cadena[valor+4].strip(" \n"),
                                 tupla1,
-                                cadena[valor+7].strip("\n"),
+                                cadena[valor+7].strip(" \n"),
                                 dato,
                                 6,
                                 fon,
@@ -95,16 +213,16 @@ def abrir(diccio,ruta,fon,ventana):
             fon.objetos_datos.append(c1)
             fon.tipo_obj_datos.append(6)
         if cadena[valor]=="<objeto_componente>\n":
-            cadena1= cadena[valor+4].strip("()\n")
+            cadena1= cadena[valor+4].strip("( )\n")
             cadena2=cadena1.split(',')
             x,y=cadena2
-            argumento=cadena[valor+2].strip("()\n")
+            argumento=cadena[valor+2].strip("( )\n")
             fon.identificador+=1
-            cadena3=cadena[valor+5].strip("()\n")
+            cadena3=cadena[valor+5].strip("( )\n")
             cadena4=cadena3.split(',')
             color=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
-            text=cadena[valor+1].strip("()\n")
-            text=text+" "
+            text=cadena[valor+1].strip("( )\n")
+            text=text
             #
             print "texto", text
             c1=componente   (
@@ -120,16 +238,16 @@ def abrir(diccio,ruta,fon,ventana):
             fon.objetos.append(c1)
             fon.tipo_obj.append(1)
         if cadena[valor]=="<objeto_bloque>\n":
-            cadena1= cadena[valor+2].strip("()\n")
+            cadena1= cadena[valor+2].strip("( )\n")
             cadena2=cadena1.split(',')
             x,y=cadena2
-            cadena1fin= cadena[valor+5].strip("()\n")
+            cadena1fin= cadena[valor+5].strip("( )\n")
             cadena2fin=cadena1fin.split(',')
             xfin,yfin=cadena2fin
-            cadena3=cadena[valor+3].strip("()\n")
+            cadena3=cadena[valor+3].strip("( )\n")
             cadena4=cadena3.split(',')
             color=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
-            text=cadena[valor+4].strip("()\n")
+            text=cadena[valor+4].strip("( )\n")
             fon.identificador+=1
             c1=componente_bloque_uno(
                                             float(x),
@@ -155,23 +273,23 @@ def abrir(diccio,ruta,fon,ventana):
             fon.tipo_obj.append(5)
             fon.tipo_obj.append(0)
         if cadena[valor]=="<objeto_cero>\n":
-            cadena1= cadena[valor+2].strip("()\n")
+            cadena1= cadena[valor+2].strip("( )\n")
             cadena2=cadena1.split(',')
             x,y=cadena2
-            cadenap= cadena[valor+3].strip("()\n")
+            cadenap= cadena[valor+3].strip("( )\n")
             cadenap2=cadenap.split(',')
             x1,y1=cadenap2
-            cadena3=cadena[valor+4].strip("()\n")
+            cadena3=cadena[valor+4].strip("( )\n")
             cadena4=cadena3.split(',')
             tupla1=(int(cadena4[0]),int(cadena4[1]),int(cadena4[2]))
-            dato=cadena[valor+1].strip("()\n")
+            dato=cadena[valor+1].strip("( )\n")
             fon.identificador+=1
             c1=componente_cero_arg (
                                 float(x),
                                 float(y),
                                 fon.identificador,
                                 tupla1,
-                                "siguiente ",
+                                "siguiente",
                                 fon,
                                 ventana
                                 )

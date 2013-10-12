@@ -20,10 +20,6 @@ import sys
 import gobject
 import cairo
 from subprocess import Popen,PIPE,STDOUT
-
-
-
-
 import creditos
 import carga
 import abrir
@@ -183,7 +179,7 @@ class Ventana:
         menu_general=[
                 (_("New"),_("Open"),_("Save"),_("Save as"),_("Save as function"),_("Examples"),_("Exit")),
                 (_("Background"),_("Color"),_("About"), _("Config")),
-                ("graficador","calculadora", _("Log"))   
+                ("graficador","calculadora", _("Log"),"firmware")   
                       ]
         menu_bar = gtk.MenuBar()
         menu_bar.show()
@@ -579,7 +575,7 @@ class Ventana:
     # cadena_pinguino
     def carga(self):
         self.cadena_pinguino[:]=[]
-        dir_conf=os.path.expanduser('~') + "/.icaro/np05/"
+        dir_conf=os.path.expanduser('~') + "/.icaro/firmware/"
         archivo=open(dir_conf +"/source/template.pde","r")
         for linea in archivo:
             self.cadena_pinguino.append(linea)
@@ -1075,7 +1071,7 @@ class Ventana:
             conf=config.CONFIG()
             conf.show()
         if string==_("Log"):
-            dir_conf=os.path.expanduser('~') + "/.icaro/np05/temporal/log.dat"
+            dir_conf=os.path.expanduser('~') + "/.icaro/firmware/temporal/log.dat"
             self.visor(dir_conf)
         if string=="graficador":
             self.graf()
@@ -1085,6 +1081,16 @@ class Ventana:
             self.z=self.z-0.1
         if string=="zoomcero":
             self.z=1
+        if string=="firmware":
+            dir_conf=os.path.expanduser('~') + "/.icaro/firmware/"
+            np05="/usr/share/icaro/pic16/np05"
+            try:
+                os.system("rm -rf "+dir_conf)
+                os.system("cp -R "+np05+" "+dir_conf)
+                self.mensajes(3,"se actualizo el firmware ")
+            except:
+                self.mensajes(3,"no se pudo actualizar el firmware")
+        
     #~ def carga_tooltip(self):
         #~ ruta=os.path.abspath(os.path.dirname(__file__)) 
         #~ ff=open(ruta + "/tooltips.xml","r")

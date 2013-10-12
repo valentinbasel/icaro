@@ -24,7 +24,7 @@ def compilar_pic(ruta,sdcc):
     if val<>0:
         return 1
     chemin = sys.path[0]
-    dir_conf=os.path.expanduser('~') + "/.icaro/np05" 
+    dir_conf=os.path.expanduser('~') + "/.icaro/firmware" 
     if os.path.isdir(dir_conf+"/temporal/")==0:
         os.mkdir(dir_conf+"/temporal/")
     try:
@@ -63,7 +63,7 @@ def compilar_pic(ruta,sdcc):
     print "este es el valor de i=",i
     return i
 def upload_pic(ruta,sdcc):
-    dir_conf=os.path.expanduser('~') + "/.icaro/np05"  
+    dir_conf=os.path.expanduser('~') + "/.icaro/firmware"  
 
     print ruta
     sortie2=str(        sdcc.strip("\n") +" "
