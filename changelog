@@ -32,19 +32,28 @@ VERSION 1.0:
 *  Se crea una carpeta /home/user/.icaro donde se guardan los archivos main.c que genera el usuario
 *  Cuando se inicia el el programa, revisa si el usuario pertenece al grupo "dialout" y "microchip"
 *  La documentación ahora es toda en linea desde la web http://roboticaro.org/manual
-* Se junto los tre programas de icaro (icaro-bloques, tortucaro y apicaro) 
-  para tener un solo paquete con todo el proyecto
-* Se pueden borrar bloques de componentes y de datos
-* Carga de firmware especifico para TurtleArt
-* Generación de código C para SDCC
-* Manual de ayuda html
-* integración de pygtk con Pygame -SDL-
+*  Se junto los tre programas de icaro (icaro-bloques, tortucaro y apicaro) 
+   para tener un solo paquete con todo el proyecto
+*  Se pueden borrar bloques de componentes y de datos
+*  Carga de firmware especifico para TurtleArt
+*  Generación de código C para SDCC
+*  Manual de ayuda html
+*  integración de pygtk con Pygame -SDL-
 
 VERSION 1.0.2:
 
-* implemetando ZOOM
-* pycairo en lugar de pygame
-* una ventana para graficar sensores analogicos de la placa np05
+*  implemetando ZOOM
+*  pycairo en lugar de pygame
+*  una ventana para graficar sensores analogicos de la placa np05
 
+=====================================================
+--- sáb oct 12 17:52:24 ART 2013 ---
+
+VERSION 1.0.3
+
+*  Los bloques ahora se cargan en diccionarios de python dentro de la carpeta "componentes"
+*  Se reparo problemas con el firmware
+*  se cambio el formato para guardar los archivos .icr (ahora se usan archivos tipo python-pikcle)
+ 
 
 
