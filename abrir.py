@@ -94,7 +94,30 @@ def abrir(diccio,ruta,fon,ventana):
             c1.pegado_a=obj_pga
             fon.objetos.append(c1)
             fon.tipo_obj.append(obj_tip)
-            
+        if obj_tip==4:
+            obj_ide=pickle.load(file)
+            obj_pos=pickle.load(file)
+            obj_pos2=pickle.load(file)
+            obj_col=pickle.load(file)
+            obj_txt=pickle.load(file)
+            obj_pga=pickle.load(file)
+
+            fon.identificador+=1
+            c1=componente_cero_arg   (
+                            obj_pos[0],
+                            obj_pos[1],
+                            fon.identificador,
+                            obj_col,
+                            obj_txt,
+                            fon,
+                            ventana
+                            )
+            c1.pegado=1
+            c1.pegado_a=obj_pga
+            c1.posicion2=obj_pos2
+            fon.objetos.append(c1)
+            fon.tipo_obj.append(obj_tip)
+                        
         if obj_tip==5:
             obj_ide=pickle.load(file)
             obj_pos=pickle.load(file)
