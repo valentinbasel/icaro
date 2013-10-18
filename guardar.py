@@ -55,6 +55,14 @@ def guardar(obj,ruta,fondo):
             pickle.dump(fondo.objetos[i].pegado_a,file)
             pickle.dump(fondo.objetos[i+1].posicion,file)
             pickle.dump(fondo.objetos[i+1].pegado_a,file)
+        if fondo.tipo_obj[i]==4:
+            pickle.dump(fondo.tipo_obj[i],file)
+            pickle.dump(fondo.objetos[i].ide,file)
+            pickle.dump(fondo.objetos[i].posicion,file)
+            pickle.dump(fondo.objetos[i].posicion2,file)
+            pickle.dump(fondo.objetos[i].color,file)
+            pickle.dump(fondo.objetos[i].texto,file)
+            pickle.dump(fondo.objetos[i].pegado_a,file)
     file.close()
     return 0
 

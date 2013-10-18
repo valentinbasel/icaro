@@ -381,12 +381,19 @@ class componente_cero_arg():
         for x,y,w,h in cuerpo2:
             self.fondo.draw(self.posicion2[0]+x,self.posicion2[1]+y,w,h,self.color,self.ventana.cr)
 
-        #~ self.textorender.render(
-                                #~ str(self.ide),
-                                #~ self.color_texto,
-                                #~ ((self.posicion[0]+10),(self.posicion[1]+10))
-                                #~ )
+        self.fondo.texto(
+                                str(self.ide),
+                                (self.posicion[0]+20),(self.posicion[1]+20),
+                                self.color_texto,
+                                self.ventana.cr
+                                )
 
+        self.fondo.texto(
+                                str(self.ide),
+                                (self.posicion2[0]+20),(self.posicion2[1]+20),
+                                self.color_texto,
+                                self.ventana.cr
+                                )
 
         #~ self.textorender.render(
                                 #~ str(self.ide),
@@ -451,8 +458,8 @@ class componente_cero_arg():
             if (self.ventana.seleccionado== self.ide) and self.pulsado==2:
                 self.posicion2=(posic_mouse[0]-self.posic_rel_x2,posic_mouse[1]-self.posic_rel_y2)
                 self.pulsado==2
-                self.pegado=0
-                self.pegado_a=0
+#                self.pegado=0
+#                self.pegado_a=0
 ###############################################################################
 
             if botones_mouse[1]==0:
@@ -475,7 +482,7 @@ class componente_cero_arg():
                     self.fondo.objetos[i].pegado=0
                 self.fondo.objetos[a].vivo=False
                 del self.fondo.tipo_obj[a]
-                self.kill()
+                #self.kill()
                 self.fondo.objetos.remove(self)
                 self.fondo.lista_ordenada[self.ide]=0
         self.dibujar()

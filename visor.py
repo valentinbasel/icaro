@@ -76,7 +76,7 @@ class visor_codigo():
 
         vbox.show_all()
         # main loop
-        dir_conf=os.path.expanduser('~') + "/.icaro/np05/"
+        dir_conf=os.path.expanduser('~') + "/.icaro/firmware/"
         cadena_user_c=dir_conf+"source/user.c"
 
         self.buf=self.open_file(buffer,cadena_user_c)
