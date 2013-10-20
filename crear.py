@@ -111,13 +111,7 @@ def funcion(fondo,ventana,ruta):
     for a in fondo.lista_fina:
         for b in range(len(fondo.objetos)):
             if fondo.objetos[b].ide==a:
-                caden=parseador(
-                            fondo.objetos[b].lista_valores,
-                            fondo.objetos[b].arg,
-                            fondo.objetos[b].texto,
-                            cadena_final,fondo,ventana
-                            )
-                
+                caden=parseador(fondo.objetos[b].lista_valores,fondo.objetos[b].arg,fondo.objetos[b].texto,fondo,ventana)
                 cadena_funcion.append(caden)
     archivo = os.path.basename(ruta)
     archivostrip=archivo.split(".")
