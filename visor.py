@@ -120,7 +120,7 @@ class visor_codigo():
         
     def compilar(self,arg):
         print arg
-        dir_conf=os.path.expanduser('~') + "/.icaro/np05/"
+        dir_conf=os.path.expanduser('~') + "/.icaro/firmware/"
         cadena=dir_conf+"source/user.c"
         cadena2=self.buf.props.text
         a= self.ventana.mensajes(1,"Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
