@@ -39,7 +39,7 @@ class DICC:
         bloque=[]
         comps=[]
         core=os.listdir(self.path)
-
+        core.sort()
         for file in core:
             if (os.path.isdir(self.path+file)):
                 grupo.append(file)
@@ -51,12 +51,10 @@ class DICC:
                 if (os.path.isdir(self.path+a+"/"+file)):
                     comp.append(file)
             comps.append(comp)
-
-
         fila1=[]
-
         for mod1 in range(len(grupo)):
             fila2=[]
+            comps[mod1].sort()
             for mod2 in range(len(comps[mod1])):
                 clase="componentes.core."+grupo[mod1]+"."+comps[mod1][mod2]+".bloque"
                 #~ try:
