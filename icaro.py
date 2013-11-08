@@ -36,13 +36,6 @@ from motor import MotorCairo
 from componente_inicial import *
 from componente import *
 
-# ==============================================================================
-# variables globales de color
-# ==============================================================================
-
-BLACK = (0, 0, 0)
-LINEA=(255,0,0)
-
 class Componentes():
     """ variables para los componentes """
     identificador=1
@@ -65,7 +58,7 @@ class fondo(MotorCairo,Componentes):
     color_texto=(255,255,255)
     poscion_botones=0
     band=0
-    
+
     def __init__(self):
         self.lista_ordenada.append(0)
         self.img=""
@@ -73,8 +66,7 @@ class fondo(MotorCairo,Componentes):
     def carga_img(self,cadena):
         self.band=1
         self.img=cadena
-        #print cadena
-        
+
     def update(self):
 
         if self.band==1:
@@ -124,13 +116,14 @@ class Ventana:
                            65479:"f10",
                            65480:"f11",
                            65481:"f12",
-                           
+
                            }
     valor_datos_comp={"fin ":"}"}
     def __init__(self):
 
         ###############################################
         #   el orden de los contenedores de la ventana
+        #
         #        ventana
         #        |
         #         ->box1
@@ -139,11 +132,19 @@ class Ventana:
         #           |
         #            -> toolbar
         #           |
-        #            -> box2
+        #            -> hp
         #               |
-        #                -> scrolled_window
+        #                -> box2
+        #               |     |
+        #               |      -> scrolled_window3
+        #               |     |           |
+        #               |     |            -> toolbar
+        #               |     |
+        #               |      -> scrolled_window2
+        #               |                 |
+        #               |                  -> notebook
         #               |
-        #                -> scrolled_window2
+        #                -> scrolled_window        
         ################################################
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
@@ -162,67 +163,74 @@ class Ventana:
             self.config.append(txt)
         conf.close()
         #declaro la ventana principal
+        # esta es la toolbar donde van los botones para cargar los datos
+        # y compilar
+        #declaro la tabla  donde van los botones para el menu de bloques
+        # box1 es el contenedor principal despues de la ventana
+
         self.window1 = gtk.Window()
+        toolbar = gtk.Toolbar()
+        self.area = gtk.DrawingArea()        
+        scrolled_window = gtk.ScrolledWindow()
+        scrolled_window2 = gtk.ScrolledWindow()
+        scrolled_window3 = gtk.ScrolledWindow()
+        table=gtk.VBox(False, len(self.lista))
+        notebook = gtk.Notebook()
+        hp=gtk.HPaned()
+        box2 = gtk.HBox(False, 3)    
+        box1 = gtk.VBox(False, 3)
+        menu_bar = gtk.MenuBar()
+
+        #empaqueto todo
+        # esta es la idea de usar un hpaned para poder achicar la pantalla
+        #, en las netbook no entra todo
+        self.window1.add(box1)
+        box1.pack_start(menu_bar, False, True, 1)
+        box1.pack_start(hp, True, True, 1)
+        scrolled_window.add_with_viewport(self.area)
+        scrolled_window3.add_with_viewport(toolbar)
+        scrolled_window2.add_with_viewport(notebook)
+        box2.pack_start(scrolled_window3, False, False, 1)
+        box2.pack_start(scrolled_window2, False, False, 1)
+        hp.pack1(scrolled_window,True,True)
+        hp.pack2(box2,True,True)
+
+        hp.set_position(500)
         self.window1.connect('delete-event', gtk.main_quit)
         self.window1.set_icon_from_file(
                                         sys.path[0] +
                                          "/imagenes/icaro.png"
                                          )
-        #~ self.window1.fullscreen()
-        #self.window1.fullscreen()
-        # declaro el drawing area donde va a estar pygame
-        # y los eventos del mouse y teclado
-        self.area = gtk.DrawingArea()
-        #self.area.set_app_paintable(True)
-        self.area.set_size_request(1500, 1500)
+        self.area.set_app_paintable(True)
+        self.area.set_size_request(800, 800)
         menu1=[_("File"),_("Edit"),"herramientas"]
         menu_general=[
                 (_("New"),_("Open"),_("Save"),_("Save as"),_("Save as function"),_("Examples"),_("Exit")),
                 (_("Background"),_("Color"),_("About"), _("Config")),
-                ("graficador","calculadora", _("Log"),"firmware")   
+                ("graficador","calculadora", _("Log"),"firmware")
                       ]
-        menu_bar = gtk.MenuBar()
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
         for a in range(len(menu_general)):
             menu = gtk.Menu()
-        # buf es donde se crgan todos los botones del menu
+        # buf es donde se cargan todos los botones del menu
 
             for i in menu_general[a]:
                 menu_items = gtk.MenuItem(i)
                 menu.append(menu_items)
                 menu_items.connect("activate", self.menuitem_response, i)
-                menu_items.show()   
+                menu_items.show()
             root_menu = gtk.MenuItem(menu1[a])
             root_menu.show()
             root_menu.set_submenu(menu)
             menu_bar.append (root_menu)
 
-#        menu2 = gtk.Menu()
-        # buf es donde se crgan todos los botones del menu
- #       buf2=()
-  #      for i in buf2:
-   #         menu_items2 = gtk.MenuItem(i)
-    #        menu2.append(menu_items2)
-     #       menu_items2.connect("activate", self.menuitem_response, i)
-      #      menu_items2.show()
 
-
-        # los menus del toolbar se agrupan en estos dos "menus raices"
-
-
-#        root_menu2 = gtk.MenuItem(_("Edit"))
-#        root_menu2.show()
-#        root_menu2.set_submenu(menu2)
-        #los dos menus_root quedan dentro de la barra de menu
-
-#        menu_bar.append (root_menu2)
-        # esta es la toolbar donde van los botones para cargar los datos
-        # y compilar
-        toolbar = gtk.Toolbar()
-        toolbar.append_item
-        toolbar.set_style(gtk.TOOLBAR_BOTH)
+        #toolbar.append_item
+        toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
+        toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
         toolbar.show()
+
         # creo los botones de la toolbar
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_NEW,30)
@@ -377,33 +385,18 @@ class Ventana:
                         "Private",
                         iconw,
                         self.menuitem_response,"zoomcero")
-        #declaro el scroll_window donde esta inserto el drawing area
-        scrolled_window = gtk.ScrolledWindow()
-        scrolled_window.set_size_request(500, 600)
+        scrolled_window.set_size_request(300, 300)
         scrolled_window.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
         scrolled_window.show()
-        scrolled_window.add_with_viewport(self.area)
-        #declaro el scroll window donde va la toolbar de los bloques
-        scrolled_window2 = gtk.ScrolledWindow()
         scrolled_window2.set_border_width(1)
         scrolled_window2.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         scrolled_window2.show()
-        #declaro la tabla  donde van los botones para el menu de bloques
-
-        table=gtk.VBox(False, len(self.lista))
-        notebook = gtk.Notebook()
+        scrolled_window3.set_border_width(1)
+        scrolled_window3.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        scrolled_window3.show()
         notebook.set_tab_pos(gtk.POS_RIGHT)
-#        notebook.show()
-        
-#
-        scrolled_window2.add_with_viewport(notebook)
-
         label = gtk.Label(self.diccionario[self.lista[0]][1])
         notebook.append_page(table,label)
-        # box1 es el contenedor principal despues de la ventana
-        box1 = gtk.VBox(False, 3)
-        # box2 es el segundo en importancia
-        box2 = gtk.HBox(False, 2)
         buffer = self.diccionario[self.lista[1]][0]
         caja = self.imagen_boton(
                                 self.diccionario[self.lista[1]][0],
@@ -446,14 +439,6 @@ class Ventana:
                 button.connect("clicked", self.botones,self.lista[i])
                 table.pack_start(button, False, True, 0)
                 button.show()
-            #empaqueto todo
-
-        box2.pack_start(scrolled_window, True, True, 1)
-        box2.pack_start(scrolled_window2,False, False, 1)
-        box1.pack_start(menu_bar, False, True, 1)
-        box1.pack_start(toolbar, False, True, 1)
-        box1.pack_start(box2, True, True, 1)
-        self.window1.add(box1)
 
         # capturo los eventos del drawing area
         # menos el teclado que lo capturo desde la ventana principal
@@ -469,23 +454,21 @@ class Ventana:
         self.window1.connect("key_press_event", self.keypress_cb)
         self.window1.connect("key_release_event", self.keyrelease_cb)
         self.area.realize()
-        
         display = self.area.window.get_display()
-        
         pixbuf = gtk.gdk.pixbuf_new_from_file(os.path.abspath(os.path.dirname(__file__))+"/imagenes/mouse/lapiz.png")
         lapiz = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(lapiz)
         pixbuf = gtk.gdk.pixbuf_new_from_file(os.path.abspath(os.path.dirname(__file__))+"/imagenes/mouse/puntero.png")
         puntero = gtk.gdk.Cursor(display, pixbuf, 6, 18)
-        self.cursores.append(puntero)        
+        self.cursores.append(puntero)
         pixbuf = gtk.gdk.pixbuf_new_from_file(os.path.abspath(os.path.dirname(__file__))+"/imagenes/mouse/borrar.png")
         borrar = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(borrar)
         pixbuf = gtk.gdk.pixbuf_new_from_file(os.path.abspath(os.path.dirname(__file__))+"/imagenes/mouse/edicion.png")
         edicion = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(edicion)
-        self.definir_cursor(1)       
-#        self.area.grab_focus()
+        self.definir_cursor(1)
+
     def definir_cursor(self,b):
         self.area.window.set_cursor(self.cursores[b])
 
@@ -493,7 +476,6 @@ class Ventana:
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ==============================================================================
 
-        
     def ver(self,b):
         ver=visor.visor_codigo(self)
         ver.window.show_all()
@@ -531,7 +513,7 @@ class Ventana:
 # ==============================================================================
 # GENERADOR DE MENSAJES
 # ==============================================================================
- 
+
     def mensajes(self,num,mensa):
         tipo=   (
                 gtk.MESSAGE_WARNING,
@@ -559,7 +541,6 @@ class Ventana:
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
     def botones(self,event,b):
-        ##print "boton -" ,b
         self.tipo_componente=b
         self.seleccion_menu=1
         self.definir_cursor(1)
@@ -585,9 +566,9 @@ class Ventana:
         crear.crear_archivo(self.fondo,self)
         i=carga.compilar_pic("main",self.config[0])
         if i==1:
-            self.mensajes(0,("no se encuentra el compilador sdcc en" +  
-                                " la ruta " + self.config[0] + 
-                                " . Pruebe configurar el archivo"+ 
+            self.mensajes(0,("no se encuentra el compilador sdcc en" +
+                                " la ruta " + self.config[0] +
+                                " . Pruebe configurar el archivo"+
                                 " config.dat y corregirlo"))
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
@@ -599,7 +580,7 @@ class Ventana:
         self.mensajes   (3,
         "aprete el boton RESET de la placa pinguino antes de continuar"
                         )
-                    
+
         i=carga.upload_pic("main",self.config[0])
         if i==0:
             self.mensajes(3,"la carga fue exitosa")
@@ -616,7 +597,7 @@ class Ventana:
         if i==2:
             self.mensajes(0,"error al compilar y generar el archivo .hex")
             return 4
-        
+
     def tortucaro(self,b):
         resultado=1
         comp=1
@@ -652,7 +633,7 @@ class Ventana:
         ax=ay=30
         # siempre hay que tratar de que el foco quede en el drawing area
         self.area.grab_focus()
-        
+
         if self.diccionario[b][1]==1:
             c1=componente   (
                             x-ax,
@@ -663,7 +644,7 @@ class Ventana:
                             self.diccionario[b][0],
                             self.fondo,
                             self
-                            
+
                             )
             self.fondo.identificador+=1
             self.fondo.objetos.append(c1)
@@ -694,7 +675,6 @@ class Ventana:
                                             self.fondo,
                                             self,
                                             )
-            #~ self.fondo.componentes.add(c1)
             self.fondo.objetos.append(c1)
             self.fondo.identificador +=1
             c1=componente_bloque_dos    (
@@ -706,7 +686,6 @@ class Ventana:
                                         self.fondo,
                                         self
                                         )
-            #~ self.fondo.componentes.add(c1)
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
             self.fondo.tipo_obj.append(0)
@@ -725,7 +704,6 @@ class Ventana:
                             self,
                             )
             self.fondo.identificador_dat+=1
-            #~ self.fondo.datos.add(c1)
             self.fondo.objetos_datos.append(c1)
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
         if self.diccionario[b][1]==7:
@@ -743,7 +721,6 @@ class Ventana:
                             self,
                             )
             self.fondo.identificador_dat+=1
-            #~ self.fondo.datos.add(c1)
             self.fondo.objetos_datos.append(c1)
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
 
@@ -786,7 +763,7 @@ class Ventana:
         elif response == gtk.RESPONSE_CANCEL:
             pass
         dialog.destroy()
-        
+
     def abrir(self,dato):
 
         dialog = gtk.FileChooserDialog(
@@ -805,8 +782,8 @@ class Ventana:
             dialog.set_current_folder(dato)
         except Exception, ex:
             dialog.set_current_folder(sys.path[0])
-            
-            
+
+
         #~ filter = gtk.FileFilter()
         #~ filter.set_name("All files")
         #~ filter.add_pattern("*")
@@ -823,7 +800,7 @@ class Ventana:
                                         self.fondo,
                                         self
                                         )
-            
+
             self.fondo.objetos.append(inicial)
             cadena= dialog.get_filename()
             self.update()
@@ -877,17 +854,13 @@ class Ventana:
     def expose(self,event,b):
         self.update()
 
-        
     def move_cb(self,win, event):
         mouse=event.get_coords()
-        self.mousexy=(mouse[0]/self.z,mouse[1]/self.z) 
-        
-        ##print self.mousexy
-        #self.area.queue_draw()
+        self.mousexy=(mouse[0]/self.z,mouse[1]/self.z)
 
     def buttonpress_cb(self,win,event):
         self.boton_mouse[event.button]=1
-        # aca llamo a update porque si no, me tira un error en tiempo 
+        # aca llamo a update porque si no, me tira un error en tiempo
         # de ejecucion
         self.update()
         self.boton_mouse[event.button]=1
@@ -900,7 +873,7 @@ class Ventana:
 
     def buttonrelease_cb(self,win,event):
         self.boton_mouse[event.button]=0
-    
+
     def menu(self, event):
         menu = gtk.Menu()
         dibujar = gtk.MenuItem(_("Pen"))
@@ -956,7 +929,7 @@ class Ventana:
             #x=self.fondo.objetos[self.fondo.ultimo].conector_m[0]-10
             #y=self.fondo.objetos[self.fondo.ultimo].conector_m[1]+40
             #self.update()
-            #self.crear_componente(self.tipo_componente,x,y)            
+            #self.crear_componente(self.tipo_componente,x,y)
 
     def keyrelease_cb(self,win,event):
         self.tecla=0
@@ -967,7 +940,7 @@ class Ventana:
         cartel=self.mensajes(1,"¿esta seguro que desea salir del sistema?")
         if cartel==1:
             exit()
-            
+
 # ==============================================================================
 # LAS RESPUESTAS DEL MENU
 # ==============================================================================
@@ -1090,21 +1063,13 @@ class Ventana:
                 self.mensajes(3,"se actualizo el firmware ")
             except:
                 self.mensajes(3,"no se pudo actualizar el firmware")
-        
-    #~ def carga_tooltip(self):
-        #~ ruta=os.path.abspath(os.path.dirname(__file__)) 
-        #~ ff=open(ruta + "/tooltips.xml","r")
-        #~ t=ff.readlines()
-        #~ for a in range(len(t)):
-            #~ cad_aux=t[a].strip("\n")
-            #~ if cad_aux=="<tool>":
-                #~ self.tooltip[t[a+1].strip("\n")]=t[a+2].strip("\n")
-                
+
+
     def visor(self,dir):
             browser = navegador.SimpleBrowser()
             browser.open(dir)
             browser.show()
-            
+
     def carga_dicc(self):
         """
         funcion para cargar los componentes bloques,
@@ -1114,16 +1079,14 @@ class Ventana:
         """
         import carga_componentes
         q=0
-        
+
         carga=carga_componentes.DICC()
         comp,grupo=carga.buscar_bloques()
         for a in range(len(grupo)):
-            #print grupo[a]
             self.diccionario[q]=["notebook",grupo[a]]
             q+=1
             for cmp in comp[a]:
-                ##print comp[a]
-                ##print a
+
                 tupla=[]
                 tupla.append(cmp.dicc["nombre"])
                 tupla.append(cmp.dicc["componente"])
@@ -1134,8 +1097,6 @@ class Ventana:
                 self.valor_datos_comp[cmp.dicc["nombre"]]= cmp.valor
                 self.diccionario[q]=tupla
                 q+=1
-        #print ".............",self.valor_datos_comp
-
 
     def carga_paleta(self):
         R=G=B=""
@@ -1161,9 +1122,8 @@ ventana_principal.fondo=fon
 inicial=componente_inicial(20,50,1,fon,ventana_principal)
 fon.objetos.append(inicial)
 ventana_principal.window1.show_all()
-gobject.timeout_add(1,ventana_principal.timeout)
+gobject.timeout_add(21,ventana_principal.timeout)
 gobject.PRIORITY_DEFAULT=-1
-#gobject.idle_add(ventana_principal.timeout)
 gtk.main()
 
 

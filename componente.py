@@ -34,35 +34,7 @@ class ComponenteCentral():
         self.rectan[0]=self.posicion[0]
         self.rectan[1]=self.posicion[1]-10
         if self.vivo==True:
-            if self.pegado==0:
-                self.fondo.lista_ordenada[self.ide]=0
-                for a in range(len(self.fondo.objetos)):
-#                    if a>0:
-                        #print "obj= ",a , "----",self.fondo.objetos[a].pegado
-#                        if self.fondo.objetos[a].pegado==0:
-#                            self.linexy=[self.conector_h[0],self.conector_h[1],self.fondo.objetos[a].conector_m[0],self.fondo.objetos[a].conector_m[1]]
-                    if (self.fondo.colliderect
-                            (
-                            self.conector_h,self.fondo.objetos[a].conector_m
-                            )
-                        and
-                        self.fondo.objetos[a].vivo)==True:
 
-                        self.pegado=1
-                        self.pegado_a=a
-                        break
-                    else:
-                        self.pegado=0
-                        self.pegado_a=0
-
-            if self.pegado==1:
-                x,y,aa,bb=self.fondo.objetos[self.pegado_a].conector_m
-                xx=x-self.valx
-                yy=y+self.valy
-                self.posicion=(xx,yy)
-                iden=self.fondo.objetos[self.pegado_a].ide
-                self.fondo.lista_ordenada[self.ide]=iden
-                
             if (botones_mouse[1]==1 and
                 self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True and
                 self.pulsado==0 and
@@ -108,7 +80,41 @@ class ComponenteCentral():
                 #self.fondo.objetos[a].borrar()
                 self.fondo.objetos.remove(self)
                 self.fondo.lista_ordenada[self.ide]=0
-        self.dibujar()
+        
+            if self.pegado==1:
+                x,y,aa,bb=self.fondo.objetos[self.pegado_a].conector_m
+                xx=x-self.valx
+                yy=y+self.valy
+                self.posicion=(xx,yy)
+                iden=self.fondo.objetos[self.pegado_a].ide
+                self.fondo.lista_ordenada[self.ide]=iden
+                self.dibujar()
+
+                return 0
+            if self.pegado==0:
+                self.fondo.lista_ordenada[self.ide]=0
+                for a in range(len(self.fondo.objetos)):
+#                    if a>0:
+                        #print "obj= ",a , "----",self.fondo.objetos[a].pegado
+#                        if self.fondo.objetos[a].pegado==0:
+#                            self.linexy=[self.conector_h[0],self.conector_h[1],self.fondo.objetos[a].conector_m[0],self.fondo.objetos[a].conector_m[1]]
+                    if (self.fondo.colliderect
+                            (
+                            self.conector_h,self.fondo.objetos[a].conector_m
+                            )
+                        and
+                        self.fondo.objetos[a].vivo)==True:
+
+                        self.pegado=1
+                        self.pegado_a=a
+                        break
+                    else:
+                        self.pegado=0
+                        self.pegado_a=0
+            self.dibujar()
+
+                
+
 
 class componente(ComponenteCentral):
 
