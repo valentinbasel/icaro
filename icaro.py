@@ -63,17 +63,16 @@ class fondo(MotorCairo,Componentes):
         self.lista_ordenada.append(0)
         self.img=""
         self.ultimo=1
+        
     def carga_img(self,cadena):
         self.band=1
         self.img=cadena
 
     def update(self):
-
         if self.band==1:
             if os.path.exists(self.img):
                 cr2 = ventana_principal.area.window.cairo_create()
                 respuesta=self.imagen(self.img,0,0,cr2)
-
                 if respuesta==1:
                     self.band=0
 # ==============================================================================
@@ -214,7 +213,6 @@ class Ventana:
         for a in range(len(menu_general)):
             menu = gtk.Menu()
         # buf es donde se cargan todos los botones del menu
-
             for i in menu_general[a]:
                 menu_items = gtk.MenuItem(i)
                 menu.append(menu_items)
@@ -225,166 +223,41 @@ class Ventana:
             root_menu.set_submenu(menu)
             menu_bar.append (root_menu)
 
-
         #toolbar.append_item
         toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
         toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
         toolbar.show()
 
         # creo los botones de la toolbar
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_NEW,30)
-        tool_button = toolbar.append_item(
-                        _("New"),
-                        self.tooltip["nuevo"],
-                        "Private",
-                        iconw,
-                        self.nuevo)
+        botones_toolbar=[
+                        [1,toolbar,gtk.STOCK_NEW,"New",self.tooltip["nuevo"],self.nuevo,None],
+                        [1,toolbar,gtk.STOCK_OPEN,"Open",self.tooltip["abrir"],self.abrir,None],
+                        [1,toolbar,gtk.STOCK_SAVE,"Save",self.tooltip["guardar"],self.guardar,None],
+                        [1,toolbar,gtk.STOCK_QUIT,"Quit",self.tooltip["salir"],self.salir,None],
+                        [3],
+                        [2,toolbar,sys.path[0] + "/imagenes/icaro.png","Compile",self.tooltip["compilar"],self.compilar,None],
+                        [2,toolbar,sys.path[0] + "/imagenes/compilar.png","Load",self.tooltip["cargar"],self.upload,None],
+                        [2,toolbar,sys.path[0] + "/imagenes/tortucaro.png","Tortucaro",self.tooltip["tortucaro"],self.tortucaro,None],
+                        [3],
+                        [1,toolbar,gtk.STOCK_HELP,"Help",self.tooltip["ayuda"],self.ayuda,None],
+                        [1,toolbar,gtk.STOCK_PROPERTIES,"View source",self.tooltip["ver_codigo"],self.ver,None],
+                        [3],
+                        [1,toolbar,gtk.STOCK_ADD,"Pen",self.tooltip["lapiz"],self.dibujo,1],
+                        [1,toolbar,gtk.STOCK_SELECT_COLOR,"Move",self.tooltip["mover"],self.dibujo,2],
+                        [1,toolbar,gtk.STOCK_DELETE,"Erase",self.tooltip["borrar"],self.dibujo,3],
+                        [1,toolbar,gtk.STOCK_EDIT,"Edit","",self.dibujo,4],
+                        [3],
+                        [1,toolbar,gtk.STOCK_ZOOM_IN,"agrandar","",self.menuitem_response,"zoomas"],
+                        [1,toolbar,gtk.STOCK_ZOOM_OUT,"achicar","",self.menuitem_response,"zoomenos"],
+                        [1,toolbar,gtk.STOCK_ZOOM_100,"zoom 1:1","",self.menuitem_response,"zoomenos"]            
+                        ]
+        #creo los botones de la toolbar en funcion de la tupla botonas_toolbar
+        for dat in botones_toolbar:
+            if dat[0]==3:
+                toolbar.append_space()
+            if dat[0]==1 or dat[0]==2:                
+                self.crear_toolbuttons(dat[0],dat[1],dat[2],dat[3],dat[4],dat[5],dat[6])
 
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_OPEN,30)
-        tool_button = toolbar.append_item(
-                        _("Open"),
-                        self.tooltip["abrir"],
-                        "Private",
-                        iconw,
-                        self.abrir)
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_SAVE,30)
-        tool_button = toolbar.append_item(
-                        _("Save"),
-                        self.tooltip["guardar"],
-                        "Private",
-                        iconw,
-                        self.guardar)
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_QUIT,30)
-        tool_button = toolbar.append_item(
-                        _("Exit"),
-                        self.tooltip["salir"],
-                        "Private",
-                        iconw,
-                        self.salir)
-
-        toolbar.append_space()
-
-
-
-        iconw = gtk.Image()
-        iconw.set_from_file(sys.path[0] + "/imagenes/icaro.png")
-        tool_button = toolbar.append_item(
-                        _("Compile"),
-                        self.tooltip["compilar"],
-                        "Private",
-                        iconw,
-                        self.compilar)
-
-        iconw = gtk.Image()
-        iconw.set_from_file(sys.path[0] + "/imagenes/compilar.png")
-        tool_button = toolbar.append_item(
-                        _("Load"),
-                        self.tooltip["cargar"],
-                        "Private",
-                        iconw,
-                        self.upload)
-
-        iconw = gtk.Image()
-        iconw.set_from_file(sys.path[0] + "/imagenes/tortucaro.png")
-        tool_button = toolbar.append_item(
-                        _("Tortucaro"),
-                        self.tooltip["tortucaro"],
-                        "Private",
-                        iconw,
-                        self.tortucaro)
-        toolbar.append_space()
-
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_HELP,30)
-        tool_button = toolbar.append_item(
-                        _("Help"),
-                        self.tooltip["ayuda"],
-                        "Private",
-                        iconw,
-                        self.ayuda)
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_PROPERTIES,30)
-        tool_button = toolbar.append_item(
-                        _("View source"),
-                        self.tooltip["ver_codigo"],
-                        "Private",
-                        iconw,
-                        self.ver)
-
-
-        # un espacio en blanco para separar
-        toolbar.append_space()
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_ADD,30)
-        dibujar_button = toolbar.append_element(
-                        gtk.TOOLBAR_CHILD_BUTTON,None,
-                        _("Pen"),
-                        self.tooltip["lapiz"],
-                        "Private",
-                        iconw,
-                        self.dibujo,1)
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_SELECT_COLOR,30)
-        mover_button = toolbar.append_element(
-                        gtk.TOOLBAR_CHILD_BUTTON,None,
-                        _("Move"),
-                        self.tooltip["mover"],
-                        "Private",
-                        iconw,
-                        self.dibujo,2)
-
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_DELETE,30)
-        tool_button = toolbar.append_element(
-                        gtk.TOOLBAR_CHILD_BUTTON,None,
-                        _("Erase"),
-                        self.tooltip["borrar"],
-                        "Private",
-                        iconw,
-                        self.dibujo,3)
-
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_EDIT,30)
-        edit_button = toolbar.append_element(
-                        gtk.TOOLBAR_CHILD_BUTTON,None,
-                        _("Edit"),
-                        "",
-                        "Private",
-                        iconw,
-                        self.dibujo,4)
-        # un espacio en blanco para separar
-        toolbar.append_space()
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_ZOOM_IN,30)
-        zoom_in_button = toolbar.append_element(
-                        gtk.TOOLBAR_CHILD_BUTTON,None,
-                        _("agrandar"),
-                        "",
-                        "Private",
-                        iconw,
-                        self.menuitem_response,"zoomas")
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_ZOOM_OUT,30)
-        zoom_out_button = toolbar.append_element(
-                        gtk.TOOLBAR_CHILD_BUTTON,None,
-                        _("achicar"),
-                        "",
-                        "Private",
-                        iconw,
-                        self.menuitem_response,"zoomenos")
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_ZOOM_100,30)
-        zoom_out_button = toolbar.append_element(
-                        gtk.TOOLBAR_CHILD_BUTTON,None,
-                        _("zoom 1:1"),
-                        "",
-                        "Private",
-                        iconw,
-                        self.menuitem_response,"zoomcero")
         scrolled_window.set_size_request(300, 300)
         scrolled_window.set_policy(gtk.POLICY_ALWAYS, gtk.POLICY_ALWAYS)
         scrolled_window.show()
@@ -408,14 +281,10 @@ class Ventana:
             button.set_tooltip_text(val)
         # bucle principal donde se cargan los RAdioButton donde se cargan
         # los componentes del diccionario
-
-
         button.add(caja)
         button.connect("clicked", self.botones,self.lista[1])#buffer
-
         button.show()
         table.pack_start(button, False, True, 0)
-
         for i in range(2,len(self.lista)):
             if self.diccionario[self.lista[i]][0]=="notebook":
                 table=gtk.VBox(False, len(self.lista))
@@ -468,6 +337,27 @@ class Ventana:
         edicion = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(edicion)
         self.definir_cursor(1)
+
+    def crear_toolbuttons(self,tipo,toolbar,img,nombre,tooltip,func,metodos):
+        # creo los botones de la toolbar
+        if tipo==1:
+            iconw = gtk.Image()
+            iconw.set_from_stock(img,30)
+            tool_button = toolbar.append_item(
+                            _(nombre),
+                            tooltip,
+                            "Private",
+                            iconw,
+                            func,metodos)
+        if tipo==2:
+            iconw = gtk.Image()
+            iconw.set_from_file(img)
+            tool_button = toolbar.append_item(
+                            _(nombre),
+                            tooltip,
+                            "Private",
+                            iconw,
+                            func,metodos)            
 
     def definir_cursor(self,b):
         self.area.window.set_cursor(self.cursores[b])
