@@ -92,18 +92,18 @@ class MotorCairo():
             ):
             if (
                 y > rectan[1] and 
-                y < rectan[1]+rectan[2]
+                y < rectan[1]+rectan[3]
                 ):
                 return True
         else:
             return False
 
-    def collide(sef,rectan,x,y):
-        if x > rectan[0] and x < rectan[0]+rectan[2]:
-            if y > rectan[1] and y < rectan[1]+rectan[2]:
-                return True
-        else:
-            return False
+#    def collide(sef,rectan,x,y):
+#        if x > rectan[0] and x < rectan[0]+rectan[2]:
+#            if y > rectan[1] and y < rectan[1]+rectan[2]:
+#                return True
+#        else:
+#            return False
     def colliderect(sef,rectan,rectan2):
         if rectan2[0] > rectan[0] and rectan2[0] < rectan[0]+rectan[2]:
             if rectan2[1] > rectan[1] and rectan2[1] < rectan[1]+rectan[2]:

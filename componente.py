@@ -18,6 +18,7 @@ class ComponenteCentral():
     """ Class doc """
     pulsado=0
     conector_h_dato=[0,0,40,20]#conector hembra dato
+    
     ide=0
     color=(110,20,90)
     texto=""
@@ -39,6 +40,7 @@ class ComponenteCentral():
                 self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True and
                 self.pulsado==0 and
                 self.ventana.seleccionado==0 and
+                self.ventana.seleccionado_datos==0 and
                 self.ventana.seleccion_menu==2
                 ):
                 posic_mouse= self.ventana.mousexy
@@ -89,7 +91,7 @@ class ComponenteCentral():
                 iden=self.fondo.objetos[self.pegado_a].ide
                 self.fondo.lista_ordenada[self.ide]=iden
                 self.dibujar()
-
+                
                 return 0
             if self.pegado==0:
                 self.fondo.lista_ordenada[self.ide]=0
@@ -107,6 +109,7 @@ class ComponenteCentral():
 
                         self.pegado=1
                         self.pegado_a=a
+
                         break
                     else:
                         self.pegado=0

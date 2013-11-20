@@ -581,7 +581,7 @@ class Ventana:
             self.fondo.tipo_obj.append(0)
         if self.diccionario[b][1]==6:
             c1=comp_dat_arg   (
-                            x-ax-15,
+                            x-ax,
                             y-ay+15,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
@@ -598,7 +598,7 @@ class Ventana:
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
         if self.diccionario[b][1]==7:
             c1=comp_dat_arg   (
-                            x-ax-15,
+                            x,
                             y-ay+15,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
@@ -724,6 +724,7 @@ class Ventana:
 
     def timeout(self):
         self.area.queue_draw()
+        
         return True
 
     def update(self):

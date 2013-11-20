@@ -98,15 +98,17 @@ class comp_dat_arg():
             self.fondo.draw(self.posicion[0]+x,self.posicion[1]+y,w,h,self.color,self.ventana.cr)
         self.rectan[2]=7*TamaComp+20
 
-        self.conector_h[0]=self.rectan[0]+30+(7*TamaComp)
+        self.conector_h[0]= self.rectan[0]+(7*TamaComp+20)+10
         self.conector_h[1]=self.rectan[1]
+        #self.fondo.draw(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3],self.color,self.ventana.cr)
+
         if self.tipo==7:
             self.fondo.texto(self.texto,self.posicion[0]+20,self.posicion[1]+15,self.color_texto,self.ventana.cr)
         if self.tipo==6:
-
             self.modificable=0
             self.fondo.imagen(self.imagen,self.posicion[0]+30-15,self.posicion[1]-5,self.ventana.cr)
-
+        #
+       # 
     def update(self):
         ban_a=0
         cadena_auxiliar=""
@@ -114,8 +116,7 @@ class comp_dat_arg():
         botones_mouse = self.ventana.boton_mouse
         # self.rectan es el rect
         # que representa la totalidad de la figura
-        self.rectan[0]=self.posicion[0]
-        self.rectan[1]=self.posicion[1]
+
         # self.conector_m es la ficha "macho"
         self.conector_m[0]=self.rectan[0]
         self.conector_m[1]=self.rectan[1]
@@ -200,11 +201,13 @@ class comp_dat_arg():
             self.posic_rel_x=abs(self.posicion[0]-posic_mouse[0])
             self.posic_rel_y=abs(self.posicion[1]-posic_mouse[1])
             self.pulsado=1
+            print self.rectan
         if self.ventana.seleccionado_datos== self.ide:
             self.posicion=(
                             posic_mouse[0]-self.posic_rel_x,
                             posic_mouse[1]-self.posic_rel_y
                             )
+            self.fondo.draw(self.rectan[0],self.rectan[1],self.rectan[2],self.rectan[3],self.color,self.ventana.cr)
             self.conectado=0
             self.pegado=0
             self.pegado_a=0
@@ -229,6 +232,9 @@ class comp_dat_arg():
             #del self.fondo.tipo_obj_datos[a]
             #self.kill()
             self.fondo.objetos_datos.remove(self)
+            
+        self.rectan[0]=self.posicion[0]
+        self.rectan[1]=self.posicion[1]
         self.dibujar()
         self.cadena_intermedia=""
         
