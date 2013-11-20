@@ -26,7 +26,6 @@ class comp_dat_arg():
     cadena_final=""
     cadena_intermedia=""
     #rectangulo que representa toda el area del componente
-    
     ide=0
     color=(125,100,83)
     modificable=0
@@ -130,7 +129,6 @@ class comp_dat_arg():
             ):
             self.cuadro_texto(int(posic_mouse[0]),int(posic_mouse[1]))
             self.tecla=1
-            
         if botones_mouse[1]==0:
             self.tecla=0
             self.pulsado=0
@@ -146,7 +144,7 @@ class comp_dat_arg():
                                 )
         self.cadena_final=self.cadena_final.replace("\r", '')
         
-        if self.conectado==0:
+        if self.conectado==0 and self.ventana.seleccionado==0:
             if self.pegado==0:
                 for a in range(1,len(self.fondo.objetos)):
                     valor1=self.fondo.objetos[a].lista_conector_h_datos
@@ -171,7 +169,7 @@ class comp_dat_arg():
         except:
             self.pegado=0
             
-        if self.conectado==0:
+        if self.conectado==0 and self.ventana.seleccionado==0:
             if self.pegado2==0:
                 for z in range(0,len(self.fondo.objetos_datos)):
                     val=self.fondo.objetos_datos[z].conector_h
@@ -192,6 +190,7 @@ class comp_dat_arg():
         if (
             botones_mouse[1]==1 and
             self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True and
+            self.ventana.seleccionado==0 and
             self.pulsado==0 and
             self.ventana.seleccionado_datos==0 and 
             self.ventana.seleccion_menu==2

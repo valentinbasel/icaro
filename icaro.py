@@ -742,6 +742,7 @@ class Ventana:
         return True
 
     def expose(self,event,b):
+        #print event,"---",b
         self.update()
 
     def move_cb(self,win, event):
