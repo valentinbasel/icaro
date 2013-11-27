@@ -14,6 +14,7 @@ import gtk
 import os
 import pickle
 def guardar(obj,ruta,fondo):
+    print fondo.lista_ordenada
     file=open(ruta,"w")
     list_auxiliar=[len(fondo.objetos_datos),len(fondo.objetos)]
     pickle.dump(list_auxiliar,file)

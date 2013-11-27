@@ -75,12 +75,15 @@ def crear_archivo(fondo, ventana):
                             fondo.objetos[b].texto,
                             fondo,ventana
                             )
-                #cadena_final
-                if caden.find("incluir")==0:
+                if caden.find("definir")==0:
                     fun=caden.split(",")
-                    incluir(fondo,ventana,fun)
+                    definir(fondo,ventana,fun)
                 else:
-                    ventana.cadena_pinguino.append(caden)
+                    if caden.find("incluir")==0:
+                        fun=caden.split(",")
+                        incluir(fondo,ventana,fun)
+                    else:
+                        ventana.cadena_pinguino.append(caden)
     ventana.cadena_pinguino.append("}")
     
     fw=open(dir_conf +"/source/user.c","w")
@@ -123,6 +126,9 @@ def funcion(fondo,ventana,ruta):
     file.writelines("}\n")
 def incluir(fondo,ventana,fun):
     val="#include <"+str(fun[1].strip(" \n"))+">\n"
+    ventana.cadena_pinguino.insert(0,val)
+def definir(fondo,ventana,fun):
+    val="#define "+str(fun[1].strip(" \n"))+"\n"
     ventana.cadena_pinguino.insert(0,val)
     
 #    if ventana.archivo=="":

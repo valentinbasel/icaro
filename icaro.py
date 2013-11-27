@@ -123,27 +123,33 @@ class Ventana:
         ###############################################
         #   el orden de los contenedores de la ventana
         #
-        #        ventana
+        #     ventana
         #        |
         #         ->box1
         #           |
         #            -> menu_bar
         #           |
-        #            -> toolbar
-        #           |
-        #            -> hp
+        #            -> box2
         #               |
-        #                -> box2
-        #               |     |
-        #               |      -> scrolled_window3
-        #               |     |           |
-        #               |     |            -> toolbar
-        #               |     |
-        #               |      -> scrolled_window2
-        #               |                 |
-        #               |                  -> notebook
+        #                -> scrolled_window3
+        #               |            |
+        #               |             -> toolbar
         #               |
-        #                -> scrolled_window        
+        #                -> hp
+        #                   |
+        #                    -> notebook2
+        #                   |         |
+        #                   |          -> scrolled_window
+        #                   |         |       |
+        #                   |         |        -> area
+        #                   |         |
+        #                   |          -> visor
+        #                   |
+        #                    -> scrolled_window2
+        #                            |
+        #                             -> notebook
+        #               
+        #                  
         ################################################
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
@@ -175,6 +181,7 @@ class Ventana:
         scrolled_window3 = gtk.ScrolledWindow()
         table=gtk.VBox(False, len(self.lista))
         notebook = gtk.Notebook()
+        notebook2 = gtk.Notebook()
         hp=gtk.HPaned()
         box2 = gtk.HBox(False, 3)    
         box1 = gtk.VBox(False, 3)
@@ -185,15 +192,17 @@ class Ventana:
         #, en las netbook no entra todo
         self.window1.add(box1)
         box1.pack_start(menu_bar, False, True, 1)
-        box1.pack_start(hp, True, True, 1)
+        box1.pack_start(box2, True, True, 1)
         scrolled_window.add_with_viewport(self.area)
         scrolled_window3.add_with_viewport(toolbar)
         scrolled_window2.add_with_viewport(notebook)
+        notebook2.append_page(scrolled_window,gtk.Label("bloques"))
         box2.pack_start(scrolled_window3, False, False, 1)
-        box2.pack_start(scrolled_window2, False, False, 1)
-        hp.pack1(scrolled_window,True,True)
-        hp.pack2(box2,True,True)
-
+        box2.pack_start(hp, True, True, 1)
+        hp.pack1(notebook2,True,True)
+        hp.pack2(scrolled_window2,True,True)
+        ver=visor.visor_codigo(self,notebook2)
+        
         hp.set_position(500)
         self.window1.connect('delete-event', gtk.main_quit)
         self.window1.set_icon_from_file(
@@ -240,7 +249,6 @@ class Ventana:
                         [2,toolbar,sys.path[0] + "/imagenes/tortucaro.png","Tortucaro",self.tooltip["tortucaro"],self.tortucaro,None],
                         [3],
                         [1,toolbar,gtk.STOCK_HELP,"Help",self.tooltip["ayuda"],self.ayuda,None],
-                        [1,toolbar,gtk.STOCK_PROPERTIES,"View source",self.tooltip["ver_codigo"],self.ver,None],
                         [3],
                         [1,toolbar,gtk.STOCK_ADD,"Pen",self.tooltip["lapiz"],self.dibujo,1],
                         [1,toolbar,gtk.STOCK_SELECT_COLOR,"Move",self.tooltip["mover"],self.dibujo,2],
@@ -366,9 +374,7 @@ class Ventana:
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ==============================================================================
 
-    def ver(self,b):
-        ver=visor.visor_codigo(self)
-        ver.window.show_all()
+
 
     def graf(self):
         graf=graficador.VENTANA()
@@ -539,6 +545,7 @@ class Ventana:
             self.fondo.identificador+=1
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.lista_ordenada.append(0)
         if self.diccionario[b][1]==4:
 
             self.fondo.identificador+=1
@@ -554,6 +561,8 @@ class Ventana:
 
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.lista_ordenada.append(0)
+
         if self.diccionario[b][1]==5:
             self.fondo.identificador+=1
             c1=componente_bloque_uno(
@@ -567,6 +576,8 @@ class Ventana:
                                             )
             self.fondo.objetos.append(c1)
             self.fondo.identificador +=1
+            self.fondo.lista_ordenada.append(0)
+
             c1=componente_bloque_dos    (
                                         x-ax,
                                         y+80-ay,
@@ -579,6 +590,8 @@ class Ventana:
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
             self.fondo.tipo_obj.append(0)
+            self.fondo.lista_ordenada.append(0)
+
         if self.diccionario[b][1]==6:
             c1=comp_dat_arg   (
                             x-ax,

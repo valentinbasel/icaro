@@ -24,22 +24,23 @@ if gtk.pygtk_version < (2,10,0):
 import gtksourceview2
 import pango
 class visor_codigo():
-    def __init__(self,ventana):
+    def __init__(self,ventana,notebook):
         # create buffer
         lm = gtksourceview2.LanguageManager()
-        buffer = gtksourceview2.Buffer()
-        buffer.set_data('languages-manager', lm)
-        view = gtksourceview2.View(buffer)
+        self.buffer = gtksourceview2.Buffer()
+        self.buffer.set_data('languages-manager', lm)
+        view = gtksourceview2.View(self.buffer)
         self.ventana=ventana
-        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        self.window.set_border_width(0)
-        self.window.set_title('codigo fuente generado por el sistema')
+ #       self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+ #       self.window.set_border_width(0)
+ #       self.window.set_title('codigo fuente generado por el sistema')
         #windows.append(window) # this list contains all view windows
-        self.window.set_default_size(500, 500)
-        self.window.show()
+#        self.window.set_default_size(500, 500)
+#        self.window.show()
         
         vbox = gtk.VBox(0, True)
-        self.window.add(vbox)
+ #       self.window.add(vbox)
+        notebook.append_page(vbox,gtk.Label("codigo fuente"))
         tool1=gtk.Toolbar()
         tool1.show()
 
@@ -52,14 +53,7 @@ class visor_codigo():
                         iconw,
                         self.compilar)
                         
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_NEW,15)
-        tool_button = tool1.append_item(
-                        _("Exit"),
-                        self.ventana.tooltip["salir"],
-                        "Private",
-                        iconw,
-                        self.close)
+
 
         vbox.pack_start(tool1, fill=False, expand=False)
         sw = gtk.ScrolledWindow()
@@ -77,9 +71,16 @@ class visor_codigo():
         vbox.show_all()
         # main loop
         dir_conf=os.path.expanduser('~') + "/.icaro/firmware/"
-        cadena_user_c=dir_conf+"source/user.c"
-
-        self.buf=self.open_file(buffer,cadena_user_c)
+        self.cadena_user_c=dir_conf+"source/user.c"
+        self.buf=self.open_file(self.buffer,self.cadena_user_c)
+        iconw = gtk.Image()
+        iconw.set_from_stock(gtk.STOCK_NEW,15)
+        tool_button = tool1.append_item(
+                        "recargar",
+                        "",
+                        "Private",
+                        iconw,
+                        self.recargar)
     def open_file(self,buffer, filename):
         # get the new language for the file mimetype
         manager = buffer.get_data('languages-manager')
@@ -114,12 +115,13 @@ class visor_codigo():
         buffer.place_cursor(buffer.get_start_iter())
         
         return True
-    def close(self,arg):
+    def recargar(self,b):
+        self.buf=self.open_file(self.buffer,self.cadena_user_c)
+        #self.buf=self.open_file(arg[0],arg[1])
         #~ gtk.main_quit()
-        self.window.hide()
+#        self.window.hide()
         
     def compilar(self,arg):
-        print arg
         dir_conf=os.path.expanduser('~') + "/.icaro/firmware/"
         cadena=dir_conf+"source/user.c"
         cadena2=self.buf.props.text

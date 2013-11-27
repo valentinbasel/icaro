@@ -145,7 +145,7 @@ class componente(ComponenteCentral):
         self.rectan=[self.posicion[0],self.posicion[1],60,60]
         self.conector_m=[0,0,40,10]#conector macho
         self.conector_h=[0,0,40,10]#conector hembra
-        self.fondo.lista_ordenada.append(0)
+#        self.fondo.lista_ordenada.append(0)
         self.lista_conector_h_datos=[]
         self.lista_valores=[]
         self.pegado=0
@@ -231,7 +231,7 @@ class componente_bloque_dos(ComponenteCentral):
         self.conector_m=[0,0,40,10]
         #conector hembraS
         self.conector_h=[0,0,40,10]
-        self.fondo.lista_ordenada.append(0)
+#        self.fondo.lista_ordenada.append(0)
         self.lista_conector_h_datos=[]
         self.lista_valores=[]
         self.pegado=0
@@ -289,7 +289,7 @@ class componente_bloque_uno(ComponenteCentral):
         self.rectan=[self.posicion[0],self.posicion[1],60,60]#rectangulo que representa toda el area del componente
         self.conector_m=[0,0,40,10]#conector macho
         self.conector_h=[0,0,40,10]#conector hembra
-        self.fondo.lista_ordenada.append(0)
+#        self.fondo.lista_ordenada.append(0)
         self.lista_conector_h_datos=[]
         self.lista_valores=[]
         self.pegado=0
@@ -358,7 +358,7 @@ class componente_cero_arg():
         self.conector_h=[0,0,40,10]#conector hembra
         self.conector_m=[0,0,40,10]#conector macho
         self.vivo=True
-        self.fondo.lista_ordenada.append(0)
+#        self.fondo.lista_ordenada.append(0)
         self.lista_conector_h_datos=[]
         self.lista_valores=[]
         self.pegado=0

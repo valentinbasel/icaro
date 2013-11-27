@@ -207,7 +207,6 @@ class comp_dat_arg():
                             posic_mouse[0]-self.posic_rel_x,
                             posic_mouse[1]-self.posic_rel_y
                             )
-            self.fondo.draw(self.rectan[0],self.rectan[1],self.rectan[2],self.rectan[3],self.color,self.ventana.cr)
             self.conectado=0
             self.pegado=0
             self.pegado_a=0

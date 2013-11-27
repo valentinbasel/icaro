@@ -26,6 +26,7 @@ def abrir(diccio,ruta,fon,ventana):
     fon.objetos[0].posicion=obj_inic_pos
     fon_lto=pickle.load(file)
     fon.lista_ordenada=fon_lto
+    #print fon.lista_ordenada
     for obj_dato in range(lista_auxiliar[0]):
         obj_ide=pickle.load(file)
         obj_pos=pickle.load(file)
@@ -65,6 +66,7 @@ def abrir(diccio,ruta,fon,ventana):
         fon.identificador_dat+=1
         fon.objetos_datos.append(c1)
         fon.tipo_obj_datos.append(obj_tip)
+
     for i in range (1,lista_auxiliar[1]):
         try:
             obj_tip=pickle.load(file)
@@ -117,7 +119,7 @@ def abrir(diccio,ruta,fon,ventana):
             c1.posicion2=obj_pos2
             fon.objetos.append(c1)
             fon.tipo_obj.append(obj_tip)
-                        
+            #fon.lista_ordenada.append(0)                        
         if obj_tip==5:
             obj_ide=pickle.load(file)
             obj_pos=pickle.load(file)
@@ -154,6 +156,7 @@ def abrir(diccio,ruta,fon,ventana):
             c1.pegado_a=obj2_pga
             fon.tipo_obj.append(5)
             fon.tipo_obj.append(0)
+
     file.close()
     return 0
  
