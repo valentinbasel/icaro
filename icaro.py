@@ -137,7 +137,7 @@ class Ventana:
         #               |
         #                -> hp
         #                   |
-        #                    -> notebook2
+        #                    -> self.notebook2
         #                   |         |
         #                   |          -> scrolled_window
         #                   |         |       |
@@ -181,7 +181,7 @@ class Ventana:
         scrolled_window3 = gtk.ScrolledWindow()
         table=gtk.VBox(False, len(self.lista))
         notebook = gtk.Notebook()
-        notebook2 = gtk.Notebook()
+        self.notebook2 = gtk.Notebook()
         hp=gtk.HPaned()
         box2 = gtk.HBox(False, 3)    
         box1 = gtk.VBox(False, 3)
@@ -196,12 +196,12 @@ class Ventana:
         scrolled_window.add_with_viewport(self.area)
         scrolled_window3.add_with_viewport(toolbar)
         scrolled_window2.add_with_viewport(notebook)
-        notebook2.append_page(scrolled_window,gtk.Label("bloques"))
+        self.notebook2.append_page(scrolled_window,gtk.Label("bloques"))
         box2.pack_start(scrolled_window3, False, False, 1)
         box2.pack_start(hp, True, True, 1)
-        hp.pack1(notebook2,True,True)
+        hp.pack1(self.notebook2,True,True)
         hp.pack2(scrolled_window2,True,True)
-        ver=visor.visor_codigo(self,notebook2)
+        self.ver=visor.visor_codigo(self,self.notebook2)
         
         hp.set_position(500)
         self.window1.connect('delete-event', gtk.main_quit)
@@ -458,19 +458,22 @@ class Ventana:
             self.cadena_pinguino.append(linea)
 
     def compilar(self,b):
-        self.carga()
-        crear.crear_archivo(self.fondo,self)
-        i=carga.compilar_pic("main",self.config[0])
-        if i==1:
-            self.mensajes(0,("no se encuentra el compilador sdcc en" +
-                                " la ruta " + self.config[0] +
-                                " . Pruebe configurar el archivo"+
-                                " config.dat y corregirlo"))
-        if i==0:
-            self.mensajes(3,"la compilacion fue exitosa")
-        else:
-            self.mensajes(0,"hubo un error de compilacion")
-
+        pagina= self.notebook2.get_current_page()
+        if pagina ==0:
+            self.carga()
+            crear.crear_archivo(self.fondo,self)
+            i=carga.compilar_pic("main",self.config[0])
+            if i==1:
+                self.mensajes(0,("no se encuentra el compilador sdcc en" +
+                                    " la ruta " + self.config[0] +
+                                    " . Pruebe configurar el archivo"+
+                                    " config.dat y corregirlo"))
+            if i==0:
+                self.mensajes(3,"la compilacion fue exitosa")
+            else:
+                self.mensajes(0,"hubo un error de compilacion")
+        if pagina==1:
+            self.ver.compilar(0)
     def upload(self,b):
         resultado=1
         self.mensajes   (3,
@@ -628,6 +631,7 @@ class Ventana:
             self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
 
     def guardar(self,dato):
+        pagina= self.notebook2.get_current_page()
         dialog = gtk.FileChooserDialog("save..",
                                         None,
                                         gtk.FILE_CHOOSER_ACTION_SAVE,

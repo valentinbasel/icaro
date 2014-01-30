@@ -46,12 +46,12 @@ class visor_codigo():
 
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_EXECUTE,15)
-        tool_button = tool1.append_item(
-                        _("Compile"),
-                        "compila la version modificada en el editor.",
-                        "Private",
-                        iconw,
-                        self.compilar)
+        #tool_button = tool1.append_item(
+        #                _("Compile"),
+        #                "compila la version modificada en el editor.",
+        #                "Private",
+        #                iconw,
+        #                self.compilar)
                         
 
 

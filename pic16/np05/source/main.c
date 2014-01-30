@@ -29,6 +29,18 @@
 #include "define.h"
 
 
+
+/******************************************************************/
+
+// beware : this is not a C main function, but the application
+// entry point called from the boot.
+
+#include "user.c"
+
+// borro este bloque y lo emto dentro de user.c, para poder
+// habilitar __USB__ sin necesidad de cambiar codigo en el main.c
+/*
+
 #ifdef __USB__
 #include "../tmp/usb.h"
 #include <usb.c>
@@ -41,13 +53,7 @@ void epap_out() { return; }
 void epapin_init() { return; }
 void epapout_init() { return; }
 #endif
-
-/******************************************************************/
-
-// beware : this is not a C main function, but the application
-// entry point called from the boot.
-
-#include "user.c"
+*/
 
 void pinguino_main(void) 
 {	

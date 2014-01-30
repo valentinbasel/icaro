@@ -1,6 +1,15 @@
 #include <stdlib.h>
 #include <string.h>
-
+#ifdef __USB__
+#include "../tmp/usb.h"
+#include <usb.c>
+#endif
+#ifndef __USB__
+void epap_in() { return; }
+void epap_out() { return; }
+void epapin_init() { return; }
+void epapout_init() { return; }
+#endif
 float tiempo=0;
 float tiempo2=0;
 unsigned char i;
@@ -85,10 +94,8 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 void loop()
 {
 
-while(1 ){
-PORTD=144;
-Delayms(1000);
-PORTD=96;
-Delayms(900);
-}
+PORTB=2;
+Delayms(50);
+PORTB=0;
+Delayms(50);
 }
