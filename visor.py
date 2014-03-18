@@ -113,10 +113,21 @@ class visor_codigo():
         buffer.end_not_undoable_action()
         buffer.set_modified(False)
         buffer.place_cursor(buffer.get_start_iter())
-        
         return True
+        
+    def save_file(self,filename):
+        
+        """ save buffer to the current file """
+        cadena=self.buf.props.text
+        a= self.ventana.mensajes(1,"Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
+        if a==True:
+            file=open(filename,"w")
+            file.writelines(cadena)
+            file.close()
+        
     def recargar(self,b):
         self.buf=self.open_file(self.buffer,self.cadena_user_c)
+
         #self.buf=self.open_file(arg[0],arg[1])
         #~ gtk.main_quit()
 #        self.window.hide()
@@ -130,7 +141,7 @@ class visor_codigo():
             file=open(cadena,"w")
             file.writelines(cadena2)
             file.close()
-            i=carga.compilar_pic("main",self.ventana.config[0])
+            i=carga.compilar_pic("main",self.ventana.cfg)
             if i==0:
                 self.ventana.mensajes(3,"la compilacion fue exitosa")
             else:

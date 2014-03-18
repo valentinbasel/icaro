@@ -90,6 +90,7 @@ class ComponenteCentral():
                 self.posicion=(xx,yy)
                 iden=self.fondo.objetos[self.pegado_a].ide
                 self.fondo.lista_ordenada[self.ide]=iden
+                #self.color=(0,0,0)
                 self.dibujar()
                 
                 return 0

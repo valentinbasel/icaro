@@ -120,12 +120,17 @@ def docker(archivo):
         manejador.claimInterface(0)
     except Exception, ex:
         print "error al leer el pic"
+        print "Exception= ",Exception
+        print "ex= ",ex
         return 2
     try:
         
         CargaArchivo(archivo,manejador)
         manejador.releaseInterface()
     except Exception, ex:
+        print "error desconocido"
+        print Exception
+        print ex
         return 3
 
     return 0

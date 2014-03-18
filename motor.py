@@ -67,12 +67,16 @@ class MotorCairo():
     def draw(self, x, y,h,w,rgb,cr):
         cr.set_line_width(1)
         rgbfin=self.color(rgb)
-        cr.set_source_rgb(rgbfin[0],rgbfin[1],rgbfin[2],)
+        cr.set_source_rgba(rgbfin[0],rgbfin[1],rgbfin[2],1)
+        #rad=cairo.RadialGradient (x, y, h/2, x, y, h)
+        #rad.add_color_stop_rgba(1,  rgbfin[0]/2,rgbfin[1]/2,rgbfin[2]/2, 1)
+        #rad.add_color_stop_rgba(0, rgbfin[0],rgbfin[1],rgbfin[2],1)
+        #cr.set_source(rad)
+
         cr.rectangle(x, y, h, w)
         cr.fill()
-        cr.stroke_preserve()
-       # matrix = cairo.Matrix(1.1,0,0,1.1,0, 0)
-        #cr.transform (matrix)
+#        cr.stroke_preserve()
+
     def texto(self,txt,x,y,rgb,cr):
         cr.select_font_face(
                             self.tipo_letra,

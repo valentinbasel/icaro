@@ -10,7 +10,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-
+import ConfigParser
 import pygtk
 import gtk
 import os
@@ -51,7 +51,7 @@ class Componentes():
     lista_valor_datos2=[]
     def __init__ (self):
         """ Class initialiser """
-        pass
+
 
 class fondo(MotorCairo,Componentes):
     FONDO=(00,22,55)
@@ -63,7 +63,7 @@ class fondo(MotorCairo,Componentes):
         self.lista_ordenada.append(0)
         self.img=""
         self.ultimo=1
-        
+
     def carga_img(self,cadena):
         self.band=1
         self.img=cadena
@@ -148,8 +148,8 @@ class Ventana:
         #                    -> scrolled_window2
         #                            |
         #                             -> notebook
-        #               
-        #                  
+        #
+        #
         ################################################
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
@@ -162,11 +162,16 @@ class Ventana:
         self.lista.sort()
         self.carga_paleta()
         # cargo la configuracion de icaro
+        self.cfg= ConfigParser.ConfigParser()
+        self.cfg.read("config.ini")
+
         conf=open(sys.path[0] +"/config.dat","r")
         dat=conf.readlines()
         for txt in dat:
             self.config.append(txt)
         conf.close()
+
+
         #declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
@@ -175,7 +180,7 @@ class Ventana:
 
         self.window1 = gtk.Window()
         toolbar = gtk.Toolbar()
-        self.area = gtk.DrawingArea()        
+        self.area = gtk.DrawingArea()
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window2 = gtk.ScrolledWindow()
         scrolled_window3 = gtk.ScrolledWindow()
@@ -183,7 +188,7 @@ class Ventana:
         notebook = gtk.Notebook()
         self.notebook2 = gtk.Notebook()
         hp=gtk.HPaned()
-        box2 = gtk.HBox(False, 3)    
+        box2 = gtk.HBox(False, 3)
         box1 = gtk.VBox(False, 3)
         menu_bar = gtk.MenuBar()
 
@@ -202,7 +207,7 @@ class Ventana:
         hp.pack1(self.notebook2,True,True)
         hp.pack2(scrolled_window2,True,True)
         self.ver=visor.visor_codigo(self,self.notebook2)
-        
+
         hp.set_position(500)
         self.window1.connect('delete-event', gtk.main_quit)
         self.window1.set_icon_from_file(
@@ -257,13 +262,13 @@ class Ventana:
                         [3],
                         [1,toolbar,gtk.STOCK_ZOOM_IN,"agrandar","",self.menuitem_response,"zoomas"],
                         [1,toolbar,gtk.STOCK_ZOOM_OUT,"achicar","",self.menuitem_response,"zoomenos"],
-                        [1,toolbar,gtk.STOCK_ZOOM_100,"zoom 1:1","",self.menuitem_response,"zoomenos"]            
+                        [1,toolbar,gtk.STOCK_ZOOM_100,"zoom 1:1","",self.menuitem_response,"zoomcero"]
                         ]
         #creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar:
             if dat[0]==3:
                 toolbar.append_space()
-            if dat[0]==1 or dat[0]==2:                
+            if dat[0]==1 or dat[0]==2:
                 self.crear_toolbuttons(dat[0],dat[1],dat[2],dat[3],dat[4],dat[5],dat[6])
 
         scrolled_window.set_size_request(300, 300)
@@ -365,7 +370,7 @@ class Ventana:
                             tooltip,
                             "Private",
                             iconw,
-                            func,metodos)            
+                            func,metodos)
 
     def definir_cursor(self,b):
         self.area.window.set_cursor(self.cursores[b])
@@ -411,6 +416,7 @@ class Ventana:
 # ==============================================================================
 
     def mensajes(self,num,mensa):
+
         tipo=   (
                 gtk.MESSAGE_WARNING,
                 gtk.MESSAGE_QUESTION,
@@ -421,10 +427,10 @@ class Ventana:
                 gtk.BUTTONS_OK,
                 gtk.BUTTONS_OK_CANCEL,
                 gtk.BUTTONS_OK,
-                gtk.BUTTONS_OK
+                gtk.BUTTONS_CANCEL
                 )
         md = gtk.MessageDialog(None,
-            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+            0,
             tipo[num],
             botones[num], mensa)
         resp=md.run()
@@ -462,45 +468,44 @@ class Ventana:
         if pagina ==0:
             self.carga()
             crear.crear_archivo(self.fondo,self)
-            i=carga.compilar_pic("main",self.config[0])
+            i=carga.compilar_pic("main",self.cfg)
             if i==1:
                 self.mensajes(0,("no se encuentra el compilador sdcc en" +
                                     " la ruta " + self.config[0] +
                                     " . Pruebe configurar el archivo"+
                                     " config.dat y corregirlo"))
             if i==0:
-                self.mensajes(3,"la compilacion fue exitosa")
+                self.mensajes(0,"la compilacion fue exitosa")
             else:
                 self.mensajes(0,"hubo un error de compilacion")
         if pagina==1:
             self.ver.compilar(0)
     def upload(self,b):
         resultado=1
-        self.mensajes   (3,
-        "aprete el boton RESET de la placa pinguino antes de continuar"
-                        )
-
-        i=carga.upload_pic("main",self.config[0])
+        i=carga.upload_pic("main",self.cfg)
         if i==0:
-            self.mensajes(3,"la carga fue exitosa")
+            cargador=carga.Cargador("main")
+            cargador.start()
             return 0
-        if i==1:
-            self.mensajes(0,"no se a detectado ningun dispositivo conectada. ¿esta conectado y encendido el PIC?")
-            return 1
-        if i==2:
-            self.mensajes(0,"Se detecto el dispositivo, pero no se puede cargar el firmware, hay que cargar el firmware antes de que se prenda el led rojo del dispositivo")
-            return 2
-        if i==2:
-            self.mensajes(0,"no se genero el archivo .hex para cargar")
-            return 3
-        if i==2:
-            self.mensajes(0,"error al compilar y generar el archivo .hex")
-            return 4
+
+
+        #if i==1:
+            #self.mensajes(0,"no se a detectado ningun dispositivo conectada. ¿esta conectado y encendido el PIC?")
+            #return 1
+        #if i==2:
+            #self.mensajes(0,"Se detecto el dispositivo, pero no se puede cargar el firmware, hay que cargar el firmware antes de que se prenda el led rojo del dispositivo")
+            #return 2
+        #if i==2:
+            #self.mensajes(0,"no se genero el archivo .hex para cargar")
+            #return 3
+        #if i==2:
+            #self.mensajes(0,"error al compilar y generar el archivo .hex")
+            #return 4
 
     def tortucaro(self,b):
         resultado=1
         comp=1
-        i=carga.compilar_pic("tortucaro",self.config[0])
+        i=carga.compilar_pic("tortucaro",self.cfg)
         if i==0:
             self.mensajes(3,"la compilacion fue exitosa")
             comp=0
@@ -508,26 +513,11 @@ class Ventana:
             self.mensajes(0,"hubo un error de compilacion")
             comp=1
         if comp==0:
-            self.mensajes   (
-                            3,
-        "aprete el boton RESET de la placa pinguino antes de continuar"
-                            )
-        i=carga.upload_pic("tortucaro",self.config[0])
-        if i==0:
-            self.mensajes(3,"la carga fue exitosa")
-            return 0
-        if i==1:
-            self.mensajes(0,"no se a detectado ningun dispositivo conectada. ¿esta conectado y encendido el PIC?")
-            return 1
-        if i==2:
-            self.mensajes(0,"Se detecto el dispositivo, pero no se puede cargar el firmware, hay que cargar el firmware antes de que se prenda el led rojo del dispositivo")
-            return 2
-        if i==2:
-            self.mensajes(0,"no se genero el archivo .hex para cargar")
-            return 3
-        if i==2:
-            self.mensajes(0,"error al compilar y generar el archivo .hex")
-            return 4
+            i=carga.upload_pic("tortucaro",self.cfg)
+            if i==0:
+                cargador=carga.Cargador("tortucaro")
+                cargador.start()
+                return 0
     def crear_componente(self,b,x,y):
         ax=ay=30
         # siempre hay que tratar de que el foco quede en el drawing area
@@ -661,18 +651,21 @@ class Ventana:
             else:
                 resp=False
             if resp==True or os.path.isfile(cadena)==False :
-                guardar.guardar(
-                                self.fondo.objetos,
-                                cadena,
-                                self.fondo
-                                )
-                self.archivo=cadena
+                if pagina==0:
+                    guardar.guardar(
+                                    self.fondo.objetos,
+                                    cadena,
+                                    self.fondo
+                                    )
+                    self.archivo=cadena
+                if pagina==1:
+                    self.ver.save_file(cadena)
         elif response == gtk.RESPONSE_CANCEL:
             pass
         dialog.destroy()
 
     def abrir(self,dato):
-
+        pagina= self.notebook2.get_current_page()
         dialog = gtk.FileChooserDialog(
                                         "Open..",
                                         None,
@@ -690,34 +683,42 @@ class Ventana:
         except Exception, ex:
             dialog.set_current_folder(sys.path[0])
 
+        if pagina==0:
+            filter = gtk.FileFilter()
+            filter.set_name("icaro")
+            filter.add_pattern("*.icr")
+            dialog.add_filter(filter)
+        if pagina==1:
+            filter = gtk.FileFilter()
+            filter.set_name("C")
+            filter.add_pattern("*.c")
+            dialog.add_filter(filter)
 
-        #~ filter = gtk.FileFilter()
-        #~ filter.set_name("All files")
-        #~ filter.add_pattern("*")
-        #~ dialog.add_filter(filter)
-        filter = gtk.FileFilter()
-        filter.set_name("icaro")
-        filter.add_pattern("*.icr")
-        dialog.add_filter(filter)
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
-            nuevo.nuevo(self.fondo)
-            inicial=componente_inicial (
-                                        20,50,1,
-                                        self.fondo,
-                                        self
-                                        )
+            if pagina==0:
+                nuevo.nuevo(self.fondo)
+                inicial=componente_inicial (
+                                            20,50,1,
+                                            self.fondo,
+                                            self
+                                            )
 
-            self.fondo.objetos.append(inicial)
-            cadena= dialog.get_filename()
-            self.update()
-            abrir.abrir(
-                        self.diccionario,
-                        cadena,
-                        self.fondo,
-                        self
-                        )
-            self.archivo=cadena
+                self.fondo.objetos.append(inicial)
+                cadena= dialog.get_filename()
+                self.update()
+                abrir.abrir(
+                            self.diccionario,
+                            cadena,
+                            self.fondo,
+                            self
+                            )
+                self.archivo=cadena
+            if pagina==1:
+                cadena= dialog.get_filename()
+
+                self.ver.open_file(self.ver.buffer, cadena)
+
         elif response == gtk.RESPONSE_CANCEL:
             print 'Closed, no files selected'
         dialog.destroy()
@@ -741,7 +742,7 @@ class Ventana:
 
     def timeout(self):
         self.area.queue_draw()
-        
+
         return True
 
     def update(self):
@@ -969,9 +970,9 @@ class Ventana:
             try:
                 os.system("rm -rf "+dir_conf)
                 os.system("cp -R "+np05+" "+dir_conf)
-                self.mensajes(3,"se actualizo el firmware ")
+                self.mensajes(0,"se actualizo el firmware ")
             except:
-                self.mensajes(3,"no se pudo actualizar el firmware")
+                self.mensajes(0,"no se pudo actualizar el firmware")
 
 
     def visor(self,dir):
@@ -1031,7 +1032,7 @@ ventana_principal.fondo=fon
 inicial=componente_inicial(20,50,1,fon,ventana_principal)
 fon.objetos.append(inicial)
 ventana_principal.window1.show_all()
-gobject.timeout_add(21,ventana_principal.timeout)
+gobject.timeout_add(51,ventana_principal.timeout)
 gobject.PRIORITY_DEFAULT=-1
 gtk.main()
 
