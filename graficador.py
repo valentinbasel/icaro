@@ -26,12 +26,18 @@ import time
 import gobject
 import cairo
 import apicaro
+import socket
+
 
 class VENTANA:
     """ Class doc """
     
     def __init__ (self):
         """ Class initialiser """
+        self.s = socket.socket()         
+        host = socket.gethostname() 
+        port = 9999                
+        self.s.connect((host, port))
         self.window = gtk.Window()
         table = gtk.Table(3, 2, False)
         self.area=gtk.DrawingArea()
@@ -162,13 +168,20 @@ class VENTANA:
         y=[0,0,0,0,0,0,0,0,0]
         #~ y[1]=self.icaro.leer_analogico(1)
 
-        for sensor in range(1,9):
-            for a in range(2):
-                y[sensor]=self.icaro.leer_analogico(sensor)
+####
+        for sensor in range(8):
+            val="analogico,"+str(sensor)
+            self.s.send(val)
+            y[sensor] = self.s.recv(1024)
+            
+        #~ for sensor in range(1,9):
+            #~ for a in range(2):
+                #~ y[sensor]=self.icaro.leer_analogico(sensor)
         
-            self.snds[sensor-1].append((self.x,500-int(y[sensor])))
-        time.sleep(0.2)
+            self.snds[sensor].append((self.x,500-int(y[sensor])))
+        #~ time.sleep(0.2)
         print y
+####
         self.x +=10
         self.cr.move_to(50, 500)
         for sen in range(0,len(self.snds)):

@@ -2,29 +2,29 @@
 # -*- coding: utf-8 -*-
 #
 #  docker.py
-#  
+#
 #  Copyright 2012 Valentin Basel <valentinbasel@gmail.com>
-#  
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
-#  
+#
+#
 # tomado del proyecto de Jean-Pierre MANDON <jp.mandon@gmail.com>  para un docker en python
 #proyecto original en :
 # http://code.google.com/p/vascodownloader/
-# based on the DOCKER software licensed by Pierre Gaufillet <pierre.gaufillet@magic.fr> 
+# based on the DOCKER software licensed by Pierre Gaufillet <pierre.gaufillet@magic.fr>
 # original project hosted on gforge
 # http://gforge.enseeiht.fr/projects/vasco/
 
@@ -39,7 +39,7 @@ import time
 BULK_IN_EP = 0x82
 BULK_OUT_EP = 0x01
 
-# comandos para el Bootloader 
+# comandos para el Bootloader
 ERASE_FLASH_CMD=0
 WRITE_FLASH_CMD=1
 LEER_FLASH_CMD=2
@@ -55,9 +55,9 @@ def borrar(adresse,manejador):
     leerbyte1=int(adresse[4:6],16)
     leerbyte2=int(adresse[2:4],16)
     leerbyte3=int(adresse[0:2],16)
-    manejador.bulkWrite(BULK_OUT_EP,chr(leerbyte0)+chr(leerbyte1)+chr(leerbyte2)+chr(leerbyte3),200)    
+    manejador.bulkWrite(BULK_OUT_EP,chr(leerbyte0)+chr(leerbyte1)+chr(leerbyte2)+chr(leerbyte3),200)
 
-def CargaArchivo(file,manejador):  
+def CargaArchivo(file,manejador):
     data=[]
     oldadd=0
     maxadd=0
@@ -70,7 +70,7 @@ def CargaArchivo(file,manejador):
         if (add>oldadd) and (add<0x8000):
             maxadd=add+nb
             oldadd=add
-    maxadd=maxadd+64-(maxadd%64)            
+    maxadd=maxadd+64-(maxadd%64)
     for i in range(maxadd):
         data.append(0xFF)
     for line in lines:
@@ -91,10 +91,10 @@ def CargaArchivo(file,manejador):
             frame=[]
         if data[i]!=[]:
             frame.append(data[i])
-        index+=1 
+        index+=1
     print "el archivo fue cargado con exito"
 def EscribeUSB(adresse,bloc,manejador):
-    leerbyte0=WRITE_FLASH_CMD 
+    leerbyte0=WRITE_FLASH_CMD
     adresse="%06X"%adresse
     leerbyte1=int(adresse[4:6],16)
     leerbyte2=int(adresse[2:4],16)
@@ -105,15 +105,11 @@ def EscribeUSB(adresse,bloc,manejador):
     manejador.bulkWrite(BULK_OUT_EP,frame,200)
 
 def docker(archivo):
-    np05=None
-    buses=usb.busses()
-    for bus in buses:
-        for device in bus.devices:
-            if device.idVendor==vendor and device.idProduct==product:
-                np05= device
-    if np05==None:
-        print "no esta el pic"
-        return 1
+    np05=False
+    while np05==False:
+        np05=buscar_bus()
+        #print "veo si esta prendido el pic"
+
     try:
         manejador=np05.open()
         manejador.setConfiguration(2)
@@ -124,7 +120,7 @@ def docker(archivo):
         print "ex= ",ex
         return 2
     try:
-        
+
         CargaArchivo(archivo,manejador)
         manejador.releaseInterface()
     except Exception, ex:
@@ -135,3 +131,15 @@ def docker(archivo):
 
     return 0
 
+def buscar_bus():
+    np05=False
+    buses=usb.busses()
+    for bus in buses:
+        for device in bus.devices:
+            if device.idVendor==vendor and device.idProduct==product:
+                np05= device
+                return np05
+    if np05==None:
+        #print "no esta el pic"
+        return False
+    return False

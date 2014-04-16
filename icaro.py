@@ -19,7 +19,6 @@ import shutil
 import sys
 import gobject
 import cairo
-from subprocess import Popen,PIPE,STDOUT
 import creditos
 import carga
 import abrir
@@ -32,12 +31,24 @@ import lenguaje
 import tooltips
 import config
 import graficador
+
+from subprocess import Popen,PIPE,STDOUT
 from motor import MotorCairo
 from componente_inicial import *
 from componente import *
 
+# ==============================================================================
+# COMPONENTES
+# ==============================================================================
+
 class Componentes():
-    """ variables para los componentes """
+    """
+    variables globales para los componentes, aca se guardan las listas de
+    objetos que representan a los componentes. esas lista es la que se usa para
+    poder parsear los bloques conectados a inicio y obtener el codigo fuente
+    para cargar en user.c
+
+    """
     identificador=1
     identificador_dat=1
     identificador_dat2=1
@@ -51,9 +62,20 @@ class Componentes():
     lista_valor_datos2=[]
     def __init__ (self):
         """ Class initialiser """
+        pass
 
+# ==============================================================================
+# FONDO
+# ==============================================================================
 
 class fondo(MotorCairo,Componentes):
+    """
+    representa los valores globales del background de la aplicacion.
+    la clase MOTOR (pycairo) toma los valores de la instancia fondo para
+    determinar el color inicial de la pantalla icaro y el color del texto
+    Se encarga de cargar una imagen de fondo o un color en el drawing area
+    de la ventana
+    """
     FONDO=(00,22,55)
     color_texto=(255,255,255)
     poscion_botones=0
@@ -65,21 +87,74 @@ class fondo(MotorCairo,Componentes):
         self.ultimo=1
 
     def carga_img(self,cadena):
+        """
+        carga una imagen de fondo
+        """
+        # band es una bandera para determinar si se dibuja una imagen (band=1)
+        # o no (band=0)
         self.band=1
+        # img representa el nombre y la ruta del archivo que contiene la imagen
         self.img=cadena
 
     def update(self):
+        """
+        funcion que es llamada por (ventana_principal.timeout) para actualizar
+        el fondo de la imagen y evitar qeu los bloques dejen un rastro en la
+        pantalla, o para actualizar la imagen de fondo
+        """
         if self.band==1:
             if os.path.exists(self.img):
                 cr2 = ventana_principal.area.window.cairo_create()
                 respuesta=self.imagen(self.img,0,0,cr2)
                 if respuesta==1:
                     self.band=0
+
 # ==============================================================================
 # VENTANA
 # ==============================================================================
 class Ventana:
+    """
+    Clase ventana contiene el constructor de la ventana GTK y las funciones
+    basicas del sistema.
+    diagrama de los widget anidados:
 
+        ###############################################
+
+             ventana
+                |
+                 ->box1
+                   |
+                    -> menu_bar
+                   |
+                    -> box2
+                       |
+                        -> scrolled_window3
+                       |            |
+                       |             -> toolbar
+                       |
+                        -> hp
+                           |
+                            -> self.notebook2
+                           |         |
+                           |          -> scrolled_window
+                           |         |       |
+                           |         |        -> area
+                           |         |
+                           |          -> visor
+                           |
+                            -> scrolled_window2
+                                    |
+                                     -> notebook
+
+
+        ################################################
+    esta clase controla todos los eventos del programa, mouse, teclado,
+    interaccion entre los componentes. A su ves es la encargada d actualizar
+    el estado de los bloques icaro y redibujar la pantalla mediante la funcion
+    ventana_principal.timeout
+
+
+    """
     # variables globales para manejar posicion del mouse, clicks y pulsaciones
     # de teclas dentro de la ventana
     archivo=""
@@ -120,37 +195,7 @@ class Ventana:
     valor_datos_comp={"fin ":"}"}
     def __init__(self):
 
-        ###############################################
-        #   el orden de los contenedores de la ventana
-        #
-        #     ventana
-        #        |
-        #         ->box1
-        #           |
-        #            -> menu_bar
-        #           |
-        #            -> box2
-        #               |
-        #                -> scrolled_window3
-        #               |            |
-        #               |             -> toolbar
-        #               |
-        #                -> hp
-        #                   |
-        #                    -> self.notebook2
-        #                   |         |
-        #                   |          -> scrolled_window
-        #                   |         |       |
-        #                   |         |        -> area
-        #                   |         |
-        #                   |          -> visor
-        #                   |
-        #                    -> scrolled_window2
-        #                            |
-        #                             -> notebook
-        #
-        #
-        ################################################
+
         #esta es la lista de donde se sacan los valores para los botones
         #icaro
         arch=open(sys.path[0] + "/version", "r")
@@ -181,6 +226,7 @@ class Ventana:
         self.window1 = gtk.Window()
         toolbar = gtk.Toolbar()
         self.area = gtk.DrawingArea()
+
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window2 = gtk.ScrolledWindow()
         scrolled_window3 = gtk.ScrolledWindow()
@@ -741,8 +787,9 @@ class Ventana:
 # ==============================================================================
 
     def timeout(self):
+        #self.area.queue_draw_area(0,0,int(self.mousexy[0]),int(self.mousexy[1]))
         self.area.queue_draw()
-
+        #self.area.queue_clear()
         return True
 
     def update(self):
@@ -1032,8 +1079,9 @@ ventana_principal.fondo=fon
 inicial=componente_inicial(20,50,1,fon,ventana_principal)
 fon.objetos.append(inicial)
 ventana_principal.window1.show_all()
-gobject.timeout_add(51,ventana_principal.timeout)
-gobject.PRIORITY_DEFAULT=-1
+gobject.timeout_add(50,ventana_principal.timeout)
+#gobject.idle_add(ventana_principal.timeout)
+#gobject.PRIORITY_DEFAULT=-1
 gtk.main()
 
 

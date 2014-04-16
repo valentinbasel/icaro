@@ -18,7 +18,7 @@ class ComponenteCentral():
     """ Class doc """
     pulsado=0
     conector_h_dato=[0,0,40,20]#conector hembra dato
-    
+
     ide=0
     color=(110,20,90)
     texto=""
@@ -29,8 +29,8 @@ class ComponenteCentral():
         """ Class initialiser """
         pass
     def update(self):
-        ban_a=0
-        posic_mouse= self.ventana.mousexy
+        #ban_a=0
+        posic_mouse = self.ventana.mousexy
         botones_mouse = self.ventana.boton_mouse
         self.rectan[0]=self.posicion[0]
         self.rectan[1]=self.posicion[1]-10
@@ -59,7 +59,7 @@ class ComponenteCentral():
             if botones_mouse[1]==0:
                 self.pulsado=0
                 self.ventana.seleccionado=0
-                
+
             if (botones_mouse[1]==1
                     and self.fondo.collide(self.rectan,posic_mouse[0],posic_mouse[1])==True
                     and self.ventana.seleccion_menu==3):
@@ -77,12 +77,12 @@ class ComponenteCentral():
                     self.fondo.objetos[i].pegado=0
                 self.fondo.objetos[a].vivo=False
                 #print a
-                
+
                 del self.fondo.tipo_obj[a]
                 #self.fondo.objetos[a].borrar()
                 self.fondo.objetos.remove(self)
                 self.fondo.lista_ordenada[self.ide]=0
-        
+
             if self.pegado==1:
                 x,y,aa,bb=self.fondo.objetos[self.pegado_a].conector_m
                 xx=x-self.valx
@@ -92,7 +92,7 @@ class ComponenteCentral():
                 self.fondo.lista_ordenada[self.ide]=iden
                 #self.color=(0,0,0)
                 self.dibujar()
-                
+
                 return 0
             if self.pegado==0:
                 self.fondo.lista_ordenada[self.ide]=0
@@ -117,7 +117,7 @@ class ComponenteCentral():
                         self.pegado_a=0
             self.dibujar()
 
-                
+
 
 
 class componente(ComponenteCentral):
@@ -160,7 +160,7 @@ class componente(ComponenteCentral):
             self.lista_conector_h_datos.append((0,0,0,0))
             self.lista_valores.append("")
         self.dibujar()
-        
+
 #    def borrar(self):
 #        self.kill()
     def dibujar(self):
