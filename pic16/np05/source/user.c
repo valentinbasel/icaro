@@ -1,34 +1,18 @@
 #include <stdlib.h>
 #include <string.h>
-#ifdef __USB__
-#include "../tmp/usb.h"
-#include <usb.c>
-#endif
+
 #ifndef __USB__
 void epap_in() { return; }
 void epap_out() { return; }
 void epapin_init() { return; }
 void epapout_init() { return; }
 #endif
+
+int _i=0;
 float tiempo=0;
 float tiempo2=0;
 unsigned char i;
-/*void enviarcdcf(int a)
-{
-    unsigned char cadena[];
-    x_ftoa(a,cadena,2,2);
-    strcat(cadena,"\n");
-    CDCputs(cadena,strlen(cadena));
-}*/
-/*
-//esto no anda bien, hay que revizarlo
-unsigned char recibircdc()
-{
-    unsigned char receivedbyte;
-    unsigned char recdc[64];
-    while ((receivedbyte=CDCgets(recdc))==0);
-    return recdc[0];
-}*/
+
 
 int sensordigital(int valor)
 {
@@ -94,8 +78,4 @@ void ServoLento(int servo,int inicial,int final,int tiempo)
 void loop()
 {
 
-PORTB=2;
-Delayms(50);
-PORTB=0;
-Delayms(50);
 }

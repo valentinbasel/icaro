@@ -23,27 +23,28 @@
 
 #include <pic18fregs.h>
 #include <macro.h>
-
 #include "common_types.h"
 #include "boot_iface.h"
 #include "define.h"
-
-
 #ifdef __USB__
 #include "../tmp/usb.h"
 #include <usb.c>
 #endif
 
 // only for compatibility with application_iface.o
-
-
-
+/*#ifndef __USB__
+void epap_in() { return; }
+void epap_out() { return; }
+void epapin_init() { return; }
+void epapout_init() { return; }
+#endif
+*/
 /******************************************************************/
 
 // beware : this is not a C main function, but the application
 // entry point called from the boot.
 
-#include "user.c"
+#include "user-pilas.c"
 
 void pinguino_main(void) 
 {	

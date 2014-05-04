@@ -59,7 +59,7 @@ class VENTANA:
         self.sensorcheck.append(gtk.CheckButton(label="sensor 8"))
 
         lciclos = gtk.Label("ciclos")
-        self.eciclos = scale = gtk.VScale()
+        self.eciclos = gtk.VScale()
         self.eciclos.set_range(1, 1000)
         self.eciclos.set_digits(0)
         self.eciclos.set_size_request(35, 160)
@@ -89,8 +89,8 @@ class VENTANA:
         self.x = 50
         self.y = 100
         self.snds = [[], [], [], [], [], [], [], [], []]
-        self.icaro = apicaro.puerto()
-        self.icaro.iniciar()
+        #self.icaro = apicaro.puerto()
+        #self.icaro.iniciar()
         self.tipo_letra = "sans"
         self.tama_letra = 12
         gobject.idle_add(self.timeout)
@@ -98,6 +98,9 @@ class VENTANA:
     def salgo(self, b):
         print "salir"
         # exit()
+        self.s.send("cerrar")
+
+        self.s.close
         self.window.hide()
 
     def FONDO(self):
@@ -131,6 +134,12 @@ class VENTANA:
         self.cuadricula2 = self.area.window.cairo_create()
         self.cuadricula.set_source_rgb(0, 0, 0)
         self.cuadricula.set_line_width(0.1)
+        cad=[]
+
+        for a in range(10):
+            cad.append(int(102.3*a))
+
+        cad.reverse()
         for a in range(1, 10):
             x = 50
             y = 50
@@ -138,8 +147,9 @@ class VENTANA:
             self.cuadricula2.line_to(x * a, 485)
             self.cuadricula2.move_to(x - 10, y * a)
             self.cuadricula2.line_to(x + 15, y * a)
-            self.texto(
-                str((500 - y * a) / 2), x - 30, y * a, (0, 0, 0), self.cuadricula)
+            # revizar, los valores no coinciden con lo que hace la placa
+            #self.texto(
+            #    str(cad[a-1]), x - 40, y * a, (0, 0, 0), self.cuadricula)
 
             for b in range(0, 5):
                 self.cuadricula2.set_source_rgb(0, 0, 0)
@@ -185,7 +195,7 @@ class VENTANA:
             #~ for a in range(2):
                 #~ y[sensor]=self.icaro.leer_analogico(sensor)
 
-            self.snds[sensor].append((self.x, 500 - int(y[sensor])))
+            self.snds[sensor].append((self.x, 500 - int(y[sensor])*450/1023 ))
         #~ time.sleep(0.2)
         print y
 #

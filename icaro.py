@@ -314,7 +314,11 @@ class Ventana:
             [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
              "Load", self.tooltip["cargar"], self.upload, None],
             [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.tortucaro, None],
+             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro"],
+            
+            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
+             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas-engine"],
+
             [3],
             [1, toolbar, gtk.STOCK_HELP, "Help",
              self.tooltip["ayuda"], self.ayuda, None],
@@ -505,7 +509,7 @@ class Ventana:
                 gtk.BUTTONS_CANCEL
                 )
         md = gtk.MessageDialog(None,
-            0,
+            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
             tipo[num],
             botones[num], mensa)
         resp = md.run()
@@ -548,7 +552,7 @@ class Ventana:
                                     " . Pruebe configurar el archivo" +
                                     " config.dat y corregirlo"))
             if i == 0:
-                self.mensajes(0, "la compilacion fue exitosa")
+                self.mensajes(3, "la compilacion fue exitosa")
             else:
                 self.mensajes(0, "hubo un error de compilacion")
         if pagina == 1:
@@ -574,10 +578,10 @@ class Ventana:
         # if i==2:
             #self.mensajes(0,"error al compilar y generar el archivo .hex")
             # return 4
-    def tortucaro(self, b):
+    def comp_esp(self, b,datos):
         resultado = 1
         comp = 1
-        i = carga.compilar_pic("tortucaro", self.cfg)
+        i = carga.compilar_pic(datos, self.cfg)
         if i == 0:
             self.mensajes(3, "la compilacion fue exitosa")
             comp = 0
@@ -585,9 +589,9 @@ class Ventana:
             self.mensajes(0, "hubo un error de compilacion")
             comp = 1
         if comp == 0:
-            i = carga.upload_pic("tortucaro", self.cfg)
+            i = carga.upload_pic(datos, self.cfg)
             if i == 0:
-                cargador = carga.Cargador("tortucaro")
+                cargador = carga.Cargador(datos)
                 cargador.start()
                 return 0
 
