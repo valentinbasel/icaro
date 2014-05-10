@@ -35,12 +35,8 @@
 #endif
 
 // only for compatibility with application_iface.o
-#ifndef __USB__
-void epap_in() { return; }
-void epap_out() { return; }
-void epapin_init() { return; }
-void epapout_init() { return; }
-#endif
+
+
 
 /******************************************************************/
 
