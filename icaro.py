@@ -26,6 +26,7 @@ import visor
 import tooltips
 import config
 import graficador
+import mouse
 
 #from subprocess import Popen, PIPE, STDOUT
 from motor import MotorCairo
@@ -93,6 +94,7 @@ class fondo(MotorCairo, Componentes):
         self.lista_ordenada.append(0)
         self.img = ""
         self.ultimo = 1
+        self.mouse_puntero=mouse.MOUSE(self,ventana_principal)
 
     def carga_img(self, cadena):
         """
@@ -110,6 +112,8 @@ class fondo(MotorCairo, Componentes):
         el fondo de la imagen y evitar qeu los bloques dejen un rastro en la
         pantalla, o para actualizar la imagen de fondo
         """
+
+        self.mouse_puntero.update()
         if self.band == 1:
             if os.path.exists(self.img):
                 cr2 = ventana_principal.area.window.cairo_create()
@@ -308,18 +312,7 @@ class Ventana:
              self.tooltip["guardar"], self.guardar, None],
             [1, toolbar, gtk.STOCK_QUIT, "Quit",
              self.tooltip["salir"], self.salir, None],
-            [3],
-            [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
-             "Compile", self.tooltip["compilar"], self.compilar, None],
-            [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
-             "Load", self.tooltip["cargar"], self.upload, None],
-            [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro"],
-            
-            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
-             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas-engine"],
-
-            [3],
+           [3],
             [1, toolbar, gtk.STOCK_HELP, "Help",
              self.tooltip["ayuda"], self.ayuda, None],
             [3],
@@ -337,8 +330,20 @@ class Ventana:
             [1, toolbar, gtk.STOCK_ZOOM_OUT, "achicar",
              "", self.menuitem_response, "zoomenos"],
             [1, toolbar, gtk.STOCK_ZOOM_100, "zoom 1:1",
-             "", self.menuitem_response, "zoomcero"]
-        ]
+             "", self.menuitem_response, "zoomcero"],
+            [3],
+            [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
+             "Compile", self.tooltip["compilar"], self.compilar, None],
+            [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
+             "Load", self.tooltip["cargar"], self.upload, None],
+            [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
+             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro"],
+            
+            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
+             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas-engine"],
+
+ 
+]
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar:
             if dat[0] == 3:
@@ -454,7 +459,10 @@ class Ventana:
 
     def definir_cursor(self, b):
         self.area.window.set_cursor(self.cursores[b])
-
+        #if b==1:
+            #self.area.window.set_cursor(None)
+        self.puntero_seleccion_mouse=b
+        
 # ========================================================================
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ========================================================================
@@ -506,7 +514,7 @@ class Ventana:
                 gtk.BUTTONS_OK,
                 gtk.BUTTONS_OK_CANCEL,
                 gtk.BUTTONS_OK,
-                gtk.BUTTONS_CANCEL
+                gtk.BUTTONS_OK
                 )
         md = gtk.MessageDialog(None,
             gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
@@ -533,6 +541,9 @@ class Ventana:
 # ========================================================================
     # cargo template.pde para tener la planilla estandar dentro de
     # cadena_pinguino
+    # la idea es poder separar estas funciones de icaro.py y trabajarlo
+    # directamente desde otro archivo, asi es mas facil armar bloques 
+    # personalizados
     def carga(self):
         self.cadena_pinguino[:] = []
         dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
@@ -566,18 +577,6 @@ class Ventana:
             cargador.start()
             return 0
 
-        # if i==1:
-            #self.mensajes(0,"no se a detectado ningun dispositivo conectada. ¿esta conectado y encendido el PIC?")
-            # return 1
-        # if i==2:
-            #self.mensajes(0,"Se detecto el dispositivo, pero no se puede cargar el firmware, hay que cargar el firmware antes de que se prenda el led rojo del dispositivo")
-            # return 2
-        # if i==2:
-            #self.mensajes(0,"no se genero el archivo .hex para cargar")
-            # return 3
-        # if i==2:
-            #self.mensajes(0,"error al compilar y generar el archivo .hex")
-            # return 4
     def comp_esp(self, b,datos):
         resultado = 1
         comp = 1
@@ -594,7 +593,7 @@ class Ventana:
                 cargador = carga.Cargador(datos)
                 cargador.start()
                 return 0
-
+###############################################################################
     def crear_componente(self, b, x, y):
         ax = ay = 30
         # siempre hay que tratar de que el foco quede en el drawing area
@@ -602,8 +601,8 @@ class Ventana:
 
         if self.diccionario[b][1] == 1:
             c1 = componente(
-                            x - ax,
-                            y - ay,
+                            x ,
+                            y ,
                             self.fondo.identificador + 1,
                             self.diccionario[b][2],
                             self.diccionario[b][3],
@@ -620,8 +619,8 @@ class Ventana:
 
             self.fondo.identificador += 1
             c1 = componente_cero_arg(
-                                    x - ax,
-                                    y - ay,
+                                    x ,
+                                    y ,
                                     self.fondo.identificador,
                                     self.diccionario[b][3],
                                     self.diccionario[b][0],
@@ -636,8 +635,8 @@ class Ventana:
         if self.diccionario[b][1] == 5:
             self.fondo.identificador += 1
             c1 = componente_bloque_uno(
-                                            x - ax,
-                                            y - ay,
+                                            x ,
+                                            y ,
                                             self.fondo.identificador,
                                             self.diccionario[b][3],
                                             self.diccionario[b][0],
@@ -649,8 +648,8 @@ class Ventana:
             self.fondo.lista_ordenada.append(0)
 
             c1 = componente_bloque_dos(
-                                        x - ax,
-                                        y + 80 - ay,
+                                        x ,
+                                        y + 80,
                                         self.fondo.identificador,
                                         self.diccionario[b][3],
                                         self.diccionario[b][4],
@@ -664,8 +663,8 @@ class Ventana:
 
         if self.diccionario[b][1] == 6:
             c1 = comp_dat_arg(
-                            x - ax,
-                            y - ay + 15,
+                            x,
+                            y,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],
@@ -682,7 +681,7 @@ class Ventana:
         if self.diccionario[b][1] == 7:
             c1 = comp_dat_arg(
                             x,
-                            y - ay + 15,
+                            y,
                             self.fondo.identificador_dat,
                             self.diccionario[b][2],
                             self.diccionario[b][4],

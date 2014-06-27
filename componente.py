@@ -14,7 +14,99 @@ import sys
 #from os import system
 from componente_datos import *
 
+class Formas:
+    def __init__(self):
+        pass
+    def crear_poligono(self,arg,tex,comp):
+        if comp==1:
+            cuerpo=self.comp_1(arg,tex)
+        if comp==6 or comp==7:
+            cuerpo=self.comp_dat(arg,tex,comp)
+        if comp==5:
+            cuerpo=self.comp_2(arg,tex,comp)
+        if comp==4:
+            cuerpo=self.comp_0(arg,tex,comp)
+ 
+        return cuerpo
 
+    def comp_0(self,arg,tex,comp):
+        cuerpo = [
+                    (0, -10, 10, 10),
+                    (10, -7, 4, 4),
+                    (50, -10, 10, 10),
+                    (46, -7, 4, 4),
+                    (0, 0, 60, 40),
+                    ]
+        return cuerpo
+ 
+    def comp_1(self,arg,tex):
+        cuerpo = [
+                (0, -10, 10, 10),
+                (10, -7, 4, 4),
+                (50, -10, 10, 10),
+                (46, -7, 4, 4),
+                ]
+
+        factor = 0
+        if arg == 0:
+            cuerpo.append((0, factor, 60, 40))
+            factor += 40
+        factory=(len(tex)*7)
+        for a in range(arg):
+            cuerpo.append((0, factor, 25 + factory, 40))
+            cuerpo.append((25 + factory, factor, 10, 10))
+            cuerpo.append((25 + factory + 3, factor + 10, 4, 4))
+            cuerpo.append((25 + factory, 30 + factor, 10, 10))
+            cuerpo.append((25 + factory + 3, 30 + factor - 4, 4, 4))
+            factor += 40
+        cuerpo.append((14, factor, 32, 10))
+        cuerpo.append((10, factor, 40, 3))
+        cuerpo.append((10, factor + 7, 40, 3))
+        return cuerpo
+    def comp_dat(self,arg,tex,comp):
+        # tomo el valor del texto para agrandar el tamaño del
+        # cuerpo del componente.
+        # si es una imagen le pongo un valor fijo
+
+        TamaComp = 0
+        if comp == 7:
+            TamaComp = len(tex)
+        else:
+            TamaComp = 1
+        # cubos que representan el conector hembra
+        cuerpo = [
+            (30 + (7 * TamaComp), -10, 10, 10),
+            (30 + (7 * TamaComp) + 3, 0, 4, 4),
+            (30 + (7 * TamaComp), 20, 10, 10),
+            (30 + (7 * TamaComp), 20, 10, 10),
+            (30 + (7 * TamaComp), 20, 10, 10),
+            (30 + (7 * TamaComp) + 3, 20 - 4, 4, 4),
+            (0, 4, 10, 20 - 8),
+            (0, 0, 3, 20),
+            (7, 0, 3, 20),
+            (10, -10, 7 * TamaComp + 20, 40),
+        ]
+        return cuerpo
+    def comp_2(self,arg,tex,comp):
+        cuerpo = [
+                    (0, -10, 10, 10),
+                    (10, -7, 4, 4),
+                    (50, -10, 10, 10),
+                    (46, -7, 4, 4),
+                    (0, 0, 120, 40),
+                    (74, 40, 32, 10),
+                    (70, 40, 40, 3),
+                    (70, 47, 40, 3),
+                    (120, 0, 10, 10),
+                    (123, 10, 4, 4),
+                    (120, 30, 10, 10),
+                    (123, 26, 4, 4)
+                ]
+ 
+        return cuerpo
+
+
+        
 class ComponenteCentral():
 
     """ Class doc """
