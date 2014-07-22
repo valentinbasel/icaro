@@ -206,7 +206,7 @@ class comp_dat_arg():
             self.posic_rel_x = abs(self.posicion[0] - posic_mouse[0])
             self.posic_rel_y = abs(self.posicion[1] - posic_mouse[1])
             self.pulsado = 1
-            print self.rectan
+            #print self.rectan
         if self.ventana.seleccionado_datos == self.ide:
             self.posicion = (
                 posic_mouse[0] - self.posic_rel_x,
@@ -231,8 +231,8 @@ class comp_dat_arg():
                 self.fondo.objetos_datos[i].pegado_a2 = 0
             a = self.fondo.objetos_datos.index(self)
             ident = self.fondo.objetos_datos[a].ide
-            print a
-            print len(self.fondo.objetos_datos)
+            #print a
+            #print len(self.fondo.objetos_datos)
             #del self.fondo.tipo_obj_datos[a]
             # self.kill()
             self.fondo.objetos_datos.remove(self)

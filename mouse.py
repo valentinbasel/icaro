@@ -56,7 +56,7 @@ class MOUSE(componente.Formas):
                 if band==True:
                     break
                 for con in self.fondo.objetos[col].lista_conector_h_datos:
-                    print con 
+                    #print con 
                     if (self.fondo.colliderect(self.conector_m, con)):
                         color=color_colicion
                         band=True

@@ -33,7 +33,9 @@ class visor_codigo():
         lm = gtksourceview2.LanguageManager()
         self.buffer = gtksourceview2.Buffer()
         self.buffer.set_data('languages-manager', lm)
+        
         view = gtksourceview2.View(self.buffer)
+        view.set_show_line_numbers(True)
         self.ventana = ventana
  #       self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
  #       self.window.set_border_width(0)

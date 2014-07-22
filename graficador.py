@@ -27,7 +27,7 @@ import gobject
 import cairo
 import apicaro
 import socket
-
+import os
 
 class VENTANA:
 
@@ -35,10 +35,6 @@ class VENTANA:
 
     def __init__(self):
         """ Class initialiser """
-        self.s = socket.socket()
-        host = socket.gethostname()
-        port = 9999
-        self.s.connect((host, port))
         self.window = gtk.Window()
         table = gtk.Table(3, 2, False)
         self.area = gtk.DrawingArea()
@@ -63,23 +59,21 @@ class VENTANA:
         self.eciclos.set_range(1, 1000)
         self.eciclos.set_digits(0)
         self.eciclos.set_size_request(35, 160)
+        self.servidor = gtk.Button("iniciar servidor")
+        self.servidor.connect("clicked",self.inicio_server)
         self.start = gtk.ToggleButton(label="incio", use_underline=True)
+        self.conectar = gtk.ToggleButton(label="conectar", use_underline=True)
+        self.conectar.connect("clicked",self.con)
         salir = gtk.Button(label="salir")
         salir.connect("clicked", self.salgo)
         for row in range(0, 8):
             table.attach(self.sensorcheck[row], 0, 1, row * 2, row * 2 + 1)
-        #~ table.attach(self.sensor1, 0, 1, 0, 1)
-        #~ table.attach(self.sensor2, 0, 1, 2, 3)
-        #~ table.attach(self.sensor3, 0, 1, 4, 5)
-        #~ table.attach(self.sensor4, 0, 1, 6, 7)
-        #~ table.attach(self.sensor5, 0, 1, 8, 9)
-        #~ table.attach(self.sensor6, 0, 1, 10, 11)
-        #~ table.attach(self.sensor7, 0, 1, 12, 13)
-        #~ table.attach(self.sensor8, 0, 1, 14, 15)
-        table.attach(self.eciclos, 0, 1, 16, 17)
-        table.attach(lciclos, 0, 1, 18, 19)
-        table.attach(self.start, 0, 1, 20, 21)
-        table.attach(salir, 0, 1, 22, 23)
+        #table.attach(self.eciclos, 0, 1, 16, 17)
+        #table.attach(lciclos, 0, 1, 18, 19)
+        table.attach(self.servidor,0,1,18,19) 
+        table.attach(self.conectar,0,1,20,21)
+        table.attach(self.start, 0, 1, 22, 23)
+        table.attach(salir, 0, 1, 24, 25)
         frame2.add(table)
         box2 = gtk.HBox(False, 2)
         box2.pack_start(frame, True, True, 1)
@@ -95,11 +89,27 @@ class VENTANA:
         self.tama_letra = 12
         gobject.idle_add(self.timeout)
 
+    def inicio_server(self,widget):
+        os.system("python clemente/clemente.py&")
+
+    def con(self,widget):
+        if widget.get_active():
+            widget.set_label("conectado")
+            self.s = socket.socket()
+            host = socket.gethostname()
+            port = 9999
+            self.s.connect((host, port))
+        else:
+            widget.set_label("conectar")
+            try:
+                self.s.send("cerrar")
+            except:
+                print "el servidor esta cerrado"
+
     def salgo(self, b):
         print "salir"
         # exit()
         self.s.send("cerrar")
-
         self.s.close
         self.window.hide()
 
@@ -197,7 +207,7 @@ class VENTANA:
 
             self.snds[sensor].append((self.x, 500 - int(y[sensor])*450/1023 ))
         #~ time.sleep(0.2)
-        print y
+        #print y
 #
         self.x += 10
         self.cr.move_to(50, 500)

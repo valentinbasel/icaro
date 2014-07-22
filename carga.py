@@ -10,33 +10,36 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#import pygtk
-import gtk
+
 import os
 import docker
-#import re
-#import shutil
 import sys
 import time
 import threading
-#from subprocess import Popen, PIPE, STDOUT
+import gtk
+
 processor = "18f4550"
 
+def obtener_path_usuario():
+    cadena = os.path.expanduser('~') 
+    return cadena
 
 def compilar_pic(ruta, cfg):
-    #cfg= ConfigParser.ConfigParser()
-    # cfg.read("config.ini")
+    seccion_general = "general"
+    sec_sdcc = cfg.options(seccion_general)
+    sdcc_ini = cfg.get(seccion_general,"sdcc")
+ 
     seccion = "compilador"
     sec = cfg.options(seccion)
     op = ""
     for dat in sec:
         if dat.find("op") >= 0:
             op = op + "  " + cfg.get(seccion, dat)
-    val = os.system(cfg.get(seccion, "sdcc") + " -v")
+    val = os.system(sdcc_ini + " -v")
     if val <> 0:
         return 1
     chemin = sys.path[0]
-    dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
+    dir_conf = obtener_path_usuario() + "/.icaro/firmware"
     if os.path.isdir(dir_conf + "/temporal/") == 0:
         os.mkdir(dir_conf + "/temporal/")
     try:
@@ -45,82 +48,37 @@ def compilar_pic(ruta, cfg):
             os.remove(dir_conf + "/temporal/" + datos)
     except:
         print "no existen los archivos"
-    cad = str(cfg.get(seccion, "sdcc") +
+    cad = str(sdcc_ini +
               " " + op + " " +
               cfg.get(seccion, "temp") + ruta + ".o " +
               cfg.get(seccion, "source") + ruta + ".c ")
-
-    # sortie = str(sdcc.strip("\n") +" "+
-                        #" -mpic16"+
-                        #" --denable-peeps"+
-                        #" --obanksel=9"+
-                        #" --opt-code-size "+
-                        #" --optimize-cmp"+
-                        #" --optimize-df"+
-                        #" -p" + processor +
-                        #" -I " +" ~/.icaro/firmware/source/" +
-                        #" -I " + " ~/.icaro/firmware/tmp/" +
-                        #" -I " + " ~/.icaro/firmware/non-free/include/pic16" +
-                        #" -I /usr/share/sdcc/include/pic16/ " +
-                        #" -c"+
-                        #" -c"+
-                        #" -o" +
-                        #" ~/.icaro/firmware/temporal/"+ruta+".o " +
-                        #" ~/.icaro/firmware/source/"+ruta+".c ")
-
-    log = cad + " 2> " + " ~/.icaro/firmware/temporal/" + "log.dat"
-    print log
-    i = os.system(cad)
-    print "este es el valor de i=", i
+    home_usuario=obtener_path_usuario()
+    cadena_final=cad.replace("~",home_usuario)
+    log = cadena_final + " 2> " + home_usuario+"/.icaro/firmware/temporal/" + "log.dat"
+    i = os.system(log)
     return i
 
-
 def upload_pic(ruta, cfg):
+    home_usuario=obtener_path_usuario()
     seccion = "upload"
+    seccion_general = "general"
     sec = cfg.options(seccion)
+    sec_sdcc = cfg.options(seccion_general)
+    sdcc_ini = cfg.get(seccion_general,"sdcc")
     op = ""
     for dat in sec:
         if dat.find("op") >= 0:
             op = op + "  " + cfg.get(seccion, dat)
-    val = os.system(cfg.get(seccion, "sdcc") + " -v")
+    val = os.system(sdcc_ini + " -v")
     if val <> 0:
         return 1
-    dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
-    up = str(cfg.get(seccion, "sdcc") + " " +
+    dir_conf = home_usuario + "/.icaro/firmware"
+    up = str(sdcc_ini + " " +
              cfg.get(seccion, "hex") + ruta + ".hex " +
              " " + op + " " +
              cfg.get(seccion, "obj") + ruta + ".o ")
-    print " upload------ ", up
-    # sortie2=str(        sdcc.strip("\n") +" "
-                        #" -o"+ " ~/.icaro/firmware/temporal/"+ruta+".hex "+
-                        #" --denable-peeps"+
-                        #" --obanksel=9"+
-                        #" --opt-code-size"+
-                        #" --optimize-cmp"+
-                        #" --optimize-df"+
-                        #" --no-crt"+
-                        #" -Wl-s/usr/share/icaro/pic16/lkr/18f2550.lkr,-m "+
-                        #" -mpic16"+
-                        #" -p"+processor+
-                        #" -l /usr/share/icaro/pic16/lib/libpuf.lib " +
-                        #" -l /usr/share/sdcc/lib/pic16/libc18f.lib "+
-                        #" --lib-path "+ dir_conf + "/non-free/lib/pic16/ " +
-                        #" -l /usr/share/sdcc/lib/pic16/libm18f.lib "+
-                        #"/usr/share/icaro/pic16/obj/usb_descriptors.o "+
-                        #"/usr/share/icaro/pic16/obj/crt0ipinguino.o "+
-                        #"/usr/share/icaro/pic16/obj/application_iface.o "+
-                        #" ~/.icaro/firmware/temporal/"+ruta+".o ")
-
-    #"/usr/share/sdcc/non-free/lib/pic16/ "
-    # print "--------------------------------------------------------------------------------------------------------"
-    # print sortie2
-    # print "--------------------------------------------------------------------------------------------------------"
-    #~ " -l " +sys.path[0].replace(" ","\\ ")+"/sdcc/lib/libio"+processor+".lib"+
-
+    #print " upload------ ", up
     i = os.system(up)
-    # cargador=Cargador(ruta)
-    # cargador.start()
-
     return i
 
 

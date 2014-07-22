@@ -280,7 +280,7 @@ class Ventana:
             (_("New"), _("Open"), _("Save"), _("Save as"),
              _("Save as function"), _("Examples"), _("Exit")),
             (_("Background"), _("Color"), _("About"), _("Config")),
-            ("graficador", "calculadora", _("Log"), "firmware")
+            ("graficador", "calculadora", _("Log"), "firmware","servidor_pilas")
         ]
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
@@ -338,11 +338,11 @@ class Ventana:
              "Load", self.tooltip["cargar"], self.upload, None],
             [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
              "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro"],
-            
+
             [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
              "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas-engine"],
 
- 
+
 ]
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar:
@@ -364,7 +364,7 @@ class Ventana:
         notebook.set_tab_pos(gtk.POS_RIGHT)
         label = gtk.Label(self.diccionario[self.lista[0]][1])
         notebook.append_page(table, label)
-        buffer = self.diccionario[self.lista[1]][0]
+        buffer_boton = self.diccionario[self.lista[1]][0]
         caja = self.imagen_boton(
             self.diccionario[self.lista[1]][0],
             self.diccionario[self.lista[1]][0]
@@ -385,7 +385,7 @@ class Ventana:
                 label = gtk.Label(self.diccionario[self.lista[i]][1])
                 notebook.append_page(table, label)
             else:
-                buffer = self.diccionario[self.lista[i]][0]
+                buffer_boton = self.diccionario[self.lista[i]][0]
                 caja = self.imagen_boton(
                     self.diccionario[self.lista[i]][0],
                     self.diccionario[self.lista[i]][0]
@@ -462,7 +462,7 @@ class Ventana:
         #if b==1:
             #self.area.window.set_cursor(None)
         self.puntero_seleccion_mouse=b
-        
+
 # ========================================================================
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ========================================================================
@@ -542,7 +542,7 @@ class Ventana:
     # cargo template.pde para tener la planilla estandar dentro de
     # cadena_pinguino
     # la idea es poder separar estas funciones de icaro.py y trabajarlo
-    # directamente desde otro archivo, asi es mas facil armar bloques 
+    # directamente desde otro archivo, asi es mas facil armar bloques
     # personalizados
     def carga(self):
         self.cadena_pinguino[:] = []
