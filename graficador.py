@@ -59,19 +59,19 @@ class VENTANA:
         self.eciclos.set_range(1, 1000)
         self.eciclos.set_digits(0)
         self.eciclos.set_size_request(35, 160)
-        self.servidor = gtk.Button("iniciar servidor")
-        self.servidor.connect("clicked",self.inicio_server)
+        #self.servidor = gtk.Button("iniciar servidor")
+        #self.servidor.connect("clicked",self.inicio_server)
         self.start = gtk.ToggleButton(label="incio", use_underline=True)
-        self.conectar = gtk.ToggleButton(label="conectar", use_underline=True)
-        self.conectar.connect("clicked",self.con)
+        #self.conectar = gtk.ToggleButton(label="conectar", use_underline=True)
+        self.start.connect("clicked",self.con)
         salir = gtk.Button(label="salir")
         salir.connect("clicked", self.salgo)
         for row in range(0, 8):
             table.attach(self.sensorcheck[row], 0, 1, row * 2, row * 2 + 1)
         #table.attach(self.eciclos, 0, 1, 16, 17)
         #table.attach(lciclos, 0, 1, 18, 19)
-        table.attach(self.servidor,0,1,18,19) 
-        table.attach(self.conectar,0,1,20,21)
+        #table.attach(self.servidor,0,1,18,19) 
+        #table.attach(self.conectar,0,1,20,21)
         table.attach(self.start, 0, 1, 22, 23)
         table.attach(salir, 0, 1, 24, 25)
         frame2.add(table)
@@ -89,8 +89,8 @@ class VENTANA:
         self.tama_letra = 12
         gobject.idle_add(self.timeout)
 
-    def inicio_server(self,widget):
-        os.system("python clemente/clemente.py&")
+   # def inicio_server(self,widget):
+   #     os.system("python clemente/clemente.py&")
 
     def con(self,widget):
         if widget.get_active():

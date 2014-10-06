@@ -52,7 +52,7 @@ class CLIENTE(threading.Thread):
             resp = self.analizar(peticion)
 
     def stop(self):
-        self.flag == False
+        self.flag = False
         self.socket.close()
 
     def analizar(self, cadena):

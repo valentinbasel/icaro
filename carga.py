@@ -11,76 +11,11 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-import os
 import docker
-import sys
 import time
 import threading
 import gtk
-
-processor = "18f4550"
-
-def obtener_path_usuario():
-    cadena = os.path.expanduser('~') 
-    return cadena
-
-def compilar_pic(ruta, cfg):
-    seccion_general = "general"
-    sec_sdcc = cfg.options(seccion_general)
-    sdcc_ini = cfg.get(seccion_general,"sdcc")
- 
-    seccion = "compilador"
-    sec = cfg.options(seccion)
-    op = ""
-    for dat in sec:
-        if dat.find("op") >= 0:
-            op = op + "  " + cfg.get(seccion, dat)
-    val = os.system(sdcc_ini + " -v")
-    if val <> 0:
-        return 1
-    chemin = sys.path[0]
-    dir_conf = obtener_path_usuario() + "/.icaro/firmware"
-    if os.path.isdir(dir_conf + "/temporal/") == 0:
-        os.mkdir(dir_conf + "/temporal/")
-    try:
-        archivos_temp = os.listdir(dir_conf + "/temporal/")
-        for datos in archivos_temp:
-            os.remove(dir_conf + "/temporal/" + datos)
-    except:
-        print "no existen los archivos"
-    cad = str(sdcc_ini +
-              " " + op + " " +
-              cfg.get(seccion, "temp") + ruta + ".o " +
-              cfg.get(seccion, "source") + ruta + ".c ")
-    home_usuario=obtener_path_usuario()
-    cadena_final=cad.replace("~",home_usuario)
-    log = cadena_final + " 2> " + home_usuario+"/.icaro/firmware/temporal/" + "log.dat"
-    i = os.system(log)
-    return i
-
-def upload_pic(ruta, cfg):
-    home_usuario=obtener_path_usuario()
-    seccion = "upload"
-    seccion_general = "general"
-    sec = cfg.options(seccion)
-    sec_sdcc = cfg.options(seccion_general)
-    sdcc_ini = cfg.get(seccion_general,"sdcc")
-    op = ""
-    for dat in sec:
-        if dat.find("op") >= 0:
-            op = op + "  " + cfg.get(seccion, dat)
-    val = os.system(sdcc_ini + " -v")
-    if val <> 0:
-        return 1
-    dir_conf = home_usuario + "/.icaro/firmware"
-    up = str(sdcc_ini + " " +
-             cfg.get(seccion, "hex") + ruta + ".hex " +
-             " " + op + " " +
-             cfg.get(seccion, "obj") + ruta + ".o ")
-    #print " upload------ ", up
-    i = os.system(up)
-    return i
-
+import util
 
 class Cargador(threading.Thread):
 
@@ -117,7 +52,7 @@ class Cargador(threading.Thread):
 
         def run(self):
             a = 1
-            dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
+            dir_conf = util.obtener_path_usuario() + "/.icaro/firmware"
             while self.vivo:
                 i = docker.docker(dir_conf + "/temporal/" + self.ruta + ".hex")
                 time.sleep(1)

@@ -16,7 +16,7 @@ import os.path
 import pygtk
 import carga
 pygtk.require('2.0')
-
+import util
 import gtk
 if gtk.pygtk_version < (2, 10, 0):
     print "PyGtk 2.10 or later required for this example"
@@ -146,7 +146,9 @@ class visor_codigo():
             file = open(cadena, "w")
             file.writelines(cadena2)
             file.close()
-            i = carga.compilar_pic("main", self.ventana.cfg)
+            i= util.compilar("main",self.ventana.cfg,dir_conf)
+
+            #i = carga.compilar_pic("main", self.ventana.cfg)
             if i == 0:
                 self.ventana.mensajes(3, "la compilacion fue exitosa")
             else:

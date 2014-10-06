@@ -10,7 +10,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-import ConfigParser
+
 import gtk
 import os
 import sys
@@ -32,7 +32,7 @@ import mouse
 from motor import MotorCairo
 from componente_inicial import *
 from componente import *
-
+import util
 
 #import re
 #import shutil
@@ -122,11 +122,188 @@ class fondo(MotorCairo, Componentes):
                     self.band = 0
 
 # ========================================================================
+# FUNCIONES PARA COMPILAR Y CARGAR EL FIRMWARE
+# ========================================================================
+ 
+class tool_compilador:
+    def __init__():
+        pass
+   # cargo template.pde para tener la planilla estandar dentro de
+    # cadena_pinguino
+    # la idea es poder separar estas funciones de icaro.py y trabajarlo
+    # directamente desde otro archivo, asi es mas facil armar bloques
+    # personalizados
+    def carga(self):
+        self.cadena_pinguino[:] = []
+        dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
+        archivo = open(dir_conf + "/source/template.pde", "r")
+        for linea in archivo:
+            self.cadena_pinguino.append(linea)
+
+    def compilar(self, b):
+        pagina = self.notebook2.get_current_page()
+        if pagina == 0:
+            self.carga()
+            crear.crear_archivo(self.fondo, self)
+            dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
+            i= util.compilar("main",self.cfg,dir_conf)
+            #i = carga.compilar_pic("main", self.cfg)
+            if i == 1:
+                self.mensajes(0, ("no se encuentra el compilador sdcc en" +
+                                    " la ruta " + self.config[0] +
+                                    " . Pruebe configurar el archivo" +
+                                    " config.dat y corregirlo"))
+            if i == 0:
+                self.mensajes(3, "la compilacion fue exitosa")
+            else:
+                self.mensajes(0, "hubo un error de compilacion")
+        if pagina == 1:
+            self.ver.compilar(0)
+
+    def upload(self, b):
+        resultado = 1
+        #dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
+        i = util.linker("main",self.cfg)
+        #i = carga.upload_pic("main", self.cfg)
+        if i == 0:
+            cargador = carga.Cargador("main")
+            cargador.start()
+            return 0
+
+    def comp_esp(self, b,datos):
+        resultado = 1
+        comp = 1
+        dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
+        i= util.compilar(datos,self.cfg,dir_conf)
+        #i = carga.compilar_pic(datos, self.cfg)
+        if i == 0:
+            self.mensajes(3, "la compilacion fue exitosa")
+            comp = 0
+        else:
+            self.mensajes(0, "hubo un error de compilacion")
+            comp = 1
+        if comp == 0:
+            i = util.linker(datos,self.cfg)
+            #i = carga.upload_pic(datos, self.cfg)
+            if i == 0:
+                cargador = carga.Cargador(datos)
+                cargador.start()
+                return 0
+###############################################################################
+ 
+
+class crear_comp:
+    def __init__():
+        pass
+    def crear_componente(self, b, x, y):
+        ax = ay = 30
+        # siempre hay que tratar de que el foco quede en el drawing area
+        self.area.grab_focus()
+
+        if self.diccionario[b][1] == 1:
+            c1 = componente(
+                            x ,
+                            y ,
+                            self.fondo.identificador + 1,
+                            self.diccionario[b][2],
+                            self.diccionario[b][3],
+                            self.diccionario[b][0],
+                            self.fondo,
+                            self
+
+                            )
+            self.fondo.identificador += 1
+            self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.lista_ordenada.append(0)
+        if self.diccionario[b][1] == 4:
+
+            self.fondo.identificador += 1
+            c1 = componente_cero_arg(
+                                    x ,
+                                    y ,
+                                    self.fondo.identificador,
+                                    self.diccionario[b][3],
+                                    self.diccionario[b][0],
+                                    self.fondo,
+                                    self
+                                    )
+
+            self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.lista_ordenada.append(0)
+
+        if self.diccionario[b][1] == 5:
+            self.fondo.identificador += 1
+            c1 = componente_bloque_uno(
+                                            x ,
+                                            y ,
+                                            self.fondo.identificador,
+                                            self.diccionario[b][3],
+                                            self.diccionario[b][0],
+                                            self.fondo,
+                                            self,
+                                            )
+            self.fondo.objetos.append(c1)
+            self.fondo.identificador += 1
+            self.fondo.lista_ordenada.append(0)
+
+            c1 = componente_bloque_dos(
+                                        x ,
+                                        y + 80,
+                                        self.fondo.identificador,
+                                        self.diccionario[b][3],
+                                        self.diccionario[b][4],
+                                        self.fondo,
+                                        self
+                                        )
+            self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.tipo_obj.append(0)
+            self.fondo.lista_ordenada.append(0)
+
+        if self.diccionario[b][1] == 6:
+            c1 = comp_dat_arg(
+                            x,
+                            y,
+                            self.fondo.identificador_dat,
+                            self.diccionario[b][2],
+                            self.diccionario[b][4],
+                            self.diccionario[b][3],
+                            self.diccionario[b][5],
+                            self.diccionario[b][0].strip(" ") + ".png",
+                            6,
+                            self.fondo,
+                            self,
+                            )
+            self.fondo.identificador_dat += 1
+            self.fondo.objetos_datos.append(c1)
+            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
+        if self.diccionario[b][1] == 7:
+            c1 = comp_dat_arg(
+                            x,
+                            y,
+                            self.fondo.identificador_dat,
+                            self.diccionario[b][2],
+                            self.diccionario[b][4],
+                            self.diccionario[b][3],
+                            self.diccionario[b][5],
+                            self.diccionario[b][0].strip(" ") + ".png",
+                            7,
+                            self.fondo,
+                            self,
+                            )
+            self.fondo.identificador_dat += 1
+            self.fondo.objetos_datos.append(c1)
+            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
+
+
+# ========================================================================
 # VENTANA
 # ========================================================================
 
 
-class Ventana:
+class Ventana(crear_comp,tool_compilador):
 
     """
     Clase ventana contiene el constructor de la ventana GTK y las funciones
@@ -221,15 +398,16 @@ class Ventana:
         self.lista = self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
+        self.cfg = util.carga_conf("config.ini")
         # cargo la configuracion de icaro
-        self.cfg = ConfigParser.ConfigParser()
-        self.cfg.read("config.ini")
+#        self.cfg = ConfigParser.ConfigParser()
+#        self.cfg.read("config.ini")
 
-        conf = open(sys.path[0] + "/config.dat", "r")
-        dat = conf.readlines()
-        for txt in dat:
-            self.config.append(txt)
-        conf.close()
+#        conf = open(sys.path[0] + "/config.dat", "r")
+#        dat = conf.readlines()
+#        for txt in dat:
+#            self.config.append(txt)
+#        conf.close()
 
         # declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
@@ -535,166 +713,6 @@ class Ventana:
         self.definir_cursor(1)
 
         return
-
-# ========================================================================
-# FUNCIONES PARA COMPILAR Y CARGAR EL FIRMWARE
-# ========================================================================
-    # cargo template.pde para tener la planilla estandar dentro de
-    # cadena_pinguino
-    # la idea es poder separar estas funciones de icaro.py y trabajarlo
-    # directamente desde otro archivo, asi es mas facil armar bloques
-    # personalizados
-    def carga(self):
-        self.cadena_pinguino[:] = []
-        dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
-        archivo = open(dir_conf + "/source/template.pde", "r")
-        for linea in archivo:
-            self.cadena_pinguino.append(linea)
-
-    def compilar(self, b):
-        pagina = self.notebook2.get_current_page()
-        if pagina == 0:
-            self.carga()
-            crear.crear_archivo(self.fondo, self)
-            i = carga.compilar_pic("main", self.cfg)
-            if i == 1:
-                self.mensajes(0, ("no se encuentra el compilador sdcc en" +
-                                    " la ruta " + self.config[0] +
-                                    " . Pruebe configurar el archivo" +
-                                    " config.dat y corregirlo"))
-            if i == 0:
-                self.mensajes(3, "la compilacion fue exitosa")
-            else:
-                self.mensajes(0, "hubo un error de compilacion")
-        if pagina == 1:
-            self.ver.compilar(0)
-
-    def upload(self, b):
-        resultado = 1
-        i = carga.upload_pic("main", self.cfg)
-        if i == 0:
-            cargador = carga.Cargador("main")
-            cargador.start()
-            return 0
-
-    def comp_esp(self, b,datos):
-        resultado = 1
-        comp = 1
-        i = carga.compilar_pic(datos, self.cfg)
-        if i == 0:
-            self.mensajes(3, "la compilacion fue exitosa")
-            comp = 0
-        else:
-            self.mensajes(0, "hubo un error de compilacion")
-            comp = 1
-        if comp == 0:
-            i = carga.upload_pic(datos, self.cfg)
-            if i == 0:
-                cargador = carga.Cargador(datos)
-                cargador.start()
-                return 0
-###############################################################################
-    def crear_componente(self, b, x, y):
-        ax = ay = 30
-        # siempre hay que tratar de que el foco quede en el drawing area
-        self.area.grab_focus()
-
-        if self.diccionario[b][1] == 1:
-            c1 = componente(
-                            x ,
-                            y ,
-                            self.fondo.identificador + 1,
-                            self.diccionario[b][2],
-                            self.diccionario[b][3],
-                            self.diccionario[b][0],
-                            self.fondo,
-                            self
-
-                            )
-            self.fondo.identificador += 1
-            self.fondo.objetos.append(c1)
-            self.fondo.tipo_obj.append(self.diccionario[b][1])
-            self.fondo.lista_ordenada.append(0)
-        if self.diccionario[b][1] == 4:
-
-            self.fondo.identificador += 1
-            c1 = componente_cero_arg(
-                                    x ,
-                                    y ,
-                                    self.fondo.identificador,
-                                    self.diccionario[b][3],
-                                    self.diccionario[b][0],
-                                    self.fondo,
-                                    self
-                                    )
-
-            self.fondo.objetos.append(c1)
-            self.fondo.tipo_obj.append(self.diccionario[b][1])
-            self.fondo.lista_ordenada.append(0)
-
-        if self.diccionario[b][1] == 5:
-            self.fondo.identificador += 1
-            c1 = componente_bloque_uno(
-                                            x ,
-                                            y ,
-                                            self.fondo.identificador,
-                                            self.diccionario[b][3],
-                                            self.diccionario[b][0],
-                                            self.fondo,
-                                            self,
-                                            )
-            self.fondo.objetos.append(c1)
-            self.fondo.identificador += 1
-            self.fondo.lista_ordenada.append(0)
-
-            c1 = componente_bloque_dos(
-                                        x ,
-                                        y + 80,
-                                        self.fondo.identificador,
-                                        self.diccionario[b][3],
-                                        self.diccionario[b][4],
-                                        self.fondo,
-                                        self
-                                        )
-            self.fondo.objetos.append(c1)
-            self.fondo.tipo_obj.append(self.diccionario[b][1])
-            self.fondo.tipo_obj.append(0)
-            self.fondo.lista_ordenada.append(0)
-
-        if self.diccionario[b][1] == 6:
-            c1 = comp_dat_arg(
-                            x,
-                            y,
-                            self.fondo.identificador_dat,
-                            self.diccionario[b][2],
-                            self.diccionario[b][4],
-                            self.diccionario[b][3],
-                            self.diccionario[b][5],
-                            self.diccionario[b][0].strip(" ") + ".png",
-                            6,
-                            self.fondo,
-                            self,
-                            )
-            self.fondo.identificador_dat += 1
-            self.fondo.objetos_datos.append(c1)
-            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
-        if self.diccionario[b][1] == 7:
-            c1 = comp_dat_arg(
-                            x,
-                            y,
-                            self.fondo.identificador_dat,
-                            self.diccionario[b][2],
-                            self.diccionario[b][4],
-                            self.diccionario[b][3],
-                            self.diccionario[b][5],
-                            self.diccionario[b][0].strip(" ") + ".png",
-                            7,
-                            self.fondo,
-                            self,
-                            )
-            self.fondo.identificador_dat += 1
-            self.fondo.objetos_datos.append(c1)
-            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
 
     def guardar(self, dato):
         pagina = self.notebook2.get_current_page()
