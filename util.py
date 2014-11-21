@@ -39,7 +39,9 @@ def obtener_path_usuario():
     return cadena
 
 def comprobar_sdcc(sdcc_ini):
-    val=os.popen(sdcc_ini + " -v").read()
+    
+    val=os.system(sdcc_ini + " -v")
+    print "aca estoy comprobando sdcc",val
     if val <> 0:
         return 1
     return 0
