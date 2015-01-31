@@ -36,4 +36,18 @@ void init_CDC()
 	}
 }
 
+// funciones especificas de ICARO
+void env_cdc(int valor)
+{
+    unsigned char chaine[];
+    int tam=0;
+    itoa(valor,chaine,10);
+    if (valor<1000) tam=4;
+    if (valor<100) tam=3;
+    if (valor<10) tam=2;
+    strcat(chaine,"\n");
+    CDCputs(chaine,tam);
+    Delayms(10);
+}
+
 #endif

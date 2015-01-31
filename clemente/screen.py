@@ -44,7 +44,9 @@ class PANTALLA(threading.Thread):
         |    - quit (salir)
         |    - status (muestra el estado del socket y de la placa"
         |    - client (muestra la listas de clientes conectados)
+        |    - dat (los valores de los sensores analogicos)
         |    - help (esta ayuda)
+
         |
         -----------------------------------------------------------------
    
@@ -69,6 +71,9 @@ class PANTALLA(threading.Thread):
                 print "cantidad de clientes : ", len(self.servidor.threads)
             if valor == "help":
                 print self.cadena
-
+            if valor == "client":
+                print self.servidor.lista_cli
+            if valor == "dat":
+                print self.servidor.datos
     def stop(self):
         self.flag=False

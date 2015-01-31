@@ -78,6 +78,7 @@ class ICR(threading.Thread):
                         self.servidor.datos[a] = cad_fin[a]
                 self.band = True
                 self.status = True
+                #~ print self.servidor.datos
             except Exception, ex:
                 print "error con el hardware icaro"
                 self.band = False

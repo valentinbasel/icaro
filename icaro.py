@@ -152,7 +152,7 @@ class tool_compilador:
                 self.mensajes(0, ("no se encuentra el compilador sdcc en" +
                                     " la ruta " + self.config[0] +
                                     " . Pruebe configurar el archivo" +
-                                    " config.dat y corregirlo"))
+                                    " config.ini y corregirlo"))
             if i == 0:
                 self.mensajes(3, "la compilacion fue exitosa")
             else:
@@ -398,17 +398,15 @@ class Ventana(crear_comp,tool_compilador):
         self.lista = self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
-        self.cfg = util.carga_conf("config.ini")
-        # cargo la configuracion de icaro
-#        self.cfg = ConfigParser.ConfigParser()
-#        self.cfg.read("config.ini")
-
-#        conf = open(sys.path[0] + "/config.dat", "r")
-#        dat = conf.readlines()
-#        for txt in dat:
-#            self.config.append(txt)
-#        conf.close()
-
+        conf_ini=os.path.expanduser('~') + "/.icaro/conf/config.ini"
+        self.cfg = util.carga_conf(conf_ini)
+        # configuraciones generales de ICARO (guardadas en config.ini)
+        self.z=float(self.cfg.get("icaro_config","zoom"))
+        #R=self.cfg.get("icaro_config","colorR")
+        #G=self.cfg.get("icaro_config","colorG")
+        #B=self.cfg.get("icaro_config","colorB")
+        #self.fondo.FONDO = (int(R), int(G), int(B))
+ 
         # declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
@@ -417,7 +415,6 @@ class Ventana(crear_comp,tool_compilador):
         self.window1 = gtk.Window()
         toolbar = gtk.Toolbar()
         self.area = gtk.DrawingArea()
-
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window2 = gtk.ScrolledWindow()
         scrolled_window3 = gtk.ScrolledWindow()
@@ -515,10 +512,10 @@ class Ventana(crear_comp,tool_compilador):
             [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
              "Load", self.tooltip["cargar"], self.upload, None],
             [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro"],
+             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro/tortucaro"],
 
             [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
-             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas-engine"],
+             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas/pilas-engine"],
 
 
 ]
@@ -821,7 +818,10 @@ class Ventana(crear_comp,tool_compilador):
         self.archivo = ""
         nuevo.nuevo(self.fondo)
         self.fondo.band = 0
-        self.fondo.FONDO = (00, 22, 55)
+        R=self.cfg.get("icaro_config","colorR")
+        G=self.cfg.get("icaro_config","colorG")
+        B=self.cfg.get("icaro_config","colorB")
+        self.fondo.FONDO = (int(R), int(G), int(B))
         self.fondo.ultimo = 1
         inicial = componente_inicial(
                                     20,
@@ -1131,6 +1131,11 @@ ventana_principal.fondo = fon
 inicial = componente_inicial(20, 50, 1, fon, ventana_principal)
 fon.objetos.append(inicial)
 ventana_principal.window1.show_all()
+R=ventana_principal.cfg.get("icaro_config","colorR")
+G=ventana_principal.cfg.get("icaro_config","colorG")
+B=ventana_principal.cfg.get("icaro_config","colorB")
+ventana_principal.fondo.FONDO = (int(R), int(G), int(B))
+ 
 gobject.timeout_add(50, ventana_principal.timeout)
 # gobject.idle_add(ventana_principal.timeout)
 # gobject.PRIORITY_DEFAULT=-1

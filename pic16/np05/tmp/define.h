@@ -29,3 +29,4 @@ typedef unsigned long dword;
 
 #include <arduinodelay.c>
 
+#include <pwm.c>

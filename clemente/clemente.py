@@ -44,6 +44,7 @@ class SERVIDOR(threading.Thread):
 
     def __init__(self, terminal, ip="localhost", port=9999):
         """ inicializador de clase """
+        self.lista_cli=[0]
         threading.Thread.__init__(self) 
         self.datos = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.flag = True
@@ -93,6 +94,7 @@ class SERVIDOR(threading.Thread):
 
             hilo_icaro.start()
             self.threads.append(hilo_icaro)
+            self.lista_cli.append(hilo_icaro)
             #except:
             #    print "paso algo"
             #    self.cerrar()

@@ -23,12 +23,9 @@
 
 #include <pic18fregs.h>
 #include <macro.h>
-
 #include "common_types.h"
 #include "boot_iface.h"
 #include "define.h"
-
-
 #ifdef __USB__
 #include "../tmp/usb.h"
 #include <usb.c>
@@ -47,7 +44,7 @@ void epapout_init() { return; }
 // beware : this is not a C main function, but the application
 // entry point called from the boot.
 
-#include "user.c"
+#include "user-tortucaro.c"
 
 void pinguino_main(void) 
 {	

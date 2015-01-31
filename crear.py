@@ -90,6 +90,8 @@ def crear_archivo(fondo, ventana):
     ventana.cadena_pinguino.append("}")
 
     fw = open(dir_conf + "/source/user.c", "w")
+    pic=ventana.cfg.get("pic","pcb")
+    fw.writelines(pic+"\n")
     for a in range(len(ventana.cadena_pinguino)):
         fw.writelines(ventana.cadena_pinguino[a])
     fw.close()

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.3.0 #8604 (Jul 16 2014) (Linux)
-; This file was generated Tue Jan 27 16:55:55 2015
+; This file was generated Tue Jan 27 16:16:08 2015
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -12,6 +12,7 @@
 ;--------------------------------------------------------
 ; public variables in this module
 ;--------------------------------------------------------
+	global	_i
 	global	_hidRxLen
 	global	_hidProtocol
 	global	_hidIdleRate
@@ -50,6 +51,11 @@
 	global	_CDCTxBuffer
 	global	_line_config
 	global	_zlp
+	global	_receivedbyte
+	global	_receivedbyte2
+	global	_rxstr
+	global	_rxstr2
+	global	_valor
 	global	_digitalwrite
 	global	_digitalread
 	global	_pinmode
@@ -90,7 +96,13 @@
 	global	_CDCputs
 	global	_init_CDC
 	global	_env_cdc
+	global	_digital
+	global	_l293d
+	global	_analogico
+	global	_puertob
+	global	_servos
 	global	_setup
+	global	_comparo
 	global	_loop
 	global	_pinguino_main
 	global	_high_priority_isr
@@ -343,7 +355,10 @@
 	extern	__mulint
 	extern	__divuint
 	extern	_itoa
+	extern	_x_ftoa
 	extern	_strcat
+	extern	_strlen
+	extern	___uint2fs
 
 ;--------------------------------------------------------
 ;	Equates to used internal registers
@@ -379,6 +394,19 @@ _timedivision	db	0x00
 _activatedservos	db	0x00, 0x00, 0x00
 __pr2_plus1	db	0x00, 0x01
 _CONTROL_LINE	db	0x00
+_rxstr	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00
+_rxstr2	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	db	0x00, 0x00, 0x00, 0x00
+_valor	db	0x00, 0x00
 
 
 ; Internal registers
@@ -404,89 +432,101 @@ _controlTransferBuffer	res	64
 _CDCRxBuffer	res	64
 _CDCTxBuffer	res	64
 
-udata_main_0	udata
+udata_tortucaro_0	udata
 _loopvar	res	1
 
-udata_main_1	udata
+udata_tortucaro_1	udata
 _deviceAddress	res	1
 
-udata_main_2	udata
+udata_tortucaro_2	udata
 _HIDPostProcess	res	1
 
-udata_main_3	udata
+udata_tortucaro_3	udata
 _hidIdleRate	res	1
 
-udata_main_4	udata
+udata_tortucaro_4	udata
 _hidProtocol	res	1
 
-udata_main_5	udata
+udata_tortucaro_5	udata
 _hidRxLen	res	1
 
-udata_main_6	udata
+udata_tortucaro_6	udata
+_i	res	1
+
+udata_tortucaro_7	udata
 _servovalues	res	18
 
-udata_main_7	udata
+udata_tortucaro_8	udata
 _timingindex	res	1
 
-udata_main_8	udata
+udata_tortucaro_9	udata
 _timings	res	72
 
-udata_main_9	udata
+udata_tortucaro_10	udata
 _SortServoTimings_mascaratotal_1_27	res	3
 
-udata_main_10	udata
+udata_tortucaro_11	udata
 __t2con	res	1
 
-udata_main_11	udata
+udata_tortucaro_12	udata
 _requestHandled	res	1
 
-udata_main_12	udata
+udata_tortucaro_13	udata
 _outPtr	res	3
 
-udata_main_13	udata
+udata_tortucaro_14	udata
 _wCount	res	2
 
-udata_main_14	udata
+udata_tortucaro_15	udata
 _inPtr	res	3
 
-udata_main_15	udata
+udata_tortucaro_16	udata
 _selfPowered	res	1
 
-udata_main_16	udata
+udata_tortucaro_17	udata
 _remoteWakeup	res	1
 
-udata_main_17	udata
+udata_tortucaro_18	udata
 _deviceState	res	1
 
-udata_main_18	udata
+udata_tortucaro_19	udata
 _currentConfiguration	res	1
 
-udata_main_19	udata
+udata_tortucaro_20	udata
 _ctrlTransferStage	res	1
 
-udata_main_20	udata
+udata_tortucaro_21	udata
 _line_config	res	5
 
-udata_main_21	udata
+udata_tortucaro_22	udata
 _zlp	res	8
 
-udata_main_22	udata
+udata_tortucaro_23	udata
 _CDCControlBuffer	res	16
 
-udata_main_23	udata
+udata_tortucaro_24	udata
 _env_cdc_chaine_1_250	res	0
 
+udata_tortucaro_25	udata
+_receivedbyte	res	1
 
-ustat_main_00	udata	0X0400
+udata_tortucaro_26	udata
+_receivedbyte2	res	1
+
+udata_tortucaro_27	udata
+_analogico_chaine_1_261	res	0
+
+
+ustat_tortucaro_00	udata	0X0400
 _ep_bdt        	res	128
 
 ;--------------------------------------------------------
 ; global & static initialisations
 ;--------------------------------------------------------
 ; ; Starting pCode block
-S_main__high_priority_isr	code	0X002020
+S_tortucaro__high_priority_isr	code	0X002020
 _high_priority_isr:
-;	.line	98; /home/valentin/.icaro/firmware/source/main.c	void high_priority_isr(void) __interrupt
+;	.line	95; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	void high_priority_isr(void) __interrupt
 	MOVFF	STATUS, POSTDEC1
 	MOVFF	BSR, POSTDEC1
 	MOVWF	POSTDEC1
@@ -496,21 +536,21 @@ _high_priority_isr:
 	MOVFF	FSR0H, POSTDEC1
 	MOVFF	PCLATH, POSTDEC1
 	MOVFF	PCLATU, POSTDEC1
-;	.line	101; /home/valentin/.icaro/firmware/source/main.c	if(PIR2bits.USBIF)
+;	.line	98; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	if(PIR2bits.USBIF)
 	BTFSS	_PIR2bits, 5
-	BRA	_01532_DS_
-;	.line	103; /home/valentin/.icaro/firmware/source/main.c	ProcessUSBTransactions();
+	BRA	_01843_DS_
+;	.line	100; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	ProcessUSBTransactions();
 	CALL	_ProcessUSBTransactions
-;	.line	104; /home/valentin/.icaro/firmware/source/main.c	UIRbits.SOFIF = 0;
+;	.line	101; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	UIRbits.SOFIF = 0;
 	BCF	_UIRbits, 6
-;	.line	105; /home/valentin/.icaro/firmware/source/main.c	UIRbits.URSTIF = 0;
+;	.line	102; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	UIRbits.URSTIF = 0;
 	BCF	_UIRbits, 0
-;	.line	106; /home/valentin/.icaro/firmware/source/main.c	PIR2bits.USBIF = 0;
+;	.line	103; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	PIR2bits.USBIF = 0;
 	BCF	_PIR2bits, 5
-;	.line	107; /home/valentin/.icaro/firmware/source/main.c	UEIR = 0;
+;	.line	104; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	UEIR = 0;
 	CLRF	_UEIR
-_01532_DS_:
-;	.line	134; /home/valentin/.icaro/firmware/source/main.c	servos_interrupt();
+_01843_DS_:
+;	.line	131; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	servos_interrupt();
 	CALL	_servos_interrupt
 	MOVFF	PREINC1, PCLATU
 	MOVFF	PREINC1, PCLATH
@@ -524,9 +564,9 @@ _01532_DS_:
 	RETFIE	
 
 ; ; Starting pCode block
-S_main__low_priority_isr	code	0X004000
+S_tortucaro__low_priority_isr	code	0X004000
 _low_priority_isr:
-;	.line	142; /home/valentin/.icaro/firmware/source/main.c	void low_priority_isr(void) __interrupt
+;	.line	139; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	void low_priority_isr(void) __interrupt
 	MOVFF	STATUS, POSTDEC1
 	MOVFF	BSR, POSTDEC1
 	MOVWF	POSTDEC1
@@ -536,7 +576,7 @@ _low_priority_isr:
 	MOVFF	FSR0H, POSTDEC1
 	MOVFF	PCLATH, POSTDEC1
 	MOVFF	PCLATU, POSTDEC1
-;	.line	144; /home/valentin/.icaro/firmware/source/main.c	}
+;	.line	141; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	}
 	MOVFF	PREINC1, PCLATU
 	MOVFF	PREINC1, PCLATH
 	MOVFF	PREINC1, FSR0H
@@ -550,87 +590,175 @@ _low_priority_isr:
 
 ; I code from now on!
 ; ; Starting pCode block
-S_main__pinguino_main	code
+S_tortucaro__pinguino_main	code
 _pinguino_main:
-;	.line	54; /home/valentin/.icaro/firmware/source/main.c	PIE1=0;
+;	.line	51; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	PIE1=0;
 	CLRF	_PIE1
-;	.line	55; /home/valentin/.icaro/firmware/source/main.c	PIE2=0;
+;	.line	52; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	PIE2=0;
 	CLRF	_PIE2
-;	.line	56; /home/valentin/.icaro/firmware/source/main.c	ADCON1=0x0F;
+;	.line	53; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	ADCON1=0x0F;
 	MOVLW	0x0f
 	MOVWF	_ADCON1
-;	.line	61; /home/valentin/.icaro/firmware/source/main.c	setup();
+;	.line	58; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	setup();
 	CALL	_setup
-;	.line	63; /home/valentin/.icaro/firmware/source/main.c	analog_init();
+;	.line	60; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	analog_init();
 	CALL	_analog_init
-;	.line	69; /home/valentin/.icaro/firmware/source/main.c	servos_init();
+;	.line	66; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	servos_init();
 	CALL	_servos_init
-;	.line	72; /home/valentin/.icaro/firmware/source/main.c	init_CDC();
+;	.line	69; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	init_CDC();
 	CALL	_init_CDC
-;	.line	73; /home/valentin/.icaro/firmware/source/main.c	PIE2bits.USBIE = 1;
+;	.line	70; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	PIE2bits.USBIE = 1;
 	BSF	_PIE2bits, 5
-;	.line	74; /home/valentin/.icaro/firmware/source/main.c	INTCON = 0xC0;      
+;	.line	71; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	INTCON = 0xC0;      
 	MOVLW	0xc0
 	MOVWF	_INTCON
-;	.line	85; /home/valentin/.icaro/firmware/source/main.c	INTCONbits.PEIE=1;
+;	.line	82; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	INTCONbits.PEIE=1;
 	BSF	_INTCONbits, 6
-;	.line	86; /home/valentin/.icaro/firmware/source/main.c	INTCONbits.GIE=1;
+;	.line	83; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_01524_DS_:
-;	.line	91; /home/valentin/.icaro/firmware/source/main.c	loop();
+_01835_DS_:
+;	.line	88; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	loop();
 	CALL	_loop
-	BRA	_01524_DS_
+	BRA	_01835_DS_
 	RETURN	
 
 ; ; Starting pCode block
-S_main__loop	code
+S_tortucaro__loop	code
 _loop:
-;	.line	43; /home/valentin/.icaro/firmware/source/user.c	void loop()
+;	.line	257; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	void loop()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
-;	.line	45; /home/valentin/.icaro/firmware/source/user.c	env_cdc(analogread(13) );
-	MOVLW	0x0d
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVF	POSTINC1, F
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_env_cdc
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	46; /home/valentin/.icaro/firmware/source/user.c	Delayms(100);
+	BANKSEL	_valor
+;	.line	259; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	PORTD=valor;
+	MOVF	_valor, W, B
+	MOVWF	_PORTD
+;	.line	260; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	Delayms(10);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
-	MOVLW	0x64
+	MOVLW	0x0a
 	MOVWF	POSTDEC1
 	CALL	_Delayms
 	MOVLW	0x04
 	ADDWF	FSR1L, F
+_01824_DS_:
+;	.line	261; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
+	MOVLW	0x80
+; #	MOVWF	r0x02
+; #	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	MOVWF	r0x00
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+	MOVFF	r0x00, _receivedbyte
+	MOVF	r0x00, W
+	BZ	_01824_DS_
+;	.line	262; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[receivedbyte]=0;
+	MOVLW	LOW(_rxstr)
+	BANKSEL	_receivedbyte
+	ADDWF	_receivedbyte, W, B
+	MOVWF	r0x00
+	CLRF	r0x01
+	MOVLW	HIGH(_rxstr)
+	ADDWFC	r0x01, F
+	MOVFF	r0x00, FSR0L
+	MOVFF	r0x01, FSR0H
+	CLRF	INDF0
+; #	MOVF	_receivedbyte, W, B
+; #	BTFSC	STATUS, 2
+; #	GOTO	_01828_DS_
+; #	CALL	_comparo
+; #	CLRF	_rxstr, B
+; removed redundant BANKSEL
+;	.line	263; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (receivedbyte>0)
+	MOVF	_receivedbyte, W, B
+;	.line	265; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	comparo();
+	BTFSS	STATUS, 2
+;	.line	267; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[0]=0;
+	CALL	_comparo
+	BANKSEL	_rxstr
+	CLRF	_rxstr, B
+	BANKSEL	_receivedbyte
+;	.line	268; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte=0;
+	CLRF	_receivedbyte, B
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	RETURN	
 
 ; ; Starting pCode block
-S_main__setup	code
-_setup:
-;	.line	25; /home/valentin/.icaro/firmware/source/user.c	TRISB=0;
-	CLRF	_TRISB
-;	.line	26; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG1,INPUT);
-	CLRF	POSTDEC1
-	MOVLW	0x01
+S_tortucaro__comparo	code
+_comparo:
+	BANKSEL	_rxstr
+;	.line	232; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='b')
+	MOVF	_rxstr, W, B
+	XORLW	0x62
+	BNZ	_01777_DS_
+;	.line	234; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	CDCputs("icaro USB 02 \n",14);
+	MOVLW	0x0e
 	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVLW	0x0f
+	MOVLW	UPPER(__str_4)
 	MOVWF	POSTDEC1
-	CALL	_pinmode
+	MOVLW	HIGH(__str_4)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(__str_4)
+	MOVWF	POSTDEC1
+	CALL	_CDCputs
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	27; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG2,INPUT);
+_01777_DS_:
+	BANKSEL	_rxstr
+;	.line	236; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='m')
+	MOVF	_rxstr, W, B
+	XORLW	0x6d
+	BNZ	_01779_DS_
+;	.line	238; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	servos();
+	CALL	_servos
+_01779_DS_:
+	BANKSEL	_rxstr
+;	.line	240; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='e')
+	MOVF	_rxstr, W, B
+	XORLW	0x65
+	BNZ	_01781_DS_
+;	.line	242; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	analogico();
+	CALL	_analogico
+_01781_DS_:
+	BANKSEL	_rxstr
+;	.line	244; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='l')
+	MOVF	_rxstr, W, B
+	XORLW	0x6c
+	BNZ	_01783_DS_
+;	.line	246; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	l293d();
+	CALL	_l293d
+_01783_DS_:
+	BANKSEL	_rxstr
+;	.line	248; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='d')
+	MOVF	_rxstr, W, B
+	XORLW	0x64
+	BNZ	_01785_DS_
+;	.line	250; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	digital();
+	CALL	_digital
+_01785_DS_:
+	BANKSEL	_rxstr
+;	.line	252; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='s')
+	MOVF	_rxstr, W, B
+	XORLW	0x73
+	BNZ	_01788_DS_
+;	.line	254; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	puertob();
+	CALL	_puertob
+_01788_DS_:
+	RETURN	
+
+; ; Starting pCode block
+S_tortucaro__setup	code
+_setup:
+;	.line	210; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	TRISB=0;
+	CLRF	_TRISB
+;	.line	211; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(21,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -640,7 +768,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	28; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG3,INPUT);
+;	.line	212; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(22,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -650,25 +778,27 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	29; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG4,TRIG);
+;	.line	213; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(23,INPUT);
 	CLRF	POSTDEC1
-	CLRF	POSTDEC1
+	MOVLW	0x01
+	MOVWF	POSTDEC1
 	CLRF	POSTDEC1
 	MOVLW	0x17
 	MOVWF	POSTDEC1
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	30; /home/valentin/.icaro/firmware/source/user.c	pinmode(24,ECHO);
+;	.line	214; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(24,INPUT);
 	CLRF	POSTDEC1
-	CLRF	POSTDEC1
+	MOVLW	0x01
+	MOVWF	POSTDEC1
 	CLRF	POSTDEC1
 	MOVLW	0x18
 	MOVWF	POSTDEC1
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	31; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_l293_P1,OUTPUT);
+;	.line	216; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(25,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -677,7 +807,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	32; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_l293_P2,OUTPUT);
+;	.line	217; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(26,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -686,7 +816,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	33; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_l293_P3,OUTPUT);
+;	.line	218; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(27,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -695,7 +825,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	34; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_l293_P4,OUTPUT);
+;	.line	219; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	pinmode(28,OUTPUT);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -704,35 +834,652 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	35; /home/valentin/.icaro/firmware/source/user.c	ServoAttach(ICR_SRV1);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	36; /home/valentin/.icaro/firmware/source/user.c	ServoAttach(ICR_SRV2);
-	MOVLW	0x0b
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	37; /home/valentin/.icaro/firmware/source/user.c	ServoAttach(ICR_SRV3);
-	MOVLW	0x0c
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	38; /home/valentin/.icaro/firmware/source/user.c	ServoAttach(ICR_SRV4);
+;	.line	221; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	ServoAttach(8);
 	MOVLW	0x08
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	MOVF	POSTINC1, F
-;	.line	39; /home/valentin/.icaro/firmware/source/user.c	ServoAttach(ICR_SRV5);
+;	.line	222; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	ServoAttach(9);
 	MOVLW	0x09
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	223; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	ServoAttach(10);
+	MOVLW	0x0a
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	224; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	ServoAttach(11);
+	MOVLW	0x0b
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	225; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	ServoAttach(12);
+	MOVLW	0x0c
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	MOVF	POSTINC1, F
 	RETURN	
 
 ; ; Starting pCode block
-S_main__env_cdc	code
+S_tortucaro__servos	code
+_servos:
+;	.line	153; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	void servos()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+	MOVFF	r0x03, POSTDEC1
+	MOVFF	r0x04, POSTDEC1
+	MOVFF	r0x05, POSTDEC1
+;	.line	158; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	int val=0;
+	CLRF	r0x00
+_01702_DS_:
+;	.line	160; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
+	MOVLW	0x80
+; #	MOVWF	r0x04
+; #	MOVF	r0x04, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	MOVWF	r0x02
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+	MOVFF	r0x02, _receivedbyte
+	MOVF	r0x02, W
+	BZ	_01702_DS_
+;	.line	161; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[receivedbyte]=0;
+	MOVLW	LOW(_rxstr)
+	BANKSEL	_receivedbyte
+	ADDWF	_receivedbyte, W, B
+	MOVWF	r0x02
+	CLRF	r0x03
+	MOVLW	HIGH(_rxstr)
+	ADDWFC	r0x03, F
+	MOVFF	r0x02, FSR0L
+	MOVFF	r0x03, FSR0H
+	CLRF	INDF0
+; removed redundant BANKSEL
+;	.line	162; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (receivedbyte>0)
+	MOVF	_receivedbyte, W, B
+	BZ	_01716_DS_
+;	.line	164; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='1')
+	MOVFF	_rxstr, r0x02
+	MOVF	r0x02, W
+	XORLW	0x31
+	BNZ	_01706_DS_
+;	.line	166; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=10;
+	MOVLW	0x0a
+	MOVWF	r0x00
+_01706_DS_:
+;	.line	168; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='2')
+	MOVF	r0x02, W
+	XORLW	0x32
+	BNZ	_01708_DS_
+;	.line	170; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=11;
+	MOVLW	0x0b
+	MOVWF	r0x00
+_01708_DS_:
+;	.line	172; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='3')
+	MOVF	r0x02, W
+	XORLW	0x33
+	BNZ	_01710_DS_
+;	.line	174; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=12;
+	MOVLW	0x0c
+	MOVWF	r0x00
+_01710_DS_:
+;	.line	176; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='4')
+	MOVF	r0x02, W
+	XORLW	0x34
+	BNZ	_01712_DS_
+;	.line	178; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=8;
+	MOVLW	0x08
+	MOVWF	r0x00
+_01712_DS_:
+;	.line	180; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='5')
+	MOVF	r0x02, W
+	XORLW	0x35
+	BNZ	_01716_DS_
+;	.line	182; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=9;
+	MOVLW	0x09
+	MOVWF	r0x00
+_01716_DS_:
+	BANKSEL	_rxstr
+;	.line	185; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[0]=0;
+	CLRF	_rxstr, B
+	BANKSEL	_receivedbyte
+;	.line	186; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte=0;
+	CLRF	_receivedbyte, B
+_01717_DS_:
+;	.line	187; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
+	MOVLW	0x80
+; #	MOVWF	r0x04
+; #	MOVF	r0x04, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	MOVWF	r0x02
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+	MOVFF	r0x02, _receivedbyte
+	MOVF	r0x02, W
+	BZ	_01717_DS_
+;	.line	188; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[receivedbyte]=0;
+	MOVLW	LOW(_rxstr)
+	BANKSEL	_receivedbyte
+	ADDWF	_receivedbyte, W, B
+	MOVWF	r0x02
+	CLRF	r0x03
+	MOVLW	HIGH(_rxstr)
+	ADDWFC	r0x03, F
+	MOVFF	r0x02, FSR0L
+	MOVFF	r0x03, FSR0H
+	CLRF	INDF0
+; removed redundant BANKSEL
+;	.line	189; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (receivedbyte>0)
+	MOVF	_receivedbyte, W, B
+	BZ	_01721_DS_
+;	.line	197; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	resultado = rxstr[0];
+	MOVFF	_rxstr, r0x02
+;	.line	198; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[receivedbyte]=0;
+	MOVLW	LOW(_rxstr)
+; removed redundant BANKSEL
+	ADDWF	_receivedbyte, W, B
+	MOVWF	r0x04
+	CLRF	r0x05
+	MOVLW	HIGH(_rxstr)
+	ADDWFC	r0x05, F
+	MOVFF	r0x04, FSR0L
+	MOVFF	r0x05, FSR0H
+	CLRF	INDF0
+;	.line	199; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	ServoWrite(val,resultado);
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_ServoWrite
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+_01721_DS_:
+	BANKSEL	_rxstr
+;	.line	201; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[0]=0;
+	CLRF	_rxstr, B
+	BANKSEL	_receivedbyte
+;	.line	202; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte=0;
+	CLRF	_receivedbyte, B
+;	.line	205; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	return;
+	MOVFF	PREINC1, r0x05
+	MOVFF	PREINC1, r0x04
+	MOVFF	PREINC1, r0x03
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_tortucaro__puertob	code
+_puertob:
+;	.line	132; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	void puertob()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+	MOVFF	r0x03, POSTDEC1
+_01692_DS_:
+;	.line	139; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
+	MOVLW	0x80
+; #	MOVWF	r0x02
+; #	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	MOVWF	r0x00
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+	MOVFF	r0x00, _receivedbyte
+	MOVF	r0x00, W
+	BZ	_01692_DS_
+;	.line	141; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[receivedbyte]=0;
+	MOVLW	LOW(_rxstr)
+	BANKSEL	_receivedbyte
+	ADDWF	_receivedbyte, W, B
+	MOVWF	r0x00
+	CLRF	r0x01
+	MOVLW	HIGH(_rxstr)
+	ADDWFC	r0x01, F
+	MOVFF	r0x00, FSR0L
+	MOVFF	r0x01, FSR0H
+	CLRF	INDF0
+; removed redundant BANKSEL
+;	.line	142; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (receivedbyte>0)
+	MOVF	_receivedbyte, W, B
+	BZ	_01697_DS_
+;	.line	145; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	resultado = rxstr[0];
+	MOVFF	_rxstr, r0x00
+;	.line	146; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[receivedbyte]=0;
+	MOVLW	LOW(_rxstr)
+; removed redundant BANKSEL
+	ADDWF	_receivedbyte, W, B
+	MOVWF	r0x02
+	CLRF	r0x03
+	MOVLW	HIGH(_rxstr)
+	ADDWFC	r0x03, F
+	MOVFF	r0x02, FSR0L
+	MOVFF	r0x03, FSR0H
+	CLRF	INDF0
+;	.line	147; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	PORTB=resultado;
+	MOVF	r0x00, W
+	MOVWF	_PORTB
+_01697_DS_:
+	MOVFF	PREINC1, r0x03
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_tortucaro__analogico	code
+_analogico:
+;	.line	74; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	void analogico()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+	MOVFF	r0x03, POSTDEC1
+;	.line	80; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	unsigned int val=0;
+	CLRF	r0x00
+_01638_DS_:
+;	.line	86; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte2=CDCgets(rxstr2);
+	MOVLW	0x80
+; #	MOVWF	r0x04
+; #	MOVF	r0x04, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr2)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr2)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	BANKSEL	_receivedbyte2
+	MOVWF	_receivedbyte2, B
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+; removed redundant BANKSEL
+;	.line	87; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (receivedbyte2>0)
+	MOVF	_receivedbyte2, W, B
+	BZ	_01638_DS_
+;	.line	89; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='1')
+	MOVFF	_rxstr2, r0x02
+	MOVF	r0x02, W
+	XORLW	0x31
+	BNZ	_01620_DS_
+;	.line	91; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=13;
+	MOVLW	0x0d
+	MOVWF	r0x00
+_01620_DS_:
+;	.line	93; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='2')
+	MOVF	r0x02, W
+	XORLW	0x32
+	BNZ	_01622_DS_
+;	.line	95; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=14;
+	MOVLW	0x0e
+	MOVWF	r0x00
+_01622_DS_:
+;	.line	97; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='3')
+	MOVF	r0x02, W
+	XORLW	0x33
+	BNZ	_01624_DS_
+;	.line	99; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=15;
+	MOVLW	0x0f
+	MOVWF	r0x00
+_01624_DS_:
+;	.line	101; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='4')
+	MOVF	r0x02, W
+	XORLW	0x34
+	BNZ	_01626_DS_
+;	.line	103; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=16;
+	MOVLW	0x10
+	MOVWF	r0x00
+_01626_DS_:
+;	.line	105; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='5')
+	MOVF	r0x02, W
+	XORLW	0x35
+	BNZ	_01628_DS_
+;	.line	107; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=17;
+	MOVLW	0x11
+	MOVWF	r0x00
+_01628_DS_:
+;	.line	109; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='6')
+	MOVF	r0x02, W
+	XORLW	0x36
+	BNZ	_01630_DS_
+;	.line	111; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=18;
+	MOVLW	0x12
+	MOVWF	r0x00
+_01630_DS_:
+;	.line	113; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='7')
+	MOVF	r0x02, W
+	XORLW	0x37
+	BNZ	_01632_DS_
+;	.line	115; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=19;
+	MOVLW	0x13
+	MOVWF	r0x00
+_01632_DS_:
+;	.line	117; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='8')
+	MOVF	r0x02, W
+	XORLW	0x38
+	BNZ	_01634_DS_
+;	.line	119; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=20;
+	MOVLW	0x14
+	MOVWF	r0x00
+_01634_DS_:
+	BANKSEL	_receivedbyte2
+;	.line	121; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte2=0;
+	CLRF	_receivedbyte2, B
+;	.line	125; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	valor=analogread(val);
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_analogread
+	MOVWF	r0x00
+	MOVFF	PRODL, r0x01
+	MOVF	POSTINC1, F
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	___uint2fs
+	MOVWF	r0x00
+	MOVFF	PRODL, r0x01
+	MOVFF	PRODH, r0x02
+	MOVFF	FSR0L, r0x03
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	126; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	x_ftoa(valor,chaine,2,2);
+	MOVLW	0x02
+	MOVWF	POSTDEC1
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	MOVF	r0x03, W
+	MOVWF	POSTDEC1
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_x_ftoa
+	MOVLW	0x08
+	ADDWF	FSR1L, F
+;	.line	127; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	strcat(chaine,"f\n");
+	MOVLW	UPPER(__str_3)
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(__str_3)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(__str_3)
+	MOVWF	POSTDEC1
+	MOVLW	0x80
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	CALL	_strcat
+	MOVLW	0x06
+	ADDWF	FSR1L, F
+;	.line	128; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	tam=strlen(chaine);
+	MOVLW	0x80
+; #	MOVWF	r0x02
+; #	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	CALL	_strlen
+	MOVWF	r0x00
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+;	.line	129; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	CDCputs(chaine,tam);
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	MOVLW	0x80
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_analogico_chaine_1_261)
+	MOVWF	POSTDEC1
+	CALL	_CDCputs
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+	MOVFF	PREINC1, r0x03
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_tortucaro__l293d	code
+_l293d:
+;	.line	34; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	void l293d()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+;	.line	39; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	int val=0;
+	CLRF	r0x00
+	CLRF	r0x01
+_01580_DS_:
+;	.line	43; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte2=CDCgets(rxstr2);
+	MOVLW	0x80
+; #	MOVWF	r0x04
+; #	MOVF	r0x04, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr2)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr2)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	BANKSEL	_receivedbyte2
+	MOVWF	_receivedbyte2, B
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+; removed redundant BANKSEL
+;	.line	44; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (receivedbyte2>0)
+	MOVF	_receivedbyte2, W, B
+	BZ	_01580_DS_
+;	.line	46; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='1')
+	MOVFF	_rxstr2, r0x02
+	MOVF	r0x02, W
+	XORLW	0x31
+	BNZ	_01568_DS_
+;	.line	48; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=96;
+	MOVLW	0x60
+	MOVWF	r0x00
+	CLRF	r0x01
+_01568_DS_:
+;	.line	50; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='2')
+	MOVF	r0x02, W
+	XORLW	0x32
+	BNZ	_01570_DS_
+;	.line	52; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=144;
+	MOVLW	0x90
+	MOVWF	r0x00
+	CLRF	r0x01
+_01570_DS_:
+;	.line	54; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='3')
+	MOVF	r0x02, W
+	XORLW	0x33
+	BNZ	_01572_DS_
+;	.line	56; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=64;
+	MOVLW	0x40
+	MOVWF	r0x00
+	CLRF	r0x01
+_01572_DS_:
+;	.line	58; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='4')
+	MOVF	r0x02, W
+	XORLW	0x34
+	BNZ	_01574_DS_
+;	.line	60; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=32;
+	MOVLW	0x20
+	MOVWF	r0x00
+	CLRF	r0x01
+_01574_DS_:
+;	.line	62; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr2[0]=='5')
+	MOVF	r0x02, W
+	XORLW	0x35
+	BNZ	_01576_DS_
+;	.line	64; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	val=0;
+	CLRF	r0x00
+	CLRF	r0x01
+_01576_DS_:
+	BANKSEL	_receivedbyte2
+;	.line	66; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte2=0;
+	CLRF	_receivedbyte2, B
+;	.line	71; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	valor=val;
+	MOVFF	r0x00, _valor
+	MOVFF	r0x01, (_valor + 1)
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_tortucaro__digital	code
+_digital:
+;	.line	10; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	void digital()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+	MOVFF	r0x03, POSTDEC1
+;	.line	12; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	int sens=0;
+	CLRF	r0x00
+	CLRF	r0x01
+_01513_DS_:
+;	.line	13; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	while ((receivedbyte=CDCgets(rxstr))==0);
+	MOVLW	0x80
+; #	MOVWF	r0x04
+; #	MOVF	r0x04, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_rxstr)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_rxstr)
+	MOVWF	POSTDEC1
+	CALL	_CDCgets
+	MOVWF	r0x02
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+	MOVFF	r0x02, _receivedbyte
+	MOVF	r0x02, W
+	BZ	_01513_DS_
+;	.line	14; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[receivedbyte]=0;
+	MOVLW	LOW(_rxstr)
+	BANKSEL	_receivedbyte
+	ADDWF	_receivedbyte, W, B
+	MOVWF	r0x02
+	CLRF	r0x03
+	MOVLW	HIGH(_rxstr)
+	ADDWFC	r0x03, F
+	MOVFF	r0x02, FSR0L
+	MOVFF	r0x03, FSR0H
+	CLRF	INDF0
+; removed redundant BANKSEL
+;	.line	15; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (receivedbyte>0)
+	MOVF	_receivedbyte, W, B
+	BZ	_01525_DS_
+;	.line	17; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='4')
+	MOVFF	_rxstr, r0x02
+	MOVF	r0x02, W
+	XORLW	0x34
+	BNZ	_01517_DS_
+;	.line	18; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	sens=21;
+	MOVLW	0x15
+	MOVWF	r0x00
+	CLRF	r0x01
+_01517_DS_:
+;	.line	19; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='3')
+	MOVF	r0x02, W
+	XORLW	0x33
+	BNZ	_01519_DS_
+;	.line	20; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	sens=22;
+	MOVLW	0x16
+	MOVWF	r0x00
+	CLRF	r0x01
+_01519_DS_:
+;	.line	21; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='2')
+	MOVF	r0x02, W
+	XORLW	0x32
+	BNZ	_01521_DS_
+;	.line	22; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	sens=23;
+	MOVLW	0x17
+	MOVWF	r0x00
+	CLRF	r0x01
+_01521_DS_:
+;	.line	23; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if(rxstr[0]=='1')
+	MOVF	r0x02, W
+	XORLW	0x31
+	BNZ	_01525_DS_
+;	.line	24; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	sens=24;
+	MOVLW	0x18
+	MOVWF	r0x00
+	CLRF	r0x01
+_01525_DS_:
+	BANKSEL	_rxstr
+;	.line	26; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	rxstr[0]=0;
+	CLRF	_rxstr, B
+	BANKSEL	_receivedbyte
+;	.line	27; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	receivedbyte=0;
+	CLRF	_receivedbyte, B
+;	.line	28; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	if (digitalread(sens)) 
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVFF	PRODL, r0x01
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+	IORWF	r0x01, W
+	BZ	_01527_DS_
+;	.line	29; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	CDCputs("0",1);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	UPPER(__str_1)
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(__str_1)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(__str_1)
+	MOVWF	POSTDEC1
+	CALL	_CDCputs
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+	BRA	_01529_DS_
+_01527_DS_:
+;	.line	31; /home/valentin/.icaro/firmware/source/tortucaro/user-tortucaro.c	CDCputs("1",1);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	UPPER(__str_2)
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(__str_2)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(__str_2)
+	MOVWF	POSTDEC1
+	CALL	_CDCputs
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+_01529_DS_:
+	MOVFF	PREINC1, r0x03
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_tortucaro__env_cdc	code
 _env_cdc:
 ;	.line	40; /home/valentin/.icaro/firmware/tmp/__cdc.c	void env_cdc(int valor)
 	MOVFF	FSR2L, POSTDEC1
@@ -840,7 +1587,7 @@ _01494_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__init_CDC	code
+S_tortucaro__init_CDC	code
 _init_CDC:
 ;	.line	17; /home/valentin/.icaro/firmware/tmp/__cdc.c	INTCON=0;
 	CLRF	_INTCON
@@ -907,7 +1654,7 @@ _01475_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__CDCInitEndpoint	code
+S_tortucaro__CDCInitEndpoint	code
 _CDCInitEndpoint:
 	BANKSEL	_line_config
 ;	.line	167; /home/valentin/.icaro/firmware/tmp/usb/usb_cdc.c	line_config.dwDTERate = USB_CDC_BAUD_RATE;
@@ -1001,7 +1748,7 @@ _CDCInitEndpoint:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__CDCputs	code
+S_tortucaro__CDCputs	code
 _CDCputs:
 ;	.line	131; /home/valentin/.icaro/firmware/tmp/usb/usb_cdc.c	u8 CDCputs(char *buffer, u8 length) {
 	MOVFF	FSR2L, POSTDEC1
@@ -1143,7 +1890,7 @@ _01438_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__CDCgets	code
+S_tortucaro__CDCgets	code
 _CDCgets:
 ;	.line	98; /home/valentin/.icaro/firmware/tmp/usb/usb_cdc.c	u8 CDCgets(char *buffer) {
 	MOVFF	FSR2L, POSTDEC1
@@ -1291,7 +2038,7 @@ _01397_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ProcessCDCRequest	code
+S_tortucaro__ProcessCDCRequest	code
 _ProcessCDCRequest:
 ;	.line	29; /home/valentin/.icaro/firmware/tmp/usb/usb_cdc.c	void ProcessCDCRequest(void)
 	MOVFF	r0x00, POSTDEC1
@@ -1419,7 +2166,7 @@ _01343_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ProcessUSBTransactions	code
+S_tortucaro__ProcessUSBTransactions	code
 _ProcessUSBTransactions:
 ;	.line	743; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void ProcessUSBTransactions(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -1538,7 +2285,7 @@ _01272_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__BusReset	code
+S_tortucaro__BusReset	code
 _BusReset:
 ;	.line	715; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void BusReset() {
 	MOVFF	r0x00, POSTDEC1
@@ -1590,7 +2337,7 @@ _01230_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__Suspend	code
+S_tortucaro__Suspend	code
 _Suspend:
 ;	.line	685; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void Suspend(void) {
 	MOVFF	FSR2L, POSTDEC1
@@ -1626,7 +2373,7 @@ _Suspend:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__Stall	code
+S_tortucaro__Stall	code
 _Stall:
 ;	.line	671; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void Stall(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -1648,14 +2395,14 @@ _01211_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__StartOfFrame	code
+S_tortucaro__StartOfFrame	code
 _StartOfFrame:
 ;	.line	666; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	UIRbits.SOFIF = 0;
 	BCF	_UIRbits, 6
 	RETURN	
 
 ; ; Starting pCode block
-S_main__UnSuspend	code
+S_tortucaro__UnSuspend	code
 _UnSuspend:
 ;	.line	656; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	UCONbits.SUSPND = 0;
 	BCF	_UCONbits, 1
@@ -1666,7 +2413,7 @@ _UnSuspend:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__EnableUSBModule	code
+S_tortucaro__EnableUSBModule	code
 _EnableUSBModule:
 ;	.line	626; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	if(UCONbits.USBEN == 0) {
 	BTFSC	_UCONbits, 3
@@ -1705,7 +2452,7 @@ _01183_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ProcessControlTransfer	code
+S_tortucaro__ProcessControlTransfer	code
 _ProcessControlTransfer:
 ;	.line	536; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void ProcessControlTransfer(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -1816,7 +2563,7 @@ _01131_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__WaitForSetupStage	code
+S_tortucaro__WaitForSetupStage	code
 _WaitForSetupStage:
 	BANKSEL	_ctrlTransferStage
 ;	.line	523; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	ctrlTransferStage = SETUP_STAGE;
@@ -1842,7 +2589,7 @@ _WaitForSetupStage:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__SetupStage	code
+S_tortucaro__SetupStage	code
 _SetupStage:
 ;	.line	450; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void SetupStage(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -2006,7 +2753,7 @@ _01074_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__OutDataStage	code
+S_tortucaro__OutDataStage	code
 _OutDataStage:
 ;	.line	414; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void OutDataStage(unsigned char ep) {
 	MOVFF	FSR2L, POSTDEC1
@@ -2106,10 +2853,10 @@ _01058_DS_:
 	BNC	_01059_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_outPtr + 1), F, B
-	BRA	_11538_DS_
+	BRA	_11849_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 2), F, B
-_11538_DS_:
+_11849_DS_:
 _01059_DS_:
 	MOVFF	r0x07, POSTDEC1
 	MOVFF	r0x04, FSR0L
@@ -2121,10 +2868,10 @@ _01059_DS_:
 	BNC	_01060_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_inPtr + 1), F, B
-	BRA	_21539_DS_
+	BRA	_21850_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 2), F, B
-_21539_DS_:
+_21850_DS_:
 _01060_DS_:
 ;	.line	430; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INFSNZ	r0x02, F
@@ -2145,7 +2892,7 @@ _01047_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__InDataStage	code
+S_tortucaro__InDataStage	code
 _InDataStage:
 ;	.line	367; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void InDataStage(unsigned char ep) {
 	MOVFF	FSR2L, POSTDEC1
@@ -2314,10 +3061,10 @@ _01036_DS_:
 	BNC	_01037_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_outPtr + 1), F, B
-	BRA	_31540_DS_
+	BRA	_31851_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 2), F, B
-_31540_DS_:
+_31851_DS_:
 _01037_DS_:
 	MOVFF	r0x06, POSTDEC1
 	MOVFF	r0x03, FSR0L
@@ -2329,10 +3076,10 @@ _01037_DS_:
 	BNC	_01038_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_inPtr + 1), F, B
-	BRA	_41541_DS_
+	BRA	_41852_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 2), F, B
-_41541_DS_:
+_41852_DS_:
 _01038_DS_:
 ;	.line	401; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INCF	r0x00, F
@@ -2351,7 +3098,7 @@ _01018_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ProcessStandardRequest	code
+S_tortucaro__ProcessStandardRequest	code
 _ProcessStandardRequest:
 ;	.line	256; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	void ProcessStandardRequest(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -2510,7 +3257,7 @@ _00957_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__SetFeature	code
+S_tortucaro__SetFeature	code
 _SetFeature:
 ;	.line	212; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	static void SetFeature(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -2674,7 +3421,7 @@ _00878_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__GetStatus	code
+S_tortucaro__GetStatus	code
 _GetStatus:
 ;	.line	167; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	static void GetStatus(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -2843,7 +3590,7 @@ _00817_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__GetDescriptor	code
+S_tortucaro__GetDescriptor	code
 _GetDescriptor:
 ;	.line	100; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	static void GetDescriptor(void) {
 	MOVFF	r0x00, POSTDEC1
@@ -2979,31 +3726,31 @@ _00768_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__epapout_init	code
+S_tortucaro__epapout_init	code
 _epapout_init:
-;	.line	42; /home/valentin/.icaro/firmware/source/main.c	void epapout_init() { return; }
+;	.line	39; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	void epapout_init() { return; }
 	RETURN	
 
 ; ; Starting pCode block
-S_main__epapin_init	code
+S_tortucaro__epapin_init	code
 _epapin_init:
-;	.line	41; /home/valentin/.icaro/firmware/source/main.c	void epapin_init() { return; }
+;	.line	38; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	void epapin_init() { return; }
 	RETURN	
 
 ; ; Starting pCode block
-S_main__epap_out	code
+S_tortucaro__epap_out	code
 _epap_out:
-;	.line	40; /home/valentin/.icaro/firmware/source/main.c	void epap_out() { return; }
+;	.line	37; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	void epap_out() { return; }
 	RETURN	
 
 ; ; Starting pCode block
-S_main__epap_in	code
+S_tortucaro__epap_in	code
 _epap_in:
-;	.line	39; /home/valentin/.icaro/firmware/source/main.c	void epap_in() { return; }
+;	.line	36; /home/valentin/.icaro/firmware/source/tortucaro/tortucaro.c	void epap_in() { return; }
 	RETURN	
 
 ; ; Starting pCode block
-S_main__set_PWM	code
+S_tortucaro__set_PWM	code
 _set_PWM:
 ;	.line	188; /home/valentin/.icaro/firmware/tmp/pwm.c	void set_PWM(int input, int value)
 	MOVFF	FSR2L, POSTDEC1
@@ -3127,7 +3874,7 @@ _00708_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__init_PWM12	code
+S_tortucaro__init_PWM12	code
 _init_PWM12:
 ;	.line	181; /home/valentin/.icaro/firmware/tmp/pwm.c	TRISCbits.TRISC2=0;		// C2 is an output
 	BCF	_TRISCbits, 2
@@ -3144,7 +3891,7 @@ _init_PWM12:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__init_PWM11	code
+S_tortucaro__init_PWM11	code
 _init_PWM11:
 ;	.line	172; /home/valentin/.icaro/firmware/tmp/pwm.c	TRISCbits.TRISC1=0;		// C1 is an output
 	BCF	_TRISCbits, 1
@@ -3161,7 +3908,7 @@ _init_PWM11:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__PWM_set_percent_dutycycle	code
+S_tortucaro__PWM_set_percent_dutycycle	code
 _PWM_set_percent_dutycycle:
 ;	.line	151; /home/valentin/.icaro/firmware/tmp/pwm.c	void PWM_set_percent_dutycycle(u8 pin, u8 percent)
 	MOVFF	FSR2L, POSTDEC1
@@ -3263,7 +4010,7 @@ _00676_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__PWM_set_dutycycle	code
+S_tortucaro__PWM_set_dutycycle	code
 _PWM_set_dutycycle:
 ;	.line	98; /home/valentin/.icaro/firmware/tmp/pwm.c	void PWM_set_dutycycle(u8 pin, u16 duty)
 	MOVFF	FSR2L, POSTDEC1
@@ -3402,7 +4149,7 @@ _00640_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__PWM_set_frequency	code
+S_tortucaro__PWM_set_frequency	code
 _PWM_set_frequency:
 ;	.line	55; /home/valentin/.icaro/firmware/tmp/pwm.c	void PWM_set_frequency(u32 freq)
 	MOVFF	FSR2L, POSTDEC1
@@ -3522,7 +4269,7 @@ _00616_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__Delayus	code
+S_tortucaro__Delayus	code
 _Delayus:
 ;	.line	16; /home/valentin/.icaro/firmware/tmp/arduinodelay.c	void Delayus(int microsecondes)
 	MOVFF	FSR2L, POSTDEC1
@@ -3565,7 +4312,7 @@ _00594_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__Delayms	code
+S_tortucaro__Delayms	code
 _Delayms:
 ;	.line	9; /home/valentin/.icaro/firmware/tmp/arduinodelay.c	void Delayms(unsigned long milliseconde)
 	MOVFF	FSR2L, POSTDEC1
@@ -3628,7 +4375,7 @@ _00575_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__analogread	code
+S_tortucaro__analogread	code
 _analogread:
 ;	.line	40; /home/valentin/.icaro/firmware/tmp/analog.c	unsigned int analogread(unsigned char channel)
 	MOVFF	FSR2L, POSTDEC1
@@ -3692,7 +4439,7 @@ _00560_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__analogReference	code
+S_tortucaro__analogReference	code
 _analogReference:
 ;	.line	32; /home/valentin/.icaro/firmware/tmp/analog.c	void analogReference(unsigned char Type)
 	MOVFF	FSR2L, POSTDEC1
@@ -3721,7 +4468,7 @@ _00545_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__analog_init	code
+S_tortucaro__analog_init	code
 _analog_init:
 ;	.line	15; /home/valentin/.icaro/firmware/tmp/analog.c	TRISA=TRISA | 0x2F;
 	MOVLW	0x2f
@@ -3737,7 +4484,7 @@ _analog_init:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__servos_interrupt	code
+S_tortucaro__servos_interrupt	code
 _servos_interrupt:
 ;	.line	289; /home/valentin/.icaro/firmware/tmp/servos.c	if (PIR1bits.TMR1IF) {
 	BTFSS	_PIR1bits, 0
@@ -3797,7 +4544,7 @@ _00530_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServoMaximumPulse	code
+S_tortucaro__ServoMaximumPulse	code
 _ServoMaximumPulse:
 ;	.line	274; /home/valentin/.icaro/firmware/tmp/servos.c	void ServoMaximumPulse(uchar servo)
 	MOVFF	FSR2L, POSTDEC1
@@ -3837,7 +4584,7 @@ _00513_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServoMinimumPulse	code
+S_tortucaro__ServoMinimumPulse	code
 _ServoMinimumPulse:
 ;	.line	263; /home/valentin/.icaro/firmware/tmp/servos.c	void ServoMinimumPulse(uchar servo)
 	MOVFF	FSR2L, POSTDEC1
@@ -3876,7 +4623,7 @@ _00501_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServoRead	code
+S_tortucaro__ServoRead	code
 _ServoRead:
 ;	.line	255; /home/valentin/.icaro/firmware/tmp/servos.c	unsigned char ServoRead(uchar servo)
 	MOVFF	FSR2L, POSTDEC1
@@ -3910,7 +4657,7 @@ _00489_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServoWrite	code
+S_tortucaro__ServoWrite	code
 _ServoWrite:
 ;	.line	240; /home/valentin/.icaro/firmware/tmp/servos.c	void ServoWrite(uchar servo, uchar value)
 	MOVFF	FSR2L, POSTDEC1
@@ -3969,7 +4716,7 @@ _00469_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServoDetach	code
+S_tortucaro__ServoDetach	code
 _ServoDetach:
 ;	.line	226; /home/valentin/.icaro/firmware/tmp/servos.c	void ServoDetach(uchar pin)
 	MOVFF	FSR2L, POSTDEC1
@@ -4073,7 +4820,7 @@ _00444_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServoAttach	code
+S_tortucaro__ServoAttach	code
 _ServoAttach:
 ;	.line	209; /home/valentin/.icaro/firmware/tmp/servos.c	void ServoAttach(uchar pin)
 	MOVFF	FSR2L, POSTDEC1
@@ -4212,7 +4959,7 @@ _00416_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__SortServoTimings	code
+S_tortucaro__SortServoTimings	code
 _SortServoTimings:
 ;	.line	125; /home/valentin/.icaro/firmware/tmp/servos.c	static void SortServoTimings()
 	MOVFF	r0x00, POSTDEC1
@@ -4665,7 +5412,7 @@ _00324_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServosPulseUp	code
+S_tortucaro__ServosPulseUp	code
 _ServosPulseUp:
 ;	.line	120; /home/valentin/.icaro/firmware/tmp/servos.c	PORTC = activatedservos[MaskPort_C] & 0xFF;
 	MOVFF	(_activatedservos + 1), _PORTC
@@ -4674,7 +5421,7 @@ _ServosPulseUp:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__ServosPulseDown	code
+S_tortucaro__ServosPulseDown	code
 _ServosPulseDown:
 ;	.line	92; /home/valentin/.icaro/firmware/tmp/servos.c	static void ServosPulseDown()
 	MOVFF	FSR2L, POSTDEC1
@@ -4751,7 +5498,7 @@ bucle:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__servos_init	code
+S_tortucaro__servos_init	code
 _servos_init:
 ;	.line	71; /home/valentin/.icaro/firmware/tmp/servos.c	void servos_init()
 	MOVFF	r0x00, POSTDEC1
@@ -4792,7 +5539,7 @@ _00247_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__pinmode	code
+S_tortucaro__pinmode	code
 _pinmode:
 ;	.line	69; /home/valentin/.icaro/firmware/tmp/digitalw.c	void pinmode(int input, int state)
 	MOVFF	FSR2L, POSTDEC1
@@ -5108,7 +5855,7 @@ _00220_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__digitalread	code
+S_tortucaro__digitalread	code
 _digitalread:
 ;	.line	44; /home/valentin/.icaro/firmware/tmp/digitalw.c	int digitalread(int input)
 	MOVFF	FSR2L, POSTDEC1
@@ -5326,7 +6073,7 @@ _00173_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__digitalwrite	code
+S_tortucaro__digitalwrite	code
 _digitalwrite:
 ;	.line	20; /home/valentin/.icaro/firmware/tmp/digitalw.c	void digitalwrite(int output,int state)
 	MOVFF	FSR2L, POSTDEC1
@@ -5683,12 +6430,25 @@ _libstring_descriptor:
 ; ; Starting pCode block
 __str_0:
 	DB	0x0a, 0x00
+; ; Starting pCode block
+__str_1:
+	DB	0x30, 0x00
+; ; Starting pCode block
+__str_2:
+	DB	0x31, 0x00
+; ; Starting pCode block
+__str_3:
+	DB	0x66, 0x0a, 0x00
+; ; Starting pCode block
+__str_4:
+	DB	0x69, 0x63, 0x61, 0x72, 0x6f, 0x20, 0x55, 0x53, 0x42, 0x20, 0x30, 0x32
+	DB	0x20, 0x0a, 0x00
 
 
 ; Statistics:
-; code size:	 9540 (0x2544) bytes ( 7.28%)
-;           	 4770 (0x12a2) words
-; udata size:	  528 (0x0210) bytes (29.46%)
+; code size:	10742 (0x29f6) bytes ( 8.20%)
+;           	 5371 (0x14fb) words
+; udata size:	  531 (0x0213) bytes (29.63%)
 ; access size:	   13 (0x000d) bytes
 
 
