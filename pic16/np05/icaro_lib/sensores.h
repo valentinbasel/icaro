@@ -43,3 +43,4 @@ int ping()
 	 
 	return Dato;
 }
+

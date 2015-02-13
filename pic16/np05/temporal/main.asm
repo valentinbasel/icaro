@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.3.0 #8604 (Jul 16 2014) (Linux)
-; This file was generated Tue Jan 27 16:55:55 2015
+; This file was generated Thu Feb 12 16:40:59 2015
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -90,7 +90,9 @@
 	global	_CDCputs
 	global	_init_CDC
 	global	_env_cdc
+	global	_ping
 	global	_setup
+	global	_sensordigital
 	global	_loop
 	global	_pinguino_main
 	global	_high_priority_isr
@@ -199,6 +201,8 @@
 	extern	_usb_device_state
 	extern	_usb_active_cfg
 	extern	_usb_active_alt_setting
+	extern	_stdin
+	extern	_stdout
 	extern	_SPPDATA
 	extern	_SPPCFG
 	extern	_SPPEPS
@@ -498,7 +502,7 @@ _high_priority_isr:
 	MOVFF	PCLATU, POSTDEC1
 ;	.line	101; /home/valentin/.icaro/firmware/source/main.c	if(PIR2bits.USBIF)
 	BTFSS	_PIR2bits, 5
-	BRA	_01532_DS_
+	BRA	_01567_DS_
 ;	.line	103; /home/valentin/.icaro/firmware/source/main.c	ProcessUSBTransactions();
 	CALL	_ProcessUSBTransactions
 ;	.line	104; /home/valentin/.icaro/firmware/source/main.c	UIRbits.SOFIF = 0;
@@ -509,7 +513,7 @@ _high_priority_isr:
 	BCF	_PIR2bits, 5
 ;	.line	107; /home/valentin/.icaro/firmware/source/main.c	UEIR = 0;
 	CLRF	_UEIR
-_01532_DS_:
+_01567_DS_:
 ;	.line	134; /home/valentin/.icaro/firmware/source/main.c	servos_interrupt();
 	CALL	_servos_interrupt
 	MOVFF	PREINC1, PCLATU
@@ -576,25 +580,33 @@ _pinguino_main:
 	BSF	_INTCONbits, 6
 ;	.line	86; /home/valentin/.icaro/firmware/source/main.c	INTCONbits.GIE=1;
 	BSF	_INTCONbits, 7
-_01524_DS_:
+_01559_DS_:
 ;	.line	91; /home/valentin/.icaro/firmware/source/main.c	loop();
 	CALL	_loop
-	BRA	_01524_DS_
+	BRA	_01559_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	43; /home/valentin/.icaro/firmware/source/user.c	void loop()
+;	.line	58; /home/valentin/.icaro/firmware/source/user.c	void loop()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
-;	.line	45; /home/valentin/.icaro/firmware/source/user.c	env_cdc(analogread(13) );
-	MOVLW	0x0d
-	MOVWF	POSTDEC1
-	CALL	_analogread
+;	.line	61; /home/valentin/.icaro/firmware/source/user.c	a=ping() ;
+	CALL	_ping
 	MOVWF	r0x00
 	MOVFF	PRODL, r0x01
-	MOVF	POSTINC1, F
+;	.line	62; /home/valentin/.icaro/firmware/source/user.c	Delayms(500);
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	0xf4
+	MOVWF	POSTDEC1
+	CALL	_Delayms
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	63; /home/valentin/.icaro/firmware/source/user.c	env_cdc(a);
 	MOVF	r0x01, W
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
@@ -602,11 +614,12 @@ _loop:
 	CALL	_env_cdc
 	MOVF	POSTINC1, F
 	MOVF	POSTINC1, F
-;	.line	46; /home/valentin/.icaro/firmware/source/user.c	Delayms(100);
+;	.line	64; /home/valentin/.icaro/firmware/source/user.c	Delayms(500);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVLW	0x64
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	0xf4
 	MOVWF	POSTDEC1
 	CALL	_Delayms
 	MOVLW	0x04
@@ -616,21 +629,49 @@ _loop:
 	RETURN	
 
 ; ; Starting pCode block
+S_main__sensordigital	code
+_sensordigital:
+;	.line	42; /home/valentin/.icaro/firmware/source/user.c	int sensordigital(int valor)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+;	.line	46; /home/valentin/.icaro/firmware/source/user.c	temp=digitalread(valor);
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVFF	PRODL, r0x01
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	47; /home/valentin/.icaro/firmware/source/user.c	if (temp==0)
+	IORWF	r0x01, W
+	BNZ	_01546_DS_
+;	.line	49; /home/valentin/.icaro/firmware/source/user.c	return 1;
+	CLRF	PRODL
+	MOVLW	0x01
+	BRA	_01548_DS_
+_01546_DS_:
+;	.line	53; /home/valentin/.icaro/firmware/source/user.c	return 0;
+	CLRF	PRODL
+	CLRF	WREG
+_01548_DS_:
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
 S_main__setup	code
 _setup:
-;	.line	25; /home/valentin/.icaro/firmware/source/user.c	TRISB=0;
+;	.line	26; /home/valentin/.icaro/firmware/source/user.c	TRISB=0;
 	CLRF	_TRISB
-;	.line	26; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG1,INPUT);
-	CLRF	POSTDEC1
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVLW	0x0f
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-;	.line	27; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG2,INPUT);
+;	.line	27; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG1,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -640,7 +681,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	28; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG3,INPUT);
+;	.line	28; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG2,INPUT);
 	CLRF	POSTDEC1
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -650,7 +691,7 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	29; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG4,TRIG);
+;	.line	29; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG3,TRIG);
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -659,9 +700,10 @@ _setup:
 	CALL	_pinmode
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	30; /home/valentin/.icaro/firmware/source/user.c	pinmode(24,ECHO);
+;	.line	30; /home/valentin/.icaro/firmware/source/user.c	pinmode(ICR_DIG4,ECHO);
 	CLRF	POSTDEC1
-	CLRF	POSTDEC1
+	MOVLW	0x01
+	MOVWF	POSTDEC1
 	CLRF	POSTDEC1
 	MOVLW	0x18
 	MOVWF	POSTDEC1
@@ -729,6 +771,90 @@ _setup:
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	MOVF	POSTINC1, F
+	RETURN	
+
+; ; Starting pCode block
+S_main__ping	code
+_ping:
+;	.line	27; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	int ping()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x03, POSTDEC1
+_01513_DS_:
+;	.line	31; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	while (digitalread(24) == LOW) 
+	CLRF	POSTDEC1
+	MOVLW	0x18
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVFF	PRODL, r0x01
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+	IORWF	r0x01, W
+	BNZ	_01524_DS_
+;	.line	33; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	digitalwrite(23, HIGH);//Activa el disparador
+	CLRF	POSTDEC1
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x17
+	MOVWF	POSTDEC1
+	CALL	_digitalwrite
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+;	.line	34; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	Delayus(50);//Espera 50 microsegundos (minimo 10)
+	CLRF	POSTDEC1
+	MOVLW	0x32
+	MOVWF	POSTDEC1
+	CALL	_Delayus
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	35; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	digitalwrite(23, LOW);//Desactiva el disparador
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	MOVLW	0x17
+	MOVWF	POSTDEC1
+	CALL	_digitalwrite
+	MOVLW	0x04
+	ADDWF	FSR1L, F
+	BRA	_01513_DS_
+_01524_DS_:
+;	.line	38; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	while (digitalread(24) == HIGH) 
+	CLRF	r0x00
+	CLRF	r0x01
+_01516_DS_:
+	CLRF	POSTDEC1
+	MOVLW	0x18
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVFF	PRODL, r0x03
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+	XORLW	0x01
+	BNZ	_01534_DS_
+	MOVF	r0x03, W
+	BZ	_01535_DS_
+_01534_DS_:
+	BRA	_01518_DS_
+_01535_DS_:
+;	.line	40; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	Dato++;//El contador se incrementa hasta llegar el eco
+	INFSNZ	r0x00, F
+	INCF	r0x01, F
+;	.line	41; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	Delayus(58);//Tiempo en recorrer dos centimetros 1 de ida 1 de vuelta
+	CLRF	POSTDEC1
+	MOVLW	0x3a
+	MOVWF	POSTDEC1
+	CALL	_Delayus
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+	BRA	_01516_DS_
+_01518_DS_:
+;	.line	44; /home/valentin/.icaro/firmware/icaro_lib/sensores.h	return Dato;
+	MOVFF	r0x01, PRODL
+	MOVF	r0x00, W
+	MOVFF	PREINC1, r0x03
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
 	RETURN	
 
 ; ; Starting pCode block
@@ -2106,10 +2232,10 @@ _01058_DS_:
 	BNC	_01059_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_outPtr + 1), F, B
-	BRA	_11538_DS_
+	BRA	_11573_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 2), F, B
-_11538_DS_:
+_11573_DS_:
 _01059_DS_:
 	MOVFF	r0x07, POSTDEC1
 	MOVFF	r0x04, FSR0L
@@ -2121,10 +2247,10 @@ _01059_DS_:
 	BNC	_01060_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_inPtr + 1), F, B
-	BRA	_21539_DS_
+	BRA	_21574_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 2), F, B
-_21539_DS_:
+_21574_DS_:
 _01060_DS_:
 ;	.line	430; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INFSNZ	r0x02, F
@@ -2314,10 +2440,10 @@ _01036_DS_:
 	BNC	_01037_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_outPtr + 1), F, B
-	BRA	_31540_DS_
+	BRA	_31575_DS_
 ; removed redundant BANKSEL
 	INCF	(_outPtr + 2), F, B
-_31540_DS_:
+_31575_DS_:
 _01037_DS_:
 	MOVFF	r0x06, POSTDEC1
 	MOVFF	r0x03, FSR0L
@@ -2329,10 +2455,10 @@ _01037_DS_:
 	BNC	_01038_DS_
 ; removed redundant BANKSEL
 	INCFSZ	(_inPtr + 1), F, B
-	BRA	_41541_DS_
+	BRA	_41576_DS_
 ; removed redundant BANKSEL
 	INCF	(_inPtr + 2), F, B
-_41541_DS_:
+_41576_DS_:
 _01038_DS_:
 ;	.line	401; /home/valentin/.icaro/firmware/tmp/usb/picUSB.c	for (i=0;i<bufferSize;i++) {
 	INCF	r0x00, F
@@ -5686,8 +5812,8 @@ __str_0:
 
 
 ; Statistics:
-; code size:	 9540 (0x2544) bytes ( 7.28%)
-;           	 4770 (0x12a2) words
+; code size:	 9774 (0x262e) bytes ( 7.46%)
+;           	 4887 (0x1317) words
 ; udata size:	  528 (0x0210) bytes (29.46%)
 ; access size:	   13 (0x000d) bytes
 

@@ -1,6 +1,6 @@
 gplink-1.2.0 #980 (Aug 15 2013)
 Copyright (c) 1998-2013 gputils project
-Listing File Generated: 1-27-2015  17:18:19
+Listing File Generated: 2-4-2015  16:26:37
  
  
 Address  Value    Disassembly              Source
@@ -8,7 +8,7 @@ Address  Value    Disassembly              Source
                                            ;--------------------------------------------------------
                                            ; File Created by SDCC : free open source ANSI-C Compiler
                                            ; Version 3.3.0 #8604 (Jul 16 2014) (Linux)
-                                           ; This file was generated Tue Jan 27 17:18:18 2015
+                                           ; This file was generated Wed Feb  4 16:26:36 2015
                                            ;--------------------------------------------------------
                                            ; PIC16 port for the Microchip 16-bit core micros
                                            ;--------------------------------------------------------
@@ -629,7 +629,7 @@ Address  Value    Disassembly              Source
                                            _00888_DS_:
 003cd0   e3d9     bnc     0x3c84           	BNC	_00877_DS_
 003cd2   0103     movlb   0x3              	BANKSEL	(_loop_valor_1_186 + 15)
-                                           ;	.line	45; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
+                                           ;	.line	46; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
 003cd4   5121     movf    0x21, 0, 0x1     	MOVF	(_loop_valor_1_186 + 15), W, B
 003cd6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
                                            ; removed redundant BANKSEL
@@ -693,7 +693,7 @@ Address  Value    Disassembly              Source
 003d2e   f01e
 003d30   0e16     movlw   0x16             	MOVLW	0x16
 003d32   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-                                           ;	.line	46; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	usbsend(buf,39);
+                                           ;	.line	47; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	usbsend(buf,39);
 003d34   6ae5     clrf    0xe5, 0          	CLRF	POSTDEC1
 003d36   0e27     movlw   0x27             	MOVLW	0x27
 003d38   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1

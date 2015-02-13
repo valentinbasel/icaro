@@ -35,8 +35,8 @@ class CMP:
             "componente": 6,
             "cant_puertos": 1,
             "color": (100, 50, 80),
-            "dato": "144 ",
-                    "dato2": "144",
+            "dato": "ICR_MOTS_AT ",
+                    "dato2": "ICR_MOTS_AT",
                     "valor": self.valor
         }
         self.tootips = ""

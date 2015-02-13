@@ -399,14 +399,12 @@ class Ventana(crear_comp,tool_compilador):
         self.lista.sort()
         self.carga_paleta()
         conf_ini=os.path.expanduser('~') + "/.icaro/conf/config.ini"
-        self.cfg = util.carga_conf(conf_ini)
+        if os.path.exists(conf_ini):
+            self.cfg = util.carga_conf(conf_ini)
+        else:
+           self.recarga_conf(False)
         # configuraciones generales de ICARO (guardadas en config.ini)
         self.z=float(self.cfg.get("icaro_config","zoom"))
-        #R=self.cfg.get("icaro_config","colorR")
-        #G=self.cfg.get("icaro_config","colorG")
-        #B=self.cfg.get("icaro_config","colorB")
-        #self.fondo.FONDO = (int(R), int(G), int(B))
- 
         # declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
@@ -487,7 +485,17 @@ class Ventana(crear_comp,tool_compilador):
              self.tooltip["guardar"], self.guardar, None],
             [1, toolbar, gtk.STOCK_QUIT, "Quit",
              self.tooltip["salir"], self.salir, None],
-           [3],
+            [3],
+            [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
+             "Compile", self.tooltip["compilar"], self.compilar, None],
+            [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
+             "Load", self.tooltip["cargar"], self.upload, None],
+            [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
+             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro/tortucaro"],
+
+            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
+             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas/pilas-engine"],
+            [3],
             [1, toolbar, gtk.STOCK_HELP, "Help",
              self.tooltip["ayuda"], self.ayuda, None],
             [3],
@@ -506,19 +514,8 @@ class Ventana(crear_comp,tool_compilador):
              "", self.menuitem_response, "zoomenos"],
             [1, toolbar, gtk.STOCK_ZOOM_100, "zoom 1:1",
              "", self.menuitem_response, "zoomcero"],
-            [3],
-            [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
-             "Compile", self.tooltip["compilar"], self.compilar, None],
-            [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
-             "Load", self.tooltip["cargar"], self.upload, None],
-            [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro/tortucaro"],
+             ]
 
-            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
-             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas/pilas-engine"],
-
-
-]
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar:
             if dat[0] == 3:
@@ -1064,14 +1061,31 @@ class Ventana(crear_comp,tool_compilador):
         if string == "zoomcero":
             self.z = 1
         if string == "firmware":
-            dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
-            np05 = "/usr/share/icaro/pic16/np05"
+            self.recarga_conf(True)
+
+    def recarga_conf(self,visual):
+        dir_firm = os.path.expanduser('~') + "/.icaro/firmware/"
+        dir_conf = os.path.expanduser('~') + "/.icaro/conf/"
+        np05 = "/usr/share/icaro/pic16/np05"
+        conf = "/usr/share/icaro/pic16/conf"
+        if visual==True:
+            resp=self.mensajes(1, "se volvera a la versión por defecto del firmware y la configuracion general, desea continuar")
+        else:
+            resp=True
+        if resp==True:
             try:
                 os.system("rm -rf " + dir_conf)
-                os.system("cp -R " + np05 + " " + dir_conf)
-                self.mensajes(0, "se actualizo el firmware ")
+                os.system("cp -R " + np05 + " " + dir_firm)
+                os.system("cp -R " + conf + " " + dir_conf)
+                if visual==True:
+                    self.mensajes(3, "se actualizo el firmware y la conf general")
+                else:
+                    print "se actualizo el firmware y la configuración general"
             except:
-                self.mensajes(0, "no se pudo actualizar el firmware")
+                if visual==True:
+                    self.mensajes(0, "no se pudo actualizar el firmware")
+                else:
+                    print "hubo un error copiando el firmware y la configuración general"
 
     def visor(self, dir):
         browser = navegador.SimpleBrowser()

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.3.0 #8604 (Jul 16 2014) (Linux)
-; This file was generated Tue Jan 27 17:18:18 2015
+; This file was generated Wed Feb  4 16:26:36 2015
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -570,7 +570,7 @@ _00877_DS_:
 _00888_DS_:
 	BNC	_00877_DS_
 	BANKSEL	(_loop_valor_1_186 + 15)
-;	.line	45; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
+;	.line	46; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
 	MOVF	(_loop_valor_1_186 + 15), W, B
 	MOVWF	POSTDEC1
 ; removed redundant BANKSEL
@@ -633,7 +633,7 @@ _00888_DS_:
 	CALL	_sprintf
 	MOVLW	0x16
 	ADDWF	FSR1L, F
-;	.line	46; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	usbsend(buf,39);
+;	.line	47; /home/valentin/.icaro/firmware/source/pilas/user-pilas.c	usbsend(buf,39);
 	CLRF	POSTDEC1
 	MOVLW	0x27
 	MOVWF	POSTDEC1

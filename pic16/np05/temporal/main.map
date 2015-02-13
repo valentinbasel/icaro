@@ -1,11 +1,11 @@
 gplink-1.2.0 #980 (Aug 15 2013)
-Map File - Created 1-27-2015  16:55:57
+Map File - Created 2-12-2015  16:41:01
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
                 ---------  ---------  ---------  ---------  ---------
-                   .cinit    romdata   0x005162    program   0x00000e
-                 .idata_i    romdata   0x005170    program   0x00000a
+                   .cinit    romdata   0x00524c    program   0x00000e
+                 .idata_i    romdata   0x00525a    program   0x00000a
 S_boot_iface__boot_goto_table       code   0x00001c    program   0x00005e
 S_application_iface__application_data       code   0x002000    program   0x00001a
 S_crt0ipinguino__application_main       code   0x00201a    program   0x000004
@@ -32,51 +32,53 @@ S_main__PWM_set_dutycycle       code   0x003c7e    program   0x000108
           S_main__Delayms       code   0x003f64    program   0x00009a
      S_main__epapout_init       code   0x003ffe    program   0x000002
  S_main__low_priority_isr       code   0x004000    program   0x000046
-            S_main__setup       code   0x004046    program   0x0000de
-S_main__ProcessStandardRequest       code   0x004124    program   0x0000da
-S_main__PWM_set_percent_dutycycle       code   0x0041fe    program   0x0000d8
-S_main__PWM_set_frequency       code   0x0042d6    program   0x0000d6
-      S_main__ServoDetach       code   0x0043ac    program   0x0000d4
-       S_main__SetupStage       code   0x004480    program   0x0000d2
-          S_main__set_PWM       code   0x004552    program   0x0000d2
-          S_main__env_cdc       code   0x004624    program   0x0000d0
-             S_ltoa__ltoa       code   0x0046f4    program   0x0000c6
-S_main__ProcessCDCRequest       code   0x0047ba    program   0x0000a8
-      S_divuint___divuint       code   0x004862    program   0x0000a8
-S_main__ProcessControlTransfer       code   0x00490a    program   0x0000a2
-  S_main__ServosPulseDown       code   0x0049ac    program   0x0000a0
-S_crt0ipinguino___do_cinit       code   0x004a4c    program   0x000098
-             S_itoa__itoa       code   0x004ae4    program   0x000092
-       S_main__analogread       code   0x004b76    program   0x00007e
-            S_itoa__uitoa       code   0x004bf4    program   0x000074
-S_main__ProcessUSBTransactions       code   0x004c68    program   0x00006c
-       S_main__ServoWrite       code   0x004cd4    program   0x000068
-         S_main__init_CDC       code   0x004d3c    program   0x000062
-          S_main__Delayus       code   0x004d9e    program   0x00005c
-  S_main__CDCInitEndpoint       code   0x004dfa    program   0x00005a
-      S_main__servos_init       code   0x004e54    program   0x000048
- S_main__servos_interrupt       code   0x004e9c    program   0x000046
-S_main__ServoMaximumPulse       code   0x004ee2    program   0x000046
-        S_main__ServoRead       code   0x004f28    program   0x000046
-             S_main__loop       code   0x004f6e    program   0x000044
-         S_main__BusReset       code   0x004fb2    program   0x000044
-S_main__ServoMinimumPulse       code   0x004ff6    program   0x000044
-  S_main__EnableUSBModule       code   0x00503a    program   0x00002c
-    S_main__pinguino_main       code   0x005066    program   0x00002a
-          S_main__Suspend       code   0x005090    program   0x00002a
-  S_main__analogReference       code   0x0050ba    program   0x000028
-            S_main__Stall       code   0x0050e2    program   0x00001e
-S_main__WaitForSetupStage       code   0x005100    program   0x00001a
-S_crt0ipinguino___startup       code   0x00511a    program   0x000018
-       S_main__init_PWM12       code   0x005132    program   0x000010
-       S_main__init_PWM11       code   0x005142    program   0x000010
-      S_main__analog_init       code   0x005152    program   0x000010
-    S_main__ServosPulseUp       code   0x00517a    program   0x00000a
-        S_main__UnSuspend       code   0x005184    program   0x000008
-     S_main__StartOfFrame       code   0x00518c    program   0x000004
-      S_main__epapin_init       code   0x005190    program   0x000002
-         S_main__epap_out       code   0x005192    program   0x000002
-          S_main__epap_in       code   0x005194    program   0x000002
+S_main__ProcessStandardRequest       code   0x004046    program   0x0000da
+S_main__PWM_set_percent_dutycycle       code   0x004120    program   0x0000d8
+S_main__PWM_set_frequency       code   0x0041f8    program   0x0000d6
+      S_main__ServoDetach       code   0x0042ce    program   0x0000d4
+       S_main__SetupStage       code   0x0043a2    program   0x0000d2
+          S_main__set_PWM       code   0x004474    program   0x0000d2
+          S_main__env_cdc       code   0x004546    program   0x0000d0
+            S_main__setup       code   0x004616    program   0x0000cc
+             S_ltoa__ltoa       code   0x0046e2    program   0x0000c6
+S_main__ProcessCDCRequest       code   0x0047a8    program   0x0000a8
+      S_divuint___divuint       code   0x004850    program   0x0000a8
+S_main__ProcessControlTransfer       code   0x0048f8    program   0x0000a2
+             S_main__ping       code   0x00499a    program   0x0000a0
+  S_main__ServosPulseDown       code   0x004a3a    program   0x0000a0
+S_crt0ipinguino___do_cinit       code   0x004ada    program   0x000098
+             S_itoa__itoa       code   0x004b72    program   0x000092
+       S_main__analogread       code   0x004c04    program   0x00007e
+            S_itoa__uitoa       code   0x004c82    program   0x000074
+S_main__ProcessUSBTransactions       code   0x004cf6    program   0x00006c
+       S_main__ServoWrite       code   0x004d62    program   0x000068
+         S_main__init_CDC       code   0x004dca    program   0x000062
+          S_main__Delayus       code   0x004e2c    program   0x00005c
+  S_main__CDCInitEndpoint       code   0x004e88    program   0x00005a
+             S_main__loop       code   0x004ee2    program   0x000054
+    S_main__sensordigital       code   0x004f36    program   0x00004c
+      S_main__servos_init       code   0x004f82    program   0x000048
+ S_main__servos_interrupt       code   0x004fca    program   0x000046
+S_main__ServoMaximumPulse       code   0x005010    program   0x000046
+        S_main__ServoRead       code   0x005056    program   0x000046
+         S_main__BusReset       code   0x00509c    program   0x000044
+S_main__ServoMinimumPulse       code   0x0050e0    program   0x000044
+  S_main__EnableUSBModule       code   0x005124    program   0x00002c
+    S_main__pinguino_main       code   0x005150    program   0x00002a
+          S_main__Suspend       code   0x00517a    program   0x00002a
+  S_main__analogReference       code   0x0051a4    program   0x000028
+            S_main__Stall       code   0x0051cc    program   0x00001e
+S_main__WaitForSetupStage       code   0x0051ea    program   0x00001a
+S_crt0ipinguino___startup       code   0x005204    program   0x000018
+       S_main__init_PWM12       code   0x00521c    program   0x000010
+       S_main__init_PWM11       code   0x00522c    program   0x000010
+      S_main__analog_init       code   0x00523c    program   0x000010
+    S_main__ServosPulseUp       code   0x005264    program   0x00000a
+        S_main__UnSuspend       code   0x00526e    program   0x000008
+     S_main__StartOfFrame       code   0x005276    program   0x000004
+      S_main__epapin_init       code   0x00527a    program   0x000002
+         S_main__epap_out       code   0x00527c    program   0x000002
+          S_main__epap_in       code   0x00527e    program   0x000002
                    .idata      idata   0x00028a       data   0x00000a
                .registers      udata   0x000000       data   0x000010
       ustat_boot_iface_00      udata   0x00005d       data   0x000003
@@ -124,78 +126,80 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                            ---------   ---------
                             0x00201e    0x00201f
                             0x00207a    0x0024b3
-                            0x005170    0x005179
-                            0x004a4c    0x004ae3
-                            0x00511a    0x005131
+                            0x00525a    0x005263
+                            0x004ada    0x004b71
+                            0x005204    0x00521b
                             0x00201a    0x00201d
                             0x002000    0x002019
                             0x002020    0x002079
                             0x004000    0x004045
-                            0x005066    0x00508f
-                            0x004f6e    0x004fb1
-                            0x004046    0x004123
-                            0x004624    0x0046f3
-                            0x004d3c    0x004d9d
-                            0x004dfa    0x004e53
+                            0x005150    0x005179
+                            0x004ee2    0x004f35
+                            0x004f36    0x004f81
+                            0x004616    0x0046e1
+                            0x00499a    0x004a39
+                            0x004546    0x004615
+                            0x004dca    0x004e2b
+                            0x004e88    0x004ee1
                             0x003936    0x003a51
                             0x003818    0x003935
-                            0x0047ba    0x004861
-                            0x004c68    0x004cd3
-                            0x004fb2    0x004ff5
-                            0x005090    0x0050b9
-                            0x0050e2    0x0050ff
-                            0x00518c    0x00518f
-                            0x005184    0x00518b
-                            0x00503a    0x005065
-                            0x00490a    0x0049ab
-                            0x005100    0x005119
-                            0x004480    0x004551
+                            0x0047a8    0x00484f
+                            0x004cf6    0x004d61
+                            0x00509c    0x0050df
+                            0x00517a    0x0051a3
+                            0x0051cc    0x0051e9
+                            0x005276    0x005279
+                            0x00526e    0x005275
+                            0x005124    0x00514f
+                            0x0048f8    0x004999
+                            0x0051ea    0x005203
+                            0x0043a2    0x004473
                             0x003488    0x0035bd
                             0x002fd6    0x003195
-                            0x004124    0x0041fd
+                            0x004046    0x00411f
                             0x0035be    0x0036f3
                             0x003b6a    0x003c7d
                             0x003d86    0x003e77
                             0x003ffe    0x003fff
-                            0x005190    0x005191
-                            0x005192    0x005193
-                            0x005194    0x005195
-                            0x004552    0x004623
-                            0x005132    0x005141
-                            0x005142    0x005151
-                            0x0041fe    0x0042d5
+                            0x00527a    0x00527b
+                            0x00527c    0x00527d
+                            0x00527e    0x00527f
+                            0x004474    0x004545
+                            0x00521c    0x00522b
+                            0x00522c    0x00523b
+                            0x004120    0x0041f7
                             0x003c7e    0x003d85
-                            0x0042d6    0x0043ab
-                            0x004d9e    0x004df9
+                            0x0041f8    0x0042cd
+                            0x004e2c    0x004e87
                             0x003f64    0x003ffd
-                            0x004b76    0x004bf3
-                            0x0050ba    0x0050e1
-                            0x005152    0x005161
-                            0x004e9c    0x004ee1
-                            0x004ee2    0x004f27
-                            0x004ff6    0x005039
-                            0x004f28    0x004f6d
-                            0x004cd4    0x004d3b
-                            0x0043ac    0x00447f
+                            0x004c04    0x004c81
+                            0x0051a4    0x0051cb
+                            0x00523c    0x00524b
+                            0x004fca    0x00500f
+                            0x005010    0x005055
+                            0x0050e0    0x005123
+                            0x005056    0x00509b
+                            0x004d62    0x004dc9
+                            0x0042ce    0x0043a1
                             0x0036f4    0x003817
                             0x0024b4    0x0028a9
-                            0x00517a    0x005183
-                            0x0049ac    0x004a4b
-                            0x004e54    0x004e9b
+                            0x005264    0x00526d
+                            0x004a3a    0x004ad9
+                            0x004f82    0x004fc9
                             0x0028aa    0x002b57
                             0x002e06    0x002fd5
                             0x002b58    0x002e05
                             0x00001c    0x000079
                             0x003e78    0x003f63
-                            0x004ae4    0x004b75
-                            0x004bf4    0x004c67
-                            0x0046f4    0x0047b9
+                            0x004b72    0x004c03
+                            0x004c82    0x004cf5
+                            0x0046e2    0x0047a7
                             0x003196    0x00334d
                             0x00334e    0x003487
-                            0x004862    0x004909
+                            0x004850    0x0048f7
                             0x003a52    0x003b69
-                            0x005162    0x00516f
-                            12788 program addresses used
+                            0x00524c    0x005259
+                            13022 program addresses used
 
 
 
@@ -211,10 +215,10 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                _00108_DS_   0x003404    program     static modulong.asm
                _00109_DS_   0x002c5a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00109_DS_   0x0033ca    program     static modulong.asm
-               _00109_DS_   0x0048aa    program     static divuint.asm
+               _00109_DS_   0x004898    program     static divuint.asm
                _00109_DS_   0x003ace    program     static divulong.asm
                _00110_DS_   0x0032c0    program     static ltoa.asm
-               _00110_DS_   0x0048da    program     static divuint.asm
+               _00110_DS_   0x0048c8    program     static divuint.asm
                _00110_DS_   0x003b1a    program     static divulong.asm
                _00111_DS_   0x002c8e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00113_DS_   0x002cbe    program     static /home/valentin/.icaro/firmware/temporal/main.asm
@@ -230,11 +234,11 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                _00126_DS_   0x002de4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00127_DS_   0x003ef4    program     static strcat.asm
                _00128_DS_   0x003f0e    program     static strcat.asm
-               _00128_DS_   0x0048ce    program     static divuint.asm
+               _00128_DS_   0x0048bc    program     static divuint.asm
                _00128_DS_   0x003b06    program     static divulong.asm
                _00129_DS_   0x003f28    program     static strcat.asm
                _00132_DS_   0x0032fa    program     static ltoa.asm
-               _00138_DS_   0x004774    program     static ltoa.asm
+               _00138_DS_   0x004762    program     static ltoa.asm
                _00141_DS_   0x0033f6    program     static modulong.asm
                _00142_DS_   0x003422    program     static modulong.asm
                _00147_DS_   0x002be2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
@@ -263,9 +267,9 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                _00217_DS_   0x002b0c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00220_DS_   0x002b36    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00241_DS_   0x002934    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00247_DS_   0x004e62    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00264_DS_   0x004a26    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00266_DS_   0x0049c4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00247_DS_   0x004f90    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00264_DS_   0x004ab4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00266_DS_   0x004a52    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00294_DS_   0x002600    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00302_DS_   0x0026e0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00310_DS_   0x0027e0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
@@ -281,47 +285,47 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                _00411_DS_   0x0037ba    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00414_DS_   0x00376c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00416_DS_   0x0037fe    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00439_DS_   0x00443e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00442_DS_   0x004408    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00444_DS_   0x00446a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00466_DS_   0x004d04    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00468_DS_   0x004d0e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00469_DS_   0x004d2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00488_DS_   0x004f48    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00489_DS_   0x004f60    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00501_DS_   0x00502c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00513_DS_   0x004f1a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00526_DS_   0x004ec0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00530_DS_   0x004ee0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00545_DS_   0x0050d8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00560_DS_   0x004bb8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00565_DS_   0x004ba8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00439_DS_   0x004360    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00442_DS_   0x00432a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00444_DS_   0x00438c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00466_DS_   0x004d92    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00468_DS_   0x004d9c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00469_DS_   0x004db8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00488_DS_   0x005076    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00489_DS_   0x00508e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00501_DS_   0x005116    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00513_DS_   0x005048    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00526_DS_   0x004fee    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00530_DS_   0x00500e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00545_DS_   0x0051c2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00560_DS_   0x004c46    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00565_DS_   0x004c36    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00573_DS_   0x003fac    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00575_DS_   0x003fd8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00584_DS_   0x003fc2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00585_DS_   0x003fd6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00592_DS_   0x004dca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00594_DS_   0x004de0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00603_DS_   0x004dd8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00609_DS_   0x004380    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00612_DS_   0x00435c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00616_DS_   0x004396    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00627_DS_   0x004346    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00628_DS_   0x004354    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00629_DS_   0x004368    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00592_DS_   0x004e58    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00594_DS_   0x004e6e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00603_DS_   0x004e66    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00609_DS_   0x0042a2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00612_DS_   0x00427e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00616_DS_   0x0042b8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00627_DS_   0x004268    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00628_DS_   0x004276    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00629_DS_   0x00428a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00635_DS_   0x003cc4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00637_DS_   0x003d14    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00639_DS_   0x003d40    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00640_DS_   0x003d48    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00672_DS_   0x00424a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00675_DS_   0x004234    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00676_DS_   0x004294    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00703_DS_   0x0045c6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00708_DS_   0x004606    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00722_DS_   0x004594    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00723_DS_   0x004596    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00728_DS_   0x0045d0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00729_DS_   0x0045d2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00672_DS_   0x00416c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00675_DS_   0x004156    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00676_DS_   0x0041b6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00703_DS_   0x0044e8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00708_DS_   0x004528    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00722_DS_   0x0044b6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00723_DS_   0x0044b8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00728_DS_   0x0044f2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00729_DS_   0x0044f4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00758_DS_   0x003e5a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00761_DS_   0x003e00    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00764_DS_   0x003dcc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
@@ -342,16 +346,16 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                _00878_DS_   0x0036da    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00909_DS_   0x0035ee    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00913_DS_   0x003612    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00927_DS_   0x004178    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00936_DS_   0x0041ec    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00938_DS_   0x0041be    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00939_DS_   0x0041c4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00943_DS_   0x0041b2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00946_DS_   0x0041a8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00949_DS_   0x004184    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00952_DS_   0x00415a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00955_DS_   0x00414e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00957_DS_   0x0041f8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00927_DS_   0x00409a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00936_DS_   0x00410e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00938_DS_   0x0040e0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00939_DS_   0x0040e6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00943_DS_   0x0040d4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00946_DS_   0x0040ca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00949_DS_   0x0040a6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00952_DS_   0x00407c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00955_DS_   0x004070    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00957_DS_   0x00411a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01012_DS_   0x003020    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01013_DS_   0x003026    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01016_DS_   0x003104    program     static /home/valentin/.icaro/firmware/temporal/main.asm
@@ -365,41 +369,41 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                _01058_DS_   0x003536    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01059_DS_   0x00356c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01060_DS_   0x00358a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01066_DS_   0x0044be    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01068_DS_   0x0044fc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01070_DS_   0x00452c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01073_DS_   0x0044da    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01074_DS_   0x00454a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01096_DS_   0x0044f2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01107_DS_   0x004948    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01110_DS_   0x004950    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01113_DS_   0x00492a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01118_DS_   0x00497c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01121_DS_   0x00499a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01124_DS_   0x0049a2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01129_DS_   0x004956    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01131_DS_   0x0049a6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01179_DS_   0x00504a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01183_DS_   0x005064    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01211_DS_   0x0050f8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01228_DS_   0x004fc8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01230_DS_   0x004fd8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01248_DS_   0x004c7c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01253_DS_   0x004c92    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01256_DS_   0x004c9c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01259_DS_   0x004ca6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01262_DS_   0x004cb0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01265_DS_   0x004cb8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01272_DS_   0x004cce    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01333_DS_   0x0047ca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01336_DS_   0x0047f0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01337_DS_   0x00480e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01338_DS_   0x00482c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01340_DS_   0x00483c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01341_DS_   0x004840    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01343_DS_   0x00485c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01370_DS_   0x0047d4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01372_DS_   0x0047dc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01066_DS_   0x0043e0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01068_DS_   0x00441e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01070_DS_   0x00444e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01073_DS_   0x0043fc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01074_DS_   0x00446c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01096_DS_   0x004414    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01107_DS_   0x004936    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01110_DS_   0x00493e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01113_DS_   0x004918    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01118_DS_   0x00496a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01121_DS_   0x004988    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01124_DS_   0x004990    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01129_DS_   0x004944    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01131_DS_   0x004994    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01179_DS_   0x005134    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01183_DS_   0x00514e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01211_DS_   0x0051e2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01228_DS_   0x0050b2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01230_DS_   0x0050c2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01248_DS_   0x004d0a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01253_DS_   0x004d20    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01256_DS_   0x004d2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01259_DS_   0x004d34    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01262_DS_   0x004d3e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01265_DS_   0x004d46    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01272_DS_   0x004d5c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01333_DS_   0x0047b8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01336_DS_   0x0047de    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01337_DS_   0x0047fc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01338_DS_   0x00481a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01340_DS_   0x00482a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01341_DS_   0x00482e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01343_DS_   0x00484a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01370_DS_   0x0047c2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01372_DS_   0x0047ca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01386_DS_   0x003868    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01388_DS_   0x003872    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01393_DS_   0x003906    program     static /home/valentin/.icaro/firmware/temporal/main.asm
@@ -413,20 +417,28 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                _01438_DS_   0x003a24    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01445_DS_   0x0039a6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01446_DS_   0x0039e8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01472_DS_   0x004d8a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01475_DS_   0x004d9c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01490_DS_   0x004674    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01492_DS_   0x004686    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01494_DS_   0x004698    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01506_DS_   0x00466e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01507_DS_   0x004680    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01508_DS_   0x004692    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01524_DS_   0x005088    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01532_DS_   0x002052    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _11538_DS_   0x00356c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _21539_DS_   0x00358a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _31540_DS_   0x00314a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _41541_DS_   0x003168    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01472_DS_   0x004e18    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01475_DS_   0x004e2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01490_DS_   0x004596    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01492_DS_   0x0045a8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01494_DS_   0x0045ba    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01506_DS_   0x004590    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01507_DS_   0x0045a2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01508_DS_   0x0045b4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01513_DS_   0x0049a6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01516_DS_   0x0049f6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01518_DS_   0x004a26    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01524_DS_   0x0049f2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01534_DS_   0x004a10    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01535_DS_   0x004a12    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01546_DS_   0x004f70    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01548_DS_   0x004f74    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01559_DS_   0x005172    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01567_DS_   0x002052    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _11573_DS_   0x00356c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _21574_DS_   0x00358a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _31575_DS_   0x00314a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _41576_DS_   0x003168    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                   _ADCON0   0x000fc2       data     extern libdev18f4550_a-pic18f4550.asm
               _ADCON0bits   0x000fc2       data     extern libdev18f4550_a-pic18f4550.asm
                   _ADCON1   0x000fc1       data     extern libdev18f4550_a-pic18f4550.asm
@@ -439,7 +451,7 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
              _BAUDCONbits   0x000fb8       data     extern libdev18f4550_a-pic18f4550.asm
                      _BSR   0x000fe0       data     extern libdev18f4550_a-pic18f4550.asm
                  _BSRbits   0x000fe0       data     extern libdev18f4550_a-pic18f4550.asm
-                _BusReset   0x004fb2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                _BusReset   0x00509c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                  _CCP1CON   0x000fbd       data     extern libdev18f4550_a-pic18f4550.asm
              _CCP1CONbits   0x000fbd       data     extern libdev18f4550_a-pic18f4550.asm
                  _CCP2CON   0x000fba       data     extern libdev18f4550_a-pic18f4550.asm
@@ -449,7 +461,7 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                   _CCPR2H   0x000fbc       data     extern libdev18f4550_a-pic18f4550.asm
                   _CCPR2L   0x000fbb       data     extern libdev18f4550_a-pic18f4550.asm
         _CDCControlBuffer   0x00027a       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-         _CDCInitEndpoint   0x004dfa    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+         _CDCInitEndpoint   0x004e88    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
              _CDCRxBuffer   0x000580       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
              _CDCTxBuffer   0x0005c0       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
                  _CDCgets   0x003818    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
@@ -460,7 +472,7 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                   _CVRCON   0x000fb5       data     extern libdev18f4550_a-pic18f4550.asm
               _CVRCONbits   0x000fb5       data     extern libdev18f4550_a-pic18f4550.asm
                  _Delayms   0x003f64    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                 _Delayus   0x004d9e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                 _Delayus   0x004e2c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                  _ECCP1AS   0x000fb6       data     extern libdev18f4550_a-pic18f4550.asm
              _ECCP1ASbits   0x000fb6       data     extern libdev18f4550_a-pic18f4550.asm
                 _ECCP1DEL   0x000fb7       data     extern libdev18f4550_a-pic18f4550.asm
@@ -470,7 +482,7 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
               _EECON1bits   0x000fa6       data     extern libdev18f4550_a-pic18f4550.asm
                   _EECON2   0x000fa7       data     extern libdev18f4550_a-pic18f4550.asm
                   _EEDATA   0x000fa8       data     extern libdev18f4550_a-pic18f4550.asm
-         _EnableUSBModule   0x00503a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+         _EnableUSBModule   0x005124    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                    _FSR0H   0x000fea       data     extern libdev18f4550_a-pic18f4550.asm
                _FSR0Hbits   0x000fea       data     extern libdev18f4550_a-pic18f4550.asm
                    _FSR0L   0x000fe9       data     extern libdev18f4550_a-pic18f4550.asm
@@ -553,12 +565,12 @@ S_crt0ipinguino___startup       code   0x00511a    program   0x000018
                    _PRODH   0x000ff4       data     extern libdev18f4550_a-pic18f4550.asm
                    _PRODL   0x000ff3       data     extern libdev18f4550_a-pic18f4550.asm
        _PWM_set_dutycycle   0x003c7e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-       _PWM_set_frequency   0x0042d6    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-_PWM_set_percent_dutycycle   0x0041fe    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-       _ProcessCDCRequest   0x0047ba    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-  _ProcessControlTransfer   0x00490a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-  _ProcessStandardRequest   0x004124    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-  _ProcessUSBTransactions   0x004c68    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+       _PWM_set_frequency   0x0041f8    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+_PWM_set_percent_dutycycle   0x004120    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+       _ProcessCDCRequest   0x0047a8    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+  _ProcessControlTransfer   0x0048f8    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+  _ProcessStandardRequest   0x004046    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+  _ProcessUSBTransactions   0x004cf6    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                     _RCON   0x000fd0       data     extern libdev18f4550_a-pic18f4550.asm
                 _RCONbits   0x000fd0       data     extern libdev18f4550_a-pic18f4550.asm
                    _RCREG   0x000fae       data     extern libdev18f4550_a-pic18f4550.asm
@@ -587,21 +599,21 @@ _PWM_set_percent_dutycycle   0x0041fe    program     extern /home/valentin/.icar
                   _STKPTR   0x000ffc       data     extern libdev18f4550_a-pic18f4550.asm
               _STKPTRbits   0x000ffc       data     extern libdev18f4550_a-pic18f4550.asm
              _ServoAttach   0x0036f4    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-             _ServoDetach   0x0043ac    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-       _ServoMaximumPulse   0x004ee2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-       _ServoMinimumPulse   0x004ff6    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _ServoRead   0x004f28    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-              _ServoWrite   0x004cd4    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-         _ServosPulseDown   0x0049ac    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-           _ServosPulseUp   0x00517a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+             _ServoDetach   0x0042ce    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+       _ServoMaximumPulse   0x005010    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+       _ServoMinimumPulse   0x0050e0    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _ServoRead   0x005056    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+              _ServoWrite   0x004d62    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+         _ServosPulseDown   0x004a3a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+           _ServosPulseUp   0x005264    program     static /home/valentin/.icaro/firmware/temporal/main.asm
               _SetFeature   0x0035be    program     static /home/valentin/.icaro/firmware/temporal/main.asm
              _SetupPacket   0x000500       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-              _SetupStage   0x004480    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+              _SetupStage   0x0043a2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
         _SortServoTimings   0x0024b4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
 _SortServoTimings_mascaratotal_1_27   0x0002a1       data     static /home/valentin/.icaro/firmware/temporal/main.asm
-                   _Stall   0x0050e2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-            _StartOfFrame   0x00518c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                 _Suspend   0x005090    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                   _Stall   0x0051cc    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+            _StartOfFrame   0x005276    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                 _Suspend   0x00517a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                    _T0CON   0x000fd5       data     extern libdev18f4550_a-pic18f4550.asm
                _T0CONbits   0x000fd5       data     extern libdev18f4550_a-pic18f4550.asm
                    _T1CON   0x000fcd       data     extern libdev18f4550_a-pic18f4550.asm
@@ -691,15 +703,15 @@ _SortServoTimings_mascaratotal_1_27   0x0002a1       data     static /home/valen
                  _UIRbits   0x000f68       data     extern libdev18f4550_a-pic18f4550.asm
                    _USTAT   0x000f6c       data     extern libdev18f4550_a-pic18f4550.asm
                _USTATbits   0x000f6c       data     extern libdev18f4550_a-pic18f4550.asm
-               _UnSuspend   0x005184    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _UnSuspend   0x00526e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                   _WDTCON   0x000fd1       data     extern libdev18f4550_a-pic18f4550.asm
               _WDTCONbits   0x000fd1       data     extern libdev18f4550_a-pic18f4550.asm
                     _WREG   0x000fe8       data     extern libdev18f4550_a-pic18f4550.asm
-       _WaitForSetupStage   0x005100    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+       _WaitForSetupStage   0x0051ea    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                 ___uflags   0x00028a       data     extern obj/Debug/crt0ipinguino.asm
-                __divuint   0x004862    program     extern divuint.asm
+                __divuint   0x004850    program     extern divuint.asm
                __divulong   0x003a52    program     extern divulong.asm
-               __do_cinit   0x004a4c    program     extern obj/Debug/crt0ipinguino.asm
+               __do_cinit   0x004ada    program     extern obj/Debug/crt0ipinguino.asm
                __gptrget1   0x000052    program     extern boot_iface.asm
                __gptrget2   0x000056    program     extern boot_iface.asm
                __gptrget3   0x00005a    program     extern boot_iface.asm
@@ -711,19 +723,19 @@ _SortServoTimings_mascaratotal_1_27   0x0002a1       data     static /home/valen
                  __mulint   0x00004e    program     extern boot_iface.asm
                 __mullong   0x00004a    program     extern boot_iface.asm
               __pr2_plus1   0x000291       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                __startup   0x00511a    program     extern obj/Debug/crt0ipinguino.asm
+                __startup   0x005204    program     extern obj/Debug/crt0ipinguino.asm
                   __str_0   0x0024b2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                   __t2con   0x0002b3       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
          _activatedservos   0x00028e       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-         _analogReference   0x0050ba    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-             _analog_init   0x005152    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-              _analogread   0x004b76    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+         _analogReference   0x0051a4    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+             _analog_init   0x00523c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+              _analogread   0x004c04    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
          _application_cfg   0x0020be    program     extern usb_descriptors.asm
         _application_data   0x002000    program     extern application_iface.asm
         _application_main   0x00201a    program     extern obj/Debug/crt0ipinguino.asm
          _boot_goto_table   0x00001c    program     extern boot_iface.asm
             _boot_version   0x00001c    program     extern boot_iface.asm
-                   _cinit   0x005162    program     extern 
+                   _cinit   0x00524c    program     extern 
 _configuration_descriptor   0x0020de    program     extern usb_descriptors.asm
    _controlTransferBuffer   0x000540       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
        _ctrlTransferStage   0x0002b9       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
@@ -738,7 +750,7 @@ _configuration_descriptor   0x0020de    program     extern usb_descriptors.asm
              _digitalread   0x002e06    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
             _digitalwrite   0x002b58    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
       _dispatch_usb_event   0x00001e    program     extern boot_iface.asm
-                 _env_cdc   0x004624    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                 _env_cdc   0x004546    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
     _env_cdc_chaine_1_250   0x0002ba       data     static /home/valentin/.icaro/firmware/temporal/main.asm
                   _ep0_in   0x000032    program     extern boot_iface.asm
                 _ep0_init   0x00002e    program     extern boot_iface.asm
@@ -762,9 +774,9 @@ _configuration_descriptor   0x0020de    program     extern usb_descriptors.asm
              _ep_out_cfg2   0x00231e    program     static usb_descriptors.asm
                 _ep_setup   0x00238a    program     extern usb_descriptors.asm
            _ep_setup_cfg0   0x00235a    program     static usb_descriptors.asm
-                 _epap_in   0x005194    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                _epap_out   0x005192    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-             _epapin_init   0x005190    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                 _epap_in   0x00527e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                _epap_out   0x00527c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+             _epapin_init   0x00527a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
             _epapout_init   0x003ffe    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
           _fill_in_buffer   0x00002a    program     extern boot_iface.asm
                _flash_cfg   0x00209e    program     extern usb_descriptors.asm
@@ -773,36 +785,38 @@ _configuration_descriptor   0x0020de    program     extern usb_descriptors.asm
                 _hidRxLen   0x0002b1       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
        _high_priority_isr   0x002020    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                    _inPtr   0x0002a7       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                _init_CDC   0x004d3c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-              _init_PWM11   0x005142    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-              _init_PWM12   0x005132    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                    _itoa   0x004ae4    program     extern itoa.asm
+                _init_CDC   0x004dca    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+              _init_PWM11   0x00522c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+              _init_PWM12   0x00521c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                    _itoa   0x004b72    program     extern itoa.asm
 _libconfiguration_descriptor   0x0023f6    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
     _libdevice_descriptor   0x0023e4    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
     _libstring_descriptor   0x00243a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
              _line_config   0x00029c       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                    _loop   0x004f6e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                    _loop   0x004ee2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                  _loopvar   0x0002ac       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
         _low_priority_isr   0x004000    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                    _ltoa   0x0046f4    program     extern ltoa.asm
+                    _ltoa   0x0046e2    program     extern ltoa.asm
                     _mask   0x002396    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
           _needreordering   0x00028c       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
            _null_function   0x00201e    program     extern usb_descriptors.asm
                   _outPtr   0x0002a4       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
                    _phase   0x00028b       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-           _pinguino_main   0x005066    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                    _ping   0x00499a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+           _pinguino_main   0x005150    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                  _pinmode   0x0028aa    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                     _port   0x0023b4    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
             _remoteWakeup   0x0002b6       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
           _requestHandled   0x0002b4       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
                _reset_usb   0x000022    program     extern boot_iface.asm
              _selfPowered   0x0002b5       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
+           _sensordigital   0x004f36    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
               _servomasks   0x0023d2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-             _servos_init   0x004e54    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-        _servos_interrupt   0x004e9c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+             _servos_init   0x004f82    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+        _servos_interrupt   0x004fca    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
              _servovalues   0x000268       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                 _set_PWM   0x004552    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                   _setup   0x004046    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                 _set_PWM   0x004474    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                   _setup   0x004616    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
                    _stack   0x000100       data     extern stack/stack.S
                _stack_end   0x0001ff       data     extern stack/stack.S
                     _str0   0x0020e8    program     extern usb_descriptors.asm
@@ -817,7 +831,7 @@ _libconfiguration_descriptor   0x0023f6    program     extern /home/valentin/.ic
             _timedivision   0x00028d       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
              _timingindex   0x0002b2       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
                  _timings   0x000200       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                   _uitoa   0x004bf4    program     extern itoa.asm
+                   _uitoa   0x004c82    program     extern itoa.asm
                    _ultoa   0x003196    program     extern ltoa.asm
         _ultoa_buffer_1_2   0x000248       data     static ltoa.asm
   _usb_active_alt_setting   0x00005d       data     extern boot_iface.asm
@@ -826,13 +840,13 @@ _libconfiguration_descriptor   0x0023f6    program     extern /home/valentin/.ic
                _usb_sleep   0x000026    program     extern boot_iface.asm
                   _wCount   0x0002aa       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
                      _zlp   0x000294       data     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                    bucle   0x004a2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                    cont1   0x004a6c    program     static obj/Debug/crt0ipinguino.asm
-                copy_loop   0x004aba    program     static obj/Debug/crt0ipinguino.asm
-            copy_one_byte   0x004ac0    program     static obj/Debug/crt0ipinguino.asm
-                     done   0x004ae2    program     static obj/Debug/crt0ipinguino.asm
-             done_copying   0x004ace    program     static obj/Debug/crt0ipinguino.asm
-                   lockup   0x005130    program     static obj/Debug/crt0ipinguino.asm
+                    bucle   0x004ab8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                    cont1   0x004afa    program     static obj/Debug/crt0ipinguino.asm
+                copy_loop   0x004b48    program     static obj/Debug/crt0ipinguino.asm
+            copy_one_byte   0x004b4e    program     static obj/Debug/crt0ipinguino.asm
+                     done   0x004b70    program     static obj/Debug/crt0ipinguino.asm
+             done_copying   0x004b5c    program     static obj/Debug/crt0ipinguino.asm
+                   lockup   0x00521a    program     static obj/Debug/crt0ipinguino.asm
                     r0x00   0x000000       data     static /home/valentin/.icaro/firmware/temporal/main.asm
                     r0x00   0x000000       data     static strcat.asm
                     r0x00   0x000000       data     static itoa.asm
@@ -912,7 +926,7 @@ _libconfiguration_descriptor   0x0023f6    program     extern /home/valentin/.ic
                     r0x0d   0x00000d       data     static divulong.asm
                     r0x0e   0x00000e       data     static ltoa.asm
                     r0x0f   0x00000f       data     static ltoa.asm
-                     test   0x004a66    program     static obj/Debug/crt0ipinguino.asm
+                     test   0x004af4    program     static obj/Debug/crt0ipinguino.asm
 
 
 
@@ -1297,7 +1311,7 @@ _SortServoTimings_mascaratotal_1_27   0x0002a1       data     static /home/valen
         _application_main   0x00201a    program     extern obj/Debug/crt0ipinguino.asm
            _null_function   0x00201e    program     extern usb_descriptors.asm
        _high_priority_isr   0x002020    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01532_DS_   0x002052    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01567_DS_   0x002052    program     static /home/valentin/.icaro/firmware/temporal/main.asm
        _device_descriptor   0x00207a    program     extern usb_descriptors.asm
              _default_cfg   0x00208c    program     extern usb_descriptors.asm
                _flash_cfg   0x00209e    program     extern usb_descriptors.asm
@@ -1392,9 +1406,9 @@ _libconfiguration_descriptor   0x0023f6    program     extern /home/valentin/.ic
                _01016_DS_   0x003104    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01036_DS_   0x003114    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01037_DS_   0x00314a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _31540_DS_   0x00314a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _31575_DS_   0x00314a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01038_DS_   0x003168    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _41541_DS_   0x003168    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _41576_DS_   0x003168    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01018_DS_   0x00316c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                    _ultoa   0x003196    program     extern ltoa.asm
                _00107_DS_   0x00320e    program     static ltoa.asm
@@ -1414,9 +1428,9 @@ _libconfiguration_descriptor   0x0023f6    program     extern /home/valentin/.ic
                _01045_DS_   0x00352c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01058_DS_   0x003536    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01059_DS_   0x00356c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _11538_DS_   0x00356c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _11573_DS_   0x00356c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01060_DS_   0x00358a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _21539_DS_   0x00358a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _21574_DS_   0x00358a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _01047_DS_   0x003590    program     static /home/valentin/.icaro/firmware/temporal/main.asm
               _SetFeature   0x0035be    program     static /home/valentin/.icaro/firmware/temporal/main.asm
                _00909_DS_   0x0035ee    program     static /home/valentin/.icaro/firmware/temporal/main.asm
@@ -1482,153 +1496,163 @@ _libconfiguration_descriptor   0x0023f6    program     extern /home/valentin/.ic
                _00575_DS_   0x003fd8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
             _epapout_init   0x003ffe    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
         _low_priority_isr   0x004000    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                   _setup   0x004046    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-  _ProcessStandardRequest   0x004124    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00955_DS_   0x00414e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00952_DS_   0x00415a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00927_DS_   0x004178    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00949_DS_   0x004184    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00946_DS_   0x0041a8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00943_DS_   0x0041b2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00938_DS_   0x0041be    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00939_DS_   0x0041c4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00936_DS_   0x0041ec    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00957_DS_   0x0041f8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-_PWM_set_percent_dutycycle   0x0041fe    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00675_DS_   0x004234    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00672_DS_   0x00424a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00676_DS_   0x004294    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-       _PWM_set_frequency   0x0042d6    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00627_DS_   0x004346    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00628_DS_   0x004354    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00612_DS_   0x00435c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00629_DS_   0x004368    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00609_DS_   0x004380    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00616_DS_   0x004396    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-             _ServoDetach   0x0043ac    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00442_DS_   0x004408    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00439_DS_   0x00443e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00444_DS_   0x00446a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-              _SetupStage   0x004480    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01066_DS_   0x0044be    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01073_DS_   0x0044da    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01096_DS_   0x0044f2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01068_DS_   0x0044fc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01070_DS_   0x00452c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01074_DS_   0x00454a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                 _set_PWM   0x004552    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00722_DS_   0x004594    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00723_DS_   0x004596    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00703_DS_   0x0045c6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00728_DS_   0x0045d0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00729_DS_   0x0045d2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00708_DS_   0x004606    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                 _env_cdc   0x004624    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01506_DS_   0x00466e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01490_DS_   0x004674    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01507_DS_   0x004680    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01492_DS_   0x004686    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01508_DS_   0x004692    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01494_DS_   0x004698    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                    _ltoa   0x0046f4    program     extern ltoa.asm
-               _00138_DS_   0x004774    program     static ltoa.asm
-       _ProcessCDCRequest   0x0047ba    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01333_DS_   0x0047ca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01370_DS_   0x0047d4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01372_DS_   0x0047dc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01336_DS_   0x0047f0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01337_DS_   0x00480e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01338_DS_   0x00482c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01340_DS_   0x00483c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01341_DS_   0x004840    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01343_DS_   0x00485c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                __divuint   0x004862    program     extern divuint.asm
-               _00109_DS_   0x0048aa    program     static divuint.asm
-               _00128_DS_   0x0048ce    program     static divuint.asm
-               _00110_DS_   0x0048da    program     static divuint.asm
-  _ProcessControlTransfer   0x00490a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01113_DS_   0x00492a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01107_DS_   0x004948    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01110_DS_   0x004950    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01129_DS_   0x004956    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01118_DS_   0x00497c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01121_DS_   0x00499a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01124_DS_   0x0049a2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01131_DS_   0x0049a6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-         _ServosPulseDown   0x0049ac    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00266_DS_   0x0049c4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00264_DS_   0x004a26    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                    bucle   0x004a2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               __do_cinit   0x004a4c    program     extern obj/Debug/crt0ipinguino.asm
-                     test   0x004a66    program     static obj/Debug/crt0ipinguino.asm
-                    cont1   0x004a6c    program     static obj/Debug/crt0ipinguino.asm
-                copy_loop   0x004aba    program     static obj/Debug/crt0ipinguino.asm
-            copy_one_byte   0x004ac0    program     static obj/Debug/crt0ipinguino.asm
-             done_copying   0x004ace    program     static obj/Debug/crt0ipinguino.asm
-                     done   0x004ae2    program     static obj/Debug/crt0ipinguino.asm
-                    _itoa   0x004ae4    program     extern itoa.asm
-              _analogread   0x004b76    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00565_DS_   0x004ba8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00560_DS_   0x004bb8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                   _uitoa   0x004bf4    program     extern itoa.asm
-  _ProcessUSBTransactions   0x004c68    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01248_DS_   0x004c7c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01253_DS_   0x004c92    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01256_DS_   0x004c9c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01259_DS_   0x004ca6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01262_DS_   0x004cb0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01265_DS_   0x004cb8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01272_DS_   0x004cce    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-              _ServoWrite   0x004cd4    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00466_DS_   0x004d04    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00468_DS_   0x004d0e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00469_DS_   0x004d2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                _init_CDC   0x004d3c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01472_DS_   0x004d8a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01475_DS_   0x004d9c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                 _Delayus   0x004d9e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00592_DS_   0x004dca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00603_DS_   0x004dd8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00594_DS_   0x004de0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-         _CDCInitEndpoint   0x004dfa    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-             _servos_init   0x004e54    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00247_DS_   0x004e62    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-        _servos_interrupt   0x004e9c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00526_DS_   0x004ec0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00530_DS_   0x004ee0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-       _ServoMaximumPulse   0x004ee2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00513_DS_   0x004f1a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _ServoRead   0x004f28    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00488_DS_   0x004f48    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _00489_DS_   0x004f60    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                    _loop   0x004f6e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                _BusReset   0x004fb2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01228_DS_   0x004fc8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01230_DS_   0x004fd8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-       _ServoMinimumPulse   0x004ff6    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00501_DS_   0x00502c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-         _EnableUSBModule   0x00503a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01179_DS_   0x00504a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _01183_DS_   0x005064    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-           _pinguino_main   0x005066    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01524_DS_   0x005088    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                 _Suspend   0x005090    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-         _analogReference   0x0050ba    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _00545_DS_   0x0050d8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-                   _Stall   0x0050e2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-               _01211_DS_   0x0050f8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-       _WaitForSetupStage   0x005100    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                __startup   0x00511a    program     extern obj/Debug/crt0ipinguino.asm
-                   lockup   0x005130    program     static obj/Debug/crt0ipinguino.asm
-              _init_PWM12   0x005132    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-              _init_PWM11   0x005142    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-             _analog_init   0x005152    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                   _cinit   0x005162    program     extern 
-           _ServosPulseUp   0x00517a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
-               _UnSuspend   0x005184    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-            _StartOfFrame   0x00518c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-             _epapin_init   0x005190    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                _epap_out   0x005192    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
-                 _epap_in   0x005194    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+  _ProcessStandardRequest   0x004046    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00955_DS_   0x004070    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00952_DS_   0x00407c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00927_DS_   0x00409a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00949_DS_   0x0040a6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00946_DS_   0x0040ca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00943_DS_   0x0040d4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00938_DS_   0x0040e0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00939_DS_   0x0040e6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00936_DS_   0x00410e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00957_DS_   0x00411a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+_PWM_set_percent_dutycycle   0x004120    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00675_DS_   0x004156    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00672_DS_   0x00416c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00676_DS_   0x0041b6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+       _PWM_set_frequency   0x0041f8    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00627_DS_   0x004268    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00628_DS_   0x004276    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00612_DS_   0x00427e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00629_DS_   0x00428a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00609_DS_   0x0042a2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00616_DS_   0x0042b8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+             _ServoDetach   0x0042ce    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00442_DS_   0x00432a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00439_DS_   0x004360    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00444_DS_   0x00438c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+              _SetupStage   0x0043a2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01066_DS_   0x0043e0    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01073_DS_   0x0043fc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01096_DS_   0x004414    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01068_DS_   0x00441e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01070_DS_   0x00444e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01074_DS_   0x00446c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                 _set_PWM   0x004474    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00722_DS_   0x0044b6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00723_DS_   0x0044b8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00703_DS_   0x0044e8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00728_DS_   0x0044f2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00729_DS_   0x0044f4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00708_DS_   0x004528    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                 _env_cdc   0x004546    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01506_DS_   0x004590    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01490_DS_   0x004596    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01507_DS_   0x0045a2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01492_DS_   0x0045a8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01508_DS_   0x0045b4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01494_DS_   0x0045ba    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                   _setup   0x004616    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                    _ltoa   0x0046e2    program     extern ltoa.asm
+               _00138_DS_   0x004762    program     static ltoa.asm
+       _ProcessCDCRequest   0x0047a8    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01333_DS_   0x0047b8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01370_DS_   0x0047c2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01372_DS_   0x0047ca    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01336_DS_   0x0047de    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01337_DS_   0x0047fc    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01338_DS_   0x00481a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01340_DS_   0x00482a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01341_DS_   0x00482e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01343_DS_   0x00484a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                __divuint   0x004850    program     extern divuint.asm
+               _00109_DS_   0x004898    program     static divuint.asm
+               _00128_DS_   0x0048bc    program     static divuint.asm
+               _00110_DS_   0x0048c8    program     static divuint.asm
+  _ProcessControlTransfer   0x0048f8    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01113_DS_   0x004918    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01107_DS_   0x004936    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01110_DS_   0x00493e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01129_DS_   0x004944    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01118_DS_   0x00496a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01121_DS_   0x004988    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01124_DS_   0x004990    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01131_DS_   0x004994    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                    _ping   0x00499a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01513_DS_   0x0049a6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01524_DS_   0x0049f2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01516_DS_   0x0049f6    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01534_DS_   0x004a10    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01535_DS_   0x004a12    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01518_DS_   0x004a26    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+         _ServosPulseDown   0x004a3a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00266_DS_   0x004a52    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00264_DS_   0x004ab4    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                    bucle   0x004ab8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               __do_cinit   0x004ada    program     extern obj/Debug/crt0ipinguino.asm
+                     test   0x004af4    program     static obj/Debug/crt0ipinguino.asm
+                    cont1   0x004afa    program     static obj/Debug/crt0ipinguino.asm
+                copy_loop   0x004b48    program     static obj/Debug/crt0ipinguino.asm
+            copy_one_byte   0x004b4e    program     static obj/Debug/crt0ipinguino.asm
+             done_copying   0x004b5c    program     static obj/Debug/crt0ipinguino.asm
+                     done   0x004b70    program     static obj/Debug/crt0ipinguino.asm
+                    _itoa   0x004b72    program     extern itoa.asm
+              _analogread   0x004c04    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00565_DS_   0x004c36    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00560_DS_   0x004c46    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                   _uitoa   0x004c82    program     extern itoa.asm
+  _ProcessUSBTransactions   0x004cf6    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01248_DS_   0x004d0a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01253_DS_   0x004d20    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01256_DS_   0x004d2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01259_DS_   0x004d34    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01262_DS_   0x004d3e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01265_DS_   0x004d46    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01272_DS_   0x004d5c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+              _ServoWrite   0x004d62    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00466_DS_   0x004d92    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00468_DS_   0x004d9c    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00469_DS_   0x004db8    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                _init_CDC   0x004dca    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01472_DS_   0x004e18    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01475_DS_   0x004e2a    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                 _Delayus   0x004e2c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00592_DS_   0x004e58    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00603_DS_   0x004e66    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00594_DS_   0x004e6e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+         _CDCInitEndpoint   0x004e88    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                    _loop   0x004ee2    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+           _sensordigital   0x004f36    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01546_DS_   0x004f70    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01548_DS_   0x004f74    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+             _servos_init   0x004f82    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00247_DS_   0x004f90    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+        _servos_interrupt   0x004fca    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00526_DS_   0x004fee    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00530_DS_   0x00500e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+       _ServoMaximumPulse   0x005010    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00513_DS_   0x005048    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _ServoRead   0x005056    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00488_DS_   0x005076    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _00489_DS_   0x00508e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                _BusReset   0x00509c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01228_DS_   0x0050b2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01230_DS_   0x0050c2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+       _ServoMinimumPulse   0x0050e0    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00501_DS_   0x005116    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+         _EnableUSBModule   0x005124    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01179_DS_   0x005134    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _01183_DS_   0x00514e    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+           _pinguino_main   0x005150    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01559_DS_   0x005172    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                 _Suspend   0x00517a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+         _analogReference   0x0051a4    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _00545_DS_   0x0051c2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+                   _Stall   0x0051cc    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+               _01211_DS_   0x0051e2    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+       _WaitForSetupStage   0x0051ea    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                __startup   0x005204    program     extern obj/Debug/crt0ipinguino.asm
+                   lockup   0x00521a    program     static obj/Debug/crt0ipinguino.asm
+              _init_PWM12   0x00521c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+              _init_PWM11   0x00522c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+             _analog_init   0x00523c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                   _cinit   0x00524c    program     extern 
+           _ServosPulseUp   0x005264    program     static /home/valentin/.icaro/firmware/temporal/main.asm
+               _UnSuspend   0x00526e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+            _StartOfFrame   0x005276    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+             _epapin_init   0x00527a    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                _epap_out   0x00527c    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
+                 _epap_in   0x00527e    program     extern /home/valentin/.icaro/firmware/temporal/main.asm
 
 

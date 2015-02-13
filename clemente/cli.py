@@ -60,7 +60,7 @@ class CLIENTE(threading.Thread):
         if val[0] == "cerrar":
             # print "cierro todo"
             self.stop()
-        if val[0] == "analogico":
+        if val[0] == "analogico" and int(val[1])>=0 and int(val[1]) <8:
             a = self.servidor.datos[int(val[1])]
             self.socket.send(str(a))
         if val[0] == "salir":

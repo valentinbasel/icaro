@@ -14,10 +14,10 @@
 #define ICR_AN8 20
 
 /*sensores digitales*/
-#define ICR_DIG1 15
-#define ICR_DIG2 21
-#define ICR_DIG3 22
-#define ICR_DIG4 23
+#define ICR_DIG1 21
+#define ICR_DIG2 22
+#define ICR_DIG3 23
+#define ICR_DIG4 24
 
 /*motores*/
 //pines
@@ -27,18 +27,18 @@
 #define ICR_l293_P4 28
 
 //motor1
-#define ICR_MOT1_AD 13
-#define ICR_MOT1_AT 13
+#define ICR_MOT1_AD 64
+#define ICR_MOT1_AT 128
 //motor2
-#define ICR_MOT2_AD 13
-#define ICR_MOT2_AT 13
+#define ICR_MOT2_AD 32
+#define ICR_MOT2_AT 16
 //motores 1 y 2
-#define ICR_MOTS_AD 13
-#define ICR_MOTS_AT 13
-#define ICR_MOTS_DE 13
-#define ICR_MOTS_IZ 13
-#define ICR_MOTS_INV_DE 13
-#define ICR_MOTS_INV_IZ 13
+#define ICR_MOTS_AD 96
+#define ICR_MOTS_AT 144
+#define ICR_MOTS_DE 32
+#define ICR_MOTS_IZ 64
+#define ICR_MOTS_INV_DE 160
+#define ICR_MOTS_INV_IZ 80
 
 /*servos*/
 #define ICR_SRV1 10

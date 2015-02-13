@@ -40,6 +40,7 @@ u8 buf[80];
 for(a=0;a<8;a++)
 {
 valor[a]=analogread(13+a);
+
 }
 
 sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
