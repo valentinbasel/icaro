@@ -132,7 +132,7 @@ class Cargador(threading.Thread):
             self.win.set_resizable(False)
             self.win.set_default_size(600, 600)
             box1 = gtk.VBox(False, 3)
-            pixbufanim = gtk.gdk.PixbufAnimation("imagenes/gif/icr.gif")
+            pixbufanim = gtk.gdk.PixbufAnimation(sys.path[0]+"imagenes/gif/icr.gif")
             image = gtk.Image()
             image.set_from_animation(pixbufanim)
             image.show()
