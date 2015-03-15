@@ -13,12 +13,14 @@
 
 import sys
 import gtk
+import forma_basica
+from componente import FormaSvg
 #from os import system
 
 #import time
 
 
-class comp_dat_arg():
+class comp_dat_arg(FormaSvg):
     posic_rel_x = 0
     posic_rel_y = 0
     pulsado = 0
@@ -44,7 +46,7 @@ class comp_dat_arg():
         fondo,
         ventana,
     ):
-        self.rectan = [0, 0, 80, 20]
+        self.rectan = [0, 0, 80, 50]
         self.ide = identidad
         self.posicion = (x, y)
         self.texto = texto
@@ -52,8 +54,8 @@ class comp_dat_arg():
         self.fondo = fondo
         self.ventana = ventana
         self.color_texto = self.fondo.color_texto
-        self.conector_m = [0, 0, 20, 30]  # conector macho
-        self.conector_h = [0, 0, 20, 30]  # conector hembra
+        self.conector_m = [0, 0, 20, 20]  # conector macho
+        self.conector_h = [0, 0, 20, 20]  # conector hembra
         self.pegado2 = 0
         self.pegado_a2 = 0
         self.pegado = 0
@@ -72,45 +74,69 @@ class comp_dat_arg():
             #~ self.imagen=pygame.image.load(self.img)
             #~ self.img_rect=self.imagen.get_rect()
 
+        #self.correccion= self.fondo.crear_nodo_linea(0,-10)
+        self.tam_text = (len(self.texto) * 6)
+
     def dibujar(self):
         # tomo el valor del texto para agrandar el tamaño del
         # cuerpo del componente.
         # si es una imagen le pongo un valor fijo
 
+
         TamaComp = 0
         if self.tipo == 7:
-            TamaComp = len(self.texto)
+            TamaComp = len(self.texto)*7
         else:
             TamaComp = 3
         # cubos que representan el conector hembra
-        cuerpo = [
-            (30 + (7 * TamaComp), -10, 10, 10),
-            (30 + (7 * TamaComp) + 3, 0, 4, 4),
-            (30 + (7 * TamaComp), 20, 10, 10),
-            (30 + (7 * TamaComp), 20, 10, 10),
-            (30 + (7 * TamaComp), 20, 10, 10),
-            (30 + (7 * TamaComp) + 3, 20 - 4, 4, 4),
-            (0, 4, 10, 20 - 8),
-            (0, 0, 3, 20),
-            (7, 0, 3, 20),
-            (10, -10, 7 * TamaComp + 20, 40),
-        ]
-        for x, y, w, h in cuerpo:
-            self.fondo.draw(self.posicion[0] + x, self.posicion[
-                            1] + y, w, h, self.color, self.ventana.cr)
-        self.rectan[2] = 7 * TamaComp + 20
+#        cuerpo = [
+            #(30 + (7 * TamaComp), -10, 10, 10),
+            #(30 + (7 * TamaComp) + 3, 0, 4, 4),
+            #(30 + (7 * TamaComp), 20, 10, 10),
+            #(30 + (7 * TamaComp), 20, 10, 10),
+            #(30 + (7 * TamaComp), 20, 10, 10),
+            #(30 + (7 * TamaComp) + 3, 20 - 4, 4, 4),
+            #(0, 4, 10, 20 - 8),
+            #(0, 0, 3, 20),
+            #(7, 0, 3, 20),
+            #(10, -10, 7 * TamaComp + 20, 40),
+        #]
+        #for x, y, w, h in cuerpo:
+            #self.fondo.draw(self.posicion[0] + x, self.posicion[
+                            #1] + y, w, h, self.color, self.ventana.cr)
+        #self.rectan[2] = 7 * TamaComp + 20
+        corr_linea_texto = self.fondo.crear_nodo_linea(TamaComp,0)
+        corr_linea_texto_menos = self.fondo.crear_nodo_linea(TamaComp*-1,0)
+        self.cuerpo= self.crear_comp_dat() 
+#        self.cuerpo=(self.lin1 +corr_linea_texto+ 
+                    #forma_basica.nodo_esq_ar_der +
+                    #self.lin3+
+                    #forma_basica.nodo_parametros+ 
+                    #self.lin33+
+                    #forma_basica.nodo_esq_ab_der + 
+                    #self.lin2 + corr_linea_texto_menos+
+                    #forma_basica.nodo_esq_ab_izq +
+                    #self.lin4+
+                    #forma_basica.nodo_parametros+ 
+                    #self.lin5+
+                    #forma_basica.nodo_esq_ar_izq)
+        self.fondo.render_svg(self.ventana.cr,self.cuerpo,self.color,self.posicion[0]+40,self.posicion[1])
+        self.conector_h[0] = self.rectan[0] + TamaComp+60
+        self.conector_h[1] = self.rectan[1]+5
 
-        self.conector_h[0] = self.rectan[0] + (7 * TamaComp + 20) + 10
-        self.conector_h[1] = self.rectan[1]
-        # self.fondo.draw(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3],self.color,self.ventana.cr)
+        #self.fondo.draw(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3],(0,0,0),self.ventana.cr)
+        #self.fondo.draw(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3],(0,0,0),self.ventana.cr)
 
+        #
+        #self.fondo.draw(self.rectan[0],self.rectan[1],self.rectan[2],self.rectan[3],(0,0,255),self.ventana.cr)
         if self.tipo == 7:
             self.fondo.texto(self.texto, self.posicion[
-                             0] + 20, self.posicion[1] + 15, self.color_texto, self.ventana.cr)
+                             0] + 40, self.posicion[1] + 22, self.color_texto, self.ventana.cr)
+            self.rectan[2]=TamaComp +80
         if self.tipo == 6:
             self.modificable = 0
             self.fondo.imagen(self.imagen, self.posicion[
-                              0] + 30 - 15, self.posicion[1] - 5, self.ventana.cr)
+                              0] + 30 , self.posicion[1]+4 , self.ventana.cr)
         #
        #
 
@@ -124,7 +150,7 @@ class comp_dat_arg():
 
         # self.conector_m es la ficha "macho"
         self.conector_m[0] = self.rectan[0]
-        self.conector_m[1] = self.rectan[1]
+        self.conector_m[1] = self.rectan[1]+5
 
         if (
             botones_mouse[1] and
@@ -170,7 +196,7 @@ class comp_dat_arg():
                 x, y, aa, bb = valor2
                 xx = x
                 yy = y
-                self.posicion = (xx, yy)
+                self.posicion = (xx-5, yy-8)
                 valor1.lista_valores[self.pegado_b] = self.cadena_final
         except:
             self.pegado = 0
@@ -188,7 +214,7 @@ class comp_dat_arg():
             x, y, aa, bb = val1
             xx = x
             yy = y
-            self.posicion = (xx, yy)
+            self.posicion = (xx-10, yy-4)
             val2 = self.fondo.objetos_datos[self.pegado_a2]
             val2.cadena_intermedia = self.cadena_final
         else:

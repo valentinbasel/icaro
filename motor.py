@@ -22,6 +22,7 @@
 #
 #
 import cairo
+from xml.dom import minidom
 
 #import rsvg
 
@@ -89,6 +90,77 @@ class MotorCairo():
         cr.set_source_rgb(rgbfin[0], rgbfin[1], rgbfin[2],)
         cr.show_text(txt)
 
+
+### estas son nuevas funciones para trabajar con  archivs svg
+    
+    def parse_xy(self,cad,val):
+        try:
+            xy=cad[val].split(",")
+            xx=xy[0].encode('ascii','ignore')
+            yy=xy[1].encode('ascii','ignore')
+            x=float(xx)
+            y=float(yy)
+        except Exception, ex:
+            return 0,0
+        return x,y
+
+    def rel_c(self,b,f,cr):
+        b=b+1
+        x1,y1=self.parse_xy(f,b)
+        b=b+1
+        x2,y2=self.parse_xy(f,b)
+        b=b+1
+        x,y=self.parse_xy(f,b)
+        cr.rel_curve_to(x1, y1, x2, y2, x, y)
+        b=b+1
+        return b
+        
+    def rel_l(self,b,f,cr):
+        b=b+1
+        x,y=self.parse_xy(f,b)
+        cr.rel_line_to(x, y)
+        b=b+1
+        return b
+        
+    def render_svg(self,cr,path_strings,color,x,y):
+        cadena_svg= path_strings.split(" ")
+        b=0
+        letr=""
+        cr.move_to(x,y)
+        rgbfin = self.color(color)
+        #cr.set_source_rgb(rgbfin[0], rgbfin[1], rgbfin[2],)
+        rad=cairo.RadialGradient (x+50, y+50, 10, x+50, y+50,200)
+        rad.add_color_stop_rgba(1,  0,0,0, 1)
+        rad.add_color_stop_rgba(0, rgbfin[0],rgbfin[1],rgbfin[2],1)
+        cr.set_source(rad)
+        while b < len(cadena_svg):
+            if (cadena_svg[b]==u'm'):
+                letr=cadena_svg[b]
+                b=b+2
+            if (cadena_svg[b]==u'c'):
+                letr=cadena_svg[b]
+                b=self.rel_c(b,cadena_svg,cr)
+            elif (cadena_svg[b]==u'l'):
+                letr=cadena_svg[b]
+                b=self.rel_l(b,cadena_svg,cr)
+            else:
+                if letr==u'c':
+                    b=self.rel_c(b-1,cadena_svg,cr)
+
+                else:
+                    b=self.rel_l(b-1,cadena_svg,cr)
+        cr.set_line_join(cairo.LINE_JOIN_ROUND)
+        cr.close_path()
+        cr.fill()
+        cr.stroke()
+        return 0
+
+    def crear_nodo_linea(self,x,y):
+        cadena= " l %s,%s " %(float(x),float(y))
+        return cadena
+            
+
+######################################################################
     def collide(sef, rectan, x, y):
         if (
             x > rectan[0] and

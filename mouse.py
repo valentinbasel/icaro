@@ -28,7 +28,9 @@ class MOUSE(componente.Formas):
         self.fondo=fondo
         self.ventana=ventana
         self.conector_h=[0,0,40,10]
-        self.conector_m = [0, 0, 20, 30] 
+        self.conector_m = [0, 0, 20, 30]
+        self.rectan=[0,0,0,0]
+        componente.Formas.__init__(self)
     def update(self):
         """docstring for update"""
         self.conector_h[0]= self.ventana.mousexy[0]
@@ -62,25 +64,12 @@ class MOUSE(componente.Formas):
                         band=True
                         break
                     else:
-                        color=color_no_colicion
-                         
-                    
-
-        
+                        color=color_no_colicion                        
         if self.ventana.puntero_seleccion_mouse==1:
             cuerpo=self.crear_poligono(
                                     self.ventana.diccionario[tip][2],
                                     self.ventana.diccionario[tip][0],
                                     self.ventana.diccionario[tip][1],
                                     )
-            for x, y, w, h in cuerpo:
-                self.fondo.draw(
-                                self.ventana.mousexy[0] + x, 
-                                self.ventana.mousexy[1] + y, 
-                                w, 
-                                h,
-                                color,
-                                self.ventana.cr
-                                )
- 
+            self.fondo.render_svg(self.ventana.cr,cuerpo,color,self.ventana.mousexy[0]+40,self.ventana.mousexy[1])
 
