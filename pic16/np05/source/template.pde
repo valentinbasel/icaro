@@ -17,6 +17,9 @@
 	#define ECHO 0
 #endif
 
+/* Variables globales*/
+int _i=0;
+
 /* Configuración de pines de entrada/salida */
 void setup()
 {

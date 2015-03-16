@@ -447,7 +447,7 @@ class Ventana(crear_comp,tool_compilador):
             "/imagenes/icaro.png"
         )
         self.area.set_app_paintable(True)
-        self.area.set_size_request(800, 800)
+        self.area.set_size_request(800, 1800)
         menu1 = [_("File"), _("Edit"), "herramientas"]
         menu_general = [
             (_("New"), _("Open"), _("Save"), _("Save as"),

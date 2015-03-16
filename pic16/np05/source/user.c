@@ -1,6 +1,4 @@
 #include<np05_06.h>
-#define __CDC__
-#define __PING__
 
 #include <stdlib.h>
 #include <string.h>
@@ -57,9 +55,15 @@ int sensordigital(int valor)
 /*funciones*/
 void loop()
 {
-int a = 0;
-a=ping() ;
-Delayms(500);
-env_cdc(a);
-Delayms(500);
+int a = 1;
+for(_i=0;_i<255;_i++){
+PORTB=a;
+Delayms(100);
+a++;
+}
+for(_i=0;_i<255;_i++){
+PORTB=a;
+Delayms(100);
+a--;
+}
 }

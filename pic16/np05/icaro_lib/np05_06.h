@@ -27,18 +27,18 @@
 #define ICR_l293_P4 28
 
 //motor1
-#define ICR_MOT1_AD 64
+#define ICR_MOT1_AD 32
 #define ICR_MOT1_AT 128
 //motor2
-#define ICR_MOT2_AD 32
+#define ICR_MOT2_AD 64
 #define ICR_MOT2_AT 16
 //motores 1 y 2
 #define ICR_MOTS_AD 96
 #define ICR_MOTS_AT 144
 #define ICR_MOTS_DE 32
 #define ICR_MOTS_IZ 64
-#define ICR_MOTS_INV_DE 160
-#define ICR_MOTS_INV_IZ 80
+#define ICR_MOTS_INV_DE 48
+#define ICR_MOTS_INV_IZ 192
 
 /*servos*/
 #define ICR_SRV1 10
