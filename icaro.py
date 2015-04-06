@@ -16,29 +16,30 @@ import os
 import sys
 import gobject
 import creditos
-import carga
+#import carga
 import abrir
 import nuevo
 import guardar
-import crear
+#import crear
 import navegador
-import visor
 import tooltips
-import config
+
 import graficador
 import mouse
-
-#from subprocess import Popen, PIPE, STDOUT
 from motor import MotorCairo
 from componente_inicial import *
 from componente import *
-import util
 
-#import re
-#import shutil
-#import pygtk
-#import cairo
-#import lenguaje
+#icaro_dir="hardware/icaro/"
+#sys.path.append(icaro_dir+"modulos")
+import util
+import carga
+import visor # si no lo importo despues de instanciar tool_compilador, no encuentra util.py
+import config_menu
+from comp import *
+
+
+
 
 
 # ========================================================================
@@ -120,77 +121,6 @@ class fondo(MotorCairo, Componentes):
                 respuesta = self.imagen(self.img, 0, 0, cr2)
                 if respuesta == 1:
                     self.band = 0
-
-# ========================================================================
-# FUNCIONES PARA COMPILAR Y CARGAR EL FIRMWARE
-# ========================================================================
- 
-class tool_compilador:
-    def __init__():
-        pass
-   # cargo template.pde para tener la planilla estandar dentro de
-    # cadena_pinguino
-    # la idea es poder separar estas funciones de icaro.py y trabajarlo
-    # directamente desde otro archivo, asi es mas facil armar bloques
-    # personalizados
-    def carga(self):
-        self.cadena_pinguino[:] = []
-        dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
-        archivo = open(dir_conf + "/source/template.pde", "r")
-        for linea in archivo:
-            self.cadena_pinguino.append(linea)
-
-    def compilar(self, b):
-        pagina = self.notebook2.get_current_page()
-        if pagina == 0:
-            self.carga()
-            crear.crear_archivo(self.fondo, self)
-            dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
-            i= util.compilar("main",self.cfg,dir_conf)
-            #i = carga.compilar_pic("main", self.cfg)
-            if i == 1:
-                self.mensajes(0, ("no se encuentra el compilador sdcc en" +
-                                    " la ruta " + self.config[0] +
-                                    " . Pruebe configurar el archivo" +
-                                    " config.ini y corregirlo"))
-            if i == 0:
-                self.mensajes(3, "la compilacion fue exitosa")
-            else:
-                self.mensajes(0, "hubo un error de compilacion")
-        if pagina == 1:
-            self.ver.compilar(0)
-
-    def upload(self, b):
-        resultado = 1
-        #dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
-        i = util.linker("main",self.cfg)
-        #i = carga.upload_pic("main", self.cfg)
-        if i == 0:
-            cargador = carga.Cargador("main")
-            cargador.start()
-            return 0
-
-    def comp_esp(self, b,datos):
-        resultado = 1
-        comp = 1
-        dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
-        i= util.compilar(datos,self.cfg,dir_conf)
-        #i = carga.compilar_pic(datos, self.cfg)
-        if i == 0:
-            self.mensajes(3, "la compilacion fue exitosa")
-            comp = 0
-        else:
-            self.mensajes(0, "hubo un error de compilacion")
-            comp = 1
-        if comp == 0:
-            i = util.linker(datos,self.cfg)
-            #i = carga.upload_pic(datos, self.cfg)
-            if i == 0:
-                cargador = carga.Cargador(datos)
-                cargador.start()
-                return 0
-###############################################################################
- 
 
 class crear_comp:
     def __init__():
@@ -349,6 +279,7 @@ class Ventana(crear_comp,tool_compilador):
     """
     # variables globales para manejar posicion del mouse, clicks y pulsaciones
     # de teclas dentro de la ventana
+
     archivo = ""
     mousexy = (0, 0)
     boton_mouse = [0, 0, 0, 0]
@@ -386,31 +317,23 @@ class Ventana(crear_comp,tool_compilador):
     }
     valor_datos_comp = {"fin ": "}"}
 
-    def __init__(self):
+    def __init__(self,icaro_dir):
 
         # esta es la lista de donde se sacan los valores para los botones
         # icaro
+        self.icaro_dir=icaro_dir
+        #tool_compilador.__init__(self)
         arch = open(sys.path[0] + "/version", "r")
         version = arch.readline()
         creditos.Info.version = version
-        self.carga_dicc()
-        self.tooltip = tooltips.dicc
-        self.lista = self.diccionario.keys()
-        self.lista.sort()
-        self.carga_paleta()
-        conf_ini=os.path.expanduser('~') + "/.icaro/conf/config.ini"
-        if os.path.exists(conf_ini):
-            self.cfg = util.carga_conf(conf_ini)
-        else:
-           self.recarga_conf(False)
-        # configuraciones generales de ICARO (guardadas en config.ini)
-        self.z=float(self.cfg.get("icaro_config","zoom"))
+        self.carga_conf()
         # declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
         # declaro la tabla  donde van los botones para el menu de bloques
         # box1 es el contenedor principal despues de la ventana
         self.window1 = gtk.Window()
+        self.window1.set_title("icaro "+version)
         toolbar = gtk.Toolbar()
         self.area = gtk.DrawingArea()
         scrolled_window = gtk.ScrolledWindow()
@@ -453,7 +376,7 @@ class Ventana(crear_comp,tool_compilador):
             (_("New"), _("Open"), _("Save"), _("Save as"),
              _("Save as function"), _("Examples"), _("Exit")),
             (_("Background"), _("Color"), _("About"), _("Config")),
-            ("graficador", "calculadora", _("Log"), "firmware","servidor_pilas")
+            ("graficador",  _("Log"), "firmware",)
         ]
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
@@ -1046,7 +969,7 @@ class Ventana(crear_comp,tool_compilador):
             about.destroy()
         if string == _("Config"):
             # print " menu de congifuracion"
-            conf = config.CONFIG()
+            conf = config_menu.MENU_CONF(self.conf_ini)
             conf.show()
         if string == _("Log"):
             dir_conf = os.path.expanduser(
@@ -1064,10 +987,12 @@ class Ventana(crear_comp,tool_compilador):
             self.recarga_conf(True)
 
     def recarga_conf(self,visual):
+        # esto hay que revizarlo porque esta muy hardcodeado
+        # aparte deberia usar tambien icaro_dir para poder tomar el firmware desde hardware/icaro/pic16
         dir_firm = os.path.expanduser('~') + "/.icaro/firmware/"
         dir_conf = os.path.expanduser('~') + "/.icaro/conf/"
-        np05 = "/usr/share/icaro/pic16/np05"
-        conf = "/usr/share/icaro/pic16/conf"
+        np05 = sys.path[0]+"/"+self.icaro_dir+"micro/firmware"
+        conf = sys.path[0]+"/"+self.icaro_dir+"micro/conf"
         if visual==True:
             resp=self.mensajes(1, "se volvera a la versión por defecto del firmware y la configuracion general, desea continuar")
         else:
@@ -1101,9 +1026,9 @@ class Ventana(crear_comp,tool_compilador):
         """
         import carga_componentes
         q = 0
-
-        carga = carga_componentes.DICC()
-        comp, grupo = carga.buscar_bloques()
+        path=sys.path[0] + "/"+self.icaro_dir+"componentes/core/"
+        cargador = carga_componentes.DICC(path,self.icaro_dir)
+        comp, grupo = cargador.buscar_bloques()
         for a in range(len(grupo)):
             self.diccionario[q] = ["notebook", grupo[a]]
             q += 1
@@ -1137,20 +1062,41 @@ class Ventana(crear_comp,tool_compilador):
                                                    int(B)
                                                    )
 
+    def carga_conf(self):
+        self.carga_dicc()
+        self.tooltip = tooltips.dicc
+        self.lista = self.diccionario.keys()
+        self.lista.sort()
+        self.carga_paleta()
+        self.conf_ini=os.path.expanduser('~') + "/.icaro/conf/config.ini"
+        if os.path.exists(self.conf_ini):
+            self.cfg = util.carga_conf(self.conf_ini)
+        else:
+           self.recarga_conf(False)
+        # configuraciones generales de ICARO (guardadas en config.ini)
+        self.z=float(self.cfg.get("icaro_config","zoom"))
 
 # Inicio todas las clases
-ventana_principal = Ventana()
-fon = fondo()
-ventana_principal.fondo = fon
-inicial = componente_inicial(20, 50, 1, fon, ventana_principal)
-fon.objetos.append(inicial)
-ventana_principal.window1.show_all()
-R=ventana_principal.cfg.get("icaro_config","colorR")
-G=ventana_principal.cfg.get("icaro_config","colorG")
-B=ventana_principal.cfg.get("icaro_config","colorB")
-ventana_principal.fondo.FONDO = (int(R), int(G), int(B))
- 
-gobject.timeout_add(50, ventana_principal.timeout)
+
+# estoy sacando todo y metiendolo en hardware/icaro
+# de esta forma si cambio icaro_dir puedo compilar arduino y esas cosas
+# hay que revizar bien los tools_button para que se creen los botones
+# en funcion de un .py que este adentro del hardware/icaro/modulos
+
+def inicio(icaro_dir):
+    global ventana_principal
+    global fon
+    ventana_principal = Ventana(icaro_dir)
+    fon = fondo()
+    ventana_principal.fondo = fon
+    inicial = componente_inicial(20, 50, 1, fon, ventana_principal)
+    fon.objetos.append(inicial)
+    ventana_principal.window1.show_all()
+    R=ventana_principal.cfg.get("icaro_config","colorR")
+    G=ventana_principal.cfg.get("icaro_config","colorG")
+    B=ventana_principal.cfg.get("icaro_config","colorB")
+    ventana_principal.fondo.FONDO = (int(R), int(G), int(B)) 
+    gobject.timeout_add(50, ventana_principal.timeout)
 # gobject.idle_add(ventana_principal.timeout)
 # gobject.PRIORITY_DEFAULT=-1
-gtk.main()
+    gtk.main()

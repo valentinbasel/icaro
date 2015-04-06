@@ -28,14 +28,16 @@ import os
 import sys
 
 
+
+
 class DICC:
 
     """ Class doc """
 
-    def __init__(self):
+    def __init__(self,path,datos_path):
         """ Class initialiser """
-        self.path = sys.path[0] + "/componentes/core/"
-
+        self.path =path
+        self.datos_path = datos_path
     def buscar_bloques(self):
         core = []
         grupo = []
@@ -59,17 +61,14 @@ class DICC:
             fila2 = []
             comps[mod1].sort()
             for mod2 in range(len(comps[mod1])):
-                clase = "componentes.core." + \
+                dat= self.datos_path.replace("/",".")
+                clase = dat+"componentes.core." + \
                     grupo[mod1] + "." + comps[mod1][mod2] + ".bloque"
-                #~ try:
                 obj = __import__(clase, fromlist=['CMP'])
                 instancia = obj.CMP()
                 img = str(
                     self.path + grupo[mod1] + "/" + comps[mod1][mod2] + "/ico.png")
                 instancia.img = img
                 fila2.append(instancia)
-#~
-                #~ except Exception, ex:
-                    #~ print "error al iniciar ", clase
             fila1.append(fila2)
         return fila1, grupo
