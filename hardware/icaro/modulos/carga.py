@@ -55,29 +55,23 @@ class Cargador(threading.Thread):
             a = 1
             dir_conf = util.obtener_path_usuario() + "/.icaro/firmware"
             while self.vivo:
-                try:
-                    i = docker.docker(dir_conf + "/temporal/" + self.ruta + ".hex")
-                    time.sleep(1)
-                    a = a + 1
-                    texto = " intentando conexion con el hardware: " + \
-                            str(a) + " intento"
-                    self.text.set_text(texto)
-                    if a >= 10:
-                        self.text.set_text("no se pudo conectar con el hardware")
-                        time.sleep(2)
-                        self.vivo = False
-                        self.win.hide()
-                    if i == 0:
-                        self.text.set_text("el programa fue cargado exitosamente")
-                        time.sleep(2)
-                        self.vivo = False
-                        self.win.hide()
-
+                i = docker.docker(dir_conf + "/temporal/" + self.ruta + ".hex")
+                time.sleep(1)
+                a = a + 1
+                texto = " intentando conexion con el hardware: " + \
+                        str(a) + " intento"
+                self.text.set_text(texto)
+                if a >= 10:
+                    self.text.set_text("no se pudo conectar con el hardware")
+                    time.sleep(2)
+                    self.vivo = False
+                    self.win.hide()
+                if i == 0:
+                    self.text.set_text("el programa fue cargado exitosamente")
+                    time.sleep(2)
+                    self.vivo = False
+                    self.win.hide()
                     return i
-                except Exception, e:
-                    print "un errro a la carga"
-                    raise e
-
 
         def stop(self):
             self.vivo = False

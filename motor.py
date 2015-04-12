@@ -22,7 +22,7 @@
 #
 #
 import cairo
-from xml.dom import minidom
+#from xml.dom import minidom
 
 #import rsvg
 

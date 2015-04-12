@@ -652,7 +652,12 @@ class Ventana(crear_comp,tool_compilador):
             # tiene extension, entonces le agrego  - .icr -
             cadena2 = cadena.split(".")
             if len(cadena2) == 1:
-                cadena = cadena + ".icr"
+                if dato==0 and pagina == 0:
+                    cadena = cadena + ".icr"
+                if dato ==0 and pagina ==1:
+                    cadena = cadena +".c"
+                if dato==1:
+                    cadena=cadena +".func"
             if os.path.isfile(cadena):
                 resp = self.mensajes(
                             1,
@@ -662,17 +667,17 @@ class Ventana(crear_comp,tool_compilador):
             else:
                 resp = False
             if resp == True or os.path.isfile(cadena) == False:
-                if pagina == 0:
-                    guardar.guardar(
-                                    self.fondo.objetos,
-                                    cadena,
-                                    self.fondo
-                                    )
-                    self.archivo = cadena
-                if pagina == 1:
-                    self.ver.save_file(cadena)
-        elif response == gtk.RESPONSE_CANCEL:
-            pass
+                if dato== 0:
+                    if pagina == 0:
+                        guardar.guardar(self.fondo.objetos,cadena,self.fondo)
+                        self.archivo = cadena
+                    else:
+                        if pagina == 1:
+                            self.ver.save_file(cadena)
+                if dato== 1:
+                    crear.funcion(self.fondo, self, cadena,)
+            elif response == gtk.RESPONSE_CANCEL:
+                pass
         dialog.destroy()
 
     def abrir(self, dato):
@@ -884,23 +889,25 @@ class Ventana(crear_comp,tool_compilador):
         if string == _("Save"):
             self.guardar(0)
         if string == _("Save as function"):
-            dialog = gtk.FileChooserDialog("save..",
-                                           None,
-                                           gtk.FILE_CHOOSER_ACTION_SAVE,
-                                               (
-                                               gtk.STOCK_CANCEL,
-                                                gtk.RESPONSE_CANCEL,
-                                                gtk.STOCK_SAVE,
-                                                gtk.RESPONSE_OK
-                                                )
-                                            )
-            dialog.set_default_response(gtk.RESPONSE_OK)
-            response = dialog.run()
-            if response == gtk.RESPONSE_OK:
-                crear.funcion(self.fondo, self, dialog.get_filename(),)
-            elif response == gtk.RESPONSE_CANCEL:
-                # print 'Closed, no files selected'
-                dialog.destroy()
+            print "guardo la func"
+            self.guardar(1)
+#            dialog = gtk.FileChooserDialog("save..",
+                                           #None,
+                                           #gtk.FILE_CHOOSER_ACTION_SAVE,
+                                               #(
+                                               #gtk.STOCK_CANCEL,
+                                                #gtk.RESPONSE_CANCEL,
+                                                #gtk.STOCK_SAVE,
+                                                #gtk.RESPONSE_OK
+                                                #)
+                                            #)
+            #dialog.set_default_response(gtk.RESPONSE_OK)
+            #response = dialog.run()
+            #if response == gtk.RESPONSE_OK:
+                #crear.funcion(self.fondo, self, dialog.get_filename(),)
+            #elif response == gtk.RESPONSE_CANCEL:
+                #print 'Closed, no files selected'
+            #dialog.destroy()
         if string == _("Examples"):
             self.abrir(sys.path[0] + "/ejemplos")
         if string == _("Background"):
@@ -1048,14 +1055,18 @@ class Ventana(crear_comp,tool_compilador):
     def carga_paleta(self):
         R = G = B = ""
         archivo = open(
-            os.path.abspath(os.path.dirname(__file__)) + "/colores.dat", "r")
+            os.path.abspath(os.path.dirname(__file__)) + "/paletas/default.gpl", "r")
         tupla = []
+        for a in range(4):
+            archivo.readline()
+
         cadena = archivo.readlines()
         for n in cadena:
-            tupla.append(n.strip("()\n"))
+            cad_intermedia=n.split("\t")
+            tupla.append((cad_intermedia[0],cad_intermedia[1],cad_intermedia[2]))
         for a in range(len(self.lista)):
             if self.diccionario[self.lista[a]][0] <> "notebook":
-                R, G, B = tupla[a].split(",")
+                R, G, B = tupla[a]
                 self.diccionario[self.lista[a]][3] = (
                                                    int(R),
                                                    int(G),
@@ -1089,7 +1100,7 @@ def inicio(icaro_dir):
     ventana_principal = Ventana(icaro_dir)
     fon = fondo()
     ventana_principal.fondo = fon
-    inicial = componente_inicial(20, 50, 1, fon, ventana_principal)
+    inicial = componente_inicial(50, 50, 1, fon, ventana_principal)
     fon.objetos.append(inicial)
     ventana_principal.window1.show_all()
     R=ventana_principal.cfg.get("icaro_config","colorR")

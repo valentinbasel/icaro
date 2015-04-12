@@ -35,7 +35,7 @@ class MOUSE(componente.Formas):
         """docstring for update"""
         self.conector_h[0]= self.ventana.mousexy[0]
         self.conector_h[1]= self.ventana.mousexy[1]
-        self.conector_m[0]= self.ventana.mousexy[0]+40
+        self.conector_m[0]= self.ventana.mousexy[0]
         self.conector_m[1]= self.ventana.mousexy[1]
         color=color_no_colicion=(0,0,255)
         color_colicion=(255,0,0)

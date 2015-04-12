@@ -126,8 +126,8 @@ class FormaSvg(object):
         self.rectan[2]= self.tam_text+110
         self.linea_corr_texto_mas = self.fondo.crear_nodo_linea(self.tam_text,0)
         self.linea_corr_texto_menos = self.fondo.crear_nodo_linea(self.tam_text*-1,0)
-        achicar_cuerpo_1= self.fondo.crear_nodo_linea(0,-17)
-        achicar_cuerpo_2= self.fondo.crear_nodo_linea(0,17)
+        achicar_cuerpo_1= self.fondo.crear_nodo_linea(0,-17)#-17
+        achicar_cuerpo_2= self.fondo.crear_nodo_linea(0,17)#17
         cuerpo=(
                     forma_basica.nodo_hembra +
                     self.lin1+ self.linea_corr_texto_mas +

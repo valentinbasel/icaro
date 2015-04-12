@@ -86,7 +86,11 @@ def crear_archivo(fondo, ventana):
                         fun = caden.split(",")
                         incluir(fondo, ventana, fun)
                     else:
-                        ventana.cadena_pinguino.append(caden)
+                        if caden.find("carga_func") == 0:
+                            fun = caden.split(",")
+                            carga_func(fondo, ventana, fun)
+                        else:
+                            ventana.cadena_pinguino.append(caden)
     ventana.cadena_pinguino.append("}")
 
     fw = open(dir_conf + "/source/user.c", "w")
@@ -100,10 +104,10 @@ def crear_archivo(fondo, ventana):
 def funcion(fondo, ventana, ruta):
     cadena_funcion = []
     cadena_final = []
-    f = open(sys.path[0] + "/diccionario.xml", "r")
-    cadena = f.readlines()
-    for a in cadena:
-        cadena_final.append(a.strip("\n"))
+#    f = open(sys.path[0] + "/diccionario.xml", "r")
+    #cadena = f.readlines()
+    #for a in cadena:
+        #cadena_final.append(a.strip("\n"))
     conectado = 1
     fondo.lista_fina = []
     print fondo.lista_ordenada
@@ -142,18 +146,20 @@ def definir(fondo, ventana, fun):
     val = "#define " + str(fun[1].strip(" \n")) + "\n"
     ventana.cadena_pinguino.insert(0, val)
 
-#    if ventana.archivo=="":
-#        ventana.mensajes(2,"debes grabar el archivo primero para poder usar llamadas a funciones")
-#        return 0
-#    else:
-#        directorio=os.path.dirname(ventana.archivo)
-#        ruta=directorio+"/"+str(fun[1].strip(" \n"))+".func"
-#        print ruta
-#        file=open(ruta,"r")
-#        for cadena in range(len(ventana.cadena_pinguino)):
-#            if ventana.cadena_pinguino[cadena]=="/*funciones*/\n":
-#                cadenarch=file.readlines()
-#                a=1
-#                for val in cadenarch:
-#                    ventana.cadena_pinguino.insert(cadena+a,val)
-#                    a=a+1
+
+def carga_func(fondo,ventana,fun):
+    if ventana.archivo=="":
+        ventana.mensajes(2,"debes grabar el archivo primero para poder usar llamadas a funciones")
+        return 0
+    else:
+        directorio=os.path.dirname(ventana.archivo)
+        ruta=directorio+"/"+str(fun[1].strip(" \n"))+".func"
+        print ruta
+        file=open(ruta,"r")
+        for cadena in range(len(ventana.cadena_pinguino)):
+            if ventana.cadena_pinguino[cadena]=="/*funciones*/\n":
+                cadenarch=file.readlines()
+                a=1
+                for val in cadenarch:
+                    ventana.cadena_pinguino.insert(cadena+a,val)
+                    a=a+1
