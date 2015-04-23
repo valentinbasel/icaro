@@ -24,7 +24,7 @@ class componente_inicial():
     rectan = [0, 0, 90, 60]
     conector_m = [0, 0, 20, 10]  # conector macho
     ide = 0
-    color = (80, 00, 80)
+    color = (80, 100, 80)
     pegado_a = 0  # es solo por compatibilidad con los demas componentes
     vivo = True
     posic_rel_x = 0

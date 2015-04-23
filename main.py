@@ -30,9 +30,9 @@ import shutil
 import gtk
 
 from motor import MotorCairo
+from utilidades_ventana import UTILIDADES
 
-
-class VentanaGtk(MotorCairo):
+class VentanaGtk(MotorCairo,UTILIDADES):
 
     """ Class doc """
     botones = []
@@ -56,29 +56,6 @@ class VentanaGtk(MotorCairo):
         self.window.show_all()
         self.yatocado = False
 
-    def mensajes(self, num, mensa):
-        tipo = (
-            gtk.MESSAGE_WARNING,
-            gtk.MESSAGE_QUESTION,
-            gtk.MESSAGE_ERROR,
-            gtk.MESSAGE_INFO
-        )
-        botones = (
-            gtk.BUTTONS_OK,
-            gtk.BUTTONS_OK_CANCEL,
-            gtk.BUTTONS_OK,
-            gtk.BUTTONS_OK
-        )
-        md = gtk.MessageDialog(None,
-                               gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-                               tipo[num],
-                               botones[num], mensa)
-        resp = md.run()
-        md.destroy()
-        if resp == gtk.RESPONSE_OK:
-            return True
-        elif resp == gtk.RESPONSE_CANCEL:
-            return False
 
     def move_cb(self, event, b):
         self.mousexy = b.get_coords()
@@ -202,32 +179,33 @@ def comprobacion_errores(ventana):
     if os.path.isdir(dir_conf) == 0:
         os.mkdir(dir_conf)
 
-    if os.path.isdir(dir_conf + "/firmware/") == 0:
+  #  if os.path.isdir(dir_conf + "/firmware/") == 0:
         #respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
         # print respuesta
         # if respuesta==True:
-        try:
+   #     try:
             # archivo=urllib.urlretrieve("http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz",dir_conf+"np05.tar.gz",None)
             # tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
             # tar.extractall(dir_conf)
             # tar.close
-            shutil.copytree(
-                "/usr/share/icaro/pic16/np05", dir_conf + "/firmware/")
-        except:
-            ventana.mensajes(2, "no se pudo copiar el directorio")
-            exit()
+    #        shutil.copytree(
+     #           "/usr/share/icaro/pic16/np05", dir_conf + "/firmware/")
+      #  except:
+       #     ventana.mensajes(2, "no se pudo copiar el directorio")
+        #    exit()
     #    shutil.copytree(sys.path[0]+"/temp/tmp/",dir_conf+"/tmp" )
     #    shutil.copytree(sys.path[0]+"/temp/source/",dir_conf+"/source" )
 
 
 def main():
 
-    config = []
-    conf = open(sys.path[0] + "/config.dat", "r")
-    dat = conf.readlines()
-    for txt in dat:
-        config.append(txt)
-    conf.close()
+        
+    conf=os.path.expanduser('~') + "/.icaro/conf/config.ini"
+    mens=UTILIDADES()
+    cfg=mens.carga_conf(conf)
+    turtleart_ruta=cfg.get("general","turtle")
+    
+
     pyt = ["Lanza la teminal interactiva ",
            "con el modulo apicaro.",
            "Necesita tener IDLE instalado"]
@@ -247,14 +225,14 @@ def main():
                         100,
                         10,
                         sys.path[0] + "/imagenes/main/tortucaro.png",
-                        config[1],
+                        turtleart_ruta,
                         tur)
     BotonIcaro = Boton(2,
                        ventana,
                        100,
                        160,
                        sys.path[0] + "/imagenes/main/icaro.png",
-                       "python " + sys.path[0] + "/icaro.py",
+                       "python " + sys.path[0] + "/lanzador.py",
                        icr)
     BotonPython = Boton(3,
                         ventana,

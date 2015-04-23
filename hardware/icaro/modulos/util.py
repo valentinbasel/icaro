@@ -26,18 +26,10 @@
 # utilidades para compilar y cargar 
 # firmware en los bootloader de pinguino
 ################################
-import ConfigParser
+
 import os
 
 
-def carga_conf(ruta):
-        try:
-            cfg = ConfigParser.ConfigParser()
-            cfg.read(ruta)
-            return cfg
-        except:
-            print "error, no se encuentra el archivo conf.ini"
-            return False
 
 def obtener_path_usuario():
     cadena = os.path.expanduser('~') 

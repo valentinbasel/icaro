@@ -21,9 +21,35 @@
 #  MA 02110-1301, USA.
 #  
 
-import sys
-hardware_dir="hardware/icaro/"
-sys.path.append(sys.path[0]+"/"+ hardware_dir+"modulos")
-from icaro import *
+import sys,os
+from utilidades_ventana import UTILIDADES
 
-inicio(hardware_dir)
+def preparar_icaro():
+    sys.path.append(ruta_hardware)
+    if os.path.exists(conf):
+        from icaro import *
+        inicio(hardware_dir)
+    else:
+        cad="No se encontro el archivo de configuracion en la ruta " + conf 
+        mens.mensajes(0,cad)
+        resp=mens.mensajes(1,"¿desea volver a copiar el directorio el directorio del firmware?")
+        if resp==True:
+            mens.recarga_conf(hardware_dir,True)
+            preparar_icaro()
+        else:
+            exit()
+
+
+hardware_dir="hardware/icaro/"
+ruta_hardware=sys.path[0]+"/"+ hardware_dir+"modulos"
+conf=os.path.expanduser('~') + "/.icaro/conf/config.ini"
+mens = UTILIDADES()
+
+if os.path.exists(ruta_hardware):
+    preparar_icaro()
+else:
+    cad="No se encontro el modulo de carga para el hardware en la ruta " + ruta_hardware 
+    mens.mensajes(0,cad)
+    exit()
+
+    

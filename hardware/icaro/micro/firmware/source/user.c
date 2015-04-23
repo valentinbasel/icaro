@@ -1,6 +1,4 @@
 #include<np05_06.h>
-#define __LCD__
-#define __PING__
 
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +22,15 @@
 	#define TRIG 0
 	#define ECHO 0
 #endif
+
+/*
+#ifndef __USB__
+void epap_in() { return; }
+void epap_out() { return; }
+void epapin_init() { return; }
+void epapout_init() { return; }
+#endif
+*/
 
 /* Variables globales*/
 int _i=0;
@@ -76,22 +83,4 @@ int sensordigital(int valor)
 /*funciones*/
 void loop()
 {
-int a = 0;
-home();
-PORTD=ICR_MOTS_AD;
-Delayms(10);
-while(a<5){
-printNumber(a,10);
-if(ping() <10){
-PORTD=ICR_MOTS_AT;
-Delayms(800);
-PORTD=ICR_MOTS_INV_IZ;
-Delayms(500);
-a++;
-}
-}
-while(1){
-PORTD=0;
-Delayms(0);
-}
 }

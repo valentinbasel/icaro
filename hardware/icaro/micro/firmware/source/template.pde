@@ -22,6 +22,15 @@
 	#define ECHO 0
 #endif
 
+/*
+#ifndef __USB__
+void epap_in() { return; }
+void epap_out() { return; }
+void epapin_init() { return; }
+void epapout_init() { return; }
+#endif
+*/
+
 /* Variables globales*/
 int _i=0;
 

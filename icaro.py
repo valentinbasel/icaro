@@ -15,29 +15,25 @@ import gtk
 import os
 import sys
 import gobject
+
 import creditos
-#import carga
 import abrir
 import nuevo
 import guardar
-#import crear
 import navegador
 import tooltips
-
 import graficador
 import mouse
+import util
+import carga
+import visor
+import config_menu
+
 from motor import MotorCairo
 from componente_inicial import *
 from componente import *
-
-#icaro_dir="hardware/icaro/"
-#sys.path.append(icaro_dir+"modulos")
-import util
-import carga
-import visor # si no lo importo despues de instanciar tool_compilador, no encuentra util.py
-import config_menu
 from comp import *
-
+from utilidades_ventana import UTILIDADES
 
 
 
@@ -233,7 +229,7 @@ class crear_comp:
 # ========================================================================
 
 
-class Ventana(crear_comp,tool_compilador):
+class Ventana(crear_comp,tool_compilador,UTILIDADES):
 
     """
     Clase ventana contiene el constructor de la ventana GTK y las funciones
@@ -289,7 +285,6 @@ class Ventana(crear_comp,tool_compilador):
     tecla = 0
     valor_tecla = ""
     tecla_enter = 0
-    processor = "18f4550"
     cadena_pinguino = []
     seleccion_menu = 1
     tipo_componente = 1
@@ -322,11 +317,10 @@ class Ventana(crear_comp,tool_compilador):
         # esta es la lista de donde se sacan los valores para los botones
         # icaro
         self.icaro_dir=icaro_dir
-        #tool_compilador.__init__(self)
         arch = open(sys.path[0] + "/version", "r")
         version = arch.readline()
         creditos.Info.version = version
-        self.carga_conf()
+        self.carga_conf_ventana()
         # declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
@@ -405,7 +399,7 @@ class Ventana(crear_comp,tool_compilador):
             [1, toolbar, gtk.STOCK_OPEN, "Open",
              self.tooltip["abrir"], self.abrir, None],
             [1, toolbar, gtk.STOCK_SAVE, "Save",
-             self.tooltip["guardar"], self.guardar, None],
+             self.tooltip["guardar"], self.guardar, 0],
             [1, toolbar, gtk.STOCK_QUIT, "Quit",
              self.tooltip["salir"], self.salir, None],
             [3],
@@ -593,34 +587,6 @@ class Ventana(crear_comp,tool_compilador):
         label.show()
         return box1
 
-# ========================================================================
-# GENERADOR DE MENSAJES
-# ========================================================================
-
-    def mensajes(self, num, mensa):
-
-        tipo = (
-                gtk.MESSAGE_WARNING,
-                gtk.MESSAGE_QUESTION,
-                gtk.MESSAGE_ERROR,
-                gtk.MESSAGE_INFO
-                )
-        botones = (
-                gtk.BUTTONS_OK,
-                gtk.BUTTONS_OK_CANCEL,
-                gtk.BUTTONS_OK,
-                gtk.BUTTONS_OK
-                )
-        md = gtk.MessageDialog(None,
-            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-            tipo[num],
-            botones[num], mensa)
-        resp = md.run()
-        md.destroy()
-        if resp == gtk.RESPONSE_OK:
-            return True
-        elif resp == gtk.RESPONSE_CANCEL:
-            return False
 
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
@@ -631,7 +597,7 @@ class Ventana(crear_comp,tool_compilador):
 
         return
 
-    def guardar(self, dato):
+    def guardar(self,b,dato):
         pagina = self.notebook2.get_current_page()
         dialog = gtk.FileChooserDialog("save..",
                                         None,
@@ -651,12 +617,14 @@ class Ventana(crear_comp,tool_compilador):
             # si el tamaño de cadena2 es 1, el nombre del archivo no
             # tiene extension, entonces le agrego  - .icr -
             cadena2 = cadena.split(".")
+            print len(cadena2)
             if len(cadena2) == 1:
+                print "dato",dato,pagina
                 if dato==0 and pagina == 0:
                     cadena = cadena + ".icr"
-                if dato ==0 and pagina ==1:
+                elif dato ==0 and pagina ==1:
                     cadena = cadena +".c"
-                if dato==1:
+                elif dato==1:
                     cadena=cadena +".func"
             if os.path.isfile(cadena):
                 resp = self.mensajes(
@@ -668,7 +636,9 @@ class Ventana(crear_comp,tool_compilador):
                 resp = False
             if resp == True or os.path.isfile(cadena) == False:
                 if dato== 0:
+                    print "daot=0"
                     if pagina == 0:
+                        print "pag=0"
                         guardar.guardar(self.fondo.objetos,cadena,self.fondo)
                         self.archivo = cadena
                     else:
@@ -679,7 +649,7 @@ class Ventana(crear_comp,tool_compilador):
             elif response == gtk.RESPONSE_CANCEL:
                 pass
         dialog.destroy()
-
+        print resp, cadena
     def abrir(self, dato):
         pagina = self.notebook2.get_current_page()
         dialog = gtk.FileChooserDialog(
@@ -880,34 +850,18 @@ class Ventana(crear_comp,tool_compilador):
         if string == _("Open"):
             # tengo que madar un -dato- para mantener compatibilidad con
             # los botones de la barra de herramienta que generan un dato
-            # -b- que envian a la funcion.
+            # -b- que envian a la funcion. en el caso de guardar mando None
+            # porque el sig dato determina si es una funcion o un icr/C
             self.abrir(sys.path[0])
         if string == _("Exit"):
             self.salir(0)
         if string == _("New"):
             self.nuevo(0)
         if string == _("Save"):
-            self.guardar(0)
+            self.guardar(None,0)
         if string == _("Save as function"):
             print "guardo la func"
-            self.guardar(1)
-#            dialog = gtk.FileChooserDialog("save..",
-                                           #None,
-                                           #gtk.FILE_CHOOSER_ACTION_SAVE,
-                                               #(
-                                               #gtk.STOCK_CANCEL,
-                                                #gtk.RESPONSE_CANCEL,
-                                                #gtk.STOCK_SAVE,
-                                                #gtk.RESPONSE_OK
-                                                #)
-                                            #)
-            #dialog.set_default_response(gtk.RESPONSE_OK)
-            #response = dialog.run()
-            #if response == gtk.RESPONSE_OK:
-                #crear.funcion(self.fondo, self, dialog.get_filename(),)
-            #elif response == gtk.RESPONSE_CANCEL:
-                #print 'Closed, no files selected'
-            #dialog.destroy()
+            self.guardar(None,1)
         if string == _("Examples"):
             self.abrir(sys.path[0] + "/ejemplos")
         if string == _("Background"):
@@ -926,14 +880,12 @@ class Ventana(crear_comp,tool_compilador):
             response = dialog.run()
             cadena = dialog.get_filename()
             if response == gtk.RESPONSE_OK:
-                # ~ #print "imagen", cadena
                 try:
                     self.fondo.carga_img(cadena)
                 except Exception, ex:
                     self.mensajes(2, "archivo no valido")
 
             elif response == gtk.RESPONSE_CANCEL:
-                # print 'Closed, no files selected'
                 dialog.destroy()
         if string == _("Color"):
 
@@ -991,33 +943,9 @@ class Ventana(crear_comp,tool_compilador):
         if string == "zoomcero":
             self.z = 1
         if string == "firmware":
-            self.recarga_conf(True)
+            self.recarga_conf(self.icaro_dir,True)
 
-    def recarga_conf(self,visual):
-        # esto hay que revizarlo porque esta muy hardcodeado
-        # aparte deberia usar tambien icaro_dir para poder tomar el firmware desde hardware/icaro/pic16
-        dir_firm = os.path.expanduser('~') + "/.icaro/firmware/"
-        dir_conf = os.path.expanduser('~') + "/.icaro/conf/"
-        np05 = sys.path[0]+"/"+self.icaro_dir+"micro/firmware"
-        conf = sys.path[0]+"/"+self.icaro_dir+"micro/conf"
-        if visual==True:
-            resp=self.mensajes(1, "se volvera a la versión por defecto del firmware y la configuracion general, desea continuar")
-        else:
-            resp=True
-        if resp==True:
-            try:
-                os.system("rm -rf " + dir_conf)
-                os.system("cp -R " + np05 + " " + dir_firm)
-                os.system("cp -R " + conf + " " + dir_conf)
-                if visual==True:
-                    self.mensajes(3, "se actualizo el firmware y la conf general")
-                else:
-                    print "se actualizo el firmware y la configuración general"
-            except:
-                if visual==True:
-                    self.mensajes(0, "no se pudo actualizar el firmware")
-                else:
-                    print "hubo un error copiando el firmware y la configuración general"
+
 
     def visor(self, dir):
         browser = navegador.SimpleBrowser()
@@ -1073,15 +1001,16 @@ class Ventana(crear_comp,tool_compilador):
                                                    int(B)
                                                    )
 
-    def carga_conf(self):
+    def carga_conf_ventana(self):
         self.carga_dicc()
         self.tooltip = tooltips.dicc
         self.lista = self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
         self.conf_ini=os.path.expanduser('~') + "/.icaro/conf/config.ini"
+        print self.conf_ini
         if os.path.exists(self.conf_ini):
-            self.cfg = util.carga_conf(self.conf_ini)
+            self.cfg = self.carga_conf(self.conf_ini)
         else:
            self.recarga_conf(False)
         # configuraciones generales de ICARO (guardadas en config.ini)
