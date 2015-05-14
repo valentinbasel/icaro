@@ -55,6 +55,8 @@ class Cargador(threading.Thread):
             a = 1
             dir_conf = util.obtener_path_usuario() + "/.icaro/firmware"
             while self.vivo:
+                
+                print "sigo vivo ",a
                 i = docker.docker(dir_conf + "/temporal/" + self.ruta + ".hex")
                 time.sleep(1)
                 a = a + 1
@@ -72,6 +74,7 @@ class Cargador(threading.Thread):
                     self.vivo = False
                     self.win.hide()
                     return i
+            print "corto con la funión RUN"
 
         def stop(self):
             self.vivo = False

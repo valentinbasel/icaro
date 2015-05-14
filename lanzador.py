@@ -26,7 +26,7 @@ from utilidades_ventana import UTILIDADES
 
 def preparar_icaro():
     sys.path.append(ruta_hardware)
-    if os.path.exists(conf):
+    if os.path.exists(conf): # busca el archivo .ini dentro de la carpeta firmware
         from icaro import *
         inicio(hardware_dir)
     else:
@@ -39,10 +39,14 @@ def preparar_icaro():
         else:
             exit()
 
+# cunado incio icaro, me da la posibilidad de cambiar el modulo de hardware, para tener compatibildiad 
+# con otros sistemas
 
 hardware_dir="hardware/icaro/"
 ruta_hardware=sys.path[0]+"/"+ hardware_dir+"modulos"
 conf=os.path.expanduser('~') + "/.icaro/conf/config.ini"
+#UTILIDADES es la clase que contiene las funciones para generar mensajes, carga de la conf .ini y 
+# recargar los archivos del firmware
 mens = UTILIDADES()
 
 if os.path.exists(ruta_hardware):

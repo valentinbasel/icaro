@@ -22,21 +22,23 @@
 #  
 import gtk
 import util
+from utilidades_ventana import UTILIDADES
 class MENU_CONF:
 
     """ Class doc """
     def __init__(self,conf_dir):
+        Util=UTILIDADES()
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.connect('delete_event', self.close)
-        self.conf_cfg=util.carga_conf(conf_dir)
+        self.conf_cfg=Util.carga_conf(conf_dir)
         secciones=self.conf_cfg.sections()
         vbox_central=gtk.VBox(False,2)
         hbox_central=gtk.HBox(False,0)
         notebook = gtk.Notebook()
         self.AplicarBoton = gtk.Button()
         self.AplicarBoton.set_label("Aplicar")
-        
+        self.conf_dir=conf_dir
         self.SalirBoton = gtk.Button()
         self.SalirBoton.set_label("Salir")
         self.SalirBoton.connect('clicked',self.close)
@@ -44,6 +46,7 @@ class MENU_CONF:
         #self.AplicarBoton.set_label("Aplicar")
         self.AplicarBoton.connect('clicked', self.aplicar)
         self.texts=[]
+
         for secc in secciones:
             label=gtk.Label(secc)
             frame = gtk.Frame(secc)
@@ -54,7 +57,7 @@ class MENU_CONF:
                 label_secc=gtk.Label(op)
                 text=gtk.Entry()
                 text.set_text(self.conf_cfg.get(secc,op))
-                self.texts.append(text)
+                self.texts.append([secc,op,text])
                 hbox=gtk.HBox(False, 0)
                 hbox.pack_start(label_secc, False, True, 5)
                 hbox.pack_start(text, False, True, 5)
@@ -72,4 +75,7 @@ class MENU_CONF:
         #gtk.main_quit()
         self.window.hide()
     def aplicar(self,arg):
-        print "hola"
+        for datos in self.texts:
+            print datos[2].get_text()
+            self.conf_cfg.set(datos[0],datos[1],datos[2].get_text())
+        self.conf_cfg.write(open(self.conf_dir,'w'))

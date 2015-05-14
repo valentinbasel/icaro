@@ -55,10 +55,7 @@ class tool_compilador:
             i= util.compilar("main",self.cfg,dir_conf)
             #i = carga.compilar_pic("main", self.cfg)
             if i == 1:
-                self.mensajes(0, ("no se encuentra el compilador sdcc en" +
-                                    " la ruta " + self.config[0] +
-                                    " . Pruebe configurar el archivo" +
-                                    " config.ini y corregirlo"))
+                self.mensajes(0, "no se encuentra el compilador sdcc en. Pruebe configurar el archivo config.ini y corregirlo")
             if i == 0:
                 self.mensajes(3, "la compilacion fue exitosa")
             else:

@@ -68,8 +68,7 @@ class UTILIDADES:
                 return False
 
     def recarga_conf(self,icaro_dir,visual):
-        # esto hay que revizarlo porque esta muy hardcodeado
-        # aparte deberia usar tambien icaro_dir para poder tomar el firmware desde hardware/icaro/pic16
+
         dir_firm = os.path.expanduser('~') + "/.icaro/firmware/"
         dir_conf = os.path.expanduser('~') + "/.icaro/conf/"
         np05 = sys.path[0]+"/"+icaro_dir+"micro/firmware"

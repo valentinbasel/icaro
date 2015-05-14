@@ -143,11 +143,13 @@ def buscar_bus():
     np05 = False
     buses = usb.busses()
     for bus in buses:
+        print bus
         for device in bus.devices:
+            print "|----> ",device
             if device.idVendor == vendor and device.idProduct == product:
                 np05 = device
                 return np05
     if np05 == None:
-        # print "no esta el pic"
+        print "no esta el pic"
         return False
     return False

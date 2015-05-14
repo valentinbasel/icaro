@@ -102,6 +102,7 @@ class fondo(MotorCairo, Componentes):
         self.band = 1
         # img representa el nombre y la ruta del archivo que contiene la imagen
         self.img = cadena
+        print cadena
 
     def update(self):
         """
@@ -109,14 +110,20 @@ class fondo(MotorCairo, Componentes):
         el fondo de la imagen y evitar qeu los bloques dejen un rastro en la
         pantalla, o para actualizar la imagen de fondo
         """
+        self.ff = ventana_principal.area.window.cairo_create()
+        rgb = self.color(fon.FONDO)
+        self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
+        self.ff.paint()
+        #self.cr = self.area.window.cairo_create()
+        self.zoom(ventana_principal.z, ventana_principal.cr)
 
-        self.mouse_puntero.update()
         if self.band == 1:
             if os.path.exists(self.img):
                 cr2 = ventana_principal.area.window.cairo_create()
-                respuesta = self.imagen(self.img, 0, 0, cr2)
+                respuesta = self.imagen(str(self.img), 0, 0, cr2)
                 if respuesta == 1:
                     self.band = 0
+        self.mouse_puntero.update()
 
 class crear_comp:
     def __init__():
@@ -737,12 +744,7 @@ class Ventana(crear_comp,tool_compilador,UTILIDADES):
         return True
 
     def update(self):
-        self.ff = self.area.window.cairo_create()
-        rgb = fon.color(fon.FONDO)
-        self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
-        self.ff.paint()
         self.cr = self.area.window.cairo_create()
-        self.fondo.zoom(self.z, self.cr)
         self.fondo.update()
         if fon.objetos_datos > 0:
             for dat in fon.objetos_datos:
@@ -863,7 +865,9 @@ class Ventana(crear_comp,tool_compilador,UTILIDADES):
             print "guardo la func"
             self.guardar(None,1)
         if string == _("Examples"):
-            self.abrir(sys.path[0] + "/ejemplos")
+            cadena_ejemp=sys.path[0] + "/"+self.icaro_dir+ "ejemplos"
+            print cadena_ejemp
+            self.abrir(cadena_ejemp)
         if string == _("Background"):
             dialog = gtk.FileChooserDialog(
                                             "Open..",
@@ -877,11 +881,17 @@ class Ventana(crear_comp,tool_compilador,UTILIDADES):
                                                 )
                                             )
             dialog.set_default_response(gtk.RESPONSE_OK)
+            filter = gtk.FileFilter()
+            filter.set_name("png")
+            filter.add_pattern("*.png")
+            dialog.add_filter(filter)
+
             response = dialog.run()
             cadena = dialog.get_filename()
             if response == gtk.RESPONSE_OK:
                 try:
                     self.fondo.carga_img(cadena)
+                    dialog.destroy()
                 except Exception, ex:
                     self.mensajes(2, "archivo no valido")
 
