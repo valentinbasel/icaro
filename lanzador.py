@@ -43,7 +43,7 @@ def preparar_icaro():
 # con otros sistemas
 
 hardware_dir="hardware/icaro/"
-ruta_hardware=sys.path[0]+"/"+ hardware_dir+"modulos"
+ruta_hardware=sys.path[0] + "/" + hardware_dir + "modulos"
 conf=os.path.expanduser('~') + "/.icaro/conf/config.ini"
 #UTILIDADES es la clase que contiene las funciones para generar mensajes, carga de la conf .ini y 
 # recargar los archivos del firmware
