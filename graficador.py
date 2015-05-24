@@ -98,7 +98,12 @@ class VENTANA:
             self.s = socket.socket()
             host = socket.gethostname()
             port = 9999
-            self.s.connect((host, port))
+            try:
+                self.s.connect((host,port))
+            except Exception, e:
+                raise e
+                print "no se pudo conectar al puerto"
+            #self.s.connect((host, port))
         else:
             widget.set_label("conectar")
             try:
@@ -109,8 +114,13 @@ class VENTANA:
     def salgo(self, b):
         print "salir"
         # exit()
-        self.s.send("cerrar")
-        self.s.close
+        try:
+           self.s.send("cerrar")
+           self.s.close
+             
+        except Exception, e:
+            raise e
+            print "no esta conectado"
         self.window.hide()
 
     def FONDO(self):

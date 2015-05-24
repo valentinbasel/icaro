@@ -203,7 +203,7 @@ def main():
     conf=os.path.expanduser('~') + "/.icaro/conf/config.ini"
     mens=UTILIDADES()
     cfg=mens.carga_conf(conf)
-    turtleart_ruta=cfg.get("general","turtle")
+    turtleart_ruta=cfg.get("general","turtlear")
     
 
     pyt = ["Lanza la teminal interactiva ",

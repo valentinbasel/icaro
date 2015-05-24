@@ -88,17 +88,21 @@ def compilar(nombre, cfg, dir_conf):
 def linker(nombre, cfg):
     # Cargo las opciones de enlace de archivos .o
 
+    home_usuario=obtener_path_usuario()
     sdcc_ini = cfg.get("general","sdcc")
     op = cargo_opciones_cfg(cfg, "upload")
     # compruebo si esta sdcc
     comp_sdcc= comprobar_sdcc(cfg.get("general","sdcc"))
     if comp_sdcc==1:
         return 1   
+    #op_final=op.replace("~",home_usuario)
     up = str(sdcc_ini + " " +
              cfg.get("upload", "hex") + nombre + ".hex " +
              " " + op + " " +
              cfg.get("upload", "obj") + nombre + ".o ")
-    i = os.system(up)
+    up_final=up.replace("~",home_usuario)
+    print "cadena linker: ",up_final
+    i = os.system(up_final)
     return i
 
 
