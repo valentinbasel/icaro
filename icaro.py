@@ -327,7 +327,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.icaro_dir = icaro_dir
         arch = open(sys.path[0] + "/version", "r")
         version = arch.readline()
-        
+
         creditos.Info.version = version
         self.carga_conf_ventana()
         # declaro la ventana principal
@@ -336,8 +336,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         # declaro la tabla  donde van los botones para el menu de bloques
         # box1 es el contenedor principal despues de la ventana
         self.window1 = gtk.Window()
-        
-        titulo="icaro "+ version.strip("\n\r")
+
+        titulo = "icaro " + version.strip("\n\r")
         self.window1.set_title(titulo)
         toolbar = gtk.Toolbar()
         self.area = gtk.DrawingArea()

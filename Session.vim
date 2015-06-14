@@ -47,7 +47,7 @@ set textwidth=100
 set viminfo='20,\"50
 set visualbell
 set wildignore=*.pyc
-set window=41
+set window=38
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
@@ -186,7 +186,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 46 - ((10 * winheight(0) + 20) / 41)
+let s:l = 46 - ((9 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -307,7 +307,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 41 - ((40 * winheight(0) + 20) / 41)
+let s:l = 41 - ((37 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -428,7 +428,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 59 - ((13 * winheight(0) + 20) / 41)
+let s:l = 59 - ((12 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -549,7 +549,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 105 - ((38 * winheight(0) + 20) / 41)
+let s:l = 105 - ((35 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -670,7 +670,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 58 - ((9 * winheight(0) + 20) / 41)
+let s:l = 58 - ((8 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -791,11 +791,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 49 - ((0 * winheight(0) + 20) / 41)
+let s:l = 44 - ((19 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-49
+44
 normal! 0
 tabedit icaro/workspace/icaro/main.py
 set splitbelow splitright
@@ -912,12 +912,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 52 - ((40 * winheight(0) + 20) / 41)
+let s:l = 30 - ((15 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 046|
+30
+normal! 010|
 tabedit icaro/workspace/icaro/icaro.py
 set splitbelow splitright
 set nosplitbelow
@@ -975,7 +975,7 @@ setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=2
+setlocal iminsert=0
 setlocal imsearch=0
 setlocal include=s*\\(from\\|import\\)
 setlocal includeexpr=substitute(v:fname,'\\.','/','g')
@@ -1033,12 +1033,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 268 - ((40 * winheight(0) + 20) / 41)
+let s:l = 53 - ((8 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-268
-normal! 046|
+53
+normal! 017|
 tabedit icaro/workspace/icaro/config_menu.py
 set splitbelow splitright
 set nosplitbelow
@@ -1154,13 +1154,13 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 16 - ((0 * winheight(0) + 20) / 41)
+let s:l = 28 - ((12 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-16
-normal! 0
-tabnext 6
+28
+normal! 016|
+tabnext 9
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
