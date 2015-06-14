@@ -49,11 +49,14 @@ class Cargador(threading.Thread):
         def cancelar(self, b):
             print "salgo"
             self.vivo = False
+            docker.buscar_bus_docker=False
             self.win.hide()
 
         def run(self):
             a = 1
             dir_conf = util.obtener_path_usuario() + "/.icaro/firmware"
+
+            docker.buscar_bus_docker=True
             while self.vivo:
                 
                 print "sigo vivo ",a
