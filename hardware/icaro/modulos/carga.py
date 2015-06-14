@@ -18,6 +18,7 @@ import gtk
 import util
 import sys
 
+
 class Cargador(threading.Thread):
 
         def __init__(self, ruta):
@@ -26,7 +27,8 @@ class Cargador(threading.Thread):
             self.win.set_resizable(False)
             self.win.set_default_size(600, 600)
             box1 = gtk.VBox(False, 3)
-            pixbufanim = gtk.gdk.PixbufAnimation(sys.path[0]+"/hardware/icaro/imagenes/gif/icr.gif")
+            pixbufanim = gtk.gdk.PixbufAnimation(
+                sys.path[0] + "/hardware/icaro/imagenes/gif/icr.gif")
             image = gtk.Image()
             image.set_from_animation(pixbufanim)
             image.show()
@@ -49,17 +51,17 @@ class Cargador(threading.Thread):
         def cancelar(self, b):
             print "salgo"
             self.vivo = False
-            docker.buscar_bus_docker=False
+            docker.buscar_bus_docker = False
             self.win.hide()
 
         def run(self):
             a = 1
             dir_conf = util.obtener_path_usuario() + "/.icaro/firmware"
 
-            docker.buscar_bus_docker=True
+            docker.buscar_bus_docker = True
             while self.vivo:
-                
-                print "sigo vivo ",a
+
+                print "sigo vivo ", a
                 i = docker.docker(dir_conf + "/temporal/" + self.ruta + ".hex")
                 time.sleep(1)
                 a = a + 1

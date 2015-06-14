@@ -6,7 +6,7 @@
 
 class Info:
     name = "icaro-bloques"
-    version = "beta"
+    version = ""
     copyright = "Copyright © 2012 Valentin Basel."
     authors = ["Valentin Basel - valetinbasel@gmail.com"]
     documenters = [

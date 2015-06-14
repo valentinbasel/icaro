@@ -25,9 +25,8 @@ if gtk.pygtk_version < (2, 10, 0):
 import gtksourceview2
 import pango
 import sys
-icaro_dir="hardware/icaro/"
-sys.path.append(icaro_dir+"modulos")
-
+icaro_dir = "hardware/icaro/"
+sys.path.append(icaro_dir + "modulos")
 
 
 class visor_codigo():
@@ -37,7 +36,7 @@ class visor_codigo():
         lm = gtksourceview2.LanguageManager()
         self.buffer = gtksourceview2.Buffer()
         self.buffer.set_data('languages-manager', lm)
-        
+
         view = gtksourceview2.View(self.buffer)
         view.set_show_line_numbers(True)
         self.ventana = ventana
@@ -54,7 +53,6 @@ class visor_codigo():
         sw.set_shadow_type(gtk.SHADOW_IN)
         sw.add(view)
         vbox.pack_start(sw, fill=True, expand=True)
-
 
         vbox.show_all()
         # main loop
@@ -131,7 +129,7 @@ class visor_codigo():
             file = open(cadena, "w")
             file.writelines(cadena2)
             file.close()
-            i= util.compilar("main",self.ventana.cfg,dir_conf)
+            i = util.compilar("main", self.ventana.cfg, dir_conf)
 
             #i = carga.compilar_pic("main", self.ventana.cfg)
             if i == 0:

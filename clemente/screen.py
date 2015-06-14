@@ -23,7 +23,8 @@
 
 import socket
 import threading
-     
+
+
 class PANTALLA(threading.Thread):
 
     """esta clase es para manejar el servidor, recibo un texto desde el teclado
@@ -55,8 +56,8 @@ class PANTALLA(threading.Thread):
 
     def run(self):
         """docstring for inicio_pantalla"""
-        self.flag=True
-        while(self.flag==True):
+        self.flag = True
+        while(self.flag == True):
             valor = raw_input("ingrese un comando para el servidor: ")
             if valor == "quit":
                 # por alguna razon, cuando trato de salir, se queda colgado, hasta
@@ -75,5 +76,6 @@ class PANTALLA(threading.Thread):
                 print self.servidor.lista_cli
             if valor == "dat":
                 print self.servidor.datos
+
     def stop(self):
-        self.flag=False
+        self.flag = False

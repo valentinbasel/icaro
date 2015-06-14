@@ -49,7 +49,8 @@ SECTION_DESCRIPTOR_CMD = 5
 
 vendor = int("0x04D8", 16)
 product = int("0xFEAA", 16)
-buscar_bus_docker=True
+buscar_bus_docker = True
+
 
 def borrar(adresse, manejador):
     leerbyte0 = ERASE_FLASH_CMD
@@ -115,9 +116,9 @@ def docker(archivo):
     np05 = False
     while np05 == False:
         np05 = buscar_bus()
-        if buscar_bus_docker==False:
+        if buscar_bus_docker == False:
             return 0
-        #print np05
+        # print np05
         # print "veo si esta prendido el pic"
 
     try:
@@ -146,13 +147,13 @@ def buscar_bus():
     np05 = False
     buses = usb.busses()
     for bus in buses:
-        #print bus
+        # print bus
         for device in bus.devices:
-            #print "|----> ",device
+            # print "|----> ",device
             if device.idVendor == vendor and device.idProduct == product:
                 np05 = device
                 return np05
     if np05 == False:
-        #print "no esta el pic"
+        # print "no esta el pic"
         return False
     return False

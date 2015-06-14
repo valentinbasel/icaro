@@ -32,7 +32,8 @@ import gtk
 from motor import MotorCairo
 from utilidades_ventana import UTILIDADES
 
-class VentanaGtk(MotorCairo,UTILIDADES):
+
+class VentanaGtk(MotorCairo, UTILIDADES):
 
     """ Class doc """
     botones = []
@@ -55,7 +56,6 @@ class VentanaGtk(MotorCairo,UTILIDADES):
         self.window.add(self.area)
         self.window.show_all()
         self.yatocado = False
-
 
     def move_cb(self, event, b):
         self.mousexy = b.get_coords()
@@ -199,12 +199,10 @@ def comprobacion_errores(ventana):
 
 def main():
 
-        
-    conf=os.path.expanduser('~') + "/.icaro/conf/config.ini"
-    mens=UTILIDADES()
-    cfg=mens.carga_conf(conf)
-    turtleart_ruta=cfg.get("general","turtlear")
-    
+    conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
+    mens = UTILIDADES()
+    cfg = mens.carga_conf(conf)
+    turtleart_ruta = cfg.get("general", "turtlear")
 
     pyt = ["Lanza la teminal interactiva ",
            "con el modulo apicaro.",

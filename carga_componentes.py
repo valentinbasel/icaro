@@ -28,16 +28,15 @@ import os
 import sys
 
 
-
-
 class DICC:
 
     """ Class doc """
 
-    def __init__(self,path,datos_path):
+    def __init__(self, path, datos_path):
         """ Class initialiser """
-        self.path =path
+        self.path = path
         self.datos_path = datos_path
+
     def buscar_bloques(self):
         core = []
         grupo = []
@@ -61,8 +60,8 @@ class DICC:
             fila2 = []
             comps[mod1].sort()
             for mod2 in range(len(comps[mod1])):
-                dat= self.datos_path.replace("/",".")
-                clase = dat+"componentes.core." + \
+                dat = self.datos_path.replace("/", ".")
+                clase = dat + "componentes.core." + \
                     grupo[mod1] + "." + comps[mod1][mod2] + ".bloque"
                 obj = __import__(clase, fromlist=['CMP'])
                 instancia = obj.CMP()

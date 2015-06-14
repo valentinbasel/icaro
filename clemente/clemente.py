@@ -44,20 +44,21 @@ class SERVIDOR(threading.Thread):
 
     def __init__(self, terminal, ip="localhost", port=9999):
         """ inicializador de clase """
-        self.lista_cli=[0]
-        threading.Thread.__init__(self) 
+        self.lista_cli = [0]
+        threading.Thread.__init__(self)
         self.datos = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.flag = True
         self.threads = []
         self.ip = ip
         self.port = port
         self.terminal = terminal
+
     def run(self):
         try:
             self.serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            
+
             self.serv.bind((self.ip, self.port))
-            #self.serv.setblocking(0)
+            # self.serv.setblocking(0)
             print "estado del socket : ok"
             self.status = True
         except:
@@ -73,46 +74,46 @@ class SERVIDOR(threading.Thread):
             hilo_pantalla.setDaemon(True)
 
             hilo_pantalla.start()
-            #self.threads.append(hilo_pantalla)
+            # self.threads.append(hilo_pantalla)
         contador = 1
-        #self.threads.append(self.hilo_icr)
+        # self.threads.append(self.hilo_icr)
         self.serv.listen(5)
         while self.flag == True:
-            #try:
-            #self.serv.listen(5)
+            # try:
+            # self.serv.listen(5)
             socket_cliente, datos_cliente = self.serv.accept()
             hilo_icaro = CLIENTE(
-                                self, 
+                self,
                                 socket_cliente,
                                 "Cliente",
                                 contador,
                                 socket_cliente,
                                 datos_cliente
-                                )
+            )
             contador = contador + 1
             hilo_icaro.setDaemon(True)
 
             hilo_icaro.start()
             self.threads.append(hilo_icaro)
             self.lista_cli.append(hilo_icaro)
-            #except:
+            # except:
             #    print "paso algo"
             #    self.cerrar()
         print "sali del while del servidor"
         return 0
+
     def cerrar(self):
             self.flag = False
             self.serv.close()
-            #print "cerrando el socket"
-            #for t in self.threads:
+            # print "cerrando el socket"
+            # for t in self.threads:
             #    t.stop()
-                #t._Thread__stop()
-            #self.hilo_icr.stop()
-            #self.hilo_icr._Thread__stop()
+                # t._Thread__stop()
+            # self.hilo_icr.stop()
+            # self.hilo_icr._Thread__stop()
             print "saliendo del main Thread"
             pid = os.getpid()
-            os.kill(pid,9)  
-
+            os.kill(pid, 9)
 
             # cuando se cierra el socket, puede suceder que tenga
             # que esperar unos segundos antes de reiniciar
@@ -121,7 +122,7 @@ class SERVIDOR(threading.Thread):
 
 
 def main():
-    if len(sys.argv)>0:
+    if len(sys.argv) > 0:
         print sys.argv
     s = SERVIDOR(True)
     s.run()

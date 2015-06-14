@@ -13,7 +13,9 @@
 
 import forma_basica
 
+
 class componente_inicial():
+
     """
     el componente inicial no tiene conector hembra porque SIEMPRE va a
     a tener el ide=0
@@ -41,29 +43,37 @@ class componente_inicial():
         self.ventana = ventana
         self.fondo.lista_ordenada.append(0)
         self.color_texto = self.fondo.color_texto
-        self.cuerpo=""
-        lin1 =self.fondo.crear_nodo_linea(forma_basica.lin1[0],forma_basica.lin1[1])
-        lin2 =self.fondo.crear_nodo_linea(forma_basica.lin2[0],forma_basica.lin2[1])
-        lin3 =self.fondo.crear_nodo_linea(forma_basica.lin3[0],forma_basica.lin3[1])
-        lin4 =self.fondo.crear_nodo_linea(forma_basica.lin4[0],forma_basica.lin4[1])
-        lin5 =self.fondo.crear_nodo_linea(forma_basica.lin5[0],forma_basica.lin5[1])
-        lin6 =self.fondo.crear_nodo_linea(forma_basica.lin6[0],forma_basica.lin6[1])
-        lin8 =self.fondo.crear_nodo_linea(forma_basica.lin8[0],forma_basica.lin8[1])
-        self.cuerpo=(lin1 + 
-                    forma_basica.nodo_esq_ar_der + 
-                    lin2 + 
-                    lin3 + 
-                    forma_basica.nodo_esq_ab_der + 
-                    lin4 + 
-                    forma_basica.nodo_macho + 
-                    lin5 + 
-                    forma_basica.nodo_esq_ab_izq +
-                    lin6 +
-                    lin8 +
-                    forma_basica.nodo_esq_ar_izq)
+        self.cuerpo = ""
+        lin1 = self.fondo.crear_nodo_linea(
+            forma_basica.lin1[0], forma_basica.lin1[1])
+        lin2 = self.fondo.crear_nodo_linea(
+            forma_basica.lin2[0], forma_basica.lin2[1])
+        lin3 = self.fondo.crear_nodo_linea(
+            forma_basica.lin3[0], forma_basica.lin3[1])
+        lin4 = self.fondo.crear_nodo_linea(
+            forma_basica.lin4[0], forma_basica.lin4[1])
+        lin5 = self.fondo.crear_nodo_linea(
+            forma_basica.lin5[0], forma_basica.lin5[1])
+        lin6 = self.fondo.crear_nodo_linea(
+            forma_basica.lin6[0], forma_basica.lin6[1])
+        lin8 = self.fondo.crear_nodo_linea(
+            forma_basica.lin8[0], forma_basica.lin8[1])
+        self.cuerpo = (lin1 +
+                       forma_basica.nodo_esq_ar_der +
+                       lin2 +
+                       lin3 +
+                       forma_basica.nodo_esq_ab_der +
+                       lin4 +
+                       forma_basica.nodo_macho +
+                       lin5 +
+                       forma_basica.nodo_esq_ab_izq +
+                       lin6 +
+                       lin8 +
+                       forma_basica.nodo_esq_ar_izq)
 
-    def dibujar(self):      
-        self.fondo.render_svg(self.ventana.cr,self.cuerpo,self.color,self.posicion[0]+50,self.posicion[1])
+    def dibujar(self):
+        self.fondo.render_svg(
+            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 50, self.posicion[1])
         self.fondo.texto("inicio", self.posicion[0] + 25, self.posicion[
                          1] + 40, self.color_texto, self.ventana.cr)
 

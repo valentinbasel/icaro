@@ -29,6 +29,7 @@ import apicaro
 import socket
 import os
 
+
 class VENTANA:
 
     """ Class doc """
@@ -60,18 +61,18 @@ class VENTANA:
         self.eciclos.set_digits(0)
         self.eciclos.set_size_request(35, 160)
         #self.servidor = gtk.Button("iniciar servidor")
-        #self.servidor.connect("clicked",self.inicio_server)
+        # self.servidor.connect("clicked",self.inicio_server)
         self.start = gtk.ToggleButton(label="incio", use_underline=True)
         #self.conectar = gtk.ToggleButton(label="conectar", use_underline=True)
-        self.start.connect("clicked",self.con)
+        self.start.connect("clicked", self.con)
         salir = gtk.Button(label="salir")
         salir.connect("clicked", self.salgo)
         for row in range(0, 8):
             table.attach(self.sensorcheck[row], 0, 1, row * 2, row * 2 + 1)
         #table.attach(self.eciclos, 0, 1, 16, 17)
         #table.attach(lciclos, 0, 1, 18, 19)
-        #table.attach(self.servidor,0,1,18,19) 
-        #table.attach(self.conectar,0,1,20,21)
+        # table.attach(self.servidor,0,1,18,19)
+        # table.attach(self.conectar,0,1,20,21)
         table.attach(self.start, 0, 1, 22, 23)
         table.attach(salir, 0, 1, 24, 25)
         frame2.add(table)
@@ -84,7 +85,7 @@ class VENTANA:
         self.y = 100
         self.snds = [[], [], [], [], [], [], [], [], []]
         #self.icaro = apicaro.puerto()
-        #self.icaro.iniciar()
+        # self.icaro.iniciar()
         self.tipo_letra = "sans"
         self.tama_letra = 12
         gobject.idle_add(self.timeout)
@@ -92,14 +93,14 @@ class VENTANA:
    # def inicio_server(self,widget):
    #     os.system("python clemente/clemente.py&")
 
-    def con(self,widget):
+    def con(self, widget):
         if widget.get_active():
             widget.set_label("conectado")
             self.s = socket.socket()
             host = socket.gethostname()
             port = 9999
             try:
-                self.s.connect((host,port))
+                self.s.connect((host, port))
             except Exception, e:
                 raise e
                 print "no se pudo conectar al puerto"
@@ -115,9 +116,9 @@ class VENTANA:
         print "salir"
         # exit()
         try:
-           self.s.send("cerrar")
-           self.s.close
-             
+            self.s.send("cerrar")
+            self.s.close
+
         except Exception, e:
             raise e
             print "no esta conectado"
@@ -154,10 +155,10 @@ class VENTANA:
         self.cuadricula2 = self.area.window.cairo_create()
         self.cuadricula.set_source_rgb(0, 0, 0)
         self.cuadricula.set_line_width(0.1)
-        cad=[]
+        cad = []
 
         for a in range(10):
-            cad.append(int(102.3*a))
+            cad.append(int(102.3 * a))
 
         cad.reverse()
         for a in range(1, 10):
@@ -168,7 +169,7 @@ class VENTANA:
             self.cuadricula2.move_to(x - 10, y * a)
             self.cuadricula2.line_to(x + 15, y * a)
             # revizar, los valores no coinciden con lo que hace la placa
-            #self.texto(
+            # self.texto(
             #    str(cad[a-1]), x - 40, y * a, (0, 0, 0), self.cuadricula)
 
             for b in range(0, 5):
@@ -215,9 +216,10 @@ class VENTANA:
             #~ for a in range(2):
                 #~ y[sensor]=self.icaro.leer_analogico(sensor)
 
-            self.snds[sensor].append((self.x, 500 - int(y[sensor])*450/1023 ))
+            self.snds[sensor].append(
+                (self.x, 500 - int(y[sensor]) * 450 / 1023))
         #~ time.sleep(0.2)
-        #print y
+        # print y
 #
         self.x += 10
         self.cr.move_to(50, 500)

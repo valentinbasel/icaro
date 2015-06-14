@@ -65,7 +65,7 @@ class ICR(threading.Thread):
             return False
 
     def actualizar(self, band):
-        
+
         if self.band == True:
             try:
                 cadena = ""
