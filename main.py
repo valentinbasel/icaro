@@ -173,7 +173,7 @@ def comprobacion_errores(ventana,mens):
     if Error == 1:
         CadenaMensaje = CadenaMensaje + CadenaScript
         ventana.mensajes(2, CadenaMensaje)
-        return 1
+        
     dir_conf = os.path.expanduser('~') + "/.icaro"
     if os.path.isdir(dir_conf) == 0:
         #os.mkdir(dir_conf)
