@@ -1,9 +1,7 @@
 import gtk
-import os
 import time
 import socket               # Import socket module
 from clemente.clemente import SERVIDOR
-import threading
 
 
 class GUI:

@@ -41,5 +41,5 @@ class CMP:
                     "dato2": 1,
                     "valor": self.valor
         }
-        self.tootips = "Espera una seria de microsegundos antes de pasar a la siguiente instrucción. Codigo C: Delayms(valor);"
+        self.tootips = "Espera una seria de microsegundos antes de pasar a la siguiente instrucción."
         self.img = ""

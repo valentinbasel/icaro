@@ -23,12 +23,8 @@
 
 
 import time
-import socket
 import threading
 import usb
-import os
-import sys
-import logging
 
 
 class ICR(threading.Thread):
@@ -44,7 +40,6 @@ class ICR(threading.Thread):
         self.status = False
 
     def conexion(self):
-        ENDPOINT_OUT = 0x01
         pingu = False
         try:
             busses = usb.busses()

@@ -64,7 +64,6 @@ class Componentes():
 
     def __init__(self):
         """ Class initialiser """
-        pass
 
 # ========================================================================
 # FONDO
@@ -464,40 +463,21 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         notebook.set_tab_pos(gtk.POS_RIGHT)
         label = gtk.Label(self.diccionario[self.lista[0]][1])
         notebook.append_page(table, label)
-        buffer_boton = self.diccionario[self.lista[1]][0]
-        caja = self.imagen_boton(
-            self.diccionario[self.lista[1]][0],
-            self.diccionario[self.lista[1]][0]
-        )
         button = gtk.RadioButton()
-        if self.tooltip.has_key(self.diccionario[self.lista[1]][0]):
-            val = self.tooltip[self.diccionario[self.lista[1]][0]]
-            button.set_tooltip_text(val)
-        # bucle principal donde se cargan los RAdioButton donde se cargan
-        # los componentes del diccionario
-        button.add(caja)
-        button.connect("clicked", self.botones, self.lista[1])  # buffer
-        button.show()
-        table.pack_start(button, False, True, 0)
-        for i in range(2, len(self.lista)):
+        ## aca cargo los datos de cada bloque ##
+        for i in range(1, len(self.lista)):
             if self.diccionario[self.lista[i]][0] == "notebook":
                 table = gtk.VBox(False, len(self.lista))
                 label = gtk.Label(self.diccionario[self.lista[i]][1])
                 notebook.append_page(table, label)
             else:
-                buffer_boton = self.diccionario[self.lista[i]][0]
+                self.diccionario[self.lista[i]][0]
                 caja = self.imagen_boton(
                     self.diccionario[self.lista[i]][0],
                     self.diccionario[self.lista[i]][0]
                 )
                 button = gtk.RadioButton(button)
-                if self.tooltip.has_key(
-                    self.diccionario[self.lista[i]][0]
-                ):
-                    tool = self.tooltip[
-                        self.diccionario[self.lista[i]][0]
-                    ]
-                    button.set_tooltip_text(tool)
+                button.set_tooltip_text(self.diccionario[self.lista[i]][6])
                 button.add(caja)
                 button.connect("clicked", self.botones, self.lista[i])
                 table.pack_start(button, False, True, 0)
@@ -814,7 +794,6 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             self.AccesosDirectos(self.dicc_accesos_directos[event.keyval])
 
     def AccesosDirectos(self, evento):
-        identificador = 0
         if evento == "f1":
             self.MenuRespuesta(1)
         if evento == "f2":
@@ -988,6 +967,13 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 tupla.append(cmp.dicc["color"])
                 tupla.append(str(cmp.dicc["dato"]))
                 tupla.append(str(cmp.dicc["dato2"]))
+                datos_cod_fuente=""
+                if cmp.dicc["componente"]==1 or cmp.dicc["componente"]==5:
+                    for dato_cod_fuente in cmp.valor:
+                        datos_cod_fuente=datos_cod_fuente+dato_cod_fuente
+                if cmp.dicc["componente"]==6 or cmp.dicc["componente"]==5:
+                    datos_cod_fuente=str(cmp.dicc["dato2"])
+                tupla.append(str(cmp.tootips)+"\ncodigo fuente:\n "+datos_cod_fuente)
                 self.valor_datos_comp[cmp.dicc["nombre"]] = cmp.valor
                 self.diccionario[q] = tupla
                 q += 1

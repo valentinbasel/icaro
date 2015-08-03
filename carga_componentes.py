@@ -25,7 +25,6 @@
 
 #import glob
 import os
-import sys
 
 
 class DICC:

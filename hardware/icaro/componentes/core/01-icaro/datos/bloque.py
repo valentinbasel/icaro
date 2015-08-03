@@ -39,5 +39,5 @@ class CMP:
             "dato2": 1,
             "valor": self.valor
         }
-        self.tootips = ""
+        self.tootips = "Bloque para poder editar y poner cualquier valor adentro."
         self.img = ""

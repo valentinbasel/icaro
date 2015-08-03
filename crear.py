@@ -12,19 +12,15 @@
 # GNU General Public License for more details.
 
 import os
-import sys
 
 # revizar parseador, reescribir
 
 
 def parseador(lista, argumentos, texto, fondo, ventana):
-    cadena = []
-    valor = []
     parser_final = ""
     n = 0
-    xml = "<" + texto.strip(' ') + ">"
-    xmlfin = "</" + texto.strip(' ') + ">"
-    b = 0
+    "<" + texto.strip(' ') + ">"
+    "</" + texto.strip(' ') + ">"
     # print ventana.valor_datos_comp[texto]
     for txt in ventana.valor_datos_comp[texto]:
         if txt == "valor" and argumentos <> 0:
@@ -103,7 +99,6 @@ def crear_archivo(fondo, ventana):
 
 def funcion(fondo, ventana, ruta):
     cadena_funcion = []
-    cadena_final = []
 #    f = open(sys.path[0] + "/diccionario.xml", "r")
     #cadena = f.readlines()
     # for a in cadena:

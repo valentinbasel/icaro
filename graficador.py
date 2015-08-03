@@ -27,7 +27,6 @@ import gobject
 import cairo
 import apicaro
 import socket
-import os
 
 
 class VENTANA:
@@ -55,7 +54,7 @@ class VENTANA:
         self.sensorcheck.append(gtk.CheckButton(label="sensor 7"))
         self.sensorcheck.append(gtk.CheckButton(label="sensor 8"))
 
-        lciclos = gtk.Label("ciclos")
+        gtk.Label("ciclos")
         self.eciclos = gtk.VScale()
         self.eciclos.set_range(1, 1000)
         self.eciclos.set_digits(0)

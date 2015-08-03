@@ -24,7 +24,6 @@
 import sys
 import os
 import grp
-import shutil
 #import urllib
 #import tarfile
 import gtk

@@ -39,5 +39,7 @@ class CMP:
                     "dato2": "0",
                     "valor": self.valor
         }
-        self.tootips = ""
+        self.tootips = "Pone 0V los bornes para motores CC"
+        self.pines=["p8","p9"]
+
         self.img = ""

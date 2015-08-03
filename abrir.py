@@ -29,14 +29,14 @@ def abrir(diccio, ruta, fon, ventana):
     fon.lista_ordenada = fon_lto
     # print fon.lista_ordenada
     for obj_dato in range(lista_auxiliar[0]):
-        obj_ide = pickle.load(file)
+        pickle.load(file)
         obj_pos = pickle.load(file)
         obj_txt = pickle.load(file)
         obj_col = pickle.load(file)
         obj_mod = pickle.load(file)
         obj_vnm = pickle.load(file)
-        obj_cdi = pickle.load(file)
-        obj_cdf = pickle.load(file)
+        pickle.load(file)
+        pickle.load(file)
         obj_img = pickle.load(file)
         obj_tip = pickle.load(file)
         obj_mod = pickle.load(file)
@@ -76,9 +76,9 @@ def abrir(diccio, ruta, fon, ventana):
 
         if obj_tip == 1:
             obj_pos = pickle.load(file)
-            obj_imi = pickle.load(file)
+            pickle.load(file)
             obj_arg = pickle.load(file)
-            obj_ide = pickle.load(file)
+            pickle.load(file)
             obj_col = pickle.load(file)
             obj_txt = pickle.load(file)
             obj_pga = pickle.load(file)
@@ -98,7 +98,7 @@ def abrir(diccio, ruta, fon, ventana):
             fon.objetos.append(c1)
             fon.tipo_obj.append(obj_tip)
         if obj_tip == 4:
-            obj_ide = pickle.load(file)
+            pickle.load(file)
             obj_pos = pickle.load(file)
             obj_pos2 = pickle.load(file)
             obj_col = pickle.load(file)
@@ -122,7 +122,7 @@ def abrir(diccio, ruta, fon, ventana):
             fon.tipo_obj.append(obj_tip)
             # fon.lista_ordenada.append(0)
         if obj_tip == 5:
-            obj_ide = pickle.load(file)
+            pickle.load(file)
             obj_pos = pickle.load(file)
             obj_col = pickle.load(file)
             obj_txt = pickle.load(file)

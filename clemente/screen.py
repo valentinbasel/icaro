@@ -21,7 +21,6 @@
 #  MA 02110-1301, USA.
 #
 
-import socket
 import threading
 
 

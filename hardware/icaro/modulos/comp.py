@@ -24,7 +24,6 @@
 # ========================================================================
 # FUNCIONES PARA COMPILAR Y CARGAR EL FIRMWARE
 # ========================================================================
-import sys
 import os
 import crear
 import util
@@ -68,7 +67,7 @@ class tool_compilador:
             self.ver.compilar(0)
 
     def upload(self, b):
-        resultado = 1
+        pass
         #dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
         i = util.linker("main", self.cfg)
         #i = carga.upload_pic("main", self.cfg)
@@ -78,7 +77,6 @@ class tool_compilador:
             return 0
 
     def comp_esp(self, b, datos):
-        resultado = 1
         comp = 1
         dir_conf = os.path.expanduser('~') + "/.icaro/firmware"
         i = util.compilar(datos, self.cfg, dir_conf)

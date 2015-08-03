@@ -21,13 +21,8 @@
 #  MA 02110-1301, USA.
 #
 
-import time
-import socket
 import threading
 import usb
-import os
-import sys
-import logging
 
 
 class CLIENTE(threading.Thread):
@@ -49,7 +44,7 @@ class CLIENTE(threading.Thread):
     def run(self):
         while self.flag == True:
             peticion = self.socket.recv(1024)
-            resp = self.analizar(peticion)
+            self.analizar(peticion)
 
     def stop(self):
         self.flag = False

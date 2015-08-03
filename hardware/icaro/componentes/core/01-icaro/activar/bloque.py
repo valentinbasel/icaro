@@ -41,5 +41,6 @@ class CMP:
             "dato2": 1,
             "valor": self.valor
         }
-        self.tootips = "Función para controlar el PORTB de la placa np05. envia un valor de 0 - 255 que se de multiplexa en 8 bits de los pines del puerto. Codigo C: PORTB=255-valor;"
+        self.tootips = "Función para controlar el PORTB de la placa np05. envia un valor de 0 - 255 que se de multiplexa en 8 bits de los pines del puerto."
         self.img = ""
+        self.pines = ["p1_0","p1_1","p1_2","p1_3","p1_4","p1_5","p1_6","p1_7"]

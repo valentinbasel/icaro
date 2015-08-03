@@ -181,7 +181,7 @@ class FormaSvg(object):
             self.tam_text * -1, 0)
         linea_bloque_mas = self.fondo.crear_nodo_linea(100, 0)
         linea_bloque_menos = self.fondo.crear_nodo_linea(-100, 0)
-        linea_correc_bloq = self.fondo.crear_nodo_linea(0, 1)
+        self.fondo.crear_nodo_linea(0, 1)
         cuerpo = (
             linea_bloque_mas + forma_basica.nodo_hembra +
                     self.lin1 + forma_basica.nodo_esq_ar_der +
@@ -202,7 +202,7 @@ class FormaSvg(object):
         linea_bloque_mas = self.fondo.crear_nodo_linea(90, 0)
         linea_bloque_menos1 = self.fondo.crear_nodo_linea(-10, 0)
         linea_bloque_menos = self.fondo.crear_nodo_linea(-90, 0)
-        linea_correc_bloq = self.fondo.crear_nodo_linea(0, 1)
+        self.fondo.crear_nodo_linea(0, 1)
         cuerpo = (
             forma_basica.nodo_hembra + linea_bloque_mas +
                     self.lin1 + forma_basica.nodo_esq_ar_der +
@@ -327,7 +327,7 @@ class ComponenteCentral(FormaSvg):
                     self.fondo.objetos_datos[i].pegado2 = 0
                     self.fondo.objetos_datos[i].pegado_a2 = 0
                 a = self.fondo.objetos.index(self)
-                ident = self.fondo.objetos[a].ide
+                self.fondo.objetos[a].ide
                 for i in range(len(self.fondo.objetos)):
                     self.fondo.objetos[i].pegado_a = 0
                     self.fondo.objetos[i].pegado = 0
@@ -615,7 +615,6 @@ class componente_cero_arg(FormaSvg):
         self.conector_m[1] = self.rectan2[1] + 65
 
     def update(self):
-        ban_a = 0
         posic_mouse = self.ventana.mousexy
         botones_mouse = self.ventana.boton_mouse
         self.rectan[0] = self.posicion[0]
@@ -682,7 +681,7 @@ class componente_cero_arg(FormaSvg):
                     self.fondo.objetos_datos[i].pegado2 = 0
                     self.fondo.objetos_datos[i].pegado_a2 = 0
                 a = self.fondo.objetos.index(self)
-                ident = self.fondo.objetos[a].ide
+                self.fondo.objetos[a].ide
                 for i in range(len(self.fondo.objetos)):
                     self.fondo.objetos[i].pegado_a = 0
                     self.fondo.objetos[i].pegado = 0
@@ -775,8 +774,6 @@ class comp_dat_arg(FormaSvg):
                               0] + 30, self.posicion[1] + 4, self.ventana.cr)
 
     def update(self):
-        ban_a = 0
-        cadena_auxiliar = ""
         posic_mouse = self.ventana.mousexy
         botones_mouse = self.ventana.boton_mouse
         # self.rectan es el rect
@@ -888,7 +885,7 @@ class comp_dat_arg(FormaSvg):
                 self.fondo.objetos_datos[i].pegado2 = 0
                 self.fondo.objetos_datos[i].pegado_a2 = 0
             a = self.fondo.objetos_datos.index(self)
-            ident = self.fondo.objetos_datos[a].ide
+            self.fondo.objetos_datos[a].ide
             self.fondo.objetos_datos.remove(self)
         self.rectan[0] = self.posicion[0]
         self.rectan[1] = self.posicion[1]
