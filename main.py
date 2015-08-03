@@ -131,7 +131,7 @@ class Boton():
         os.system(self.ejecuta)
 
 
-def comprobacion_errores(ventana):
+def comprobacion_errores(ventana,mens):
     Error = 0
     CadenaMensaje = "Se encontraron los siguientes errores: \n"
     MicrochipBool = "false"
@@ -173,33 +173,24 @@ def comprobacion_errores(ventana):
     if Error == 1:
         CadenaMensaje = CadenaMensaje + CadenaScript
         ventana.mensajes(2, CadenaMensaje)
-        exit()
-    dir_conf = os.path.expanduser('~') + "/.icaro/"
+        return 1
+    dir_conf = os.path.expanduser('~') + "/.icaro"
     if os.path.isdir(dir_conf) == 0:
-        os.mkdir(dir_conf)
+        #os.mkdir(dir_conf)
 
-  #  if os.path.isdir(dir_conf + "/firmware/") == 0:
-        #respuesta=men.mensajes(1,"no existe el firmware para icaro-bloques, ¿descargarlo?")
-        # print respuesta
-        # if respuesta==True:
-   #     try:
-            # archivo=urllib.urlretrieve("http://valentinbasel.fedorapeople.org/firmware/np05.tar.gz",dir_conf+"np05.tar.gz",None)
-            # tar=tarfile.open(dir_conf+"/np05.tar.gz","r:gz")
-            # tar.extractall(dir_conf)
-            # tar.close
-    #        shutil.copytree(
-     #           "/usr/share/icaro/pic16/np05", dir_conf + "/firmware/")
-      #  except:
-       #     ventana.mensajes(2, "no se pudo copiar el directorio")
-        #    exit()
-    #    shutil.copytree(sys.path[0]+"/temp/tmp/",dir_conf+"/tmp" )
-    #    shutil.copytree(sys.path[0]+"/temp/source/",dir_conf+"/source" )
+        hardware_dir = "hardware/icaro/"
+        mens.recarga_conf(hardware_dir, True)
+        exit(1)
 
 
 def main():
 
-    conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
     mens = UTILIDADES()
+    ventana = VentanaGtk()
+    comprobacion_errores(ventana,mens)
+    conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
+
+
     cfg = mens.carga_conf(conf)
     turtleart_ruta = cfg.get("general", "turtlear")
 
@@ -214,8 +205,8 @@ def main():
     idle = ("idle -c 'import apicaro;" +
             " icaro=apicaro.puerto(); icaro.iniciar()'"
             )
-    ventana = VentanaGtk()
-    comprobacion_errores(ventana)
+
+
     ventana.tama_letra = 20
     BotonTurtle = Boton(1,
                         ventana,

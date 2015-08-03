@@ -38,6 +38,22 @@ class UTILIDADES:
     def __init__(self):
         pass
 
+    def preparar_icaro(self,ruta,icr_dir,conf):
+        sys.path.append(ruta)
+        # busca el archivo .ini dentro de la carpeta firmware
+        if os.path.exists(conf):
+            from icaro import *
+            inicio(icr_dir)
+        else:
+            cad = "No se encontro el archivo de configuracion en la ruta " + conf
+            self.mensajes(0, cad)
+            resp = self.mensajes(
+                1, "¿desea volver a copiar el directorio el directorio del firmware?")
+            if resp == True:
+                a=self.recarga_conf(icr_dir, True)
+            else:
+                exit()
+
     def mensajes(self, num, mensa):
 
         tipo = (

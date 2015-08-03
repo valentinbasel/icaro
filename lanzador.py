@@ -26,22 +26,6 @@ import os
 from utilidades_ventana import UTILIDADES
 
 
-def preparar_icaro():
-    sys.path.append(ruta_hardware)
-    # busca el archivo .ini dentro de la carpeta firmware
-    if os.path.exists(conf):
-        from icaro import *
-        inicio(hardware_dir)
-    else:
-        cad = "No se encontro el archivo de configuracion en la ruta " + conf
-        mens.mensajes(0, cad)
-        resp = mens.mensajes(
-            1, "¿desea volver a copiar el directorio el directorio del firmware?")
-        if resp == True:
-            mens.recarga_conf(hardware_dir, True)
-            preparar_icaro()
-        else:
-            exit()
 
 # cunado incio icaro, me da la posibilidad de cambiar el modulo de hardware, para tener compatibildiad
 # con otros sistemas
@@ -54,7 +38,7 @@ conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
 mens = UTILIDADES()
 
 if os.path.exists(ruta_hardware):
-    preparar_icaro()
+    mens.preparar_icaro(ruta_hardware,hardware_dir,conf)
 else:
     cad = "No se encontro el modulo de carga para el hardware en la ruta " + \
         ruta_hardware
