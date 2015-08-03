@@ -1,6 +1,7 @@
 *.swp
 *.pyc
 *.~
+.*.swp
 .project
 .pydevproject
 .settings
