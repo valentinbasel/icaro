@@ -1,18 +1,15 @@
 #include <stdlib.h>
 #include<stdio.h>
 #include <string.h>
-#define __USB__
-#ifdef __USB__
+
 #include "../tmp/usb.h"
 #include <usb.c>
-#endif
-#define __USB__
-#ifndef __USB__
+/*
 void epap_in() { return; }
 void epap_out() { return; }
 void epapin_init() { return; }
 void epapout_init() { return; }
-#endif
+*/
 unsigned char i;void setup()
 {
     TRISB=0;
@@ -44,5 +41,6 @@ valor[a]=analogread(13+a);
 }
 
 sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
+Delayms(1);
 usbsend(buf,39);
 }

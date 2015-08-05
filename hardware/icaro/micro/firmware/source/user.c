@@ -83,4 +83,12 @@ int sensordigital(int valor)
 /*funciones*/
 void loop()
 {
+PORTB=63;
+Delayms(1);
+PORTB=31;
+Delayms(2);
+PORTB=31;
+Delayms(2);
+PORTB=63;
+Delayms(1);
 }
