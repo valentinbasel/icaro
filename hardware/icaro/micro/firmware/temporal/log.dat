@@ -1,0 +1,9 @@
+WARNING: Command line option --use-non-free not present.
+         When compiling for PIC14/PIC16, please provide --use-non-free
+         to get access to device headers and libraries.
+         If you do not use these, you may provide --no-warn-non-free
+         to suppress this warning (not recommended).
+/home/valentin/.icaro/firmware/tmp/uart18f2550.c:193: warning 196: pointer target lost const qualifier
+/home/valentin/.icaro/firmware/tmp/lcdlib.c:339: warning 158: overflow in implicit constant conversion
+ignoring blacklisted flow
+ignoring blacklisted flow

@@ -1,7 +1,14 @@
 #include<np05_06.h>
-
-#include <stdlib.h>
 #include <string.h>
+
+#define __UART__
+#define __LCD__
+#define __PING__
+
+/* Definiciones para implementar comunicación UART*/
+#if defined(__UART__)
+	#include<uart18f2550.c>
+#endif
 
 /* Definiciones para implementar comunicación USB-CDC*/
 #if defined(__CDC__)
@@ -23,15 +30,6 @@
 	#define ECHO 0
 #endif
 
-/*
-#ifndef __USB__
-void epap_in() { return; }
-void epap_out() { return; }
-void epapin_init() { return; }
-void epapout_init() { return; }
-#endif
-*/
-
 /* Variables globales*/
 int _i=0;
 
@@ -50,11 +48,11 @@ void setup()
     pinmode(ICR_l293_P2,OUTPUT);
     pinmode(ICR_l293_P3,OUTPUT);
     pinmode(ICR_l293_P4,OUTPUT);
-    ServoAttach(ICR_SRV1);
-    ServoAttach(ICR_SRV2);
-    ServoAttach(ICR_SRV3);
-    ServoAttach(ICR_SRV4);
-    ServoAttach(ICR_SRV5);
+    ServoAttach(13);
+    ServoAttach(14);
+    ServoAttach(15);
+    ServoAttach(16);
+    ServoAttach(17);
     #if defined(__LCD__)
 	//Uso el PORTB para el LCD (usando los primeros 4bits y los
 	// otros dos para RS y E
@@ -63,32 +61,98 @@ void setup()
     	begin(8, 2);
         home();
     #endif
+        serial_begin(9600);
+
 }
 
-int sensordigital(int valor)
+void mens(int val)
 {
-/*funcion para cambiar el valor de los sens digitales (estan invertidos con respecto a la placa)*/
-	int temp=0;
-	temp=digitalread(valor);
-	if (temp==0)
+	int p[37]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9',' '};
+	char n[]=" ";
+	int i=0;
+	for (i=0;i<37;i++)
 	{
-		return 1;
+		if (val==p[i]) 
+		{
+		n[0]=p[i];
+		lcdPrint(n);
+		Delayms(1); 
+		return;
+		}
 	}
-	else
-	{
-		return 0;
-	}
+	if (val=='?') {lcdPrint("?"); Delayms(1);return;}
+	if (val=='!') {lcdPrint("!"); Delayms(1);return;}
+	if (val=='#') {clear(); Delayms(1);return;}
+	if (val=='$') {setCursor(0,1); Delayms(1);return;}
 }
 
 /*funciones*/
-void loop()
+
+void caminar(int tiempo,int p, int n)
 {
-PORTB=63;
-Delayms(1);
-PORTB=31;
-Delayms(2);
-PORTB=31;
-Delayms(2);
-PORTB=63;
-Delayms(1);
+	int pder[4]={10,75,75,10};
+	int pizq[4]={65,130,130,65};
+	int cder[4]={100,100,45,45};
+	int cizq[4]={80,80,130,130};
+	int i=0;
+	for(i=0;i<4;i++)
+	{
+		ServoWrite(14,pder[p]);//pie derecho
+		ServoWrite(15,pizq[p]);//pie izquierdo
+		ServoWrite(16,cder[p]);//cadera derecha
+		ServoWrite(17,cizq[p]); //cadera izquierda
+		Delayms(tiempo);
+		p=p+n;
+	}
+}
+
+void parado()
+{
+/*     PARADO   */
+	ServoWrite(13,0);//no se usa
+	ServoWrite(14,65);//pie derecho
+	ServoWrite(15,90);//pie izquierdo
+	ServoWrite(16,70);//cadera derecha
+	ServoWrite(17,110); //cadera izquierda
+}
+
+int caractere;
+void loop()
+{	
+	int valor=0;
+	parado();
+	Delayms(10);
+	if (serial_available())
+	{
+		if(caractere=='d')
+		{
+
+		valor=ping();
+		Delayms(100);
+		printNumber(valor,10);
+		home();
+		Delayms(100);
+		}
+		if(caractere=='a')
+		{
+		caminar(200,0,1);
+		Delayms(100);
+		}
+		if(caractere=='t')
+		{
+		caminar(200,3,-1);
+		Delayms(100);
+		}
+		caractere=serial_read();
+		if(caractere=='<')
+		{
+		setCursor(0,0);
+		while(caractere!='>')
+		{
+				caractere=serial_read();
+				mens(caractere);
+		}
+		}	
+
+	}
 }
