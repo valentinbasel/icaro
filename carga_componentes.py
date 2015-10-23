@@ -26,7 +26,6 @@
 #import glob
 import os
 
-
 class DICC:
 
     """ Class doc """

@@ -26,6 +26,7 @@ import cairo
 
 
 class MotorCairo():
+
     tipo_letra = "sans"
     tama_letra = 12
     color_conectado = (100, 80, 100)
@@ -74,9 +75,7 @@ class MotorCairo():
         rgbfin = self.color(rgb)
         cr.set_source_rgb(rgbfin[0], rgbfin[1], rgbfin[2],)
         cr.show_text(txt)
-
-
-# estas son nuevas funciones para trabajar con  archivs svg
+        #estas son nuevas funciones para trabajar con  archivs svg
 
     def parse_xy(self, cad, val):
         try:
@@ -143,8 +142,6 @@ class MotorCairo():
         cadena = " l %s,%s " % (float(x), float(y))
         return cadena
 
-
-#
     def collide(sef, rectan, x, y):
         if (
             x > rectan[0] and

@@ -16,7 +16,6 @@ import os
 import pickle
 from componente import *
 
-
 def abrir(diccio, ruta, fon, ventana):
     # Ahora uso pickle para guardar los objectos
     file = open(ruta, "r")

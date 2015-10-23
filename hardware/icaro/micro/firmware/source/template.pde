@@ -1,7 +1,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <analog.c>
+//#include <analog.c>
 /* Definiciones para implementar comunicación USB-CDC*/
 #if defined(__CDC__)
 	#include <__cdc.c>

@@ -25,7 +25,7 @@ typedef unsigned long dword;
 
 #include <servos.c>
 
-//#include <analog.c>
+#include <analog.c>
 
 #include <arduinodelay.c>
 

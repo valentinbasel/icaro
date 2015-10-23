@@ -55,6 +55,7 @@ class VentanaGtk(MotorCairo, UTILIDADES):
         self.window.add(self.area)
         self.window.show_all()
         self.yatocado = False
+        
 
     def move_cb(self, event, b):
         self.mousexy = b.get_coords()
