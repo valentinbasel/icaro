@@ -55,7 +55,6 @@ class VentanaGtk(MotorCairo, UTILIDADES):
         self.window.add(self.area)
         self.window.show_all()
         self.yatocado = False
-        
 
     def move_cb(self, event, b):
         self.mousexy = b.get_coords()
@@ -132,7 +131,7 @@ class Boton():
         os.system(self.ejecuta)
 
 
-def comprobacion_errores(ventana,mens):
+def comprobacion_errores(ventana, mens):
     Error = 0
     CadenaMensaje = "Se encontraron los siguientes errores: \n"
     MicrochipBool = "false"
@@ -174,10 +173,10 @@ def comprobacion_errores(ventana,mens):
     if Error == 1:
         CadenaMensaje = CadenaMensaje + CadenaScript
         ventana.mensajes(2, CadenaMensaje)
-        
+
     dir_conf = os.path.expanduser('~') + "/.icaro"
     if os.path.isdir(dir_conf) == 0:
-        #os.mkdir(dir_conf)
+        # os.mkdir(dir_conf)
 
         hardware_dir = "hardware/icaro/"
         mens.recarga_conf(hardware_dir, True)
@@ -188,9 +187,8 @@ def main():
 
     mens = UTILIDADES()
     ventana = VentanaGtk()
-    comprobacion_errores(ventana,mens)
+    comprobacion_errores(ventana, mens)
     conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
-
 
     cfg = mens.carga_conf(conf)
     turtleart_ruta = cfg.get("general", "turtlear")
@@ -206,7 +204,6 @@ def main():
     idle = ("idle -c 'import apicaro;" +
             " icaro=apicaro.puerto(); icaro.iniciar()'"
             )
-
 
     ventana.tama_letra = 20
     BotonTurtle = Boton(1,

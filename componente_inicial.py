@@ -103,9 +103,9 @@ class componente_inicial():
             self.pulsado = 1
         if (self.ventana.seleccionado == self.ide):
             self.posicion = (
-                            posic_mouse[0] - self.posic_rel_x,
-                            posic_mouse[1] - self.posic_rel_y
-                            )
+                posic_mouse[0] - self.posic_rel_x,
+                posic_mouse[1] - self.posic_rel_y
+            )
             self.pulsado == 1
         if botones_mouse[1] == 0:
             self.pulsado = 0

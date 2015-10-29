@@ -8,7 +8,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-import gst
+#import gst
 import gtk
 from fcntl import ioctl
 from gettext import gettext as _

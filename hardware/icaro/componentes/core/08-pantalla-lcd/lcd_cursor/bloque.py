@@ -30,7 +30,7 @@ class CMP:
         self.valor = [
             'setCursor(',
             "valor",
-                ',',
+            ',',
             "valor",
             ");"
         ]

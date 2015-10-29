@@ -136,13 +136,13 @@ class crear_comp:
         if self.diccionario[b][1] == 1:
             c1 = componente(
                 x,
-                            y,
-                            self.fondo.identificador + 1,
-                            self.diccionario[b][2],
-                            self.diccionario[b][3],
-                            self.diccionario[b][0],
-                            self.fondo,
-                            self
+                y,
+                self.fondo.identificador + 1,
+                self.diccionario[b][2],
+                self.diccionario[b][3],
+                self.diccionario[b][0],
+                self.fondo,
+                self
 
             )
             self.fondo.identificador += 1
@@ -154,12 +154,12 @@ class crear_comp:
             self.fondo.identificador += 1
             c1 = componente_cero_arg(
                 x,
-                                    y,
-                                    self.fondo.identificador,
-                                    self.diccionario[b][3],
-                                    self.diccionario[b][0],
-                                    self.fondo,
-                                    self
+                y,
+                self.fondo.identificador,
+                self.diccionario[b][3],
+                self.diccionario[b][0],
+                self.fondo,
+                self
             )
 
             self.fondo.objetos.append(c1)
@@ -170,12 +170,12 @@ class crear_comp:
             self.fondo.identificador += 1
             c1 = componente_bloque_uno(
                 x,
-                                            y,
-                                            self.fondo.identificador,
-                                            self.diccionario[b][3],
-                                            self.diccionario[b][0],
-                                            self.fondo,
-                                            self,
+                y,
+                self.fondo.identificador,
+                self.diccionario[b][3],
+                self.diccionario[b][0],
+                self.fondo,
+                self,
             )
             self.fondo.objetos.append(c1)
             self.fondo.identificador += 1
@@ -183,12 +183,12 @@ class crear_comp:
 
             c1 = componente_bloque_dos(
                 x,
-                                        y + 80,
-                                        self.fondo.identificador,
-                                        self.diccionario[b][3],
-                                        self.diccionario[b][4],
-                                        self.fondo,
-                                        self
+                y + 80,
+                self.fondo.identificador,
+                self.diccionario[b][3],
+                self.diccionario[b][4],
+                self.fondo,
+                self
             )
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
@@ -198,16 +198,16 @@ class crear_comp:
         if self.diccionario[b][1] == 6:
             c1 = comp_dat_arg(
                 x,
-                            y,
-                            self.fondo.identificador_dat,
-                            self.diccionario[b][2],
-                            self.diccionario[b][4],
-                            self.diccionario[b][3],
-                            self.diccionario[b][5],
-                            self.diccionario[b][0].strip(" ") + ".png",
-                            6,
-                            self.fondo,
-                            self,
+                y,
+                self.fondo.identificador_dat,
+                self.diccionario[b][2],
+                self.diccionario[b][4],
+                self.diccionario[b][3],
+                self.diccionario[b][5],
+                self.diccionario[b][0].strip(" ") + ".png",
+                6,
+                self.fondo,
+                self,
             )
             self.fondo.identificador_dat += 1
             self.fondo.objetos_datos.append(c1)
@@ -215,16 +215,16 @@ class crear_comp:
         if self.diccionario[b][1] == 7:
             c1 = comp_dat_arg(
                 x,
-                            y,
-                            self.fondo.identificador_dat,
-                            self.diccionario[b][2],
-                            self.diccionario[b][4],
-                            self.diccionario[b][3],
-                            self.diccionario[b][5],
-                            self.diccionario[b][0].strip(" ") + ".png",
-                            7,
-                            self.fondo,
-                            self,
+                y,
+                self.fondo.identificador_dat,
+                self.diccionario[b][2],
+                self.diccionario[b][4],
+                self.diccionario[b][3],
+                self.diccionario[b][5],
+                self.diccionario[b][0].strip(" ") + ".png",
+                7,
+                self.fondo,
+                self,
             )
             self.fondo.identificador_dat += 1
             self.fondo.objetos_datos.append(c1)
@@ -532,15 +532,15 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             iconw.set_from_file(img)
             tool_button = toolbar.append_item(
                 _(nombre),
-                            tooltip,
-                            "Private",
-                            iconw,
-                            func, metodos)
+                tooltip,
+                "Private",
+                iconw,
+                func, metodos)
 
     def definir_cursor(self, b):
         self.area.window.set_cursor(self.cursores[b])
         # if b==1:
-            # self.area.window.set_cursor(None)
+        # self.area.window.set_cursor(None)
         self.puntero_seleccion_mouse = b
 
 # ========================================================================
@@ -594,9 +594,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                        gtk.FILE_CHOOSER_ACTION_SAVE,
                                        (
                                            gtk.STOCK_CANCEL,
-                                            gtk.RESPONSE_CANCEL,
-                                            gtk.STOCK_SAVE,
-                                            gtk.RESPONSE_OK
+                                           gtk.RESPONSE_CANCEL,
+                                           gtk.STOCK_SAVE,
+                                           gtk.RESPONSE_OK
                                        )
                                        )
         dialog.set_default_response(gtk.RESPONSE_OK)
@@ -619,8 +619,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             if os.path.isfile(cadena):
                 resp = self.mensajes(
                     1,
-                            "Ya existe un archivo con el nombre " +
-                            cadena + "¿Quiere reemplazarlo?"
+                    "Ya existe un archivo con el nombre " +
+                    cadena + "¿Quiere reemplazarlo?"
                 )
             else:
                 resp = False
@@ -645,14 +645,14 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         pagina = self.notebook2.get_current_page()
         dialog = gtk.FileChooserDialog(
             "Open..",
-                                        None,
-                                        gtk.FILE_CHOOSER_ACTION_OPEN,
-                                            (
-                                                gtk.STOCK_CANCEL,
-                                                gtk.RESPONSE_CANCEL,
-                                                gtk.STOCK_OPEN,
-                                                gtk.RESPONSE_OK
-                                            )
+            None,
+            gtk.FILE_CHOOSER_ACTION_OPEN,
+            (
+                gtk.STOCK_CANCEL,
+                gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN,
+                gtk.RESPONSE_OK
+            )
         )
         dialog.set_default_response(gtk.RESPONSE_OK)
         try:
@@ -677,8 +677,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 nuevo.nuevo(self.fondo)
                 inicial = componente_inicial(
                     20, 50, 1,
-                                            self.fondo,
-                                            self
+                    self.fondo,
+                    self
                 )
 
                 self.fondo.objetos.append(inicial)
@@ -686,9 +686,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 self.update()
                 abrir.abrir(
                     self.diccionario,
-                            cadena,
-                            self.fondo,
-                            self
+                    cadena,
+                    self.fondo,
+                    self
                 )
                 self.archivo = cadena
             if pagina == 1:
@@ -711,10 +711,10 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.fondo.ultimo = 1
         inicial = componente_inicial(
             20,
-                                    50,
-                                    1,
-                                    self.fondo,
-                                    self
+            50,
+            1,
+            self.fondo,
+            self
         )
         self.fondo.objetos.append(inicial)
 # ========================================================================
@@ -854,14 +854,14 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         if string == _("Background"):
             dialog = gtk.FileChooserDialog(
                 "Open..",
-                                            None,
-                                            gtk.FILE_CHOOSER_ACTION_OPEN,
-                                                (
-                                                    gtk.STOCK_CANCEL,
-                                                    gtk.RESPONSE_CANCEL,
-                                                    gtk.STOCK_OPEN,
-                                                    gtk.RESPONSE_OK
-                                                )
+                None,
+                gtk.FILE_CHOOSER_ACTION_OPEN,
+                (
+                    gtk.STOCK_CANCEL,
+                    gtk.RESPONSE_CANCEL,
+                    gtk.STOCK_OPEN,
+                    gtk.RESPONSE_OK
+                )
             )
             dialog.set_default_response(gtk.RESPONSE_OK)
             filter = gtk.FileFilter()
@@ -893,8 +893,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 # 255 valores que soporta pygame
                 self.fondo.FONDO = (
                     (color.red * 255) / 65535,
-                            (color.green * 255) / 65535,
-                            (color.blue * 255) / 65535
+                    (color.green * 255) / 65535,
+                    (color.blue * 255) / 65535
                 )
             else:
                 colorseldlg.hide()
@@ -967,13 +967,14 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 tupla.append(cmp.dicc["color"])
                 tupla.append(str(cmp.dicc["dato"]))
                 tupla.append(str(cmp.dicc["dato2"]))
-                datos_cod_fuente=""
-                if cmp.dicc["componente"]==1 or cmp.dicc["componente"]==5:
+                datos_cod_fuente = ""
+                if cmp.dicc["componente"] == 1 or cmp.dicc["componente"] == 5:
                     for dato_cod_fuente in cmp.valor:
-                        datos_cod_fuente=datos_cod_fuente+dato_cod_fuente
-                if cmp.dicc["componente"]==6 or cmp.dicc["componente"]==5:
-                    datos_cod_fuente=str(cmp.dicc["dato2"])
-                tupla.append(str(cmp.tootips)+"\ncodigo fuente:\n "+datos_cod_fuente)
+                        datos_cod_fuente = datos_cod_fuente + dato_cod_fuente
+                if cmp.dicc["componente"] == 6 or cmp.dicc["componente"] == 5:
+                    datos_cod_fuente = str(cmp.dicc["dato2"])
+                tupla.append(
+                    str(cmp.tootips) + "\ncodigo fuente:\n " + datos_cod_fuente)
                 self.valor_datos_comp[cmp.dicc["nombre"]] = cmp.valor
                 self.diccionario[q] = tupla
                 q += 1
@@ -996,8 +997,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 R, G, B = tupla[a]
                 self.diccionario[self.lista[a]][3] = (
                     int(R),
-                                                   int(G),
-                                                   int(B)
+                    int(G),
+                    int(B)
                 )
 
     def carga_conf_ventana(self):

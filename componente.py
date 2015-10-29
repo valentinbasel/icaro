@@ -142,9 +142,9 @@ class FormaSvg(object):
         achicar_cuerpo_2 = self.fondo.crear_nodo_linea(0, 17)  # 17
         cuerpo = (
             forma_basica.nodo_hembra +
-                    self.lin1 + self.linea_corr_texto_mas +
-                    forma_basica.nodo_esq_ar_der +
-                    self.lin2)
+            self.lin1 + self.linea_corr_texto_mas +
+            forma_basica.nodo_esq_ar_der +
+            self.lin2)
         if self.arg == 0:
             cuerpo = (cuerpo +
                       self.lin3 +
@@ -184,14 +184,14 @@ class FormaSvg(object):
         self.fondo.crear_nodo_linea(0, 1)
         cuerpo = (
             linea_bloque_mas + forma_basica.nodo_hembra +
-                    self.lin1 + forma_basica.nodo_esq_ar_der +
-                    self.lin2 + self.lin3 +
-                    forma_basica.nodo_esq_ab_der +
-                    self.lin4 + linea_bloque_menos +
-                    forma_basica.nodo_macho +
-                    self.lin5 +
-                    forma_basica.nodo_esq_ab_izq + self.lin6 + self.lin8 +
-                    forma_basica.nodo_esq_ar_izq)
+            self.lin1 + forma_basica.nodo_esq_ar_der +
+            self.lin2 + self.lin3 +
+            forma_basica.nodo_esq_ab_der +
+            self.lin4 + linea_bloque_menos +
+            forma_basica.nodo_macho +
+            self.lin5 +
+            forma_basica.nodo_esq_ab_izq + self.lin6 + self.lin8 +
+            forma_basica.nodo_esq_ar_izq)
         return cuerpo
 
     def crear_comp_bloque_1(self):
@@ -205,14 +205,14 @@ class FormaSvg(object):
         self.fondo.crear_nodo_linea(0, 1)
         cuerpo = (
             forma_basica.nodo_hembra + linea_bloque_mas +
-                    self.lin1 + forma_basica.nodo_esq_ar_der +
-                    self.lin2 + forma_basica.nodo_parametros + self.lin3 +
-                    forma_basica.nodo_esq_ab_der +
-                    self.lin4 + linea_bloque_menos1 +
-                    forma_basica.nodo_macho +
-                    self.lin5 + linea_bloque_menos +
-                    forma_basica.nodo_esq_ab_izq + self.lin6 + self.lin7 + self.lin8 +
-                    forma_basica.nodo_esq_ar_izq)
+            self.lin1 + forma_basica.nodo_esq_ar_der +
+            self.lin2 + forma_basica.nodo_parametros + self.lin3 +
+            forma_basica.nodo_esq_ab_der +
+            self.lin4 + linea_bloque_menos1 +
+            forma_basica.nodo_macho +
+            self.lin5 + linea_bloque_menos +
+            forma_basica.nodo_esq_ab_izq + self.lin6 + self.lin7 + self.lin8 +
+            forma_basica.nodo_esq_ar_izq)
         return cuerpo
 
 
@@ -240,7 +240,7 @@ class Formas(FormaSvg):
         return cuerpo
 
     def comp_0(self, arg, tex, comp):
-#        cuerpo = [
+        #        cuerpo = [
                     #(0, -10, 10, 10),
                     #(10, -7, 4, 4),
                     #(50, -10, 10, 10),
@@ -294,11 +294,11 @@ class ComponenteCentral(FormaSvg):
         self.rectan[1] = self.posicion[1] - 10
         if self.vivo == True:
             if (botones_mouse[1] == 1 and
-                self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
-                self.pulsado == 0 and
-                self.ventana.seleccionado == 0 and
-                self.ventana.seleccionado_datos == 0 and
-                self.ventana.seleccion_menu == 2
+                        self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
+                        self.pulsado == 0 and
+                        self.ventana.seleccionado == 0 and
+                        self.ventana.seleccionado_datos == 0 and
+                        self.ventana.seleccion_menu == 2
                     ):
                 posic_mouse = self.ventana.mousexy
                 self.ventana.seleccionado = self.ide
@@ -307,9 +307,9 @@ class ComponenteCentral(FormaSvg):
                 self.pulsado = 1
             if (self.ventana.seleccionado == self.ide):
                 self.posicion = (
-                                posic_mouse[0] - self.posic_rel_x,
-                                posic_mouse[1] - self.posic_rel_y
-                                )
+                    posic_mouse[0] - self.posic_rel_x,
+                    posic_mouse[1] - self.posic_rel_y
+                )
                 self.pulsado == 1
                 self.pegado = 0
                 self.pegado_a = 0
@@ -348,11 +348,11 @@ class ComponenteCentral(FormaSvg):
                 self.fondo.lista_ordenada[self.ide] = 0
                 for a in range(len(self.fondo.objetos)):
                     if (self.fondo.colliderect
-                            (
+                        (
                             self.conector_h, self.fondo.objetos[a].conector_m
-                            )
-                        and
-                        self.fondo.objetos[a].vivo) == True:
+                        )
+                            and
+                            self.fondo.objetos[a].vivo) == True:
 
                         self.pegado = 1
                         self.pegado_a = a
@@ -366,15 +366,15 @@ class ComponenteCentral(FormaSvg):
 class componente(ComponenteCentral):
 
     def __init__(
-                    self,
-                    x, y,
-                    identidad,
-                    argumentos,
-                    color,
-                    texto,
-                    fondo,
-                    ventana
-                ):
+        self,
+        x, y,
+        identidad,
+        argumentos,
+        color,
+        texto,
+        fondo,
+        ventana
+    ):
         self.imagenintermedia = texto.strip(" ")
         self.imagen = (
             sys.path[0] + "/imagenes/componentes/" + texto.strip(" ") + ".png")
@@ -417,11 +417,11 @@ class componente(ComponenteCentral):
             self.conector_h_dato[0] = self.rectan[0] + 90 + factory
             self.conector_h_dato[1] = self.rectan[1] + 29 + factor
             self.lista_conector_h_datos[a] = (
-                                            self.conector_h_dato[0],
-                                            self.conector_h_dato[1],
-                                            self.conector_h_dato[2],
-                                            self.conector_h_dato[3]
-                                            )
+                self.conector_h_dato[0],
+                self.conector_h_dato[1],
+                self.conector_h_dato[2],
+                self.conector_h_dato[3]
+            )
             factor += 37
             factor_rectan += 37
         self.rectan[3] = factor_rectan
@@ -595,19 +595,19 @@ class componente_cero_arg(FormaSvg):
         # self.fondo.draw(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3],(255,0,0),self.ventana.cr)
         # self.fondo.draw(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3],(0,255,0),self.ventana.cr)
         self.fondo.texto(
-                                str(self.ide),
-                                (self.posicion[0] + 20), (
-                                    self.posicion[1] + 20),
-                                self.color_texto,
-                                self.ventana.cr
-                                )
+            str(self.ide),
+            (self.posicion[0] + 20), (
+                self.posicion[1] + 20),
+            self.color_texto,
+            self.ventana.cr
+        )
         self.fondo.texto(
-                                str(self.ide),
-                                (self.posicion2[0] + 20), (
-                                    self.posicion2[1] + 20),
-                                self.color_texto,
-                                self.ventana.cr
-                                )
+            str(self.ide),
+            (self.posicion2[0] + 20), (
+                self.posicion2[1] + 20),
+            self.color_texto,
+            self.ventana.cr
+        )
         # self.conector_h es la ficha "hembra"
         self.conector_h[0] = self.rectan[0] + 30
         self.conector_h[1] = self.rectan[1] + 10
@@ -640,9 +640,9 @@ class componente_cero_arg(FormaSvg):
                 self.fondo.lista_ordenada[
                     self.ide] = self.fondo.objetos[self.pegado_a].ide
             if (botones_mouse[1] == 1 and
-                self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
-                self.pulsado == 0 and
-                self.ventana.seleccionado == 0):
+                    self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
+                    self.pulsado == 0 and
+                    self.ventana.seleccionado == 0):
                 posic_mouse = self.ventana.mousexy
                 self.ventana.seleccionado = self.ide
                 self.posic_rel_x = abs(self.posicion[0] - posic_mouse[0])
@@ -655,9 +655,9 @@ class componente_cero_arg(FormaSvg):
                 self.pegado = 0
                 self.pegado_a = 0
             if (botones_mouse[1] == 1 and
-                self.fondo.collide(self.rectan2, posic_mouse[0], posic_mouse[1]) == True and
-                self.pulsado == 0 and
-                self.ventana.seleccionado == 0):
+                    self.fondo.collide(self.rectan2, posic_mouse[0], posic_mouse[1]) == True and
+                    self.pulsado == 0 and
+                    self.ventana.seleccionado == 0):
                 posic_mouse2 = self.ventana.mousexy
                 self.ventana.seleccionado = self.ide
                 self.posic_rel_x2 = abs(self.posicion2[0] - posic_mouse2[0])

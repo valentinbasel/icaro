@@ -38,19 +38,20 @@ class UTILIDADES:
     def __init__(self):
         pass
 
-    def preparar_icaro(self,ruta,icr_dir,conf):
+    def preparar_icaro(self, ruta, icr_dir, conf):
         sys.path.append(ruta)
         # busca el archivo .ini dentro de la carpeta firmware
         if os.path.exists(conf):
             from icaro import *
             inicio(icr_dir)
         else:
-            cad = "No se encontro el archivo de configuracion en la ruta " + conf
+            cad = "No se encontro el archivo de configuracion en la ruta " + \
+                conf
             self.mensajes(0, cad)
             resp = self.mensajes(
                 1, "¿desea volver a copiar el directorio el directorio del firmware?")
             if resp == True:
-                a=self.recarga_conf(icr_dir, True)
+                a = self.recarga_conf(icr_dir, True)
             else:
                 exit()
 
@@ -58,15 +59,15 @@ class UTILIDADES:
 
         tipo = (
             gtk.MESSAGE_WARNING,
-                gtk.MESSAGE_QUESTION,
-                gtk.MESSAGE_ERROR,
-                gtk.MESSAGE_INFO
+            gtk.MESSAGE_QUESTION,
+            gtk.MESSAGE_ERROR,
+            gtk.MESSAGE_INFO
         )
         botones = (
             gtk.BUTTONS_OK,
-                gtk.BUTTONS_OK_CANCEL,
-                gtk.BUTTONS_OK,
-                gtk.BUTTONS_OK
+            gtk.BUTTONS_OK_CANCEL,
+            gtk.BUTTONS_OK,
+            gtk.BUTTONS_OK
         )
         md = gtk.MessageDialog(None,
                                gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
@@ -80,13 +81,13 @@ class UTILIDADES:
             return False
 
     def carga_conf(self, ruta):
-            try:
-                cfg = ConfigParser.ConfigParser()
-                cfg.read(ruta)
-                return cfg
-            except:
-                self.mensajes(0, "error, no se encuentra el archivo conf.ini")
-                return False
+        try:
+            cfg = ConfigParser.ConfigParser()
+            cfg.read(ruta)
+            return cfg
+        except:
+            self.mensajes(0, "error, no se encuentra el archivo conf.ini")
+            return False
 
     def recarga_conf(self, icaro_dir, visual):
 

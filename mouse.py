@@ -50,9 +50,9 @@ class MOUSE(componente.Formas):
             self.conector_h[0] = self.ventana.mousexy[0] + 40
             for a in range(len(self.fondo.objetos)):
                 if (self.fondo.colliderect
-                   (
-                    self.conector_h, self.fondo.objetos[a].conector_m
-                    )):
+                        (
+                        self.conector_h, self.fondo.objetos[a].conector_m
+                        )):
                     color = color_colicion
                     break
                 else:
@@ -72,9 +72,9 @@ class MOUSE(componente.Formas):
                         color = color_no_colicion
         if self.ventana.puntero_seleccion_mouse == 1:
             cuerpo = self.crear_poligono(
-                                    self.ventana.diccionario[tip][2],
-                                    self.ventana.diccionario[tip][0],
-                                    self.ventana.diccionario[tip][1],
-                                    )
+                self.ventana.diccionario[tip][2],
+                self.ventana.diccionario[tip][0],
+                self.ventana.diccionario[tip][1],
+            )
             self.fondo.render_svg(
                 self.ventana.cr, cuerpo, color, self.ventana.mousexy[0] + 40, self.ventana.mousexy[1])

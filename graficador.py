@@ -213,7 +213,7 @@ class VENTANA:
 
         #~ for sensor in range(1,9):
             #~ for a in range(2):
-                #~ y[sensor]=self.icaro.leer_analogico(sensor)
+            #~ y[sensor]=self.icaro.leer_analogico(sensor)
 
             self.snds[sensor].append(
                 (self.x, 500 - int(y[sensor]) * 450 / 1023))

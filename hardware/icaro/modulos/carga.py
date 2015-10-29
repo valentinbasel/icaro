@@ -21,65 +21,65 @@ import docker
 
 class Cargador(threading.Thread):
 
-        def __init__(self, ruta):
-            threading.Thread.__init__(self)
-            self.win = gtk.Window()
-            self.win.set_resizable(False)
-            self.win.set_default_size(600, 600)
-            box1 = gtk.VBox(False, 3)
-            pixbufanim = gtk.gdk.PixbufAnimation(
-                sys.path[0] + "/hardware/icaro/imagenes/gif/icr.gif")
-            image = gtk.Image()
-            image.set_from_animation(pixbufanim)
-            image.show()
-            self.text = gtk.Label(
-                "conecta la placa al puerto USB y enciendela")
-            button = gtk.Button("cancelar")
-            button.connect("clicked", self.cancelar)
-            box1.pack_start(image, False, True, 1)
+    def __init__(self, ruta):
+        threading.Thread.__init__(self)
+        self.win = gtk.Window()
+        self.win.set_resizable(False)
+        self.win.set_default_size(600, 600)
+        box1 = gtk.VBox(False, 3)
+        pixbufanim = gtk.gdk.PixbufAnimation(
+            sys.path[0] + "/hardware/icaro/imagenes/gif/icr.gif")
+        image = gtk.Image()
+        image.set_from_animation(pixbufanim)
+        image.show()
+        self.text = gtk.Label(
+            "conecta la placa al puerto USB y enciendela")
+        button = gtk.Button("cancelar")
+        button.connect("clicked", self.cancelar)
+        box1.pack_start(image, False, True, 1)
 
-            box1.pack_start(self.text, False, True, 1)
-            box1.pack_start(button, False, True, 1)
+        box1.pack_start(self.text, False, True, 1)
+        box1.pack_start(button, False, True, 1)
 
-            self.win.add(box1)
-            box1.show()
-            self.win.show_all()
+        self.win.add(box1)
+        box1.show()
+        self.win.show_all()
 
-            self.vivo = True
-            self.ruta = ruta
+        self.vivo = True
+        self.ruta = ruta
 
-        def cancelar(self, b):
-            print "salgo"
-            self.vivo = False
-            docker.buscar_bus_docker = False
-            self.win.hide()
+    def cancelar(self, b):
+        print "salgo"
+        self.vivo = False
+        docker.buscar_bus_docker = False
+        self.win.hide()
 
-        def run(self):
-            a = 1
-            dir_conf = util.obtener_path_usuario() + "/.icaro/firmware"
+    def run(self):
+        a = 1
+        dir_conf = util.obtener_path_usuario() + "/.icaro/firmware"
 
-            docker.buscar_bus_docker = True
-            while self.vivo:
+        docker.buscar_bus_docker = True
+        while self.vivo:
 
-                print "sigo vivo ", a
-                i = docker.docker(dir_conf + "/temporal/" + self.ruta + ".hex")
-                time.sleep(1)
-                a = a + 1
-                texto = " intentando conexion con el hardware: " + \
-                        str(a) + " intento"
-                self.text.set_text(texto)
-                if a >= 10:
-                    self.text.set_text("no se pudo conectar con el hardware")
-                    time.sleep(2)
-                    self.vivo = False
-                    self.win.hide()
-                if i == 0:
-                    self.text.set_text("el programa fue cargado exitosamente")
-                    time.sleep(2)
-                    self.vivo = False
-                    self.win.hide()
-                    return i
-            print "corto con la funión RUN"
+            print "sigo vivo ", a
+            i = docker.docker(dir_conf + "/temporal/" + self.ruta + ".hex")
+            time.sleep(1)
+            a = a + 1
+            texto = " intentando conexion con el hardware: " + \
+                    str(a) + " intento"
+            self.text.set_text(texto)
+            if a >= 10:
+                self.text.set_text("no se pudo conectar con el hardware")
+                time.sleep(2)
+                self.vivo = False
+                self.win.hide()
+            if i == 0:
+                self.text.set_text("el programa fue cargado exitosamente")
+                time.sleep(2)
+                self.vivo = False
+                self.win.hide()
+                return i
+        print "corto con la funión RUN"
 
-        def stop(self):
-            self.vivo = False
+    def stop(self):
+        self.vivo = False

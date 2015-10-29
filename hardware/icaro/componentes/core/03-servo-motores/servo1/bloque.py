@@ -41,4 +41,4 @@ class CMP:
         }
         self.tootips = ""
         self.img = ""
-        self.pines=["k2",]
+        self.pines = ["k2", ]

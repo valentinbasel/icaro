@@ -84,11 +84,11 @@ class SERVIDOR(threading.Thread):
             socket_cliente, datos_cliente = self.serv.accept()
             hilo_icaro = CLIENTE(
                 self,
-                                socket_cliente,
-                                "Cliente",
-                                contador,
-                                socket_cliente,
-                                datos_cliente
+                socket_cliente,
+                "Cliente",
+                contador,
+                socket_cliente,
+                datos_cliente
             )
             contador = contador + 1
             hilo_icaro.setDaemon(True)
@@ -103,22 +103,22 @@ class SERVIDOR(threading.Thread):
         return 0
 
     def cerrar(self):
-            self.flag = False
-            self.serv.close()
-            # print "cerrando el socket"
-            # for t in self.threads:
-            #    t.stop()
-                # t._Thread__stop()
-            # self.hilo_icr.stop()
-            # self.hilo_icr._Thread__stop()
-            print "saliendo del main Thread"
-            pid = os.getpid()
-            os.kill(pid, 9)
+        self.flag = False
+        self.serv.close()
+        # print "cerrando el socket"
+        # for t in self.threads:
+        #    t.stop()
+        # t._Thread__stop()
+        # self.hilo_icr.stop()
+        # self.hilo_icr._Thread__stop()
+        print "saliendo del main Thread"
+        pid = os.getpid()
+        os.kill(pid, 9)
 
-            # cuando se cierra el socket, puede suceder que tenga
-            # que esperar unos segundos antes de reiniciar
-            # la conexion, por los time TTL que usa
-            # ipv4 para dejar caer un socket
+        # cuando se cierra el socket, puede suceder que tenga
+        # que esperar unos segundos antes de reiniciar
+        # la conexion, por los time TTL que usa
+        # ipv4 para dejar caer un socket
 
 
 def main():

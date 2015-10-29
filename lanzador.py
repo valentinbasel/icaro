@@ -26,7 +26,6 @@ import os
 from utilidades_ventana import UTILIDADES
 
 
-
 # cunado incio icaro, me da la posibilidad de cambiar el modulo de hardware, para tener compatibildiad
 # con otros sistemas
 
@@ -38,7 +37,7 @@ conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
 mens = UTILIDADES()
 
 if os.path.exists(ruta_hardware):
-    mens.preparar_icaro(ruta_hardware,hardware_dir,conf)
+    mens.preparar_icaro(ruta_hardware, hardware_dir, conf)
 else:
     cad = "No se encontro el modulo de carga para el hardware en la ruta " + \
         ruta_hardware

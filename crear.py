@@ -102,7 +102,7 @@ def funcion(fondo, ventana, ruta):
 #    f = open(sys.path[0] + "/diccionario.xml", "r")
     #cadena = f.readlines()
     # for a in cadena:
-        # cadena_final.append(a.strip("\n"))
+    # cadena_final.append(a.strip("\n"))
     conectado = 1
     fondo.lista_fina = []
     print fondo.lista_ordenada

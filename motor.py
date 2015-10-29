@@ -75,7 +75,7 @@ class MotorCairo():
         rgbfin = self.color(rgb)
         cr.set_source_rgb(rgbfin[0], rgbfin[1], rgbfin[2],)
         cr.show_text(txt)
-        #estas son nuevas funciones para trabajar con  archivs svg
+        # estas son nuevas funciones para trabajar con  archivs svg
 
     def parse_xy(self, cad, val):
         try:
