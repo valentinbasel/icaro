@@ -21,60 +21,60 @@ snoremap  b<BS>
 snoremap % b<BS>%
 snoremap ' b<BS>'
 snoremap U b<BS>U
-snoremap \ b<BS>\
-nmap \ca <Plug>NERDCommenterAltDelims
-xmap \cu <Plug>NERDCommenterUncomment
-nmap \cu <Plug>NERDCommenterUncomment
-xmap \cb <Plug>NERDCommenterAlignBoth
-nmap \cb <Plug>NERDCommenterAlignBoth
-xmap \cl <Plug>NERDCommenterAlignLeft
-nmap \cl <Plug>NERDCommenterAlignLeft
-nmap \cA <Plug>NERDCommenterAppend
-xmap \cy <Plug>NERDCommenterYank
-nmap \cy <Plug>NERDCommenterYank
-xmap \cs <Plug>NERDCommenterSexy
-nmap \cs <Plug>NERDCommenterSexy
-xmap \ci <Plug>NERDCommenterInvert
-nmap \ci <Plug>NERDCommenterInvert
-nmap \c$ <Plug>NERDCommenterToEOL
-xmap \cn <Plug>NERDCommenterNested
-nmap \cn <Plug>NERDCommenterNested
-xmap \cm <Plug>NERDCommenterMinimal
-nmap \cm <Plug>NERDCommenterMinimal
-xmap \c  <Plug>NERDCommenterToggle
-nmap \c  <Plug>NERDCommenterToggle
-xmap \cc <Plug>NERDCommenterComment
 nmap \cc <Plug>NERDCommenterComment
+xmap \cc <Plug>NERDCommenterComment
+nmap \c  <Plug>NERDCommenterToggle
+xmap \c  <Plug>NERDCommenterToggle
+nmap \cm <Plug>NERDCommenterMinimal
+xmap \cm <Plug>NERDCommenterMinimal
+nmap \cn <Plug>NERDCommenterNested
+xmap \cn <Plug>NERDCommenterNested
+nmap \c$ <Plug>NERDCommenterToEOL
+nmap \ci <Plug>NERDCommenterInvert
+xmap \ci <Plug>NERDCommenterInvert
+nmap \cs <Plug>NERDCommenterSexy
+xmap \cs <Plug>NERDCommenterSexy
+nmap \cy <Plug>NERDCommenterYank
+xmap \cy <Plug>NERDCommenterYank
+nmap \cA <Plug>NERDCommenterAppend
+nmap \cl <Plug>NERDCommenterAlignLeft
+xmap \cl <Plug>NERDCommenterAlignLeft
+nmap \cb <Plug>NERDCommenterAlignBoth
+xmap \cb <Plug>NERDCommenterAlignBoth
+nmap \cu <Plug>NERDCommenterUncomment
+xmap \cu <Plug>NERDCommenterUncomment
+nmap \ca <Plug>NERDCommenterAltDelims
+snoremap \ b<BS>\
 nnoremap \d :YcmShowDetailedDiagnostic
 snoremap ^ b<BS>^
 snoremap ` b<BS>`
 nmap gx <Plug>NetrwBrowseX
-nnoremap <silent> <F2> :NERDTreeToggle 
-vmap <F2> :NERDTreeToggle
-snoremap <Left> bi
-snoremap <Right> a
-xnoremap <silent> <Plug>NERDCommenterUncomment :call NERDComment("x", "Uncomment")
-nnoremap <silent> <Plug>NERDCommenterUncomment :call NERDComment("n", "Uncomment")
-xnoremap <silent> <Plug>NERDCommenterAlignBoth :call NERDComment("x", "AlignBoth")
-nnoremap <silent> <Plug>NERDCommenterAlignBoth :call NERDComment("n", "AlignBoth")
-xnoremap <silent> <Plug>NERDCommenterAlignLeft :call NERDComment("x", "AlignLeft")
-nnoremap <silent> <Plug>NERDCommenterAlignLeft :call NERDComment("n", "AlignLeft")
-nnoremap <silent> <Plug>NERDCommenterAppend :call NERDComment("n", "Append")
-xnoremap <silent> <Plug>NERDCommenterYank :call NERDComment("x", "Yank")
-nnoremap <silent> <Plug>NERDCommenterYank :call NERDComment("n", "Yank")
-xnoremap <silent> <Plug>NERDCommenterSexy :call NERDComment("x", "Sexy")
-nnoremap <silent> <Plug>NERDCommenterSexy :call NERDComment("n", "Sexy")
-xnoremap <silent> <Plug>NERDCommenterInvert :call NERDComment("x", "Invert")
-nnoremap <silent> <Plug>NERDCommenterInvert :call NERDComment("n", "Invert")
-nnoremap <silent> <Plug>NERDCommenterToEOL :call NERDComment("n", "ToEOL")
-xnoremap <silent> <Plug>NERDCommenterNested :call NERDComment("x", "Nested")
-nnoremap <silent> <Plug>NERDCommenterNested :call NERDComment("n", "Nested")
-xnoremap <silent> <Plug>NERDCommenterMinimal :call NERDComment("x", "Minimal")
-nnoremap <silent> <Plug>NERDCommenterMinimal :call NERDComment("n", "Minimal")
-xnoremap <silent> <Plug>NERDCommenterToggle :call NERDComment("x", "Toggle")
-nnoremap <silent> <Plug>NERDCommenterToggle :call NERDComment("n", "Toggle")
-xnoremap <silent> <Plug>NERDCommenterComment :call NERDComment("x", "Comment")
 nnoremap <silent> <Plug>NERDCommenterComment :call NERDComment("n", "Comment")
+xnoremap <silent> <Plug>NERDCommenterComment :call NERDComment("x", "Comment")
+nnoremap <silent> <Plug>NERDCommenterToggle :call NERDComment("n", "Toggle")
+xnoremap <silent> <Plug>NERDCommenterToggle :call NERDComment("x", "Toggle")
+nnoremap <silent> <Plug>NERDCommenterMinimal :call NERDComment("n", "Minimal")
+xnoremap <silent> <Plug>NERDCommenterMinimal :call NERDComment("x", "Minimal")
+nnoremap <silent> <Plug>NERDCommenterNested :call NERDComment("n", "Nested")
+xnoremap <silent> <Plug>NERDCommenterNested :call NERDComment("x", "Nested")
+nnoremap <silent> <Plug>NERDCommenterToEOL :call NERDComment("n", "ToEOL")
+nnoremap <silent> <Plug>NERDCommenterInvert :call NERDComment("n", "Invert")
+xnoremap <silent> <Plug>NERDCommenterInvert :call NERDComment("x", "Invert")
+nnoremap <silent> <Plug>NERDCommenterSexy :call NERDComment("n", "Sexy")
+xnoremap <silent> <Plug>NERDCommenterSexy :call NERDComment("x", "Sexy")
+nnoremap <silent> <Plug>NERDCommenterYank :call NERDComment("n", "Yank")
+xnoremap <silent> <Plug>NERDCommenterYank :call NERDComment("x", "Yank")
+nnoremap <silent> <Plug>NERDCommenterAppend :call NERDComment("n", "Append")
+nnoremap <silent> <Plug>NERDCommenterAlignLeft :call NERDComment("n", "AlignLeft")
+xnoremap <silent> <Plug>NERDCommenterAlignLeft :call NERDComment("x", "AlignLeft")
+nnoremap <silent> <Plug>NERDCommenterAlignBoth :call NERDComment("n", "AlignBoth")
+xnoremap <silent> <Plug>NERDCommenterAlignBoth :call NERDComment("x", "AlignBoth")
+nnoremap <silent> <Plug>NERDCommenterUncomment :call NERDComment("n", "Uncomment")
+xnoremap <silent> <Plug>NERDCommenterUncomment :call NERDComment("x", "Uncomment")
+snoremap <Right> a
+snoremap <Left> bi
+vmap <F2> :NERDTreeToggle
+nnoremap <silent> <F2> :NERDTreeToggle 
 snoremap <silent> <S-Tab> i<Right>=BackwardsSnippet()
 nnoremap <silent> <Plug>NetrwBrowseX :call netrw#NetrwBrowseX(expand("<cWORD>"),0)
 snoremap <silent> <Plug>snipMateBack a=snipMate#BackwardsSnippet()
@@ -102,10 +102,8 @@ set helplang=es
 set hlsearch
 set ignorecase
 set iminsert=0
-set imsearch=0
 set incsearch
 set mouse=a
-set omnifunc=youcompleteme#OmniComplete
 set ruler
 set runtimepath=~/.vim,~/.vim/bundle/Vundle.vim,~/.vim/bundle/YouCompleteMe,~/.vim/bundle/jedi-vim,~/.vim/bundle/nerdtree,~/.vim/bundle/taglist,~/.vim/bundle/tlib_vim,~/.vim/bundle/ultisnips,~/.vim/bundle/vim-addon-mw-utils,~/.vim/bundle/vim-autopep8,~/.vim/bundle/vim-fugitive,~/.vim/bundle/vim-snipmate,~/.vim/bundle/vim-snippets,/usr/share/vim/vimfiles,/usr/share/vim/vim74,/usr/share/vim/vimfiles/after,~/.vim/bundle/vim-snipmate/after,~/.vim/bundle/ultisnips/after,~/.vim/bundle/jedi-vim/after,~/.vim/after
 set shiftwidth=4
@@ -146,6 +144,9 @@ badd +1 icaro/workspace/icaro/hardware/icaro/micro/conf/config.ini
 badd +1 icaro/workspace/icaro/version
 badd +1 icaro/workspace/icaro/graficador.py
 badd +1 icaro/workspace/icaro/README
+badd +0 icaro/workspace/icaro/clemente/clemente.py
+badd +0 icaro/workspace/icaro/clemente/cli.py
+badd +0 icaro/workspace/icaro/clemente/icr.py
 argglobal
 silent! argdel *
 edit icaro/workspace/icaro/README
@@ -264,11 +265,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 11) / 23)
+let s:l = 64 - ((15 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+64
 normal! 0
 tabedit icaro/workspace/icaro/graficador.py
 set splitbelow splitright
@@ -315,7 +316,7 @@ setlocal commentstring=#%s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
-setlocal completefunc=
+setlocal completefunc=youcompleteme#Complete
 setlocal nocopyindent
 setlocal cryptmethod=
 setlocal nocursorbind
@@ -403,7 +404,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 41 - ((22 * winheight(0) + 11) / 23)
+let s:l = 41 - ((38 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -454,7 +455,7 @@ setlocal commentstring=#%s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
-setlocal completefunc=
+setlocal completefunc=youcompleteme#Complete
 setlocal nocopyindent
 setlocal cryptmethod=
 setlocal nocursorbind
@@ -542,12 +543,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 59 - ((7 * winheight(0) + 11) / 23)
+let s:l = 40 - ((39 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-59
-normal! 040|
+40
+normal! 0
 tabedit icaro/workspace/icaro/hardware/icaro/modulos/util.py
 set splitbelow splitright
 set nosplitbelow
@@ -681,7 +682,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 105 - ((21 * winheight(0) + 11) / 23)
+let s:l = 105 - ((37 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -820,7 +821,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 58 - ((5 * winheight(0) + 11) / 23)
+let s:l = 58 - ((9 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -959,7 +960,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 44 - ((11 * winheight(0) + 11) / 23)
+let s:l = 44 - ((19 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1098,13 +1099,569 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 30 - ((16 * winheight(0) + 20) / 40)
+let s:l = 20 - ((19 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-30
+20
+normal! 052|
+tabedit icaro/workspace/icaro/icaro.py
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <Nul> <C-Space>
+inoremap <buffer> <expr> <C-Space> jedi#complete_string(0)
+nnoremap <buffer> <silent> K :call jedi#show_documentation()
+vnoremap <buffer> \r :call jedi#rename_visual()
+nnoremap <buffer> \r :call jedi#rename()
+nnoremap <buffer> \n :call jedi#usages()
+nnoremap <buffer> \g :call jedi#goto_assignments()
+nnoremap <buffer> \d :call jedi#goto()
+snoremap <buffer> <expr> <C-Space> 'c'.jedi#complete_string(0)
+smap <buffer> <Nul> <C-Space>
+noremap <buffer> <F8> :call Autopep8()
+inoremap <buffer> <silent>   =jedi#smart_auto_mappings()
+inoremap <buffer> <silent> . .=jedi#complete_string(1)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:XCOMM,n:>,fb:-
+setlocal commentstring=#%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=2
+setlocal completefunc=youcompleteme#Complete
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'python'
+setlocal filetype=python
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=2
+setlocal include=s*\\(from\\|import\\)
+setlocal includeexpr=substitute(v:fname,'\\.','/','g')
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=jedi#completions
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.py
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'python'
+setlocal syntax=python
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=100
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 40 - ((39 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+40
+normal! 05|
+tabedit icaro/workspace/icaro/clemente/clemente.py
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <Nul> <C-Space>
+inoremap <buffer> <expr> <C-Space> jedi#complete_string(0)
+nnoremap <buffer> <silent> K :call jedi#show_documentation()
+vnoremap <buffer> \r :call jedi#rename_visual()
+nnoremap <buffer> \r :call jedi#rename()
+nnoremap <buffer> \n :call jedi#usages()
+nnoremap <buffer> \g :call jedi#goto_assignments()
+nnoremap <buffer> \d :call jedi#goto()
+snoremap <buffer> <expr> <C-Space> 'c'.jedi#complete_string(0)
+smap <buffer> <Nul> <C-Space>
+noremap <buffer> <F8> :call Autopep8()
+inoremap <buffer> <silent>   =jedi#smart_auto_mappings()
+inoremap <buffer> <silent> . .=jedi#complete_string(1)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:XCOMM,n:>,fb:-
+setlocal commentstring=#%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=2
+setlocal completefunc=youcompleteme#Complete
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'python'
+setlocal filetype=python
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=2
+setlocal include=s*\\(from\\|import\\)
+setlocal includeexpr=substitute(v:fname,'\\.','/','g')
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=jedi#completions
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.py
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'python'
+setlocal syntax=python
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=100
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 126 - ((21 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+126
+normal! 022|
+tabedit icaro/workspace/icaro/clemente/icr.py
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <Nul> <C-Space>
+inoremap <buffer> <expr> <C-Space> jedi#complete_string(0)
+nnoremap <buffer> <silent> K :call jedi#show_documentation()
+vnoremap <buffer> \r :call jedi#rename_visual()
+nnoremap <buffer> \r :call jedi#rename()
+nnoremap <buffer> \n :call jedi#usages()
+nnoremap <buffer> \g :call jedi#goto_assignments()
+nnoremap <buffer> \d :call jedi#goto()
+snoremap <buffer> <expr> <C-Space> 'c'.jedi#complete_string(0)
+smap <buffer> <Nul> <C-Space>
+noremap <buffer> <F8> :call Autopep8()
+inoremap <buffer> <silent>   =jedi#smart_auto_mappings()
+inoremap <buffer> <silent> . .=jedi#complete_string(1)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:XCOMM,n:>,fb:-
+setlocal commentstring=#%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=2
+setlocal completefunc=youcompleteme#Complete
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'python'
+setlocal filetype=python
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=2
+setlocal include=s*\\(from\\|import\\)
+setlocal includeexpr=substitute(v:fname,'\\.','/','g')
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=youcompleteme#OmniComplete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.py
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'python'
+setlocal syntax=python
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=100
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 67 - ((17 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+67
+normal! 09|
+tabedit icaro/workspace/icaro/clemente/cli.py
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <Nul> <C-Space>
+inoremap <buffer> <expr> <C-Space> jedi#complete_string(0)
+nnoremap <buffer> <silent> K :call jedi#show_documentation()
+vnoremap <buffer> \r :call jedi#rename_visual()
+nnoremap <buffer> \r :call jedi#rename()
+nnoremap <buffer> \n :call jedi#usages()
+nnoremap <buffer> \g :call jedi#goto_assignments()
+nnoremap <buffer> \d :call jedi#goto()
+snoremap <buffer> <expr> <C-Space> 'c'.jedi#complete_string(0)
+smap <buffer> <Nul> <C-Space>
+noremap <buffer> <F8> :call Autopep8()
+inoremap <buffer> <silent>   =jedi#smart_auto_mappings()
+inoremap <buffer> <silent> . .=jedi#complete_string(1)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:XCOMM,n:>,fb:-
+setlocal commentstring=#%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=2
+setlocal completefunc=youcompleteme#Complete
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'python'
+setlocal filetype=python
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=2
+setlocal include=s*\\(from\\|import\\)
+setlocal includeexpr=substitute(v:fname,'\\.','/','g')
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+set linebreak
+setlocal linebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=jedi#completions
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.py
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'python'
+setlocal syntax=python
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=100
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 49 - ((15 * winheight(0) + 20) / 40)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+49
 normal! 0
-tabnext 7
+tabnext 11
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

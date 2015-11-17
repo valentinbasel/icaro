@@ -32,14 +32,12 @@ from screen import PANTALLA
 
 class SERVIDOR(threading.Thread):
 
-    """ 
+    """
     clase servidor para iniciar el socket de comunciación con la placa.
     crea una instacia de la clase ICR para actualizar y manejar el hardware y una
     instancia de PANTALLA para controlar, ver el status y salir del sistema.
-
     conecta por default a
     localhost, 9999
-
     """
 
     def __init__(self, terminal, ip="localhost", port=9999):
@@ -52,7 +50,7 @@ class SERVIDOR(threading.Thread):
         self.ip = ip
         self.port = port
         self.terminal = terminal
-
+        self.emular=False
     def run(self):
         try:
             self.serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

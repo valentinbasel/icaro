@@ -32,7 +32,7 @@
 #import sys
 #import os
 import usb
-#import t
+import time
 
 
 # USB endpoint
@@ -116,8 +116,11 @@ def EscribeUSB(adresse, bloc, manejador):
 def docker(archivo):
     np05 = False
     while np05 == False:
+        print "--busco el puerto--"
+        time.sleep(0.5)
         np05 = buscar_bus()
         if buscar_bus_docker == False:
+            #time.sleep(0.5)
             return 0
         # print np05
         # print "veo si esta prendido el pic"

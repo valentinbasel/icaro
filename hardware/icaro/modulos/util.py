@@ -99,7 +99,7 @@ def linker(nombre, cfg):
     comp_sdcc = comprobar_sdcc(cfg.get("general", "sdcc"))
     if comp_sdcc == 1:
         return 1
-    # op_final=op.replace("~",home_usuario)
+    #op_final=op.replace("~",home_usuario)
     up = str(sdcc_ini + " " +
              cfg.get("upload", "hex") + nombre + ".hex " +
              " " + op + " " +

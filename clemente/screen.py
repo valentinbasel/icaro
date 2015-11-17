@@ -34,21 +34,22 @@ class PANTALLA(threading.Thread):
         self.servidor = serv
         threading.Thread.__init__(self)
         # self.inicio_pantalla()
+        self.emular=False
         self.cadena = """
-        -----------------------------------------------------------------
+        --------------------------------------------------------------------------------
         |
         |    ICARO server 0.1
         |
         |    ayuda:
         |    
         |    - quit (salir)
-        |    - status (muestra el estado del socket y de la placa"
+        |    - status (muestra el estado del socket y de la placa)
         |    - client (muestra la listas de clientes conectados)
         |    - dat (los valores de los sensores analogicos)
+        |    - emular (envia datos al azar, para probar software sin usar el hardware)
         |    - help (esta ayuda)
-
         |
-        -----------------------------------------------------------------
+        --------------------------------------------------------------------------------
    
         """
         print self.cadena
@@ -69,12 +70,15 @@ class PANTALLA(threading.Thread):
                 print "status del sockect: ", self.servidor.status
                 print "status del hardware: ", self.servidor.hilo_icr.status
                 print "cantidad de clientes : ", len(self.servidor.threads)
+                print "estado del emulador de puerto : ", self.servidor.emular 
             if valor == "help":
                 print self.cadena
             if valor == "client":
                 print self.servidor.lista_cli
             if valor == "dat":
                 print self.servidor.datos
+            if valor == "emular":
+                self.servidor.emular= not self.servidor.emular
 
     def stop(self):
         self.flag = False
