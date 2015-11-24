@@ -31,7 +31,7 @@ class componente_inicial():
     vivo = True
     posic_rel_x = 0
     posic_rel_y = 0
-
+    color_fon=[255,255,255]
     def __init__(self, x, y, identidad, fondo, ventana):
         #~ pygame.sprite.Sprite.__init__(self)
         self.imagenintermedia = ""
@@ -73,7 +73,7 @@ class componente_inicial():
 
     def dibujar(self):
         self.fondo.render_svg(
-            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 50, self.posicion[1])
+            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 50, self.posicion[1],self.color_fon)
         self.fondo.texto("inicio", self.posicion[0] + 25, self.posicion[
                          1] + 40, self.color_texto, self.ventana.cr)
 

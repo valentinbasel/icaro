@@ -27,13 +27,13 @@ import forma_basica
 #              |      ------- rectan
 #              |      |
 #              v      v
-# ----#---#------#
+#        ----#---#------#
 #       |    |   |      |
-# |    #---#  #---|
+#       |    #---#  #---|
 #       |           |   |<--- conector_h_dato (lista_conector_h_datos)
-# |    #---#  #---|
+#       |    #---#  #---|
 #       |    |   |      |
-# ----#---#------#
+#        ----#---#------#
 #              A
 #              |
 #              ------------ conector_m
@@ -240,7 +240,7 @@ class Formas(FormaSvg):
         return cuerpo
 
     def comp_0(self, arg, tex, comp):
-        #        cuerpo = [
+                    #        cuerpo = [
                     #(0, -10, 10, 10),
                     #(10, -7, 4, 4),
                     #(50, -10, 10, 10),
@@ -282,9 +282,11 @@ class ComponenteCentral(FormaSvg):
     texto = ""
     valx = 45
     valy = 0
+    color_fon=[255,255,255]
 
     def __init__(self):
         """ Class initialiser """
+
         super(FormaSvg, self).__init__()
 
     def update(self):
@@ -406,7 +408,7 @@ class componente(ComponenteCentral):
         self.conector_h[0] = self.rectan[0] + 45
         self.conector_h[1] = self.rectan[1] + 10
         self.fondo.render_svg(
-            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1])
+            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1],self.color_fon)
         factor = 0
         factor_rectan = 40
         if self.arg == 0:
@@ -466,13 +468,14 @@ class componente_bloque_dos(ComponenteCentral):
         self.vivo = True
         self.valx = 145
         self.valy = 0
+        #self.color_fon=[255,255,255]
         super(ComponenteCentral, self).__init__()
         self.cuerpo = self.crear_comp_bloque_2()
         self.dibujar()
 
     def dibujar(self):
         self.fondo.render_svg(
-            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1])
+            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1],self.color_fon)
         self.fondo.texto(self.texto, self.posicion[0] + 60, self.posicion[
                          1] + 40, self.color_texto, self.ventana.cr)
         self.conector_m[0] = self.rectan[0] + 55
@@ -518,7 +521,7 @@ class componente_bloque_uno(ComponenteCentral):
         self.vivo = True
         self.valx = 45
         self.valy = 0
-
+        #self.color_fon=[255,255,255]
         super(ComponenteCentral, self).__init__()
 
         self.cuerpo = self.crear_comp_bloque_1()
@@ -527,7 +530,7 @@ class componente_bloque_uno(ComponenteCentral):
     def dibujar(self):
 
         self.fondo.render_svg(
-            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1])
+            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1],self.color_fon)
         self.conector_h[0] = self.rectan[0] + 45
         self.conector_h[1] = self.rectan[1] + 10
 
@@ -579,7 +582,7 @@ class componente_cero_arg(FormaSvg):
         self.fondo = fondo
         self.ventana = ventana
         self.color_texto = self.fondo.color_texto
-
+        self.color_fon=[255,255,255]
         FormaSvg.__init__(self)
         self.cuerpo1, self.cuerpo2 = self.crear_comp_0arg()
         self.dibujar()
@@ -587,9 +590,9 @@ class componente_cero_arg(FormaSvg):
     def dibujar(self):
         # conector hembra
         self.fondo.render_svg(
-            self.ventana.cr, self.cuerpo1, self.color, self.posicion[0] + 30, self.posicion[1])
+            self.ventana.cr, self.cuerpo1, self.color, self.posicion[0] + 30, self.posicion[1],self.color_fon)
         self.fondo.render_svg(self.ventana.cr, self.cuerpo2,
-                              self.color, self.posicion2[0] + 50, self.posicion2[1])
+                              self.color, self.posicion2[0] + 50, self.posicion2[1],self.color_fon)
         # self.fondo.draw(self.rectan[0],self.rectan[1],self.rectan[2],self.rectan[3],(0,0,255),self.ventana.cr)
         # self.fondo.draw(self.rectan2[0],self.rectan2[1],self.rectan[2],self.rectan[3],(0,0,255),self.ventana.cr)
         # self.fondo.draw(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3],(255,0,0),self.ventana.cr)
@@ -740,6 +743,7 @@ class comp_dat_arg(FormaSvg):
         self.valor_cadena_no_mod = val_no_mod
         self.imagen = sys.path[0] + "/imagenes/componentes/" + img
         self.tipo = tipo
+        self.color_fon=[255,255,255]
         if self.tipo == 6:
             self.imagenintermedia = img
             self.imagen = sys.path[0] + "/imagenes/componentes/" + img
@@ -757,7 +761,7 @@ class comp_dat_arg(FormaSvg):
             TamaComp = 3
         self.cuerpo = self.crear_comp_dat(TamaComp)
         self.fondo.render_svg(
-            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1])
+            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1],self.color_fon)
         self.conector_h[0] = self.rectan[0] + TamaComp + 60
         self.conector_h[1] = self.rectan[1] + 5
 

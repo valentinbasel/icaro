@@ -106,14 +106,14 @@ class MotorCairo():
         b = b + 1
         return b
 
-    def render_svg(self, cr, path_strings, color, x, y):
+    def render_svg(self, cr, path_strings, color, x, y,color_fon):
         cadena_svg = path_strings.split(" ")
         b = 0
         letr = ""
         cr.move_to(x, y)
         rgbfin = self.color(color)
         rad = cairo.RadialGradient(x + 50, y + 50, 10, x + 50, y + 50, 200)
-        rad.add_color_stop_rgba(1,  80, 100, 80, 1)
+        rad.add_color_stop_rgba(1,  color_fon[0],color_fon[1],color_fon[2], 1)
         rad.add_color_stop_rgba(0, rgbfin[0], rgbfin[1], rgbfin[2], 1)
         cr.set_source(rad)
         while b < len(cadena_svg):
