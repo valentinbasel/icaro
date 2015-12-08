@@ -96,7 +96,7 @@ class VENTANA:
         if widget.get_active():
             widget.set_label("conectado")
             self.s = socket.socket()
-            host = socket.gethostname()
+            host = "localhost"#socket.gethostname()
             port = 9999
             try:
                 self.s.connect((host, port))
