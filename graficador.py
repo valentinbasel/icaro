@@ -45,14 +45,17 @@ class VENTANA:
         frame2 = gtk.Frame(label="opciones")
         frame.add(self.area)
         self.sensorcheck = []
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 1"))
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 2"))
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 3"))
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 4"))
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 5"))
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 6"))
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 7"))
-        self.sensorcheck.append(gtk.CheckButton(label="sensor 8"))
+        for val_sens in range(1,9):
+            print val_sens 
+            cad_sensor="sensor "+ str(val_sens)
+            self.sensorcheck.append(gtk.CheckButton(label=cad_sensor))
+        #self.sensorcheck.append(gtk.CheckButton(label="sensor 2"))
+        #self.sensorcheck.append(gtk.CheckButton(label="sensor 3"))
+        #self.sensorcheck.append(gtk.CheckButton(label="sensor 4"))
+        #self.sensorcheck.append(gtk.CheckButton(label="sensor 5"))
+        #self.sensorcheck.append(gtk.CheckButton(label="sensor 6"))
+        #self.sensorcheck.append(gtk.CheckButton(label="sensor 7"))
+        #self.sensorcheck.append(gtk.CheckButton(label="sensor 8"))
 
         gtk.Label("ciclos")
         self.eciclos = gtk.VScale()

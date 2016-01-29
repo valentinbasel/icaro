@@ -59,23 +59,23 @@ class componente_inicial():
         lin8 = self.fondo.crear_nodo_linea(
             forma_basica.lin8[0], forma_basica.lin8[1])
         self.cuerpo = (lin1 +
-                       forma_basica.nodo_esq_ar_der +
-                       lin2 +
-                       lin3 +
-                       forma_basica.nodo_esq_ab_der +
-                       lin4 +
-                       forma_basica.nodo_macho +
-                       lin5 +
-                       forma_basica.nodo_esq_ab_izq +
-                       lin6 +
-                       lin8 +
-                       forma_basica.nodo_esq_ar_izq)
+            forma_basica.nodo_esq_ar_der +
+            lin2 +
+            lin3 +
+            forma_basica.nodo_esq_ab_der +
+            lin4 +
+            forma_basica.nodo_macho +
+            lin5 +
+            forma_basica.nodo_esq_ab_izq +
+            lin6 +
+            lin8 +
+            forma_basica.nodo_esq_ar_izq)
 
     def dibujar(self):
         self.fondo.render_svg(
-            self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 50, self.posicion[1],self.color_fon)
+                self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 50, self.posicion[1],self.color_fon)
         self.fondo.texto("inicio", self.posicion[0] + 25, self.posicion[
-                         1] + 40, self.color_texto, self.ventana.cr)
+                1] + 40, self.color_texto, self.ventana.cr)
 
     def update(self):
         posic_mouse = self.ventana.mousexy
@@ -95,7 +95,6 @@ class componente_inicial():
             self.pulsado == 0 and
             self.ventana.seleccionado == 0 and
             self.ventana.seleccion_menu == 2
-
             ):
             self.ventana.seleccionado = self.ide
             self.posic_rel_x = abs(self.posicion[0] - posic_mouse[0])
