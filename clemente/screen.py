@@ -69,12 +69,12 @@ class PANTALLA(threading.Thread):
             if valor == "status":
                 print "status del sockect: ", self.servidor.status
                 print "status del hardware: ", self.servidor.hilo_icr.status
-                print "cantidad de clientes : ", len(self.servidor.threads)
+                print "cantidad de clientes : ", self.servidor.contador #len(self.servidor.threads)
                 print "estado del emulador de puerto : ", self.servidor.emular 
             if valor == "help":
                 print self.cadena
-            if valor == "client":
-                print self.servidor.lista_cli
+            #~ if valor == "client":
+                #~ print self.servidor.lista_cli
             if valor == "dat":
                 print self.servidor.datos
             if valor == "emular":

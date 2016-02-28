@@ -46,7 +46,7 @@ class VENTANA:
         frame.add(self.area)
         self.sensorcheck = []
         for val_sens in range(1,9):
-            print val_sens 
+            print val_sens
             cad_sensor="sensor "+ str(val_sens)
             self.sensorcheck.append(gtk.CheckButton(label=cad_sensor))
         #self.sensorcheck.append(gtk.CheckButton(label="sensor 2"))

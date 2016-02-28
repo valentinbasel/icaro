@@ -42,11 +42,13 @@ class SERVIDOR(threading.Thread):
 
     def __init__(self, terminal, ip="localhost", port=9999):
         """ inicializador de clase """
-        self.lista_cli = [0]
+        #self.lista_cli = [0]
         threading.Thread.__init__(self)
+        self.contador = 0
+
         self.datos = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.flag = True
-        self.threads = []
+        #~ self.threads = []
         self.ip = ip
         self.port = port
         self.terminal = terminal
@@ -73,7 +75,6 @@ class SERVIDOR(threading.Thread):
 
             hilo_pantalla.start()
             # self.threads.append(hilo_pantalla)
-        contador = 1
         # self.threads.append(self.hilo_icr)
         self.serv.listen(5)
         while self.flag == True:
@@ -84,16 +85,16 @@ class SERVIDOR(threading.Thread):
                 self,
                 socket_cliente,
                 "Cliente",
-                contador,
+                self.contador,
                 socket_cliente,
                 datos_cliente
             )
-            contador = contador + 1
+            self.contador = self.contador + 1
             hilo_icaro.setDaemon(True)
 
             hilo_icaro.start()
-            self.threads.append(hilo_icaro)
-            self.lista_cli.append(hilo_icaro)
+            #self.threads.append(hilo_icaro)
+            #self.lista_cli.append(hilo_icaro)
             # except:
             #    print "paso algo"
             #    self.cerrar()

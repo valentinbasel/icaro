@@ -26,13 +26,15 @@ import os
 from utilidades_ventana import UTILIDADES
 
 
-# cunado incio icaro, me da la posibilidad de cambiar el modulo de hardware, para tener compatibildiad
+# cuando incio icaro, me da la posibilidad de cambiar
+#el modulo de hardware, para tener compatibildiad
 # con otros sistemas
 
 hardware_dir = "hardware/icaro/"
 ruta_hardware = sys.path[0] + "/" + hardware_dir + "modulos"
 conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
-# UTILIDADES es la clase que contiene las funciones para generar mensajes, carga de la conf .ini y
+# UTILIDADES es la clase que contiene las funciones para generar mensajes,
+# carga de la conf .ini y
 # recargar los archivos del firmware
 mens = UTILIDADES()
 

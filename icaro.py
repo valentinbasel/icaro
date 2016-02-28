@@ -22,12 +22,13 @@ import nuevo
 import guardar
 import navegador
 import tooltips
-import graficador
+import graficador_matplot
 import mouse
 import util
 import carga
 import visor
 import config_menu
+import terminal_vte
 
 from motor import MotorCairo
 from componente_inicial import *
@@ -326,7 +327,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.icaro_dir = icaro_dir
         arch = open(sys.path[0] + "/version", "r")
         version = arch.readline()
-
+        
         creditos.Info.version = version
         self.carga_conf_ventana()
         # declaro la ventana principal
@@ -335,7 +336,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         # declaro la tabla  donde van los botones para el menu de bloques
         # box1 es el contenedor principal despues de la ventana
         self.window1 = gtk.Window()
-
+        
         titulo = "icaro " + version.strip("\n\r")
         self.window1.set_title(titulo)
         toolbar = gtk.Toolbar()
@@ -374,13 +375,13 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             "/imagenes/icaro.png"
         )
         self.area.set_app_paintable(True)
-        self.area.set_size_request(800, 1800)
+        self.area.set_size_request(800, 800)
         menu1 = [_("File"), _("Edit"), "herramientas"]
         menu_general = [
             (_("New"), _("Open"), _("Save"), _("Save as"),
              _("Save as function"), _("Examples"), _("Exit")),
             (_("Background"), _("Color"), _("About"), _("Config")),
-            ("graficador",  _("Log"), "firmware",)
+            ("graficador","clemente",  _("Log"), "firmware",)
         ]
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
@@ -548,8 +549,11 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 # ========================================================================
 
     def graf(self):
-        graf = graficador.VENTANA()
+        graf = graficador_matplot.VENTANA()
         graf.window.show_all()
+    def clemente(self):
+        cle=terminal_vte.TERM_CLEMENTE()
+        cle.window.show_all()
 # ========================================================================
 # VENTANA DE AYUDA (NAVEGADOR)
 # ========================================================================
@@ -929,6 +933,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             self.visor(dir_conf)
         if string == "graficador":
             self.graf()
+        if string == "clemente":
+            self.clemente()
         if string == "zoomas":
             self.z = self.z + 0.1
         if string == "zoomenos":
@@ -1032,10 +1038,14 @@ def inicio(icaro_dir):
     ventana_principal.fondo = fon
     inicial = componente_inicial(50, 50, 1, fon, ventana_principal)
     fon.objetos.append(inicial)
+
     ventana_principal.window1.show_all()
     R = ventana_principal.cfg.get("icaro_config", "colorR")
     G = ventana_principal.cfg.get("icaro_config", "colorG")
     B = ventana_principal.cfg.get("icaro_config", "colorB")
+    X = ventana_principal.cfg.get("icaro_config", "pantallax")
+    Y = ventana_principal.cfg.get("icaro_config", "pantallay")
+    ventana_principal.area.set_size_request(int(X), int(Y))
     ventana_principal.fondo.FONDO = (int(R), int(G), int(B))
     gobject.timeout_add(50, ventana_principal.timeout)
 # gobject.idle_add(ventana_principal.timeout)
