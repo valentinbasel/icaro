@@ -23,9 +23,7 @@
 #
 import gtk
 import matplotlib.pyplot as plt
-#import time
 from collections import deque
-#import numpy as np
 import socket               # Import socket module
 from utilidades_ventana import UTILIDADES
 
@@ -123,7 +121,7 @@ class VENTANA:
         }
         self.sensores = []
         self.mens = UTILIDADES()
-        self.sock = socket.socket()
+        self.crear_socket()
         for a in range(8):
             main_sensor = ['', '', '', 0]
             self.sensores.append(main_sensor)
@@ -194,6 +192,10 @@ class VENTANA:
         # muestro todo
         self.win.show_all()
 
+    def crear_socket(self):
+        self.sock = socket.socket()
+        return 0
+
     def focus_out_cb(self, widget, b, a):
         self.sensores[a][2] = widget.get_text()
 
@@ -210,7 +212,7 @@ class VENTANA:
         self.sensores[a][1] = model[val][0]
 
     def cerrar(self):
-        self.sock.send("cerrar")
+        #self.sock.send("cerrar")
         self.win.hide()
 
     def boton_empezar_click(self, widget, h, p):
@@ -222,14 +224,14 @@ class VENTANA:
         try:
             self.sock.connect((host, int(port)))
         except:
-            self.mens.mensajes(2 , "error de conexion")
+            self.mens.mensajes(2, "error de conexion")
             return 1
         dat = []
         sens = []
         figu = plt.figure()
         fig = figu.add_subplot(111)
         for a in range(8):
-            a1 = deque([0] * 1000)
+            a1 = deque([0] * 100)
             dat.append(a1)
             if self.sensores[a][3] == 1:
                 cadena_style_color = self.dic_style[self.sensores[
@@ -241,13 +243,14 @@ class VENTANA:
         plt.ion()
         plt.xlabel(u't (segundos)')
         plt.legend()  # Creamos la caja con la leyenda
-        plt.xlim([0, 200])
-        plt.ylim([0, 1200])
+        plt.xlim([0, 100])
+        plt.ylim([0, 1100])
         figu.show()
 
         def onclick(event):
             self.flag_live = False
             self.sock.send("cerrar")
+            self.crear_socket()
             # plt.close()
             # exit()
 
@@ -255,12 +258,15 @@ class VENTANA:
 
         while(self.flag_live == True):
             for dato in sens:
-                cadena_an = "analogico," + str(dato[1] + 1)
+                cadena_an = "analogico," + str(dato[1])
                 print cadena_an
                 self.sock.send(cadena_an)
                 peticion = self.sock.recv(1024)
+                print "sensor: ", str(dato[1])," valor: ",peticion
+
                 dat[dato[1]].appendleft(peticion)
                 datatoplot = dat[dato[1]].pop()
+                #print "dato generado:",dato[1],"--val:",dat[dato[1]]
                 dato[0][0].set_ydata(dat[dato[1]])
             # print self.flag_live
             plt.pause(0.1)
