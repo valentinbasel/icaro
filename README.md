@@ -1,19 +1,19 @@
-<<<<<<< HEAD:README.md
-Acerca del Proyecto Icaro
-=======================================================
+Proyecto Icaro
+---------------
+
 Creado por Valentin Bassel  / http://www.roboticaro.org 
-=======
-﻿                         ____  ___    __    ____  _____ 
+ 
+
+
+                         ____  ___    __    ____  _____ 
                         (_  _)/ __)  /__\  (  _ \(  _  )
                          _)(_( (__  /(__)\  )   / )(_)( 
                         (____)\___)(__)(__)(_)\_)(_____)
 
 
 
-#===============================================================================
-# ACERCA DE.
-#===============================================================================
->>>>>>> devel:README
+ACERCA DE
+----------
 
 ICARO es un proyecto de desarrollo de software y hardware libre para la ense-
 ñanza de robótica en colegios primarios y secundarios. Se trata de acercar de forma
@@ -39,7 +39,7 @@ agregándole el plugin Tortucaro, se puede desarrollar un robot que responda a l
 traves de una API programada en python y Pyserial.
 
 Icaro-Bloques
------
+--------------
 Con Tortucaro se puede trabajar conectado a la netbook y usando placas basadas
 en los integrados de Microchip PIC 16F628A2 (la gama más básica de PIC), aunque
 no permite el desarrollo de robots independientes de la netbook. Para poder traba-
@@ -61,28 +61,28 @@ fabricación de PCBs al no usar soldadura superficial), posee 40 pines de entrad
 PWM, 8 entradas analógicas (PORT-A), conexión serie, etc.
 
 Apicaro
------
+--------
 Apicaro es un modulo python para poder comunicar la placa Np05 mediante python-serial.
 Tiene las clases y funciones que permiten implementar un protocolo de transferencia 
 mediante python.
 
 Desarrollo
------
+-----------
 Valentin Basel  - valentinbasel@gmail.com
 
 Contribuciones
------
+--------------
 Neville A. Cross - yn1v@fedoraproject.org
 Lucas Costas - puixima@gmail.com
 Javier Castrillo - jcastrillo@educ.ar
 
 Empaquetamiento RPM
------
-Yader Velásquez - yajosev@gmail.com
+--------------------
 Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com
+Yader Velásquez - yajosev@gmail.com
 
 Diseño gráfico
------
+----------------
 María Leandro - tatica@fedoraproject.org
 Mauro Paez - maureliopaez@gmail.com
 
@@ -93,4 +93,4 @@ http://sistema-icaro.blogspot.com.ar/
 https://github.com/valentinbasel/icaro
 
 
-
+-----------
