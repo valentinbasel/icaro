@@ -34,7 +34,8 @@ class MOUSE(componente.Formas):
         self.conector_m = [0, 0, 20, 30]
         self.rectan = [0, 0, 0, 0]
         componente.Formas.__init__(self)
-        self.color_fon=[255,255,255]
+        self.color_fon = [255, 255, 255]
+
     def update(self):
         """docstring for update"""
         self.conector_h[0] = self.ventana.mousexy[0]
@@ -77,4 +78,4 @@ class MOUSE(componente.Formas):
                 self.ventana.diccionario[tip][1],
             )
             self.fondo.render_svg(
-                self.ventana.cr, cuerpo, color, self.ventana.mousexy[0] + 40, self.ventana.mousexy[1],self.color_fon)
+                self.ventana.cr, cuerpo, color, self.ventana.mousexy[0] + 40, self.ventana.mousexy[1], self.color_fon)

@@ -34,7 +34,7 @@ class PANTALLA(threading.Thread):
         self.servidor = serv
         threading.Thread.__init__(self)
         # self.inicio_pantalla()
-        self.emular=False
+        self.emular = False
         self.cadena = """
         --------------------------------------------------------------------------------
         |
@@ -69,8 +69,9 @@ class PANTALLA(threading.Thread):
             if valor == "status":
                 print "status del sockect: ", self.servidor.status
                 print "status del hardware: ", self.servidor.hilo_icr.status
-                print "cantidad de clientes : ", self.servidor.contador #len(self.servidor.threads)
-                print "estado del emulador de puerto : ", self.servidor.emular 
+                # len(self.servidor.threads)
+                print "cantidad de clientes : ", self.servidor.contador
+                print "estado del emulador de puerto : ", self.servidor.emular
             if valor == "help":
                 print self.cadena
             #~ if valor == "client":
@@ -78,7 +79,7 @@ class PANTALLA(threading.Thread):
             if valor == "dat":
                 print self.servidor.datos
             if valor == "emular":
-                self.servidor.emular= not self.servidor.emular
+                self.servidor.emular = not self.servidor.emular
 
     def stop(self):
         self.flag = False

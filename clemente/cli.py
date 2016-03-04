@@ -54,7 +54,7 @@ class CLIENTE(threading.Thread):
         val = cadena.split(",")
         if val[0] == "cerrar":
             # print "cierro todo"
-            self.servidor.contador=self.servidor.contador - 1
+            self.servidor.contador = self.servidor.contador - 1
             self.stop()
         if val[0] == "analogico" and int(val[1]) >= 0 and int(val[1]) < 8:
             a = self.servidor.datos[int(val[1])]

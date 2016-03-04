@@ -120,7 +120,7 @@ def docker(archivo):
         time.sleep(0.5)
         np05 = buscar_bus()
         if buscar_bus_docker == False:
-            #time.sleep(0.5)
+            # time.sleep(0.5)
             return 0
         # print np05
         # print "veo si esta prendido el pic"

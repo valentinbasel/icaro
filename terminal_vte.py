@@ -2,37 +2,38 @@
 # -*- coding: utf-8 -*-
 #
 #  test_terminal_vte.py
-#  
+#
 #  Copyright 2015 valentin basel <vbasel@localhost.localdomain>
-#  
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-# 
+#
 #
 import sys
 import gtk
 import vte
 from utilidades_ventana import UTILIDADES
 
+
 class TERM_CLEMENTE:
     """ Class doc """
 
-    def __init__ (self):
+    def __init__(self):
         """ Class initialiser """
-        src=sys.path[0] 
-        cad="clear\n python "+src+"/clemente/clemente.py\n"
+        src = sys.path[0]
+        cad = "clear\n python " + src + "/clemente/clemente.py\n"
         mens = UTILIDADES()
         window = gtk.Window()
         window.set_title("pyshell")

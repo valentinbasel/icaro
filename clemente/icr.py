@@ -27,21 +27,21 @@ import threading
 import usb
 import random
 
+
 class ICR(threading.Thread):
 
     """ Clase para manejar  """
 
     def __init__(self, servidor):
-
         """ Class initialiser """
         self.servidor = servidor
         threading.Thread.__init__(self)
         self.band = False
         self.flag = True
         self.status = False
-       
+
     def conexion(self):
-        if  self.servidor.emular== True:
+        if self.servidor.emular == True:
             return True
         pingu = False
         try:
@@ -64,10 +64,10 @@ class ICR(threading.Thread):
 
     def actualizar(self, band):
 
-        if  self.servidor.emular == True:
+        if self.servidor.emular == True:
             self.status = True
             for a in range(8):
-                self.servidor.datos[a]=random.randint(0,1023)
+                self.servidor.datos[a] = random.randint(0, 1023)
             return True
 
         if self.band == True:
@@ -88,6 +88,7 @@ class ICR(threading.Thread):
                 self.band = False
                 self.status = False
         return self.band
+
     def stop(self):
         self.flag = False
 

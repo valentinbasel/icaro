@@ -27,7 +27,7 @@ from utilidades_ventana import UTILIDADES
 
 
 # cuando incio icaro, me da la posibilidad de cambiar
-#el modulo de hardware, para tener compatibildiad
+# el modulo de hardware, para tener compatibildiad
 # con otros sistemas
 
 hardware_dir = "hardware/icaro/"

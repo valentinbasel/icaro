@@ -52,7 +52,8 @@ class SERVIDOR(threading.Thread):
         self.ip = ip
         self.port = port
         self.terminal = terminal
-        self.emular=False
+        self.emular = False
+
     def run(self):
         try:
             self.serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -93,8 +94,8 @@ class SERVIDOR(threading.Thread):
             hilo_icaro.setDaemon(True)
 
             hilo_icaro.start()
-            #self.threads.append(hilo_icaro)
-            #self.lista_cli.append(hilo_icaro)
+            # self.threads.append(hilo_icaro)
+            # self.lista_cli.append(hilo_icaro)
             # except:
             #    print "paso algo"
             #    self.cerrar()

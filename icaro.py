@@ -327,7 +327,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.icaro_dir = icaro_dir
         arch = open(sys.path[0] + "/version", "r")
         version = arch.readline()
-        
+
         creditos.Info.version = version
         self.carga_conf_ventana()
         # declaro la ventana principal
@@ -336,7 +336,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         # declaro la tabla  donde van los botones para el menu de bloques
         # box1 es el contenedor principal despues de la ventana
         self.window1 = gtk.Window()
-        
+
         titulo = "icaro " + version.strip("\n\r")
         self.window1.set_title(titulo)
         toolbar = gtk.Toolbar()
@@ -381,7 +381,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             (_("New"), _("Open"), _("Save"), _("Save as"),
              _("Save as function"), _("Examples"), _("Exit")),
             (_("Background"), _("Color"), _("About"), _("Config")),
-            ("graficador","clemente",  _("Log"), "firmware",)
+            ("graficador", "clemente",  _("Log"), "firmware",)
         ]
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
@@ -551,8 +551,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     def graf(self):
         graf = graficador_matplot.VENTANA()
         graf.window.show_all()
+
     def clemente(self):
-        cle=terminal_vte.TERM_CLEMENTE()
+        cle = terminal_vte.TERM_CLEMENTE()
         cle.window.show_all()
 # ========================================================================
 # VENTANA DE AYUDA (NAVEGADOR)

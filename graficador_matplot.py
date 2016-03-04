@@ -212,7 +212,7 @@ class VENTANA:
         self.sensores[a][1] = model[val][0]
 
     def cerrar(self):
-        #self.sock.send("cerrar")
+        # self.sock.send("cerrar")
         self.win.hide()
 
     def boton_empezar_click(self, widget, h, p):
@@ -262,11 +262,11 @@ class VENTANA:
                 print cadena_an
                 self.sock.send(cadena_an)
                 peticion = self.sock.recv(1024)
-                print "sensor: ", str(dato[1])," valor: ",peticion
+                print "sensor: ", str(dato[1]), " valor: ", peticion
 
                 dat[dato[1]].appendleft(peticion)
                 datatoplot = dat[dato[1]].pop()
-                #print "dato generado:",dato[1],"--val:",dat[dato[1]]
+                # print "dato generado:",dato[1],"--val:",dat[dato[1]]
                 dato[0][0].set_ydata(dat[dato[1]])
             # print self.flag_live
             plt.pause(0.1)
