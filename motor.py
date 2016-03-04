@@ -21,20 +21,20 @@
 #  MA 02110-1301, USA.
 #
 #
-import cairo
 
-#import rsvg
+import cairo
 
 
 class MotorCairo():
+
     tipo_letra = "sans"
     tama_letra = 12
+    color_conectado = (100, 80, 100)
+    color_no_conectado = (0, 0, 0)
 
     def __init():
         pass
 
-   # def dibujar_svg(self,svg,x,y,cr):
-        # svg.render_cairo(cr)
     def zoom(self, valor, cr):
         scaler = cairo.Matrix()
         scaler.scale(valor, valor)
@@ -48,13 +48,6 @@ class MotorCairo():
         cr.set_source_surface(img, x, y)
 
         cr.paint()
-        #~ except Exception, ex:
-            #~ self.imagen=pygame.image.load   (
-                                        #~ sys.path[0] +
-                                        #~
-                                        #~ "/imagenes/componentes/"+
-                                        #~ "desconocido.png"
-                                        #~ )
 
     def color(self, rgb):
         rgbfin = (
@@ -68,14 +61,8 @@ class MotorCairo():
         cr.set_line_width(1)
         rgbfin = self.color(rgb)
         cr.set_source_rgba(rgbfin[0], rgbfin[1], rgbfin[2], 1)
-        #rad=cairo.RadialGradient (x, y, h/2, x, y, h)
-        #rad.add_color_stop_rgba(1,  rgbfin[0]/2,rgbfin[1]/2,rgbfin[2]/2, 1)
-        #rad.add_color_stop_rgba(0, rgbfin[0],rgbfin[1],rgbfin[2],1)
-        # cr.set_source(rad)
-
         cr.rectangle(x, y, h, w)
         cr.fill()
-#        cr.stroke_preserve()
 
     def texto(self, txt, x, y, rgb, cr):
         cr.select_font_face(
@@ -88,6 +75,73 @@ class MotorCairo():
         rgbfin = self.color(rgb)
         cr.set_source_rgb(rgbfin[0], rgbfin[1], rgbfin[2],)
         cr.show_text(txt)
+        # estas son nuevas funciones para trabajar con  archivs svg
+
+    def parse_xy(self, cad, val):
+        try:
+            xy = cad[val].split(",")
+            xx = xy[0].encode('ascii', 'ignore')
+            yy = xy[1].encode('ascii', 'ignore')
+            x = float(xx)
+            y = float(yy)
+        except Exception, ex:
+            return 0, 0
+        return x, y
+
+    def rel_c(self, b, f, cr):
+        b = b + 1
+        x1, y1 = self.parse_xy(f, b)
+        b = b + 1
+        x2, y2 = self.parse_xy(f, b)
+        b = b + 1
+        x, y = self.parse_xy(f, b)
+        cr.rel_curve_to(x1, y1, x2, y2, x, y)
+        b = b + 1
+        return b
+
+    def rel_l(self, b, f, cr):
+        b = b + 1
+        x, y = self.parse_xy(f, b)
+        cr.rel_line_to(x, y)
+        b = b + 1
+        return b
+
+    def render_svg(self, cr, path_strings, color, x, y, color_fon):
+        cadena_svg = path_strings.split(" ")
+        b = 0
+        letr = ""
+        cr.move_to(x, y)
+        rgbfin = self.color(color)
+        rad = cairo.RadialGradient(x + 50, y + 50, 10, x + 50, y + 50, 200)
+        rad.add_color_stop_rgba(
+            1,  color_fon[0], color_fon[1], color_fon[2], 1)
+        rad.add_color_stop_rgba(0, rgbfin[0], rgbfin[1], rgbfin[2], 1)
+        cr.set_source(rad)
+        while b < len(cadena_svg):
+            if (cadena_svg[b] == u'm'):
+                letr = cadena_svg[b]
+                b = b + 2
+            if (cadena_svg[b] == u'c'):
+                letr = cadena_svg[b]
+                b = self.rel_c(b, cadena_svg, cr)
+            elif (cadena_svg[b] == u'l'):
+                letr = cadena_svg[b]
+                b = self.rel_l(b, cadena_svg, cr)
+            else:
+                if letr == u'c':
+                    b = self.rel_c(b - 1, cadena_svg, cr)
+
+                else:
+                    b = self.rel_l(b - 1, cadena_svg, cr)
+        cr.set_line_join(cairo.LINE_JOIN_ROUND)
+        cr.close_path()
+        cr.fill()
+        cr.stroke()
+        return 0
+
+    def crear_nodo_linea(self, x, y):
+        cadena = " l %s,%s " % (float(x), float(y))
+        return cadena
 
     def collide(sef, rectan, x, y):
         if (
@@ -102,12 +156,6 @@ class MotorCairo():
         else:
             return False
 
-#    def collide(sef,rectan,x,y):
-#        if x > rectan[0] and x < rectan[0]+rectan[2]:
-#            if y > rectan[1] and y < rectan[1]+rectan[2]:
-#                return True
-#        else:
-#            return False
     def colliderect(sef, rectan, rectan2):
         if rectan2[0] > rectan[0] and rectan2[0] < rectan[0] + rectan[2]:
             if rectan2[1] > rectan[1] and rectan2[1] < rectan[1] + rectan[2]:
@@ -126,12 +174,7 @@ class MotorCairo():
 
     def line(self, x, y, cr):
         cr.set_line_width(3)
-        # rgbfin=self.color(rgb)
         cr.set_source_rgb(1, 1, 1)
-        # cr.move_to(x1,y1)
         cr.line_to(x, y)
-        #cr.line_to(x2, y2)
         cr.close_path()
-         #cr.rectangle(x1, y1, x2, y2)
-        # cr.fill()
         cr.stroke_preserve()

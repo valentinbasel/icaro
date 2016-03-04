@@ -1,6 +1,9 @@
-*pyc
-*~
+*.swp
+*.pyc
+*.~
+.*.swp
 .project
 .pydevproject
 .settings
-/componentes
+*.vim
+

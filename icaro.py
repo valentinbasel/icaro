@@ -10,34 +10,31 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-import ConfigParser
+
 import gtk
 import os
 import sys
 import gobject
+
 import creditos
-import carga
 import abrir
 import nuevo
 import guardar
-import crear
 import navegador
-import visor
 import tooltips
-import config
-import graficador
+import graficador_matplot
+import mouse
+import util
+import carga
+import visor
+import config_menu
+import terminal_vte
 
-#from subprocess import Popen, PIPE, STDOUT
 from motor import MotorCairo
 from componente_inicial import *
 from componente import *
-
-
-#import re
-#import shutil
-#import pygtk
-#import cairo
-#import lenguaje
+from comp import *
+from utilidades_ventana import UTILIDADES
 
 
 # ========================================================================
@@ -68,7 +65,6 @@ class Componentes():
 
     def __init__(self):
         """ Class initialiser """
-        pass
 
 # ========================================================================
 # FONDO
@@ -93,6 +89,7 @@ class fondo(MotorCairo, Componentes):
         self.lista_ordenada.append(0)
         self.img = ""
         self.ultimo = 1
+        self.mouse_puntero = mouse.MOUSE(self, ventana_principal)
 
     def carga_img(self, cadena):
         """
@@ -103,6 +100,7 @@ class fondo(MotorCairo, Componentes):
         self.band = 1
         # img representa el nombre y la ruta del archivo que contiene la imagen
         self.img = cadena
+        print cadena
 
     def update(self):
         """
@@ -110,19 +108,136 @@ class fondo(MotorCairo, Componentes):
         el fondo de la imagen y evitar qeu los bloques dejen un rastro en la
         pantalla, o para actualizar la imagen de fondo
         """
+        self.ff = ventana_principal.area.window.cairo_create()
+        rgb = self.color(fon.FONDO)
+        self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
+        self.ff.paint()
+        #self.cr = self.area.window.cairo_create()
+        self.zoom(ventana_principal.z, ventana_principal.cr)
+
         if self.band == 1:
             if os.path.exists(self.img):
                 cr2 = ventana_principal.area.window.cairo_create()
-                respuesta = self.imagen(self.img, 0, 0, cr2)
+                respuesta = self.imagen(str(self.img), 0, 0, cr2)
                 if respuesta == 1:
                     self.band = 0
+        self.mouse_puntero.update()
+
+
+class crear_comp:
+
+    def __init__():
+        pass
+
+    def crear_componente(self, b, x, y):
+        ax = ay = 30
+        # siempre hay que tratar de que el foco quede en el drawing area
+        self.area.grab_focus()
+
+        if self.diccionario[b][1] == 1:
+            c1 = componente(
+                x,
+                y,
+                self.fondo.identificador + 1,
+                self.diccionario[b][2],
+                self.diccionario[b][3],
+                self.diccionario[b][0],
+                self.fondo,
+                self
+
+            )
+            self.fondo.identificador += 1
+            self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.lista_ordenada.append(0)
+        if self.diccionario[b][1] == 4:
+
+            self.fondo.identificador += 1
+            c1 = componente_cero_arg(
+                x,
+                y,
+                self.fondo.identificador,
+                self.diccionario[b][3],
+                self.diccionario[b][0],
+                self.fondo,
+                self
+            )
+
+            self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.lista_ordenada.append(0)
+
+        if self.diccionario[b][1] == 5:
+            self.fondo.identificador += 1
+            c1 = componente_bloque_uno(
+                x,
+                y,
+                self.fondo.identificador,
+                self.diccionario[b][3],
+                self.diccionario[b][0],
+                self.fondo,
+                self,
+            )
+            self.fondo.objetos.append(c1)
+            self.fondo.identificador += 1
+            self.fondo.lista_ordenada.append(0)
+
+            c1 = componente_bloque_dos(
+                x,
+                y + 80,
+                self.fondo.identificador,
+                self.diccionario[b][3],
+                self.diccionario[b][4],
+                self.fondo,
+                self
+            )
+            self.fondo.objetos.append(c1)
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
+            self.fondo.tipo_obj.append(0)
+            self.fondo.lista_ordenada.append(0)
+
+        if self.diccionario[b][1] == 6:
+            c1 = comp_dat_arg(
+                x,
+                y,
+                self.fondo.identificador_dat,
+                self.diccionario[b][2],
+                self.diccionario[b][4],
+                self.diccionario[b][3],
+                self.diccionario[b][5],
+                self.diccionario[b][0].strip(" ") + ".png",
+                6,
+                self.fondo,
+                self,
+            )
+            self.fondo.identificador_dat += 1
+            self.fondo.objetos_datos.append(c1)
+            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
+        if self.diccionario[b][1] == 7:
+            c1 = comp_dat_arg(
+                x,
+                y,
+                self.fondo.identificador_dat,
+                self.diccionario[b][2],
+                self.diccionario[b][4],
+                self.diccionario[b][3],
+                self.diccionario[b][5],
+                self.diccionario[b][0].strip(" ") + ".png",
+                7,
+                self.fondo,
+                self,
+            )
+            self.fondo.identificador_dat += 1
+            self.fondo.objetos_datos.append(c1)
+            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
+
 
 # ========================================================================
 # VENTANA
 # ========================================================================
 
 
-class Ventana:
+class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
     """
     Clase ventana contiene el constructor de la ventana GTK y las funciones
@@ -168,6 +283,7 @@ class Ventana:
     """
     # variables globales para manejar posicion del mouse, clicks y pulsaciones
     # de teclas dentro de la ventana
+
     archivo = ""
     mousexy = (0, 0)
     boton_mouse = [0, 0, 0, 0]
@@ -177,7 +293,6 @@ class Ventana:
     tecla = 0
     valor_tecla = ""
     tecla_enter = 0
-    processor = "18f4550"
     cadena_pinguino = []
     seleccion_menu = 1
     tipo_componente = 1
@@ -205,37 +320,27 @@ class Ventana:
     }
     valor_datos_comp = {"fin ": "}"}
 
-    def __init__(self):
+    def __init__(self, icaro_dir):
 
         # esta es la lista de donde se sacan los valores para los botones
         # icaro
+        self.icaro_dir = icaro_dir
         arch = open(sys.path[0] + "/version", "r")
         version = arch.readline()
+
         creditos.Info.version = version
-        self.carga_dicc()
-        self.tooltip = tooltips.dicc
-        self.lista = self.diccionario.keys()
-        self.lista.sort()
-        self.carga_paleta()
-        # cargo la configuracion de icaro
-        self.cfg = ConfigParser.ConfigParser()
-        self.cfg.read("config.ini")
-
-        conf = open(sys.path[0] + "/config.dat", "r")
-        dat = conf.readlines()
-        for txt in dat:
-            self.config.append(txt)
-        conf.close()
-
+        self.carga_conf_ventana()
         # declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
         # declaro la tabla  donde van los botones para el menu de bloques
         # box1 es el contenedor principal despues de la ventana
         self.window1 = gtk.Window()
+
+        titulo = "icaro " + version.strip("\n\r")
+        self.window1.set_title(titulo)
         toolbar = gtk.Toolbar()
         self.area = gtk.DrawingArea()
-
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window2 = gtk.ScrolledWindow()
         scrolled_window3 = gtk.ScrolledWindow()
@@ -276,7 +381,7 @@ class Ventana:
             (_("New"), _("Open"), _("Save"), _("Save as"),
              _("Save as function"), _("Examples"), _("Exit")),
             (_("Background"), _("Color"), _("About"), _("Config")),
-            ("graficador", "calculadora", _("Log"), "firmware")
+            ("graficador", "clemente",  _("Log"), "firmware",)
         ]
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
@@ -305,7 +410,7 @@ class Ventana:
             [1, toolbar, gtk.STOCK_OPEN, "Open",
              self.tooltip["abrir"], self.abrir, None],
             [1, toolbar, gtk.STOCK_SAVE, "Save",
-             self.tooltip["guardar"], self.guardar, None],
+             self.tooltip["guardar"], self.guardar, 0],
             [1, toolbar, gtk.STOCK_QUIT, "Quit",
              self.tooltip["salir"], self.salir, None],
             [3],
@@ -314,11 +419,10 @@ class Ventana:
             [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
              "Load", self.tooltip["cargar"], self.upload, None],
             [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro"],
-            
-            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
-             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas-engine"],
+             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro/tortucaro"],
 
+            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
+             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas/pilas-engine"],
             [3],
             [1, toolbar, gtk.STOCK_HELP, "Help",
              self.tooltip["ayuda"], self.ayuda, None],
@@ -337,8 +441,9 @@ class Ventana:
             [1, toolbar, gtk.STOCK_ZOOM_OUT, "achicar",
              "", self.menuitem_response, "zoomenos"],
             [1, toolbar, gtk.STOCK_ZOOM_100, "zoom 1:1",
-             "", self.menuitem_response, "zoomcero"]
+             "", self.menuitem_response, "zoomcero"],
         ]
+
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar:
             if dat[0] == 3:
@@ -359,40 +464,21 @@ class Ventana:
         notebook.set_tab_pos(gtk.POS_RIGHT)
         label = gtk.Label(self.diccionario[self.lista[0]][1])
         notebook.append_page(table, label)
-        buffer = self.diccionario[self.lista[1]][0]
-        caja = self.imagen_boton(
-            self.diccionario[self.lista[1]][0],
-            self.diccionario[self.lista[1]][0]
-        )
         button = gtk.RadioButton()
-        if self.tooltip.has_key(self.diccionario[self.lista[1]][0]):
-            val = self.tooltip[self.diccionario[self.lista[1]][0]]
-            button.set_tooltip_text(val)
-        # bucle principal donde se cargan los RAdioButton donde se cargan
-        # los componentes del diccionario
-        button.add(caja)
-        button.connect("clicked", self.botones, self.lista[1])  # buffer
-        button.show()
-        table.pack_start(button, False, True, 0)
-        for i in range(2, len(self.lista)):
+        ## aca cargo los datos de cada bloque ##
+        for i in range(1, len(self.lista)):
             if self.diccionario[self.lista[i]][0] == "notebook":
                 table = gtk.VBox(False, len(self.lista))
                 label = gtk.Label(self.diccionario[self.lista[i]][1])
                 notebook.append_page(table, label)
             else:
-                buffer = self.diccionario[self.lista[i]][0]
+                self.diccionario[self.lista[i]][0]
                 caja = self.imagen_boton(
                     self.diccionario[self.lista[i]][0],
                     self.diccionario[self.lista[i]][0]
                 )
                 button = gtk.RadioButton(button)
-                if self.tooltip.has_key(
-                    self.diccionario[self.lista[i]][0]
-                ):
-                    tool = self.tooltip[
-                        self.diccionario[self.lista[i]][0]
-                    ]
-                    button.set_tooltip_text(tool)
+                button.set_tooltip_text(self.diccionario[self.lista[i]][6])
                 button.add(caja)
                 button.connect("clicked", self.botones, self.lista[i])
                 table.pack_start(button, False, True, 0)
@@ -447,21 +533,28 @@ class Ventana:
             iconw.set_from_file(img)
             tool_button = toolbar.append_item(
                 _(nombre),
-                            tooltip,
-                            "Private",
-                            iconw,
-                            func, metodos)
+                tooltip,
+                "Private",
+                iconw,
+                func, metodos)
 
     def definir_cursor(self, b):
         self.area.window.set_cursor(self.cursores[b])
+        # if b==1:
+        # self.area.window.set_cursor(None)
+        self.puntero_seleccion_mouse = b
 
 # ========================================================================
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ========================================================================
 
     def graf(self):
-        graf = graficador.VENTANA()
+        graf = graficador_matplot.VENTANA()
         graf.window.show_all()
+
+    def clemente(self):
+        cle = terminal_vte.TERM_CLEMENTE()
+        cle.window.show_all()
 # ========================================================================
 # VENTANA DE AYUDA (NAVEGADOR)
 # ========================================================================
@@ -490,35 +583,6 @@ class Ventana:
         label.show()
         return box1
 
-# ========================================================================
-# GENERADOR DE MENSAJES
-# ========================================================================
-
-    def mensajes(self, num, mensa):
-
-        tipo = (
-                gtk.MESSAGE_WARNING,
-                gtk.MESSAGE_QUESTION,
-                gtk.MESSAGE_ERROR,
-                gtk.MESSAGE_INFO
-                )
-        botones = (
-                gtk.BUTTONS_OK,
-                gtk.BUTTONS_OK_CANCEL,
-                gtk.BUTTONS_OK,
-                gtk.BUTTONS_CANCEL
-                )
-        md = gtk.MessageDialog(None,
-            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-            tipo[num],
-            botones[num], mensa)
-        resp = md.run()
-        md.destroy()
-        if resp == gtk.RESPONSE_OK:
-            return True
-        elif resp == gtk.RESPONSE_CANCEL:
-            return False
-
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
     def botones(self, event, b):
@@ -528,187 +592,18 @@ class Ventana:
 
         return
 
-# ========================================================================
-# FUNCIONES PARA COMPILAR Y CARGAR EL FIRMWARE
-# ========================================================================
-    # cargo template.pde para tener la planilla estandar dentro de
-    # cadena_pinguino
-    def carga(self):
-        self.cadena_pinguino[:] = []
-        dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
-        archivo = open(dir_conf + "/source/template.pde", "r")
-        for linea in archivo:
-            self.cadena_pinguino.append(linea)
-
-    def compilar(self, b):
-        pagina = self.notebook2.get_current_page()
-        if pagina == 0:
-            self.carga()
-            crear.crear_archivo(self.fondo, self)
-            i = carga.compilar_pic("main", self.cfg)
-            if i == 1:
-                self.mensajes(0, ("no se encuentra el compilador sdcc en" +
-                                    " la ruta " + self.config[0] +
-                                    " . Pruebe configurar el archivo" +
-                                    " config.dat y corregirlo"))
-            if i == 0:
-                self.mensajes(3, "la compilacion fue exitosa")
-            else:
-                self.mensajes(0, "hubo un error de compilacion")
-        if pagina == 1:
-            self.ver.compilar(0)
-
-    def upload(self, b):
-        resultado = 1
-        i = carga.upload_pic("main", self.cfg)
-        if i == 0:
-            cargador = carga.Cargador("main")
-            cargador.start()
-            return 0
-
-        # if i==1:
-            #self.mensajes(0,"no se a detectado ningun dispositivo conectada. ¿esta conectado y encendido el PIC?")
-            # return 1
-        # if i==2:
-            #self.mensajes(0,"Se detecto el dispositivo, pero no se puede cargar el firmware, hay que cargar el firmware antes de que se prenda el led rojo del dispositivo")
-            # return 2
-        # if i==2:
-            #self.mensajes(0,"no se genero el archivo .hex para cargar")
-            # return 3
-        # if i==2:
-            #self.mensajes(0,"error al compilar y generar el archivo .hex")
-            # return 4
-    def comp_esp(self, b,datos):
-        resultado = 1
-        comp = 1
-        i = carga.compilar_pic(datos, self.cfg)
-        if i == 0:
-            self.mensajes(3, "la compilacion fue exitosa")
-            comp = 0
-        else:
-            self.mensajes(0, "hubo un error de compilacion")
-            comp = 1
-        if comp == 0:
-            i = carga.upload_pic(datos, self.cfg)
-            if i == 0:
-                cargador = carga.Cargador(datos)
-                cargador.start()
-                return 0
-
-    def crear_componente(self, b, x, y):
-        ax = ay = 30
-        # siempre hay que tratar de que el foco quede en el drawing area
-        self.area.grab_focus()
-
-        if self.diccionario[b][1] == 1:
-            c1 = componente(
-                            x - ax,
-                            y - ay,
-                            self.fondo.identificador + 1,
-                            self.diccionario[b][2],
-                            self.diccionario[b][3],
-                            self.diccionario[b][0],
-                            self.fondo,
-                            self
-
-                            )
-            self.fondo.identificador += 1
-            self.fondo.objetos.append(c1)
-            self.fondo.tipo_obj.append(self.diccionario[b][1])
-            self.fondo.lista_ordenada.append(0)
-        if self.diccionario[b][1] == 4:
-
-            self.fondo.identificador += 1
-            c1 = componente_cero_arg(
-                                    x - ax,
-                                    y - ay,
-                                    self.fondo.identificador,
-                                    self.diccionario[b][3],
-                                    self.diccionario[b][0],
-                                    self.fondo,
-                                    self
-                                    )
-
-            self.fondo.objetos.append(c1)
-            self.fondo.tipo_obj.append(self.diccionario[b][1])
-            self.fondo.lista_ordenada.append(0)
-
-        if self.diccionario[b][1] == 5:
-            self.fondo.identificador += 1
-            c1 = componente_bloque_uno(
-                                            x - ax,
-                                            y - ay,
-                                            self.fondo.identificador,
-                                            self.diccionario[b][3],
-                                            self.diccionario[b][0],
-                                            self.fondo,
-                                            self,
-                                            )
-            self.fondo.objetos.append(c1)
-            self.fondo.identificador += 1
-            self.fondo.lista_ordenada.append(0)
-
-            c1 = componente_bloque_dos(
-                                        x - ax,
-                                        y + 80 - ay,
-                                        self.fondo.identificador,
-                                        self.diccionario[b][3],
-                                        self.diccionario[b][4],
-                                        self.fondo,
-                                        self
-                                        )
-            self.fondo.objetos.append(c1)
-            self.fondo.tipo_obj.append(self.diccionario[b][1])
-            self.fondo.tipo_obj.append(0)
-            self.fondo.lista_ordenada.append(0)
-
-        if self.diccionario[b][1] == 6:
-            c1 = comp_dat_arg(
-                            x - ax,
-                            y - ay + 15,
-                            self.fondo.identificador_dat,
-                            self.diccionario[b][2],
-                            self.diccionario[b][4],
-                            self.diccionario[b][3],
-                            self.diccionario[b][5],
-                            self.diccionario[b][0].strip(" ") + ".png",
-                            6,
-                            self.fondo,
-                            self,
-                            )
-            self.fondo.identificador_dat += 1
-            self.fondo.objetos_datos.append(c1)
-            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
-        if self.diccionario[b][1] == 7:
-            c1 = comp_dat_arg(
-                            x,
-                            y - ay + 15,
-                            self.fondo.identificador_dat,
-                            self.diccionario[b][2],
-                            self.diccionario[b][4],
-                            self.diccionario[b][3],
-                            self.diccionario[b][5],
-                            self.diccionario[b][0].strip(" ") + ".png",
-                            7,
-                            self.fondo,
-                            self,
-                            )
-            self.fondo.identificador_dat += 1
-            self.fondo.objetos_datos.append(c1)
-            self.fondo.tipo_obj_datos.append(self.diccionario[b][1])
-
-    def guardar(self, dato):
+    def guardar(self, b, dato):
         pagina = self.notebook2.get_current_page()
         dialog = gtk.FileChooserDialog("save..",
-                                        None,
-                                        gtk.FILE_CHOOSER_ACTION_SAVE,
-                                            (
-                                            gtk.STOCK_CANCEL,
-                                            gtk.RESPONSE_CANCEL,
-                                            gtk.STOCK_SAVE,
-                                            gtk.RESPONSE_OK
-                                            )
-                                        )
+                                       None,
+                                       gtk.FILE_CHOOSER_ACTION_SAVE,
+                                       (
+                                           gtk.STOCK_CANCEL,
+                                           gtk.RESPONSE_CANCEL,
+                                           gtk.STOCK_SAVE,
+                                           gtk.RESPONSE_OK
+                                       )
+                                       )
         dialog.set_default_response(gtk.RESPONSE_OK)
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
@@ -717,43 +612,53 @@ class Ventana:
             # si el tamaño de cadena2 es 1, el nombre del archivo no
             # tiene extension, entonces le agrego  - .icr -
             cadena2 = cadena.split(".")
+            print len(cadena2)
             if len(cadena2) == 1:
-                cadena = cadena + ".icr"
+                print "dato", dato, pagina
+                if dato == 0 and pagina == 0:
+                    cadena = cadena + ".icr"
+                elif dato == 0 and pagina == 1:
+                    cadena = cadena + ".c"
+                elif dato == 1:
+                    cadena = cadena + ".func"
             if os.path.isfile(cadena):
                 resp = self.mensajes(
-                            1,
-                            "Ya existe un archivo con el nombre " +
-                            cadena + "¿Quiere reemplazarlo?"
-                                    )
+                    1,
+                    "Ya existe un archivo con el nombre " +
+                    cadena + "¿Quiere reemplazarlo?"
+                )
             else:
                 resp = False
             if resp == True or os.path.isfile(cadena) == False:
-                if pagina == 0:
-                    guardar.guardar(
-                                    self.fondo.objetos,
-                                    cadena,
-                                    self.fondo
-                                    )
-                    self.archivo = cadena
-                if pagina == 1:
-                    self.ver.save_file(cadena)
-        elif response == gtk.RESPONSE_CANCEL:
-            pass
+                if dato == 0:
+                    print "daot=0"
+                    if pagina == 0:
+                        print "pag=0"
+                        guardar.guardar(self.fondo.objetos, cadena, self.fondo)
+                        self.archivo = cadena
+                    else:
+                        if pagina == 1:
+                            self.ver.save_file(cadena)
+                if dato == 1:
+                    crear.funcion(self.fondo, self, cadena,)
+            elif response == gtk.RESPONSE_CANCEL:
+                pass
         dialog.destroy()
+        print resp, cadena
 
     def abrir(self, dato):
         pagina = self.notebook2.get_current_page()
         dialog = gtk.FileChooserDialog(
-                                        "Open..",
-                                        None,
-                                        gtk.FILE_CHOOSER_ACTION_OPEN,
-                                            (
-                                            gtk.STOCK_CANCEL,
-                                            gtk.RESPONSE_CANCEL,
-                                            gtk.STOCK_OPEN,
-                                            gtk.RESPONSE_OK
-                                            )
-                                        )
+            "Open..",
+            None,
+            gtk.FILE_CHOOSER_ACTION_OPEN,
+            (
+                gtk.STOCK_CANCEL,
+                gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN,
+                gtk.RESPONSE_OK
+            )
+        )
         dialog.set_default_response(gtk.RESPONSE_OK)
         try:
             dialog.set_current_folder(dato)
@@ -776,20 +681,20 @@ class Ventana:
             if pagina == 0:
                 nuevo.nuevo(self.fondo)
                 inicial = componente_inicial(
-                                            20, 50, 1,
-                                            self.fondo,
-                                            self
-                                            )
+                    20, 50, 1,
+                    self.fondo,
+                    self
+                )
 
                 self.fondo.objetos.append(inicial)
                 cadena = dialog.get_filename()
                 self.update()
                 abrir.abrir(
-                            self.diccionario,
-                            cadena,
-                            self.fondo,
-                            self
-                            )
+                    self.diccionario,
+                    cadena,
+                    self.fondo,
+                    self
+                )
                 self.archivo = cadena
             if pagina == 1:
                 cadena = dialog.get_filename()
@@ -804,15 +709,18 @@ class Ventana:
         self.archivo = ""
         nuevo.nuevo(self.fondo)
         self.fondo.band = 0
-        self.fondo.FONDO = (00, 22, 55)
+        R = self.cfg.get("icaro_config", "colorR")
+        G = self.cfg.get("icaro_config", "colorG")
+        B = self.cfg.get("icaro_config", "colorB")
+        self.fondo.FONDO = (int(R), int(G), int(B))
         self.fondo.ultimo = 1
         inicial = componente_inicial(
-                                    20,
-                                    50,
-                                    1,
-                                    self.fondo,
-                                    self
-                                    )
+            20,
+            50,
+            1,
+            self.fondo,
+            self
+        )
         self.fondo.objetos.append(inicial)
 # ========================================================================
 # FUNCIONES DE LOS EVENTOS DEL MOUSE Y TECLADO
@@ -825,12 +733,7 @@ class Ventana:
         return True
 
     def update(self):
-        self.ff = self.area.window.cairo_create()
-        rgb = fon.color(fon.FONDO)
-        self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
-        self.ff.paint()
         self.cr = self.area.window.cairo_create()
-        self.fondo.zoom(self.z, self.cr)
         self.fondo.update()
         if fon.objetos_datos > 0:
             for dat in fon.objetos_datos:
@@ -896,7 +799,6 @@ class Ventana:
             self.AccesosDirectos(self.dicc_accesos_directos[event.keyval])
 
     def AccesosDirectos(self, evento):
-        identificador = 0
         if evento == "f1":
             self.MenuRespuesta(1)
         if evento == "f2":
@@ -938,58 +840,50 @@ class Ventana:
         if string == _("Open"):
             # tengo que madar un -dato- para mantener compatibilidad con
             # los botones de la barra de herramienta que generan un dato
-            # -b- que envian a la funcion.
+            # -b- que envian a la funcion. en el caso de guardar mando None
+            # porque el sig dato determina si es una funcion o un icr/C
             self.abrir(sys.path[0])
         if string == _("Exit"):
             self.salir(0)
         if string == _("New"):
             self.nuevo(0)
         if string == _("Save"):
-            self.guardar(0)
+            self.guardar(None, 0)
         if string == _("Save as function"):
-            dialog = gtk.FileChooserDialog("save..",
-                                           None,
-                                           gtk.FILE_CHOOSER_ACTION_SAVE,
-                                               (
-                                               gtk.STOCK_CANCEL,
-                                                gtk.RESPONSE_CANCEL,
-                                                gtk.STOCK_SAVE,
-                                                gtk.RESPONSE_OK
-                                                )
-                                            )
-            dialog.set_default_response(gtk.RESPONSE_OK)
-            response = dialog.run()
-            if response == gtk.RESPONSE_OK:
-                crear.funcion(self.fondo, self, dialog.get_filename(),)
-            elif response == gtk.RESPONSE_CANCEL:
-                # print 'Closed, no files selected'
-                dialog.destroy()
+            print "guardo la func"
+            self.guardar(None, 1)
         if string == _("Examples"):
-            self.abrir(sys.path[0] + "/ejemplos")
+            cadena_ejemp = sys.path[0] + "/" + self.icaro_dir + "ejemplos"
+            print cadena_ejemp
+            self.abrir(cadena_ejemp)
         if string == _("Background"):
             dialog = gtk.FileChooserDialog(
-                                            "Open..",
-                                            None,
-                                            gtk.FILE_CHOOSER_ACTION_OPEN,
-                                                (
-                                                gtk.STOCK_CANCEL,
-                                                gtk.RESPONSE_CANCEL,
-                                                gtk.STOCK_OPEN,
-                                                gtk.RESPONSE_OK
-                                                )
-                                            )
+                "Open..",
+                None,
+                gtk.FILE_CHOOSER_ACTION_OPEN,
+                (
+                    gtk.STOCK_CANCEL,
+                    gtk.RESPONSE_CANCEL,
+                    gtk.STOCK_OPEN,
+                    gtk.RESPONSE_OK
+                )
+            )
             dialog.set_default_response(gtk.RESPONSE_OK)
+            filter = gtk.FileFilter()
+            filter.set_name("png")
+            filter.add_pattern("*.png")
+            dialog.add_filter(filter)
+
             response = dialog.run()
             cadena = dialog.get_filename()
             if response == gtk.RESPONSE_OK:
-                # ~ #print "imagen", cadena
                 try:
                     self.fondo.carga_img(cadena)
+                    dialog.destroy()
                 except Exception, ex:
                     self.mensajes(2, "archivo no valido")
 
             elif response == gtk.RESPONSE_CANCEL:
-                # print 'Closed, no files selected'
                 dialog.destroy()
         if string == _("Color"):
 
@@ -1003,10 +897,10 @@ class Ventana:
                 # con una regla de tres simple lo adapto a los
                 # 255 valores que soporta pygame
                 self.fondo.FONDO = (
-                            (color.red * 255) / 65535,
-                            (color.green * 255) / 65535,
-                            (color.blue * 255) / 65535
-                            )
+                    (color.red * 255) / 65535,
+                    (color.green * 255) / 65535,
+                    (color.blue * 255) / 65535
+                )
             else:
                 colorseldlg.hide()
 
@@ -1032,7 +926,7 @@ class Ventana:
             about.destroy()
         if string == _("Config"):
             # print " menu de congifuracion"
-            conf = config.CONFIG()
+            conf = config_menu.MENU_CONF(self.conf_ini)
             conf.show()
         if string == _("Log"):
             dir_conf = os.path.expanduser(
@@ -1040,6 +934,8 @@ class Ventana:
             self.visor(dir_conf)
         if string == "graficador":
             self.graf()
+        if string == "clemente":
+            self.clemente()
         if string == "zoomas":
             self.z = self.z + 0.1
         if string == "zoomenos":
@@ -1047,14 +943,7 @@ class Ventana:
         if string == "zoomcero":
             self.z = 1
         if string == "firmware":
-            dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
-            np05 = "/usr/share/icaro/pic16/np05"
-            try:
-                os.system("rm -rf " + dir_conf)
-                os.system("cp -R " + np05 + " " + dir_conf)
-                self.mensajes(0, "se actualizo el firmware ")
-            except:
-                self.mensajes(0, "no se pudo actualizar el firmware")
+            self.recarga_conf(self.icaro_dir, True)
 
     def visor(self, dir):
         browser = navegador.SimpleBrowser()
@@ -1070,9 +959,9 @@ class Ventana:
         """
         import carga_componentes
         q = 0
-
-        carga = carga_componentes.DICC()
-        comp, grupo = carga.buscar_bloques()
+        path = sys.path[0] + "/" + self.icaro_dir + "componentes/core/"
+        cargador = carga_componentes.DICC(path, self.icaro_dir)
+        comp, grupo = cargador.buscar_bloques()
         for a in range(len(grupo)):
             self.diccionario[q] = ["notebook", grupo[a]]
             q += 1
@@ -1085,6 +974,14 @@ class Ventana:
                 tupla.append(cmp.dicc["color"])
                 tupla.append(str(cmp.dicc["dato"]))
                 tupla.append(str(cmp.dicc["dato2"]))
+                datos_cod_fuente = ""
+                if cmp.dicc["componente"] == 1 or cmp.dicc["componente"] == 5:
+                    for dato_cod_fuente in cmp.valor:
+                        datos_cod_fuente = datos_cod_fuente + dato_cod_fuente
+                if cmp.dicc["componente"] == 6 or cmp.dicc["componente"] == 5:
+                    datos_cod_fuente = str(cmp.dicc["dato2"])
+                tupla.append(
+                    str(cmp.tootips) + "\ncodigo fuente:\n " + datos_cod_fuente)
                 self.valor_datos_comp[cmp.dicc["nombre"]] = cmp.valor
                 self.diccionario[q] = tupla
                 q += 1
@@ -1092,29 +989,66 @@ class Ventana:
     def carga_paleta(self):
         R = G = B = ""
         archivo = open(
-            os.path.abspath(os.path.dirname(__file__)) + "/colores.dat", "r")
+            os.path.abspath(os.path.dirname(__file__)) + "/paletas/default.gpl", "r")
         tupla = []
+        for a in range(4):
+            archivo.readline()
+
         cadena = archivo.readlines()
         for n in cadena:
-            tupla.append(n.strip("()\n"))
+            cad_intermedia = n.split("\t")
+            tupla.append(
+                (cad_intermedia[0], cad_intermedia[1], cad_intermedia[2]))
         for a in range(len(self.lista)):
             if self.diccionario[self.lista[a]][0] <> "notebook":
-                R, G, B = tupla[a].split(",")
+                R, G, B = tupla[a]
                 self.diccionario[self.lista[a]][3] = (
-                                                   int(R),
-                                                   int(G),
-                                                   int(B)
-                                                   )
+                    int(R),
+                    int(G),
+                    int(B)
+                )
 
+    def carga_conf_ventana(self):
+        self.carga_dicc()
+        self.tooltip = tooltips.dicc
+        self.lista = self.diccionario.keys()
+        self.lista.sort()
+        self.carga_paleta()
+        self.conf_ini = os.path.expanduser('~') + "/.icaro/conf/config.ini"
+        print self.conf_ini
+        if os.path.exists(self.conf_ini):
+            self.cfg = self.carga_conf(self.conf_ini)
+        else:
+            self.recarga_conf(False)
+        # configuraciones generales de ICARO (guardadas en config.ini)
+        self.z = float(self.cfg.get("icaro_config", "zoom"))
 
 # Inicio todas las clases
-ventana_principal = Ventana()
-fon = fondo()
-ventana_principal.fondo = fon
-inicial = componente_inicial(20, 50, 1, fon, ventana_principal)
-fon.objetos.append(inicial)
-ventana_principal.window1.show_all()
-gobject.timeout_add(50, ventana_principal.timeout)
+
+# estoy sacando todo y metiendolo en hardware/icaro
+# de esta forma si cambio icaro_dir puedo compilar arduino y esas cosas
+# hay que revizar bien los tools_button para que se creen los botones
+# en funcion de un .py que este adentro del hardware/icaro/modulos
+
+
+def inicio(icaro_dir):
+    global ventana_principal
+    global fon
+    ventana_principal = Ventana(icaro_dir)
+    fon = fondo()
+    ventana_principal.fondo = fon
+    inicial = componente_inicial(50, 50, 1, fon, ventana_principal)
+    fon.objetos.append(inicial)
+
+    ventana_principal.window1.show_all()
+    R = ventana_principal.cfg.get("icaro_config", "colorR")
+    G = ventana_principal.cfg.get("icaro_config", "colorG")
+    B = ventana_principal.cfg.get("icaro_config", "colorB")
+    X = ventana_principal.cfg.get("icaro_config", "pantallax")
+    Y = ventana_principal.cfg.get("icaro_config", "pantallay")
+    ventana_principal.area.set_size_request(int(X), int(Y))
+    ventana_principal.fondo.FONDO = (int(R), int(G), int(B))
+    gobject.timeout_add(50, ventana_principal.timeout)
 # gobject.idle_add(ventana_principal.timeout)
 # gobject.PRIORITY_DEFAULT=-1
-gtk.main()
+    gtk.main()

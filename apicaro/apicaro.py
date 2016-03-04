@@ -12,7 +12,6 @@
 # GNU General Public License for more details.
 
 import serial
-from os import system
 import time
 # Configuracion de los valores iniciales del puerto serie
 # estos valores son los que necesita la placa icaro np03 para

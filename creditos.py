@@ -1,17 +1,20 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#import pygtk
+# -*- coding: utf-8 -*-:w
+
 # Creamos una clase que almacena la información del programa (después se usara)
 
 
 class Info:
     name = "icaro-bloques"
-    version = "beta"
+    version = ""
     copyright = "Copyright © 2012 Valentin Basel."
     authors = ["Valentin Basel - valetinbasel@gmail.com"]
     documenters = [
-        "Neville A. Cross - yn1v@fedoraproject.org", "Lucas Costas - puixima@gmail.com", "Javier Castrillo - jcastrillo@educ.ar",
-        "- Paquete RPM -", "Yader Velásquez - yajosev@gmail.com", "Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com "]
+        "Neville A. Cross - yn1v@fedoraproject.org",
+        "Lucas Costas - puixima@gmail.com",
+        "Javier Castrillo - jcastrillo@educ.ar",
+        "- Paquete RPM -", "Yader Velásquez - yajosev@gmail.com",
+        "Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com "]
     artists = ["María Leandro - tatica@fedoraproject.org",
                "Mauro Paez - maureliopaez@gmail.com"]
     translator = "todavia sin traductores"

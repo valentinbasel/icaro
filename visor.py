@@ -14,9 +14,9 @@ import os
 import os.path
 #import sys
 import pygtk
-import carga
+#import carga
 pygtk.require('2.0')
-
+import util
 import gtk
 if gtk.pygtk_version < (2, 10, 0):
     print "PyGtk 2.10 or later required for this example"
@@ -24,6 +24,9 @@ if gtk.pygtk_version < (2, 10, 0):
 
 import gtksourceview2
 import pango
+import sys
+icaro_dir = "hardware/icaro/"
+sys.path.append(icaro_dir + "modulos")
 
 
 class visor_codigo():
@@ -33,41 +36,23 @@ class visor_codigo():
         lm = gtksourceview2.LanguageManager()
         self.buffer = gtksourceview2.Buffer()
         self.buffer.set_data('languages-manager', lm)
-        view = gtksourceview2.View(self.buffer)
-        self.ventana = ventana
- #       self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
- #       self.window.set_border_width(0)
- #       self.window.set_title('codigo fuente generado por el sistema')
-        # windows.append(window) # this list contains all view windows
-#        self.window.set_default_size(500, 500)
-#        self.window.show()
 
+        view = gtksourceview2.View(self.buffer)
+        view.set_show_line_numbers(True)
+        self.ventana = ventana
         vbox = gtk.VBox(0, True)
- #       self.window.add(vbox)
+
         notebook.append_page(vbox, gtk.Label("codigo fuente"))
         tool1 = gtk.Toolbar()
         tool1.show()
 
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_EXECUTE, 15)
-        # tool_button = tool1.append_item(
-        #                _("Compile"),
-        #                "compila la version modificada en el editor.",
-        #                "Private",
-        #                iconw,
-        #                self.compilar)
-
         vbox.pack_start(tool1, fill=False, expand=False)
         sw = gtk.ScrolledWindow()
         sw.set_shadow_type(gtk.SHADOW_IN)
         sw.add(view)
         vbox.pack_start(sw, fill=True, expand=True)
-#~
-        #~ toolbar = gtk.HBox(spacing=0)
-        #~ vbox.pack_start(toolbar,False,False)
-        #~ button = gtk.Button('salir')
-        #~ button.connect('clicked',self.close)
-        #~ toolbar.pack_start(button,False,False,0)
 
         vbox.show_all()
         # main loop
@@ -144,7 +129,9 @@ class visor_codigo():
             file = open(cadena, "w")
             file.writelines(cadena2)
             file.close()
-            i = carga.compilar_pic("main", self.ventana.cfg)
+            i = util.compilar("main", self.ventana.cfg, dir_conf)
+
+            #i = carga.compilar_pic("main", self.ventana.cfg)
             if i == 0:
                 self.ventana.mensajes(3, "la compilacion fue exitosa")
             else:

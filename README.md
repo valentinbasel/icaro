@@ -1,6 +1,19 @@
+<<<<<<< HEAD:README.md
 Acerca del Proyecto Icaro
 =======================================================
 Creado por Valentin Bassel  / http://www.roboticaro.org 
+=======
+﻿                         ____  ___    __    ____  _____ 
+                        (_  _)/ __)  /__\  (  _ \(  _  )
+                         _)(_( (__  /(__)\  )   / )(_)( 
+                        (____)\___)(__)(__)(_)\_)(_____)
+
+
+
+#===============================================================================
+# ACERCA DE.
+#===============================================================================
+>>>>>>> devel:README
 
 ICARO es un proyecto de desarrollo de software y hardware libre para la ense-
 ñanza de robótica en colegios primarios y secundarios. Se trata de acercar de forma

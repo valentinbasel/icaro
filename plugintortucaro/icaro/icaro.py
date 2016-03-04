@@ -8,15 +8,16 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-import gst
+#import gst
 import gtk
 from fcntl import ioctl
-import os
 from gettext import gettext as _
 from plugins.plugin import Plugin
 from TurtleArt.tapalette import make_palette
-from TurtleArt.talogo import media_blocks_dictionary, primitive_dictionary
-from TurtleArt.tautils import get_path, debug_output
+from TurtleArt.talogo import media_blocks_dictionary
+from TurtleArt.talogo import primitive_dictionary
+from TurtleArt.tautils import debug_output
+from TurtleArt.tautils import get_path
 import logging
 _logger = logging.getLogger('turtleart-activity icaro plugin')
 
