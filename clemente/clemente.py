@@ -40,7 +40,8 @@ class SERVIDOR(threading.Thread):
     localhost, 9999
     """
 
-    def __init__(self, terminal, ip="localhost", port=9999):
+    def __init__(self, terminal,
+                 ip="localhost",port=9999,protocolo="bulk",puerto_prt=""):
         """ inicializador de clase """
         #self.lista_cli = [0]
         threading.Thread.__init__(self)
@@ -53,6 +54,8 @@ class SERVIDOR(threading.Thread):
         self.port = port
         self.terminal = terminal
         self.emular = False
+        self.protocolo=protocolo
+        self.puerto_prt=puerto_prt
 
     def run(self):
         try:
@@ -122,9 +125,16 @@ class SERVIDOR(threading.Thread):
 
 
 def main():
+    prt="bulk"
+    puerto=""
     if len(sys.argv) > 0:
-        print sys.argv
-    s = SERVIDOR(True)
+        for dat in range(1,len(sys.argv)):
+            if sys.argv[dat] == "-cdc":
+                prt="cdc"
+                puerto=sys.argv[dat+1]
+            if sys.argv[dat] == "-bulk":
+                prt == "bulk"
+    s = SERVIDOR(True,"localhost",9999,prt,puerto)
     s.run()
     return 0
 

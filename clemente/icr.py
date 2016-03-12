@@ -28,35 +28,39 @@ import usb
 import random
 import apicaro
 
+
 class CDC(apicaro.puerto):
-    def __init__(self , servidor):
-        self.servidor=servidor
+
+    def __init__(self, servidor, puerto_cdc):
+        self.servidor = servidor
         self.band = False
         self.flag = True
         self.status = False
-        #self.PUERTO="/dev/ttyACM1"
+        self.PUERTO=puerto_cdc
+        print self.PUERTO
 
     def conexion(self):
         if self.servidor.emular == True:
             return True
-        band=self.iniciar()
-        #print band
+        band = self.iniciar()
         return band
 
     def leer_dat(self):
-        
         try:
-            for a in range(8):
-                n=a+1
-                valor = self.leer_analogico(a)
-                print "sens ", n , " = ", valor, " en sector ", a
-                time.sleep(0.1)
+            for a in range(1, 9):
+                n = a + 1
+                for v in range(2):
+                    # necesito tomar al menos dos vavlores para estabilizar
+                    # la señal del puerto CDC, si no se corren todos los valores
+                    # que entrega el puerto
+                    valor = self.leer_analogico(a)
                 if valor <> False:
-                    self.servidor.datos[a]  = valor
+                    self.servidor.datos[a - 1] = valor
+
                     self.band = True
                     self.status = True
-                else: 
-                    self.servidor.datos[a]  = 0
+                else:
+                    self.servidor.datos[a] = 0
 
         except:
             print "error con el hardware icaro"
@@ -66,8 +70,8 @@ class CDC(apicaro.puerto):
 
 class BULK(object):
 
-    def __init__(self,servidor):
-        self.servidor=servidor
+    def __init__(self, servidor):
+        self.servidor = servidor
         self.band = False
         self.flag = True
         self.status = False
@@ -124,7 +128,11 @@ class ICR(threading.Thread):
         self.band = False
         self.flag = True
         self.status = False
-        self.protocolo_con=CDC(servidor)
+        if self.servidor.protocolo=="cdc":
+            self.protocolo_con = CDC(servidor,self.servidor.puerto_prt)
+        if self.servidor.protocolo=="bulk":
+            self.protocolo_con = BULK(servidor)
+
 
     def actualizar(self, band):
 
@@ -138,7 +146,6 @@ class ICR(threading.Thread):
         if self.band == True:
             self.protocolo_con.leer_dat()
         return self.band
-
 
     def stop(self):
         self.flag = False
