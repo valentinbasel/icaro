@@ -66,10 +66,8 @@ salidas digitales del PORTB (unl2803):
 /*funciones*/
 void loop()
 {
-int a = 1;
-for(_i=0;_i<255;_i++){
-PORTB=a;
-Delayms(100);
-a++;
-}
+PORTB=1;
+Delayms(1000);
+PORTB=0;
+Delayms(1000);
 }

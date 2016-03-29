@@ -241,7 +241,7 @@ class VENTANA:
                 val = line, a
                 sens.append(val)
         plt.ion()
-        plt.xlabel(u't (segundos)')
+        plt.xlabel(u'tiempo')
         plt.legend()  # Creamos la caja con la leyenda
         plt.xlim([0, 100])
         plt.ylim([0, 1100])

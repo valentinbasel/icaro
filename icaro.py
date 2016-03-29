@@ -381,7 +381,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             (_("New"), _("Open"), _("Save"), _("Save as"),
              _("Save as function"), _("Examples"), _("Exit")),
             (_("Background"), _("Color"), _("About"), _("Config")),
-            ("graficador", "clemente bulk","clemente cdc",  _("Log"), "firmware",)
+            ("graficador", "clemente bulk", "clemente cdc"
+             ,  _("Log"), "firmware",)
         ]
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
@@ -419,10 +420,12 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
              "Load", self.tooltip["cargar"], self.upload, None],
             [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp, "tortucaro/tortucaro"],
+             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp,
+             "tortucaro/tortucaro"],
 
             [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
-             "pilas", self.tooltip["tortucaro"], self.comp_esp, "pilas/pilas-engine"],
+             "pilas", self.tooltip["tortucaro"], self.comp_esp,
+             "pilas/pilas-engine"],
             [3],
             [1, toolbar, gtk.STOCK_HELP, "Help",
              self.tooltip["ayuda"], self.ayuda, None],
@@ -552,7 +555,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         graf = graficador_matplot.VENTANA()
         graf.window.show_all()
 
-    def clemente(self,prt):
+    def clemente(self, prt):
         cle = terminal_vte.TERM_CLEMENTE(prt)
         cle.window.show_all()
 # ========================================================================
@@ -935,7 +938,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         if string == "graficador":
             self.graf()
         if string == "clemente cdc":
-            self.clemente(" -cdc /dev/ttyACM0\n")
+            self.clemente(" -cdc /dev/ttyACM0")
         if string == "clemente bulk":
             self.clemente(" -bulk ")
         if string == "zoomas":

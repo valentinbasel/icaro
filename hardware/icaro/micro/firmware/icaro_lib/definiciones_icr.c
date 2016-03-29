@@ -29,6 +29,10 @@
 #if defined(__CDC__)
 	#include <__cdc.c>
 #endif
+/* Definiciones para implementar la USART*/
+#if defined(__USART__)
+	#include<uart18f2550.c>
+#endif
 
 /* Definiciones para implementar comunicación USB-CDC*/
 #if defined(__LCD__)
@@ -77,6 +81,10 @@ void setup()
     ServoAttach(ICR_SRV3);
     ServoAttach(ICR_SRV4);
     ServoAttach(ICR_SRV5);
+    #if defined(__USART__)
+    serial_begin(9600);  
+    Delayms(1000);
+    #endif
     #if defined(__LCD__)
 	//Uso el PORTB para el LCD (usando los primeros 4bits y los
 	// otros dos para RS y E
