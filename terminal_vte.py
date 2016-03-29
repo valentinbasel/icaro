@@ -30,10 +30,10 @@ from utilidades_ventana import UTILIDADES
 class TERM_CLEMENTE:
     """ Class doc """
 
-    def __init__(self):
+    def __init__(self,prt):
         """ Class initialiser """
         src = sys.path[0]
-        cad = "clear\n python " + src + "/clemente/clemente.py\n"
+        cad = "clear\n python " + src + "/clemente/clemente.py " + prt + " \n"
         mens = UTILIDADES()
         window = gtk.Window()
         window.set_title("pyshell")

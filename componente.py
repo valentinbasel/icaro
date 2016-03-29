@@ -294,7 +294,7 @@ class ComponenteCentral(FormaSvg):
         botones_mouse = self.ventana.boton_mouse
         self.rectan[0] = self.posicion[0]
         self.rectan[1] = self.posicion[1] - 10
-        if self.vivo == True:
+        if self.vivo:
             if (botones_mouse[1] == 1 and
                         self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
                         self.pulsado == 0 and
@@ -433,11 +433,7 @@ class componente(ComponenteCentral):
             self.posicion[1] + (self.rectan[3] / 4)), self.ventana.cr)
         self.fondo.texto(self.texto, self.posicion[0] + 70, self.posicion[
                          1] + (self.rectan[3] / 4) + 15, self.color_texto, self.ventana.cr)
-        # self.fondo.draw(self.rectan[0],self.rectan[1],self.rectan[2],self.rectan[3],(0,0,255),self.ventana.cr)
-        # self.fondo.draw(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3],(255,0,0),self.ventana.cr)
-        # self.fondo.draw(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3],(0,255,0),self.ventana.cr)
-        # for con in self.lista_conector_h_datos:
-        #    self.fondo.draw(con[0],con[1],con[2],con[3],(0,0,0),self.ventana.cr)
+
 
 
 class componente_bloque_dos(ComponenteCentral):
@@ -482,10 +478,6 @@ class componente_bloque_dos(ComponenteCentral):
         self.conector_m[1] = self.rectan[1] + 65
         self.conector_h[0] = self.rectan[0] + 150
         self.conector_h[1] = self.rectan[1] + 10
-        # self.fondo.draw(self.rectan[0],self.rectan[1],self.rectan[2],self.rectan[3],(0,0,255),self.ventana.cr)
-        # self.fondo.draw(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3],(255,0,0),self.ventana.cr)
-        # self.fondo.draw(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3],(0,255,0),self.ventana.cr)
-
 
 class componente_bloque_uno(ComponenteCentral):
     pulsado = 0
@@ -543,12 +535,6 @@ class componente_bloque_uno(ComponenteCentral):
 
         self.conector_m[0] = self.rectan[0] + 135
         self.conector_m[1] = self.rectan[1] + 80
-        # self.fondo.draw(self.rectan[0],self.rectan[1],self.rectan[2],self.rectan[3],(0,0,255),self.ventana.cr)
-        # self.fondo.draw(self.conector_m[0],self.conector_m[1],self.conector_m[2],self.conector_m[3],(255,0,0),self.ventana.cr)
-        # self.fondo.draw(self.conector_h[0],self.conector_h[1],self.conector_h[2],self.conector_h[3],(0,255,0),self.ventana.cr)
-
-        # self.fondo.draw(self.conector_h_dato[0],self.conector_h_dato[1],self.conector_h_dato[2],self.conector_h_dato[3],(0,255,0),self.ventana.cr)
-
 
 class componente_cero_arg(FormaSvg):
     # el componente cuadrado es el bloque minimo que puede tener un
