@@ -108,7 +108,7 @@ class Icaro(Plugin):
                           style='basic-style-1arg',
                           label=_('abrir puerto'),
                           prim_name='abrir',
-                          default=['/dev/ttyUSB0'],
+                          default=['/dev/rfcomm0'],
                           help_string=_('abre el puerto para comunicacion con la placa'))
         self._parent.lc.def_prim(
             'abrir', 1, lambda self, valor: primitive_dictionary['abrir'](valor))
@@ -303,22 +303,22 @@ class Icaro(Plugin):
 
     def _rb_adelante(self, ms):
         puerto.motor("1")
-        time.sleep(int(ms))
+        time.sleep(ms)
         puerto.motor("5")
 
     def _rb_atras(self, ms):
         puerto.motor("2")
-        time.sleep(int(ms))
+        time.sleep(ms)
         puerto.motor("5")
 
     def _rb_izquierda(self, ms):
         puerto.motor("3")
-        time.sleep(int(ms))
+        time.sleep(ms)
         puerto.motor("5")
 
     def _rb_derecha(self, ms):
         puerto.motor("4")
-        time.sleep(int(ms))
+        time.sleep(ms)
         puerto.motor("5")
 
 
@@ -353,7 +353,10 @@ class Icaro(Plugin):
     def _abrir_puerto(self, valor):
         #puerto.cerrar()
         puerto.PUERTO = str(valor)
-        puerto.iniciar()
+        #a=puerto.iniciar()
+        #if a==False:
+        #    return False
+
 
     def _sensor_analog(self, valor):
         respuesta = puerto.leer_analogico(valor)
