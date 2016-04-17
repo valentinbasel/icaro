@@ -296,7 +296,9 @@ class ComponenteCentral(FormaSvg):
         self.rectan[1] = self.posicion[1] - 10
         if self.vivo:
             if (botones_mouse[1] == 1 and
-                        self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
+                        self.fondo.collide(self.rectan, 
+                                           posic_mouse[0], 
+                                           posic_mouse[1]) == True and
                         self.pulsado == 0 and
                         self.ventana.seleccionado == 0 and
                         self.ventana.seleccionado_datos == 0 and
@@ -319,7 +321,9 @@ class ComponenteCentral(FormaSvg):
                 self.pulsado = 0
                 self.ventana.seleccionado = 0
             if (botones_mouse[1] == 1
-                    and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True
+                    and self.fondo.collide(self.rectan, 
+                                           posic_mouse[0], 
+                                           posic_mouse[1]) == True
                     and self.ventana.seleccion_menu == 3):
                 for i in range(1, len(self.fondo.objetos_datos)):
                     self.fondo.objetos_datos[i].conectado = 0

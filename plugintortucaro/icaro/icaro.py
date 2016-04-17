@@ -24,7 +24,7 @@ _logger = logging.getLogger('turtleart-activity icaro plugin')
 import apicaro
 import time
 puerto = apicaro.puerto()
-puerto.PUERTO = '/dev/ttyACM0'
+puerto.PUERTO = '/dev/rfcomm0'
 puerto.iniciar()
 
 
@@ -38,6 +38,51 @@ class Icaro(Plugin):
         palette = make_palette('icaro',
                                colors=["#006060", "#A00000"],
                                help_string=_('paleta de bloques icaro'))
+
+        primitive_dictionary['robot_adelante'] = self._rb_adelante
+        palette.add_block('robot_adelante',
+                          style='basic-style-1arg',
+                          label=_('robot_adelante'),
+                          prim_name='robot_adelante',
+                          default=[1],
+                          help_string=_('El robot avanzara'))
+        self._parent.lc.def_prim(
+            'robot_adelante', 1, lambda self, valor:
+            primitive_dictionary['robot_adelante'](valor))
+
+        primitive_dictionary['robot_atras'] = self._rb_atras
+        palette.add_block('robot_atras',
+                          style='basic-style-1arg',
+                          label=_('robot_atras'),
+                          prim_name='robot_atras',
+                          default=[1],
+                          help_string=_('El robot retrocedera'))
+        self._parent.lc.def_prim(
+            'robot_atras', 1, lambda self, valor:
+            primitive_dictionary['robot_atras'](valor))
+
+        primitive_dictionary['robot_izquierda'] = self._rb_izquierda
+        palette.add_block('robot_izquierda',
+                          style='basic-style-1arg',
+                          label=_('robot_izquierda'),
+                          prim_name='robot_izquierda',
+                          default=[1],
+                          help_string=_('El robot girara a la izquierda'))
+        self._parent.lc.def_prim(
+            'robot_izquierda', 1, lambda self, valor:
+            primitive_dictionary['robot_izquierda'](valor))
+
+        primitive_dictionary['robot_derecha'] = self._rb_derecha
+        palette.add_block('robot_derecha',
+                          style='basic-style-1arg',
+                          label=_('robot_derecha'),
+                          prim_name='robot_derecha',
+                          default=[1],
+                          help_string=_('El robot girara a la derecha'))
+        self._parent.lc.def_prim(
+            'robot_derecha', 1, lambda self, valor:
+            primitive_dictionary['robot_derecha'](valor))
+
         primitive_dictionary['motores'] = self._motores
         palette.add_block('motores',
                           style='basic-style-1arg',
@@ -256,6 +301,30 @@ class Icaro(Plugin):
     def _parar(self, valor):
         return 5
 
+    def _rb_adelante(self, ms):
+        puerto.motor("1")
+        time.sleep(int(ms))
+        puerto.motor("5")
+
+    def _rb_atras(self, ms):
+        puerto.motor("2")
+        time.sleep(int(ms))
+        puerto.motor("5")
+
+    def _rb_izquierda(self, ms):
+        puerto.motor("3")
+        time.sleep(int(ms))
+        puerto.motor("5")
+
+    def _rb_derecha(self, ms):
+        puerto.motor("4")
+        time.sleep(int(ms))
+        puerto.motor("5")
+
+
+
+
+
     def _servo(self, valor, servo):
         puerto.activar_servo(int(servo), int(valor))
 
@@ -282,7 +351,7 @@ class Icaro(Plugin):
         return respuesta
 
     def _abrir_puerto(self, valor):
-        puerto.cerrar()
+        #puerto.cerrar()
         puerto.PUERTO = str(valor)
         puerto.iniciar()
 
