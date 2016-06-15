@@ -12,6 +12,8 @@
 # GNU General Public License for more details.
 
 import serial
+import serial.tools.list_ports
+
 import time
 # Configuracion de los valores iniciales del puerto serie
 # estos valores son los que necesita la placa icaro np03 para
@@ -46,7 +48,34 @@ class puerto():
     def __init__(self):
         pass
 
-    def iniciar(self):
+
+
+    def prender_puerto(self,port):
+        try:
+            self.RS232.port = port
+            self.RS232.baudrate = self.BAUDIOS
+            self.RS232.bytesize = self.BYTESIZE
+            self.RS232.parity = self.PARITY
+            self.RS232.stopbit = self.STOPBIT
+            self.RS232.timeout = self.TIMEOUT
+            self.RS232.xonxoff = self.XONXOFF
+            self.RS232.rtscts = self.RTSCTS
+            self.RS232.dsrdtr = self.DSRDTR
+            self.RS232.open()
+            self.RS232.write("b")
+            buff = self.RS232.read(self.RS232.inWaiting())
+            if buff <>=""
+                print "firmware detectado: ",buff
+                print " puerto: ", self.RS232.port
+                return True
+            else:
+                print "no se obtuvo respuesta del puerto: ",self.RS232.port
+                return False
+        except:
+            print "puerto no encontrado"
+            return False
+ 
+    def iniciar(self,port=None):
         """
         abre el puerto, setea todos los valores por defecto.
         sus variables por defecto son:
@@ -63,20 +92,17 @@ class puerto():
         Retorna -True- si funciono, -False- si hubo un error.
         no lleva argumentos
         """
-        try:
-            self.RS232.port = self.PUERTO
-            self.RS232.baudrate = self.BAUDIOS
-            self.RS232.bytesize = self.BYTESIZE
-            self.RS232.parity = self.PARITY
-            self.RS232.stopbit = self.STOPBIT
-            self.RS232.timeout = self.TIMEOUT
-            self.RS232.xonxoff = self.XONXOFF
-            self.RS232.rtscts = self.RTSCTS
-            self.RS232.dsrdtr = self.DSRDTR
-            self.RS232.open()
-            return True
-        except:
-            return False
+        if port<>None:
+            flag= self.prender_puerto(port)
+            return flag
+        else:
+            lista_port=serial.tools.list_ports.comports()
+            for cad in lista_port:
+                if cad[0].find("ACM")>-1:
+                    flag=self.prender_puerto(cad[0])
+                    if flag==True:
+                        return True
+        return False
 
     def cerrar(self):
         """
