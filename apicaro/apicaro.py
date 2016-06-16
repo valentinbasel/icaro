@@ -64,7 +64,7 @@ class puerto():
             self.RS232.open()
             self.RS232.write("b")
             buff = self.RS232.read(self.RS232.inWaiting())
-            if buff <>=""
+            if buff <>"":
                 print "firmware detectado: ",buff
                 print " puerto: ", self.RS232.port
                 return True
