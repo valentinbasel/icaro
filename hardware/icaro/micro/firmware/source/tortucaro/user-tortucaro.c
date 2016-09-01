@@ -207,6 +207,8 @@ receivedbyte=0;
 }
 void setup()
 {
+
+
 TRISB=0;
 pinmode(21,INPUT);
 pinmode(22,INPUT);
@@ -223,6 +225,8 @@ ServoAttach(9);
 ServoAttach(10);
 ServoAttach(11);
 ServoAttach(12);
+PORTD=0;
+PORTB=0;
 }
 
 //
@@ -256,15 +260,28 @@ void comparo()
 }
 void loop()
 {
+    int t=0;
     PORTD=valor;
-    Delayms(10);
+    PORTB=1;
+    //CDCputs("icaro USB 02 \n",14);
+    //Delayms(500);
+    for(t=0;t<20;t++)
+    {
+        PORTB=1;
+        Delayms(1000);
+        PORTB=0;
+        Delayms(1000);
+    }
+while(1)
+{
 	while ((receivedbyte=CDCgets(rxstr))==0);
 	rxstr[receivedbyte]=0;
 	if (receivedbyte>0)
 		{
         comparo();
+        Delayus(10);
 		 }
     rxstr[0]=0;
 	receivedbyte=0;
-
+}
 }

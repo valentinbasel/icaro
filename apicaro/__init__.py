@@ -102,6 +102,12 @@ class puerto():
                     flag=self.prender_puerto(cad[0])
                     if flag==True:
                         return True
+            for a in range(10):
+                cad="/dev/rfcomm"+str(a)
+                flag=self.prender_puerto(cad)
+                time.sleep(0.2)
+                if flag==True:
+                    return True
         return False
 
     def cerrar(self):
