@@ -10,6 +10,8 @@ void epap_out() { return; }
 void epapin_init() { return; }
 void epapout_init() { return; }
 */
+char caracter;
+char caracter2;
 unsigned char i;void setup()
 {
     TRISB=0;
@@ -31,16 +33,35 @@ unsigned char i;void setup()
 
 void loop()
 {
-int valor[8];
-int a=0;
-u8 buf[80];
-for(a=0;a<8;a++)
+//~ int valor[8];
+//~ int a=0;
+//~ u8 buf[80];
+//~ for(a=0;a<8;a++)
+//~ {
+//~ valor[a]=analogread(13+a);
+//~ Delayus(1);
+//~ }
+
+//~ sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
+
+    //~ usbsend(buf,39);
+    //~ Delayms(1);
+if (usbavailable())
 {
-valor[a]=analogread(13+a);
-
+    caracter= usbread();
+    Delayms(1);
+    if (caracter=='b')
+        {
+            usbsend("us",2);
+        }
+        if (caracter=='s')
+        {
+            caracter=usbread();
+            PORTB=caracter;
+            usbsend("ok\n\r",2);
+        }else{
+            usbsend("er\n\r",2);
+            PORTB=0;
+            }
 }
-
-sprintf(buf, " %i,%i,%i,%i,%i,%i,%i,%i\n\r", valor[0],valor[1],valor[2],valor[3],valor[4],valor[5],valor[6],valor[7]);
-Delayms(1);
-usbsend(buf,39);
 }

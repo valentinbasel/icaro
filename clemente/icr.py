@@ -42,8 +42,8 @@ class CDC(apicaro.puerto):
     def conexion(self):
         if self.servidor.emular == True:
             return True
-        band = self.iniciar()
-        return band
+        self.iniciar()
+        return True
 
     def leer_dat(self):
         try:
