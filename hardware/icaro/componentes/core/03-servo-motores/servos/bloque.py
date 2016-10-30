@@ -37,10 +37,10 @@ class CMP:
             "ServoWrite(12,",
             "valor",
             ");",
-            "ServoWrite(8,",
+            "ServoWrite(9,",
             "valor",
             ");",
-            "ServoWrite(9,",
+            "ServoWrite(8,",
             "valor",
             ");"
         ]
@@ -53,5 +53,5 @@ class CMP:
                     "dato2": "5",
                     "valor": self.valor
         }
-        self.tootips = "controla los 5 servos al mismo tiempo. Cada parametro representa el valor en grados de cada servo (0 a 255). Codigo C: ServoWrite(10,valor); ServoWrite(11,valor); ServoWrite(12,valor); ServoWrite(8,valor); ServoWrite(9,valor);"
+        self.tootips = "controla los 5 servos al mismo tiempo. Cada parametro representa el valor en grados de cada servo (0 a 255). Codigo C: ServoWrite(10,valor); ServoWrite(11,valor); ServoWrite(12,valor); ServoWrite(9,valor); ServoWrite(8,valor);"
         self.img = ""

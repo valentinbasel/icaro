@@ -45,8 +45,8 @@
 	#define TRIG 0
 	#define ECHO 1
 #else
-	#define TRIG 0
-	#define ECHO 0
+	#define TRIG 1
+	#define ECHO 1
 #endif
 
 /*

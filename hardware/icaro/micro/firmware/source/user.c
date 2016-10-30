@@ -66,35 +66,30 @@ salidas digitales del PORTB (unl2803):
 /*funciones*/
 void loop()
 {
-int espera=700;
-// pos 1
-ServoWrite(10,90);
-ServoWrite(11,170);
-ServoWrite(12,0);
-ServoWrite(8,161);
-ServoWrite(9,117);
-Delayms(espera);
-//pos 2
-ServoWrite(10,148);
-ServoWrite(11,170);
-ServoWrite(12,0);
-ServoWrite(8,161);
-ServoWrite(9,192);
-Delayms(espera);
-//pos 3
-ServoWrite(10,148);
-ServoWrite(11,102);
-ServoWrite(12,0);
-ServoWrite(8,92);
-ServoWrite(9,192);
-Delayms(espera);
-//pos 4
-ServoWrite(10,90);
-ServoWrite(11,102);
-ServoWrite(12,0);
-ServoWrite(8,92);
-ServoWrite(9,117);
-Delayms(espera);
+PORTD=ICR_MOTS_AD;
+Delayms(2000);
+PORTD=0;
+Delayms(2000);
+PORTD=ICR_MOTS_AT;
+Delayms(2000);
+PORTD=0;
+Delayms(2000);
+
+PORTD=ICR_MOTS_DE;
+Delayms(2000);
+PORTD=0;
+Delayms(2000);
+PORTD=ICR_MOTS_IZ;
+Delayms(2000);
+PORTD=0;
+Delayms(2000);
+
+PORTD=ICR_MOTS_INV_IZ;
+Delayms(2000);
+PORTD=0;
+Delayms(2000);
+PORTD=ICR_MOTS_INV_DE;
+Delayms(2000);
+PORTD=0;
+Delayms(2000);
 }
-
-

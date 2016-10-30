@@ -265,13 +265,13 @@ void loop()
     PORTB=1;
     //CDCputs("icaro USB 02 \n",14);
     //Delayms(500);
-    for(t=0;t<20;t++)
+    /*for(t=0;t<20;t++)
     {
         PORTB=1;
         Delayms(1000);
         PORTB=0;
         Delayms(1000);
-    }
+    }*/
 while(1)
 {
 	while ((receivedbyte=CDCgets(rxstr))==0);

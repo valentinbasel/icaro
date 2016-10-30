@@ -44,8 +44,8 @@
 #define ICR_SRV1 10
 #define ICR_SRV2 11
 #define ICR_SRV3 12
-#define ICR_SRV4 8
-#define ICR_SRV5 9
+#define ICR_SRV4 9
+#define ICR_SRV5 8
 
 /*unl2803*/
 

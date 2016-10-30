@@ -101,9 +101,8 @@ static void ServosPulseDown()
 			timingindex++;
 		}
 		// the following routine adds the requiered delay for every tick of timedivision, so every timedivision last 4 usec.
-		// le cambie el tiempo de espera de 6 a 12 para mejorar el recorrido del servo. (ahora hace todo el recorrido).
         __asm 
-			movlw 12
+			movlw 20
 			movwf _loopvar
 		bucle:
 			NOP
@@ -293,8 +292,8 @@ void servos_interrupt(void)
 		//case before 1st ms:
 			ServosPulseUp();
 			// Load at TMR1 54159d(also 0xFFFF - 12000d (- 54usec for adjustments)).
-			TMR1H= 0xd3;
-			TMR1L= 0x8f;
+			TMR1H= 0xf2; //0xd3;
+			TMR1L= 0x30;//ff; //0x8f;
 			// timer 1 prescaler 1 source is internal oscillator Fosc/4 (CPU clock or Fosc=48Mhz).
 			T1CON=1;
 			phase = 0;
@@ -306,7 +305,7 @@ void servos_interrupt(void)
 			// Now it takes place a 18 ms delay, after that a interrupt will be generated.
 			// Loading at TMR1 11535d (que es: 0xFFFF - (4,5 x 12000(duracion 1ms)) = 0x2D0F => a 4,5 ms) 
 			// This 4,5 x 4 (with preescaler x 4) we get 18 ms delay.
-			TMR1H= 0x2d;
+			TMR1H= 0x2d;//0x2d;
 			TMR1L= 0x0f;
 			// timer 1 prescaler 1 source is internal oscillator Fosc/4 (recordemos que Fosc=48Mhz).
 			if (needreordering)	
