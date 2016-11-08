@@ -62,34 +62,73 @@ salidas digitales del PORTB (unl2803):
 
 */
 
+int pulso=0;
+int band=0;
+int sens=0;
 
+void cont_puls()
+{
+
+sens=analogread(13);
+if (sens>500)
+	{
+	if (band==0)
+		{		
+		pulso++;
+		band=1;
+		}
+	}
+if(sens<200)
+{
+band=0;
+}
+
+//PORTB=pulso;
+}
 /*funciones*/
+int rpm=0;
+double ms=0;
+int rpm_m=0;
 void loop()
 {
-PORTD=ICR_MOTS_AD;
-Delayms(2000);
-PORTD=0;
-Delayms(2000);
-PORTD=ICR_MOTS_AT;
-Delayms(2000);
-PORTD=0;
-Delayms(2000);
 
-PORTD=ICR_MOTS_DE;
-Delayms(2000);
+/*Delayus(350);
 PORTD=0;
-Delayms(2000);
-PORTD=ICR_MOTS_IZ;
-Delayms(2000);
-PORTD=0;
-Delayms(2000);
-
-PORTD=ICR_MOTS_INV_IZ;
-Delayms(2000);
-PORTD=0;
-Delayms(2000);
-PORTD=ICR_MOTS_INV_DE;
-Delayms(2000);
-PORTD=0;
-Delayms(2000);
+Delayus(90);
+*/
+while (ms<(60000*5))
+{
+PORTD=96;
+cont_puls();
+Delayms(1);
+if(pulso>=17)
+{
+    pulso=0;
+    rpm++;
 }
+ms++;
+}
+rpm_m=rpm/5;
+while(1)
+{
+    PORTB=rpm_m;
+PORTD=0;
+}
+
+//~ if (pulso==4)
+//~ {
+//~ while(analogread(13)>500)
+//~ {
+//~ PORTD=128;
+//~ //Delayus(450);
+//~ }
+//while (1)
+//{
+//~ PORTD=0;
+//~ Delayms(1000);
+//~ pulso=0;
+//}
+
+
+}
+

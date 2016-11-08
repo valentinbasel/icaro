@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <__cdc.c>
+#include <np05_06.h>
+
 unsigned char i;
 unsigned char receivedbyte,receivedbyte2;
 unsigned char rxstr[64]="";
 unsigned char rxstr2[64]="";
 int valor=0;
+int caracter;
 void digital()
 {
 int sens=0;
@@ -14,16 +17,16 @@ while ((receivedbyte=CDCgets(rxstr))==0);
 rxstr[receivedbyte]=0;
 if (receivedbyte>0)
 {
-if(rxstr[0]=='4')
+if(caracter=='4')
     sens=21;
-if(rxstr[0]=='3')
+if(caracter=='3')
     sens=22;
-if(rxstr[0]=='2')
+if(caracter=='2')
     sens=23;
-if(rxstr[0]=='1')
+if(caracter=='1')
     sens=24;
 }
-rxstr[0]=0;
+caracter=0;
 receivedbyte=0;
 if (digitalread(sens)) 
 CDCputs("0",1);
@@ -33,52 +36,37 @@ CDCputs("1",1);
 
 void l293d()
 {
-int posic=0;
-int rb=0;
-int resultado=0;
 int val=0;
-int a=0;
-	for(;;)
-	{
-	    receivedbyte2=CDCgets(rxstr2);
-		if (receivedbyte2>0)
+if(leo_puerto()==1)
+    {
+	switch(caracter)
 		{
-		if(rxstr2[0]=='1')
-			{
-			val=96;
-			}
-		if(rxstr2[0]=='2')
-			{
-			val=144;
-			}
-		if(rxstr2[0]=='3')
-			{
-			val=64;
-			}
-		if(rxstr2[0]=='4')
-			{
-			val=32;
-			}
-		if(rxstr2[0]=='5')
-			{
-			val=0;
-			}
-			receivedbyte2=0;
-			break;
+		case '1':
+		val=ICR_MOTS_AD;
+		break;
+		case '2':
+		val=ICR_MOTS_AT;
+		break;
+		case '3':
+		val=ICR_MOTS_IZ;
+		break;
+		case '4':
+		val=ICR_MOTS_DE;
+		break;
+		case '5':
+		val=0;
+		break;
+		default:
+		val=0;
 		}
-	}
-
+    }
 valor=val;
-
 }
 void analogico()
 {
-//int posic=0;
-//unsigned int rb=0;
 float valor=0;
 unsigned char chaine[];
 unsigned int val=0;
-//int puerto=0;
 int i=0;
 int tam=0;
 	for(;;)
@@ -131,24 +119,17 @@ CDCputs(chaine,tam);
 
 void puertob()
 {
-int posic=0;
-int rb=0;
-int resultado=0;
-int	i=1;
-
-	while ((receivedbyte=CDCgets(rxstr))==0);
-
-	rxstr[receivedbyte]=0;
-	if (receivedbyte>0)
+//int posic=0;
+//int rb=0;
+//int resultado=0;
+//int	i=1;
+	if (leo_puerto()==1)
 		{
-
-        resultado = rxstr[0];
-        rxstr[receivedbyte]=0;
-		PORTB=resultado;
+//        resultado = caracter;
+		PORTB=caracter;
+        caracter=0;
+        receivedbyte=0;
 		}
-		
-
-	
 }
 void servos()
 {
@@ -156,132 +137,119 @@ int posic=0;
 int rb=0;
 int resultado=0;
 int val=0;
-
-	while ((receivedbyte=CDCgets(rxstr))==0);
-	rxstr[receivedbyte]=0;
-	if (receivedbyte>0)
+	if (leo_puerto()==1)
 		{
-		if(rxstr[0]=='1')
-			{
-			val=10;
-			}
-		if(rxstr[0]=='2')
-			{
-			val=11;
-			}
-		if(rxstr[0]=='3')
-			{
-			val=12;
-			}
-		if(rxstr[0]=='4')
-			{
-			val=8;
-			}
-		if(rxstr[0]=='5')
-			{
-			val=9;
-			}
+	    switch(caracter)
+		    {
+		    case '1':
+			    val=ICR_SRV1;
+			    break;
+		    case '2':
+			    val=ICR_SRV2;
+			    break;
+		    case '3':
+			    val=ICR_SRV3;
+			    break;
+		    case '4':
+			    val=ICR_SRV4;
+			    break;
+		    case '5':
+			    val=ICR_SRV5;
+			    break;
+		    }
 		}
-    rxstr[0]=0;
+    caracter=0;
 	receivedbyte=0;
-	while ((receivedbyte=CDCgets(rxstr))==0);
-	rxstr[receivedbyte]=0;
-	if (receivedbyte>0)
+	if (leo_puerto()==1)
 		{
-		//rxstr[receivedbyte]=0;
-/*			for (posic=0;posic<=7;posic++)
-			{
-			rb=(rxstr[posic]);
-			resultado=resultado+rb;
-			}*/
-        resultado = rxstr[0];
-        rxstr[receivedbyte]=0;
+        resultado = caracter;
 		ServoWrite(val,resultado);
-		}
-rxstr[0]=0;
-receivedbyte=0;
-//CDCputs(resultado,DEC);
-
-		return;
-
+        caracter=0;
+        }
+    receivedbyte=0;
+    return;
 }
+
 void setup()
 {
-
-
-TRISB=0;
-pinmode(21,INPUT);
-pinmode(22,INPUT);
-pinmode(23,INPUT);
-pinmode(24,INPUT);
-
-pinmode(25,OUTPUT);
-pinmode(26,OUTPUT);
-pinmode(27,OUTPUT);
-pinmode(28,OUTPUT);
-
-ServoAttach(8);
-ServoAttach(9);
-ServoAttach(10);
-ServoAttach(11);
-ServoAttach(12);
-PORTD=0;
-PORTB=0;
+    TRISB=0;
+    pinmode(21,INPUT);
+    pinmode(22,INPUT);
+    pinmode(23,INPUT);
+    pinmode(24,INPUT);
+    pinmode(25,OUTPUT);
+    pinmode(26,OUTPUT);
+    pinmode(27,OUTPUT);
+    pinmode(28,OUTPUT);
+    ServoAttach(8);
+    ServoAttach(9);
+    ServoAttach(10);
+    ServoAttach(11);
+    ServoAttach(12);
+    PORTD=0;
+    PORTB=0;
 }
 
 //
 //
 void comparo()
 {
-    		if(rxstr[0]=='b')
+    		if(caracter=='b')
 			{
 			CDCputs("icaro USB 02 \n",14);
 			}
-		if(rxstr[0]=='m')
+		if(caracter=='m')
 			{
 			servos();
 			}
-		if(rxstr[0]=='e')
+		if(caracter=='e')
 			{
 			analogico();
 			}
-		if(rxstr[0]=='l')
+		if(caracter=='l')
 			{
 			l293d();
 			}
-		if(rxstr[0]=='d')
+		if(caracter=='d')
 			{
 			digital();
 			}
-		if(rxstr[0]=='s')
+		if(caracter=='s')
 			{
 			puertob();
 			}
 }
+
+int leo_puerto()
+{
+while ((receivedbyte=CDCgets(rxstr))==0);
+        rxstr[receivedbyte]=0;
+        if (receivedbyte>0)
+            {
+                caracter=rxstr[0];
+                return 1;
+            }
+        return 0;
+}
 void loop()
 {
-    int t=0;
-    PORTD=valor;
-    PORTB=1;
-    //CDCputs("icaro USB 02 \n",14);
-    //Delayms(500);
-    /*for(t=0;t<20;t++)
+/*    int t=0;
+    for(t=0;t<20;t++)
     {
         PORTB=1;
         Delayms(1000);
         PORTB=0;
         Delayms(1000);
     }*/
-while(1)
-{
-	while ((receivedbyte=CDCgets(rxstr))==0);
-	rxstr[receivedbyte]=0;
-	if (receivedbyte>0)
-		{
-        comparo();
-        Delayus(10);
-		 }
-    rxstr[0]=0;
-	receivedbyte=0;
-}
+    while(1)
+    {
+        PORTD=valor;
+            if(leo_puerto()==1)
+            {
+            comparo();
+            Delayus(10);
+            }
+        caracter=0;
+        receivedbyte=0;
+    }
 }

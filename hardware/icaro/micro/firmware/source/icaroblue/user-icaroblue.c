@@ -20,16 +20,16 @@ void l293d()
 	switch(caracter)
 		{
 		case '1':
-		val=96;
+		val=ICR_MOTS_AD;
 		break;
 		case '2':
-		val=144;
+		val=ICR_MOTS_AT;
 		break;
 		case '3':
-		val=64;
+		val=ICR_MOTS_IZ;
 		break;
 		case '4':
-		val=32;
+		val=ICR_MOTS_DE;
 		break;
 		case '5':
 		val=0;
@@ -116,19 +116,19 @@ void servos()
 	switch(caracter)
 		{
 		case '1':
-			val=10;
+			val=ICR_SRV1;
 			break;
 		case '2':
-			val=11;
+			val=ICR_SRV2;
 			break;
 		case '3':
-			val=12;
+			val=ICR_SRV3;
 			break;
 		case '4':
-			val=8;
+			val=ICR_SRV4;
 			break;
 		case '5':
-			val=9;
+			val=ICR_SRV5;
 			break;
 		}
 	resultado=serial_read();

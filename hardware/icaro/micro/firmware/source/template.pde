@@ -43,11 +43,11 @@ MOTOR "A+B" INVERSION DE GIRO DERECHA = 1A+2B = 48
 MOTOR "A+B" INVERSION DE GIRO IZQUIERDA = 2A+1B = 192
 
 salidas para servomotores:
-servo 1 ---> puerto = 10
-servo 1 ---> puerto = 11
-servo 1 ---> puerto = 12
-servo 1 ---> puerto = 8
-servo 1 ---> puerto = 9
+servo 1 ---> puerto = 10 --> k2
+servo 2 ---> puerto = 11 --> k3
+servo 3 ---> puerto = 12 --> k4
+servo 4 ---> puerto = 8  --> k5
+servo 5 ---> puerto = 9  --> k6
 
 salidas digitales del PORTB (unl2803):
  LED 1  ---> PORTB = 1
