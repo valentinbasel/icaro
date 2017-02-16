@@ -21,11 +21,17 @@ from TurtleArt.tautils import get_path
 import logging
 _logger = logging.getLogger('turtleart-activity icaro plugin')
 
-import apicaro
+#import apicaro
+#puerto = apicaro.puerto()
+
+from libreria.vplot import ROBOT 
 import time
-puerto = apicaro.puerto()
-puerto.PUERTO = '/dev/rfcomm0'
-puerto.iniciar()
+
+robot=ROBOT() # este es el "nombre" de nuestro robot.
+
+
+robot.PUERTO = '/dev/ttyACM0'
+robot.iniciar()
 
 
 class Icaro(Plugin):
@@ -286,6 +292,91 @@ class Icaro(Plugin):
         self._parent.lc.def_prim(
             'parar', 0, lambda self: primitive_dictionary['parar'](1))
 
+        primitive_dictionary['drawbot_adelante'] = self._drb_adelante
+        palette.add_block('drawbot_adelante',
+                          style='basic-style-1arg',
+                          label=_('drawbot_adelante'),
+                          prim_name='drawbot_adelante',
+                          default=[1],
+                          help_string=_('el drawbot dibujara una linea de N pasos'))
+        self._parent.lc.def_prim(
+            'drawbot_adelante', 1, lambda self, valor:
+            primitive_dictionary['drawbot_adelante'](valor))
+
+        primitive_dictionary['drawbot_atras'] = self._drb_atras
+        palette.add_block('drawbot_atras',
+                          style='basic-style-1arg',
+                          label=_('drawbot_atras'),
+                          prim_name='drawbot_atras',
+                          default=[1],
+                          help_string=_('El drawbot dibujara una linea de N pasos en sentido contrario'))
+        self._parent.lc.def_prim(
+            'drawbot_atras', 1, lambda self, valor:
+            primitive_dictionary['drawbot_atras'](valor))
+
+        primitive_dictionary['drawbot_izquierda'] = self._drb_izquierda
+        palette.add_block('drawbot_izquierda',
+                          style='basic-style-1arg',
+                          label=_('drawbot_izquierda'),
+                          prim_name='drawbot_izquierda',
+                          default=[1],
+                          help_string=_('El drawbot girara a la izquierda'))
+        self._parent.lc.def_prim(
+            'drawbot_izquierda', 1, lambda self, valor:
+            primitive_dictionary['drawbot_izquierda'](valor))
+
+        primitive_dictionary['drawbot_derecha'] = self._drb_derecha
+        palette.add_block('drawbot_derecha',
+                          style='basic-style-1arg',
+                          label=_('drawbot_derecha'),
+                          prim_name='drawbot_derecha',
+                          default=[1],
+                          help_string=_('El drawbot girara a la derecha'))
+        self._parent.lc.def_prim(
+            'drawbot_derecha', 1, lambda self, valor:
+            primitive_dictionary['drawbot_derecha'](valor))
+
+
+        primitive_dictionary['drawbot_levantar_lapiz'] = self._drb_levantar_lapiz
+        palette.add_block('drawbot_levantar_lapiz',
+                          style='basic-style-extended-vertical',
+                          label=_('drawbot_levantar_lapiz'),
+                          prim_name='drawbot_levantar_lapiz',
+                          help_string=_('El drawbot levantara el lapiz'))
+        self._parent.lc.def_prim(
+            'drawbot_levantar_lapiz', 0, lambda selfr:
+            primitive_dictionary['drawbot_levantar_lapiz']())
+
+        primitive_dictionary['drawbot_bajar_lapiz'] = self._drb_bajar_lapiz
+        palette.add_block('drawbot_bajar_lapiz',
+                          style='basic-style-extended-vertical',
+                          label=_('drawbot_bajar_lapiz'),
+                          prim_name='drawbot_bajar_lapiz',
+                          help_string=_('El drawbot bajara el lapiz'))
+        self._parent.lc.def_prim(
+            'drawbot_bajar_lapiz', 0, lambda selfr:
+            primitive_dictionary['drawbot_bajar_lapiz']())
+
+    def _drb_adelante(self, ms):
+        robot.adelante(int(ms))
+
+
+    def _drb_atras(self, ms):
+        robot.atras(int(ms))
+
+    def _drb_izquierda(self, ms):
+        robot.izquierda(int(ms))
+
+    def _drb_derecha(self, ms):
+        robot.derecha(int(ms))
+
+    def _drb_bajar_lapiz(self):
+        robot.bajar_lapiz()
+
+
+    def _drb_levantar_lapiz(self):
+        robot.levantar_lapiz()
+
     def _adelante(self, valor):
         return 1
 
@@ -302,62 +393,84 @@ class Icaro(Plugin):
         return 5
 
     def _rb_adelante(self, ms):
-        puerto.motor("1")
+        robot.motor("1")
         time.sleep(ms)
-        puerto.motor("5")
+        robot.motor("5")
 
     def _rb_atras(self, ms):
-        puerto.motor("2")
+        robot.motor("2")
         time.sleep(ms)
-        puerto.motor("5")
+        robot.motor("5")
 
     def _rb_izquierda(self, ms):
-        puerto.motor("3")
+        robot.motor("3")
         time.sleep(ms)
-        puerto.motor("5")
+        robot.motor("5")
 
     def _rb_derecha(self, ms):
-        puerto.motor("4")
+        robot.motor("4")
         time.sleep(ms)
-        puerto.motor("5")
+        robot.motor("5")
 
 
 
 
 
     def _servo(self, valor, servo):
-        puerto.activar_servo(int(servo), int(valor))
+        robot.activar_servo(int(servo), int(valor))
 
     def _activar(self, valor):
-        puerto.activar(valor)
+        robot.activar(valor)
 
     def _motores(self, valor):
         if valor == 1:
-            puerto.motor("1")
+            robot.motor("1")
         if valor == 2:
-            puerto.motor("2")
+            robot.motor("2")
         if valor == 3:
-            puerto.motor("3")
+            robot.motor("3")
         if valor == 4:
-            puerto.motor("4")
+            robot.motor("4")
         if valor == 5:
-            puerto.motor("5")
+            robot.motor("5")
 
     def _retardo(self, valor):
         time.sleep(valor / 1000)
 
     def _sensor2(self, valor):
-        respuesta = puerto.leer(valor)
+        respuesta = robot.leer(valor)
         return respuesta
 
     def _abrir_puerto(self, valor):
-        #puerto.cerrar()
-        puerto.PUERTO = str(valor)
-        #a=puerto.iniciar()
-        #if a==False:
-        #    return False
+        robot.cerrar()
+        robot.PUERTO = str(valor)
+        a=robot.iniciar()
+        if a==False:
+            return False
+
+
+
+
+    def _servo(self, valor, servo):
+        robot.activar_servo(int(servo), int(valor))
+
+    def _activar(self, valor):
+        robot.activar(valor)
+
+    def _motores(self, valor):
+        if valor == 1:
+            robot.motor("1")
+        if valor == 2:
+            robot.motor("2")
+        if valor == 3:
+            robot.motor("3")
+        if valor == 4:
+            robot.motor("4")
+        if valor == 5:
+            robot.motor("5")
+
 
 
     def _sensor_analog(self, valor):
-        respuesta = puerto.leer_analogico(valor)
+        respuesta = robot.leer_analogico(valor)
         return respuesta

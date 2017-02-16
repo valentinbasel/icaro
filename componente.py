@@ -282,7 +282,7 @@ class ComponenteCentral(FormaSvg):
     texto = ""
     valx = 45
     valy = 0
-    color_fon = [255, 255, 255]
+    color_fon = [0, 0, 0]
 
     def __init__(self):
         """ Class initialiser """
@@ -346,12 +346,15 @@ class ComponenteCentral(FormaSvg):
                 xx = x - self.valx
                 yy = y - self.valy
                 self.posicion = (xx, yy)
+                self.color_fon=(255,255,255)
                 iden = self.fondo.objetos[self.pegado_a].ide
                 self.fondo.lista_ordenada[self.ide] = iden
                 self.dibujar()
                 return 0
             if self.pegado == 0:
                 self.fondo.lista_ordenada[self.ide] = 0
+                self.color_fon=(0,0,0)
+                iden = self.fondo.objetos[self.pegado_a].ide
                 for a in range(len(self.fondo.objetos)):
                     if (self.fondo.colliderect
                         (

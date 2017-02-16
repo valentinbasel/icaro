@@ -117,7 +117,7 @@ def docker(archivo):
     np05 = False
     while np05 == False:
         print "--busco el puerto--"
-        time.sleep(0.5)
+        #time.sleep(0.5)
         np05 = buscar_bus()
         if buscar_bus_docker == False:
             # time.sleep(0.5)

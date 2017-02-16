@@ -736,10 +736,16 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     def timeout(self):
         # self.area.queue_draw_area(0,0,int(self.mousexy[0]),int(self.mousexy[1]))
         self.area.queue_draw()
+
         # self.area.queue_clear()
+        
+        #~ self.alloc = self.area.get_allocation ( )
+        #~ rect = gtk.gdk.Rectangle ( self.alloc.x, self.alloc.y, self.alloc.width, self.alloc.height )
+        #~ self.window1.invalidate_rect ( rect, True )
         return True
 
     def update(self):
+        #~ print len(fon.objetos)
         self.cr = self.area.window.cairo_create()
         self.fondo.update()
         if fon.objetos_datos > 0:
@@ -747,10 +753,12 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 dat.update()
         for obj in fon.objetos:
             obj.update()
+
+        
         return True
 
     def expose(self, event, b):
-        # print event,"---",b
+        #~ print event,"---",b
         self.update()
 
     def move_cb(self, win, event):
