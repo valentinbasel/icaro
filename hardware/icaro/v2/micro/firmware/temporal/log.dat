@@ -1,0 +1,9 @@
+WARNING: Command line option --use-non-free not present.
+         When compiling for PIC14/PIC16, please provide --use-non-free
+         to get access to device headers and libraries.
+         If you do not use these, you may provide --no-warn-non-free
+         to suppress this warning (not recommended).
+In file included from /home/vbasel/.icaro/v2/firmware/source/main.c:49:
+/home/vbasel/.icaro/v2/firmware/source/user.c:4:1: warning: "/*" within comment
+ignoring blacklisted flow
+ignoring blacklisted flow

@@ -320,10 +320,11 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     }
     valor_datos_comp = {"fin ": "}"}
 
-    def __init__(self, icaro_dir):
+    def __init__(self, icaro_dir,firmware_ruta):
 
         # esta es la lista de donde se sacan los valores para los botones
         # icaro
+        self.firmware_ruta="."+firmware_ruta
         self.icaro_dir = icaro_dir
         arch = open(sys.path[0] + "/version", "r")
         version = arch.readline()
@@ -366,7 +367,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         box2.pack_start(hp, True, True, 1)
         hp.pack1(self.notebook2, True, True)
         hp.pack2(scrolled_window2, True, True)
-        self.ver = visor.visor_codigo(self, self.notebook2)
+        self.ver = visor.visor_codigo(self, self.notebook2,self.firmware_ruta)
 
         hp.set_position(500)
         self.window1.connect('delete-event', gtk.main_quit)
@@ -405,52 +406,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         toolbar.show()
 
         # creo los botones de la toolbar
-        botones_toolbar = [
-            [1, toolbar, gtk.STOCK_NEW, "New",
-             self.tooltip["nuevo"], self.nuevo, None],
-            [1, toolbar, gtk.STOCK_OPEN, "Open",
-             self.tooltip["abrir"], self.abrir, None],
-            [1, toolbar, gtk.STOCK_SAVE, "Save",
-             self.tooltip["guardar"], self.guardar, 0],
-            [1, toolbar, gtk.STOCK_QUIT, "Quit",
-             self.tooltip["salir"], self.salir, None],
-            [3],
-            [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
-             "Compile", self.tooltip["compilar"], self.compilar, None],
-            [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
-             "Load", self.tooltip["cargar"], self.upload, None],
-            [3],
-            [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp,
-             "tortucaro/tortucaro"],
-
-            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
-             "pilas", self.tooltip["pilas"], self.comp_esp,
-             "pilas/pilas-engine"],
-            [2, toolbar, sys.path[0] + "/imagenes/icaroblue.png",
-             "icaroblue", self.tooltip["icaroblue"], self.comp_esp,
-             "icaroblue/icaroblue"],
-            [3],
-            [1, toolbar, gtk.STOCK_HELP, "Help",
-             self.tooltip["ayuda"], self.ayuda, None],
-            [3],
-            [1, toolbar, gtk.STOCK_ADD, "Pen",
-             self.tooltip["lapiz"], self.dibujo, 1],
-            [1, toolbar, gtk.STOCK_SELECT_COLOR, "Move",
-             self.tooltip["mover"], self.dibujo, 2],
-            [1, toolbar, gtk.STOCK_DELETE, "Erase",
-             self.tooltip["borrar"], self.dibujo, 3],
-            [1, toolbar, gtk.STOCK_EDIT,
-             "Edit", "", self.dibujo, 4],
-            [3],
-            [1, toolbar, gtk.STOCK_ZOOM_IN, "agrandar",
-             "", self.menuitem_response, "zoomas"],
-            [1, toolbar, gtk.STOCK_ZOOM_OUT, "achicar",
-             "", self.menuitem_response, "zoomenos"],
-            [1, toolbar, gtk.STOCK_ZOOM_100, "zoom 1:1",
-             "", self.menuitem_response, "zoomcero"],
-        ]
-
+        botones_toolbar = self.crear_botones_bootlader(toolbar)
+        
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar:
             if dat[0] == 3:
@@ -523,6 +480,57 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         edicion = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(edicion)
         self.definir_cursor(1)
+    def crear_botones_bootlader(self,toolbar):
+        botones_inic=[
+            [1, toolbar, gtk.STOCK_NEW, "New",
+             self.tooltip["nuevo"], self.nuevo, None],
+            [1, toolbar, gtk.STOCK_OPEN, "Open",
+             self.tooltip["abrir"], self.abrir, None],
+            [1, toolbar, gtk.STOCK_SAVE, "Save",
+             self.tooltip["guardar"], self.guardar, 0],
+            [1, toolbar, gtk.STOCK_QUIT, "Quit",
+             self.tooltip["salir"], self.salir, None],
+            [3]]
+        boton_medio=[
+            [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
+             "Compile", self.tooltip["compilar"], self.compilar, None],
+            [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
+             "Load", self.tooltip["cargar"], self.upload, None],
+            [3],
+            [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
+             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp,
+             "tortucaro/tortucaro"],
+
+            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
+             "pilas", self.tooltip["pilas"], self.comp_esp,
+             "pilas/pilas-engine"],
+            [2, toolbar, sys.path[0] + "/imagenes/icaroblue.png",
+             "icaroblue", self.tooltip["icaroblue"], self.comp_esp,
+             "icaroblue/icaroblue"],
+            [3]]
+        boton_fin=[
+            [1, toolbar, gtk.STOCK_HELP, "Help",
+             self.tooltip["ayuda"], self.ayuda, None],
+            [3],
+            [1, toolbar, gtk.STOCK_ADD, "Pen",
+             self.tooltip["lapiz"], self.dibujo, 1],
+            [1, toolbar, gtk.STOCK_SELECT_COLOR, "Move",
+             self.tooltip["mover"], self.dibujo, 2],
+            [1, toolbar, gtk.STOCK_DELETE, "Erase",
+             self.tooltip["borrar"], self.dibujo, 3],
+            [1, toolbar, gtk.STOCK_EDIT,
+             "Edit", "", self.dibujo, 4],
+            [3],
+            [1, toolbar, gtk.STOCK_ZOOM_IN, "agrandar",
+             "", self.menuitem_response, "zoomas"],
+            [1, toolbar, gtk.STOCK_ZOOM_OUT, "achicar",
+             "", self.menuitem_response, "zoomenos"],
+            [1, toolbar, gtk.STOCK_ZOOM_100, "zoom 1:1",
+             "", self.menuitem_response, "zoomcero"],
+        ]
+        botones_final=botones_inic+boton_medio + boton_fin
+        return botones_final
+
 
     def crear_toolbuttons(self, tipo, toolbar, img, nombre, tooltip, func, metodos):
         # creo los botones de la toolbar
@@ -945,7 +953,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             conf.show()
         if string == _("Log"):
             dir_conf = os.path.expanduser(
-                '~') + "/.icaro/firmware/temporal/log.dat"
+                '~') + "/"+self.firmware_ruta+"/firmware/temporal/log.dat"
             self.visor(dir_conf)
         if string == "graficador":
             self.graf()
@@ -1031,7 +1039,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.lista = self.diccionario.keys()
         self.lista.sort()
         self.carga_paleta()
-        self.conf_ini = os.path.expanduser('~') + "/.icaro/conf/config.ini"
+        self.conf_ini = os.path.expanduser('~') + "/"+self.firmware_ruta+"/conf/config.ini"
         print self.conf_ini
         if os.path.exists(self.conf_ini):
             self.cfg = self.carga_conf(self.conf_ini)
@@ -1048,10 +1056,10 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 # en funcion de un .py que este adentro del hardware/icaro/modulos
 
 
-def inicio(icaro_dir):
+def inicio(icaro_dir,firmware_ruta):
     global ventana_principal
     global fon
-    ventana_principal = Ventana(icaro_dir)
+    ventana_principal = Ventana(icaro_dir,firmware_ruta)
     fon = fondo()
     ventana_principal.fondo = fon
     inicial = componente_inicial(50, 50, 1, fon, ventana_principal)

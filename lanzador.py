@@ -26,22 +26,27 @@ import os
 from utilidades_ventana import UTILIDADES
 
 
-# cuando incio icaro, me da la posibilidad de cambiar
-# el modulo de hardware, para tener compatibildiad
-# con otros sistemas
 
-hardware_dir = "hardware/icaro/"
-ruta_hardware = sys.path[0] + "/" + hardware_dir + "modulos"
-conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
-# UTILIDADES es la clase que contiene las funciones para generar mensajes,
-# carga de la conf .ini y
-# recargar los archivos del firmware
-mens = UTILIDADES()
+def main(args):
+    # cuando incio icaro, me da la posibilidad de cambiar
+    # el modulo de hardware, para tener compatibildiad
+    # con otros sistemas
+    icr_dir="icaro/"+args[1]+"/"
+    hardware_dir = "hardware/"+icr_dir
+    ruta_hardware = sys.path[0] + "/" + hardware_dir + "modulos"
+    conf = os.path.expanduser('~') + "/."+icr_dir+"conf/config.ini"
+    # UTILIDADES es la clase que contiene las funciones para generar mensajes,
+    # carga de la conf .ini y
+    # recargar los archivos del firmware
+    mens = UTILIDADES()
+    if os.path.exists(ruta_hardware):
+        mens.preparar_icaro(icr_dir,ruta_hardware, hardware_dir, conf)
+    else:
+        cad = "No se encontro el modulo de carga para el hardware en la ruta " + \
+            ruta_hardware
+        mens.mensajes(0, cad)
+        exit()
 
-if os.path.exists(ruta_hardware):
-    mens.preparar_icaro(ruta_hardware, hardware_dir, conf)
-else:
-    cad = "No se encontro el modulo de carga para el hardware en la ruta " + \
-        ruta_hardware
-    mens.mensajes(0, cad)
-    exit()
+if __name__ == '__main__':
+    import sys
+    sys.exit(main(sys.argv))

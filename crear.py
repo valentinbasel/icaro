@@ -47,7 +47,7 @@ def parseador(lista, argumentos, texto, fondo, ventana):
 
 
 def crear_archivo(fondo, ventana):
-    dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
+    dir_conf = os.path.expanduser('~') + "/"+ventana.firmware_ruta+"firmware/"
     # cadena_final=[]
     #f=open(sys.path[0] +"/diccionario.xml","r")
     # cadena=f.readlines()

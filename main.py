@@ -178,7 +178,7 @@ def comprobacion_errores(ventana, mens):
     if os.path.isdir(dir_conf) == 0:
         # os.mkdir(dir_conf)
 
-        hardware_dir = "hardware/icaro/"
+        hardware_dir = "hardware/icaro"
         mens.recarga_conf(hardware_dir, True)
         exit(1)
 
@@ -188,10 +188,11 @@ def main():
     mens = UTILIDADES()
     ventana = VentanaGtk()
     comprobacion_errores(ventana, mens)
-    conf = os.path.expanduser('~') + "/.icaro/conf/config.ini"
+    conf = os.path.expanduser('~') + "/.icaro/config.ini"
 
     cfg = mens.carga_conf(conf)
     turtleart_ruta = cfg.get("general", "turtlear")
+    bootloader=cfg.get("icaro_config","bootloader")
 
     pyt = ["Lanza la teminal interactiva ",
            "con el modulo apicaro.",
@@ -218,7 +219,7 @@ def main():
                        100,
                        160,
                        sys.path[0] + "/imagenes/main/icaro.png",
-                       "python " + sys.path[0] + "/lanzador.py",
+                       "python " + sys.path[0] + "/lanzador.py " + bootloader,
                        icr)
     BotonPython = Boton(3,
                         ventana,

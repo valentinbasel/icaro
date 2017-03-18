@@ -31,12 +31,12 @@ sys.path.append(icaro_dir + "modulos")
 
 class visor_codigo():
 
-    def __init__(self, ventana, notebook):
+    def __init__(self, ventana, notebook,firmware_ruta):
         # create buffer
         lm = gtksourceview2.LanguageManager()
         self.buffer = gtksourceview2.Buffer()
         self.buffer.set_data('languages-manager', lm)
-
+        self.firmware_ruta=firmware_ruta
         view = gtksourceview2.View(self.buffer)
         view.set_show_line_numbers(True)
         self.ventana = ventana
@@ -56,7 +56,7 @@ class visor_codigo():
 
         vbox.show_all()
         # main loop
-        dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
+        dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
         self.cadena_user_c = dir_conf + "source/user.c"
         self.buf = self.open_file(self.buffer, self.cadena_user_c)
         iconw = gtk.Image()
@@ -120,7 +120,7 @@ class visor_codigo():
 #        self.window.hide()
 
     def compilar(self, arg):
-        dir_conf = os.path.expanduser('~') + "/.icaro/firmware/"
+        dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
         cadena = dir_conf + "source/user.c"
         cadena2 = self.buf.props.text
         a = self.ventana.mensajes(

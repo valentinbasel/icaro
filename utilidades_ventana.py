@@ -38,12 +38,12 @@ class UTILIDADES:
     def __init__(self):
         pass
 
-    def preparar_icaro(self, ruta, icr_dir, conf):
+    def preparar_icaro(self,icaro_dir, ruta, icr_dir, conf):
         sys.path.append(ruta)
         # busca el archivo .ini dentro de la carpeta firmware
         if os.path.exists(conf):
             from icaro import *
-            inicio(icr_dir)
+            inicio(icr_dir,icaro_dir)
         else:
             cad = "No se encontro el archivo de configuracion en la ruta " + \
                 conf
@@ -91,12 +91,12 @@ class UTILIDADES:
 
     def recarga_conf(self, icaro_dir, visual):
 
-        dir_firm = os.path.expanduser('~') + "/.icaro/firmware/"
-        dir_conf = os.path.expanduser('~') + "/.icaro/conf/"
+        dir_firm = os.path.expanduser('~') + "/.icaro/v2/firmware/"
+        dir_conf = os.path.expanduser('~') + "/.icaro/v2/conf/"
         np05 = sys.path[0] + "/" + icaro_dir + "micro/firmware"
         conf = sys.path[0] + "/" + icaro_dir + "micro/conf"
-        if os.path.exists(os.path.expanduser('~') + "/.icaro/") == False:
-            ruta_firmware = os.path.expanduser('~') + "/.icaro/"
+        if os.path.exists(os.path.expanduser('~') + "/.icaro/v2") == False:
+            ruta_firmware = os.path.expanduser('~') + "/.icaro/v2"
             os.system("mkdir " + ruta_firmware)
 
         if visual == True:

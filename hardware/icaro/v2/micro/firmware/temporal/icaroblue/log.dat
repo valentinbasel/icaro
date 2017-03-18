@@ -1,0 +1,7 @@
+WARNING: Command line option --use-non-free not present.
+         When compiling for PIC14/PIC16, please provide --use-non-free
+         to get access to device headers and libraries.
+         If you do not use these, you may provide --no-warn-non-free
+         to suppress this warning (not recommended).
+/home/vbasel/.icaro/firmware/tmp/uart18f2550.c:193: warning 196: pointer target lost const qualifier
+/home/vbasel/.icaro/firmware/tmp/servos.c:67: error 4: 'fopen' failed on file '/home/vbasel/.icaro/firmware/temporal/icaroblue/icaroblue.asm'
