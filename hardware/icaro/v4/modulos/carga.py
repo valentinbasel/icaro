@@ -21,7 +21,8 @@ from uploader_icaro_v4 import  UPLOAD
 
 class Cargador():
 
-    def __init__(self, ruta):
+    def __init__(self, ruta,mensajes):
+        self.mensajes=mensajes
         self.win = gtk.Window()
         self.win.set_resizable(False)
         self.win.set_default_size(600, 600)
@@ -53,6 +54,6 @@ class Cargador():
         firmware=dir_conf + "/temporal/" + self.ruta + ".hex"
         pic=UPLOAD()
         pp=pic.uploadDevice(firmware)
-
+        self.mensajes(3, pp)
         self.win.hide()
 

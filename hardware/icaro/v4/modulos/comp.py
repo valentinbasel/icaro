@@ -72,7 +72,7 @@ class tool_compilador:
         i = util.linker("main", self.cfg)
         #i = carga.upload_pic("main", self.cfg)
         if i == 0:
-            cargador = carga.Cargador("main")
+            cargador = carga.Cargador("main",self.mensajes)
             #cargador.start()
             return 0
 
@@ -91,7 +91,7 @@ class tool_compilador:
             i = util.linker(datos, self.cfg)
             #i = carga.upload_pic(datos, self.cfg)
             if i == 0:
-                cargador = carga.Cargador(datos)
+                cargador = carga.Cargador(datos,self.mensajes)
                 #cargador.start()
                 return 0
 #

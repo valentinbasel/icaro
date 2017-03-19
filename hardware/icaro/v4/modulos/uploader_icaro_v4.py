@@ -150,7 +150,7 @@ class UPLOAD(object):
 
     INTERFACE_ID                    = 0x00
     ACTIVE_CONFIG                   = 0x01
-
+    REPORTE=""
 # # ------------------------------------------------------------------------------
     def getDevice(self, board):
         """ Scans connected USB devices until it finds a Pinguino board """
@@ -160,6 +160,7 @@ class UPLOAD(object):
             for device in bus.devices:
                 if (device.idVendor, device.idProduct) == (board.vendor, board.product):
                     print("Found device 0x%04X:0x%04X" % (device.idVendor, device.idProduct))
+                    self.REPORTE=self.REPORTE+("Found device 0x%04X:0x%04X \n" % (device.idVendor, device.idProduct))
                     return device
         return self.ERR_DEVICE_NOT_FOUND
 
@@ -412,12 +413,14 @@ class UPLOAD(object):
         board=Pinguino4550()
         if filename == '':
             print("No program to write")
+            self.REPORTE=self.REPORTE+("No program to write")
             self.closeDevice(handle)
-            return
+            return self.REPORTE
         hexfile = open(filename, 'r')
         if hexfile == "":
             print("Unable to open %s" % filename)
-            return
+            Rself.EPORTE=self.REPORTE+("Unable to open %s" % filename)
+            return self.REPORTE
         hexfile.close()
         # search for a Pinguino board
         # --------------------------------------------------------------
@@ -426,26 +429,32 @@ class UPLOAD(object):
             print("Pinguino not found")
             print("If your device is connected,")
             print("press the Reset button to switch to bootloader mode.")
-            return
+            self.REPORTE=self.REPORTE+"PINGUINO V4 no encontrado, si tu dispositivo esta conectado, presiona RESET y vuelve a intentar"
+            return self.REPORTE
         print("Pinguino found")
         handle = self.initDevice(device)
         if handle == self.ERR_USB_INIT1:
             print("Upload not possible")
             print("Try to restart the bootloader mode")
-            return
+            self.REPORTE=self.REPORTE + "no es posible hacer el Upload, prueba apretar RESET y volver a probar"
+            return self.REPORTE
         # find out the processor
         device_id = self.getDeviceID(handle)
         proc = self.getDeviceName(device_id)
-        print(" - with PIC%s (id=%X)" % (proc, device_id))
+        print (" - with PIC%s (id=%X)" % (proc, device_id))
+        self.REPORTE=self.REPORTE+(" - with PIC%s (id=%X)" % (proc, device_id))
         if proc != board.proc:
             print("Aborting: program compiled for %s but device has %s" % (board.proc, proc))
+            self.REPORTE=self.REPORTE+("Aborting: program compiled for %s but device has %s" % (board.proc, proc))
             self.closeDevice(handle)
-            return
+            return self.REPORTE
         # find out flash memory size
         # --------------------------------------------------------------
         memfree = board.memend - board.memstart;
         print(" - with %d bytes free (%d KB)" % (memfree, memfree/1024))
-        print("   from 0x%05X to 0x%05X" % (board.memstart, board.memend))
+        print("  165, from 0x%05X to 0x%05X" % (board.memstart, board.memend))
+        self.REPORTE=self.REPORTE+(" - with %d bytes free (%d KB)" % (memfree, memfree/1024))
+        self.REPORTE=self.REPORTE+("   from 0x%05X to 0x%05X" % (board.memstart, board.memend))
 
         # find out bootloader version
         # --------------------------------------------------------------
@@ -456,26 +465,38 @@ class UPLOAD(object):
         # start writing
         # --------------------------------------------------------------
         print("Uploading user program ...")
+        self.REPORTE=self.REPORTE+("Uploading user program ...")
+
         status = self.writeHex(handle, filename, board)
         if status == self.ERR_HEX_RECORD:
             print("Aborting: record error")
+            self.REPORTE=self.REPORTE+("Aborting: record error")
+
             self.closeDevice(handle)
-            return
+            return self.REPORTE
         elif status == self.ERR_HEX_CHECKSUM:
             print("Aborting: checksum error")
+            self.REPORTE=self.REPORTE+("Aborting: checksum error")
+
             self.closeDevice(handle)
-            return
+            return self.REPORTE
         elif status == self.ERR_USB_ERASE:
             print("Aborting: erase error")
+            self.REPORTE=self.REPORTE+("Aborting: erase error")
+
             self.closeDevice(handle)
-            return
+            return self.REPORTE
         elif status == self.ERR_NONE:
             print(os.path.basename(filename) + " successfully uploaded")
+            self.REPORTE=self.REPORTE+(os.path.basename(filename) + " successfully uploaded")
+
         # reset and start start user's app.
             self.resetDevice(handle)
             self.closeDevice(handle)
-            return
+            return self.REPORTE
         else:
             print("Aborting: unknown error")
-            return
+            self.REPORTE=self.REPORTE+("Aborting: unknown error")
+
+            return self.REPORTE
 # ----------------------------------------------------------------------
