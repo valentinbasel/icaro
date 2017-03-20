@@ -284,6 +284,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     # variables globales para manejar posicion del mouse, clicks y pulsaciones
     # de teclas dentro de la ventana
 
+
     archivo = ""
     mousexy = (0, 0)
     boton_mouse = [0, 0, 0, 0]
@@ -324,6 +325,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
         # esta es la lista de donde se sacan los valores para los botones
         # icaro
+
+
         self.firmware_ruta="."+firmware_ruta
         self.icaro_dir = icaro_dir
         arch = open(sys.path[0] + "/version", "r")
@@ -331,6 +334,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
         creditos.Info.version = version
         self.carga_conf_ventana()
+
+
         # declaro la ventana principal
         # esta es la toolbar donde van los botones para cargar los datos
         # y compilar
@@ -491,23 +496,32 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             [1, toolbar, gtk.STOCK_QUIT, "Quit",
              self.tooltip["salir"], self.salir, None],
             [3]]
-        boton_medio=[
-            [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
-             "Compile", self.tooltip["compilar"], self.compilar, None],
-            [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
-             "Load", self.tooltip["cargar"], self.upload, None],
-            [3],
-            [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
-             "Tortucaro", self.tooltip["tortucaro"], self.comp_esp,
-             "tortucaro/tortucaro"],
 
-            [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
-             "pilas", self.tooltip["pilas"], self.comp_esp,
-             "pilas/pilas-engine"],
-            [2, toolbar, sys.path[0] + "/imagenes/icaroblue.png",
-             "icaroblue", self.tooltip["icaroblue"], self.comp_esp,
-             "icaroblue/icaroblue"],
-            [3]]
+        # boton_medio=[
+            # [2, toolbar, sys.path[0] + "/imagenes/icaro.png",
+             # "Compile", self.tooltip["compilar"], self.compilar, None],
+            # [2, toolbar, sys.path[0] + "/imagenes/compilar.png",
+             # "Load", self.tooltip["cargar"], self.upload, None],
+            # [3],
+            # [2, toolbar, sys.path[0] + "/imagenes/tortucaro.png",
+             # "Tortucaro", self.tooltip["tortucaro"], self.comp_esp,
+             # "tortucaro/tortucaro"],
+            # [2, toolbar, sys.path[0] + "/imagenes/pilas.png",
+             # "pilas", self.tooltip["pilas"], self.comp_esp,
+             # "pilas/pilas-engine"],
+            # [2, toolbar, sys.path[0] + "/imagenes/icaroblue.png",
+             # "icaroblue", self.tooltip["icaroblue"], self.comp_esp,
+             # "icaroblue/icaroblue"],
+            # [3]]
+        boton_medio=[]
+        for linea in self.carga_info_botones():
+            boton_medio.append([2,toolbar,
+                                sys.path[0]+linea[0],
+                                linea[1],
+                                self.tooltip[linea[2]],
+                                linea[3],
+                                linea[4]
+                                ])
         boton_fin=[
             [1, toolbar, gtk.STOCK_HELP, "Help",
              self.tooltip["ayuda"], self.ayuda, None],
@@ -528,7 +542,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             [1, toolbar, gtk.STOCK_ZOOM_100, "zoom 1:1",
              "", self.menuitem_response, "zoomcero"],
         ]
-        botones_final=botones_inic+boton_medio + boton_fin
+        botones_final=botones_inic+ boton_medio + boton_fin
         return botones_final
 
 
