@@ -119,6 +119,8 @@ class UTILIDADES:
             os.system("rm -rf " + dir_firm_v4)
             os.system("cp -R " + np05_v4 + " " + dir_firm_v4)
             os.system("cp -R " + conf_v4 + " " + dir_conf_v4)
+            os.system("cp " + sys.path[0] + "/hardware/icaro/config.ini "+
+                    os.path.expanduser('~') + "/.icaro/")
 
             if visual == True:
                 self.mensajes(3, "se actualizo el firmware y la conf general")
