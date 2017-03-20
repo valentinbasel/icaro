@@ -30,7 +30,7 @@ import util
 import carga
 
 
-class tool_compilador:
+class tool_compilador(object):
 
     def __init__(self):
         # cargo template.pde para tener la planilla estandar dentro de
@@ -38,8 +38,20 @@ class tool_compilador:
         # la idea es poder separar estas funciones de icaro.py y trabajarlo
         # directamente desde otro archivo, asi es mas facil armar bloques
         # personalizados
-
         pass
+
+    def carga_info_botones(self):
+        botones_tool_bar=[
+            ["/imagenes/icaro.png","Compile","compilar",self.compilar,None],
+            ["/imagenes/compilar.png","Load","cargar", self.upload, None],
+            ["/imagenes/tortucaro.png","Tortucaro","tortucaro",
+                self.comp_esp,"tortucaro/tortucaro"],
+            [ "/imagenes/pilas.png","pilas","pilas", self.comp_esp,
+             "pilas/pilas-engine"],
+            ["/imagenes/icaroblue.png","icaroblue","icaroblue", self.comp_esp,
+             "icaroblue/icaroblue"]
+            ]
+        return botones_tool_bar
 
     def carga(self):
         self.cadena_pinguino[:] = []

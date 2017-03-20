@@ -29,14 +29,9 @@ import crear
 import util
 import carga
 
-
 class tool_compilador(object):
+
     def __init__(self):
-        # cargo template.pde para tener la planilla estandar dentro de
-        # cadena_pinguino
-        # la idea es poder separar estas funciones de icaro.py y trabajarlo
-        # directamente desde otro archivo, asi es mas facil armar bloques
-        # personalizados
         pass
 
     def carga_info_botones(self):
@@ -44,13 +39,10 @@ class tool_compilador(object):
             ["/imagenes/icaro.png","Compile","compilar",self.compilar,None],
             ["/imagenes/compilar.png","Load","cargar", self.upload, None],
             ["/imagenes/tortucaro.png","Tortucaro","tortucaro",
-                self.comp_esp,"tortucaro/tortucaro"],
-            [ "/imagenes/pilas.png","pilas","pilas", self.comp_esp,
-             "pilas/pilas-engine"],
-            ["/imagenes/icaroblue.png","icaroblue","icaroblue", self.comp_esp,
-             "icaroblue/icaroblue"]
+                self.comp_esp,"tortucaro/tortucaro"]
             ]
         return botones_tool_bar
+
     def carga(self):
         self.cadena_pinguino[:] = []
         dir_conf = os.path.expanduser('~') + "/.icaro/v4/firmware/"
@@ -65,7 +57,6 @@ class tool_compilador(object):
             crear.crear_archivo(self.fondo, self)
             dir_conf = os.path.expanduser('~') + "/.icaro/v4/firmware"
             i = util.compilar("main", self.cfg, dir_conf)
-            #i = carga.compilar_pic("main", self.cfg)
             if i == 1:
                 self.mensajes(
                     0, "no se encuentra el compilador sdcc en. Pruebe configurar el archivo config.ini y corregirlo")
@@ -77,20 +68,15 @@ class tool_compilador(object):
             self.ver.compilar(0)
 
     def upload(self, b):
-        pass
-        #dir_conf = os.path.expanduser('~') + "/.icaro/v2/firmware"
         i = util.linker("main", self.cfg)
-        #i = carga.upload_pic("main", self.cfg)
         if i == 0:
             cargador = carga.Cargador("main",self.mensajes)
-            #cargador.start()
             return 0
 
     def comp_esp(self, b, datos):
         comp = 1
         dir_conf = os.path.expanduser('~') + "/.icaro/v4/firmware"
         i = util.compilar(datos, self.cfg, dir_conf)
-        #i = carga.compilar_pic(datos, self.cfg)
         if i == 0:
             self.mensajes(3, "la compilacion fue exitosa")
             comp = 0
@@ -99,9 +85,6 @@ class tool_compilador(object):
             comp = 1
         if comp == 0:
             i = util.linker(datos, self.cfg)
-            #i = carga.upload_pic(datos, self.cfg)
             if i == 0:
                 cargador = carga.Cargador(datos,self.mensajes)
-                #cargador.start()
                 return 0
-#
