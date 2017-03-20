@@ -91,24 +91,35 @@ class UTILIDADES:
 
     def recarga_conf(self, icaro_dir, visual):
 
-        dir_firm = os.path.expanduser('~') + "/.icaro/v2/firmware/"
-        dir_conf = os.path.expanduser('~') + "/.icaro/v2/conf/"
-        np05 = sys.path[0] + "/" + icaro_dir + "micro/firmware"
-        conf = sys.path[0] + "/" + icaro_dir + "micro/conf"
+        dir_firm_v2 = os.path.expanduser('~') + "/.icaro/v2/firmware/"
+        dir_conf_v2 = os.path.expanduser('~') + "/.icaro/v2/conf/"
+        np05_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/firmware"
+        conf_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/conf"
         if os.path.exists(os.path.expanduser('~') + "/.icaro/v2") == False:
-            ruta_firmware = os.path.expanduser('~') + "/.icaro/v2"
-            os.system("mkdir " + ruta_firmware)
-
+            ruta_firmware_v2 = os.path.expanduser('~') + "/.icaro/v2"
+            os.system("mkdir -p " + ruta_firmware_v2)
+        dir_firm_v4 = os.path.expanduser('~') + "/.icaro/v4/firmware/"
+        dir_conf_v4 = os.path.expanduser('~') + "/.icaro/v4/conf/"
+        np05_v4 = sys.path[0] + "/hardware/icaro/v4/micro/firmware"
+        conf_v4 = sys.path[0] + "/hardware/icaro/v4/micro/conf"
+        if os.path.exists(os.path.expanduser('~') + "/.icaro/v4") == False:
+            ruta_firmware_v4 = os.path.expanduser('~') + "/.icaro/v4"
+            os.system("mkdir -p " + ruta_firmware_v4)
         if visual == True:
             resp = self.mensajes(
                 1, "se volvera a la versión por defecto del firmware y la configuracion general, desea continuar")
         else:
             resp = True
         if resp == True:
-            os.system("rm -rf " + dir_conf)
-            os.system("rm -rf " + dir_firm)
-            os.system("cp -R " + np05 + " " + dir_firm)
-            os.system("cp -R " + conf + " " + dir_conf)
+            os.system("rm -rf " + dir_conf_v2)
+            os.system("rm -rf " + dir_firm_v2)
+            os.system("cp -R " + np05_v2 + " " + dir_firm_v2)
+            os.system("cp -R " + conf_v2 + " " + dir_conf_v2)
+            os.system("rm -rf " + dir_conf_v4)
+            os.system("rm -rf " + dir_firm_v4)
+            os.system("cp -R " + np05_v4 + " " + dir_firm_v4)
+            os.system("cp -R " + conf_v4 + " " + dir_conf_v4)
+
             if visual == True:
                 self.mensajes(3, "se actualizo el firmware y la conf general")
             else:

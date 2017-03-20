@@ -28,7 +28,10 @@ import os
 import crear
 import util
 import carga
+"""
+Modulo de carga para la version V4, el bootloader pinguino v4.
 
+"""
 class tool_compilador(object):
 
     def __init__(self):
@@ -39,8 +42,7 @@ class tool_compilador(object):
             ["/imagenes/icaro.png","Compile","compilar",self.compilar,None],
             ["/imagenes/compilar.png","Load","cargar", self.upload, None],
             ["/imagenes/tortucaro.png","Tortucaro","tortucaro",
-                self.comp_esp,"tortucaro/tortucaro"]
-            ]
+            self.comp_esp,"tortucaro/tortucaro"]]
         return botones_tool_bar
 
     def carga(self):
