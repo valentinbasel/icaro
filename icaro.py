@@ -482,19 +482,23 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.area.realize()
         display = self.area.window.get_display()
         pixbuf = gtk.gdk.pixbuf_new_from_file(
-            os.path.abspath(os.path.dirname(__file__)) + "/imagenes/mouse/lapiz.png")
+            os.path.abspath(os.path.dirname(__file__)) +
+                            "/imagenes/mouse/lapiz.png")
         lapiz = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(lapiz)
         pixbuf = gtk.gdk.pixbuf_new_from_file(
-            os.path.abspath(os.path.dirname(__file__)) + "/imagenes/mouse/puntero.png")
+            os.path.abspath(os.path.dirname(__file__)) +
+                            "/imagenes/mouse/puntero.png")
         puntero = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(puntero)
         pixbuf = gtk.gdk.pixbuf_new_from_file(
-            os.path.abspath(os.path.dirname(__file__)) + "/imagenes/mouse/borrar.png")
+            os.path.abspath(os.path.dirname(__file__)) +
+                            "/imagenes/mouse/borrar.png")
         borrar = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(borrar)
         pixbuf = gtk.gdk.pixbuf_new_from_file(
-            os.path.abspath(os.path.dirname(__file__)) + "/imagenes/mouse/edicion.png")
+            os.path.abspath(os.path.dirname(__file__)) +
+                            "/imagenes/mouse/edicion.png")
         edicion = gtk.gdk.Cursor(display, pixbuf, 6, 18)
         self.cursores.append(edicion)
         self.definir_cursor(1)

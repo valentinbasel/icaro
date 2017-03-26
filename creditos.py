@@ -13,7 +13,7 @@ class Info:
         "Neville A. Cross - yn1v@fedoraproject.org",
         "Lucas Costas - puixima@gmail.com",
         "Javier Castrillo - jcastrillo@educ.ar",
-        "- Paquete RPM -", "Yader Velásquez - yajosev@gmail.com",
+        "- Paquete RPM -",
         "Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com "]
     artists = ["María Leandro - tatica@fedoraproject.org",
                "Mauro Paez - maureliopaez@gmail.com"]
