@@ -20,7 +20,7 @@ import creditos
 import abrir
 import nuevo
 import guardar
-import navegador
+#import navegador
 import tooltips
 import graficador_matplot
 import mouse
@@ -372,8 +372,21 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         box2.pack_start(hp, True, True, 1)
         hp.pack1(self.notebook2, True, True)
         hp.pack2(scrolled_window2, True, True)
-        self.ver = visor.visor_codigo(self, self.notebook2,self.firmware_ruta)
 
+        dir_source=(os.path.expanduser('~')+
+                    "/"+self.firmware_ruta +
+                    "firmware/source/user.c")
+        self.ver = visor.visor_codigo(self,
+                                    self.notebook2,
+                                    self.firmware_ruta,
+                                    "source/user.c",
+                                    "codigo fuente")
+
+        self.ver2 = visor.visor_codigo(self,
+                                        self.notebook2,
+                                        self.firmware_ruta,
+                                        "temporal/log.dat",
+                                        "registro de compilación")
         hp.set_position(500)
         self.window1.connect('delete-event', gtk.main_quit)
         self.window1.set_icon_from_file(
@@ -388,7 +401,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
              _("Save as function"), _("Examples"), _("Exit")),
             (_("Background"), _("Color"), _("About"), _("Config")),
             ("graficador", "clemente bulk", "clemente cdc"
-             ,  _("Log"), "firmware",)
+             , "firmware",)
         ]
         menu_bar.show()
         # declaro los botones del menu 'menu'5 y 'edicion'
@@ -589,8 +602,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 # ========================================================================
 
     def ayuda(self, b):
-        self.visor('http://roboticaro.org/documentacion/index.html')
-
+        #self.visor()
+        texto=("para ver la documentación actualizada, ir  a la pagina web: http://roboticaro.org/documentacion/")
+        self.mensajes(3,texto)
     def dibujo(self, event, b):
         self.seleccion_menu = b
         self.definir_cursor(b)
@@ -965,10 +979,11 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             # print " menu de congifuracion"
             conf = config_menu.MENU_CONF(self.conf_ini)
             conf.show()
-        if string == _("Log"):
-            dir_conf = os.path.expanduser(
-                '~') + "/"+self.firmware_ruta+"/firmware/temporal/log.dat"
-            self.visor(dir_conf)
+        #if string == _("Log"):
+        #    dir_conf = os.path.expanduser(
+        #        '~') + "/"+self.firmware_ruta+"/firmware/temporal/log.dat"
+            #self.visor(dir_conf)
+        #    print dir_conf
         if string == "graficador":
             self.graf()
         if string == "clemente cdc":
@@ -984,10 +999,10 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         if string == "firmware":
             self.recarga_conf(self.icaro_dir, True)
 
-    def visor(self, dir):
-        browser = navegador.SimpleBrowser()
-        browser.open(dir)
-        browser.show()
+#     def visor(self, dir):
+        # browser = navegador.SimpleBrowser()
+        # browser.open(dir)
+        # browser.show()
 
     def carga_dicc(self):
         """

@@ -31,18 +31,19 @@ sys.path.append(icaro_dir + "modulos")
 
 class visor_codigo():
 
-    def __init__(self, ventana, notebook,firmware_ruta):
+    def __init__(self, ventana, notebook,firmware_ruta,nombre_arch,etiqueta):
         # create buffer
         lm = gtksourceview2.LanguageManager()
         self.buffer = gtksourceview2.Buffer()
         self.buffer.set_data('languages-manager', lm)
         self.firmware_ruta=firmware_ruta
+        self.nombre_arch=nombre_arch
         view = gtksourceview2.View(self.buffer)
         view.set_show_line_numbers(True)
         self.ventana = ventana
         vbox = gtk.VBox(0, True)
 
-        notebook.append_page(vbox, gtk.Label("codigo fuente"))
+        notebook.append_page(vbox, gtk.Label(etiqueta))
         tool1 = gtk.Toolbar()
         tool1.show()
 
@@ -56,8 +57,8 @@ class visor_codigo():
 
         vbox.show_all()
         # main loop
-        dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
-        self.cadena_user_c = dir_conf + "source/user.c"
+        self.dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
+        self.cadena_user_c = self.dir_conf + self.nombre_arch
         self.buf = self.open_file(self.buffer, self.cadena_user_c)
         iconw = gtk.Image()
         iconw.set_from_stock(gtk.STOCK_NEW, 15)
@@ -120,16 +121,16 @@ class visor_codigo():
 #        self.window.hide()
 
     def compilar(self, arg):
-        dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
-        cadena = dir_conf + "source/user.c"
+        #dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
+        #cadena = dir_conf + "source/user.c"
         cadena2 = self.buf.props.text
         a = self.ventana.mensajes(
             1, "Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
         if a == True:
-            file = open(cadena, "w")
+            file = open( self.cadena_user_c , "w")
             file.writelines(cadena2)
             file.close()
-            i = util.compilar("main", self.ventana.cfg, dir_conf)
+            i = util.compilar("main", self.ventana.cfg, self.dir_conf)
 
             #i = carga.compilar_pic("main", self.ventana.cfg)
             if i == 0:
