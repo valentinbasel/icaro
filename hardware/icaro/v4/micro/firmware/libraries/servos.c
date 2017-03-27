@@ -209,6 +209,10 @@ static void ServosPulseDown()
             movlw 7
             movwf _loopvar
         bucle:
+            NOP//lo puse yo
+            NOP//lo puse yo
+            NOP//lo puse yo
+            NOP//lo puse yo            
             NOP
             NOP
             NOP
@@ -488,11 +492,11 @@ void ServoWrite(unsigned char servo,unsigned char degrees)
         return;
 
     // limitting degrees:
-    if(degrees>180) degrees=180;
+    //if(degrees>180) degrees=180;
 
     // Converts degrees to timeslots
-    range = (maxminpos[1][servo]  - maxminpos[0][servo]);
-    value = (degrees*range) / 180 + maxminpos[0][servo];
+    //range = (maxminpos[1][servo]  - maxminpos[0][servo]);
+    value = degrees;//(degrees*range) / 180 + maxminpos[0][servo];
 
     // Storage of that new position to servovalues positions table:
     // it should be added the min value for that servo
