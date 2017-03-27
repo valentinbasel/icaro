@@ -14,7 +14,8 @@ class Info:
         "Lucas Costas - puixima@gmail.com",
         "Javier Castrillo - jcastrillo@educ.ar",
         "- Paquete RPM -",
-        "Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com "]
+        "Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com ",
+        "Omar Berroterán Silva - omarberroteranlkf@gmail.com"]
     artists = ["María Leandro - tatica@fedoraproject.org",
                "Mauro Paez - maureliopaez@gmail.com"]
     translator = "todavia sin traductores"
