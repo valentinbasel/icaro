@@ -32,8 +32,6 @@ robot=ROBOT() # este es el "nombre" de nuestro robot.
 
 robot.PUERTO = '/dev/ttyACM0'
 robot.iniciar()
-
-
 class Icaro(Plugin):
 
     def __init__(self, parent):
@@ -114,7 +112,7 @@ class Icaro(Plugin):
                           style='basic-style-1arg',
                           label=_('abrir puerto'),
                           prim_name='abrir',
-                          default=['/dev/rfcomm0'],
+                          default=['/dev/ttyACM0'],
                           help_string=_('abre el puerto para comunicacion con la placa'))
         self._parent.lc.def_prim(
             'abrir', 1, lambda self, valor: primitive_dictionary['abrir'](valor))
@@ -214,7 +212,7 @@ class Icaro(Plugin):
         primitive_dictionary['sensor1'] = self._sensor2
         palette.add_block('sensor1',
                           style='box-style',
-                          label=_('sensor1'),
+                          label=_('sensor_dig1'),
                           prim_name='sensor1',
                           help_string=_('lee el valor del sensor 1 y devuelve 0 o 1'))
         self._parent.lc.def_prim(
@@ -223,27 +221,27 @@ class Icaro(Plugin):
         primitive_dictionary['sensor2'] = self._sensor2
         palette.add_block('sensor2',
                           style='box-style',
-                          label=_('sensor2'),
+                          label=_('sensor_dig2'),
                           prim_name='sensor2',
-                          help_string=_('lee el valor del sensor 2 y devuelve 0 o 2'))
+                          help_string=_('lee el valor del sensor 2 y devuelve 0 o 1'))
         self._parent.lc.def_prim(
             'sensor2', 0, lambda self: primitive_dictionary['sensor2'](2))
 
         primitive_dictionary['sensor3'] = self._sensor2
         palette.add_block('sensor3',
                           style='box-style',
-                          label=_('sensor3'),
+                          label=_('sensor_dig3'),
                           prim_name='sensor3',
-                          help_string=_('lee el valor del sensor 3 y devuelve 0 o 3'))
+                          help_string=_('lee el valor del sensor 3 y devuelve 0 o 1'))
         self._parent.lc.def_prim(
             'sensor3', 0, lambda self: primitive_dictionary['sensor3'](3))
 
         primitive_dictionary['sensor4'] = self._sensor2
         palette.add_block('sensor4',
                           style='box-style',
-                          label=_('sensor4'),
+                          label=_('sensor_dig4'),
                           prim_name='sensor4',
-                          help_string=_('lee el valor del sensor 4 y devuelve 0 o 4'))
+                          help_string=_('lee el valor del sensor 4 y devuelve 0 o 1'))
         self._parent.lc.def_prim(
             'sensor4', 0, lambda self: primitive_dictionary['sensor4'](4))
 
@@ -297,7 +295,7 @@ class Icaro(Plugin):
                           style='basic-style-1arg',
                           label=_('drawbot_adelante'),
                           prim_name='drawbot_adelante',
-                          default=[1],
+                          default=[100],
                           help_string=_('el drawbot dibujara una linea de N pasos'))
         self._parent.lc.def_prim(
             'drawbot_adelante', 1, lambda self, valor:
@@ -308,7 +306,7 @@ class Icaro(Plugin):
                           style='basic-style-1arg',
                           label=_('drawbot_atras'),
                           prim_name='drawbot_atras',
-                          default=[1],
+                          default=[100],
                           help_string=_('El drawbot dibujara una linea de N pasos en sentido contrario'))
         self._parent.lc.def_prim(
             'drawbot_atras', 1, lambda self, valor:
@@ -319,7 +317,7 @@ class Icaro(Plugin):
                           style='basic-style-1arg',
                           label=_('drawbot_izquierda'),
                           prim_name='drawbot_izquierda',
-                          default=[1],
+                          default=[90],
                           help_string=_('El drawbot girara a la izquierda'))
         self._parent.lc.def_prim(
             'drawbot_izquierda', 1, lambda self, valor:
@@ -330,7 +328,7 @@ class Icaro(Plugin):
                           style='basic-style-1arg',
                           label=_('drawbot_derecha'),
                           prim_name='drawbot_derecha',
-                          default=[1],
+                          default=[90],
                           help_string=_('El drawbot girara a la derecha'))
         self._parent.lc.def_prim(
             'drawbot_derecha', 1, lambda self, valor:
@@ -438,7 +436,7 @@ class Icaro(Plugin):
         time.sleep(valor / 1000)
 
     def _sensor2(self, valor):
-        respuesta = robot.leer(valor)
+        respuesta = robot.leer_digital(valor)
         return respuesta
 
     def _abrir_puerto(self, valor):

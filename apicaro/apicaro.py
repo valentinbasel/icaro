@@ -76,8 +76,8 @@ class puerto():
         except:
             print "puerto no encontrado"
             return False
- 
-    def iniciar(self,port=None):
+
+    def iniciar(self):
         """
         abre el puerto, setea todos los valores por defecto.
         sus variables por defecto son:
@@ -94,23 +94,38 @@ class puerto():
         Retorna -True- si funciono, -False- si hubo un error.
         no lleva argumentos
         """
-        if port<>None:
-            flag= self.prender_puerto(port)
-            return flag
-        else:
-            lista_port=serial.tools.list_ports.comports()
-            for cad in lista_port:
-                if cad[0].find("ACM")>-1:
-                    flag=self.prender_puerto(cad[0])
-                    if flag==True:
-                        return True
-            for a in range(10):
-                cad="/dev/rfcomm"+str(a)
-                flag=self.prender_puerto(cad)
-                time.sleep(0.2)
-                if flag==True:
-                    return True
-        return False
+        self.RS232.port = self.PUERTO
+        self.RS232.baudrate = self.BAUDIOS
+        self.RS232.bytesize = self.BYTESIZE
+        self.RS232.parity = self.PARITY
+        self.RS232.stopbit = self.STOPBIT
+        self.RS232.timeout = self.TIMEOUT
+        self.RS232.xonxoff = self.XONXOFF
+        self.RS232.rtscts = self.RTSCTS
+        self.RS232.dsrdtr = self.DSRDTR
+        try:
+            self.RS232.open()
+            return True
+        except:
+            return False
+
+        # if port<>None:
+            # flag= self.prender_puerto(port)
+            # return flag
+        # else:
+            # lista_port=serial.tools.list_ports.comports()
+            # for cad in lista_port:
+                # if cad[0].find("ACM")>-1:
+                    # flag=self.prender_puerto(cad[0])
+                    # if flag==True:
+                        # return True
+            # for a in range(10):
+                # cad="/dev/rfcomm"+str(a)
+                # flag=self.prender_puerto(cad)
+                # time.sleep(0.2)
+                # if flag==True:
+                    # return True
+        # return False
 
     def cerrar(self):
         """

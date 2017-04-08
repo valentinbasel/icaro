@@ -17,9 +17,10 @@ class Info:
         "Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com ",
         "Omar Berroterán Silva - omarberroteranlkf@gmail.com"]
     artists = ["María Leandro - tatica@fedoraproject.org",
-               "Mauro Paez - maureliopaez@gmail.com"]
+               "Mauro Paez - maureliopaez@gmail.com",
+               "Aura Lila Gutiérrez Tejada - lilixx@fedoraproject.org"]
     translator = "todavia sin traductores"
-    website = "http://sistema-icaro.blogspot.com"
+    website = "http://roboticaro.org/  -- http://sistema-icaro.blogspot.com"
     description = "Un front end para la generación de codigo C para las placas NP05"
     license = "This program is free software; you can redistribute it and/or \
 modify it under the terms of the GNU General Public License as published by \
