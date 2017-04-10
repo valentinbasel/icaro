@@ -80,14 +80,21 @@ Empaquetamiento RPM
 --------------------
 Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com
 Yader Velásquez - yajosev@gmail.com
+Omar Berroterán Silva - omarberroteranlkf@gmail.com
 
 Diseño gráfico
 ----------------
 María Leandro - tatica@fedoraproject.org
 Mauro Paez - maureliopaez@gmail.com
 
+Diseño Web
+----------
+Aura Lila Gutiérrez Tejada, lilixx@fedoraproject.org
+
 Web
 -----
+http://roboticaro.org/
+
 http://sistema-icaro.blogspot.com.ar/
 
 https://github.com/valentinbasel/icaro
