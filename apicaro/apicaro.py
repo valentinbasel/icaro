@@ -39,10 +39,10 @@ class puerto():
     BYTESIZE = 8
     PARITY = 'N'
     STOPBIT = 1
-    TIMEOUT = 1
-    XONXOFF = False
-    RTSCTS = False
-    DSRDTR = False
+    TIMEOUT = None
+    XONXOFF = True#False
+    RTSCTS = True#False
+    DSRDTR = True#False
     RS232 = serial.Serial()
 
     def __init__(self):
@@ -50,32 +50,6 @@ class puerto():
 
 
 
-    def prender_puerto(self,port):
-        try:
-            self.RS232.port = port
-            self.RS232.baudrate = self.BAUDIOS
-            self.RS232.bytesize = self.BYTESIZE
-            self.RS232.parity = self.PARITY
-            self.RS232.stopbit = self.STOPBIT
-            self.RS232.timeout = self.TIMEOUT
-            self.RS232.xonxoff = self.XONXOFF
-            self.RS232.rtscts = self.RTSCTS
-            self.RS232.dsrdtr = self.DSRDTR
-            self.RS232.open()
-            self.RS232.write("b")
-            buff = self.RS232.read(self.RS232.inWaiting())
-            time.sleep(0.05)
-
-            if buff <>"":
-                print "firmware detectado: ",buff
-                print " puerto: ", self.RS232.port
-                return True
-            else:
-                print "no se obtuvo respuesta del puerto: ",self.RS232.port
-                return False
-        except:
-            print "puerto no encontrado"
-            return False
 
     def iniciar(self):
         """
@@ -103,12 +77,10 @@ class puerto():
         self.RS232.xonxoff = self.XONXOFF
         self.RS232.rtscts = self.RTSCTS
         self.RS232.dsrdtr = self.DSRDTR
-        try:
-            self.RS232.open()
-            return True
-        except:
-            return False
+        self.RS232.exclusive = True
+        self.RS232.open()
 
+        return True
         # if port<>None:
             # flag= self.prender_puerto(port)
             # return flag
@@ -149,11 +121,16 @@ class puerto():
           .activar(10)
           retorna True o False
         """
+
         if self.RS232.isOpen():
             self.RS232.write("s")
+            time.sleep(0.001)
             self.RS232.write(chr(int(valor)))
+            self.RS232.flush()
+            time.sleep(0.001)
             return True
         else:
+            
             return False
 
     def motor(self, valor):
@@ -170,7 +147,10 @@ class puerto():
         """
         if self.RS232.isOpen():
             self.RS232.write('l')
+            time.sleep(0.001)
             self.RS232.write(valor)
+            self.RS232.flush()
+            time.sleep(0.001)
             return True
         else:
             return False
@@ -184,9 +164,12 @@ class puerto():
             self.RS232.write("e")
             self.RS232.write(str(sensor))
             buff = self.RS232.read(self.RS232.inWaiting())
-            time.sleep(0.05)
+            time.sleep(0.001)
             buff2 = buff.split('.')
             return int(buff2[0])
+            self.RS232.flush()
+            time.sleep(0.001)
+
         except:
             return False
 
@@ -197,8 +180,10 @@ class puerto():
         try:
             self.RS232.write("d")
             self.RS232.write(str(sensor))
+            time.sleep(0.001)
             respuesta = self.RS232.read()
-
+            self.RS232.flush()
+            time.sleep(0.001)
             if respuesta[0] == '1':
                 return 1
             else:
@@ -216,6 +201,7 @@ class puerto():
         """
         if self.RS232.isOpen():
             self.RS232.write("m")
+            time.sleep(0.001)
             if servo == 1:
                 self.RS232.write("1")
             if servo == 2:
@@ -227,19 +213,9 @@ class puerto():
             if servo == 5:
                 self.RS232.write("5")
             self.RS232.write(chr(int(valor)))
+            self.RS232.flush()
+            time.sleep(0.001)
             return True
         else:
             return False
 
-    def sonido(self, audio, valor_puerto):
-
-        if self.RS232.isOpen():
-            self.RS232.write("a")
-            self.RS232.write(chr(int(audio)))
-            self.RS232.write(chr(int(valor_puerto)))
-            time.sleep(0.01)
-            self.RS232.write("s")
-            self.RS232.write(chr(0))
-            return True
-        else:
-            return False

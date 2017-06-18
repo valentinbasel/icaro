@@ -1,0 +1,51 @@
+WARNING: Command line option --use-non-free not present.
+         When compiling for PIC14/PIC16, please provide --use-non-free
+         to get access to device headers and libraries.
+         If you do not use these, you may provide --no-warn-non-free
+         to suppress this warning (not recommended).
+/home/vbasel/.icaro/v2/firmware/tmp/usb/picUSB.c:346: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+/home/vbasel/.icaro/v2/firmware/tmp/usb/picUSB.c:388: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/picUSB.c:480: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/picUSB.c:492: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/picUSB.c:496: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/picUSB.c:510: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/picUSB.c:525: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/usb_cdc.c:167: warning 158: overflow in implicit constant conversion
+/home/vbasel/.icaro/v2/firmware/tmp/usb/usb_cdc.c:190: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/usb_cdc.c:195: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/usb_cdc.c:198: warning 154: converting integral to pointer without a cast
+from type 'unsigned-int fixed'
+  to type 'unsigned-int near* fixed'
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:40: warning 112: function 'leo_puerto' implicit declaration
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:40: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:40: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:126: warning 112: function 'leo_puerto' implicit declaration
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:126: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:126: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:140: warning 112: function 'leo_puerto' implicit declaration
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:163: warning 112: function 'leo_puerto' implicit declaration
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:140: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:163: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:140: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/source/tortucaro/user-tortucaro.c:163: warning 84: 'auto' variable 'leo_puerto' may be used before initialization
+/home/vbasel/.icaro/v2/firmware/tmp/usb/usb_config.c:176: warning 147: excess elements in array initializer after 'libstring_descriptor'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/usb_config.c:176: warning 147: excess elements in array initializer after 'libstring_descriptor'
+/home/vbasel/.icaro/v2/firmware/tmp/usb/usb_config.c:176: warning 147: excess elements in array initializer after 'libstring_descriptor'
+ignoring blacklisted flow
+ignoring blacklisted flow
