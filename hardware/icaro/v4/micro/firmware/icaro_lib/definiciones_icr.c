@@ -64,6 +64,7 @@ int _i=0;
 /* Configuración de pines de entrada/salida */
 void setup()
 {
+    TRISAbits.TRISA4 = OUTPUT; // trisa4 es el led de "run" en la placa, se puede usar para probar que anda todo
     TRISB=0; //defino PORTB como salida
     PORTB=0; 
     PORTD=0;
