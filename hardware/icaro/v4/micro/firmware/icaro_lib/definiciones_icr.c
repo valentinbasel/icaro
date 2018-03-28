@@ -28,6 +28,19 @@
 /* Definiciones para implementar comunicación USB-CDC*/
 #if defined(__CDC__)
 	#include <__cdc.c>
+	// funciones especificas de ICARO
+	void env_cdc(int valor)
+	{
+		unsigned char chaine[];
+		int tam=0;
+		itoa(valor,chaine,10);
+		if (valor<1000) tam=4;
+		if (valor<100) tam=3;
+		if (valor<10) tam=2;
+		strcat(chaine,"\n");
+		CDCputs(chaine,tam);
+		Delayms(10);
+	}
 #endif
 /* Definiciones para implementar la USART*/
 #if defined(__USART__)
@@ -64,7 +77,6 @@ int _i=0;
 /* Configuración de pines de entrada/salida */
 void setup()
 {
-    TRISAbits.TRISA4 = OUTPUT; // trisa4 es el led de "run" en la placa, se puede usar para probar que anda todo
     TRISB=0; //defino PORTB como salida
     PORTB=0; 
     PORTD=0;
@@ -110,5 +122,7 @@ int sensordigital(int valor)
 		return 0;
 	}
 }
+
+
 
 

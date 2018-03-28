@@ -203,15 +203,18 @@ class FormaSvg(object):
         linea_bloque_menos1 = self.fondo.crear_nodo_linea(-10, 0)
         linea_bloque_menos = self.fondo.crear_nodo_linea(-90, 0)
         self.fondo.crear_nodo_linea(0, 1)
+        l1 = self.fondo.crear_nodo_linea(0,-20)# estos puntos son para achicar el alto
+        l2 = self.fondo.crear_nodo_linea(0,20) # de la pieza bloque 1
+
         cuerpo = (
             forma_basica.nodo_hembra + linea_bloque_mas +
             self.lin1 + forma_basica.nodo_esq_ar_der +
-            self.lin2 + forma_basica.nodo_parametros + self.lin3 +
+            self.lin2 + forma_basica.nodo_parametros + self.lin3 + l1+
             forma_basica.nodo_esq_ab_der +
             self.lin4 + linea_bloque_menos1 +
             forma_basica.nodo_macho +
             self.lin5 + linea_bloque_menos +
-            forma_basica.nodo_esq_ab_izq + self.lin6 + self.lin7 + self.lin8 +
+            forma_basica.nodo_esq_ab_izq + self.lin6 + self.lin7 + self.lin8 + l2+
             forma_basica.nodo_esq_ar_izq)
         return cuerpo
 
@@ -283,6 +286,8 @@ class ComponenteCentral(FormaSvg):
     valx = 45
     valy = 0
     color_fon = [0, 0, 0]
+    circlex=25
+    circley=10
 
     def __init__(self):
         """ Class initialiser """
@@ -290,6 +295,8 @@ class ComponenteCentral(FormaSvg):
         super(FormaSvg, self).__init__()
 
     def update(self):
+        verde=[0,255,0]
+        rojo=[255,0,0]
         posic_mouse = self.ventana.mousexy
         botones_mouse = self.ventana.boton_mouse
         self.rectan[0] = self.posicion[0]
@@ -350,6 +357,8 @@ class ComponenteCentral(FormaSvg):
                 iden = self.fondo.objetos[self.pegado_a].ide
                 self.fondo.lista_ordenada[self.ide] = iden
                 self.dibujar()
+
+                self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,verde) 
                 return 0
             if self.pegado == 0:
                 self.fondo.lista_ordenada[self.ide] = 0
@@ -370,7 +379,7 @@ class ComponenteCentral(FormaSvg):
                         self.pegado = 0
                         self.pegado_a = 0
             self.dibujar()
-
+            self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,rojo) 
 
 class componente(ComponenteCentral):
 
@@ -384,9 +393,11 @@ class componente(ComponenteCentral):
         fondo,
         ventana
     ):
+        self.tab=0
         self.imagenintermedia = texto.strip(" ")
         self.imagen = (
-            sys.path[0] + "/imagenes/componentes/" + texto.strip(" ") + ".png")
+
+            sys.path[0] +"/"+ventana.icaro_dir+ "/imagenes/componentes/" + texto.strip(" ") + ".png")
         self.arg = argumentos
         self.ide = identidad
         self.posicion = (x, y)
@@ -412,8 +423,10 @@ class componente(ComponenteCentral):
         self.dibujar()
 
     def dibujar(self):
+
+        
         self.conector_h[0] = self.rectan[0] + 45
-        self.conector_h[1] = self.rectan[1] + 10
+        self.conector_h[1] = self.rectan[1] - 10
         self.fondo.render_svg(
             self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1], self.color_fon)
         factor = 0
@@ -437,9 +450,9 @@ class componente(ComponenteCentral):
         self.conector_m[0] = self.rectan[0] + 45
         self.conector_m[1] = self.rectan[1] + self.rectan[3] - 12
         self.fondo.imagen(self.imagen, self.posicion[0] + 30, (
-            self.posicion[1] + (self.rectan[3] / 4)), self.ventana.cr)
-        self.fondo.texto(self.texto, self.posicion[0] + 70, self.posicion[
-                         1] + (self.rectan[3] / 4) + 15, self.color_texto, self.ventana.cr)
+            self.posicion[1] + (self.rectan[3] / 4)-5), self.ventana.cr)
+        self.fondo.texto(self.texto, self.posicion[0] + 64, self.posicion[
+                         1] + (self.rectan[3] / 4) + 13, self.color_texto, self.ventana.cr)
 
 
 
@@ -447,6 +460,7 @@ class componente_bloque_dos(ComponenteCentral):
 
     def __init__(self, x, y, identidad, color, texto, fondo, ventana):
          # esto es para poder mandar los datos a guardar
+        self.tab=-1
         self.imagenintermedia = texto.strip(" ")
         self.arg = 0
         self.ide = identidad
@@ -477,10 +491,12 @@ class componente_bloque_dos(ComponenteCentral):
         self.dibujar()
 
     def dibujar(self):
+
+        self.circlex=35
         self.fondo.render_svg(
             self.ventana.cr, self.cuerpo, self.color, self.posicion[0] + 40, self.posicion[1], self.color_fon)
-        self.fondo.texto(self.texto, self.posicion[0] + 60, self.posicion[
-                         1] + 40, self.color_texto, self.ventana.cr)
+        self.fondo.texto(self.texto, self.posicion[0] + 70, self.posicion[
+                         1] + 30, self.color_texto, self.ventana.cr)
         self.conector_m[0] = self.rectan[0] + 55
         self.conector_m[1] = self.rectan[1] + 65
         self.conector_h[0] = self.rectan[0] + 150
@@ -497,6 +513,7 @@ class componente_bloque_uno(ComponenteCentral):
 
     def __init__(self, x, y, identidad, color, texto, fondo, ventana):
         # esto es para poder mandar los datos a guardar
+        self.tab=1
         self.imagenintermedia = texto.strip(" ")
         self.arg = 1
         self.ide = identidad
@@ -538,10 +555,10 @@ class componente_bloque_uno(ComponenteCentral):
         self.lista_conector_h_datos[0] = (self.conector_h_dato[
                                           0], self.conector_h_dato[1], self.conector_h_dato[2], self.conector_h_dato[3])
         self.fondo.texto(self.texto, (self.posicion[0] + 60), (
-            self.posicion[1] + 40), self.color_texto, self.ventana.cr)
+            self.posicion[1] + 30), self.color_texto, self.ventana.cr)
 
         self.conector_m[0] = self.rectan[0] + 135
-        self.conector_m[1] = self.rectan[1] + 80
+        self.conector_m[1] = self.rectan[1] + 61
 
 class componente_cero_arg(FormaSvg):
     # el componente cuadrado es el bloque minimo que puede tener un
@@ -552,7 +569,7 @@ class componente_cero_arg(FormaSvg):
     texto = ""
 
     def __init__(self, x, y, identidad, color, texto, fondo, ventana):
-
+        self.tab=0
         # super(FormaSvg, self).__init__()
         self.ide = identidad
         self.posicion = (x, y)
@@ -607,7 +624,7 @@ class componente_cero_arg(FormaSvg):
         # self.conector_h es la ficha "hembra"
         self.conector_h[0] = self.rectan[0] + 30
         self.conector_h[1] = self.rectan[1] + 10
-        self.conector_m[0] = self.rectan2[0] + 30
+        self.conector_m[0] = self.rectan2[0] + 34.5
         self.conector_m[1] = self.rectan2[1] + 65
 
     def update(self):
@@ -714,6 +731,7 @@ class comp_dat_arg(FormaSvg):
         fondo,
         ventana,
     ):
+        self.tab=0
         self.rectan = [0, 0, 80, 50]
         self.ide = identidad
         self.posicion = (x, y)
@@ -734,12 +752,12 @@ class comp_dat_arg(FormaSvg):
         self.tecla_presionada = 0
         self.modificable = mod
         self.valor_cadena_no_mod = val_no_mod
-        self.imagen = sys.path[0] + "/imagenes/componentes/" + img
+        self.imagen = sys.path[0] +"/"+ventana.icaro_dir+ "/imagenes/componentes/" + img
         self.tipo = tipo
         self.color_fon = [255, 255, 255]
         if self.tipo == 6:
             self.imagenintermedia = img
-            self.imagen = sys.path[0] + "/imagenes/componentes/" + img
+            self.imagen = sys.path[0] +"/"+ventana.icaro_dir+ "/imagenes/componentes/" + img
         self.tam_text = (len(self.texto) * 6)
         FormaSvg.__init__(self)
 
@@ -823,7 +841,7 @@ class comp_dat_arg(FormaSvg):
                 x, y, aa, bb = valor2
                 xx = x
                 yy = y
-                self.posicion = (xx - 5, yy - 8)
+                self.posicion = (xx - 10, yy - 8)
                 valor1.lista_valores[self.pegado_b] = self.cadena_final
         except:
             self.pegado = 0

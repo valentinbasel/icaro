@@ -36,7 +36,7 @@ class CMP:
             "nombre": "activar",
             "componente": 1,
             "cant_puertos": 1,
-            "color": (100, 90, 100),
+            "color": (90, 90, 30),
             "dato": 0,
             "dato2": 1,
             "valor": self.valor
@@ -45,3 +45,4 @@ class CMP:
         self.img = ""
         self.pines = [
             "p1_0", "p1_1", "p1_2", "p1_3", "p1_4", "p1_5", "p1_6", "p1_7"]
+        self.tab=0

@@ -90,7 +90,7 @@ class componente_inicial():
         self.rectan[0] = self.posicion[0]
         self.rectan[1] = self.posicion[1] - 10
         a = self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1])
-        self.conector_m[0] = self.rectan[0] + 29
+        self.conector_m[0] = self.rectan[0] + 34.5
         self.conector_m[1] = self.rectan[1] + 65
         if (botones_mouse[1] == 1 and a == True and
             self.pulsado == 0 and

@@ -23,7 +23,7 @@
 #
 
 import cairo
-
+import math
 
 class MotorCairo():
 
@@ -117,6 +117,7 @@ class MotorCairo():
             1,  color_fon[0], color_fon[1], color_fon[2], 1)
         rad.add_color_stop_rgba(0, rgbfin[0], rgbfin[1], rgbfin[2], 1)
         cr.set_source(rad)
+        cr.set_source_rgb(rgbfin[0],rgbfin[1],rgbfin[2])
         while b < len(cadena_svg):
             if (cadena_svg[b] == u'm'):
                 letr = cadena_svg[b]
@@ -178,3 +179,12 @@ class MotorCairo():
         cr.line_to(x, y)
         cr.close_path()
         cr.stroke_preserve()
+    def circle(self,x,y,cr,color):
+        cr.move_to(x,y)
+        cr.set_line_width(1)
+        cr.set_source_rgb(color[0],color[1],color[2])
+
+        cr.arc(x, y, 4, 0, 2*math.pi)
+        cr.close_path()
+        cr.stroke_preserve()
+        cr.fill()

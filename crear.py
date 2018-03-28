@@ -14,21 +14,30 @@
 import os
 
 # revizar parseador, reescribir
+TAB=0
 
-
-def parseador(lista, argumentos, texto, fondo, ventana):
+def parseador(lista, argumentos, texto, fondo, ventana,tab):
+    global TAB
     parser_final = ""
     n = 0
-    "<" + texto.strip(' ') + ">"
-    "</" + texto.strip(' ') + ">"
+    #"<" + texto.strip(' ') + ">"
+    #"</" + texto.strip(' ') + ">"
     # print ventana.valor_datos_comp[texto]
+    #print ventana.valor_datos_comp
+    #print "------------------------------------",texto
+    #cierrebloque
+    #if texto == "fin ":
+    #    ventana.valor_datos_comp[texto]=
     for txt in ventana.valor_datos_comp[texto]:
+        #print "----",txt
         if txt == "valor" and argumentos <> 0:
             parser_final = parser_final + str(lista[n])
             n = n + 1
         else:
             parser_final = parser_final + txt
-    return parser_final + "\n"
+    tabulaciones="    "*TAB
+    TAB=TAB+tab
+    return tabulaciones + parser_final + "\n"
 #    while b !=(len(cadena_final)):
 #        if cadena_final[b]==xml:
 #            b=b+1
@@ -72,7 +81,8 @@ def crear_archivo(fondo, ventana):
                     fondo.objetos[b].lista_valores,
                     fondo.objetos[b].arg,
                     fondo.objetos[b].texto,
-                    fondo, ventana
+                    fondo, ventana,
+                    fondo.objetos[b].tab
                 )
                 if caden.find("definir") == 0:
                     fun = caden.split(",")
@@ -87,9 +97,9 @@ def crear_archivo(fondo, ventana):
                             carga_func(fondo, ventana, fun)
                         else:
                             ventana.cadena_pinguino.append(caden)
-    ventana.cadena_pinguino.append("}")
-
-    fw = open(dir_conf + "/source/user.c", "w")
+    ventana.cadena_pinguino.append(ventana.valor_datos_comp["fin "])
+    archivo_nombre = ventana.cfg.get("pic", "arch")
+    fw = open(dir_conf + "/source/"+archivo_nombre, "w")
     pic = ventana.cfg.get("pic", "pcb")
     fw.writelines(pic + "\n")
     for a in range(len(ventana.cadena_pinguino)):

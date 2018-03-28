@@ -2,7 +2,8 @@
  * Pines de configuración para la placa NP05 / np06
  * 
  */
-
+/* incluyo el delay de micro segundos*/
+#include "delayus.c"
 /*sensores Analogicos*/
 #define ICR_AN1 13
 #define ICR_AN2 14

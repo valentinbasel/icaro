@@ -43,3 +43,4 @@ class CMP:
         }
         self.tootips = "Espera una seria de microsegundos antes de pasar a la siguiente instrucción."
         self.img = ""
+        self.tab=0

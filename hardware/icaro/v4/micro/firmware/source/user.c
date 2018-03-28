@@ -1,6 +1,8 @@
 #include<np05_06.h>
+#define __PING__
 #include "definiciones_icr.c"
-/*
+#define ANALOGREAD
+
 /*
 la Función "loop", es la parte principal del programa que escribamos con ICARO.
 Se encarga de ejecutar todo nuestro codigo fuente y repetirlo.
@@ -66,4 +68,6 @@ salidas digitales del PORTB (unl2803):
 /*funciones*/
 void loop()
 {
+PORTB=ping() ;
+Delayus(2);
 }

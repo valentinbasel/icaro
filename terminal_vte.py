@@ -33,7 +33,7 @@ class TERM_CLEMENTE:
     def __init__(self,prt):
         """ Class initialiser """
         src = sys.path[0]
-        cad = "clear\n python " + src + "/clemente/clemente.py " + prt + " \n"
+        cad=prt
         mens = UTILIDADES()
         window = gtk.Window()
         window.set_title("pyshell")

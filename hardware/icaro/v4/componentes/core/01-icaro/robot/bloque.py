@@ -44,3 +44,4 @@ class CMP:
         self.tootips = "función para controlar los motores cc de la placa np05. permite activar los motores y controlar la direccion de giro de cada motor."
         self.img = ""
         self.pines = ["p8", "p9"]
+        self.tab=0

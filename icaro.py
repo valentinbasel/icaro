@@ -319,7 +319,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         65481: "f12",
 
     }
-    valor_datos_comp = {"fin ": "}"}
+    valor_datos_comp = {}
 
     def __init__(self, icaro_dir,firmware_ruta):
 
@@ -350,7 +350,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window2 = gtk.ScrolledWindow()
         scrolled_window3 = gtk.ScrolledWindow()
-        table = gtk.VBox(False, len(self.lista))
+        table = gtk.VBox(False, 0)#len(self.lista))
         notebook = gtk.Notebook()
         self.notebook2 = gtk.Notebook()
         hp = gtk.HPaned()
@@ -372,14 +372,16 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         box2.pack_start(hp, True, True, 1)
         hp.pack1(self.notebook2, True, True)
         hp.pack2(scrolled_window2, True, True)
+        archivo_nombre = self.cfg.get("pic", "arch")
+        self.valor_datos_comp["fin "] = self.cfg.get("pic", "cierrebloque")
 
         dir_source=(os.path.expanduser('~')+
                     "/"+self.firmware_ruta +
-                    "firmware/source/user.c")
+                    "firmware/source/"+archivo_nombre)
         self.ver = visor.visor_codigo(self,
                                     self.notebook2,
                                     self.firmware_ruta,
-                                    "source/user.c",
+                                    "source/"+archivo_nombre,
                                     "codigo fuente")
 
         self.ver2 = visor.visor_codigo(self,
@@ -450,7 +452,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         ## aca cargo los datos de cada bloque ##
         for i in range(1, len(self.lista)):
             if self.diccionario[self.lista[i]][0] == "notebook":
-                table = gtk.VBox(False, len(self.lista))
+                table = gtk.VBox(False, 0)#len(self.lista))
                 label = gtk.Label(self.diccionario[self.lista[i]][1])
                 notebook.append_page(table, label)
             else:
@@ -531,9 +533,10 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
              # "icaroblue/icaroblue"],
             # [3]]
         boton_medio=[]
+
         for linea in self.carga_info_botones():
             boton_medio.append([2,toolbar,
-                                sys.path[0]+linea[0],
+                                sys.path[0]+"/"+self.icaro_dir+linea[0],
                                 linea[1],
                                 self.tooltip[linea[2]],
                                 linea[3],
@@ -599,7 +602,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         graf.window.show_all()
 
     def clemente(self, prt):
-        cle = terminal_vte.TERM_CLEMENTE(prt)
+
+        cad = "clear\n python " + src + "/clemente/clemente.py " + prt + " \n"
+        cle = terminal_vte.TERM_CLEMENTE(cad)
         cle.window.show_all()
 # ========================================================================
 # VENTANA DE AYUDA (NAVEGADOR)
@@ -621,7 +626,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         box1.set_border_width(0)
         image = gtk.Image()
         xpm_filename = xpm_filename.strip(" ")
-        buf = sys.path[0] + "/imagenes/componentes/" + xpm_filename + ".png"
+
+        buf = sys.path[0]  + "/"+ self.icaro_dir +  "/imagenes/componentes/" + xpm_filename + ".png"
         image.set_from_file(buf)
         label = gtk.Label(label_text)
         box1.pack_start(image, False, True, 1)
@@ -1040,9 +1046,11 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                     datos_cod_fuente = str(cmp.dicc["dato2"])
                 tupla.append(
                     str(cmp.tootips) + "\ncodigo fuente:\n " + datos_cod_fuente)
+                #tupla.append(cmp.tab)
                 self.valor_datos_comp[cmp.dicc["nombre"]] = cmp.valor
                 self.diccionario[q] = tupla
                 q += 1
+
 
     def carga_paleta(self):
         R = G = B = ""
@@ -1071,7 +1079,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.tooltip = tooltips.dicc
         self.lista = self.diccionario.keys()
         self.lista.sort()
-        self.carga_paleta()
+        #self.carga_paleta()
         self.conf_ini = os.path.expanduser('~') + "/"+self.firmware_ruta+"/conf/config.ini"
         print self.conf_ini
         if os.path.exists(self.conf_ini):
