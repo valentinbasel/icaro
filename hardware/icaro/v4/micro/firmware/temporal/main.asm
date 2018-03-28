@@ -51,7 +51,6 @@
 	global	_IO_init
 	global	_IO_digital
 	global	_Delayus
-	global	_ping
 	global	_setup
 	global	_sensordigital
 	global	_loop
@@ -152,8 +151,6 @@
 	extern	_PCLATUbits
 	extern	_STKPTRbits
 	extern	_TOSUbits
-	extern	_stdin
-	extern	_stdout
 	extern	_stack_end
 	extern	_SPPDATA
 	extern	_SPPCFG
@@ -422,12 +419,12 @@ _main:
 ; #	MOVF	r0x00, W
 	ADDLW	0x80
 	ADDLW	0x7e
-	BNC	_00836_DS_
-_00832_DS_:
+	BNC	_00809_DS_
+_00805_DS_:
 ;	.line	199; /home/vbasel/.icaro/v4/firmware/source/main.c	while (!OSCCONbits.IOFS);
 	BTFSS	_OSCCONbits, 2
-	BRA	_00832_DS_
-_00836_DS_:
+	BRA	_00805_DS_
+_00809_DS_:
 ;	.line	243; /home/vbasel/.icaro/v4/firmware/source/main.c	IO_init();
 	CALL	_IO_init
 ;	.line	244; /home/vbasel/.icaro/v4/firmware/source/main.c	IO_digital();
@@ -438,10 +435,10 @@ _00836_DS_:
 	CALL	_servos_init
 ;	.line	300; /home/vbasel/.icaro/v4/firmware/source/main.c	setup();
 	CALL	_setup
-_00838_DS_:
+_00811_DS_:
 ;	.line	327; /home/vbasel/.icaro/v4/firmware/source/main.c	loop();
 	CALL	_loop
-	BRA	_00838_DS_
+	BRA	_00811_DS_
 	RETURN	
 
 ; ; Starting pCode block
@@ -644,16 +641,7 @@ lockup:
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	71; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTB=ping() ;
-	CALL	_ping
-	MOVWF	_PORTB
-;	.line	72; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayus(2);
-	CLRF	POSTDEC1
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	CALL	_Delayus
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
+;	.line	70; /home/vbasel/.icaro/v4/firmware/source/user.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -676,16 +664,16 @@ _sensordigital:
 	MOVF	POSTINC1, F
 ;	.line	116; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	if (temp==0)
 	MOVF	r0x00, W
-	BNZ	_00810_DS_
+	BNZ	_00783_DS_
 ;	.line	118; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	return 1;
 	CLRF	PRODL
 	MOVLW	0x01
-	BRA	_00812_DS_
-_00810_DS_:
+	BRA	_00785_DS_
+_00783_DS_:
 ;	.line	122; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	return 0;
 	CLRF	PRODL
 	CLRF	WREG
-_00812_DS_:
+_00785_DS_:
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -717,7 +705,8 @@ _setup:
 	MOVF	POSTINC1, F
 	MOVF	POSTINC1, F
 ;	.line	86; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG3,TRIG);
-	CLRF	POSTDEC1
+	MOVLW	0x01
+	MOVWF	POSTDEC1
 	MOVLW	0x17
 	MOVWF	POSTDEC1
 	CALL	_pinmode
@@ -784,74 +773,6 @@ _setup:
 	MOVWF	POSTDEC1
 	CALL	_ServoAttach
 	MOVF	POSTINC1, F
-	RETURN	
-
-; ; Starting pCode block
-S_main__ping	code
-_ping:
-;	.line	27; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	int ping()
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-_00777_DS_:
-;	.line	31; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	while (digitalread(24) == LOW) 
-	MOVLW	0x18
-	MOVWF	POSTDEC1
-	CALL	_digitalread
-	MOVWF	r0x00
-	MOVF	POSTINC1, F
-	MOVF	r0x00, W
-	BNZ	_00788_DS_
-;	.line	33; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	digitalwrite(23, HIGH);//Activa el disparador
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x17
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	34; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	Delayus(50);//Espera 50 microsegundos (minimo 10)
-	CLRF	POSTDEC1
-	MOVLW	0x32
-	MOVWF	POSTDEC1
-	CALL	_Delayus
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	35; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	digitalwrite(23, LOW);//Desactiva el disparador
-	CLRF	POSTDEC1
-	MOVLW	0x17
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	BRA	_00777_DS_
-_00788_DS_:
-;	.line	38; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	while (digitalread(24) == HIGH) 
-	CLRF	r0x00
-	CLRF	r0x01
-_00780_DS_:
-	MOVLW	0x18
-	MOVWF	POSTDEC1
-	CALL	_digitalread
-	MOVF	POSTINC1, F
-	XORLW	0x01
-	BNZ	_00782_DS_
-;	.line	40; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	Dato++;//El contador se incrementa hasta llegar el eco
-	INFSNZ	r0x00, F
-	INCF	r0x01, F
-;	.line	41; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	Delayus(58);//Tiempo en recorrer dos centimetros 1 de ida 1 de vuelta
-	CLRF	POSTDEC1
-	MOVLW	0x3a
-	MOVWF	POSTDEC1
-	CALL	_Delayus
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	BRA	_00780_DS_
-_00782_DS_:
-;	.line	44; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	return Dato;
-	MOVFF	r0x01, PRODL
-	MOVF	r0x00, W
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
 	RETURN	
 
 ; ; Starting pCode block
@@ -5058,8 +4979,8 @@ _port:
 
 
 ; Statistics:
-; code size:	 9594 (0x257a) bytes ( 7.32%)
-;           	 4797 (0x12bd) words
+; code size:	 9452 (0x24ec) bytes ( 7.21%)
+;           	 4726 (0x1276) words
 ; udata size:	  291 (0x0123) bytes (16.24%)
 ; access size:	    8 (0x0008) bytes
 
