@@ -38,7 +38,7 @@ class CMP:
             "nombre": "servo",
             "componente": 1,
             "cant_puertos": 2,
-            "color": (0, 50, 100),
+            "color": (2,211,252),
             "dato": "0",
                     "dato2": "2",
                     "valor": self.valor

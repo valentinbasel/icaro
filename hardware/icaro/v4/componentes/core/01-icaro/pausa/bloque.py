@@ -36,7 +36,8 @@ class CMP:
             "nombre": "pausa",
             "componente": 1,
             "cant_puertos": 1,
-            "color": (0, 90, 100),
+            "color": (250,177,38),
+
             "dato": "",
                     "dato2": 1,
                     "valor": self.valor

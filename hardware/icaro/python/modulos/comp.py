@@ -26,12 +26,11 @@
 # ========================================================================
 import os
 import crear
-import util
-import carga
-
-import terminal_vte
+#import util
+#import carga
+from subprocess import Popen, PIPE
 """
-Modulo de carga para la version V4, el bootloader pinguino v4.
+Modulo de carga para la version python
 
 """
 class tool_compilador(object):
@@ -57,20 +56,39 @@ class tool_compilador(object):
             self.carga()
             crear.crear_archivo(self.fondo, self)
             dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
-            #print self.cadena_pinguino
-
-            cad = "clear\n python " +dir_conf+"/source/user.py \n"
-            cle = terminal_vte.TERM_CLEMENTE(cad)
-            #cle.window.show_all()           
-#             i = util.compilar("main", self.cfg, dir_conf)
-            # if i == 1:
-                # self.mensajes(
-                    # 0, "no se encuentra el compilador sdcc en. Pruebe configurar el archivo config.ini y corregirlo")
-            # if i == 0:
-                # self.mensajes(3, "la compilacion fue exitosa")
-            # else:
-                # self.mensajes(0, "hubo un error de compilacion")
-        # if pagina == 1:
-            # self.ver.compilar(0)
-
+            cad = dir_conf+"/source/user.py"
+            process = Popen(['python', cad], stdout=PIPE, stderr=PIPE)
+            stdout, stderr = process.communicate()
+            print stdout
+            print "err",stderr
+            log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
+            archivo_log=open(log,"w")
+            if stderr<>"":
+                archivo_log.writelines(stderr)
+                self.mensajes(0, "hubo errores en la ejecución del programa.")
+            else:
+                archivo_log.write("no hubo errores de ejecución")
+                self.mensajes(3, "la ejecución fue exitosa")
+        if pagina==1:
+            a = self.mensajes(
+                1, "Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
+            if a == True:
+                cadena2 = self.ver.buf.props.text
+                file = open( self.ver.cadena_user_c , "w")
+                file.writelines(cadena2)
+                file.close()
+                dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
+                cad = dir_conf+"/source/user.py"
+                process = Popen(['python', cad], stdout=PIPE, stderr=PIPE)
+                stdout, stderr = process.communicate()
+                print stdout
+                print "err",stderr
+                log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
+                archivo_log=open(log,"w")
+                if stderr<>"":
+                    archivo_log.writelines(stderr)
+                    self.mensajes(0, "hubo errores en la ejecución del programa.")
+                else:
+                    archivo_log.write("no hubo errores de ejecución")
+                    self.mensajes(3, "la ejecución fue exitosa")
 

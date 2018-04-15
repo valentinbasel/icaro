@@ -28,20 +28,17 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "definir ",
-            ",",
-            "valor"
+           "exitonclick()" 
         ]
         self.dicc = {
-            "nombre": "definir",
+            "nombre": "salir_con_click",
             "componente": 1,
-            "cant_puertos": 1,
-            "color": (215,109,145),
-
+            "cant_puertos": 0,
+            "color": (0, 190, 10),
             "dato": "0 ",
-                    "dato2": "1",
+                    "dato2": "0",
                     "valor": self.valor
         }
-        self.tootips = ""
+        self.tootips = "espera a que se haga click en la pantalla para salir del programa"
         self.img = ""
         self.tab=0

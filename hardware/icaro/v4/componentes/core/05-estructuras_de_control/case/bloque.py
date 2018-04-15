@@ -37,7 +37,8 @@ class CMP:
             "nombre": "case",
             "componente": 1,
             "cant_puertos": 1,
-            "color": (200, 190, 0),
+            "color": (54,90,140),
+
             "dato": "0 ",
                     "dato2": "1",
                     "valor": self.valor

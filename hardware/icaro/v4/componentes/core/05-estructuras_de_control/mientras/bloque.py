@@ -36,7 +36,8 @@ class CMP:
             "nombre": "mientras",
             "componente": 5,
             "cant_puertos": 0,
-            "color": (10, 30, 90),
+            "color": (54,90,140),
+
             "dato": "fin ",
                     "dato2": "0",
                     "valor": self.valor

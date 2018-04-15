@@ -34,7 +34,7 @@ class CMP:
             "nombre": "break",
             "componente": 1,
             "cant_puertos": 0,
-            "color": (0, 190, 10),
+            "color": (54,90,140),
             "dato": "0 ",
                     "dato2": "0",
                     "valor": self.valor

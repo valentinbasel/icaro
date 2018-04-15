@@ -35,7 +35,8 @@ class CMP:
             "nombre": "comentarios",
             "componente": 1,
             "cant_puertos": 1,
-            "color": (0, 190, 10),
+            "color": (215,109,145),
+
             "dato": "0 ",
                     "dato2": "1",
                     "valor": self.valor

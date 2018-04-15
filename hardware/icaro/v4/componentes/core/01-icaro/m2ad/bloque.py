@@ -34,7 +34,8 @@ class CMP:
             "nombre": "m2ad",
             "componente": 6,
             "cant_puertos": 1,
-            "color": (100, 50, 80),
+            "color": (250,177,38),
+
             "dato": "ICR_MOT2_AD ",
                     "dato2": "ICR_MOT2_AD",
                     "valor": self.valor

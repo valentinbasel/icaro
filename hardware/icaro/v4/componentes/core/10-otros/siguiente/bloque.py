@@ -34,7 +34,8 @@ class CMP:
             "nombre": "siguiente ",
             "componente": 4,
             "cant_puertos": 0,
-            "color": (120, 130, 90),
+            "color": (215,109,145),
+
             "dato": " ",
                     "dato2": "0",
                     "valor": self.valor

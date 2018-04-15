@@ -34,7 +34,8 @@ class CMP:
             "nombre": "parar",
             "componente": 6,
             "cant_puertos": 1,
-            "color": (100, 50, 80),
+            "color": (250,177,38),
+
             "dato": "0 ",
                     "dato2": "0",
                     "valor": self.valor

@@ -11,49 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-import time
-import gtk
-import util
-import sys
-import os
-from uploader_icaro_v4 import  UPLOAD
-
-
-class Cargador():
-
-    def __init__(self, ruta,mensajes):
-        self.mensajes=mensajes
-        self.win = gtk.Window()
-        self.win.set_resizable(False)
-        self.win.set_default_size(600, 600)
-        box1 = gtk.VBox(False, 3)
-        pixbufanim = gtk.gdk.PixbufAnimation(
-            sys.path[0] + "/hardware/icaro/v4/imagenes/gif/icr.gif")
-        image = gtk.Image()
-        image.set_from_animation(pixbufanim)
-        image.show()
-        self.text = gtk.Label(
-            "conecta la placa al puerto USB y enciendela")
-        button = gtk.Button("aceptar")
-        button.connect("clicked", self.aceptar)
-        box1.pack_start(image, False, True, 1)
-
-        box1.pack_start(self.text, False, True, 1)
-        box1.pack_start(button, False, True, 1)
-
-        self.win.add(box1)
-        box1.show()
-        self.win.show_all()
-
-        self.vivo = True
-        self.ruta = ruta
-
-    def aceptar(self,b):
-        a = 1
-        dir_conf = util.obtener_path_usuario() + "/.icaro/v4/firmware"
-        firmware=dir_conf + "/temporal/" + self.ruta + ".hex"
-        pic=UPLOAD()
-        pp=pic.uploadDevice(firmware)
-        self.mensajes(3, pp)
-        self.win.hide()
+# mantengo este archivo solo por compatibilidad
+# no sirve para nada en PYTHON
+# pero icaro.py lo pide cuando uso lanzador.py python
 

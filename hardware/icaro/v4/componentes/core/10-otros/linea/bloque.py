@@ -35,7 +35,8 @@ class CMP:
             "nombre": "linea",
             "componente": 1,
             "cant_puertos": 1,
-            "color": (100, 100, 100),
+            "color": (215,109,145),
+
             "dato": " ",
                     "dato2": "1",
                     "valor": self.valor
