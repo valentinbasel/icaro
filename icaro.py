@@ -1052,27 +1052,27 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                 q += 1
 
 
-    def carga_paleta(self):
-        R = G = B = ""
-        archivo = open(
-            os.path.abspath(os.path.dirname(__file__)) + "/paletas/default.gpl", "r")
-        tupla = []
-        for a in range(4):
-            archivo.readline()
+    # def carga_paleta(self):
+        # R = G = B = ""
+        # archivo = open(
+            # os.path.abspath(os.path.dirname(__file__)) + "/paletas/default.gpl", "r")
+        # tupla = []
+        # for a in range(4):
+            # archivo.readline()
 
-        cadena = archivo.readlines()
-        for n in cadena:
-            cad_intermedia = n.split("\t")
-            tupla.append(
-                (cad_intermedia[0], cad_intermedia[1], cad_intermedia[2]))
-        for a in range(len(self.lista)):
-            if self.diccionario[self.lista[a]][0] <> "notebook":
-                R, G, B = tupla[a]
-                self.diccionario[self.lista[a]][3] = (
-                    int(R),
-                    int(G),
-                    int(B)
-                )
+        # cadena = archivo.readlines()
+        # for n in cadena:
+            # cad_intermedia = n.split("\t")
+            # tupla.append(
+                # (cad_intermedia[0], cad_intermedia[1], cad_intermedia[2]))
+        # for a in range(len(self.lista)):
+            # if self.diccionario[self.lista[a]][0] <> "notebook":
+                # R, G, B = tupla[a]
+                # self.diccionario[self.lista[a]][3] = (
+                    # int(R),
+                    # int(G),
+                    # int(B)
+                # )
 
     def carga_conf_ventana(self):
         self.carga_dicc()
