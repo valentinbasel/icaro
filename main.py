@@ -194,17 +194,17 @@ def main():
     turtleart_ruta = cfg.get("general", "turtlear")
     bootloader=cfg.get("icaro_config","bootloader")
 
-    pyt = ["Lanza la teminal interactiva ",
-           "con el modulo apicaro.",
-           "Necesita tener IDLE instalado"]
+    pyt = ["Lanza Icaro-bloques ",
+           "para generar codigo PYTHON."]
     tur = ["Lanza Art con el modulo Tortucaro.",
            "para manejo conectado a la netbook"]
     icr = ["Lanza Icaro-bloques ",
-           "para manejo de robots autonomos"]
+           "para manejo de robots autonomos",
+           "usando el bootloader V4"]
     sal = ["Sale del sistema"]
-    idle = ("idle -c 'import apicaro;" +
-            " icaro=apicaro.puerto(); icaro.iniciar()'"
-            )
+    # idle = ("idle -c 'import apicaro;" +
+            # " icaro=apicaro.puerto(); icaro.iniciar()'"
+            # )
 
     ventana.tama_letra = 20
     BotonTurtle = Boton(1,
@@ -214,20 +214,21 @@ def main():
                         sys.path[0] + "/imagenes/main/tortucaro.png",
                         turtleart_ruta,
                         tur)
-    BotonIcaro = Boton(2,
-                       ventana,
-                       100,
-                       160,
-                       sys.path[0] + "/imagenes/main/icaro.png",
-                       "python " + sys.path[0] + "/lanzador.py " + bootloader,
-                       icr)
+
     BotonPython = Boton(3,
                         ventana,
                         100,
-                        310,
+                        160,
                         sys.path[0] + "/imagenes/main/python.png",
-                        idle,
+                        "python " + sys.path[0] + "/lanzador.py python",
                         pyt)
+    BotonIcaro = Boton(2,
+                       ventana,
+                       100,
+                       310,
+                       sys.path[0] + "/imagenes/main/icaro.png",
+                       "python " + sys.path[0] + "/lanzador.py " + bootloader,
+                       icr)
     BotonSalir = Boton(4,
                        ventana,
                        100,
@@ -236,8 +237,8 @@ def main():
                        "salir",
                        sal)
     ventana.botones.append(BotonTurtle)
-    ventana.botones.append(BotonIcaro)
     ventana.botones.append(BotonPython)
+    ventana.botones.append(BotonIcaro)
     ventana.botones.append(BotonSalir)
     gtk.main()
     return 0
