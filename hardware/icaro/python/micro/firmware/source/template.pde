@@ -4,4 +4,3 @@ from turtle import *
 from time import sleep
 from random import randint
 import apicaro
-colormode(255)
