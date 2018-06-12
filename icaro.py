@@ -342,7 +342,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         # declaro la tabla  donde van los botones para el menu de bloques
         # box1 es el contenedor principal despues de la ventana
         self.window1 = gtk.Window()
-
+        # ~ self.window1.fullscreen()
         titulo = "icaro " + version.strip("\n\r")
         self.window1.set_title(titulo)
         toolbar = gtk.Toolbar()

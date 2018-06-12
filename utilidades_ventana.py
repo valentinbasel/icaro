@@ -105,6 +105,14 @@ class UTILIDADES:
         if os.path.exists(os.path.expanduser('~') + "/.icaro/v4") == False:
             ruta_firmware_v4 = os.path.expanduser('~') + "/.icaro/v4"
             os.system("mkdir -p " + ruta_firmware_v4)
+        dir_firm_pyt = os.path.expanduser('~') + "/.icaro/python/firmware/"
+        dir_conf_pyt = os.path.expanduser('~') + "/.icaro/python/conf/"
+        np05_pyt = sys.path[0] + "/hardware/icaro/python/micro/firmware"
+        conf_pyt = sys.path[0] + "/hardware/icaro/python/micro/conf"
+        if os.path.exists(os.path.expanduser('~') + "/.icaro/python") == False:
+            ruta_firmware_pyt = os.path.expanduser('~') + "/.icaro/python"
+            os.system("mkdir -p " + ruta_firmware_pyt)
+
         if visual == True:
             resp = self.mensajes(
                 1, "se volvera a la versión por defecto del firmware y la configuracion general, desea continuar")
@@ -119,6 +127,11 @@ class UTILIDADES:
             os.system("rm -rf " + dir_firm_v4)
             os.system("cp -R " + np05_v4 + " " + dir_firm_v4)
             os.system("cp -R " + conf_v4 + " " + dir_conf_v4)
+            os.system("rm -rf " + dir_conf_pyt)
+            os.system("rm -rf " + dir_firm_pyt)
+            os.system("cp -R " + np05_pyt + " " + dir_firm_pyt)
+            os.system("cp -R " + conf_pyt + " " + dir_conf_pyt)
+
             os.system("cp " + sys.path[0] + "/hardware/icaro/config.ini "+
                     os.path.expanduser('~') + "/.icaro/")
 
