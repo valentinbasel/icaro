@@ -30,8 +30,8 @@ class CMP:
         self.valor = [
             "icaro.activar_servo(",
             "valor",
-            ","
-            "valor"
+            ",",
+            "valor",
             ")"
         ]
         self.dicc = {
