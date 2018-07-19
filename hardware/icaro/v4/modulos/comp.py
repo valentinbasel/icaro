@@ -42,7 +42,10 @@ class tool_compilador(object):
             ["/imagenes/icaro.png","Compile","compilar",self.compilar,None],
             ["/imagenes/compilar.png","Load","cargar", self.upload, None],
             ["/imagenes/tortucaro.png","Tortucaro","tortucaro",
-            self.comp_esp,"tortucaro/tortucaro"]]
+            self.comp_esp,"tortucaro/tortucaro"],
+            ["/imagenes/drawrobot.png","Drawrobot","drawrobot",
+            self.comp_esp,"drawrobot/drawrobot"]]
+
         return botones_tool_bar
 
     def carga(self):

@@ -4,9 +4,9 @@
 from turtle import *
 from time import sleep
 from random import randint
-import apicaro
-for _count in range(90):
-    forward(100)
-    right(88)
-    
-exitonclick()
+from drawrobot.robot import *
+drobot=DROBOT()
+drobot.PUERTO="/dev/rfcomm1"
+drobot.iniciar()
+drobot.adelante(900)
+drobot.cerrar()

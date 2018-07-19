@@ -39,4 +39,5 @@ dicc = {
     _("ayuda"): _("menu de ayuda"),
     _("ver_codigo"): _("muestra el codigo fuente generado por icaro"),
     _("salir"): _("sale del programa"),
+    _("drawrobot"):_("Prepara ICARO para trabajar con el drawrobot.")
 }
