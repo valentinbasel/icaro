@@ -1,5 +1,0 @@
-#PICKit 1
-ATTR{idVendor}=="04d8", ATTR{idProduct}=="feaa", MODE="0660",GROUP="microchip"
-
-
-
