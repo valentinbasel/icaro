@@ -28,18 +28,21 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "from v_plotter.vplot import ROBOT \n",
-            "vplot=ROBOT()"
+            "vplot.izquierda(",
+            "valor",
+            ")"
         ]
         self.dicc = {
-            "nombre": "vplot",
+            "nombre": "izquierda_vplot",
             "componente": 1,
-            "cant_puertos": 0,
-            "color": (0, 190, 10),
-            "dato": "0 ",
-            "dato2": "0",
+            "cant_puertos": 1,
+            "color": (0, 90, 10),
+            "dato": 0,
+            "dato2": 1,
             "valor": self.valor
         }
-        self.tootips = "inicia el vplotter"
+        self.tootips = "hacer un giro a la izquierda un numero de grados."
         self.img = ""
+        self.pines = [
+            ""]
         self.tab=0

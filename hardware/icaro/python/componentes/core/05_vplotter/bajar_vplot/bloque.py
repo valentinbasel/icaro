@@ -28,18 +28,19 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "from v_plotter.vplot import ROBOT \n",
-            "vplot=ROBOT()"
+            "vplot.bajar_lapiz()"
         ]
         self.dicc = {
-            "nombre": "vplot",
+            "nombre": "bajar_vplot",
             "componente": 1,
             "cant_puertos": 0,
-            "color": (0, 190, 10),
-            "dato": "0 ",
-            "dato2": "0",
+            "color": (0, 90, 10),
+            "dato": 0,
+            "dato2": 0,
             "valor": self.valor
         }
-        self.tootips = "inicia el vplotter"
+        self.tootips = "baja el lapiz para que pinte en la superficie."
         self.img = ""
+        self.pines = [
+            ""]
         self.tab=0
