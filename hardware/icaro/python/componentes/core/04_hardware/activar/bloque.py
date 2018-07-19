@@ -28,9 +28,9 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "icaro.activar('",
+            "icaro.activar(",
             "valor",
-            "')"
+            ")"
         ]
         self.dicc = {
             "nombre": "activar",
