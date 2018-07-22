@@ -1,5 +1,5 @@
 #include<np05_06.h>
-#include <math.h>
+//#include <math.h>
 #include "definiciones_icr.c"
 //#define ANALOGREAD
 
