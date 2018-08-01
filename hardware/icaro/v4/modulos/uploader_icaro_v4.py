@@ -160,7 +160,7 @@ class UPLOAD(object):
             for device in bus.devices:
                 if (device.idVendor, device.idProduct) == (board.vendor, board.product):
                     print("Found device 0x%04X:0x%04X" % (device.idVendor, device.idProduct))
-                    self.REPORTE=self.REPORTE+("Found device 0x%04X:0x%04X \n" % (device.idVendor, device.idProduct))
+                    #self.REPORTE=self.REPORTE+("se encontro el dispositivo 0x%04X:0x%04X \n" % (device.idVendor, device.idProduct))
                     return device
         return self.ERR_DEVICE_NOT_FOUND
 
@@ -442,7 +442,7 @@ class UPLOAD(object):
         device_id = self.getDeviceID(handle)
         proc = self.getDeviceName(device_id)
         print (" - with PIC%s (id=%X)" % (proc, device_id))
-        self.REPORTE=self.REPORTE+(" - with PIC%s (id=%X)" % (proc, device_id))
+        #self.REPORTE=self.REPORTE+(" - con el micro controlador PIC%s (id=%X)" % (proc, device_id))
         if proc != board.proc:
             print("Aborting: program compiled for %s but device has %s" % (board.proc, proc))
             self.REPORTE=self.REPORTE+("Aborting: program compiled for %s but device has %s" % (board.proc, proc))
@@ -453,8 +453,8 @@ class UPLOAD(object):
         memfree = board.memend - board.memstart;
         print(" - with %d bytes free (%d KB)" % (memfree, memfree/1024))
         print("  165, from 0x%05X to 0x%05X" % (board.memstart, board.memend))
-        self.REPORTE=self.REPORTE+(" - with %d bytes free (%d KB)" % (memfree, memfree/1024))
-        self.REPORTE=self.REPORTE+("   from 0x%05X to 0x%05X" % (board.memstart, board.memend))
+        #self.REPORTE=self.REPORTE+(" - with %d bytes free (%d KB)" % (memfree, memfree/1024))
+        #self.REPORTE=self.REPORTE+("   from 0x%05X to 0x%05X" % (board.memstart, board.memend))
 
         # find out bootloader version
         # --------------------------------------------------------------
@@ -465,7 +465,7 @@ class UPLOAD(object):
         # start writing
         # --------------------------------------------------------------
         print("Uploading user program ...")
-        self.REPORTE=self.REPORTE+("Uploading user program ...")
+        self.REPORTE=self.REPORTE+("El programa ")
 
         status = self.writeHex(handle, filename, board)
         if status == self.ERR_HEX_RECORD:
@@ -488,7 +488,7 @@ class UPLOAD(object):
             return self.REPORTE
         elif status == self.ERR_NONE:
             print(os.path.basename(filename) + " successfully uploaded")
-            self.REPORTE=self.REPORTE+(os.path.basename(filename) + " successfully uploaded")
+            self.REPORTE=self.REPORTE+(os.path.basename(filename) + " fue cargado EXITOSAMENTE.")
 
         # reset and start start user's app.
             self.resetDevice(handle)
