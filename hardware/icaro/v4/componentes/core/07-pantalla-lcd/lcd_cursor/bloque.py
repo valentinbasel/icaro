@@ -28,7 +28,7 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            'setCursor(',
+            'lcd_setCursor(',
             "valor",
             ',',
             "valor",

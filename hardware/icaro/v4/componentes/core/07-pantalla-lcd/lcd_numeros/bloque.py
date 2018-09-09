@@ -28,7 +28,7 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            'printNumber(',
+            'lcd_printNumber(',
             'valor',
             ',',
             'valor',

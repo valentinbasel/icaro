@@ -28,7 +28,7 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            'clear();'
+            'lcd_clear();'
         ]
         self.dicc = {
             "nombre": "lcd_limpiar",

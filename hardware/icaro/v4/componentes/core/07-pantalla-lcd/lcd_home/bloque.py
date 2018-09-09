@@ -28,7 +28,7 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            'home();'
+            'lcd_home();'
         ]
         self.dicc = {
             "nombre": "lcd_home",
