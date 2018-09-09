@@ -1,70 +1,278 @@
+ 
 #include<np05_06.h>
+#define __LCD__
+#define __PING__
 #include "definiciones_icr.c"
 #define ANALOGREAD
+//variables globales
+int contador=0;
+int dist=0;
+void enojado()
+{
+		lcd_setCursor(0,0);
+		lcd_print(" <.><.> ");
+		lcd_setCursor(0,1);
+		lcd_print("  ####  ");
+}
+void contento()
+{
 
-/*
-la Función "loop", es la parte principal del programa que escribamos con ICARO.
-Se encarga de ejecutar todo nuestro codigo fuente y repetirlo.
-Internamente, la función loop, esta dentro del archivo user.c, el cual es incluido
-en main.c. main es el archivo principal, donde se crean todas las variables de configuración
-necesarias para que el micro controlador pueda arrancar. Una ves que main_loop() termina de iniciar 
-las variables, entra en un bucle infinito while(True), donde llama a la función loop().
-
-DEFINICION DE LOS CONECTORES DEL HARDWARE:
-
-sensores Analogicos:
-sensor =  1  ---> puerto = 13
-sensor =  2  ---> puerto = 14
-sensor =  3  ---> puerto = 15
-sensor =  4  ---> puerto = 16
-sensor =  5  ---> puerto = 17
-sensor =  6  ---> puerto = 18
-sensor =  7  ---> puerto = 19
-sensor =  8  ---> puerto = 20
-
-sensores digitales:
-sensor =  1  ---> puerto = 21
-sensor =  2  ---> puerto = 22
-sensor =  3  ---> puerto = 23
-sensor =  4  ---> puerto = 24
-
-salidas integrado L293:
-salida = 1A ---> PORTD =  32
-salida = 2A ---> PORTD =  128
-salida = 1B ---> PORTD =  64
-salida = 2B ---> PORTD =  16
-
-valores de salida del PORTD para el integrado L293:
-MOTOR "A" ADELANTE = 1A = 32
-MOTOR "A" ATRAS = 2A = 128
-MOTOR "B" ADELANTE = 1B = 64
-MOTOR "B" ATRAS = 2B = 16
-MOTOR "A+B" ADELANTE = 1A+1B = 96
-MOTOR "A+B" ATRAS = 2A+2B =  144
-MOTOR "A+B" INVERSION DE GIRO DERECHA = 1A+2B = 48
-MOTOR "A+B" INVERSION DE GIRO IZQUIERDA = 2A+1B = 192
-
-salidas para servomotores:
-servo 1 ---> puerto = 10 --> k2
-servo 2 ---> puerto = 11 --> k3
-servo 3 ---> puerto = 12 --> k4
-servo 4 ---> puerto = 8  --> k5
-servo 5 ---> puerto = 9  --> k6
-
-salidas digitales del PORTB (unl2803):
- LED 1  ---> PORTB = 1
- LED 2  ---> PORTB = 2
- LED 3  ---> PORTB = 4
- LED 4  ---> PORTB = 8
- LED 5  ---> PORTB = 16
- LED 6  ---> PORTB = 32
- LED 7  ---> PORTB = 64
- LED 8  ---> PORTB = 128
-
-*/
+		lcd_setCursor(0,0);
+		lcd_print(" (.)(.) ");
+		lcd_setCursor(0,1);
+		lcd_print("  ----  ");
+}
 
 
+
+void mostrar_datos()
+{
+	int a=0;
+	Delayms(500);
+	while(analogread(15)>0)
+	{
+	//for (a=0;a<150;a++)
+	//{
+		lcd_home();
+		lcd_print("a1:");
+		lcd_setCursor(3,0); 
+		lcd_printNumber(analogread(13),10);
+		lcd_setCursor(0,1);
+		lcd_print("hc:");
+		lcd_setCursor(3,1);
+		dist=ping();
+		if (dist<16){
+		lcd_printNumber(dist,10);
+		}else
+		{
+		lcd_print("nnn");
+		}
+		Delayms(300);
+		lcd_clear();
+	//}
+	}
+}
 /*funciones*/
+void seg_lineas()
+{
+	int distancia=0;
+	int a=0;
+	for (a=0;a<6;a++)
+	{
+		lcd_home();
+		lcd_printNumber(a,10);
+		Delayms(1000);
+	}
+	contento();
+
+	while(analogread(15)>0)
+	{
+	distancia=analogread(13);
+		PORTD=ICR_MOTS_IZ;
+		if(distancia<100)
+		{
+		PORTD=ICR_MOTS_DE;
+		}
+	}
+}
+void robot2()
+{
+	int dist=1;
+	int distancia_a1 =0;
+	int band=0;
+	int a =0;
+	int contador_t=0;
+	for (a=0;a<6;a++)
+	{
+		lcd_home();
+		lcd_printNumber(a,10);
+		Delayms(1000);
+	}
+
+	while(analogread(15)>0)
+	{
+		dist=ping();
+		//lcd_home();
+		//lcd_printNumber(dist,10);
+		//lcd_setCursor(0,1);
+		//lcd_printNumber(analogread(13),10);
+		enojado();
+		PORTD=ICR_MOTS_INV_DE;
+		Delayms(1);
+
+		contador_t++;
+		if (contador_t>50)
+		{
+			lcd_clear();
+			contador_t=0;
+		}
+		if (dist<23 && dist>0)
+		{
+			lcd_home();
+			lcd_print("matar!");
+			band=0;
+			while(band<10)
+			{
+				lcd_home();
+				lcd_print("matar!");
+				lcd_setCursor(0,1);
+				lcd_printNumber(band,10);
+				distancia_a1=analogread(13);
+				PORTD=ICR_MOTS_AD;
+				if (distancia_a1<50)
+				{
+					PORTD=ICR_MOTS_AT;
+					Delayms(300);
+					PORTD=ICR_MOTS_INV_DE;
+					Delayms(600);
+					band++;
+					lcd_clear();
+				}
+			}
+		}	
+	}
+}
+
+void robot()
+{
+	int dist=1;
+	int distancia_a1 =0;
+	int band=0;
+	int a =0;
+	int contador_t=0;
+	for (a=0;a<6;a++)
+	{
+		lcd_home();
+		lcd_printNumber(a,10);
+		Delayms(1000);
+	}
+
+	while(analogread(15)>0)
+	{
+		dist=ping();
+		//lcd_home();
+		//lcd_printNumber(dist,10);
+		//lcd_setCursor(0,1);
+		//lcd_printNumber(analogread(13),10);
+		enojado();
+		PORTD=ICR_MOTS_INV_DE;
+		Delayms(1);
+
+		contador_t++;
+		if (contador_t>50)
+		{
+			lcd_clear();
+			contador_t=0;
+		}
+		if (dist<23 && dist>0)
+		{
+			lcd_home();
+			lcd_print("matar!");
+			band=0;
+			while(band<10)
+			{
+				lcd_home();
+				lcd_print("matar!");
+				lcd_setCursor(0,1);
+				lcd_printNumber(band,10);
+				distancia_a1=analogread(13);
+				PORTD=ICR_MOTS_AD;
+				if (distancia_a1>140)
+				{
+					PORTD=ICR_MOTS_AT;
+					Delayms(300);
+					PORTD=ICR_MOTS_INV_DE;
+					Delayms(600);
+					band++;
+					lcd_clear();
+				}
+			}
+		}	
+	}
+}
+
+void menu()
+{
+	int output_b=0;
+	int sw=0;
+	while(1)
+	{
+		output_b=analogread(14);
+		sw=analogread(15);
+		if(output_b==0)
+		{
+		lcd_clear();
+		contador++;
+		Delayms(10);
+		if(contador>4)contador=0;
+		}
+		lcd_print("prg: ");
+		lcd_setCursor(6,0);
+		lcd_printNumber(contador,10);
+		lcd_setCursor(0,1);
+
+		switch(contador)
+		{
+		case 0:
+		lcd_print("menu ");
+		break;
+		case 1:
+		lcd_print("sumo bl ");
+		break;
+		case 2:
+		lcd_print("sumo ng");
+		break;
+		case 3:
+		lcd_print("seg_line ");
+		break;
+		case 4:
+		lcd_print("test");
+		break;
+		default:
+		lcd_printNumber(contador,10);
+		break;
+		}
+		
+		lcd_home();
+
+		
+		if(sw==0)
+		{
+		return ;
+		}
+	}
+}
 void loop()
 {
+menu();
+switch(contador)
+{
+
+case 1:
+	lcd_clear();
+	robot();
+	contador=0;
+	PORTD=0;
+	break;
+case 2:
+	lcd_clear();
+	robot2();
+	contador=0;
+	PORTD=0;
+	break;
+case 3:
+	lcd_clear();
+	seg_lineas();
+	PORTD=0;
+	contador=0;
+	break;
+case 4:
+	lcd_clear();
+	mostrar_datos();
+	contador=0;
+	break;
+
+default:
+	menu();
+}
 }

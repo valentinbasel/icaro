@@ -49,6 +49,15 @@
 
 /* Definiciones para implementar comunicación USB-CDC*/
 #if defined(__LCD__)
+
+	#define LCDHOME
+	#define LCDCLEAR
+	#define LCDPRINT
+	#define LCDSETCURSOR
+	#define LCDPRINTF
+	#define LCDPRINTNUMBER
+	#define LCDPRINTFLOAT
+
 	#include <lcdlib.c>
 #endif
 
@@ -101,10 +110,10 @@ void setup()
     #if defined(__LCD__)
 	//~ //Uso el PORTB para el LCD (usando los primeros 4bits y los
 	//~ // otros dos para RS y E
-	lcd(4, 5, 0, 1, 2, 3, 0, 0, 0, 0); // RS, E, D4 ~ D8	
+	lcd_init(1,4, 5,6, 0, 1, 2, 3, 0, 0, 0, 0); //1=4bit--0=8bits, RS, RW ,E, D4 ~ D8	
 	// Defino el numero de columnas y filas del LCD: 
-    	begin(8, 2);
-        home();
+    	lcd_begin(8, 2);
+        lcd_home();
     #endif
 }
 
