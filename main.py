@@ -144,8 +144,13 @@ def comprobacion_errores(ventana, mens):
     dialout hacer en la terminal lo siguiente:
 
     sudo groupadd microchip
+    
+    Para agregar el usuario al grupo requrido:
+
     sudo usermod -a -G microchip $USER
     sudo usermod -a -G dialout $USER
+
+    Una vez hecho esto debe volver a iniciar session para que se activen los cambios.
     """
     for gr in grupos:
         if gr[0] == "microchip":
