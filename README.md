@@ -79,7 +79,9 @@ Javier Castrillo - jcastrillo@educ.ar
 Empaquetamiento RPM
 --------------------
 Eduardo Javier Echeverria Alvarado - echevemaster@gmail.com
+
 Yader Velásquez - yajosev@gmail.com
+
 Omar Berroterán Silva - omarberroteranlkf@gmail.com
 
 Diseño gráfico
@@ -91,6 +93,7 @@ Diseño Web
 ----------
 Aura Lila Gutiérrez Tejada, lilixx@fedoraproject.org
 
+
 Web
 -----
 http://roboticaro.org/
@@ -100,4 +103,8 @@ http://sistema-icaro.blogspot.com.ar/
 https://github.com/valentinbasel/icaro
 
 
+Lincencia
 -----------
+El proyecto Icaro es un proyecto de software libre liberado bajo licencia GPL v3, vea el archivo COPYING para mas detalles. 
+
+Algunos componentes de este proyecto usan otra licencia como LGPL, tal como se describe en el archivo COPYING-LGPLv2, estos compenentes tienen especificado la licencia correspondiente en el encabezado de cada archivo. 
