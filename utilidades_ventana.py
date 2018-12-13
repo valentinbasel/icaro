@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  utilidades_ventana.py
@@ -20,11 +20,14 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-import gtk
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+#import gtk
 import os
 import sys
 
-import ConfigParser
+import configparser
 
 # ========================================================================
 # GENERADOR DE MENSAJES
@@ -42,7 +45,7 @@ class UTILIDADES:
         sys.path.append(ruta)
         # busca el archivo .ini dentro de la carpeta firmware
         if os.path.exists(conf):
-            from icaro import *
+            from icaro2 import inicio
             inicio(icr_dir,icaro_dir)
         else:
             cad = "No se encontro el archivo de configuracion en la ruta " + \
@@ -58,31 +61,32 @@ class UTILIDADES:
     def mensajes(self, num, mensa):
 
         tipo = (
-            gtk.MESSAGE_WARNING,
-            gtk.MESSAGE_QUESTION,
-            gtk.MESSAGE_ERROR,
-            gtk.MESSAGE_INFO
+            Gtk.MessageType.WARNING,
+            Gtk.MessageType.QUESTION,
+            Gtk.MessageType.ERROR,
+            Gtk.MessageType.INFO
         )
         botones = (
-            gtk.BUTTONS_OK,
-            gtk.BUTTONS_OK_CANCEL,
-            gtk.BUTTONS_OK,
-            gtk.BUTTONS_OK
+            Gtk.ButtonsType.OK,
+            Gtk.ButtonsType.OK_CANCEL,
+            Gtk.ButtonsType.OK,
+            Gtk.ButtonsType.OK
         )
-        md = gtk.MessageDialog(None,
-                               gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+        md = Gtk.MessageDialog(None,
+                               Gtk.DialogFlags.MODAL |
+                               Gtk.DialogFlags.DESTROY_WITH_PARENT,
                                tipo[num],
                                botones[num], mensa)
         resp = md.run()
         md.destroy()
-        if resp == gtk.RESPONSE_OK:
+        if resp == Gtk.ResponseType.OK:
             return True
-        elif resp == gtk.RESPONSE_CANCEL:
+        elif resp == Gtk.ResponseType.CANCEL:
             return False
 
     def carga_conf(self, ruta):
         try:
-            cfg = ConfigParser.ConfigParser()
+            cfg = configparser.ConfigParser()
             cfg.read(ruta)
             return cfg
         except:
@@ -138,4 +142,4 @@ class UTILIDADES:
             if visual == True:
                 self.mensajes(3, "se actualizo el firmware y la conf general")
             else:
-                print "se actualizo el firmware y la configuración general"
+                print("se actualizo el firmware y la configuración general")

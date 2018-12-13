@@ -29,7 +29,6 @@ import util
 import carga
 import visor
 import config_menu
-#import terminal_vte
 from motor import MotorCairo
 from componente_inicial import *
 from componente import *
@@ -239,15 +238,13 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
              ventana
                 |
-                 ->box1
+                 ->box1(eliminar)
                    |
-                    -> menu_bar
+                    -> menu_bar(eliminar y remplazar por popover)
                    |
                     -> box2
                        |
-                        -> scrolled_window3
-                       |            |
-                       |             -> toolbar
+
                        |
                         -> hp
                            |
@@ -260,9 +257,12 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                            |          -> visor
                            |
                             -> scrolled_window2
+                           |         |
+                           |          -> notebook
+                           |
+                             -> scrolled_window3 (eliminar)
                                     |
-                                     -> notebook
-
+                                     -> toolbar
 
         ################################################
     esta clase controla todos los eventos del programa, mouse, teclado,
@@ -334,33 +334,34 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         titulo = "icaro " + version.strip("\n\r")
         self.window1.set_title(titulo)
         toolbar = Gtk.Toolbar()
-        toolbar.set_style(Gtk.ToolbarStyle.BOTH_HORIZ)
+        #toolbar.set_style(Gtk.ToolbarStyle.BOTH_HORIZ)
+
         self.area = Gtk.DrawingArea()
         scrolled_window = Gtk.ScrolledWindow()
         scrolled_window2 = Gtk.ScrolledWindow()
-        scrolled_window3 = Gtk.ScrolledWindow()
+        #scrolled_window3 = Gtk.ScrolledWindow()
         table = Gtk.VBox(False, 0)
         notebook = Gtk.Notebook()
         self.notebook2 = Gtk.Notebook()
         hp = Gtk.HPaned()
         box2 = Gtk.HBox(False, 3)
-        box1 = Gtk.VBox(False, 3)
+        #box1 = Gtk.VBox(False, 3)
         menu_bar = Gtk.MenuBar()
 
         # empaqueto todo
         # esta es la idea de usar un hpaned para poder achicar la pantalla
         #, en las netbook no entra todo
-        self.window1.add(box1)
-        box1.pack_start(menu_bar, False, True, 1)
-        box1.pack_start(box2, True, True, 1)
+        self.window1.add(box2)
+        #box1.pack_start(menu_bar, False, True, 1)
+        #box1.pack_start(box2, True, True, 1)
         scrolled_window.add(self.area)
 
-        scrolled_window3.add(toolbar)
+        #scrolled_window3.add(toolbar)
         scrolled_window2.add(notebook)
         self.notebook2.append_page(scrolled_window, Gtk.Label("bloques"))
 
         box2.pack_start(hp, True, True, 1)
-        box2.pack_start(scrolled_window3, False, False, 2)
+        #box2.pack_start(scrolled_window3, False, False, 2)
 
         hp.pack2(self.notebook2, True, True)
         hp.pack1(scrolled_window2, True, True)
@@ -436,7 +437,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         scrolled_window2.show()
         #scrolled_window3.set_border_width(1)
         #scrolled_window3.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS)
-        scrolled_window3.show()
+        #scrolled_window3.show()
         notebook.set_tab_pos(Gtk.PositionType.LEFT)
         label = Gtk.Label(self.diccionario[self.lista[0]][1])
         notebook.append_page(table, label)

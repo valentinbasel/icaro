@@ -10,7 +10,10 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-import gtk
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+#import gtk
 import sys
 #from componente_datos import *
 import forma_basica
@@ -238,7 +241,7 @@ class Formas(FormaSvg):
         if comp == 5:
             cuerpo = self.comp_2(arg, tex, comp)
         if comp == 4:
-            print "conector o"
+            print("conector o")
             cuerpo = self.comp_0(arg, tex, comp)
         return cuerpo
 
@@ -250,7 +253,7 @@ class Formas(FormaSvg):
                     #(46, -7, 4, 4),
                     #(0, 0, 60, 40),
                     #]
-        print "creo el comp cero"
+        print("creo el comp cero")
         cuerpo, cuerpo2 = self.crear_comp_0arg()
         return cuerpo
 
@@ -303,8 +306,8 @@ class ComponenteCentral(FormaSvg):
         self.rectan[1] = self.posicion[1] - 10
         if self.vivo:
             if (botones_mouse[1] == 1 and
-                        self.fondo.collide(self.rectan, 
-                                           posic_mouse[0], 
+                        self.fondo.collide(self.rectan,
+                                           posic_mouse[0],
                                            posic_mouse[1]) == True and
                         self.pulsado == 0 and
                         self.ventana.seleccionado == 0 and
@@ -328,8 +331,8 @@ class ComponenteCentral(FormaSvg):
                 self.pulsado = 0
                 self.ventana.seleccionado = 0
             if (botones_mouse[1] == 1
-                    and self.fondo.collide(self.rectan, 
-                                           posic_mouse[0], 
+                    and self.fondo.collide(self.rectan,
+                                           posic_mouse[0],
                                            posic_mouse[1]) == True
                     and self.ventana.seleccion_menu == 3):
                 for i in range(1, len(self.fondo.objetos_datos)):
@@ -358,7 +361,7 @@ class ComponenteCentral(FormaSvg):
                 self.fondo.lista_ordenada[self.ide] = iden
                 self.dibujar()
 
-                self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,verde) 
+                self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,verde)
                 return 0
             if self.pegado == 0:
                 self.fondo.lista_ordenada[self.ide] = 0
@@ -379,7 +382,7 @@ class ComponenteCentral(FormaSvg):
                         self.pegado = 0
                         self.pegado_a = 0
             self.dibujar()
-            self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,rojo) 
+            self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,rojo)
 
 class componente(ComponenteCentral):
 
@@ -424,7 +427,7 @@ class componente(ComponenteCentral):
 
     def dibujar(self):
 
-        
+
         self.conector_h[0] = self.rectan[0] + 45
         self.conector_h[1] = self.rectan[1] - 10
         self.fondo.render_svg(
@@ -936,13 +939,13 @@ class comp_dat_arg(FormaSvg):
         if event.keyval == 65293:
             self.texto = entry.get_text().decode('utf8')
             self.pulsado = 0
-            print "este es el boton de la ventana", self.texto
+            print("este es el boton de la ventana", self.texto)
             self.ventana.boton_mouse = [0, 0, 0, 0]
             window.hide()
 
     def boton(self, b, window, entry):
         self.texto = entry.get_text().decode('utf8')
         self.pulsado = 0
-        print "este es el boton de la ventana", self.texto
+        print("este es el boton de la ventana", self.texto)
         self.ventana.boton_mouse = [0, 0, 0, 0]
         window.hide()

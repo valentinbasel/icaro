@@ -20,7 +20,10 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-import gtk
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+#import gtk
 import util
 from utilidades_ventana import UTILIDADES
 
@@ -74,12 +77,12 @@ class MENU_CONF:
         self.window.show_all()
 
     def close(self, arg):
-        print "salgo"
+        print("salgo")
         # gtk.main_quit()
         self.window.hide()
 
     def aplicar(self, arg):
         for datos in self.texts:
-            print datos[2].get_text()
+            print(datos[2].get_text())
             self.conf_cfg.set(datos[0], datos[1], datos[2].get_text())
         self.conf_cfg.write(open(self.conf_dir, 'w'))

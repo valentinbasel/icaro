@@ -38,8 +38,8 @@ def obtener_path_usuario():
 def comprobar_sdcc(sdcc_ini):
 
     val = os.system(sdcc_ini + " -v")
-    print "aca estoy comprobando sdcc", val
-    if val <> 0:
+    #print "aca estoy comprobando sdcc", val
+    if val != 0:
         return 1
     return 0
 
@@ -54,7 +54,7 @@ def cargo_opciones_cfg(cfg, seccion):
 
 
 def compilar(nombre, cfg, dir_conf):
-    """ 
+    """
     nombre = Nombre del archivo
     """
     home_usuario = obtener_path_usuario()
@@ -73,7 +73,7 @@ def compilar(nombre, cfg, dir_conf):
         for datos in archivos_temp:
             os.remove(dir_conf + "/temporal/" + datos)
     except:
-        print "no existen los archivos"
+        print ("no existen los archivos")
     # Creo la cadena del compilador con todas las opciones
     cad = str(sdcc_ini +
               " " + op + " " +
@@ -105,6 +105,6 @@ def linker(nombre, cfg):
              " " + op + " " +
              cfg.get("upload", "obj") + nombre + ".o ")
     up_final = up.replace("~", home_usuario)
-    print "cadena linker: ", up_final
+    #print "cadena linker: ", up_final
     i = os.system(up_final)
     return i

@@ -22,6 +22,10 @@
 #
 #
 
+#import gi
+#gi.require_version('Gtk', '3.0')
+#from gi.repository import cairo
+
 import cairo
 import math
 
@@ -65,6 +69,7 @@ class MotorCairo():
         cr.fill()
 
     def texto(self, txt, x, y, rgb, cr):
+        #print(txt)
         cr.select_font_face(
             self.tipo_letra,
             cairo.FONT_SLANT_NORMAL,
@@ -84,7 +89,7 @@ class MotorCairo():
             yy = xy[1].encode('ascii', 'ignore')
             x = float(xx)
             y = float(yy)
-        except Exception, ex:
+        except Exception as ex:
             return 0, 0
         return x, y
 
@@ -119,17 +124,17 @@ class MotorCairo():
         cr.set_source(rad)
         cr.set_source_rgb(rgbfin[0],rgbfin[1],rgbfin[2])
         while b < len(cadena_svg):
-            if (cadena_svg[b] == u'm'):
+            if (cadena_svg[b] == 'm'):
                 letr = cadena_svg[b]
                 b = b + 2
-            if (cadena_svg[b] == u'c'):
+            if (cadena_svg[b] == 'c'):
                 letr = cadena_svg[b]
                 b = self.rel_c(b, cadena_svg, cr)
-            elif (cadena_svg[b] == u'l'):
+            elif (cadena_svg[b] == 'l'):
                 letr = cadena_svg[b]
                 b = self.rel_l(b, cadena_svg, cr)
             else:
-                if letr == u'c':
+                if letr == 'c':
                     b = self.rel_c(b - 1, cadena_svg, cr)
 
                 else:

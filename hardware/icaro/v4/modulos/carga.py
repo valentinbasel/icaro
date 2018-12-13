@@ -11,8 +11,10 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
+from gi.repository import Gtk
+from gi.repository import Gdk
 import time
-import gtk
+#import gtk
 import util
 import sys
 import os
@@ -23,18 +25,18 @@ class Cargador():
 
     def __init__(self, ruta,mensajes):
         self.mensajes=mensajes
-        self.win = gtk.Window()
+        self.win = Gtk.Window()
         self.win.set_resizable(False)
         self.win.set_default_size(600, 600)
-        box1 = gtk.VBox(False, 3)
-        pixbufanim = gtk.gdk.PixbufAnimation(
-            sys.path[0] + "/hardware/icaro/v4/imagenes/gif/icr.gif")
-        image = gtk.Image()
-        image.set_from_animation(pixbufanim)
+        box1 = Gtk.VBox(False, 3)
+        pixbufanim = (sys.path[0] + "/hardware/icaro/v4/imagenes/gif/icr.gif")
+        image = Gtk.Image()
+        image.set_from_file(pixbufanim)
+        #image.set_from_animation(pixbufanim)
         image.show()
-        self.text = gtk.Label(
+        self.text = Gtk.Label(
             "conecta la placa al puerto USB y enciendela")
-        button = gtk.Button("aceptar")
+        button = Gtk.Button("aceptar")
         button.connect("clicked", self.aceptar)
         box1.pack_start(image, False, True, 1)
 

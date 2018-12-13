@@ -61,14 +61,17 @@ class DICC:
             comps[mod1].sort()
             for mod2 in range(len(comps[mod1])):
                 dat = self.datos_path.replace("/", ".")
-                clase = dat + "componentes.core." + \
-                    grupo[mod1] + "." + comps[mod1][mod2] + ".bloque"
-                print clase
-                obj = __import__(clase, fromlist=['CMP'])
-                instancia = obj.CMP()
-                img = str(
-                    self.path + grupo[mod1] + "/" + comps[mod1][mod2] + "/ico.png")
-                instancia.img = img
-                fila2.append(instancia)
+                if comps[mod1][mod2]!="__pycache__":
+                    clase = dat + "componentes.core." + grupo[mod1] + "." + comps[mod1][mod2] + ".bloque"
+
+
+                #exit()
+                    obj = __import__(clase, fromlist=['CMP'])
+                    instancia = obj.CMP()
+                    img = str(
+                        self.path + grupo[mod1] + "/" + comps[mod1][mod2] + "/ico.png")
+                    instancia.img = img
+                    #print(img)
+                    fila2.append(instancia)
             fila1.append(fila2)
         return fila1, grupo

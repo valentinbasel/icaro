@@ -24,7 +24,7 @@
 import sys
 import gtk
 import vte
-from utilidades_ventana import UTILIDADES
+from .utilidades_ventana import UTILIDADES
 
 
 class TERM_CLEMENTE:

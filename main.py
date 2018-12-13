@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  sin título.py
+#  main.py
 #
-#  Copyright 2013 valentin <valentin@localhost.localdomain>
+#  Copyright 2013 valentin <valentinbasel@gmail.com>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -26,13 +26,17 @@ import os
 import grp
 #import urllib
 #import tarfile
-import gtk
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+
+#import gtk
 
 from motor import MotorCairo
 from utilidades_ventana import UTILIDADES
 
 
-class VentanaGtk(MotorCairo, UTILIDADES):
+class VentanaGtk( MotorCairo,UTILIDADES):
 
     """ Class doc """
     botones = []
@@ -42,21 +46,31 @@ class VentanaGtk(MotorCairo, UTILIDADES):
 
     def __init__(self):
         """ Class initialiser """
-        self.window = gtk.Window()
-        self.area = gtk.DrawingArea()
+        self.window = Gtk.Window()
+        self.area = Gtk.DrawingArea()
         self.area.set_app_paintable(True)
         self.area.set_size_request(800, 600)
-        self.area.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-        self.area.add_events(gtk.gdk.POINTER_MOTION_MASK)
+        self.area.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        self.area.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
         self.area.connect("button-press-event", self.buttonpress_cb)
         self.area.connect("motion-notify-event", self.move_cb)
-        self.area.connect("expose-event", self.expose)
+        self.area.connect('draw',self.expose)
+        self.area.add_events(Gdk.EventMask.EXPOSURE_MASK |
+                             Gdk.EventMask.BUTTON_RELEASE_MASK |
+                             Gdk.EventMask.BUTTON_PRESS_MASK|
+                             Gdk.EventMask.POINTER_MOTION_MASK
+                             )
         self.window.connect("destroy", self.salir)
         self.window.add(self.area)
         self.window.show_all()
         self.yatocado = False
 
     def move_cb(self, event, b):
+
+
+        rgb = self.color(self.FONDO)
+        self.cr.set_source_rgb(rgb[0], rgb[1], rgb[2])
+        self.cr.paint()
         self.mousexy = b.get_coords()
         for boton in self.botones:
             rectmouse = (self.mousexy[0], self.mousexy[1], 10, 10)
@@ -64,21 +78,27 @@ class VentanaGtk(MotorCairo, UTILIDADES):
             # print presionado,"--",self.yatocado
             if presionado == None:
                 presionado = False
-            if presionado == True and self.yatocado <> boton.ide:
+            if presionado == True :#and self.yatocado != boton.ide:
                 self.yatocado = boton.ide
-                self.ff = self.area.window.cairo_create()
-                rgb = self.color(self.FONDO)
-                self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
-                self.ff.paint()
-                self.cr = self.area.window.cairo_create()
+                boton.tocado=1
+
+
                 y = 100
                 for t in boton.texto:
-                    self.texto(t, 300, y, (255, 255, 255), self.cr)
+                    #print(t)
+                    self.texto(t, 300, y, (0, 0, 0), self.cr)
                     y = y + 20
+
 
                 for boton in self.botones:
                     boton.update(self.cr)
+
+
                 return
+            #else:
+                #boton.tocado=0
+
+        self.area.queue_draw()
 
     def buttonpress_cb(self, win, event):
 
@@ -90,19 +110,25 @@ class VentanaGtk(MotorCairo, UTILIDADES):
                 return
 
     def salir(self, b):
-        gtk.main_quit()
+        Gtk.main_quit()
 
-    def fondo(self):
-        self.ff = self.area.window.cairo_create()
+    def fondo(self,cr):
+
+        self.cr =cr# self.area.window.cairo_create()
+
         rgb = self.color(self.FONDO)
-        self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
-        self.ff.paint()
-        self.cr = self.area.window.cairo_create()
+        self.cr.set_source_rgb(rgb[0], rgb[1], rgb[2])
+        self.cr.paint()
+
+
+        #self.cr = cr#self.area.window.cairo_create()
         for boton in self.botones:
             boton.update(self.cr)
 
+
     def expose(self, a, b):
-        self.fondo()
+        #print("dibujo")
+        self.fondo(b)
 
 
 class Boton():
@@ -121,6 +147,7 @@ class Boton():
         self.rect[1] = self.y
         self.texto = texto
         self.ide = ide
+        self.tocado=0
 
     def update(self, cr):
         self.pantalla.imagen(self.img, self.x, self.y, cr)
@@ -227,7 +254,7 @@ def main():
                        100,
                        310,
                        sys.path[0] + "/imagenes/main/icaro.png",
-                       "python " + sys.path[0] + "/lanzador.py " + bootloader,
+                       "python3 " + sys.path[0] + "/lanzador.py " + bootloader,
                        icr)
     BotonSalir = Boton(4,
                        ventana,
@@ -240,7 +267,7 @@ def main():
     ventana.botones.append(BotonPython)
     ventana.botones.append(BotonIcaro)
     ventana.botones.append(BotonSalir)
-    gtk.main()
+    Gtk.main()
     return 0
 
 if __name__ == '__main__':

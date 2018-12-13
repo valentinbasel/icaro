@@ -1,7 +1,7 @@
 import gtk
 import time
 import socket               # Import socket module
-from clemente.clemente import SERVIDOR
+from .clemente.clemente import SERVIDOR
 
 
 class GUI:
@@ -41,7 +41,7 @@ class GUI:
         #    self.label_socket.set_label("servidor socket: False")
         self.serv.send("status")
         pet = self.serv.recv(1024)
-        print pet
+        print(pet)
 
     def con(self, widget):
         if widget.get_active():

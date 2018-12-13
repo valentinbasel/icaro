@@ -21,7 +21,10 @@
 #  MA 02110-1301, USA.
 #
 #
-import gtk
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+#import gtk
 import matplotlib.pyplot as plt
 from collections import deque
 import socket               # Import socket module
@@ -241,7 +244,7 @@ class VENTANA:
                 val = line, a
                 sens.append(val)
         plt.ion()
-        plt.xlabel(u'tiempo')
+        plt.xlabel('tiempo')
         plt.legend()  # Creamos la caja con la leyenda
         plt.xlim([0, 100])
         plt.ylim([0, 1100])
@@ -259,10 +262,10 @@ class VENTANA:
         while(self.flag_live == True):
             for dato in sens:
                 cadena_an = "analogico," + str(dato[1])
-                print cadena_an
+                print(cadena_an)
                 self.sock.send(cadena_an)
                 peticion = self.sock.recv(1024)
-                print "sensor: ", str(dato[1]), " valor: ", peticion
+                print("sensor: ", str(dato[1]), " valor: ", peticion)
 
                 dat[dato[1]].appendleft(peticion)
                 datatoplot = dat[dato[1]].pop()
@@ -270,7 +273,7 @@ class VENTANA:
                 dato[0][0].set_ydata(dat[dato[1]])
             # print self.flag_live
             plt.pause(0.1)
-        print "salgo"
+        print("salgo")
 
     def on_clicked(self, widget, a):
         """ Function doc """
