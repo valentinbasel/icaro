@@ -24,17 +24,17 @@ import usb
 import sys
 
 class Pinguino4550(object):
-    name = 'Pinguino 4550'
+    name = 'Pinguino 2550'
     arch = 8
     bldr = 'boot4'
-    proc = '18f4550'
-    board = 'PINGUINO4550'
+    proc = '18f2550'
+    board = 'PINGUINO2550'
     vendor = 0x04D8
     product = 0xFEAA
     memstart = 0x0C00
     memend   = 0x8000
-    shortarg = '-p4550'
-    longarg = '--pinguino4550'
+    shortarg = '-p2550'
+    longarg = '--pinguino2550'
 
 class UPLOAD(object):
     """ upload .hex into pinguino device """
@@ -275,7 +275,7 @@ class UPLOAD(object):
         usbBuf[self.BOOT_ADDR_LO] = (address      ) & 0xFF
         usbBuf[self.BOOT_ADDR_HI] = (address >> 8 ) & 0xFF
         usbBuf[self.BOOT_ADDR_UP] = (address >> 16) & 0xFF
-        # write data packet   
+        # write data packet
         #return self.sendCommand(usbBuf)
         handle.bulkWrite(self.OUT_EP, usbBuf, self.TIMEOUT)
 
@@ -285,7 +285,7 @@ class UPLOAD(object):
         """ read a block of flash """
         usbBuf = [0] * self.MAXPACKETSIZE
         # command code
-        usbBuf[self.BOOT_CMD] = self.READ_FLASH_CMD 
+        usbBuf[self.BOOT_CMD] = self.READ_FLASH_CMD
         # size of block in bytes
         usbBuf[self.BOOT_CMD_LEN] = length
         # address of the block
@@ -302,7 +302,7 @@ class UPLOAD(object):
             total length is then DATABLOCKSIZE + 5 """
         usbBuf = [0xFF] * self.MAXPACKETSIZE
         # command code
-        usbBuf[self.BOOT_CMD] = self.WRITE_FLASH_CMD 
+        usbBuf[self.BOOT_CMD] = self.WRITE_FLASH_CMD
         # size of block
         usbBuf[self.BOOT_CMD_LEN] = len(datablock)
         # block's address
@@ -386,7 +386,7 @@ class UPLOAD(object):
                 return self.ERR_HEX_RECORD
         # max_address must be divisible by self.DATABLOCKSIZE
         max_address = max_address + erasedBlockSize - (max_address % erasedBlockSize)
-        # erase memory from board.memstart to max_address 
+        # erase memory from board.memstart to max_address
         numBlocksMax = (board.memend - board.memstart) / erasedBlockSize
         numBlocks    = (max_address - board.memstart) / erasedBlockSize
         if numBlocks > numBlocksMax:

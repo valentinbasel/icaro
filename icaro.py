@@ -427,7 +427,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
         # creo los botones de la toolbar
         botones_toolbar = self.crear_botones_bootlader(toolbar)
-        
+
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar:
             if dat[0] == 3:
@@ -784,7 +784,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.area.queue_draw()
 
         # self.area.queue_clear()
-        
+
         #~ self.alloc = self.area.get_allocation ( )
         #~ rect = gtk.gdk.Rectangle ( self.alloc.x, self.alloc.y, self.alloc.width, self.alloc.height )
         #~ self.window1.invalidate_rect ( rect, True )
@@ -800,7 +800,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         for obj in fon.objetos:
             obj.update()
 
-        
+
         return True
 
     def expose(self, event, b):

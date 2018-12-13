@@ -63,6 +63,7 @@ class DICC:
                 dat = self.datos_path.replace("/", ".")
                 clase = dat + "componentes.core." + \
                     grupo[mod1] + "." + comps[mod1][mod2] + ".bloque"
+                print clase
                 obj = __import__(clase, fromlist=['CMP'])
                 instancia = obj.CMP()
                 img = str(

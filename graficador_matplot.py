@@ -324,11 +324,11 @@ class VENTANA:
         for valor in cad:
             widget.append_text(valor)
 
-# def main(args):
-#    return 0
+def main(args):
+    return 0
 
-# if __name__ == '__main__':
-    #~ import sys
-    #~ sys.exit(main(sys.argv))
-#    vent=VentanaSens()
-#    gtk.main()
+if __name__ == '__main__':
+    #import sys
+    #sys.exit(main(sys.argv))
+    vent=VENTANA()
+    gtk.main()
