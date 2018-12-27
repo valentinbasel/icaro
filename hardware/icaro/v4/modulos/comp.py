@@ -38,6 +38,13 @@ class tool_compilador(object):
     def __init__(self):
         pass
 
+    def carga_buffer(self):
+        """TODO: Docstring for buffer.
+        :returns: TODO
+
+        """
+        return "c"
+
     def boton_cargador(self):
         """
         Envia los datos de la imagen y el texto que tiene que mostrar

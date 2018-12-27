@@ -437,16 +437,19 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         dir_source=(os.path.expanduser('~')+
                     "/"+self.firmware_ruta +
                     "firmware/source/"+archivo_nombre)
+
         self.ver = visor.visor_codigo(self,
                                     self.notebook2,
                                     self.firmware_ruta,
                                     "source/"+archivo_nombre,
-                                    "codigo fuente")
+                                    "codigo fuente",
+                                      self.carga_buffer())
         self.ver2 = visor.visor_codigo(self,
                                         self.notebook2,
                                         self.firmware_ruta,
                                         "temporal/log.dat",
-                                        "registro de compilación")
+                                        "registro",
+                                       "")
         self.window1.connect('delete-event', Gtk.main_quit)
         self.window1.set_icon_from_file(
             sys.path[0] +
