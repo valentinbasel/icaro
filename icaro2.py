@@ -332,42 +332,108 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.window1 = Gtk.Window()
         # ~ self.window1.fullscreen()
         titulo = "icaro " + version.strip("\n\r")
-        self.window1.set_title(titulo)
-        toolbar = Gtk.Toolbar()
-        #toolbar.set_style(Gtk.ToolbarStyle.BOTH_HORIZ)
+        #self.window1.set_title(titulo)
+
+        ## header Bar
+        hb = Gtk.HeaderBar()
+        hb.set_show_close_button(True)
+        hb.props.title = titulo
+        self.window1.set_titlebar(hb)
+
+
+        ## El box donde guardamos los botones para el header
+        box_header = Gtk.Box()
+        box_header.set_homogeneous(False)
+        box_header.set_orientation(Gtk.Orientation.HORIZONTAL)
+        hb.add(box_header)
+
+        ## EL BOTON DEL MENU
+        boton_menu_central = Gtk.Button()
+        image_menu = Gtk.Image.new_from_file("imagenes/icaro/menu.png")
+        label_menu=Gtk.Label("Menu")
+        menu_box=Gtk.Box()
+        menu_box.set_orientation(Gtk.Orientation.HORIZONTAL)
+        menu_box.add(image_menu)
+        menu_box.add(label_menu)
+        boton_menu_central.add(menu_box)
+        ##  popover
+        popover_menu = Gtk.Popover()
+        popover_menu.set_relative_to(boton_menu_central)
+        ## Box donde se guardan los botones del menu popover
+        box_popover_menu = Gtk.Box()
+        box_popover_menu.set_spacing(5)
+        box_popover_menu.set_orientation(Gtk.Orientation.VERTICAL)
+        popover_menu.add(box_popover_menu)
+        boton_menu_central.connect("clicked",
+                                   self.on_popover_clicked,popover_menu)
+
+
+        ## EL BOTON DEL MENU ESPECIFICO DE ICARO
+        ## GENERADO EN FUNCION DE comp.py PARA CADA GENERADOR DE CÓDIGOS
+
+        boton_menu_icaro = Gtk.Button()
+        img_boton,texto_boton = self.boton_cargador()
+        image = Gtk.Image.new_from_file(img_boton)
+        label_icr=Gtk.Label(texto_boton)
+        icr_box=Gtk.Box()
+        icr_box.set_orientation(Gtk.Orientation.HORIZONTAL)
+        icr_box.add(image)
+        icr_box.add(label_icr)
+        boton_menu_icaro.add(icr_box)
+        ##  popover
+        popover = Gtk.Popover()
+        popover.set_relative_to(boton_menu_icaro)
+        ## Box donde se guardan los botones del menu popover
+        box_popover = Gtk.Box()
+        box_popover.set_spacing(5)
+        box_popover.set_orientation(Gtk.Orientation.VERTICAL)
+        popover.add(box_popover)
+        boton_menu_icaro.connect("clicked", self.on_popover_clicked,popover)
+
+        ## EL BOTON DEL MENU BLOQUES
+
+        boton_menu_blq = Gtk.Button()
+        image_blq = Gtk.Image.new_from_file("imagenes/icaro/bloques.png")
+        label_blq=Gtk.Label("bloques")
+        blq_box=Gtk.Box()
+        blq_box.set_orientation(Gtk.Orientation.HORIZONTAL)
+        blq_box.add(image_blq)
+        blq_box.add(label_blq)
+        boton_menu_blq.add(blq_box)
+        ##  popover
+        popover_blq = Gtk.Popover()
+        popover_blq.set_relative_to(boton_menu_blq)
+        ## Box donde se guardan los botones del menu popover
+        box_popover_blq = Gtk.Box()
+        box_popover_blq.set_spacing(5)
+        box_popover_blq.set_orientation(Gtk.Orientation.VERTICAL)
+        popover_blq.add(box_popover_blq)
+        boton_menu_blq.connect("clicked", self.on_popover_clicked,popover_blq)
+
+
+        #empaqueto los botones del Menu
+        box_header.add(boton_menu_central)
+        box_header.add(boton_menu_icaro)
+        box_header.add(boton_menu_blq)
+        ##
 
         self.area = Gtk.DrawingArea()
         scrolled_window = Gtk.ScrolledWindow()
         scrolled_window2 = Gtk.ScrolledWindow()
-        #scrolled_window3 = Gtk.ScrolledWindow()
         table = Gtk.VBox(False, 0)
         notebook = Gtk.Notebook()
         self.notebook2 = Gtk.Notebook()
         hp = Gtk.HPaned()
         box2 = Gtk.HBox(False, 3)
-        #box1 = Gtk.VBox(False, 3)
-        #menu_bar = Gtk.MenuBar()
-
-        # empaqueto todo
-        # esta es la idea de usar un hpaned para poder achicar la pantalla
-        #, en las netbook no entra todo
         self.window1.add(box2)
-        #box1.pack_start(menu_bar, False, True, 1)
-        #box1.pack_start(box2, True, True, 1)
         scrolled_window.add(self.area)
-
-        #scrolled_window3.add(toolbar)
         scrolled_window2.add(notebook)
         self.notebook2.append_page(scrolled_window, Gtk.Label("bloques"))
-
         box2.pack_start(hp, True, True, 1)
-        #box2.pack_start(scrolled_window3, False, False, 2)
-
         hp.pack2(self.notebook2, True, True)
         hp.pack1(scrolled_window2, True, True)
         archivo_nombre = self.cfg.get("pic", "arch")
         self.valor_datos_comp["fin "] = self.cfg.get("pic", "cierrebloque")
-
         dir_source=(os.path.expanduser('~')+
                     "/"+self.firmware_ruta +
                     "firmware/source/"+archivo_nombre)
@@ -376,13 +442,11 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                     self.firmware_ruta,
                                     "source/"+archivo_nombre,
                                     "codigo fuente")
-
         self.ver2 = visor.visor_codigo(self,
                                         self.notebook2,
                                         self.firmware_ruta,
                                         "temporal/log.dat",
                                         "registro de compilación")
-        #hp.set_position(500)
         self.window1.connect('delete-event', Gtk.main_quit)
         self.window1.set_icon_from_file(
             sys.path[0] +
@@ -419,16 +483,30 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         #toolbar.show()
 
         # creo los botones de la toolbar
-        botones_toolbar = self.crear_botones_bootlader(toolbar)
+        botones_toolbar_compilador = self.crear_botones_bootlader()
+        botones_toolbar_bloques = self.crear_botones_bloques()
 
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
-        #for dat in botones_toolbar:
-        #    if dat[0] == 3:
-                #toolbar.append_space()
-        #        pass
-        #    if dat[0] == 1 or dat[0] == 2:
-        #        self.crear_toolbuttons(
-        #            dat[0], dat[1], dat[2], dat[3], dat[4], dat[5], dat[6])
+        for dat in botones_toolbar_compilador:
+            self.crear_toolbuttons(
+                                    box_popover,
+                                    dat[0],
+                                    dat[1],
+                                    dat[2],
+                                    dat[3],
+                                    dat[4])
+
+        # creo los botones de la toolbar BLOQUES
+        for dat in botones_toolbar_bloques:
+            self.crear_toolbuttons(
+                                    box_popover_blq,
+                                    dat[0],
+                                    dat[1],
+                                    dat[2],
+                                    dat[3],
+                                    dat[4])
+
+
         #scrolled_window.set_size_request(500, 800)
         scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC,Gtk.PolicyType.AUTOMATIC)
         #scrolled_window.show()
@@ -501,7 +579,10 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         #self.cursores.append(edicion)
         self.definir_cursor(1)
 
-    # def crear_botones_bootlader(self,toolbar):
+    def on_popover_clicked(self, button,popover):
+        popover.show_all()
+
+    def crear_botones_bootlader(self):
         # botones_inic=[
             # [1, toolbar, Gtk.STOCK_NEW, "New",
              # self.tooltip["nuevo"], self.nuevo, None],
@@ -512,15 +593,16 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             # [1, toolbar, Gtk.STOCK_QUIT, "Quit",
              # self.tooltip["salir"], self.salir, None],
             # [3]]
-        # boton_medio=[]
-        # for linea in self.carga_info_botones():
-            # boton_medio.append([2,toolbar,
-                                # sys.path[0]+"/"+self.icaro_dir+linea[0],
-                                # linea[1],
-                                # self.tooltip[linea[2]],
-                                # linea[3],
-                                # linea[4]
-                                # ])
+        boton_medio=[]
+        for linea in self.carga_info_botones():
+            boton_medio.append([
+                                sys.path[0]+"/"+self.icaro_dir+linea[0],
+                                linea[1],
+                                self.tooltip[linea[2]],
+                                linea[3],
+                                linea[4]
+                                ])
+
         # boton_fin=[
             # [1, toolbar, Gtk.STOCK_HELP, "Help",
              # self.tooltip["ayuda"], self.ayuda, None],
@@ -541,54 +623,83 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             # [1, toolbar, Gtk.STOCK_ZOOM_100, "zoom 1:1",
              # "", self.menuitem_response, "zoomcero"],
         # ]
-        # botones_final=botones_inic+ boton_medio + boton_fin
-        # return botones_final
+        botones_final = boton_medio # botones_inic+ boton_medio + boton_fin
+        return botones_final
+
+    def crear_botones_bloques(self):
+        boton = [
+                    [sys.path[0]+"/imagenes/bloques/lapiz.png",
+                     "Lapiz",
+                    self.tooltip["lapiz"],
+                    self.dibujo,
+                    1
+                    ],
+                    [sys.path[0]+"/imagenes/bloques/mover.png",
+                     "Mover",
+                    self.tooltip["mover"],
+                    self.dibujo,
+                    2
+                    ],
+                    [sys.path[0]+"/imagenes/bloques/borrar.png",
+                     "Borrar",
+                    self.tooltip["borrar"],
+                    self.dibujo,
+                    3
+                    ],
+                    [sys.path[0]+"/imagenes/bloques/editar.png",
+                     "Editar",
+                    self.tooltip["editar"],
+                    self.dibujo,
+                    4
+                    ],
+                ]
+        #for linea in self.carga_info_botones():
+        #    boton.append([
+        #                        sys.path[0]+"/"+self.icaro_dir+linea[0],
+        #                        linea[1],
+        #                        self.tooltip[linea[2]],
+        #                        linea[3],
+        #                        linea[4]
+        #                        ])
+        # boton_fin=[
+            # [1, toolbar, Gtk.STOCK_HELP, "Help",
+             # self.tooltip["ayuda"], self.ayuda, None],
+            # [3],
+            # [1, toolbar, Gtk.STOCK_ADD, "Pen",
+             # self.tooltip["lapiz"], self.dibujo, 1],
+            # [1, toolbar, Gtk.STOCK_SELECT_COLOR, "Move",
+             # self.tooltip["mover"], self.dibujo, 2],
+            # [1, toolbar, Gtk.STOCK_DELETE, "Erase",
+             # self.tooltip["borrar"], self.dibujo, 3],
+            # [1, toolbar, Gtk.STOCK_EDIT,
+             # "Edit", "", self.dibujo, 4],
+            # [3],
+            # [1, toolbar, Gtk.STOCK_ZOOM_IN, "agrandar",
+             # "", self.menuitem_response, "zoomas"],
+            # [1, toolbar, Gtk.STOCK_ZOOM_OUT, "achicar",
+             # "", self.menuitem_response, "zoomenos"],
+            # [1, toolbar, Gtk.STOCK_ZOOM_100, "zoom 1:1",
+             # "", self.menuitem_response, "zoomcero"],
+        # ]
+        return boton
 
 
-    #def crear_toolbuttons(self, tipo, toolbar, img, nombre, tooltip, func, metodos):
+    def crear_toolbuttons(self, box_popover, img, nombre, tooltip, func, metodos):
         # creo los botones de la toolbar
-        #if tipo == 1:
-        #    iconw = Gtk.Image()
-        #    iconw.set_from_stock(img, 30)
-        #    boton=Gtk.ToolButton()
+        label = Gtk.Label(nombre)
+        image = Gtk.Image.new_from_file(img)
+        box_boton=Gtk.Box()
+        box_boton.set_homogeneous(False)
+        box_boton.set_orientation(Gtk.Orientation.HORIZONTAL)
+        box_boton.set_spacing(5)
+        box_boton.add(image)
+        box_boton.add(label)
 
-        #    boton.set_label(nombre)
-        #    boton.set_icon_widget(iconw)
-
-        #    boton.set_tooltip_text(tooltip)
-        #    boton.connect("clicked",func,metodos)
-            #toolbar.insert(boton,0)
-
-            #tool_button = toolbar.insert(
-            #    _(nombre),
-            #    tooltip,
-            #    "Private",
-            #    iconw,
-             #   func, metodos)
-        #if tipo == 2:
-        #    iconw = Gtk.Image()
-        #    iconw.set_from_file(img)
-        #    label=Gtk.Label(nombre)
-        #    boton=Gtk.ToolButton()
-
-            #print(img)
-
-        #    boton.set_label_widget(label)
-        #    boton.set_icon_widget(iconw)
-        #    boton.set_tooltip_text(tooltip)
-
-         #   boton.connect("clicked",func,metodos)
-
-            #toolbar.insert(boton,0)
-
-            #iconw = Gtk.Image()
-            #iconw.set_from_file(img)
-            #tool_button = toolbar.append_item(
-            #    _(nombre),
-            #    tooltip,
-            #    "Private",
-            #    iconw,
-            #    func, metodos)
+        boton_menu = Gtk.Button()
+        boton_menu.set_tooltip_text(tooltip)
+        boton_menu.add(box_boton)
+        boton_menu.connect("clicked", func,metodos)
+        box_popover.add(boton_menu)
 
     def definir_cursor(self, b):
         #print(b)

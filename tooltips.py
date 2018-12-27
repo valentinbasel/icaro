@@ -31,6 +31,7 @@ dicc = {
     _("mover"): _("herramienta para mover los componentes"),
     _("borrar"): _("herramienta para borrar los componentes"),
     _("lapiz"): _("herramienta para colocación de componentes"),
+    _("editar"): _("herramienta para editar los bloques de datos"),
     _("compilar"): _("compila el bloque"),
     _("cargar"): _("carga el codigo en el pic"),
     _("tortucaro"): _("Prepara el hardware para trabajar con usb CDC"),

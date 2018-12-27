@@ -911,22 +911,22 @@ class comp_dat_arg(FormaSvg):
         self.cadena_intermedia = ""
 
     def cuadro_texto(self, x, y):
-        window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        window = Gtk.Window()#Gtk.WINDOW_TOPLEVEL)
         window.set_resizable(False)
         window.set_modal(True)
         window.set_border_width(0)
         window.move(x, y)
         window.set_title('ingrese un valor')
         window.set_default_size(100, 200)
-        entry = gtk.Entry()
-        label = gtk.Label("valor")
-        BotonAceptar = gtk.Button("aceptar")
+        entry = Gtk.Entry()
+        label = Gtk.Label("valor")
+        BotonAceptar = Gtk.Button("aceptar")
         BotonAceptar.connect("clicked", self.boton, window, entry)
-        window.add_events(gtk.gdk.KEY_PRESS_MASK)
+        window.add_events(Gdk.EventMask.KEY_PRESS_MASK)
         window.connect("key_press_event", self.keypress_cb, window, entry)
-        boxv = gtk.VBox(False, 2)
-        boxh = gtk.HBox(False, 2)
-        boxh2 = gtk.HBox(False, 2)
+        boxv = Gtk.VBox(False, 2)
+        boxh = Gtk.HBox(False, 2)
+        boxh2 = Gtk.HBox(False, 2)
         boxh.pack_start(label, True, True, 1)
         boxh.pack_start(entry, True, True, 1)
         boxh2.pack_start(BotonAceptar, True, True, 1)
@@ -944,7 +944,7 @@ class comp_dat_arg(FormaSvg):
             window.hide()
 
     def boton(self, b, window, entry):
-        self.texto = entry.get_text().decode('utf8')
+        self.texto = entry.get_text()#.decode('utf8')
         self.pulsado = 0
         print("este es el boton de la ventana", self.texto)
         self.ventana.boton_mouse = [0, 0, 0, 0]

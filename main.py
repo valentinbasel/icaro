@@ -247,14 +247,14 @@ def main():
                         100,
                         160,
                         sys.path[0] + "/imagenes/main/python.png",
-                        "python " + sys.path[0] + "/lanzador.py python",
+                        "python3.6 " + sys.path[0] + "/lanzador.py python",
                         pyt)
     BotonIcaro = Boton(2,
                        ventana,
                        100,
                        310,
                        sys.path[0] + "/imagenes/main/icaro.png",
-                       "python3 " + sys.path[0] + "/lanzador.py " + bootloader,
+                       "python3.6 " + sys.path[0] + "/lanzador.py " + bootloader,
                        icr)
     BotonSalir = Boton(4,
                        ventana,

@@ -12,6 +12,7 @@
 # GNU General Public License for more details.
 import os
 import os.path
+import subprocess
 #import sys
 from gi.repository import Gtk
 
@@ -125,20 +126,33 @@ class visor_codigo():
         #~ gtk.main_quit()
 #        self.window.hide()
 
-    def compilar(self, arg):
-        #dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
-        #cadena = dir_conf + "source/user.c"
-        cadena2 = self.buf.props.text
-        a = self.ventana.mensajes(
-            1, "Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
-        if a == True:
-            file = open( self.cadena_user_c , "w")
-            file.writelines(cadena2)
-            file.close()
-            i = util.compilar("main", self.ventana.cfg, self.dir_conf)
-
-            #i = carga.compilar_pic("main", self.ventana.cfg)
-            if i == 0:
-                self.ventana.mensajes(3, "la compilacion fue exitosa")
-            else:
-                self.ventana.mensajes(0, "hubo un error de compilacion")
+  #   def compilar(self, arg):
+        # #dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
+        # #cadena = dir_conf + "source/user.c"
+        # cadena2 = self.buf.props.text
+        # a = self.ventana.mensajes(
+            # 1, "Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
+        # if a == True:
+            # file = open( self.cadena_user_c , "w")
+            # file.writelines(cadena2)
+            # file.close()
+            # dir_icr = os.path.expanduser('~') + "/.icaro/v4/"
+            # #dir_conf = dir_icr + "firmware/"
+            # # todo esto tengo que cambiar ahora que estoy hacienod un modulo
+            # # icaro para cargar todo (en python2.7)
+            # #i =1  util.compilar("main", self.cfg, dir_conf)
+            # p = subprocess.run(["python",
+                                # "hardware/icaro/v4/modulos/pinguicaro.py",
+                                # "-c",
+                                # dir_icr,
+                                # "main"],stdout=subprocess.PIPE)
+            # i = p.returncode
+            # #if i == 1:
+            # #    self.mensajes(
+            # #        0, "no se encuentra el compilador sdcc en. Pruebe configurar el archivo config.ini y corregirlo")
+            # if i == 0:
+                # self.ventana.mensajes(3, "la compilacion fue exitosa")
+                # return 0
+            # else:
+                # self.ventana.mensajes(0, "hubo un error de compilacion")
+                # return 1
