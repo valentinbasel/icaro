@@ -48,7 +48,7 @@ class MOUSE(componente.Formas):
         if (self.ventana.diccionario[tip][1] == 1 or
             self.ventana.diccionario[tip][1] == 5 or
                 self.ventana.diccionario[tip][1] == 4):
-            self.conector_h[0] = self.ventana.mousexy[0] + 40
+            self.conector_h[0] = self.ventana.mousexy[0]
             for a in range(len(self.fondo.objetos)):
                 if (self.fondo.colliderect
                         (
@@ -78,4 +78,10 @@ class MOUSE(componente.Formas):
                 self.ventana.diccionario[tip][1],
             )
             self.fondo.render_svg(
-                self.ventana.cr, cuerpo, color, self.ventana.mousexy[0] + 40, self.ventana.mousexy[1], self.color_fon)
+                                    self.ventana.cr,
+                                    cuerpo,
+                                    color,
+                                    self.ventana.mousexy[0] ,
+                                    self.ventana.mousexy[1],
+                                    self.color_fon
+                                )

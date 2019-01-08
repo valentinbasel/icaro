@@ -919,6 +919,7 @@ class comp_dat_arg(FormaSvg):
         window.set_title('ingrese un valor')
         window.set_default_size(100, 200)
         entry = Gtk.Entry()
+        entry.set_text(self.texto)
         label = Gtk.Label("valor")
         BotonAceptar = Gtk.Button("aceptar")
         BotonAceptar.connect("clicked", self.boton, window, entry)
@@ -937,7 +938,7 @@ class comp_dat_arg(FormaSvg):
 
     def keypress_cb(self, a, event, window, entry):
         if event.keyval == 65293:
-            self.texto = entry.get_text().decode('utf8')
+            self.texto = entry.get_text()
             self.pulsado = 0
             print("este es el boton de la ventana", self.texto)
             self.ventana.boton_mouse = [0, 0, 0, 0]

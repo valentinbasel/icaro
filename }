@@ -120,9 +120,7 @@ class fondo(MotorCairo, Componentes):
             else:
                 dato_aux+=1
                 dato+=1
-        return (self.objetos[ultimo-1].posicion[0] ,
-                self.objetos[ultimo-1].posicion[0] ,
-                ultimo-1)
+        return self.objetos[ultimo-1].posicion
 
     def update(self):
         """
@@ -781,11 +779,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.tipo_componente = b
         self.seleccion_menu = 1
         self.definir_cursor(1)
-
-        #x,y,ultimo=self.fondo.mostrar_ultimo()
-        #self.crear_componente(b,x,y+50*self.diccionario[b][2])
-        #self.fondo.objetos[len(self.fondo.objetos)-1].pegado=1
-        #self.fondo.objetos[len(self.fondo.objetos)-1].pegado_a=ultimo
+        x,y=self.fondo.mostrar_ultimo()
+        self.crear_componente(b,x,y+60)#*self.diccionario[b][2])
+        print("presiono el componente",self.fondo.mostrar_ultimo())
         return
 
     def guardar(self, b, dato):
