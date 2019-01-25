@@ -39,7 +39,7 @@ class CMP:
             "componente": 1,
             "cant_puertos": 2,
             "color": (100, 100, 100),
-            "dato": " ",
+            "dato": "datos datos ",
                     "dato2": "1",
                     "valor": self.valor
         }

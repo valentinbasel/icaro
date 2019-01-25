@@ -41,7 +41,7 @@ class CMP:
             "componente": 1,
             "cant_puertos": 3,
             "color": (90, 90, 30),
-            "dato": 0,
+            "dato": "azar_color azar_color azar_color " ,
             "dato2": 1,
             "valor": self.valor
         }

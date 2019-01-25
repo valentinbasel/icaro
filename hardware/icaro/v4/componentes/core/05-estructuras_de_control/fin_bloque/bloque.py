@@ -27,22 +27,17 @@ class CMP:
 
     def __init__(self):
 
-        self.valor = [
-            "int ",
-            "valor",
-            " = ",
-            "valor",
-            ";"
-        ]
+        self.valor = [""]
         self.dicc = {
-            "nombre": "int",
-            "componente": 1,
-            "cant_puertos": 2,
-            "color": (10, 90, 10),
-            "dato": "datos datos ",
-                    "dato2": "2",
+            "nombre": "fin_bloque",
+            "componente": 3,
+            "cant_puertos": 0,
+            "color": (54,90,140),
+
+            "dato": "fin ",
+                    "dato2": "0",
                     "valor": self.valor
         }
-        self.tootips = ""
+        self.tootips = "simbolo } para cerrar el bloque de estructuras"
         self.img = ""
-        self.tab=0
+        self.tab=1

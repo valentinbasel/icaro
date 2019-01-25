@@ -121,7 +121,7 @@ class fondo(MotorCairo, Componentes):
                 dato_aux+=1
                 dato+=1
         return (self.objetos[ultimo-1].posicion[0] ,
-                self.objetos[ultimo-1].posicion[0] ,
+                self.objetos[ultimo-1].posicion[1] ,
                 ultimo-1)
 
     def update(self):
@@ -135,6 +135,7 @@ class fondo(MotorCairo, Componentes):
         rgb = self.color(fon.FONDO)
         self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
         self.ff.paint()
+        #print(self.objetos_datos)
         #print(self.lista_ordenada)
         #self.mostrar_ultimo()
         #self.imagen("compilar.png",0,0,ventana_principal.cr)
@@ -166,6 +167,15 @@ class crear_comp:
                 self.fondo,
                 self
                 )
+            for d in self.diccionario:
+                for ar in range(0,self.diccionario[b][2]):
+                    cad=self.diccionario[b][4].split(" ")
+                    #print(cad)
+                    if (self.diccionario[d][0]) == cad[ar]:
+                        self.crear_componente(d,
+                                          x+80+(len(self.diccionario[b][0])*6),
+                                          y+(ar*40))
+
             self.fondo.identificador += 1
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
@@ -196,8 +206,11 @@ class crear_comp:
                 self,
                 )
             self.fondo.objetos.append(c1)
-            self.fondo.identificador += 1
+            #self.fondo.identificador += 1
             self.fondo.lista_ordenada.append(0)
+
+        if self.diccionario[b][1] == 3:
+            self.fondo.identificador += 1
             c1 = componente_bloque_dos(
                 x,
                 y + 80,
@@ -310,7 +323,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     valor_tecla = ""
     tecla_enter = 0
     cadena_pinguino = []
-    seleccion_menu = 1
+    seleccion_menu = 2
     tipo_componente = 1
     diccionario = {}
     tooltip = {}
@@ -450,15 +463,17 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.window1.add(box2)
         scrolled_window.add(self.area)
         scrolled_window2.add(notebook)
-        self.notebook2.append_page(scrolled_window, Gtk.Label("bloques"))
-        box2.pack_start(hp, True, True, 1)
-        hp.pack2(self.notebook2, True, True)
+
+        box2.pack_start(self.notebook2, True, True, 1)
+
         hp.pack1(scrolled_window2, True, True)
         archivo_nombre = self.cfg.get("pic", "arch")
         self.valor_datos_comp["fin "] = self.cfg.get("pic", "cierrebloque")
         dir_source=(os.path.expanduser('~')+
                     "/"+self.firmware_ruta +
                     "firmware/source/"+archivo_nombre)
+
+        self.notebook2.append_page(hp, Gtk.Label("bloques"))
 
         self.ver = visor.visor_codigo(self,
                                     self.notebook2,
@@ -472,6 +487,10 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                         "temporal/log.dat",
                                         "registro",
                                        "")
+
+
+        hp.pack2(scrolled_window, True, True)
+        hp.set_position(130)
         self.window1.connect('delete-event', Gtk.main_quit)
         self.window1.set_icon_from_file(
             sys.path[0] +
@@ -522,14 +541,14 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                     dat[4])
 
         # creo los botones de la toolbar BLOQUES
-        for dat in botones_toolbar_bloques:
-            self.crear_toolbuttons(
-                                    box_popover_blq,
-                                    dat[0],
-                                    dat[1],
-                                    dat[2],
-                                    dat[3],
-                                    dat[4])
+        #for dat in botones_toolbar_bloques:
+        #    self.crear_toolbuttons(
+        #                            box_popover_blq,
+        #                            dat[0],
+        #                            dat[1],
+        #                            dat[2],
+        #                            dat[3],
+        #                            dat[4])
 
 
         #scrolled_window.set_size_request(500, 800)
@@ -544,7 +563,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         notebook.set_tab_pos(Gtk.PositionType.LEFT)
         label = Gtk.Label(self.diccionario[self.lista[0]][1])
         notebook.append_page(table, label)
-        button = Gtk.RadioButton()
+        button = Gtk.Button()
         ## aca cargo los datos de cada bloque ##
         for i in range(1, len(self.lista)):
             if self.diccionario[self.lista[i]][0] == "notebook":
@@ -557,7 +576,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                     self.diccionario[self.lista[i]][0],
                     self.diccionario[self.lista[i]][0]
                 )
-                button = Gtk.RadioButton.new_from_widget(button)
+                button = Gtk.Button()#Gtk.RadioButton.new_from_widget(button)
                 button.set_tooltip_text(self.diccionario[self.lista[i]][6])
                 button.add(caja)
                 button.connect("clicked", self.botones, self.lista[i])
@@ -577,6 +596,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.area.connect("draw", self.expose)
         self.window1.connect("key_press_event", self.keypress_cb)
         self.window1.connect("key_release_event", self.keyrelease_cb)
+
         #self.area.realize()
 
 
@@ -602,7 +622,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         #                    "/imagenes/mouse/edicion.png")
         #edicion = Gtk.gdk.Cursor(display, pixbuf, 6, 18)
         #self.cursores.append(edicion)
-        self.definir_cursor(1)
+        self.definir_cursor(2)
+
 
     def on_popover_clicked(self, button,popover):
         popover.show_all()
@@ -778,15 +799,40 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
     def botones(self, event, b):
-        self.tipo_componente = b
-        self.seleccion_menu = 1
-        self.definir_cursor(1)
+        # el tipo de componente que puede ser es:
+        # 1: componente de bloques General
+        # 4: componente de cero argumentos
+        # 5: componente bloque 1
+        # 3: componente bloque 2
+        # 6: componente de argumentos
+        # 7: componente de argumentos con imagen
 
-        #x,y,ultimo=self.fondo.mostrar_ultimo()
-        #self.crear_componente(b,x,y+50*self.diccionario[b][2])
-        #self.fondo.objetos[len(self.fondo.objetos)-1].pegado=1
-        #self.fondo.objetos[len(self.fondo.objetos)-1].pegado_a=ultimo
+        c = self.diccionario[b][1]
+        if (c == 1 or c == 3 or c == 4 or c == 5):
+            self.seleccion_menu = 1
+            self.definir_cursor(1)
+            self.tipo_componente = b
+            x,y,ultimo=self.fondo.mostrar_ultimo()
+            print(y)
+            self.crear_componente(b,x,y+(60*self.diccionario[b][2]))
+            self.fondo.objetos[len(self.fondo.objetos)-1].pegado=1
+            self.fondo.objetos[len(self.fondo.objetos)-1].pegado_a=ultimo
+        if (c ==6 or c == 7):
+            self.seleccion_menu = 1
+            self.definir_cursor(1)
+            self.tipo_componente = b
+            x,y,ultimo=self.fondo.mostrar_ultimo()
+            if (len(fondo.objetos_datos)>0):
+                print(fondo.objetos_datos[len(fondo.objetos_datos)-1])
+            self.crear_componente(b,x+160,y)
+
+            #self.fondo.objetos[len(self.fondo.objetos)-1].pegado=1
+            #self.fondo.objetos[len(self.fondo.objetos)-1].pegado_a=ultimo
+
+        self.seleccion_menu = 2
+        self.definir_cursor(2)
         return
+
 
     def guardar(self, b, dato):
         pagina = self.notebook2.get_current_page()
@@ -969,17 +1015,17 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
     def menu(self, event):
         menu = Gtk.Menu()
-        dibujar = Gtk.MenuItem(_("Pen"))
+        #dibujar = Gtk.MenuItem(_("Pen"))
         mover = Gtk.MenuItem(_("Move"))
         editar = Gtk.MenuItem(_("Edit"))
         eliminar = Gtk.MenuItem(_("Erase"))
         # Agregar los items al menu
-        menu.append(dibujar)
+        #menu.append(dibujar)
         menu.append(mover)
         menu.append(editar)
         menu.append(eliminar)
         # Se conectan las funciones de retrollamada a la senal "activate"
-        dibujar.connect_object("activate", self.MenuRespuesta, 1)
+        #dibujar.connect_object("activate", self.MenuRespuesta, 1)
         mover.connect_object("activate", self.MenuRespuesta, 2)
         eliminar.connect_object("activate", self.MenuRespuesta, 3)
         editar.connect_object("activate", self.MenuRespuesta, 4)
