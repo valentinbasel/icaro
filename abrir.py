@@ -19,7 +19,7 @@ from componente import *
 
 def abrir(diccio, ruta, fon, ventana):
     # Ahora uso pickle para guardar los objectos
-    file = open(ruta, "r")
+    file = open(ruta, "rb")
     # La lista_auxiliar guarda los valores del tam
     # de objetos_datos y de objetos
     lista_auxiliar = pickle.load(file)

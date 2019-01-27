@@ -18,6 +18,9 @@ from gi.repository import Gtk, GObject, Gdk, cairo
 import os
 import sys
 
+# voy a agregar las funcion random para poder meter los bloques un poco mas
+# al azar asi no se solapan cuando creo los bloque datos
+import random
 import creditos
 import abrir
 import nuevo
@@ -405,6 +408,10 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                    self.on_popover_clicked,popover_menu)
 
 
+        #    (_("New"), _("Open"), _("Save"), _("Save as"),
+        #     _("Save as function"), _("Examples"), _("Exit")),
+
+
         ## EL BOTON DEL MENU ESPECIFICO DE ICARO/PYTHON/ARDUINO
         ## GENERADO EN FUNCION DE comp.py PARA CADA GENERADOR DE CÓDIGOS
         boton_menu_icaro = Gtk.Button()
@@ -425,32 +432,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         box_popover.set_orientation(Gtk.Orientation.VERTICAL)
         popover.add(box_popover)
         boton_menu_icaro.connect("clicked", self.on_popover_clicked,popover)
-
-        ## EL BOTON DEL MENU BLOQUES
-        boton_menu_blq = Gtk.Button()
-        image_blq = Gtk.Image.new_from_file("imagenes/icaro/bloques.png")
-        label_blq=Gtk.Label("bloques")
-        blq_box=Gtk.Box()
-        blq_box.set_orientation(Gtk.Orientation.HORIZONTAL)
-        blq_box.add(image_blq)
-        blq_box.add(label_blq)
-        boton_menu_blq.add(blq_box)
-        ##  popover
-        popover_blq = Gtk.Popover()
-        popover_blq.set_relative_to(boton_menu_blq)
-        ## Box donde se guardan los botones del menu popover
-        box_popover_blq = Gtk.Box()
-        box_popover_blq.set_spacing(5)
-        box_popover_blq.set_orientation(Gtk.Orientation.VERTICAL)
-        popover_blq.add(box_popover_blq)
-        boton_menu_blq.connect("clicked", self.on_popover_clicked,popover_blq)
-
-
         #empaqueto los botones del Menu
         box_header.add(boton_menu_central)
         box_header.add(boton_menu_icaro)
-        box_header.add(boton_menu_blq)
-        ##
 
         self.area = Gtk.DrawingArea()
         scrolled_window = Gtk.ScrolledWindow()
@@ -528,12 +512,23 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
         # creo los botones de la toolbar
         botones_toolbar_compilador = self.crear_botones_bootlader()
-        botones_toolbar_bloques = self.crear_botones_bloques()
+        botones_menu=self.crear_botones_menu()
+        #botones_toolbar_bloques = self.crear_botones_bloques()
+        for dat in botones_menu:
+            self.crear_toolbuttons(
+                                    box_popover_menu,
+                                    1,
+                                    dat[0],
+                                    dat[1],
+                                    dat[2],
+                                    dat[3],
+                                    dat[4])
 
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar_compilador:
             self.crear_toolbuttons(
                                     box_popover,
+                                    0,
                                     dat[0],
                                     dat[1],
                                     dat[2],
@@ -628,17 +623,26 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     def on_popover_clicked(self, button,popover):
         popover.show_all()
 
+    def crear_botones_menu(self):
+        """TODO: Docstring for crear_botones_menu.
+        :returns: TODO
+
+        """
+        botones=[
+            [ "document-new", "New",
+             self.tooltip["nuevo"], self.nuevo, None],
+            ["document-open", "Open",
+             self.tooltip["abrir"], self.abrir, None],
+            ["document-save", "Save",
+             self.tooltip["guardar"], self.guardar, 0],
+            ["application-exit", "Quit",
+             self.tooltip["salir"], self.salir, None]
+            ]
+        return botones
+
+
+
     def crear_botones_bootlader(self):
-        # botones_inic=[
-            # [1, toolbar, Gtk.STOCK_NEW, "New",
-             # self.tooltip["nuevo"], self.nuevo, None],
-            # [1, toolbar, Gtk.STOCK_OPEN, "Open",
-             # self.tooltip["abrir"], self.abrir, None],
-            # [1, toolbar, Gtk.STOCK_SAVE, "Save",
-             # self.tooltip["guardar"], self.guardar, 0],
-            # [1, toolbar, Gtk.STOCK_QUIT, "Quit",
-             # self.tooltip["salir"], self.salir, None],
-            # [3]]
         boton_medio=[]
         for linea in self.carga_info_botones():
             boton_medio.append([
@@ -730,10 +734,19 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         return boton
 
 
-    def crear_toolbuttons(self, box_popover, img, nombre, tooltip, func, metodos):
+    def crear_toolbuttons(self, box_popover, tipo_img,img, nombre, tooltip, func, metodos):
+        """
+        tipo_img == 0 es una imagen de archivo
+        tipo_img == 1 es una imagend e stock
+
+        """
         # creo los botones de la toolbar
         label = Gtk.Label(nombre)
-        image = Gtk.Image.new_from_file(img)
+        iconSize = Gtk.IconSize.LARGE_TOOLBAR
+        if tipo_img==0:
+            image = Gtk.Image.new_from_file(img)
+        if tipo_img==1:
+            image = Gtk.Image.new_from_icon_name(img, iconSize)
         box_boton=Gtk.Box()
         box_boton.set_homogeneous(False)
         box_boton.set_orientation(Gtk.Orientation.HORIZONTAL)
@@ -799,6 +812,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     # esta funcion captura el evento de presionar un boton de la toolbar
     # table y lo manda tipo_componentes
     def botones(self, event, b):
+
         # el tipo de componente que puede ser es:
         # 1: componente de bloques General
         # 4: componente de cero argumentos
@@ -822,12 +836,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             self.definir_cursor(1)
             self.tipo_componente = b
             x,y,ultimo=self.fondo.mostrar_ultimo()
-            if (len(fondo.objetos_datos)>0):
-                print(fondo.objetos_datos[len(fondo.objetos_datos)-1])
-            self.crear_componente(b,x+160,y)
-
-            #self.fondo.objetos[len(self.fondo.objetos)-1].pegado=1
-            #self.fondo.objetos[len(self.fondo.objetos)-1].pegado_a=ultimo
+            ra = random.randint(-40,40)
+            self.crear_componente(b,x+ra+300,y+ra)
 
         self.seleccion_menu = 2
         self.definir_cursor(2)
@@ -838,17 +848,21 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         pagina = self.notebook2.get_current_page()
         dialog = Gtk.FileChooserDialog("save..",
                                        None,
-                                       Gtk.FILE_CHOOSER_ACTION_SAVE,
-                                       (
-                                           Gtk.STOCK_CANCEL,
-                                           Gtk.RESPONSE_CANCEL,
-                                           Gtk.STOCK_SAVE,
-                                           Gtk.RESPONSE_OK
-                                       )
-                                       )
-        dialog.set_default_response(Gtk.RESPONSE_OK)
+                                       Gtk.FileChooserAction.SAVE,
+                                        (Gtk.STOCK_CANCEL,
+                                         Gtk.ResponseType.CANCEL,
+                                         Gtk.STOCK_OPEN,
+                                         Gtk.ResponseType.OK))
+                                       #(
+                                       #    Gtk.STOCK_CANCEL,
+                                       #    Gtk.RESPONSE_CANCEL,
+                                       #    Gtk.STOCK_SAVE,
+                                       #    Gtk.RESPONSE_OK
+                                       #)
+                                       #)
+        dialog.set_default_response( Gtk.ResponseType.OK)
         response = dialog.run()
-        if response == Gtk.RESPONSE_OK:
+        if response ==  Gtk.ResponseType.OK:
             cadena = dialog.get_filename()
             # separo la cadena para sacar la extension del archivo
             # si el tamaño de cadena2 es 1, el nombre del archivo no
@@ -883,25 +897,29 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                             self.ver.save_file(cadena)
                 if dato == 1:
                     crear.funcion(self.fondo, self, cadena,)
-            elif response == Gtk.RESPONSE_CANCEL:
+            elif response ==  Gtk.ResponseType.CANCEL:
                 pass
         dialog.destroy()
         #print(resp, cadena)
 
-    def abrir(self, dato):
+    def abrir(self, dato,b):
         pagina = self.notebook2.get_current_page()
         dialog = Gtk.FileChooserDialog(
             "Open..",
             None,
-            Gtk.FILE_CHOOSER_ACTION_OPEN,
-            (
-                Gtk.STOCK_CANCEL,
-                Gtk.RESPONSE_CANCEL,
-                Gtk.STOCK_OPEN,
-                Gtk.RESPONSE_OK
-            )
-        )
-        dialog.set_default_response(Gtk.RESPONSE_OK)
+            Gtk.FileChooserAction.OPEN,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+
+            #Gtk.FILE_CHOOSER_ACTION_OPEN,
+            #(
+            #    Gtk.STOCK_CANCEL,
+            #    Gtk.RESPONSE_CANCEL,
+            #    Gtk.STOCK_OPEN,
+            #    Gtk.RESPONSE_OK
+            #)
+        #)
+        dialog.set_default_response(Gtk.ResponseType.OK)
         try:
             dialog.set_current_folder(dato)
         except Exception as ex:
@@ -919,7 +937,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             dialog.add_filter(filter)
 
         response = dialog.run()
-        if response == Gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             if pagina == 0:
                 nuevo.nuevo(self.fondo)
                 inicial = componente_inicial(
@@ -943,11 +961,11 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
                 self.ver.open_file(self.ver.buffer, cadena)
 
-        elif response == Gtk.RESPONSE_CANCEL:
+        elif response == Gtk.ResponseType.CANCEL:
             print('Closed, no files selected')
         dialog.destroy()
 
-    def nuevo(self, dato):
+    def nuevo(self, dato,b):
         self.archivo = ""
         nuevo.nuevo(self.fondo)
         self.fondo.band = 0
@@ -1074,7 +1092,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.tecla_enter = 0
         self.valor_tecla = ""
 
-    def salir(self, dato):
+    def salir(self, dato,b):
         cartel = self.mensajes(1, "¿esta seguro que desea salir del sistema?")
         if cartel == 1:
             exit()
@@ -1090,7 +1108,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             # porque el sig dato determina si es una funcion o un icr/C
             self.abrir(sys.path[0])
         if string == _("Exit"):
-            self.salir(0)
+            self.salir(0,0)
         if string == _("New"):
             self.nuevo(0)
         if string == _("Save"):

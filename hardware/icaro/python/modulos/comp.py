@@ -51,7 +51,7 @@ class tool_compilador(object):
         Envia los datos de la imagen y el texto que tiene que mostrar
         la barra de tareas para estos botones especiales
         """
-        img =  "hardware/icaro/v4/imagenes/python.png"
+        img =  "hardware/icaro/python/imagenes/python.png"
         text = "Python"
         return img,text
 
