@@ -138,14 +138,12 @@ class fondo(MotorCairo, Componentes):
         rgb = self.color(fon.FONDO)
         self.ff.set_source_rgb(rgb[0], rgb[1], rgb[2])
         self.ff.paint()
-        #print(self.objetos_datos)
-        #print(self.lista_ordenada)
-        #self.mostrar_ultimo()
-        #self.imagen("compilar.png",0,0,ventana_principal.cr)
         if self.band == 1:
             if os.path.exists(self.img):
-                cr2 = ventana_principal.area.window.cairo_create()
-                respuesta = self.imagen(str(self.img), 0, 0, cr2)
+                respuesta = self.imagen(str(self.img),
+                                        0,
+                                        0,
+                                        ventana_principal.cr)
                 if respuesta == 1:
                     self.band = 0
         self.mouse_puntero.update()
@@ -628,14 +626,24 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         :returns: TODO
 
         """
+        print(sys.path[0] + "/" + self.icaro_dir + "ejemplos")
         botones=[
-            [ "document-new", "New",
+            [ "document-new", "Nevo",
              self.tooltip["nuevo"], self.nuevo, None],
-            ["document-open", "Open",
+            ["document-open", "Abrir",
              self.tooltip["abrir"], self.abrir, None],
-            ["document-save", "Save",
+            ["document-open", "Ejemplos",
+             self.tooltip["abrir"], self.abrir,sys.path[0] + "/" + self.icaro_dir + "ejemplos"],
+            ["document-save", "Guardar",
              self.tooltip["guardar"], self.guardar, 0],
-            ["application-exit", "Quit",
+
+            ["document-color", "color",
+             "", self.gestion_color, None],
+
+            ["document-color", "fondo",
+             "", self.imagen_fondo, None],
+
+            ["application-exit", "Salir",
              self.tooltip["salir"], self.salir, None]
             ]
         return botones
@@ -902,7 +910,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         dialog.destroy()
         #print(resp, cadena)
 
-    def abrir(self, dato,b):
+    def abrir(self,b, dato):
+        print(dato)
         pagina = self.notebook2.get_current_page()
         dialog = Gtk.FileChooserDialog(
             "Open..",
@@ -1097,6 +1106,57 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         if cartel == 1:
             exit()
 
+    def gestion_color(self,a,b):
+        """TODO: Docstring for gestion_color.
+        :returns: TODO
+
+        """
+        colorseldlg = Gtk.ColorSelectionDialog("selección de color")
+        #colorsel = colorseldlg.colorsel
+        response = colorseldlg.run()
+        if response - - Gtk.ResponseType.OK:
+            color=colorseldlg.get_color_selection()
+            color = color.get_current_color()
+            # color devuelve un Gtk.gdk.color
+            # pero el RGB es un integer de 65535 valores
+            # con una regla de tres simple lo adapto a los
+            # 255 valores que soporta pygame
+            self.fondo.FONDO = (
+                    (color.red * 255) / 65535,
+                    (color.green * 255) / 65535,
+                    (color.blue * 255) / 65535
+                )
+        else:
+            colorseldlg.hide()
+        colorseldlg.hide()
+    def imagen_fondo(self,a,b):
+        """TODO: Docstring for imagen_fondo.
+        :returns: TODO
+
+        """
+        dialog = Gtk.FileChooserDialog(
+                "Open..",
+                None,
+            Gtk.FileChooserAction.OPEN,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+
+        dialog.set_default_response(Gtk.ResponseType.OK)
+        filter = Gtk.FileFilter()
+        filter.set_name("png")
+        filter.add_pattern("*.png")
+        dialog.add_filter(filter)
+        response = dialog.run()
+        cadena = dialog.get_filename()
+        if response == Gtk.ResponseType.OK:
+            try:
+                self.fondo.carga_img(cadena)
+                dialog.destroy()
+            except Exception as ex:
+                self.mensajes(2, "archivo no valido")
+        elif response ==  Gtk.ResponseType.CANCEL:
+            dialog.destroy()
+#
 # ========================================================================
 # LAS RESPUESTAS DEL MENU
 # ========================================================================
@@ -1149,26 +1209,26 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
             elif response == Gtk.RESPONSE_CANCEL:
                 dialog.destroy()
-        if string == _("Color"):
+#         if string == _("Color"):
 
-            colorseldlg = Gtk.ColorSelectionDialog("selección de color")
-            colorsel = colorseldlg.colorsel
-            response = colorseldlg.run()
-            if response - - Gtk.RESPONSE_OK:
-                color = colorsel.get_current_color()
-                # color devuelve un Gtk.gdk.color
-                # pero el RGB es un integer de 65535 valores
-                # con una regla de tres simple lo adapto a los
-                # 255 valores que soporta pygame
-                self.fondo.FONDO = (
-                    (color.red * 255) / 65535,
-                    (color.green * 255) / 65535,
-                    (color.blue * 255) / 65535
-                )
-            else:
-                colorseldlg.hide()
+            # colorseldlg = Gtk.ColorSelectionDialog("selección de color")
+            # colorsel = colorseldlg.colorsel
+            # response = colorseldlg.run()
+            # if response - - Gtk.RESPONSE_OK:
+                # color = colorsel.get_current_color()
+                # # color devuelve un Gtk.gdk.color
+                # # pero el RGB es un integer de 65535 valores
+                # # con una regla de tres simple lo adapto a los
+                # # 255 valores que soporta pygame
+                # self.fondo.FONDO = (
+                    # (color.red * 255) / 65535,
+                    # (color.green * 255) / 65535,
+                    # (color.blue * 255) / 65535
+                # )
+            # else:
+                # colorseldlg.hide()
 
-            colorseldlg.hide()
+            # colorseldlg.hide()
         if string == _("About"):
 
             about = Gtk.AboutDialog()
