@@ -27,6 +27,7 @@ def abrir(diccio, ruta, fon, ventana):
     fon.objetos[0].posicion = obj_inic_pos
     fon_lto = pickle.load(file)
     fon.lista_ordenada = fon_lto
+    #ide = pickle.load(file)
     # print fon.lista_ordenada
     for obj_dato in range(lista_auxiliar[0]):
         pickle.load(file)
@@ -127,8 +128,8 @@ def abrir(diccio, ruta, fon, ventana):
             obj_col = pickle.load(file)
             obj_txt = pickle.load(file)
             obj_pga = pickle.load(file)
-            obj2_pos = pickle.load(file)
-            obj2_pga = pickle.load(file)
+            #obj2_pos = pickle.load(file)
+            #obj2_pga = pickle.load(file)
             fon.identificador += 1
             c1 = componente_bloque_uno(
                 obj_pos[0],
@@ -140,24 +141,67 @@ def abrir(diccio, ruta, fon, ventana):
                 ventana
             )
             fon.objetos.append(c1)
+
+            fon.tipo_obj.append(obj_tip)
             c1.pegado = 1
             c1.pegado_a = obj_pga
+            #fon.identificador += 1
+#             c1 = componente_bloque_dos(
+                # obj2_pos[0],
+                # obj2_pos[1],
+                # fon.identificador,
+                # obj_col,
+                # "fin ",
+                # fon,
+                # ventana
+            # )
+            # fon.objetos.append(c1)
+            # c1.pegado = 1
+            # c1.pegado_a = obj2_pga
+            # fon.tipo_obj.append(5)
+            # fon.tipo_obj.append(0)
+
+        if obj_tip == 3:
+            pickle.load(file)
+            obj_pos = pickle.load(file)
+            obj_col = pickle.load(file)
+            obj_txt = pickle.load(file)
+            obj_pga = pickle.load(file)
+            #obj2_pos = pickle.load(file)
+            #obj2_pga = pickle.load(file)
             fon.identificador += 1
             c1 = componente_bloque_dos(
-                obj2_pos[0],
-                obj2_pos[1],
+                obj_pos[0],
+                obj_pos[1],
                 fon.identificador,
                 obj_col,
-                "fin ",
+                obj_txt,
                 fon,
                 ventana
             )
             fon.objetos.append(c1)
-            c1.pegado = 1
-            c1.pegado_a = obj2_pga
-            fon.tipo_obj.append(5)
-            fon.tipo_obj.append(0)
 
+            fon.tipo_obj.append(obj_tip)
+            c1.pegado = 1
+
+            c1.pegado_a = obj_pga
+            #fon.identificador += 1
+           #  c1 = componente_bloque_dos(
+                # obj2_pos[0],
+                # obj2_pos[1],
+                # fon.identificador,
+                # obj_col,
+                # "fin ",
+                # fon,
+                # ventana
+            # )
+            # fon.objetos.append(c1)
+            # c1.pegado = 1
+            # c1.pegado_a = obj2_pga
+            # fon.tipo_obj.append(5)
+            # fon.tipo_obj.append(0)
+
+    #fon.identificador = ide
     file.close()
     return 0
 

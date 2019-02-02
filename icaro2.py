@@ -102,7 +102,6 @@ class fondo(MotorCairo, Componentes):
         self.band = 1
         # img representa el nombre y la ruta del archivo que contiene la imagen
         self.img = cadena
-        #print(cadena)
 
     def mostrar_ultimo(self):
         """TODO: Docstring for mostrar_ultimo.
@@ -112,20 +111,21 @@ class fondo(MotorCairo, Componentes):
         dato=0
         ultimo=1
         dato_aux=0
-        #print(len(self.lista_ordenada))
         while (dato<len(self.lista_ordenada)):
             if self.lista_ordenada[dato]==ultimo:
-
                 ultimo=dato_aux
-                #print(self.objetos[dato_aux-1].posicion)
                 dato=0
                 dato_aux=0
             else:
                 dato_aux+=1
                 dato+=1
-        return (self.objetos[ultimo-1].posicion[0] ,
-                self.objetos[ultimo-1].posicion[1] ,
-                ultimo-1)
+        ultimo_ide=0
+        for a in range(len(self.objetos)):
+            if self.objetos[a].ide == ultimo:
+                ultimo_ide=a
+        return (self.objetos[ultimo_ide].posicion[0] ,
+                self.objetos[ultimo_ide].posicion[1] ,
+                ultimo_ide)
 
     def update(self):
         """
@@ -171,7 +171,6 @@ class crear_comp:
             for d in self.diccionario:
                 for ar in range(0,self.diccionario[b][2]):
                     cad=self.diccionario[b][4].split(" ")
-                    #print(cad)
                     if (self.diccionario[d][0]) == cad[ar]:
                         self.crear_componente(d,
                                           x+80+(len(self.diccionario[b][0])*6),
@@ -207,7 +206,7 @@ class crear_comp:
                 self,
                 )
             self.fondo.objetos.append(c1)
-            #self.fondo.identificador += 1
+            self.fondo.tipo_obj.append(self.diccionario[b][1])
             self.fondo.lista_ordenada.append(0)
 
         if self.diccionario[b][1] == 3:
@@ -223,7 +222,6 @@ class crear_comp:
                 )
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
-            self.fondo.tipo_obj.append(0)
             self.fondo.lista_ordenada.append(0)
         if self.diccionario[b][1] == 6:
             c1 = comp_dat_arg(
@@ -646,6 +644,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             ["application-exit", "Salir",
              self.tooltip["salir"], self.salir, None]
             ]
+
+        #self.recarga_conf(self.icaro_dir, True)
         return botones
 
 
@@ -983,6 +983,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         B = self.cfg.get("icaro_config", "colorB")
         self.fondo.FONDO = (int(R), int(G), int(B))
         self.fondo.ultimo = 1
+
         inicial = componente_inicial(
             20,
             50,
@@ -1031,7 +1032,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.boton_mouse[event.button] = 1
         if event.button == 3:
             self.boton_mouse[event.button] = 0
-            self.menu(event)
+            #self.menu(event)
             return
         if self.seleccion_menu == 1:
             self.crear_componente(

@@ -330,11 +330,10 @@ class ComponenteCentral(FormaSvg):
             if botones_mouse[1] == 0:
                 self.pulsado = 0
                 self.ventana.seleccionado = 0
-            if (botones_mouse[1] == 1
+            if (botones_mouse[3] == 1
                     and self.fondo.collide(self.rectan,
                                            posic_mouse[0],
-                                           posic_mouse[1]) == True
-                    and self.ventana.seleccion_menu == 3):
+                                           posic_mouse[1]) == True):
                 for i in range(1, len(self.fondo.objetos_datos)):
                     self.fondo.objetos_datos[i].conectado = 0
                     self.fondo.objetos_datos[i].pegado = 0
@@ -686,9 +685,8 @@ class componente_cero_arg(FormaSvg):
             if botones_mouse[1] == 0:
                 self.pulsado = 0
                 self.ventana.seleccionado = 0
-            if (botones_mouse[1] == 1
-                    and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True
-                    and self.ventana.seleccion_menu == 3):
+            if (botones_mouse[3] == 1
+                    and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True):
                 for i in range(1, len(self.fondo.objetos_datos)):
                     self.fondo.objetos_datos[i].conectado = 0
                     self.fondo.objetos_datos[i].pegado = 0
@@ -734,6 +732,9 @@ class comp_dat_arg(FormaSvg):
         fondo,
         ventana,
     ):
+        self.doble_t=0
+        self.doble_t_band = 0
+        self.mouse_presionado = 0
         self.tab=0
         self.rectan = [0, 0, 80, 50]
         self.ide = identidad
@@ -800,9 +801,26 @@ class comp_dat_arg(FormaSvg):
         self.conector_m[0] = self.rectan[0]
         self.conector_m[1] = self.rectan[1] + 5
 
+        # esto es para detectar un doble tap del mouse y poder editar
+        if botones_mouse[1]==1 and self.mouse_presionado == 0:
+            self.doble_t_band+=1
+            #print(self.doble_t_band)
+            self.mouse_presionado = 1
+
+        if botones_mouse[1] == 0:
+            self.mouse_presionado = 0
+
+        if self.doble_t_band>0:
+            self.doble_t +=1
+
+        if self.doble_t >=10:
+            self.doble_t=0
+            self.doble_t_band =0
+        ###
+
         if (
-            botones_mouse[1] and
-            self.ventana.seleccion_menu == 4
+            botones_mouse[1] == 1 and
+            self.doble_t_band>1
             and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
             self.modificable == 1 and
             self.tecla == 0
@@ -892,9 +910,8 @@ class comp_dat_arg(FormaSvg):
             self.pegado2 = 0
             self.pegado_a2 = 0
 
-        if (botones_mouse[1] == 1
-                and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True
-                and self.ventana.seleccion_menu == 3):
+        if (botones_mouse[3] == 1
+                and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True):
             for i in range(1, len(self.fondo.objetos_datos)):
                 self.fondo.objetos_datos[i].conectado = 0
                 self.fondo.objetos_datos[i].pegado = 0
@@ -949,4 +966,7 @@ class comp_dat_arg(FormaSvg):
         self.pulsado = 0
         print("este es el boton de la ventana", self.texto)
         self.ventana.boton_mouse = [0, 0, 0, 0]
+        self.ventana.seleccion_menu = 2
+
         window.hide()
+
