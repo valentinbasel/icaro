@@ -46,7 +46,8 @@ class DICC:
         core.sort()
         for file in core:
             if (os.path.isdir(self.path + file)):
-                grupo.append(file)
+                if file != "__pycache__":
+                    grupo.append(file)
         for a in grupo:
             bloque = os.listdir(self.path + a)
             comp = []

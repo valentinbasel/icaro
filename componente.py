@@ -241,19 +241,10 @@ class Formas(FormaSvg):
         if comp == 5:
             cuerpo = self.comp_2(arg, tex, comp)
         if comp == 4:
-            print("conector o")
             cuerpo = self.comp_0(arg, tex, comp)
         return cuerpo
 
     def comp_0(self, arg, tex, comp):
-                    #        cuerpo = [
-                    #(0, -10, 10, 10),
-                    #(10, -7, 4, 4),
-                    #(50, -10, 10, 10),
-                    #(46, -7, 4, 4),
-                    #(0, 0, 60, 40),
-                    #]
-        print("creo el comp cero")
         cuerpo, cuerpo2 = self.crear_comp_0arg()
         return cuerpo
 
@@ -804,7 +795,6 @@ class comp_dat_arg(FormaSvg):
         # esto es para detectar un doble tap del mouse y poder editar
         if botones_mouse[1]==1 and self.mouse_presionado == 0:
             self.doble_t_band+=1
-            #print(self.doble_t_band)
             self.mouse_presionado = 1
 
         if botones_mouse[1] == 0:
@@ -957,14 +947,12 @@ class comp_dat_arg(FormaSvg):
         if event.keyval == 65293:
             self.texto = entry.get_text()
             self.pulsado = 0
-            print("este es el boton de la ventana", self.texto)
             self.ventana.boton_mouse = [0, 0, 0, 0]
             window.hide()
 
     def boton(self, b, window, entry):
         self.texto = entry.get_text()#.decode('utf8')
         self.pulsado = 0
-        print("este es el boton de la ventana", self.texto)
         self.ventana.boton_mouse = [0, 0, 0, 0]
         self.ventana.seleccion_menu = 2
 

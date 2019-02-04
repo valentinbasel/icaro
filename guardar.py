@@ -39,7 +39,7 @@ def guardar(obj, ruta, fondo):
         pickle.dump(fondo.objetos_datos[i].pegado_a, file)
         pickle.dump(fondo.objetos_datos[i].pegado_b, file)
     for i in range(1, len(fondo.objetos)):
-        print("-----------",fondo.tipo_obj[i])
+        #print("-----------",fondo.tipo_obj[i])
         if fondo.tipo_obj[i] == 1:
             pickle.dump(fondo.tipo_obj[i], file)
             pickle.dump(fondo.objetos[i].posicion, file)

@@ -10,26 +10,17 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+
+import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('GtkSource', '3.0')
 import os
 import os.path
 import subprocess
 from gi.repository import Gtk
 from gi.repository import Gdk, Pango
 from gi.repository import GtkSource
-
-##import pygtk
-#import carga
-#pygtk.require('2.0')
 import util
-
-#import gtk
-#if gtk.pygtk_version < (2, 10, 0):
-#    print("PyGtk 2.10 or later required for this example")
-#    raise SystemExit
-
-#import gtksourceview2
-#import pango
-
 import sys
 icaro_dir = "hardware/icaro/"
 sys.path.append(icaro_dir + "modulos")
@@ -51,8 +42,6 @@ class visor_codigo():
         notebook.append_page(vbox, Gtk.Label(etiqueta))
         tool1 = Gtk.Toolbar()
         tool1.show()
-        #iconw = Gtk.Image()
-        #iconw.set_from_stock(Gtk.STOCK_EXECUTE, 15)
         vbox.pack_start(tool1, False, False,1)
         sw = Gtk.ScrolledWindow()
         sw.add(view)
@@ -62,8 +51,6 @@ class visor_codigo():
         self.dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
         self.cadena_user_c = self.dir_conf + self.nombre_arch
         self.buf = self.open_file(self.buffer, self.cadena_user_c)
-        #iconw = Gtk.Image()
-        #iconw.set_from_stock(Gtk.STOCK_NEW, 15)
         tool = Gtk.ToolButton.new(Gtk.Image.new_from_stock(Gtk.STOCK_EXECUTE,
                                                            Gtk.IconSize.BUTTON),
                                                             "Recargar")
@@ -71,24 +58,11 @@ class visor_codigo():
         tool1.insert(tool, 0)
 
     def open_file(self, buffer, filename):
-        # get the new language for the file mimetype
-        #manager = buffer.get_data('languages-manager')
-
         if os.path.isabs(filename):
             path = filename
         else:
             path = os.path.abspath(filename)
-
-        #language = manager.guess_language(filename)
-        #if language:
-        #    buffer.set_highlight_syntax(True)
-        #    buffer.set_language(language)
-        #else:
-        #    print('No language found for file "%s"' % filename)
-        #    buffer.set_highlight_syntax(False)
-
-        # remove_all_marks(buffer)
-        self.load_file(buffer, path)  # TODO: check return
+        self.load_file(buffer, path)
         return buffer
 
     def load_file(self, buffer, path):
@@ -98,7 +72,6 @@ class visor_codigo():
         except:
             return False
         buffer.set_text(txt)
-        #buffer.set_data('filename', path)
         buffer.end_not_undoable_action()
         buffer.set_modified(False)
         buffer.place_cursor(buffer.get_start_iter())

@@ -21,23 +21,18 @@
 #  MA 02110-1301, USA.
 #
 #
+
+import gi
+gi.require_version('Gtk', '3.0')
 import sys
 import os
 import grp
-#import urllib
-#import tarfile
 from gi.repository import Gtk
-
 from gi.repository import Gdk
-
-#import gtk
-
 from motor import MotorCairo
 from utilidades_ventana import UTILIDADES
 
-
 class VentanaGtk( MotorCairo,UTILIDADES):
-
     """ Class doc """
     botones = []
     mousexy = [0, 0]
@@ -75,7 +70,6 @@ class VentanaGtk( MotorCairo,UTILIDADES):
         for boton in self.botones:
             rectmouse = (self.mousexy[0], self.mousexy[1], 10, 10)
             presionado = self.colliderect(boton.rect, rectmouse)
-            # print presionado,"--",self.yatocado
             if presionado == None:
                 presionado = False
             if presionado == True :#and self.yatocado != boton.ide:
@@ -85,7 +79,6 @@ class VentanaGtk( MotorCairo,UTILIDADES):
 
                 y = 100
                 for t in boton.texto:
-                    #print(t)
                     self.texto(t, 300, y, (0, 0, 0), self.cr)
                     y = y + 20
 
@@ -95,15 +88,11 @@ class VentanaGtk( MotorCairo,UTILIDADES):
 
 
                 return
-            #else:
-                #boton.tocado=0
-
         self.area.queue_draw()
 
     def buttonpress_cb(self, win, event):
 
         for boton in self.botones:
-            # print boton.rect
             presionado = self.collide(boton.rect, event.x, event.y)
             if presionado == True:
                 boton.accion()
@@ -113,21 +102,15 @@ class VentanaGtk( MotorCairo,UTILIDADES):
         Gtk.main_quit()
 
     def fondo(self,cr):
-
-        self.cr =cr# self.area.window.cairo_create()
-
+        self.cr =cr
         rgb = self.color(self.FONDO)
         self.cr.set_source_rgb(rgb[0], rgb[1], rgb[2])
         self.cr.paint()
-
-
-        #self.cr = cr#self.area.window.cairo_create()
         for boton in self.botones:
             boton.update(self.cr)
 
 
     def expose(self, a, b):
-        #print("dibujo")
         self.fondo(b)
 
 
@@ -203,8 +186,6 @@ def comprobacion_errores(ventana, mens):
 
     dir_conf = os.path.expanduser('~') + "/.icaro"
     if os.path.isdir(dir_conf) == 0:
-        # os.mkdir(dir_conf)
-
         hardware_dir = "hardware/icaro"
         mens.recarga_conf(hardware_dir, True)
         exit(1)
@@ -229,10 +210,6 @@ def main():
            "para manejo de robots autonomos",
            "usando el bootloader V4"]
     sal = ["Sale del sistema"]
-    # idle = ("idle -c 'import apicaro;" +
-            # " icaro=apicaro.puerto(); icaro.iniciar()'"
-            # )
-
     ventana.tama_letra = 20
     BotonTurtle = Boton(1,
                         ventana,
