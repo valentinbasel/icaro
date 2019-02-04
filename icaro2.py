@@ -26,7 +26,7 @@ import abrir
 import nuevo
 import guardar
 import tooltips
-import graficador_matplot
+#import graficador_matplot
 import util
 import carga
 import visor

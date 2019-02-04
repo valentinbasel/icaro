@@ -97,13 +97,13 @@ class UTILIDADES:
 
     def recarga_conf(self, icaro_dir, visual):
 
-        dir_firm_v2 = os.path.expanduser('~') + "/.icaro/v2/firmware/"
-        dir_conf_v2 = os.path.expanduser('~') + "/.icaro/v2/conf/"
-        np05_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/firmware"
-        conf_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/conf"
-        if os.path.exists(os.path.expanduser('~') + "/.icaro/v2") == False:
-            ruta_firmware_v2 = os.path.expanduser('~') + "/.icaro/v2"
-            os.system("mkdir -p " + ruta_firmware_v2)
+        #dir_firm_v2 = os.path.expanduser('~') + "/.icaro/v2/firmware/"
+        #dir_conf_v2 = os.path.expanduser('~') + "/.icaro/v2/conf/"
+        #np05_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/firmware"
+        #conf_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/conf"
+        #if os.path.exists(os.path.expanduser('~') + "/.icaro/v2") == False:
+        #    ruta_firmware_v2 = os.path.expanduser('~') + "/.icaro/v2"
+        #    os.system("mkdir -p " + ruta_firmware_v2)
         dir_firm_v4 = os.path.expanduser('~') + "/.icaro/v4/firmware/"
         dir_conf_v4 = os.path.expanduser('~') + "/.icaro/v4/conf/"
         np05_v4 = sys.path[0] + "/hardware/icaro/v4/micro/firmware"
@@ -125,10 +125,10 @@ class UTILIDADES:
         else:
             resp = True
         if resp == True:
-            os.system("rm -rf " + dir_conf_v2)
-            os.system("rm -rf " + dir_firm_v2)
-            os.system("cp -R " + np05_v2 + " " + dir_firm_v2)
-            os.system("cp -R " + conf_v2 + " " + dir_conf_v2)
+        #    os.system("rm -rf " + dir_conf_v2)
+        #    os.system("rm -rf " + dir_firm_v2)
+        #    os.system("cp -R " + np05_v2 + " " + dir_firm_v2)
+        #    os.system("cp -R " + conf_v2 + " " + dir_conf_v2)
             os.system("rm -rf " + dir_conf_v4)
             os.system("rm -rf " + dir_firm_v4)
             os.system("cp -R " + np05_v4 + " " + dir_firm_v4)
