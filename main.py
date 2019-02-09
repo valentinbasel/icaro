@@ -42,12 +42,15 @@ class VentanaGtk( MotorCairo,UTILIDADES):
     def __init__(self):
         """ Class initialiser """
         self.window = Gtk.Window()
+        #self.window.resize(800,600)
         self.area = Gtk.DrawingArea()
         self.area.set_app_paintable(True)
         self.area.set_size_request(800, 600)
         self.area.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
         self.area.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
         self.area.connect("button-press-event", self.buttonpress_cb)
+
+        self.area.connect("button-release-event", self.buttonrelease_cb)
         self.area.connect("motion-notify-event", self.move_cb)
         self.area.connect('draw',self.expose)
         self.area.add_events(Gdk.EventMask.EXPOSURE_MASK |
@@ -90,13 +93,33 @@ class VentanaGtk( MotorCairo,UTILIDADES):
                 return
         self.area.queue_draw()
 
+    def buttonrelease_cb(self, win,event):
+        for boton in self.botones:
+            boton.img_final = boton.img
+            boton.yf = boton.y
+            boton.update(self.cr)
+            if boton.apretado == 1:
+                boton.apretado = 0
+                #for a in range(1000):
+                #    self.area.queue_draw()
+                boton.accion()
+        self.area.queue_draw()
+
     def buttonpress_cb(self, win, event):
 
         for boton in self.botones:
             presionado = self.collide(boton.rect, event.x, event.y)
             if presionado == True:
-                boton.accion()
+                boton.img_final=boton.img_presionado
+                boton.yf=boton.yp
+                boton.update(self.cr)
+                #print("apretado")
+                self.area.queue_draw()
+                boton.apretado = 1
+                #boton.accion()
                 return
+
+
 
     def salir(self, b):
         Gtk.main_quit()
@@ -104,8 +127,10 @@ class VentanaGtk( MotorCairo,UTILIDADES):
     def fondo(self,cr):
         self.cr =cr
         rgb = self.color(self.FONDO)
-        self.cr.set_source_rgb(rgb[0], rgb[1], rgb[2])
-        self.cr.paint()
+        #self.cr.set_source_rgb(rgb[0], rgb[1], rgb[2])
+        #self.cr.paint()
+
+        self.imagen("imagenes/main/main.png", 0, 0, cr)
         for boton in self.botones:
             boton.update(self.cr)
 
@@ -118,22 +143,27 @@ class Boton():
 
     """ Class doc """
 
-    def __init__(self, ide, pantalla, x, y, img, ej, texto):
+    def __init__(self, ide, pantalla, x, y, img,imgpre, ej, texto):
         """ Class initialiser """
-        self.rect = [0, 0, 100, 100]
+        self.rect = [0, 0, 200, 200]
         self.pantalla = pantalla
         self.x = x
         self.y = y
+        self.yp = y+20
+        self.yf=self.y
         self.img = img
+        self.img_presionado=imgpre
         self.ejecuta = ej
         self.rect[0] = self.x
         self.rect[1] = self.y
         self.texto = texto
         self.ide = ide
         self.tocado=0
+        self.img_final=self.img
+        self.apretado = 0
 
     def update(self, cr):
-        self.pantalla.imagen(self.img, self.x, self.y, cr)
+        self.pantalla.imagen(self.img_final, self.x, self.yf, cr)
 
     def accion(self):
         if self.ejecuta == "salir":
@@ -211,26 +241,30 @@ def main():
            "usando el bootloader V4"]
     sal = ["Sale del sistema"]
     ventana.tama_letra = 20
-    BotonTurtle = Boton(1,
-                        ventana,
-                        100,
-                        10,
-                        sys.path[0] + "/imagenes/main/tortucaro.png",
-                        turtleart_ruta,
-                        tur)
+#     BotonTurtle = Boton(1,
+                        # ventana,
+                        # 100,
+                        # 10,
+                        # sys.path[0] + "/imagenes/main/tortucaro.png",
+                        # turtleart_ruta,
+                        # tur)
 
     BotonPython = Boton(3,
                         ventana,
-                        100,
-                        160,
-                        sys.path[0] + "/imagenes/main/python.png",
+                        50,
+                        50,
+                        sys.path[0] + "/imagenes/main/python2.png",
+                        sys.path[0] + "/imagenes/main/python2p.png",
+
                         "python3.6 " + sys.path[0] + "/lanzador.py python",
                         pyt)
     BotonIcaro = Boton(2,
                        ventana,
-                       100,
-                       310,
-                       sys.path[0] + "/imagenes/main/icaro.png",
+                       50,
+                       250,
+                       sys.path[0] + "/imagenes/main/icaro2.png",
+                       sys.path[0] + "/imagenes/main/icaro2p.png",
+
                        "python3.6 " + sys.path[0] + "/lanzador.py " + bootloader,
                        icr)
     BotonSalir = Boton(4,
@@ -238,9 +272,11 @@ def main():
                        100,
                        460,
                        sys.path[0] + "/imagenes/main/salir.png",
+                       sys.path[0] + "/imagenes/main/salir2p.png",
+
                        "salir",
                        sal)
-    ventana.botones.append(BotonTurtle)
+    #ventana.botones.append(BotonTurtle)
     ventana.botones.append(BotonPython)
     ventana.botones.append(BotonIcaro)
     ventana.botones.append(BotonSalir)
