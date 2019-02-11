@@ -43,7 +43,7 @@ class UTILIDADES:
     def __init__(self):
         pass
 
-    def preparar_icaro(self,icaro_dir, ruta, icr_dir, conf):
+    def preparar_icaro(self,icaro_dir, ruta, icr_dir, conf,confnombre):
         sys.path.append(ruta)
         # busca el archivo .ini dentro de la carpeta firmware
         if os.path.exists(conf):
@@ -56,7 +56,7 @@ class UTILIDADES:
             resp = self.mensajes(
                 1, "¿desea volver a copiar el directorio el directorio del firmware?")
             if resp == True:
-                a = self.recarga_conf(icr_dir, True)
+                a = self.recarga_conf(icr_dir,conf,confnombre, True)
             else:
                 exit()
 
@@ -95,7 +95,7 @@ class UTILIDADES:
             self.mensajes(0, "error, no se encuentra el archivo conf.ini")
             return False
 
-    def recarga_conf(self, icaro_dir, visual):
+    def recarga_conf(self, icaro_dir, conf,visual):
 
         #dir_firm_v2 = os.path.expanduser('~') + "/.icaro/v2/firmware/"
         #dir_conf_v2 = os.path.expanduser('~') + "/.icaro/v2/conf/"
@@ -104,19 +104,19 @@ class UTILIDADES:
         #if os.path.exists(os.path.expanduser('~') + "/.icaro/v2") == False:
         #    ruta_firmware_v2 = os.path.expanduser('~') + "/.icaro/v2"
         #    os.system("mkdir -p " + ruta_firmware_v2)
-        dir_firm_v4 = os.path.expanduser('~') + "/.icaro/v4/firmware/"
-        dir_conf_v4 = os.path.expanduser('~') + "/.icaro/v4/conf/"
+        dir_firm_v4 = os.path.expanduser('~') + "/"+conf+"/v4/firmware/"
+        dir_conf_v4 = os.path.expanduser('~') + "/"+conf+"/v4/conf/"
         np05_v4 = sys.path[0] + "/hardware/icaro/v4/micro/firmware"
         conf_v4 = sys.path[0] + "/hardware/icaro/v4/micro/conf"
-        if os.path.exists(os.path.expanduser('~') + "/.icaro/v4") == False:
-            ruta_firmware_v4 = os.path.expanduser('~') + "/.icaro/v4"
+        if os.path.exists(os.path.expanduser('~') + "/"+conf+"/v4") == False:
+            ruta_firmware_v4 = os.path.expanduser('~') + "/"+conf+"/v4"
             os.system("mkdir -p " + ruta_firmware_v4)
-        dir_firm_pyt = os.path.expanduser('~') + "/.icaro/python/firmware/"
-        dir_conf_pyt = os.path.expanduser('~') + "/.icaro/python/conf/"
+        dir_firm_pyt = os.path.expanduser('~') + "/"+conf+"/python/firmware/"
+        dir_conf_pyt = os.path.expanduser('~') + "/"+conf+"/python/conf/"
         np05_pyt = sys.path[0] + "/hardware/icaro/python/micro/firmware"
         conf_pyt = sys.path[0] + "/hardware/icaro/python/micro/conf"
-        if os.path.exists(os.path.expanduser('~') + "/.icaro/python") == False:
-            ruta_firmware_pyt = os.path.expanduser('~') + "/.icaro/python"
+        if os.path.exists(os.path.expanduser('~') + "/"+conf+"/python") == False:
+            ruta_firmware_pyt = os.path.expanduser('~') + "/"+conf+"/python"
             os.system("mkdir -p " + ruta_firmware_pyt)
 
         if visual == True:
@@ -139,7 +139,7 @@ class UTILIDADES:
             os.system("cp -R " + conf_pyt + " " + dir_conf_pyt)
 
             os.system("cp " + sys.path[0] + "/hardware/icaro/config.ini "+
-                    os.path.expanduser('~') + "/.icaro/")
+                    os.path.expanduser('~') + "/"+conf+"/")
 
             if visual == True:
                 self.mensajes(3, "se actualizo el firmware y la conf general")

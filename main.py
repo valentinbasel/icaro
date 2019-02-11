@@ -26,7 +26,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 import sys
 import os
-import grp
+
 from gi.repository import Gtk
 from gi.repository import Gdk
 from motor import MotorCairo
@@ -42,7 +42,7 @@ class VentanaGtk( MotorCairo,UTILIDADES):
     def __init__(self):
         """ Class initialiser """
         self.window = Gtk.Window()
-        #self.window.resize(800,600)
+        self.window.resize(800,600)
         self.area = Gtk.DrawingArea()
         self.area.set_app_paintable(True)
         self.area.set_size_request(800, 600)
@@ -172,6 +172,7 @@ class Boton():
 
 
 def comprobacion_errores(ventana, mens):
+    import grp
     Error = 0
     CadenaMensaje = "Se encontraron los siguientes errores: \n"
     MicrochipBool = "false"
@@ -214,21 +215,32 @@ def comprobacion_errores(ventana, mens):
         CadenaMensaje = CadenaMensaje + CadenaScript
         ventana.mensajes(2, CadenaMensaje)
 
-    dir_conf = os.path.expanduser('~') + "/.icaro"
+def comprobacion_dir(conf):
+    """TODO: Docstring for comprobacion_dir.
+    :returns: TODO
+
+    """
+    dir_conf = os.path.expanduser('~') + "/"+conf
     if os.path.isdir(dir_conf) == 0:
         hardware_dir = "hardware/icaro"
-        mens.recarga_conf(hardware_dir, True)
+        mens.recarga_conf(hardware_dir,conf, True)
         exit(1)
 
 
 def main():
-
+    so = sys.platform
+    print(so)
     mens = UTILIDADES()
     ventana = VentanaGtk()
-    comprobacion_errores(ventana, mens)
-    conf = os.path.expanduser('~') + "/.icaro/config.ini"
+    if so == 'linux':
+        comprobacion_errores(ventana, mens)
+        conf = ".icaro/"#config.ini"
+        comprobacion_dir(conf)
+    else:
+        conf = "conficaro/"#config.ini"
+        comprobacion_dir(conf)
 
-    cfg = mens.carga_conf(conf)
+    cfg = mens.carga_conf(os.path.expanduser('~') +"/"+ conf+"config.ini")
     turtleart_ruta = cfg.get("general", "turtlear")
     bootloader=cfg.get("icaro_config","bootloader")
 
@@ -252,26 +264,27 @@ def main():
     BotonPython = Boton(3,
                         ventana,
                         50,
-                        50,
+                        10,
                         sys.path[0] + "/imagenes/main/python2.png",
                         sys.path[0] + "/imagenes/main/python2p.png",
 
-                        "python3.6 " + sys.path[0] + "/lanzador.py python",
+                        "python3 " + sys.path[0] + "/lanzador.py python "+conf,
                         pyt)
     BotonIcaro = Boton(2,
                        ventana,
                        50,
-                       250,
+                       200,
+
                        sys.path[0] + "/imagenes/main/icaro2.png",
                        sys.path[0] + "/imagenes/main/icaro2p.png",
 
-                       "python3.6 " + sys.path[0] + "/lanzador.py " + bootloader,
+                       "python3 " + sys.path[0] + "/lanzador.py " + bootloader+ " "+conf,
                        icr)
     BotonSalir = Boton(4,
                        ventana,
-                       100,
-                       460,
-                       sys.path[0] + "/imagenes/main/salir.png",
+                       50,
+                       400,
+                       sys.path[0] + "/imagenes/main/salir2.png",
                        sys.path[0] + "/imagenes/main/salir2p.png",
 
                        "salir",
