@@ -235,7 +235,7 @@ def main():
     if so == 'linux':
         comprobacion_errores(ventana, mens)
         conf = ".icaro/"#config.ini"
-        comprobacion_dir(conf)
+        comprobacion_dir(conf,mens)
     else:
         conf = "conficaro/"#config.ini"
         comprobacion_dir(conf,mens)
