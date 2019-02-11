@@ -215,7 +215,7 @@ def comprobacion_errores(ventana, mens):
         CadenaMensaje = CadenaMensaje + CadenaScript
         ventana.mensajes(2, CadenaMensaje)
 
-def comprobacion_dir(conf):
+def comprobacion_dir(conf,mens):
     """TODO: Docstring for comprobacion_dir.
     :returns: TODO
 
@@ -238,7 +238,7 @@ def main():
         comprobacion_dir(conf)
     else:
         conf = "conficaro/"#config.ini"
-        comprobacion_dir(conf)
+        comprobacion_dir(conf,mens)
 
     cfg = mens.carga_conf(os.path.expanduser('~') +"/"+ conf+"config.ini")
     turtleart_ruta = cfg.get("general", "turtlear")
