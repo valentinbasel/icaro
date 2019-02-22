@@ -449,24 +449,27 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                     "/"+self.firmware_ruta +
                     "firmware/source/"+archivo_nombre)
 
-        self.notebook2.append_page(hp, Gtk.Label("bloques"))
-
         self.ver = visor.visor_codigo(self,
-                                    self.notebook2,
+
                                     self.firmware_ruta,
                                     "source/"+archivo_nombre,
-                                    "codigo fuente",
+
                                       self.carga_buffer())
+
+
         self.ver2 = visor.visor_codigo(self,
-                                        self.notebook2,
+
                                         self.firmware_ruta,
                                         "temporal/log.dat",
-                                        "registro",
+
                                        "")
-
-
         hp.pack2(scrolled_window, True, True)
-        hp.set_position(130)
+        hp.set_position(120)
+        self.notebook2.append_page(hp, Gtk.Label("bloques"))
+        self.notebook2.append_page(self.ver.vbox, Gtk.Label("Código Fuente"))
+        self.notebook2.append_page(self.ver2.vbox, Gtk.Label("Registro"))
+
+
         self.window1.connect('delete-event', Gtk.main_quit)
         self.window1.set_icon_from_file(
             sys.path[0] +
@@ -523,6 +526,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
         # capturo los eventos del drawing area
         # menos el teclado que lo capturo desde la ventana principal
+        #self.notebook2.add_events(Gdk.EventMask.SWITCHPAGE)
+        self.notebook2.connect("switch-page",self.cambiotab)
         self.area.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
         self.area.add_events(Gdk.EventMask.BUTTON_RELEASE_MASK)
         self.area.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
@@ -536,6 +541,20 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.window1.connect("key_release_event", self.keyrelease_cb)
         #self.definir_cursor(2)
 
+    def cambiotab(self,a,b,c):
+        """TODO: Docstring for cambiotab,
+        Cuando cambio el tabulador del notebook, ejecuto esta función
+        para poder recargar los gtksources.
+        :a: widget notebook
+        :b: widget objeto dentro del notebook2
+        :c: valor de la posición del tab (0,1,2)
+        :returns: NADA
+
+        """
+        if (c==1):
+            self.ver.recargar(0)
+        if (c==2):
+            self.ver2.recargar(0)
 
     def on_popover_clicked(self, button,popover):
         popover.show_all()
@@ -649,13 +668,13 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 # ABRIR LA VENTANA DE VISOR DE CODIGO
 # ========================================================================
 
-    def graf(self):
-        graf = graficador_matplot.VENTANA()
-        graf.window.show_all()
+    #def graf(self):
+    #    graf = graficador_matplot.VENTANA()
+    #    graf.window.show_all()
 
-    def clemente(self, prt):
+    #def clemente(self, prt):
 
-        cad = "clear\n python " + src + "/clemente/clemente.py " + prt + " \n"
+     #   cad = "clear\n python " + src + "/clemente/clemente.py " + prt + " \n"
         #cle = terminal_vte.TERM_CLEMENTE(cad)
         #cle.window.show_all()
 # ========================================================================

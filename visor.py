@@ -27,7 +27,7 @@ sys.path.append(icaro_dir + "modulos")
 
 class visor_codigo():
 
-    def __init__(self, ventana, notebook,firmware_ruta,nombre_arch,etiqueta,carga_buf):
+    def __init__(self, ventana, firmware_ruta,nombre_arch,carga_buf):
         # create buffer
         lm = GtkSource.LanguageManager.get_default()
         self.firmware_ruta=firmware_ruta
@@ -38,24 +38,24 @@ class visor_codigo():
         self.buffer.set_highlight_syntax(True)
         view.set_show_line_numbers(True)
         self.ventana = ventana
-        vbox = Gtk.VBox(0, True)
-        notebook.append_page(vbox, Gtk.Label(etiqueta))
-        tool1 = Gtk.Toolbar()
-        tool1.show()
-        vbox.pack_start(tool1, False, False,1)
+        self.vbox = Gtk.VBox(0, True)
+        #notebook.append_page(vbox, Gtk.Label(etiqueta))
+        #tool1 = Gtk.Toolbar()
+        #tool1.show()
+        #self.vbox.pack_start(tool1, False, False,1)
         sw = Gtk.ScrolledWindow()
         sw.add(view)
-        vbox.pack_start(sw, True, True,1)
-        vbox.show_all()
+        self.vbox.pack_start(sw, True, True,1)
+        self.vbox.show_all()
         # main loop
         self.dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
         self.cadena_user_c = self.dir_conf + self.nombre_arch
         self.buf = self.open_file(self.buffer, self.cadena_user_c)
-        tool = Gtk.ToolButton.new(Gtk.Image.new_from_stock(Gtk.STOCK_EXECUTE,
-                                                           Gtk.IconSize.BUTTON),
-                                                            "Recargar")
-        tool.connect("clicked",self.recargar)
-        tool1.insert(tool, 0)
+        #tool = Gtk.ToolButton.new(Gtk.Image.new_from_stock(Gtk.STOCK_EXECUTE,
+        #                                                   Gtk.IconSize.BUTTON),
+        #                                                    "Recargar")
+        #tool.connect("clicked",self.recargar)
+        #tool1.insert(tool, 0)
 
     def open_file(self, buffer, filename):
         if os.path.isabs(filename):
