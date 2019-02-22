@@ -107,14 +107,14 @@ void setup()
     serial_begin(9600);  
     Delayms(1000);
     #endif
-    #if defined(__LCD__)
+    //#if defined(__LCD__)
 	//~ //Uso el PORTB para el LCD (usando los primeros 4bits y los
 	//~ // otros dos para RS y E
-	lcd_init(1,4, 5,6, 0, 1, 2, 3, 0, 0, 0, 0); //1=4bit--0=8bits, RS, RW ,E, D4 ~ D8	
+	//lcd_init(1,4, 5,6, 0, 1, 2, 3, 0, 0, 0, 0); //1=4bit--0=8bits, RS, RW ,E, D4 ~ D8	
 	// Defino el numero de columnas y filas del LCD: 
-    	lcd_begin(8, 2);
-        lcd_home();
-    #endif
+   // 	lcd_begin(8, 2);
+   //     lcd_home();
+   // #endif
 }
 
 int sensordigital(int valor)

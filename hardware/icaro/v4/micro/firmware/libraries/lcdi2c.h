@@ -95,10 +95,10 @@ extern _Byte_ PCF8574_data;
 
 #define LCD_MASK		        0b11110000	// On ne commande que D7 a D4
 
-#define LCD_BL	PCF8574_data.bits.bit0	// P0
-#define LCD_RS	PCF8574_data.bits.bit1	// P1
-#define LCD_RW	PCF8574_data.bits.bit2	// P2
-#define LCD_EN	PCF8574_data.bits.bit3	// P3
+#define LCD_BL	PCF8574_data.bits.bit3	// P3
+#define LCD_RS	PCF8574_data.bits.bit0	// P0
+#define LCD_RW	PCF8574_data.bits.bit1	// P1
+#define LCD_EN	PCF8574_data.bits.bit2	// P2
 #define LCD_D4	PCF8574_data.bits.bit4	// P4
 #define LCD_D5	PCF8574_data.bits.bit5	// P5
 #define LCD_D6	PCF8574_data.bits.bit6	// P6

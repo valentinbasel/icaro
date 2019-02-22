@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.6.0 #9615 (Linux)
+; Version 3.7.0 #10231 (Linux)
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -12,15 +12,30 @@
 ; public variables in this module
 ;--------------------------------------------------------
 	global	___uflags
+	global	_fahrenheit
 	global	__i
-	global	__currline
-	global	__initialized
-	global	__displaymode
-	global	__displaycontrol
-	global	__rw_pin
 	global	_loopvar
 	global	_timingindex
 	global	__cpu_clock_
+	global	_I2C_master
+	global	_I2C_slave
+	global	_I2C_init
+	global	_I2C_write
+	global	_I2C_read
+	global	_I2C_wait
+	global	_I2C_idle
+	global	_I2C_start
+	global	_I2C_stop
+	global	_I2C_restart
+	global	_I2C_sendAck
+	global	_I2C_sendNack
+	global	_lcdi2c_backlight
+	global	_lcdi2c_noBacklight
+	global	_lcdi2c_setCursor
+	global	_lcdi2c_write
+	global	_lcdi2c_printf
+	global	_lcdi2c_newchar
+	global	_lcdi2c_init
 	global	__entry
 	global	__startup
 	global	_main
@@ -33,13 +48,12 @@
 	global	_activatedservos
 	global	_servovalues
 	global	_maxminpos
-	global	__rs_pin
-	global	__enable_pin
-	global	__data_pins
-	global	__displayfunction
-	global	__numlines
-	global	_contador
-	global	_dist
+	global	_numcolmax
+	global	_numlinemax
+	global	_gBacklight
+	global	_PCF8574_address
+	global	_PCF8574_data
+	global	_dht_register
 	global	_System_readFlashMemory
 	global	_System_getCpuFrequency
 	global	_Delayms
@@ -63,40 +77,22 @@
 	global	_IO_init
 	global	_IO_digital
 	global	_Delayus
+	global	_setup
+	global	_sensordigital
 	global	_pprintf
 	global	_psprintf2
 	global	_psprintf
-	global	_lcd_pulseEnable
-	global	_lcd_write4bits
-	global	_lcd_write8bits
-	global	_lcd_send
-	global	_lcd_write
-	global	_lcd_command
-	global	_lcd_setCursor
-	global	_lcd_print
-	global	_lcd_printf
-	global	_lcd_printNumber
-	global	_lcd_printFloat
-	global	_lcd_home
-	global	_lcd_clear
-	global	_lcd_begin
-	global	_lcd_init
-	global	_lcd_pins
-	global	_ping
-	global	_setup
-	global	_sensordigital
-	global	_enojado
-	global	_contento
-	global	_mostrar_datos
-	global	_seg_lineas
-	global	_robot2
-	global	_robot
-	global	_menu
+	global	_dhtReadByte
+	global	_dhtRead
 	global	_loop
 	global	_high_priority_isr
 	global	_low_priority_isr
 	global	_mask
 	global	_port
+	global	_dht_success
+	global	_dht_notconnected
+	global	_dht_checksumfailed
+	global	_dhtPin
 
 ;--------------------------------------------------------
 ; extern variables in this module
@@ -342,17 +338,12 @@
 	extern	__divulong
 	extern	__mulint
 	extern	_delay100tcy
+	extern	_sprintf
 	extern	__modulong
-	extern	__moduint
-	extern	__divuint
-	extern	___fslt
-	extern	___fsdiv
-	extern	___fsadd
-	extern	___fs2uint
-	extern	___uint2fs
-	extern	___fssub
-	extern	___fsmul
+	extern	__divsint
 	extern	___sint2fs
+	extern	___fsmul
+	extern	___fsadd
 	extern	_cinit
 
 ;--------------------------------------------------------
@@ -378,6 +369,7 @@ FSR1L	equ	0xfe1
 FSR2L	equ	0xfd9
 FSR2H	equ	0xfda
 INDF0	equ	0xfef
+POSTINC0	equ	0xfee
 POSTINC1	equ	0xfe6
 POSTDEC1	equ	0xfe5
 PREINC1	equ	0xfe4
@@ -390,12 +382,9 @@ PRODH	equ	0xff4
 _phase	db	0x00
 _needreordering	db	0x00
 _timedivision	db	0x00
-__rs_pin	db	0x08
-__rw_pin	db	0xff
-__enable_pin	db	0x09
 __i	db	0x00, 0x00
-_contador	db	0x00, 0x00
-_dist	db	0x00, 0x00
+_gBacklight	db	0x00
+_fahrenheit	db	0x00, 0x00, 0x00, 0x00
 ___uflags	db	0x00
 
 
@@ -433,7 +422,6 @@ r0x1c	res	1
 r0x1d	res	1
 r0x1e	res	1
 r0x1f	res	1
-r0x20	res	1
 
 udata_main_0	udata
 __cpu_clock_	res	4
@@ -445,85 +433,85 @@ udata_main_2	udata
 _loopvar	res	1
 
 udata_main_3	udata
-__displaycontrol	res	1
-
-udata_main_4	udata
-__displaymode	res	1
-
-udata_main_5	udata
-__initialized	res	1
-
-udata_main_6	udata
-__currline	res	1
-
-udata_main_7	udata
 _pputchar	res	3
 
-udata_main_8	udata
+udata_main_4	udata
 _servovalues	res	30
 
-udata_main_9	udata
+udata_main_5	udata
 _maxminpos	res	60
 
-udata_main_10	udata
+udata_main_6	udata
 _activatedservos	res	5
 
-udata_main_11	udata
-_ServosPulseDown_timingindex_1_28	res	1
+udata_main_7	udata
+_ServosPulseDown_timingindex_1_30	res	1
 
-udata_main_12	udata
+udata_main_8	udata
 _timings	res	150
 
-udata_main_13	udata
+udata_main_9	udata
 _timevalue	res	30
 
+udata_main_10	udata
+_SortServoTimings_t_1_35	res	1
+
+udata_main_11	udata
+_SortServoTimings_totalservos_1_35	res	1
+
+udata_main_12	udata
+_SortServoTimings_numservos_1_35	res	1
+
+udata_main_13	udata
+_SortServoTimings_s_1_35	res	1
+
 udata_main_14	udata
-_SortServoTimings_t_1_32	res	1
-
-udata_main_15	udata
-_SortServoTimings_totalservos_1_32	res	1
-
-udata_main_16	udata
-_SortServoTimings_numservos_1_32	res	1
-
-udata_main_17	udata
-_SortServoTimings_s_1_32	res	1
-
-udata_main_18	udata
 _mascaratotal	res	5
 
+udata_main_15	udata
+_pprinti_buffer_1_182	res	12
+
+udata_main_16	udata
+_pprintfl_buffer_1_192	res	12
+
+udata_main_17	udata
+_pprintfl_tmp_1_192	res	12
+
+udata_main_18	udata
+_pprintfl_helper_1_192	res	4
+
 udata_main_19	udata
-_pprinti_buffer_1_162	res	12
+_pprint_scr_1_208	res	2
 
 udata_main_20	udata
-_pprintfl_buffer_1_172	res	12
+_psprintf2_out_1_232	res	3
 
 udata_main_21	udata
-_pprintfl_tmp_1_172	res	12
+_PCF8574_data	res	1
 
 udata_main_22	udata
-_pprintfl_helper_1_172	res	4
+_PCF8574_address	res	1
 
 udata_main_23	udata
-_pprint_scr_1_187	res	2
+_lcdi2c_setCursor_row_offsets_1_265	res	8
 
 udata_main_24	udata
-_psprintf2_out_1_208	res	3
+_numlinemax	res	1
 
 udata_main_25	udata
-__data_pins	res	8
+_numcolmax	res	1
 
 udata_main_26	udata
-__displayfunction	res	1
+_dhtRead_DHT_Array_1_286	res	10
 
 udata_main_27	udata
-_lcd_setCursor_row_offsets_1_227	res	4
+_dht_register	res	12
 
 udata_main_28	udata
-__numlines	res	1
+_loop_buf_1_293	res	80
 
 udata_main_29	udata
-_lcd_printNumber_buf_1_234	res	32
+_loop_buf2_1_293	res	80
 
 ;--------------------------------------------------------
 ; interrupt vector
@@ -537,6 +525,7 @@ S_main___entry	code	0X000C00
 __entry:
 	goto	__startup
 	
+;	.line	74; /home/vbasel/.icaro/v4/firmware/source/crt0iz.c	}
 ; ; Starting pCode block for absolute section
 ; ;-----------------------------------------
 S_main_ivec_0x1_high_priority_isr	code	0X000C08
@@ -556,16 +545,15 @@ _main:
 ;	.line	197; /home/vbasel/.icaro/v4/firmware/source/main.c	if (OSCCONbits.SCS > 0x01)
 	MOVF	_OSCCONbits, W
 	ANDLW	0x03
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	ADDLW	0x80
-	ADDLW	0x7e
-	BNC	_01870_DS_
-_01866_DS_:
+	MOVWF	r0x00
+	MOVLW	0x02
+	SUBWF	r0x00, W
+	BNC	_01627_DS_
+_01623_DS_:
 ;	.line	199; /home/vbasel/.icaro/v4/firmware/source/main.c	while (!OSCCONbits.IOFS);
 	BTFSS	_OSCCONbits, 2
-	BRA	_01866_DS_
-_01870_DS_:
+	BRA	_01623_DS_
+_01627_DS_:
 ;	.line	243; /home/vbasel/.icaro/v4/firmware/source/main.c	IO_init();
 	CALL	_IO_init
 ;	.line	244; /home/vbasel/.icaro/v4/firmware/source/main.c	IO_digital();
@@ -576,10 +564,11 @@ _01870_DS_:
 	CALL	_servos_init
 ;	.line	300; /home/vbasel/.icaro/v4/firmware/source/main.c	setup();
 	CALL	_setup
-_01872_DS_:
+_01629_DS_:
 ;	.line	327; /home/vbasel/.icaro/v4/firmware/source/main.c	loop();
 	CALL	_loop
-	BRA	_01872_DS_
+	BRA	_01629_DS_
+;	.line	330; /home/vbasel/.icaro/v4/firmware/source/main.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -607,6 +596,7 @@ _low_priority_isr:
 	MOVFF	PREINC1, _TBLPTRH
 	MOVFF	PREINC1, _TBLPTRL
 	
+;	.line	565; /home/vbasel/.icaro/v4/firmware/source/main.c	}
 	MOVFF	PREINC1, FSR2L
 	MOVFF	PREINC1, PCLATU
 	MOVFF	PREINC1, PCLATH
@@ -646,6 +636,7 @@ _high_priority_isr:
 	MOVFF	PREINC1, _TBLPTRH
 	MOVFF	PREINC1, _TBLPTRL
 	
+;	.line	520; /home/vbasel/.icaro/v4/firmware/source/main.c	}
 	MOVFF	PREINC1, FSR2L
 	MOVFF	PREINC1, PCLATU
 	MOVFF	PREINC1, PCLATH
@@ -779,1854 +770,73 @@ lockup:
 	;	Returning from main will lock up.
 	bra	lockup
 	
+;	.line	266; /home/vbasel/.icaro/v4/firmware/source/crt0iz.c	}
 ; ; Starting pCode block
 S_main__loop	code
 _loop:
-;	.line	245; /home/vbasel/.icaro/v4/firmware/source/user.c	void loop()
-	MOVFF	r0x00, POSTDEC1
-;	.line	247; /home/vbasel/.icaro/v4/firmware/source/user.c	menu();
-	CALL	_menu
-	BANKSEL	(_contador + 1)
-;	.line	248; /home/vbasel/.icaro/v4/firmware/source/user.c	switch(contador)
-	MOVF	(_contador + 1), W, B
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01849_DS_
-	MOVLW	0x01
-; removed redundant BANKSEL
-	SUBWF	_contador, W, B
-_01849_DS_:
-	BTFSS	STATUS, 0
-	BRA	_01839_DS_
-	BANKSEL	(_contador + 1)
-	MOVF	(_contador + 1), W, B
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01850_DS_
-	MOVLW	0x05
-; removed redundant BANKSEL
-	SUBWF	_contador, W, B
-_01850_DS_:
-	BTFSC	STATUS, 0
-	BRA	_01839_DS_
-	BANKSEL	_contador
-	DECF	_contador, W, B
-	MOVWF	r0x00
-	CLRF	PCLATH
-	CLRF	PCLATU
-	RLCF	r0x00, W
-	RLCF	PCLATH, F
-	RLCF	WREG, W
-	RLCF	PCLATH, F
-	ANDLW	0xfc
-	ADDLW	LOW(_01851_DS_)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(_01851_DS_)
-	ADDWFC	PCLATH, F
-	MOVLW	UPPER(_01851_DS_)
-	ADDWFC	PCLATU, F
-	MOVF	PREINC1, W
-	MOVWF	PCL
-_01851_DS_:
-	GOTO	_01835_DS_
-	GOTO	_01836_DS_
-	GOTO	_01837_DS_
-	GOTO	_01838_DS_
-_01835_DS_:
-;	.line	252; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-;	.line	253; /home/vbasel/.icaro/v4/firmware/source/user.c	robot();
-	CALL	_robot
-	BANKSEL	_contador
-;	.line	254; /home/vbasel/.icaro/v4/firmware/source/user.c	contador=0;
-	CLRF	_contador, B
-; removed redundant BANKSEL
-	CLRF	(_contador + 1), B
-;	.line	255; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=0;
-	CLRF	_PORTD
-;	.line	256; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01841_DS_
-_01836_DS_:
-;	.line	258; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-;	.line	259; /home/vbasel/.icaro/v4/firmware/source/user.c	robot2();
-	CALL	_robot2
-	BANKSEL	_contador
-;	.line	260; /home/vbasel/.icaro/v4/firmware/source/user.c	contador=0;
-	CLRF	_contador, B
-; removed redundant BANKSEL
-	CLRF	(_contador + 1), B
-;	.line	261; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=0;
-	CLRF	_PORTD
-;	.line	262; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01841_DS_
-_01837_DS_:
-;	.line	264; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-;	.line	265; /home/vbasel/.icaro/v4/firmware/source/user.c	seg_lineas();
-	CALL	_seg_lineas
-;	.line	266; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=0;
-	CLRF	_PORTD
-	BANKSEL	_contador
-;	.line	267; /home/vbasel/.icaro/v4/firmware/source/user.c	contador=0;
-	CLRF	_contador, B
-; removed redundant BANKSEL
-	CLRF	(_contador + 1), B
-;	.line	268; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01841_DS_
-_01838_DS_:
-;	.line	270; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-;	.line	271; /home/vbasel/.icaro/v4/firmware/source/user.c	mostrar_datos();
-	CALL	_mostrar_datos
-	BANKSEL	_contador
-;	.line	272; /home/vbasel/.icaro/v4/firmware/source/user.c	contador=0;
-	CLRF	_contador, B
-; removed redundant BANKSEL
-	CLRF	(_contador + 1), B
-;	.line	273; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01841_DS_
-_01839_DS_:
-;	.line	276; /home/vbasel/.icaro/v4/firmware/source/user.c	menu();
-	CALL	_menu
-_01841_DS_:
-;	.line	277; /home/vbasel/.icaro/v4/firmware/source/user.c	}
-	MOVFF	PREINC1, r0x00
-	RETURN	
-
-; ; Starting pCode block
-S_main__menu	code
-_menu:
-;	.line	194; /home/vbasel/.icaro/v4/firmware/source/user.c	void menu()
+;	.line	99; /home/vbasel/.icaro/v4/firmware/source/user.c	void loop()
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
-_01806_DS_:
-;	.line	200; /home/vbasel/.icaro/v4/firmware/source/user.c	output_b=analogread(14);
-	MOVLW	0x0e
+;	.line	104; /home/vbasel/.icaro/v4/firmware/source/user.c	lcdi2c_init(16,2,0x27);
+	MOVLW	0x27
 	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVF	POSTINC1, F
-;	.line	201; /home/vbasel/.icaro/v4/firmware/source/user.c	sw=analogread(15);
-	MOVLW	0x0f
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVWF	r0x02
-	MOVFF	PRODL, r0x03
-	MOVF	POSTINC1, F
-;	.line	202; /home/vbasel/.icaro/v4/firmware/source/user.c	if(output_b==0)
-	MOVF	r0x00, W
-	IORWF	r0x01, W
-	BNZ	_01795_DS_
-;	.line	204; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-	BANKSEL	_contador
-;	.line	205; /home/vbasel/.icaro/v4/firmware/source/user.c	contador++;
-	INCFSZ	_contador, F, B
-	BRA	_11892_DS_
-; removed redundant BANKSEL
-	INCF	(_contador + 1), F, B
-_11892_DS_:
-;	.line	206; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(10);
-	CLRF	POSTDEC1
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	BANKSEL	(_contador + 1)
-;	.line	207; /home/vbasel/.icaro/v4/firmware/source/user.c	if(contador>4)contador=0;
-	MOVF	(_contador + 1), W, B
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01828_DS_
-	MOVLW	0x05
-; removed redundant BANKSEL
-	SUBWF	_contador, W, B
-_01828_DS_:
-	BNC	_01795_DS_
-	BANKSEL	_contador
-	CLRF	_contador, B
-; removed redundant BANKSEL
-	CLRF	(_contador + 1), B
-_01795_DS_:
-;	.line	209; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("prg: ");
-	MOVLW	UPPER(___str_9)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_9)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_9)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	210; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(6,0);
-	CLRF	POSTDEC1
-	MOVLW	0x06
-	MOVWF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	211; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(contador,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	BANKSEL	(_contador + 1)
-	MOVF	(_contador + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_contador, W, B
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	212; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,1);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	214; /home/vbasel/.icaro/v4/firmware/source/user.c	switch(contador)
-	BSF	STATUS, 0
-	BANKSEL	(_contador + 1)
-	BTFSS	(_contador + 1), 7, B
-	BCF	STATUS, 0
-	BTFSC	STATUS, 0
-	BRA	_01801_DS_
-; removed redundant BANKSEL
-	MOVF	(_contador + 1), W, B
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01829_DS_
-	MOVLW	0x05
-; removed redundant BANKSEL
-	SUBWF	_contador, W, B
-_01829_DS_:
-	BTFSC	STATUS, 0
-	BRA	_01801_DS_
-	CLRF	PCLATH
-	CLRF	PCLATU
-	BANKSEL	_contador
-	RLCF	_contador, W, B
-	RLCF	PCLATH, F
-	RLCF	WREG, W
-	RLCF	PCLATH, F
-	ANDLW	0xfc
-	ADDLW	LOW(_01830_DS_)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(_01830_DS_)
-	ADDWFC	PCLATH, F
-	MOVLW	UPPER(_01830_DS_)
-	ADDWFC	PCLATU, F
-	MOVF	PREINC1, W
-	MOVWF	PCL
-_01830_DS_:
-	GOTO	_01796_DS_
-	GOTO	_01797_DS_
-	GOTO	_01798_DS_
-	GOTO	_01799_DS_
-	GOTO	_01800_DS_
-_01796_DS_:
-;	.line	217; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("menu ");
-	MOVLW	UPPER(___str_10)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_10)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_10)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	218; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01802_DS_
-_01797_DS_:
-;	.line	220; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("sumo bl ");
-	MOVLW	UPPER(___str_11)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_11)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_11)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	221; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01802_DS_
-_01798_DS_:
-;	.line	223; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("sumo ng");
-	MOVLW	UPPER(___str_12)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_12)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_12)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	224; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01802_DS_
-_01799_DS_:
-;	.line	226; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("seg_line ");
-	MOVLW	UPPER(___str_13)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_13)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_13)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	227; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01802_DS_
-_01800_DS_:
-;	.line	229; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("test");
-	MOVLW	UPPER(___str_14)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_14)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_14)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	230; /home/vbasel/.icaro/v4/firmware/source/user.c	break;
-	BRA	_01802_DS_
-_01801_DS_:
-;	.line	232; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(contador,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	BANKSEL	(_contador + 1)
-	MOVF	(_contador + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_contador, W, B
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-_01802_DS_:
-;	.line	236; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	239; /home/vbasel/.icaro/v4/firmware/source/user.c	if(sw==0)
-	MOVF	r0x02, W
-	IORWF	r0x03, W
-	BTFSS	STATUS, 2
-	BRA	_01806_DS_
-;	.line	241; /home/vbasel/.icaro/v4/firmware/source/user.c	return ;
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	RETURN	
-
-; ; Starting pCode block
-S_main__robot	code
-_robot:
-;	.line	136; /home/vbasel/.icaro/v4/firmware/source/user.c	void robot()
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
-	MOVFF	r0x04, POSTDEC1
-	MOVFF	r0x05, POSTDEC1
-;	.line	142; /home/vbasel/.icaro/v4/firmware/source/user.c	int contador_t=0;
-	CLRF	r0x00
-	CLRF	r0x01
-;	.line	143; /home/vbasel/.icaro/v4/firmware/source/user.c	for (a=0;a<6;a++)
-	CLRF	r0x02
-	CLRF	r0x03
-_01748_DS_:
-;	.line	145; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	146; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(a,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	147; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(1000);
-	MOVWF	POSTDEC1
-	MOVLW	0xe8
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	143; /home/vbasel/.icaro/v4/firmware/source/user.c	for (a=0;a<6;a++)
-	INFSNZ	r0x02, F
-	INCF	r0x03, F
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01782_DS_
-	MOVLW	0x06
-	SUBWF	r0x02, W
-_01782_DS_:
-	BNC	_01748_DS_
-_01745_DS_:
-;	.line	150; /home/vbasel/.icaro/v4/firmware/source/user.c	while(analogread(15)>0)
-	MOVLW	0x0f
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVFF	PRODL, r0x03
-	MOVF	POSTINC1, F
-	IORWF	r0x03, W
-	BTFSC	STATUS, 2
-	BRA	_01750_DS_
-;	.line	152; /home/vbasel/.icaro/v4/firmware/source/user.c	dist=ping();
-	CALL	_ping
-	MOVWF	r0x02
-	MOVFF	PRODL, r0x03
-;	.line	157; /home/vbasel/.icaro/v4/firmware/source/user.c	enojado();
-	CALL	_enojado
-;	.line	158; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_INV_DE;
-	MOVLW	0x30
-	MOVWF	_PORTD
-;	.line	159; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(1);
-	CLRF	POSTDEC1
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	161; /home/vbasel/.icaro/v4/firmware/source/user.c	contador_t++;
-	INFSNZ	r0x00, F
-	INCF	r0x01, F
-;	.line	162; /home/vbasel/.icaro/v4/firmware/source/user.c	if (contador_t>50)
-	MOVF	r0x01, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01783_DS_
-	MOVLW	0x33
-	SUBWF	r0x00, W
-_01783_DS_:
-	BNC	_01736_DS_
-;	.line	164; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-;	.line	165; /home/vbasel/.icaro/v4/firmware/source/user.c	contador_t=0;
-	CLRF	r0x00
-	CLRF	r0x01
-_01736_DS_:
-;	.line	167; /home/vbasel/.icaro/v4/firmware/source/user.c	if (dist<23 && dist>0)
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01784_DS_
-	MOVLW	0x17
-	SUBWF	r0x02, W
-_01784_DS_:
-	BC	_01745_DS_
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01785_DS_
-	MOVLW	0x01
-	SUBWF	r0x02, W
-_01785_DS_:
-	BNC	_01745_DS_
-;	.line	169; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	170; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("matar!");
-	MOVLW	UPPER(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_8)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	172; /home/vbasel/.icaro/v4/firmware/source/user.c	while(band<10)
-	CLRF	r0x02
-	CLRF	r0x03
-_01739_DS_:
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01786_DS_
-	MOVLW	0x0a
-	SUBWF	r0x02, W
-_01786_DS_:
-	BTFSC	STATUS, 0
-	BRA	_01745_DS_
-;	.line	174; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	175; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("matar!");
-	MOVLW	UPPER(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_8)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	176; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,1);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	177; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(band,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	178; /home/vbasel/.icaro/v4/firmware/source/user.c	distancia_a1=analogread(13);
-	MOVLW	0x0d
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVWF	r0x04
-	MOVFF	PRODL, r0x05
-	MOVF	POSTINC1, F
-;	.line	179; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_AD;
-	MOVLW	0x60
-	MOVWF	_PORTD
-;	.line	180; /home/vbasel/.icaro/v4/firmware/source/user.c	if (distancia_a1>140)
-	MOVF	r0x05, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01787_DS_
-	MOVLW	0x8d
-	SUBWF	r0x04, W
-_01787_DS_:
-	BNC	_01739_DS_
-;	.line	182; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_AT;
-	MOVLW	0x90
-	MOVWF	_PORTD
-;	.line	183; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(300);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x2c
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	184; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_INV_DE;
-	MOVLW	0x30
-	MOVWF	_PORTD
-;	.line	185; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(600);
 	MOVLW	0x02
 	MOVWF	POSTDEC1
-	MOVLW	0x58
+	MOVLW	0x10
 	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	186; /home/vbasel/.icaro/v4/firmware/source/user.c	band++;
-	INFSNZ	r0x02, F
-	INCF	r0x03, F
-;	.line	187; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-	BRA	_01739_DS_
-_01750_DS_:
-	MOVFF	PREINC1, r0x05
-	MOVFF	PREINC1, r0x04
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	RETURN	
-
-; ; Starting pCode block
-S_main__robot2	code
-_robot2:
-;	.line	78; /home/vbasel/.icaro/v4/firmware/source/user.c	void robot2()
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
-	MOVFF	r0x04, POSTDEC1
-	MOVFF	r0x05, POSTDEC1
-;	.line	84; /home/vbasel/.icaro/v4/firmware/source/user.c	int contador_t=0;
-	CLRF	r0x00
-	CLRF	r0x01
-;	.line	85; /home/vbasel/.icaro/v4/firmware/source/user.c	for (a=0;a<6;a++)
-	CLRF	r0x02
-	CLRF	r0x03
-_01690_DS_:
-;	.line	87; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	88; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(a,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
+	CALL	_lcdi2c_init
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	89; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(1000);
-	MOVWF	POSTDEC1
-	MOVLW	0xe8
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	85; /home/vbasel/.icaro/v4/firmware/source/user.c	for (a=0;a<6;a++)
-	INFSNZ	r0x02, F
-	INCF	r0x03, F
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01724_DS_
-	MOVLW	0x06
-	SUBWF	r0x02, W
-_01724_DS_:
-	BNC	_01690_DS_
-_01687_DS_:
-;	.line	92; /home/vbasel/.icaro/v4/firmware/source/user.c	while(analogread(15)>0)
-	MOVLW	0x0f
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVFF	PRODL, r0x03
-	MOVF	POSTINC1, F
-	IORWF	r0x03, W
-	BTFSC	STATUS, 2
-	BRA	_01692_DS_
-;	.line	94; /home/vbasel/.icaro/v4/firmware/source/user.c	dist=ping();
-	CALL	_ping
-	MOVWF	r0x02
-	MOVFF	PRODL, r0x03
-;	.line	99; /home/vbasel/.icaro/v4/firmware/source/user.c	enojado();
-	CALL	_enojado
-;	.line	100; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_INV_DE;
-	MOVLW	0x30
-	MOVWF	_PORTD
-;	.line	101; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(1);
+;	.line	105; /home/vbasel/.icaro/v4/firmware/source/user.c	lcdi2c_backlight();
+	CALL	_lcdi2c_backlight
+_01597_DS_:
+;	.line	108; /home/vbasel/.icaro/v4/firmware/source/user.c	lcdi2c_home();
 	CLRF	POSTDEC1
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	103; /home/vbasel/.icaro/v4/firmware/source/user.c	contador_t++;
-	INFSNZ	r0x00, F
-	INCF	r0x01, F
-;	.line	104; /home/vbasel/.icaro/v4/firmware/source/user.c	if (contador_t>50)
-	MOVF	r0x01, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01725_DS_
-	MOVLW	0x33
-	SUBWF	r0x00, W
-_01725_DS_:
-	BNC	_01678_DS_
-;	.line	106; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-;	.line	107; /home/vbasel/.icaro/v4/firmware/source/user.c	contador_t=0;
-	CLRF	r0x00
-	CLRF	r0x01
-_01678_DS_:
-;	.line	109; /home/vbasel/.icaro/v4/firmware/source/user.c	if (dist<23 && dist>0)
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01726_DS_
-	MOVLW	0x17
-	SUBWF	r0x02, W
-_01726_DS_:
-	BC	_01687_DS_
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01727_DS_
-	MOVLW	0x01
-	SUBWF	r0x02, W
-_01727_DS_:
-	BNC	_01687_DS_
-;	.line	111; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	112; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("matar!");
-	MOVLW	UPPER(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_8)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	114; /home/vbasel/.icaro/v4/firmware/source/user.c	while(band<10)
-	CLRF	r0x02
-	CLRF	r0x03
-_01681_DS_:
-	MOVF	r0x03, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01728_DS_
-	MOVLW	0x0a
-	SUBWF	r0x02, W
-_01728_DS_:
-	BTFSC	STATUS, 0
-	BRA	_01687_DS_
-;	.line	116; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	117; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("matar!");
-	MOVLW	UPPER(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_8)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_8)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	118; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,1);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	119; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(band,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	120; /home/vbasel/.icaro/v4/firmware/source/user.c	distancia_a1=analogread(13);
-	MOVLW	0x0d
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVWF	r0x04
-	MOVFF	PRODL, r0x05
-	MOVF	POSTINC1, F
-;	.line	121; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_AD;
-	MOVLW	0x60
-	MOVWF	_PORTD
-;	.line	122; /home/vbasel/.icaro/v4/firmware/source/user.c	if (distancia_a1<50)
-	MOVF	r0x05, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01729_DS_
-	MOVLW	0x32
-	SUBWF	r0x04, W
-_01729_DS_:
-	BC	_01681_DS_
-;	.line	124; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_AT;
-	MOVLW	0x90
-	MOVWF	_PORTD
-;	.line	125; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(300);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x2c
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	126; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_INV_DE;
-	MOVLW	0x30
-	MOVWF	_PORTD
-;	.line	127; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(600);
 	MOVLW	0x02
 	MOVWF	POSTDEC1
-	MOVLW	0x58
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+	CLRF	POSTDEC1
+	MOVLW	0x02
 	MOVWF	POSTDEC1
 	CALL	_Delayms
 	MOVF	POSTINC1, F
 	MOVF	POSTINC1, F
-;	.line	128; /home/vbasel/.icaro/v4/firmware/source/user.c	band++;
-	INFSNZ	r0x02, F
-	INCF	r0x03, F
-;	.line	129; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-	BRA	_01681_DS_
-_01692_DS_:
-	MOVFF	PREINC1, r0x05
-	MOVFF	PREINC1, r0x04
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	RETURN	
-
-; ; Starting pCode block
-S_main__seg_lineas	code
-_seg_lineas:
-;	.line	56; /home/vbasel/.icaro/v4/firmware/source/user.c	void seg_lineas()
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-;	.line	60; /home/vbasel/.icaro/v4/firmware/source/user.c	for (a=0;a<6;a++)
-	CLRF	r0x00
-	CLRF	r0x01
-_01650_DS_:
-;	.line	62; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	63; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(a,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	64; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(1000);
-	MOVWF	POSTDEC1
-	MOVLW	0xe8
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	60; /home/vbasel/.icaro/v4/firmware/source/user.c	for (a=0;a<6;a++)
-	INFSNZ	r0x00, F
-	INCF	r0x01, F
-	MOVF	r0x01, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01670_DS_
-	MOVLW	0x06
-	SUBWF	r0x00, W
-_01670_DS_:
-	BNC	_01650_DS_
-;	.line	66; /home/vbasel/.icaro/v4/firmware/source/user.c	contento();
-	CALL	_contento
-_01647_DS_:
-;	.line	68; /home/vbasel/.icaro/v4/firmware/source/user.c	while(analogread(15)>0)
-	MOVLW	0x0f
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVFF	PRODL, r0x01
-	MOVF	POSTINC1, F
-	IORWF	r0x01, W
-	BZ	_01652_DS_
-;	.line	70; /home/vbasel/.icaro/v4/firmware/source/user.c	distancia=analogread(13);
-	MOVLW	0x0d
-	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVF	POSTINC1, F
-;	.line	71; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_IZ;
-	MOVLW	0x40
-	MOVWF	_PORTD
-;	.line	72; /home/vbasel/.icaro/v4/firmware/source/user.c	if(distancia<100)
-	MOVF	r0x01, W
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01671_DS_
+;	.line	109; /home/vbasel/.icaro/v4/firmware/source/user.c	fahrenheit = (dht_register.int_temperature + (dht_register.dec_temperature/100)) * 1.8 + 32.0; 
+	MOVFF	(_dht_register + 4), r0x00
+	MOVFF	(_dht_register + 5), r0x01
+	CLRF	POSTDEC1
 	MOVLW	0x64
-	SUBWF	r0x00, W
-_01671_DS_:
-	BC	_01647_DS_
-;	.line	74; /home/vbasel/.icaro/v4/firmware/source/user.c	PORTD=ICR_MOTS_DE;
-	MOVLW	0x20
-	MOVWF	_PORTD
-	BRA	_01647_DS_
-_01652_DS_:
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	RETURN	
-
-; ; Starting pCode block
-S_main__mostrar_datos	code
-_mostrar_datos:
-;	.line	28; /home/vbasel/.icaro/v4/firmware/source/user.c	void mostrar_datos()
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-;	.line	31; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(500);
-	MOVLW	0x01
 	MOVWF	POSTDEC1
-	MOVLW	0xf4
+	BANKSEL	(_dht_register + 7)
+	MOVF	(_dht_register + 7), W, B
 	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-_01625_DS_:
-;	.line	32; /home/vbasel/.icaro/v4/firmware/source/user.c	while(analogread(15)>0)
-	MOVLW	0x0f
+; removed redundant BANKSEL
+	MOVF	(_dht_register + 6), W, B
 	MOVWF	POSTDEC1
-	CALL	_analogread
-	MOVFF	PRODL, r0x01
-	MOVF	POSTINC1, F
-	IORWF	r0x01, W
-	BTFSC	STATUS, 2
-	BRA	_01628_DS_
-;	.line	36; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_home();
-	CALL	_lcd_home
-;	.line	37; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("a1:");
-	MOVLW	UPPER(___str_5)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_5)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_5)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
+	CALL	__divsint
+	MOVWF	r0x02
+	MOVFF	PRODL, r0x03
+	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	38; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(3,0); 
-	CLRF	POSTDEC1
+	MOVF	r0x02, W
+	ADDWF	r0x00, F
+	MOVF	r0x03, W
+	ADDWFC	r0x01, F
+	MOVF	r0x01, W
 	MOVWF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	39; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(analogread(13),10);
-	MOVLW	0x0d
+	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	CALL	_analogread
+	CALL	___sint2fs
 	MOVWF	r0x00
 	MOVFF	PRODL, r0x01
+	MOVFF	PRODH, r0x02
+	MOVFF	FSR0L, r0x03
 	MOVF	POSTINC1, F
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	40; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,1);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CALL	_lcd_setCursor
 	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	41; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("hc:");
-	MOVLW	UPPER(___str_6)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_6)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_6)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	42; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(3,1);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x03
-	MOVWF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	43; /home/vbasel/.icaro/v4/firmware/source/user.c	dist=ping();
-	CALL	_ping
-	BANKSEL	_dist
-	MOVWF	_dist, B
-	MOVFF	PRODL, (_dist + 1)
-; removed redundant BANKSEL
-;	.line	44; /home/vbasel/.icaro/v4/firmware/source/user.c	if (dist<16){
-	MOVF	(_dist + 1), W, B
-	ADDLW	0x80
-	ADDLW	0x80
-	BNZ	_01639_DS_
-	MOVLW	0x10
-; removed redundant BANKSEL
-	SUBWF	_dist, W, B
-_01639_DS_:
-	BC	_01623_DS_
-;	.line	45; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_printNumber(dist,10);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	BANKSEL	(_dist + 1)
-	MOVF	(_dist + 1), W, B
-	MOVWF	POSTDEC1
-; removed redundant BANKSEL
-	MOVF	_dist, W, B
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-	BRA	_01624_DS_
-_01623_DS_:
-;	.line	48; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("nnn");
-	MOVLW	UPPER(___str_7)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_7)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_7)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-_01624_DS_:
-;	.line	50; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(300);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x2c
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	51; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_clear();
-	CALL	_lcd_clear
-	BRA	_01625_DS_
-_01628_DS_:
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	RETURN	
-
-; ; Starting pCode block
-S_main__contento	code
-_contento:
-;	.line	20; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,0);
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	21; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print(" (.)(.) ");
-	MOVLW	UPPER(___str_3)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_3)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_3)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	22; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,1);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	23; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("  ----  ");
-	MOVLW	UPPER(___str_4)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_4)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_4)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-	RETURN	
-
-; ; Starting pCode block
-S_main__enojado	code
-_enojado:
-;	.line	12; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,0);
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	13; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print(" <.><.> ");
-	MOVLW	UPPER(___str_1)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_1)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_1)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	14; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_setCursor(0,1);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	CLRF	POSTDEC1
-	CALL	_lcd_setCursor
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	15; /home/vbasel/.icaro/v4/firmware/source/user.c	lcd_print("  ####  ");
-	MOVLW	UPPER(___str_2)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(___str_2)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(___str_2)
-	MOVWF	POSTDEC1
-	CALL	_lcd_print
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-	RETURN	
-
-; ; Starting pCode block
-S_main__sensordigital	code
-_sensordigital:
-;	.line	120; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	int sensordigital(int valor)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-	MOVLW	0x03
-	MOVFF	PLUSW2, r0x01
-;	.line	124; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	temp=digitalread(valor);
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_digitalread
-	MOVWF	r0x00
-	MOVF	POSTINC1, F
-;	.line	125; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	if (temp==0)
-	MOVF	r0x00, W
-	BNZ	_01605_DS_
-;	.line	127; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	return 1;
-	CLRF	PRODL
-	MOVLW	0x01
-	BRA	_01607_DS_
-_01605_DS_:
-;	.line	131; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	return 0;
-	CLRF	PRODL
-	CLRF	WREG
-_01607_DS_:
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__setup	code
-_setup:
-;	.line	89; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	TRISB=0; //defino PORTB como salida
-	CLRF	_TRISB
-;	.line	90; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	PORTB=0; 
-	CLRF	_PORTB
-;	.line	91; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	PORTD=0;
-	CLRF	_PORTD
-;	.line	92; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG1,INPUT);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x15
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	93; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG2,INPUT);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x16
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	95; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG3,TRIG);
-	CLRF	POSTDEC1
-	MOVLW	0x17
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	96; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG4,ECHO);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x18
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	97; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P1,OUTPUT);
-	CLRF	POSTDEC1
-	MOVLW	0x19
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	98; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P2,OUTPUT);
-	CLRF	POSTDEC1
-	MOVLW	0x1a
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	99; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P3,OUTPUT);
-	CLRF	POSTDEC1
-	MOVLW	0x1b
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	100; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P4,OUTPUT);
-	CLRF	POSTDEC1
-	MOVLW	0x1c
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	101; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV1);
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	102; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV2);
-	MOVLW	0x0b
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	103; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV3);
-	MOVLW	0x0c
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	104; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV4);
-	MOVLW	0x09
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	105; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV5);
-	MOVLW	0x08
-	MOVWF	POSTDEC1
-	CALL	_ServoAttach
-	MOVF	POSTINC1, F
-;	.line	113; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	lcd_init(1,4, 5,6, 0, 1, 2, 3, 0, 0, 0, 0); //1=4bit--0=8bits, RS, RW ,E, D4 ~ D8	
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVLW	0x03
-	MOVWF	POSTDEC1
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVLW	0x06
-	MOVWF	POSTDEC1
-	MOVLW	0x05
-	MOVWF	POSTDEC1
-	MOVLW	0x04
-	MOVWF	POSTDEC1
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CALL	_lcd_init
-	MOVLW	0x0c
-	ADDWF	FSR1L, F
-;	.line	115; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	lcd_begin(8, 2);
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	MOVLW	0x08
-	MOVWF	POSTDEC1
-	CALL	_lcd_begin
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	116; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	lcd_home();
-	CALL	_lcd_home
-	RETURN	
-
-; ; Starting pCode block
-S_main__ping	code
-_ping:
-;	.line	27; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	int ping()
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-_01572_DS_:
-;	.line	31; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	while (digitalread(24) == LOW) 
-	MOVLW	0x18
-	MOVWF	POSTDEC1
-	CALL	_digitalread
-	MOVWF	r0x00
-	MOVF	POSTINC1, F
-	MOVF	r0x00, W
-	BNZ	_01583_DS_
-;	.line	33; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	digitalwrite(23, HIGH);//Activa el disparador
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVLW	0x17
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	34; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	Delayus(50);//Espera 50 microsegundos (minimo 10)
-	CLRF	POSTDEC1
-	MOVLW	0x32
-	MOVWF	POSTDEC1
-	CALL	_Delayus
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	35; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	digitalwrite(23, LOW);//Desactiva el disparador
-	CLRF	POSTDEC1
-	MOVLW	0x17
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	BRA	_01572_DS_
-_01583_DS_:
-;	.line	38; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	while (digitalread(24) == HIGH) 
-	CLRF	r0x00
-	CLRF	r0x01
-_01575_DS_:
-	MOVLW	0x18
-	MOVWF	POSTDEC1
-	CALL	_digitalread
-	MOVF	POSTINC1, F
-	XORLW	0x01
-	BNZ	_01577_DS_
-;	.line	40; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	Dato++;//El contador se incrementa hasta llegar el eco
-	INFSNZ	r0x00, F
-	INCF	r0x01, F
-;	.line	41; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	Delayus(58);//Tiempo en recorrer dos centimetros 1 de ida 1 de vuelta
-	CLRF	POSTDEC1
-	MOVLW	0x3a
-	MOVWF	POSTDEC1
-	CALL	_Delayus
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	BRA	_01575_DS_
-_01577_DS_:
-;	.line	44; /home/vbasel/.icaro/v4/firmware/icaro_lib/sensores.h	return Dato;
-	MOVFF	r0x01, PRODL
-	MOVF	r0x00, W
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_pins	code
-_lcd_pins:
-;	.line	443; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_pins(u8 rs, u8 enable, u8 d0, u8 d1, u8 d2, u8 d3, u8 d4, u8 d5, u8 d6, u8 d7)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
-	MOVFF	r0x04, POSTDEC1
-	MOVFF	r0x05, POSTDEC1
-	MOVFF	r0x06, POSTDEC1
-	MOVFF	r0x07, POSTDEC1
-	MOVFF	r0x08, POSTDEC1
-	MOVFF	r0x09, POSTDEC1
-	MOVFF	r0x0a, POSTDEC1
-	MOVFF	r0x0b, POSTDEC1
-	MOVFF	r0x0c, POSTDEC1
-	MOVFF	r0x0d, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-	MOVLW	0x03
-	MOVFF	PLUSW2, r0x01
-	MOVLW	0x04
-	MOVFF	PLUSW2, r0x02
-	MOVLW	0x05
-	MOVFF	PLUSW2, r0x03
-	MOVLW	0x06
-	MOVFF	PLUSW2, r0x04
-	MOVLW	0x07
-	MOVFF	PLUSW2, r0x05
-	MOVLW	0x08
-	MOVFF	PLUSW2, r0x06
-	MOVLW	0x09
-	MOVFF	PLUSW2, r0x07
-	MOVLW	0x0a
-	MOVFF	PLUSW2, r0x08
-	MOVLW	0x0b
-	MOVFF	PLUSW2, r0x09
-;	.line	445; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_init(((d4 + d5 + d6 + d7)==0), rs, -1, enable, d0, d1, d2, d3, d4, d5, d6, d7);
-	MOVFF	r0x06, r0x0a
-	CLRF	r0x0b
-	MOVFF	r0x07, r0x0c
-	CLRF	r0x0d
-	MOVF	r0x0c, W
-	ADDWF	r0x0a, F
-	MOVF	r0x0d, W
-	ADDWFC	r0x0b, F
-	MOVFF	r0x08, r0x0c
-	MOVF	r0x0c, W
-	ADDWF	r0x0a, F
-	MOVF	r0x0d, W
-	ADDWFC	r0x0b, F
-	MOVFF	r0x09, r0x0c
-	MOVF	r0x0c, W
-	ADDWF	r0x0a, F
-	MOVF	r0x0d, W
-	ADDWFC	r0x0b, F
-	MOVF	r0x0a, W
-	BNZ	_01566_DS_
-	MOVF	r0x0b, W
-	BNZ	_01566_DS_
-	CLRF	r0x0a
-	INCF	r0x0a, F
-	BRA	_01567_DS_
-_01566_DS_:
-	CLRF	r0x0a
-_01567_DS_:
-	MOVF	r0x09, W
-	MOVWF	POSTDEC1
-	MOVF	r0x08, W
-	MOVWF	POSTDEC1
-	MOVF	r0x07, W
-	MOVWF	POSTDEC1
-	MOVF	r0x06, W
-	MOVWF	POSTDEC1
-	MOVF	r0x05, W
-	MOVWF	POSTDEC1
-	MOVF	r0x04, W
-	MOVWF	POSTDEC1
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	SETF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	MOVF	r0x0a, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_init
-	MOVLW	0x0c
-	ADDWF	FSR1L, F
-	MOVFF	PREINC1, r0x0d
-	MOVFF	PREINC1, r0x0c
-	MOVFF	PREINC1, r0x0b
-	MOVFF	PREINC1, r0x0a
-	MOVFF	PREINC1, r0x09
-	MOVFF	PREINC1, r0x08
-	MOVFF	PREINC1, r0x07
-	MOVFF	PREINC1, r0x06
-	MOVFF	PREINC1, r0x05
-	MOVFF	PREINC1, r0x04
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_init	code
-_lcd_init:
-;	.line	405; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_init(u8 fourbitmode, u8 rs, u8 rw, u8 enable, 
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
-	MOVFF	r0x04, POSTDEC1
-	MOVFF	r0x05, POSTDEC1
-	MOVFF	r0x06, POSTDEC1
-	MOVFF	r0x07, POSTDEC1
-	MOVFF	r0x08, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-	MOVLW	0x03
-	MOVFF	PLUSW2, __rs_pin
-	MOVLW	0x04
-	MOVFF	PLUSW2, __rw_pin
-	MOVLW	0x05
-	MOVFF	PLUSW2, __enable_pin
-	MOVLW	0x06
-	MOVFF	PLUSW2, r0x01
-	MOVLW	0x07
-	MOVFF	PLUSW2, r0x02
-	MOVLW	0x08
-	MOVFF	PLUSW2, r0x03
-	MOVLW	0x09
-	MOVFF	PLUSW2, r0x04
-	MOVLW	0x0a
-	MOVFF	PLUSW2, r0x05
-	MOVLW	0x0b
-	MOVFF	PLUSW2, r0x06
-	MOVLW	0x0c
-	MOVFF	PLUSW2, r0x07
-	MOVLW	0x0d
-	MOVFF	PLUSW2, r0x08
-;	.line	415; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[0] = d0;
-	MOVF	r0x01, W
-	BANKSEL	__data_pins
-	MOVWF	__data_pins, B
-;	.line	416; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[1] = d1;
-	MOVF	r0x02, W
-; removed redundant BANKSEL
-	MOVWF	(__data_pins + 1), B
-;	.line	417; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[2] = d2;
-	MOVF	r0x03, W
-; removed redundant BANKSEL
-	MOVWF	(__data_pins + 2), B
-;	.line	418; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[3] = d3; 
-	MOVF	r0x04, W
-; removed redundant BANKSEL
-	MOVWF	(__data_pins + 3), B
-;	.line	419; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[4] = d4;
-	MOVF	r0x05, W
-; removed redundant BANKSEL
-	MOVWF	(__data_pins + 4), B
-;	.line	420; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[5] = d5;
-	MOVF	r0x06, W
-; removed redundant BANKSEL
-	MOVWF	(__data_pins + 5), B
-;	.line	421; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[6] = d6;
-	MOVF	r0x07, W
-; removed redundant BANKSEL
-	MOVWF	(__data_pins + 6), B
-;	.line	422; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_data_pins[7] = d7; 
-	MOVF	r0x08, W
-; removed redundant BANKSEL
-	MOVWF	(__data_pins + 7), B
-;	.line	424; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	pinmode(_rs_pin, OUTPUT);
-	CLRF	POSTDEC1
-	BANKSEL	__rs_pin
-	MOVF	__rs_pin, W, B
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	426; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	pinmode(_enable_pin, OUTPUT);
-	CLRF	POSTDEC1
-	BANKSEL	__enable_pin
-	MOVF	__enable_pin, W, B
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	428; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (fourbitmode)
-	MOVF	r0x00, W
-	BZ	_01536_DS_
-	BANKSEL	__displayfunction
-;	.line	430; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
-	CLRF	__displayfunction, B
-;	.line	431; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 4; i++)
-	CLRF	r0x00
-_01538_DS_:
-;	.line	432; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	pinmode(_data_pins[i], OUTPUT);
-	MOVLW	LOW(__data_pins)
-	ADDWF	r0x00, W
-	MOVWF	r0x01
-	CLRF	r0x02
-	MOVLW	HIGH(__data_pins)
-	ADDWFC	r0x02, F
-	MOVFF	r0x01, FSR0L
-	MOVFF	r0x02, FSR0H
-	MOVFF	INDF0, r0x01
-	CLRF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	431; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 4; i++)
-	INCF	r0x00, F
-	MOVLW	0x04
-	SUBWF	r0x00, W
-	BNC	_01538_DS_
-	BRA	_01542_DS_
-_01536_DS_:
-;	.line	436; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_displayfunction = LCD_8BITMODE | LCD_1LINE | LCD_5x8DOTS;
-	MOVLW	0x10
-	BANKSEL	__displayfunction
-	MOVWF	__displayfunction, B
-;	.line	437; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 8; i++)
-	CLRF	r0x00
-_01540_DS_:
-;	.line	438; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	pinmode(_data_pins[i], OUTPUT);
-	MOVLW	LOW(__data_pins)
-	ADDWF	r0x00, W
-	MOVWF	r0x01
-	CLRF	r0x02
-	MOVLW	HIGH(__data_pins)
-	ADDWFC	r0x02, F
-	MOVFF	r0x01, FSR0L
-	MOVFF	r0x02, FSR0H
-	MOVFF	INDF0, r0x01
-	CLRF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	CALL	_pinmode
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	437; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 8; i++)
-	INCF	r0x00, F
-	MOVLW	0x08
-	SUBWF	r0x00, W
-	BNC	_01540_DS_
-_01542_DS_:
-	MOVFF	PREINC1, r0x08
-	MOVFF	PREINC1, r0x07
-	MOVFF	PREINC1, r0x06
-	MOVFF	PREINC1, r0x05
-	MOVFF	PREINC1, r0x04
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_begin	code
-_lcd_begin:
-;	.line	330; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_begin(u8 lines, u8 dotsize)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-	MOVLW	0x03
-	MOVFF	PLUSW2, r0x01
-;	.line	332; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (lines > 1)
-	MOVLW	0x02
-; #	SUBWF	r0x00, W
-; #	BTFSS	STATUS, 0
-; #	GOTO	_01502_DS_
-; #	BSF	__displayfunction, 3, B
-; #	MOVFF	r0x00, __numlines
-;	.line	333; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_displayfunction |= LCD_2LINE;
-	SUBWF	r0x00, W
-;	.line	335; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_numlines = lines;
-	BNC	_21893_DS_
-	BANKSEL	__displayfunction
-	BSF	__displayfunction, 3, B
-_21893_DS_:
-	MOVFF	r0x00, __numlines
-	BANKSEL	__currline
-;	.line	336; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_currline = 0;
-	CLRF	__currline, B
-;	.line	339; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if ((dotsize != 0) && (lines == 1))
-	MOVF	r0x01, W
-	BZ	_01504_DS_
-	MOVF	r0x00, W
-	XORLW	0x01
-	BNZ	_01504_DS_
-_01526_DS_:
-	BANKSEL	__displayfunction
-;	.line	340; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_displayfunction |= LCD_5x10DOTS;
-	BSF	__displayfunction, 2, B
-_01504_DS_:
-;	.line	342; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayms(15);								// Wait more than 15 ms after VDD rises to 4.5V
-	CLRF	POSTDEC1
-	MOVLW	0x0f
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	345; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	digitalwrite(_rs_pin, LOW);
-	CLRF	POSTDEC1
-	BANKSEL	__rs_pin
-	MOVF	__rs_pin, W, B
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	346; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	digitalwrite(_enable_pin, LOW);
-	CLRF	POSTDEC1
-	BANKSEL	__enable_pin
-	MOVF	__enable_pin, W, B
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	BANKSEL	__displayfunction
-;	.line	349; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (! (_displayfunction & LCD_8BITMODE) )
-	BTFSC	__displayfunction, 4, B
-	BRA	_01507_DS_
-;	.line	354; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write4bits(0x03);
-	MOVLW	0x03
-	MOVWF	POSTDEC1
-	CALL	_lcd_write4bits
-	MOVF	POSTINC1, F
-;	.line	355; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayms(5);									// Wait for more than 4.1 ms
-	CLRF	POSTDEC1
-	MOVLW	0x05
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	357; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write4bits(0x03);
-	MOVLW	0x03
-	MOVWF	POSTDEC1
-	CALL	_lcd_write4bits
-	MOVF	POSTINC1, F
-;	.line	358; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayus(150);								// Wait more than 100 μs
-	CLRF	POSTDEC1
-	MOVLW	0x96
-	MOVWF	POSTDEC1
-	CALL	_Delayus
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	360; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write4bits(0x03); 
-	MOVLW	0x03
-	MOVWF	POSTDEC1
-	CALL	_lcd_write4bits
-	MOVF	POSTINC1, F
-;	.line	361; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayus(150);								// Wait more than 100 μs
-	CLRF	POSTDEC1
-	MOVLW	0x96
-	MOVWF	POSTDEC1
-	CALL	_Delayus
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	363; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write4bits(0x02); 
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	CALL	_lcd_write4bits
-	MOVF	POSTINC1, F
-	BRA	_01508_DS_
-_01507_DS_:
-;	.line	371; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_FUNCTIONSET | _displayfunction);
-	MOVLW	0x20
-	BANKSEL	__displayfunction
-	IORWF	__displayfunction, W, B
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-;	.line	372; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayms(5);									// Wait for more than 4.1 ms
-	CLRF	POSTDEC1
-	MOVLW	0x05
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	375; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_FUNCTIONSET | _displayfunction);
-	MOVLW	0x20
-	BANKSEL	__displayfunction
-	IORWF	__displayfunction, W, B
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-;	.line	376; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayms(5);									// Wait for more than 4.1 ms
-	CLRF	POSTDEC1
-	MOVLW	0x05
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	380; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_FUNCTIONSET | _displayfunction);
-	MOVLW	0x20
-	BANKSEL	__displayfunction
-	IORWF	__displayfunction, W, B
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-_01508_DS_:
-;	.line	384; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_FUNCTIONSET | _displayfunction);  
-	MOVLW	0x20
-	BANKSEL	__displayfunction
-	IORWF	__displayfunction, W, B
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-;	.line	387; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;  
-	MOVLW	0x04
-	BANKSEL	__displaycontrol
-	MOVWF	__displaycontrol, B
-;	.line	388; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_DISPLAYCONTROL | _displaycontrol);
-	MOVLW	0x0c
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-;	.line	391; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_CLEARDISPLAY);  // clear display, set cursor position to zero
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-;	.line	392; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayms(2);
-	CLRF	POSTDEC1
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	395; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	_displaymode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
-	MOVLW	0x02
-	BANKSEL	__displaymode
-	MOVWF	__displaymode, B
-;	.line	397; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_ENTRYMODESET | _displaymode);
-	MOVLW	0x06
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_clear	code
-_lcd_clear:
-;	.line	223; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_CLEARDISPLAY);  // clear display, set cursor position to zero
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-;	.line	224; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayms(2);									// Wait for more than 4.1 ms
-	CLRF	POSTDEC1
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_home	code
-_lcd_home:
-;	.line	213; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_RETURNHOME);
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
-;	.line	214; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	Delayms(2);									// Wait for more than 4.1 ms
-	CLRF	POSTDEC1
-	MOVLW	0x02
-	MOVWF	POSTDEC1
-	CALL	_Delayms
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_printFloat	code
-_lcd_printFloat:
-;	.line	169; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_printFloat(float number, u8 digits)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
-	MOVFF	r0x04, POSTDEC1
-	MOVFF	r0x05, POSTDEC1
-	MOVFF	r0x06, POSTDEC1
-	MOVFF	r0x07, POSTDEC1
-	MOVFF	r0x08, POSTDEC1
-	MOVFF	r0x09, POSTDEC1
-	MOVFF	r0x0a, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-	MOVLW	0x03
-	MOVFF	PLUSW2, r0x01
-	MOVLW	0x04
-	MOVFF	PLUSW2, r0x02
-	MOVLW	0x05
-	MOVFF	PLUSW2, r0x03
-	MOVLW	0x06
-	MOVFF	PLUSW2, r0x04
-;	.line	176; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (number < 0.0)
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
 	MOVF	r0x03, W
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
@@ -2635,67 +845,25 @@ _lcd_printFloat:
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	CALL	___fslt
-	MOVWF	r0x05
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	MOVF	r0x05, W
-	BZ	_01454_DS_
-;	.line	178; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write('-');
-	MOVLW	0x2d
-	MOVWF	POSTDEC1
-	CALL	_lcd_write
-	MOVF	POSTINC1, F
-;	.line	179; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	number = -number;
-	BTG	r0x03, 7
-_01454_DS_:
-;	.line	183; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	rounding = 0.5;
-	CLRF	r0x05
-	CLRF	r0x06
-	CLRF	r0x07
 	MOVLW	0x3f
-	MOVWF	r0x08
-;	.line	184; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i=0; i<digits; ++i)
-	CLRF	r0x09
-_01462_DS_:
-	MOVF	r0x04, W
-	SUBWF	r0x09, W
-	BC	_01455_DS_
-;	.line	185; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	rounding /= 10.0;
-	MOVLW	0x41
 	MOVWF	POSTDEC1
-	MOVLW	0x20
+	MOVLW	0xe6
 	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVF	r0x08, W
+	MOVLW	0x66
 	MOVWF	POSTDEC1
-	MOVF	r0x07, W
 	MOVWF	POSTDEC1
-	MOVF	r0x06, W
-	MOVWF	POSTDEC1
-	MOVF	r0x05, W
-	MOVWF	POSTDEC1
-	CALL	___fsdiv
-	MOVWF	r0x05
-	MOVFF	PRODL, r0x06
-	MOVFF	PRODH, r0x07
-	MOVFF	FSR0L, r0x08
+	CALL	___fsmul
+	MOVWF	r0x00
+	MOVFF	PRODL, r0x01
+	MOVFF	PRODH, r0x02
+	MOVFF	FSR0L, r0x03
 	MOVLW	0x08
 	ADDWF	FSR1L, F
-;	.line	184; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i=0; i<digits; ++i)
-	INCF	r0x09, F
-	BRA	_01462_DS_
-_01455_DS_:
-;	.line	187; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	number += rounding;
-	MOVF	r0x08, W
+	MOVLW	0x42
 	MOVWF	POSTDEC1
-	MOVF	r0x07, W
-	MOVWF	POSTDEC1
-	MOVF	r0x06, W
-	MOVWF	POSTDEC1
-	MOVF	r0x05, W
-	MOVWF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
+	CLRF	POSTDEC1
 	MOVF	r0x03, W
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
@@ -2705,186 +873,161 @@ _01455_DS_:
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	CALL	___fsadd
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVFF	PRODH, r0x02
-	MOVFF	FSR0L, r0x03
+	BANKSEL	_fahrenheit
+	MOVWF	_fahrenheit, B
+	MOVFF	PRODL, (_fahrenheit + 1)
+	MOVFF	PRODH, (_fahrenheit + 2)
+	MOVFF	FSR0L, (_fahrenheit + 3)
 	MOVLW	0x08
 	ADDWF	FSR1L, F
-;	.line	190; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	int_part = (u16)number;
-	MOVF	r0x03, W
+;	.line	111; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(2000);
+	MOVLW	0x07
 	MOVWF	POSTDEC1
-	MOVF	r0x02, W
+	MOVLW	0xd0
 	MOVWF	POSTDEC1
+	CALL	_Delayms
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	112; /home/vbasel/.icaro/v4/firmware/source/user.c	dhtRead(dhtPin);
+	MOVLW	LOW(_dhtPin)
+	MOVWF	TBLPTRL
+	MOVLW	HIGH(_dhtPin)
+	MOVWF	TBLPTRH
+	MOVLW	UPPER(_dhtPin)
+	MOVWF	TBLPTRU
+	TBLRD*+	
+	MOVFF	TABLAT, r0x00
+	TBLRD*+	
+	MOVFF	TABLAT, r0x01
 	MOVF	r0x01, W
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	CALL	___fs2uint
-	MOVWF	r0x05
-	MOVFF	PRODL, r0x06
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-;	.line	191; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	remainder = number - (float)int_part;
-	MOVF	r0x06, W
-	MOVWF	POSTDEC1
-	MOVF	r0x05, W
-	MOVWF	POSTDEC1
-	CALL	___uint2fs
-	MOVWF	r0x07
-	MOVFF	PRODL, r0x08
-	MOVFF	PRODH, r0x09
-	MOVFF	FSR0L, r0x0a
+	CALL	_dhtRead
 	MOVF	POSTINC1, F
 	MOVF	POSTINC1, F
-	MOVF	r0x0a, W
+;	.line	113; /home/vbasel/.icaro/v4/firmware/source/user.c	if(dht_register.status==dht_success){
+	MOVLW	LOW(_dht_success)
+	MOVWF	TBLPTRL
+	MOVLW	HIGH(_dht_success)
+	MOVWF	TBLPTRH
+	MOVLW	UPPER(_dht_success)
+	MOVWF	TBLPTRU
+	TBLRD*+	
+	MOVFF	TABLAT, r0x00
+	TBLRD*+	
+	MOVFF	TABLAT, r0x01
+	BANKSEL	(_dht_register + 10)
+	MOVF	(_dht_register + 10), W, B
+	XORWF	r0x00, W
+	BNZ	_01607_DS_
+; removed redundant BANKSEL
+	MOVF	(_dht_register + 11), W, B
+	XORWF	r0x01, W
+	BZ	_01608_DS_
+_01607_DS_:
+	BRA	_01597_DS_
+_01608_DS_:
+	BANKSEL	(_dht_register + 7)
+;	.line	114; /home/vbasel/.icaro/v4/firmware/source/user.c	sprintf(buf, "temp: %i.%i",dht_register.int_temperature,dht_register.dec_temperature);
+	MOVF	(_dht_register + 7), W, B
 	MOVWF	POSTDEC1
-	MOVF	r0x09, W
+; removed redundant BANKSEL
+	MOVF	(_dht_register + 6), W, B
 	MOVWF	POSTDEC1
-	MOVF	r0x08, W
+; removed redundant BANKSEL
+	MOVF	(_dht_register + 5), W, B
 	MOVWF	POSTDEC1
-	MOVF	r0x07, W
+; removed redundant BANKSEL
+	MOVF	(_dht_register + 4), W, B
 	MOVWF	POSTDEC1
-	MOVF	r0x03, W
+	MOVLW	UPPER(___str_1)
 	MOVWF	POSTDEC1
-	MOVF	r0x02, W
+	MOVLW	HIGH(___str_1)
 	MOVWF	POSTDEC1
-	MOVF	r0x01, W
+	MOVLW	LOW(___str_1)
 	MOVWF	POSTDEC1
-	MOVF	r0x00, W
+	MOVLW	0x80
 	MOVWF	POSTDEC1
-	CALL	___fssub
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVFF	PRODH, r0x02
-	MOVFF	FSR0L, r0x03
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-;	.line	192; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_printNumber(int_part, 10);
+	MOVLW	HIGH(_loop_buf_1_293)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_loop_buf_1_293)
+	MOVWF	POSTDEC1
+	CALL	_sprintf
 	MOVLW	0x0a
+	ADDWF	FSR1L, F
+	BANKSEL	(_dht_register + 3)
+;	.line	115; /home/vbasel/.icaro/v4/firmware/source/user.c	sprintf(buf2, "hum: %i.%i",dht_register.int_humidity,dht_register.dec_humidity);
+	MOVF	(_dht_register + 3), W, B
 	MOVWF	POSTDEC1
-	MOVF	r0x06, W
+; removed redundant BANKSEL
+	MOVF	(_dht_register + 2), W, B
 	MOVWF	POSTDEC1
-	MOVF	r0x05, W
+; removed redundant BANKSEL
+	MOVF	(_dht_register + 1), W, B
 	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
+; removed redundant BANKSEL
+	MOVF	_dht_register, W, B
+	MOVWF	POSTDEC1
+	MOVLW	UPPER(___str_2)
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(___str_2)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(___str_2)
+	MOVWF	POSTDEC1
+	MOVLW	0x80
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_loop_buf2_1_293)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_loop_buf2_1_293)
+	MOVWF	POSTDEC1
+	CALL	_sprintf
+	MOVLW	0x0a
+	ADDWF	FSR1L, F
+;	.line	116; /home/vbasel/.icaro/v4/firmware/source/user.c	lcdi2c_printf(buf);
+	MOVLW	0x80
+; #	MOVWF	r0x02
+; #	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(_loop_buf_1_293)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(_loop_buf_1_293)
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_printf
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	195; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (digits > 0)
-	MOVF	r0x04, W
-	BZ	_01458_DS_
-;	.line	196; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write('.'); 
-	MOVLW	0x2e
-	MOVWF	POSTDEC1
-	CALL	_lcd_write
-	MOVF	POSTINC1, F
-_01458_DS_:
-;	.line	199; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	while (digits-- > 0)
-	MOVFF	r0x04, r0x05
-	DECF	r0x04, F
-	MOVF	r0x05, W
-	BTFSC	STATUS, 2
-	BRA	_01464_DS_
-;	.line	201; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	remainder *= 10.0;
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	MOVLW	0x41
-	MOVWF	POSTDEC1
-	MOVLW	0x20
+;	.line	117; /home/vbasel/.icaro/v4/firmware/source/user.c	lcdi2c_setCursor(0,1);
+	MOVLW	0x01
 	MOVWF	POSTDEC1
 	MOVLW	0x00
 	CLRF	POSTDEC1
-	CLRF	POSTDEC1
-	CALL	___fsmul
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVFF	PRODH, r0x02
-	MOVFF	FSR0L, r0x03
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-;	.line	202; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	toPrint = (unsigned int)remainder; //Integer part without use of math.h lib, I think better! (Fazzi)
-	MOVF	r0x03, W
+	CALL	_lcdi2c_setCursor
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	118; /home/vbasel/.icaro/v4/firmware/source/user.c	lcdi2c_printf(buf2);
+	MOVLW	0x80
+; #	MOVWF	r0x02
+; #	MOVF	r0x02, W
 	MOVWF	POSTDEC1
-	MOVF	r0x02, W
+	MOVLW	HIGH(_loop_buf2_1_293)
 	MOVWF	POSTDEC1
-	MOVF	r0x01, W
+	MOVLW	LOW(_loop_buf2_1_293)
 	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	___fs2uint
-	MOVWF	r0x05
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-;	.line	203; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_printNumber(toPrint, 10);
-	MOVFF	r0x05, r0x06
-	MOVLW	0x0a
-	MOVWF	POSTDEC1
-	CLRF	POSTDEC1
-	MOVF	r0x06, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_printNumber
+	CALL	_lcdi2c_printf
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	204; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	remainder -= toPrint; 
-	CLRF	POSTDEC1
-	MOVF	r0x05, W
-	MOVWF	POSTDEC1
-	CALL	___sint2fs
-	MOVWF	r0x05
-	MOVFF	PRODL, r0x06
-	MOVFF	PRODH, r0x07
-	MOVFF	FSR0L, r0x08
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	MOVF	r0x08, W
-	MOVWF	POSTDEC1
-	MOVF	r0x07, W
-	MOVWF	POSTDEC1
-	MOVF	r0x06, W
-	MOVWF	POSTDEC1
-	MOVF	r0x05, W
-	MOVWF	POSTDEC1
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	___fssub
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVFF	PRODH, r0x02
-	MOVFF	FSR0L, r0x03
-	MOVLW	0x08
-	ADDWF	FSR1L, F
-	BRA	_01458_DS_
-_01464_DS_:
-	MOVFF	PREINC1, r0x0a
-	MOVFF	PREINC1, r0x09
-	MOVFF	PREINC1, r0x08
-	MOVFF	PREINC1, r0x07
-	MOVFF	PREINC1, r0x06
-	MOVFF	PREINC1, r0x05
-	MOVFF	PREINC1, r0x04
+	BRA	_01597_DS_
+;	.line	122; /home/vbasel/.icaro/v4/firmware/source/user.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
 	RETURN	
 
 ; ; Starting pCode block
-S_main__lcd_printNumber	code
-_lcd_printNumber:
-;	.line	145; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_printNumber(u16 n, u8 base)
+S_main__dhtRead	code
+_dhtRead:
+;	.line	52; /home/vbasel/.icaro/v4/firmware/source/user.c	void dhtRead(int dhtPin) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -2901,112 +1044,273 @@ _lcd_printNumber:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-	MOVLW	0x04
-	MOVFF	PLUSW2, r0x02
-;	.line	150; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (n == 0)
+;	.line	55; /home/vbasel/.icaro/v4/firmware/source/user.c	pinmode(dhtPin, OUTPUT); // Set DHT_ pin as output.
 	MOVF	r0x00, W
-	IORWF	r0x01, W
-	BNZ	_01430_DS_
-;	.line	152; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write('0');
-	MOVLW	0x30
+	MOVWF	r0x02
+	CLRF	POSTDEC1
 	MOVWF	POSTDEC1
-	CALL	_lcd_write
+	CALL	_pinmode
 	MOVF	POSTINC1, F
-;	.line	153; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	return;
-	BRA	_01422_DS_
-_01430_DS_:
-;	.line	156; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	while (n > 0)
+	MOVF	POSTINC1, F
+;	.line	56; /home/vbasel/.icaro/v4/firmware/source/user.c	digitalwrite(dhtPin, LOW); // Drive DHT_ pin LOW to commence start signal
+	CLRF	POSTDEC1
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	CALL	_digitalwrite
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	57; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayms(20); // Wait for 20 miliseconds
+	CLRF	POSTDEC1
+	MOVLW	0x14
+	MOVWF	POSTDEC1
+	CALL	_Delayms
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	58; /home/vbasel/.icaro/v4/firmware/source/user.c	digitalwrite(dhtPin,HIGH); // Drive DHT_ pin HIGH
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	CALL	_digitalwrite
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	59; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayus(30); // Wait 30 microseconds
+	CLRF	POSTDEC1
+	MOVLW	0x1e
+	MOVWF	POSTDEC1
+	CALL	_Delayus
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	60; /home/vbasel/.icaro/v4/firmware/source/user.c	pinmode(dhtPin, INPUT); // Start signal sent, now change DHT_ pin to input.
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	62; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayus(40); // Wait 40us for mid-point of first response bit.
+	CLRF	POSTDEC1
+	MOVLW	0x28
+	MOVWF	POSTDEC1
+	CALL	_Delayus
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	63; /home/vbasel/.icaro/v4/firmware/source/user.c	chk1 = digitalread(dhtPin); // Read bit.  Should be a zero.
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVWF	r0x03
+	MOVF	POSTINC1, F
+	CLRF	r0x04
+;	.line	64; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayus(80); // Wait 80us for the mid-point of the second bit.
+	CLRF	POSTDEC1
+	MOVLW	0x50
+	MOVWF	POSTDEC1
+	CALL	_Delayus
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	65; /home/vbasel/.icaro/v4/firmware/source/user.c	chk2 = digitalread(dhtPin); // Read bit.  Should be a one.
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVWF	r0x02
+	MOVF	POSTINC1, F
+	CLRF	r0x05
+;	.line	66; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayus(40); // Wait 40us for end of response signal.
+	CLRF	POSTDEC1
+	MOVLW	0x28
+	MOVWF	POSTDEC1
+	CALL	_Delayus
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	68; /home/vbasel/.icaro/v4/firmware/source/user.c	if ((chk1 == 0) && (chk2 == 1)) { // If the response code is valid....
+	MOVF	r0x03, W
+	IORWF	r0x04, W
+	BTFSS	STATUS, 2
+	BRA	_01558_DS_
+	MOVF	r0x02, W
+	XORLW	0x01
+	BNZ	_01581_DS_
+	MOVF	r0x05, W
+	BZ	_01582_DS_
+_01581_DS_:
+	BRA	_01558_DS_
+_01582_DS_:
+;	.line	69; /home/vbasel/.icaro/v4/firmware/source/user.c	for (c = 0 ; c < 5 ; c++) {
+	CLRF	r0x02
 	CLRF	r0x03
 	CLRF	r0x04
-_01415_DS_:
-	MOVF	r0x00, W
-	IORWF	r0x01, W
-	BZ	_01433_DS_
-;	.line	158; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	buf[i++] = n % base;
-	MOVFF	r0x03, r0x05
-	MOVFF	r0x04, r0x06
-	INFSNZ	r0x03, F
-	INCF	r0x04, F
-	MOVLW	LOW(_lcd_printNumber_buf_1_234)
-	ADDWF	r0x05, F
-	MOVLW	HIGH(_lcd_printNumber_buf_1_234)
-	ADDWFC	r0x06, F
-	MOVFF	r0x02, r0x07
-	CLRF	r0x08
-	CLRF	POSTDEC1
-	MOVF	r0x07, W
-	MOVWF	POSTDEC1
+	CLRF	r0x05
+_01561_DS_:
+;	.line	70; /home/vbasel/.icaro/v4/firmware/source/user.c	DHT_Array[c] = dhtReadByte(dhtPin); // Read five bytes from DHT_
+	MOVLW	LOW(_dhtRead_DHT_Array_1_286)
+	ADDWF	r0x04, W
+	MOVWF	r0x06
+	MOVLW	HIGH(_dhtRead_DHT_Array_1_286)
+	ADDWFC	r0x05, W
+	MOVWF	r0x07
 	MOVF	r0x01, W
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	CALL	__moduint
-	MOVWF	r0x09
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-	MOVFF	r0x05, FSR0L
-	MOVFF	r0x06, FSR0H
-	MOVFF	r0x09, INDF0
-;	.line	159; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	n /= base;
-	MOVF	r0x08, W
-	MOVWF	POSTDEC1
-	MOVF	r0x07, W
-	MOVWF	POSTDEC1
-	MOVF	r0x01, W
-	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	__divuint
-	MOVWF	r0x00
-	MOVFF	PRODL, r0x01
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-	BRA	_01415_DS_
-_01433_DS_:
-	MOVFF	r0x03, r0x00
-	MOVFF	r0x04, r0x01
-_01420_DS_:
-;	.line	162; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (; i > 0; i--)
-	MOVF	r0x00, W
-	IORWF	r0x01, W
-	BZ	_01422_DS_
-; #	MOVF	r0x00, W
-; #	MOVWF	r0x02
-; #	DECF	r0x02, F
-;	.line	163; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write((char) (buf[i - 1] < 10 ? '0' + buf[i - 1] : 'A' + buf[i - 1] - 10));
-	DECF	r0x00, W
-	MOVWF	r0x02
-	CLRF	r0x03
-	MOVLW	LOW(_lcd_printNumber_buf_1_234)
-	ADDWF	r0x02, F
-	MOVLW	HIGH(_lcd_printNumber_buf_1_234)
-	ADDWFC	r0x03, F
-	MOVFF	r0x02, FSR0L
-	MOVFF	r0x03, FSR0H
-	MOVFF	INDF0, r0x02
-	MOVLW	0x0a
-	SUBWF	r0x02, W
-	BC	_01426_DS_
-	MOVF	r0x02, W
-	MOVWF	r0x03
-	MOVLW	0x30
-	ADDWF	r0x03, F
-	BRA	_01427_DS_
-_01426_DS_:
-	MOVLW	0x37
-	ADDWF	r0x02, W
-	MOVWF	r0x03
-_01427_DS_:
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_write
+	CALL	_dhtReadByte
+	MOVWF	r0x08
+	MOVFF	PRODL, r0x09
 	MOVF	POSTINC1, F
-;	.line	162; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (; i > 0; i--)
-	MOVLW	0xff
-	ADDWF	r0x00, F
-	ADDWFC	r0x01, F
-	BRA	_01420_DS_
-_01422_DS_:
+	MOVF	POSTINC1, F
+	MOVFF	r0x06, FSR0L
+	MOVFF	r0x07, FSR0H
+	MOVFF	r0x08, POSTINC0
+	MOVFF	r0x09, INDF0
+;	.line	69; /home/vbasel/.icaro/v4/firmware/source/user.c	for (c = 0 ; c < 5 ; c++) {
+	MOVLW	0x02
+	ADDWF	r0x04, F
+	BTFSC	STATUS, 0
+	INCF	r0x05, F
+	INFSNZ	r0x02, F
+	INCF	r0x03, F
+	MOVF	r0x03, W
+	ADDLW	0x80
+	ADDLW	0x80
+	BNZ	_01583_DS_
+	MOVLW	0x05
+	SUBWF	r0x02, W
+_01583_DS_:
+	BNC	_01561_DS_
+;	.line	74; /home/vbasel/.icaro/v4/firmware/source/user.c	if (DHT_Array[4] == ((DHT_Array[0] + DHT_Array[1] + DHT_Array[2] + DHT_Array[3]) & 0xFF)) {
+	MOVFF	_dhtRead_DHT_Array_1_286, r0x00
+	MOVFF	(_dhtRead_DHT_Array_1_286 + 1), r0x01
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 2)
+	MOVF	(_dhtRead_DHT_Array_1_286 + 2), W, B
+	ADDWF	r0x00, W
+	MOVWF	r0x02
+; #	MOVF	(_dhtRead_DHT_Array_1_286 + 3), W, B
+; #	MOVF	(_dhtRead_DHT_Array_1_286 + 4), W, B
+; removed redundant BANKSEL
+	MOVF	(_dhtRead_DHT_Array_1_286 + 4), W, B
+	ADDWF	r0x02, F
+; #	MOVF	(_dhtRead_DHT_Array_1_286 + 5), W, B
+; #	MOVF	(_dhtRead_DHT_Array_1_286 + 6), W, B
+; removed redundant BANKSEL
+	MOVF	(_dhtRead_DHT_Array_1_286 + 6), W, B
+	ADDWF	r0x02, F
+; removed redundant BANKSEL
+	MOVF	(_dhtRead_DHT_Array_1_286 + 7), W, B
+	CLRF	r0x03
+; removed redundant BANKSEL
+	MOVF	(_dhtRead_DHT_Array_1_286 + 8), W, B
+	XORWF	r0x02, W
+	BNZ	_01585_DS_
+; removed redundant BANKSEL
+	MOVF	(_dhtRead_DHT_Array_1_286 + 9), W, B
+	XORWF	r0x03, W
+	BZ	_01586_DS_
+_01585_DS_:
+	BRA	_01555_DS_
+_01586_DS_:
+;	.line	77; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.int_humidity = DHT_Array[0];    // integer humidity
+	MOVF	r0x00, W
+	BANKSEL	_dht_register
+	MOVWF	_dht_register, B
+	MOVF	r0x01, W
+; removed redundant BANKSEL
+	MOVWF	(_dht_register + 1), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 2)
+;	.line	78; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.dec_humidity = DHT_Array[1];    // decimal humidity (0 on DHT11)
+	MOVF	(_dhtRead_DHT_Array_1_286 + 2), W, B
+	BANKSEL	(_dht_register + 2)
+	MOVWF	(_dht_register + 2), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 3)
+	MOVF	(_dhtRead_DHT_Array_1_286 + 3), W, B
+	BANKSEL	(_dht_register + 3)
+	MOVWF	(_dht_register + 3), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 4)
+;	.line	79; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.int_temperature = DHT_Array[2]; // integer temperature
+	MOVF	(_dhtRead_DHT_Array_1_286 + 4), W, B
+	BANKSEL	(_dht_register + 4)
+	MOVWF	(_dht_register + 4), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 5)
+	MOVF	(_dhtRead_DHT_Array_1_286 + 5), W, B
+	BANKSEL	(_dht_register + 5)
+	MOVWF	(_dht_register + 5), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 6)
+;	.line	80; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.dec_temperature = DHT_Array[3]; // decimal temperature (0 on DHT11)
+	MOVF	(_dhtRead_DHT_Array_1_286 + 6), W, B
+	BANKSEL	(_dht_register + 6)
+	MOVWF	(_dht_register + 6), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 7)
+	MOVF	(_dhtRead_DHT_Array_1_286 + 7), W, B
+	BANKSEL	(_dht_register + 7)
+	MOVWF	(_dht_register + 7), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 8)
+;	.line	81; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.checksum = DHT_Array[4];        // checksum result
+	MOVF	(_dhtRead_DHT_Array_1_286 + 8), W, B
+	BANKSEL	(_dht_register + 8)
+	MOVWF	(_dht_register + 8), B
+	BANKSEL	(_dhtRead_DHT_Array_1_286 + 9)
+	MOVF	(_dhtRead_DHT_Array_1_286 + 9), W, B
+	BANKSEL	(_dht_register + 9)
+	MOVWF	(_dht_register + 9), B
+;	.line	82; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.status =  dht_success;          // success status
+	MOVLW	LOW(_dht_success)
+	MOVWF	TBLPTRL
+	MOVLW	HIGH(_dht_success)
+	MOVWF	TBLPTRH
+	MOVLW	UPPER(_dht_success)
+	MOVWF	TBLPTRU
+	TBLRD*+	
+	MOVFF	TABLAT, r0x00
+	TBLRD*+	
+	MOVFF	TABLAT, r0x01
+	MOVF	r0x00, W
+; removed redundant BANKSEL
+	MOVWF	(_dht_register + 10), B
+	MOVF	r0x01, W
+; removed redundant BANKSEL
+	MOVWF	(_dht_register + 11), B
+;	.line	83; /home/vbasel/.icaro/v4/firmware/source/user.c	return;                          // return success code.
+	BRA	_01563_DS_
+_01555_DS_:
+;	.line	85; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.status = dht_notconnected;          // success status
+	MOVLW	LOW(_dht_notconnected)
+	MOVWF	TBLPTRL
+	MOVLW	HIGH(_dht_notconnected)
+	MOVWF	TBLPTRH
+	MOVLW	UPPER(_dht_notconnected)
+	MOVWF	TBLPTRU
+	TBLRD*+	
+	MOVFF	TABLAT, r0x00
+	TBLRD*+	
+	MOVFF	TABLAT, r0x01
+	MOVF	r0x00, W
+	BANKSEL	(_dht_register + 10)
+	MOVWF	(_dht_register + 10), B
+	MOVF	r0x01, W
+; removed redundant BANKSEL
+	MOVWF	(_dht_register + 11), B
+;	.line	86; /home/vbasel/.icaro/v4/firmware/source/user.c	return;                     //  Sensor data corrupted.
+	BRA	_01563_DS_
+_01558_DS_:
+;	.line	90; /home/vbasel/.icaro/v4/firmware/source/user.c	dht_register.status = dht_checksumfailed;          // success status
+	MOVLW	LOW(_dht_checksumfailed)
+	MOVWF	TBLPTRL
+	MOVLW	HIGH(_dht_checksumfailed)
+	MOVWF	TBLPTRH
+	MOVLW	UPPER(_dht_checksumfailed)
+	MOVWF	TBLPTRU
+	TBLRD*+	
+	MOVFF	TABLAT, r0x00
+	TBLRD*+	
+	MOVFF	TABLAT, r0x01
+	MOVF	r0x00, W
+	BANKSEL	(_dht_register + 10)
+	MOVWF	(_dht_register + 10), B
+	MOVF	r0x01, W
+; removed redundant BANKSEL
+	MOVWF	(_dht_register + 11), B
+_01563_DS_:
+;	.line	93; /home/vbasel/.icaro/v4/firmware/source/user.c	}
 	MOVFF	PREINC1, r0x09
 	MOVFF	PREINC1, r0x08
 	MOVFF	PREINC1, r0x07
@@ -3021,15 +1325,349 @@ _01422_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__lcd_printf	code
-_lcd_printf:
-;	.line	133; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_printf(char *fmt, ...)
+S_main__dhtReadByte	code
+_dhtReadByte:
+;	.line	35; /home/vbasel/.icaro/v4/firmware/source/user.c	int dhtReadByte(int dhtPin)  {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
-;	.line	137; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	va_start(args, fmt);
+	MOVFF	r0x03, POSTDEC1
+	MOVFF	r0x04, POSTDEC1
+	MOVFF	r0x05, POSTDEC1
+	MOVFF	r0x06, POSTDEC1
+	MOVFF	r0x07, POSTDEC1
+	MOVFF	r0x08, POSTDEC1
+	MOVFF	r0x09, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+;	.line	36; /home/vbasel/.icaro/v4/firmware/source/user.c	int a=0;
+	CLRF	r0x02
+	CLRF	r0x03
+;	.line	37; /home/vbasel/.icaro/v4/firmware/source/user.c	int i,rbyte = 0;
+	CLRF	r0x04
+	CLRF	r0x05
+;	.line	38; /home/vbasel/.icaro/v4/firmware/source/user.c	pinmode(dhtPin,INPUT);  // Set the DHT_ pin as input
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	40; /home/vbasel/.icaro/v4/firmware/source/user.c	while(digitalread(dhtPin) == LOW){a++; if(a>100){return rbyte;}} // Wait for input to switch to HIGH
+	CLRF	r0x01
+	CLRF	r0x06
+_01500_DS_:
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVWF	r0x07
+	MOVF	POSTINC1, F
+	MOVF	r0x07, W
+	BNZ	_01502_DS_
+	INFSNZ	r0x02, F
+	INCF	r0x03, F
+	MOVF	r0x03, W
+	ADDLW	0x80
+	ADDLW	0x80
+	BNZ	_01539_DS_
+	MOVLW	0x65
+	SUBWF	r0x02, W
+_01539_DS_:
+	BNC	_01500_DS_
+	MOVFF	r0x05, PRODL
+	MOVF	r0x04, W
+	BRA	_01513_DS_
+_01502_DS_:
+;	.line	41; /home/vbasel/.icaro/v4/firmware/source/user.c	Delayus(35); // Wait for digital 1 mid-point.
+	CLRF	POSTDEC1
+	MOVLW	0x23
+	MOVWF	POSTDEC1
+	CALL	_Delayus
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	42; /home/vbasel/.icaro/v4/firmware/source/user.c	if (digitalread(dhtPin) == HIGH) {  //  We have a digital 1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVF	POSTINC1, F
+	XORLW	0x01
+	BNZ	_01512_DS_
+;	.line	43; /home/vbasel/.icaro/v4/firmware/source/user.c	rbyte |= 1 << (7 - i); // Save the bit.
+	MOVF	r0x01, W
+; #	MOVWF	r0x07
+; #	MOVF	r0x07, W
+	SUBLW	0x07
+	MOVWF	r0x07
+	MOVLW	0x01
+	MOVWF	r0x08
+	CLRF	r0x09
+	MOVF	r0x07, W
+	BZ	_01542_DS_
+	NEGF	WREG
+	BCF	STATUS, 0
+_01543_DS_:
+	RLCF	r0x08, F
+	RLCF	r0x09, F
+	ADDLW	0x01
+	BNC	_01543_DS_
+_01542_DS_:
+	MOVF	r0x08, W
+	IORWF	r0x04, F
+	MOVF	r0x09, W
+	IORWF	r0x05, F
+;	.line	44; /home/vbasel/.icaro/v4/firmware/source/user.c	a=0;
+	CLRF	r0x02
+	CLRF	r0x03
+;	.line	45; /home/vbasel/.icaro/v4/firmware/source/user.c	while(digitalread(dhtPin) == HIGH){a++; if(a>100){return rbyte;}} // wait for HIGH to LOW switch (~ 35us).
+	CLRF	r0x07
+	CLRF	r0x08
+_01505_DS_:
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVF	POSTINC1, F
+	XORLW	0x01
+	BNZ	_01512_DS_
+	INFSNZ	r0x07, F
+	INCF	r0x08, F
+	MOVFF	r0x07, r0x02
+	MOVFF	r0x08, r0x03
+	MOVF	r0x08, W
+	ADDLW	0x80
+	ADDLW	0x80
+	BNZ	_01547_DS_
+	MOVLW	0x65
+	SUBWF	r0x07, W
+_01547_DS_:
+	BNC	_01505_DS_
+	MOVFF	r0x05, PRODL
+	MOVF	r0x04, W
+	BRA	_01513_DS_
+_01512_DS_:
+;	.line	39; /home/vbasel/.icaro/v4/firmware/source/user.c	for (i=0 ; i < 8 ; i++) {
+	INFSNZ	r0x01, F
+	INCF	r0x06, F
+	MOVF	r0x06, W
+	ADDLW	0x80
+	ADDLW	0x80
+	BNZ	_01548_DS_
+	MOVLW	0x08
+	SUBWF	r0x01, W
+_01548_DS_:
+	BTFSS	STATUS, 0
+	BRA	_01500_DS_
+;	.line	48; /home/vbasel/.icaro/v4/firmware/source/user.c	return rbyte;
+	MOVFF	r0x05, PRODL
+	MOVF	r0x04, W
+_01513_DS_:
+;	.line	49; /home/vbasel/.icaro/v4/firmware/source/user.c	}    
+	MOVFF	PREINC1, r0x09
+	MOVFF	PREINC1, r0x08
+	MOVFF	PREINC1, r0x07
+	MOVFF	PREINC1, r0x06
+	MOVFF	PREINC1, r0x05
+	MOVFF	PREINC1, r0x04
+	MOVFF	PREINC1, r0x03
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_init	code
+_lcdi2c_init:
+;	.line	444; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	void lcdi2c_init(u8 numcol, u8 numline, u8 i2c_address)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+	MOVLW	0x04
+	MOVFF	PLUSW2, _PCF8574_address
+;	.line	446; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	numcolmax  = numcol - 1;
+	DECF	r0x00, W
+	BANKSEL	_numcolmax
+	MOVWF	_numcolmax, B
+;	.line	447; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	numlinemax = numline - 1;
+	DECF	r0x01, W
+	BANKSEL	_numlinemax
+	MOVWF	_numlinemax, B
+	BANKSEL	_PCF8574_data
+;	.line	450; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	PCF8574_data.val = 0;
+	CLRF	_PCF8574_data, B
+;	.line	452; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_init(I2C_MASTER_MODE, I2C_100KHZ);
+	CLRF	POSTDEC1
+	MOVLW	0x64
+	MOVWF	POSTDEC1
+	MOVLW	0x00
+	CLRF	POSTDEC1
+	CALL	_I2C_init
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+;	.line	455; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send4(0x30, LCD_CMD);			// 0x30 - Mode 8 bits
+	CLRF	POSTDEC1
+	MOVLW	0x30
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send4
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	457; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send4(0x30, LCD_CMD);			// 0x30 - Mode 8 bits
+	CLRF	POSTDEC1
+	MOVLW	0x30
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send4
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	459; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send4(0x30, LCD_CMD);			// 0x30 - Mode 8 bits
+	CLRF	POSTDEC1
+	MOVLW	0x30
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send4
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	461; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send4(0x20, LCD_CMD);			// 0x20 - Mode 4 bits
+	CLRF	POSTDEC1
+	MOVLW	0x20
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send4
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	462; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(LCD_SYSTEM_SET_4BITS, LCD_CMD); 	// 0x28 - Mode 4 bits - 2 Lignes - 5x8
+	CLRF	POSTDEC1
+	MOVLW	0x28
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	464; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(LCD_DISPLAY_ON, LCD_CMD);		// 0x0C - Display ON + Cursor OFF + Blinking OFF
+	CLRF	POSTDEC1
+	MOVLW	0x0c
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	466; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(LCD_DISPLAY_CLEAR, LCD_CMD);    	// 0x01 - Efface l'affichage + init. DDRAM
+	CLRF	POSTDEC1
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	467; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	Delayms(2);					// le temps d'execution de Display Clear > 1.64ms
+	CLRF	POSTDEC1
+	MOVLW	0x02
+	MOVWF	POSTDEC1
+	CALL	_Delayms
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	468; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(LCD_ENTRY_MODE_SET, LCD_CMD);   	// 0x06 - Increment + Display not shifted (Déplacement automatique du curseur)
+	CLRF	POSTDEC1
+	MOVLW	0x06
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	471; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_newchar	code
+_lcdi2c_newchar:
+;	.line	393; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	void lcdi2c_newchar(const u8 *c, u8 char_code)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+	MOVFF	r0x03, POSTDEC1
+	MOVFF	r0x04, POSTDEC1
+	MOVFF	r0x05, POSTDEC1
+	MOVFF	r0x06, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+	MOVLW	0x04
+	MOVFF	PLUSW2, r0x02
+	MOVLW	0x05
+	MOVFF	PLUSW2, r0x03
+;	.line	398; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	a = (char_code << 3) | LCD_ADRESS_CGRAM;
+	SWAPF	r0x03, W
+	RRNCF	WREG, W
+	ANDLW	0xf8
+	MOVWF	r0x04
+	MOVFF	r0x04, r0x03
+	BSF	r0x03, 6
+;	.line	399; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	for(i=0; i<8; i++)
+	CLRF	r0x04
+_01479_DS_:
+;	.line	401; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(a, LCD_CMD);
+	CLRF	POSTDEC1
+	MOVF	r0x03, W
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	402; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(c[i], LCD_DATA);
+	MOVF	r0x04, W
+	ADDWF	r0x00, W
+	MOVWF	r0x05
+	CLRF	WREG
+	ADDWFC	r0x01, W
+	MOVWF	r0x06
+	CLRF	WREG
+	ADDWFC	r0x02, W
+	MOVFF	r0x05, FSR0L
+	MOVFF	r0x06, PRODL
+	CALL	__gptrget1
+	MOVWF	r0x05
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVF	r0x05, W
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	403; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	a++;
+	INCF	r0x03, F
+;	.line	399; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	for(i=0; i<8; i++)
+	INCF	r0x04, F
+	MOVLW	0x08
+	SUBWF	r0x04, W
+	BNC	_01479_DS_
+;	.line	405; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x06
+	MOVFF	PREINC1, r0x05
+	MOVFF	PREINC1, r0x04
+	MOVFF	PREINC1, r0x03
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_printf	code
+_lcdi2c_printf:
+;	.line	373; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	void lcdi2c_printf(char *fmt, ...)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+;	.line	377; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	va_start(args, fmt);
 	MOVLW	0x02
 	ADDWF	FSR2L, W
 	MOVWF	r0x00
@@ -3049,7 +1687,7 @@ _lcd_printf:
 	MOVLW	0x00
 	ADDWFC	r0x01, F
 	ADDWFC	r0x02, F
-;	.line	138; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	pprintf(lcd_write, fmt, args);
+;	.line	378; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	pprintf(lcdi2c_write, fmt, args);
 	MOVF	r0x02, W
 	MOVWF	POSTDEC1
 	MOVF	r0x01, W
@@ -3062,16 +1700,16 @@ _lcd_printf:
 	MOVFF	PLUSW2, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, POSTDEC1
-	MOVLW	UPPER(_lcd_write)
+	MOVLW	UPPER(_lcdi2c_write)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_lcd_write)
+	MOVLW	HIGH(_lcdi2c_write)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(_lcd_write)
+	MOVLW	LOW(_lcdi2c_write)
 	MOVWF	POSTDEC1
 	CALL	_pprintf
 	MOVLW	0x09
 	ADDWF	FSR1L, F
-;	.line	139; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	va_end(args);
+;	.line	380; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -3079,117 +1717,600 @@ _lcd_printf:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__lcd_print	code
-_lcd_print:
-;	.line	122; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_print(char *string)
+S_main__lcdi2c_write	code
+_lcdi2c_write:
+;	.line	362; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	void lcdi2c_write(u8 c)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+;	.line	364; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(c, LCD_DATA);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	365; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_setCursor	code
+_lcdi2c_setCursor:
+;	.line	329; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	void lcdi2c_setCursor(u8 col, u8 line)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
-	MOVFF	r0x04, POSTDEC1
-	MOVFF	r0x05, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+	BANKSEL	_lcdi2c_setCursor_row_offsets_1_265
+;	.line	331; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	int row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
+	CLRF	_lcdi2c_setCursor_row_offsets_1_265, B
+; removed redundant BANKSEL
+	CLRF	(_lcdi2c_setCursor_row_offsets_1_265 + 1), B
+	MOVLW	0x40
+; removed redundant BANKSEL
+	MOVWF	(_lcdi2c_setCursor_row_offsets_1_265 + 2), B
+; removed redundant BANKSEL
+	CLRF	(_lcdi2c_setCursor_row_offsets_1_265 + 3), B
+	MOVLW	0x14
+; removed redundant BANKSEL
+	MOVWF	(_lcdi2c_setCursor_row_offsets_1_265 + 4), B
+; removed redundant BANKSEL
+	CLRF	(_lcdi2c_setCursor_row_offsets_1_265 + 5), B
+	MOVLW	0x54
+; removed redundant BANKSEL
+	MOVWF	(_lcdi2c_setCursor_row_offsets_1_265 + 6), B
+; removed redundant BANKSEL
+	CLRF	(_lcdi2c_setCursor_row_offsets_1_265 + 7), B
+;	.line	333; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	if ( line > numlinemax )
+	MOVF	r0x01, W
+	BANKSEL	_numlinemax
+	SUBWF	_numlinemax, W, B
+	BC	_01451_DS_
+; removed redundant BANKSEL
+;	.line	334; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	line = numlinemax - 1;    // we count rows starting w/0
+	MOVF	_numlinemax, W, B
+	MOVWF	r0x02
+	DECF	r0x02, W
+	MOVWF	r0x01
+_01451_DS_:
+;	.line	335; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	if ( col > numcolmax )
+	MOVF	r0x00, W
+	BANKSEL	_numcolmax
+	SUBWF	_numcolmax, W, B
+	BC	_01453_DS_
+; removed redundant BANKSEL
+;	.line	336; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	col = numcolmax - 1;    // we count rows starting w/0
+	MOVF	_numcolmax, W, B
+	MOVWF	r0x02
+	DECF	r0x02, W
+	MOVWF	r0x00
+; ;multiply lit val:0x02 by variable r0x01 and store in r0x01
+_01453_DS_:
+;	.line	337; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send8(LCD_SETDDRAMADDR | (col + row_offsets[line]), LCD_CMD);
+	MOVF	r0x01, W
+	MULLW	0x02
+	MOVF	PRODH, W
+	MOVWF	r0x02
+	MOVFF	PRODL, r0x01
+	MOVLW	LOW(_lcdi2c_setCursor_row_offsets_1_265)
+	ADDWF	r0x01, F
+	MOVLW	HIGH(_lcdi2c_setCursor_row_offsets_1_265)
+	ADDWFC	r0x02, F
+	MOVFF	r0x01, FSR0L
+	MOVFF	r0x02, FSR0H
+	MOVFF	POSTINC0, r0x01
+	MOVFF	INDF0, r0x02
+	MOVF	r0x00, W
+	ADDWF	r0x01, F
+	BSF	r0x01, 7
+	CLRF	POSTDEC1
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send8
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	338; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_noBacklight	code
+_lcdi2c_noBacklight:
+;	.line	311; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	void lcdi2c_noBacklight()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	BANKSEL	_gBacklight
+;	.line	313; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	gBacklight = OFF;	// 1 = OFF since PCF8574 is logical inverted
+	CLRF	_gBacklight, B
+	BANKSEL	_PCF8574_data
+;	.line	314; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_BL = gBacklight;
+	BCF	_PCF8574_data, 3, B
+;	.line	315; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_start();
+	CALL	_I2C_start
+	BANKSEL	_PCF8574_address
+;	.line	316; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_write((PCF8574_address << 1) | I2C_WRITE);
+	MOVF	_PCF8574_address, W, B
+	MOVWF	r0x00
+	RLNCF	r0x00, W
+	ANDLW	0xfe
+	MOVWF	r0x01
+	MOVFF	r0x01, r0x00
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_I2C_write
+	MOVF	POSTINC1, F
+	BANKSEL	_PCF8574_data
+;	.line	317; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_write(PCF8574_data.val);
+	MOVF	_PCF8574_data, W, B
+	MOVWF	POSTDEC1
+	CALL	_I2C_write
+	MOVF	POSTINC1, F
+;	.line	318; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_stop();
+	CALL	_I2C_stop
+;	.line	319; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_backlight	code
+_lcdi2c_backlight:
+;	.line	295; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	void lcdi2c_backlight()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+;	.line	297; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	gBacklight = ON;	// 0 = ON since PCF8574 is logical inverted
+	MOVLW	0x01
+	BANKSEL	_gBacklight
+	MOVWF	_gBacklight, B
+	BANKSEL	_PCF8574_data
+;	.line	298; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_BL = gBacklight;
+	BSF	_PCF8574_data, 3, B
+;	.line	299; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_start();
+	CALL	_I2C_start
+	BANKSEL	_PCF8574_address
+;	.line	300; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_write((PCF8574_address << 1) | I2C_WRITE);
+	MOVF	_PCF8574_address, W, B
+	MOVWF	r0x00
+	RLNCF	r0x00, W
+	ANDLW	0xfe
+	MOVWF	r0x01
+	MOVFF	r0x01, r0x00
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_I2C_write
+	MOVF	POSTINC1, F
+	BANKSEL	_PCF8574_data
+;	.line	301; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_write(PCF8574_data.val);
+	MOVF	_PCF8574_data, W, B
+	MOVWF	POSTDEC1
+	CALL	_I2C_write
+	MOVF	POSTINC1, F
+;	.line	302; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_stop();
+	CALL	_I2C_stop
+;	.line	303; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_send8	code
+_lcdi2c_send8:
+;	.line	283; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	static void lcdi2c_send8(u8 octet, u8 mode)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+;	.line	285; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send4(octet & LCD_MASK, mode);			// send upper 4 bits
+	MOVLW	0xf0
+	ANDWF	r0x00, W
+	MOVWF	r0x02
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	MOVF	r0x02, W
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send4
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	286; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	lcdi2c_send4((octet << 4) & LCD_MASK, mode);	// send lower 4 bits
+	SWAPF	r0x00, W
+	ANDLW	0xf0
+; #	MOVWF	r0x02
+; #	MOVF	r0x02, W
+	MOVWF	r0x00
+	MOVLW	0xf0
+	ANDWF	r0x00, F
+	MOVF	r0x01, W
+	MOVWF	POSTDEC1
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_lcdi2c_send4
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	288; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x02
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__lcdi2c_send4	code
+_lcdi2c_send4:
+;	.line	244; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	static void lcdi2c_send4(u8 quartet, u8 mode)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+;	.line	247; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	PCF8574_data.val = quartet;     // x  x  x  x  0  0  0    0
+	MOVF	r0x00, W
+	BANKSEL	_PCF8574_data
+	MOVWF	_PCF8574_data, B
+;	.line	248; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_EN = LOW;                   // x  x  x  x  0  0  0    0
+	BCF	_PCF8574_data, 2, B
+;	.line	249; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_RW = LCD_WRITE;				// x  x  x  x  0  0  0    0
+	BCF	_PCF8574_data, 1, B
+;	.line	250; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_RS = mode;					// x  x  x  x  0  0  0/1  0
+	MOVF	r0x01, W
+	ANDLW	0x01
+	MOVWF	PRODH
+; removed redundant BANKSEL
+	MOVF	_PCF8574_data, W, B
+	ANDLW	0xfe
+	IORWF	PRODH, W
+; removed redundant BANKSEL
+	MOVWF	_PCF8574_data, B
+	BANKSEL	_gBacklight
+;	.line	251; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_BL = gBacklight;				// x  x  x  x  0  0  0/1  0/1
+	MOVF	_gBacklight, W, B
+	ANDLW	0x01
+	SWAPF	WREG, W
+	RRNCF	WREG, W
+	MOVWF	PRODH
+	BANKSEL	_PCF8574_data
+	MOVF	_PCF8574_data, W, B
+	ANDLW	0xf7
+	IORWF	PRODH, W
+; removed redundant BANKSEL
+	MOVWF	_PCF8574_data, B
+;	.line	255; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_start();                    // send start condition
+	CALL	_I2C_start
+	BANKSEL	_PCF8574_address
+;	.line	258; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_write((PCF8574_address << 1) | I2C_WRITE);
+	MOVF	_PCF8574_address, W, B
+	MOVWF	r0x00
+	RLNCF	r0x00, W
+	ANDLW	0xfe
+	MOVWF	r0x01
+	MOVFF	r0x01, r0x00
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_I2C_write
+	MOVF	POSTINC1, F
+	BANKSEL	_PCF8574_data
+;	.line	260; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_EN = HIGH;
+	BSF	_PCF8574_data, 2, B
+;	.line	261; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_write(PCF8574_data.val);
+	MOVF	_PCF8574_data, W, B
+	MOVWF	POSTDEC1
+	CALL	_I2C_write
+	MOVF	POSTINC1, F
+	BANKSEL	_PCF8574_data
+;	.line	264; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	LCD_EN = LOW;
+	BCF	_PCF8574_data, 2, B
+;	.line	265; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_write(PCF8574_data.val);
+	MOVF	_PCF8574_data, W, B
+	MOVWF	POSTDEC1
+	CALL	_I2C_write
+	MOVF	POSTINC1, F
+;	.line	268; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	I2C_stop();                     // send stop confition
+	CALL	_I2C_stop
+;	.line	269; /home/vbasel/.icaro/v4/firmware/libraries/lcdi2c.c	}
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_sendNack	code
+_I2C_sendNack:
+;	.line	576; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                     // Wait module is inactive
+	CALL	_I2C_idle
+;	.line	583; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.ACKDT = 1;          // We want a no Ack
+	BSF	_SSPCON2bits, 5
+;	.line	590; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR1bits.SSPIF = 0;             // Clear SSP interrupt flag
+	BCF	_PIR1bits, 3
+;	.line	598; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.ACKEN = 1;          // Send it now
+	BSF	_SSPCON2bits, 4
+_01422_DS_:
+;	.line	605; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (!PIR1bits.SSPIF);        // Wait the interrupt flag is set
+	BTFSS	_PIR1bits, 3
+	BRA	_01422_DS_
+;	.line	607; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_sendAck	code
+_I2C_sendAck:
+;	.line	534; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                     // Wait module is inactive
+	CALL	_I2C_idle
+;	.line	541; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.ACKDT = 0;          // We want an Ack
+	BCF	_SSPCON2bits, 5
+;	.line	548; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR1bits.SSPIF = 0;             // Clear SSP interrupt flag
+	BCF	_PIR1bits, 3
+;	.line	556; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.ACKEN = 1;          // Send it now
+	BSF	_SSPCON2bits, 4
+_01414_DS_:
+;	.line	563; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (!PIR1bits.SSPIF);        // Wait the interrupt flag is set
+	BTFSS	_PIR1bits, 3
+	BRA	_01414_DS_
+;	.line	565; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_restart	code
+_I2C_restart:
+;	.line	509; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                     // Wait module is inactive
+	CALL	_I2C_idle
+;	.line	519; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.RSEN = 1;           // Send restart bit
+	BSF	_SSPCON2bits, 1
+_01406_DS_:
+;	.line	520; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (SSPCON2bits.RSEN);       // Wait until RSEN is cleared  
+	BTFSC	_SSPCON2bits, 1
+	BRA	_01406_DS_
+;	.line	523; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_stop	code
+_I2C_stop:
+;	.line	485; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                     // Wait module is inactive
+	CALL	_I2C_idle
+;	.line	495; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.PEN = 1;            // Send stop bit
+	BSF	_SSPCON2bits, 2
+_01398_DS_:
+;	.line	496; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (SSPCON2bits.PEN);        // Wait until PEN is cleared 
+	BTFSC	_SSPCON2bits, 2
+	BRA	_01398_DS_
+;	.line	499; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_start	code
+_I2C_start:
+;	.line	459; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                     // Wait module is inactive
+	CALL	_I2C_idle
+;	.line	469; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.SEN = 1;            // Send start bit
+	BSF	_SSPCON2bits, 0
+_01390_DS_:
+;	.line	470; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (SSPCON2bits.SEN);        // Wait until SEN is cleared 
+	BTFSC	_SSPCON2bits, 0
+	BRA	_01390_DS_
+;	.line	473; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_idle	code
+_I2C_idle:
+;	.line	415; /home/vbasel/.icaro/v4/firmware/core/i2c.c	void I2C_idle()
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+_01375_DS_:
+;	.line	422; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (((SSPCON2 & 0x1F) > 0) | (SSPSTATbits.R_W));
+	MOVFF	_SSPCON2, r0x00
+	CLRF	r0x01
+	MOVLW	0x1f
+	ANDWF	r0x00, F
+	MOVF	r0x01, W
+	ADDLW	0x80
+	ADDLW	0x80
+	BNZ	_01385_DS_
+	MOVLW	0x01
+	SUBWF	r0x00, W
+_01385_DS_:
+	CLRF	r0x00
+	RLCF	r0x00, F
+	CLRF	r0x01
+	BTFSC	_SSPSTATbits, 2
+	INCF	r0x01, F
+	MOVF	r0x01, W
+	IORWF	r0x00, F
+	MOVF	r0x00, W
+	BNZ	_01375_DS_
+;	.line	424; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_wait	code
+_I2C_wait:
+_01367_DS_:
+;	.line	395; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (!PIR1bits.SSPIF);        // Wait the interrupt flag is set
+	BTFSS	_PIR1bits, 3
+	BRA	_01367_DS_
+;	.line	396; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR1bits.SSPIF = 0;             // Clear SSP interrupt flag
+	BCF	_PIR1bits, 3
+;	.line	398; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_read	code
+_I2C_read:
+;	.line	339; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                 // Wait the MSSP module is inactive
+	CALL	_I2C_idle
+;	.line	346; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2bits.RCEN = 1;       // Initiate reception of byte
+	BSF	_SSPCON2bits, 3
+;	.line	357; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR1bits.SSPIF = 0;         // Clear SSP interrupt flag
+	BCF	_PIR1bits, 3
+_01359_DS_:
+;	.line	358; /home/vbasel/.icaro/v4/firmware/core/i2c.c	while (!PIR1bits.SSPIF);    // Wait the interrupt flag is set
+	BTFSS	_PIR1bits, 3
+	BRA	_01359_DS_
+;	.line	359; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR1bits.SSPIF=0;           // ROlf clear SSPIF
+	BCF	_PIR1bits, 3
+;	.line	360; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR1bits.SSPIF=0;           // ROlf clear SSPIF
+	BCF	_PIR1bits, 3
+;	.line	368; /home/vbasel/.icaro/v4/firmware/core/i2c.c	return SSPBUF;
+	MOVF	_SSPBUF, W
+;	.line	370; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_write	code
+_I2C_write:
+;	.line	291; /home/vbasel/.icaro/v4/firmware/core/i2c.c	u8 I2C_write(u8 value)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, _SSPBUF
+;	.line	293; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                     // Wait the MSSP module is inactive
+	CALL	_I2C_idle
+;	.line	301; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_idle();                     // Wait the MSSP module is inactive
+	CALL	_I2C_idle
+;	.line	317; /home/vbasel/.icaro/v4/firmware/core/i2c.c	return (!SSPCON2bits.ACKSTAT);  // 1 if Ack, 0 if NAck
+	CLRF	r0x00
+	BTFSC	_SSPCON2bits, 6
+	INCF	r0x00, F
+	MOVF	r0x00, W
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
+	CLRF	r0x00
+	RLCF	r0x00, F
+	MOVF	r0x00, W
+;	.line	319; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__I2C_init	code
+_I2C_init:
+;	.line	146; /home/vbasel/.icaro/v4/firmware/core/i2c.c	void I2C_init(u8 mode, u16 sora)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVFF	r0x02, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
 	MOVLW	0x04
 	MOVFF	PLUSW2, r0x02
-;	.line	125; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for( i=0; string[i]; i++)
-	CLRF	r0x03
-_01401_DS_:
-	MOVF	r0x03, W
-	ADDWF	r0x00, W
-	MOVWF	r0x04
-	CLRF	WREG
-	ADDWFC	r0x01, W
-	MOVWF	r0x05
-	CLRF	WREG
-	ADDWFC	r0x02, W
-	MOVFF	r0x04, FSR0L
-	MOVFF	r0x05, PRODL
-	CALL	__gptrget1
-	MOVWF	r0x04
-	MOVF	r0x04, W
-	BZ	_01403_DS_
-;	.line	126; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write(string[i]);
-	MOVF	r0x04, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_write
-	MOVF	POSTINC1, F
-;	.line	125; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for( i=0; string[i]; i++)
-	INCF	r0x03, F
-	BRA	_01401_DS_
-_01403_DS_:
-	MOVFF	PREINC1, r0x05
-	MOVFF	PREINC1, r0x04
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_setCursor	code
-_lcd_setCursor:
-;	.line	97; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_setCursor(u8 col, u8 row)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-	MOVLW	0x03
-	MOVFF	PLUSW2, r0x01
-	BANKSEL	_lcd_setCursor_row_offsets_1_227
-;	.line	99; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	u8 row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
-	CLRF	_lcd_setCursor_row_offsets_1_227, B
-	MOVLW	0x40
-; removed redundant BANKSEL
-	MOVWF	(_lcd_setCursor_row_offsets_1_227 + 1), B
-	MOVLW	0x14
-; removed redundant BANKSEL
-	MOVWF	(_lcd_setCursor_row_offsets_1_227 + 2), B
-	MOVLW	0x54
-; removed redundant BANKSEL
-	MOVWF	(_lcd_setCursor_row_offsets_1_227 + 3), B
-	BANKSEL	__numlines
-;	.line	106; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (_numlines==1) {
-	MOVF	__numlines, W, B
+;	.line	160; /home/vbasel/.icaro/v4/firmware/core/i2c.c	TRISBbits.TRISB0 = INPUT;			// SDA = INPUT
+	BSF	_TRISBbits, 0
+;	.line	161; /home/vbasel/.icaro/v4/firmware/core/i2c.c	TRISBbits.TRISB1 = INPUT;			// SCL = INPUT
+	BSF	_TRISBbits, 1
+;	.line	165; /home/vbasel/.icaro/v4/firmware/core/i2c.c	switch (mode)
+	MOVF	r0x00, W
+	BZ	_01312_DS_
+	MOVF	r0x00, W
 	XORLW	0x01
-	BNZ	_01387_DS_
-;	.line	107; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	row_offsets[1] = 0x14;
-	MOVLW	0x14
-	BANKSEL	(_lcd_setCursor_row_offsets_1_227 + 1)
-	MOVWF	(_lcd_setCursor_row_offsets_1_227 + 1), B
-;	.line	108; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	row_offsets[2] = 0x28;
-	MOVLW	0x28
-; removed redundant BANKSEL
-	MOVWF	(_lcd_setCursor_row_offsets_1_227 + 2), B
-;	.line	109; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	row_offsets[3] = 0x3C;
-	MOVLW	0x3c
-; removed redundant BANKSEL
-	MOVWF	(_lcd_setCursor_row_offsets_1_227 + 3), B
-_01387_DS_:
-;	.line	116; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_command(LCD_SETDDRAMADDR | (col + row_offsets[row]));
-	CLRF	r0x02
-	MOVLW	LOW(_lcd_setCursor_row_offsets_1_227)
-	ADDWF	r0x01, F
-	MOVLW	HIGH(_lcd_setCursor_row_offsets_1_227)
-	ADDWFC	r0x02, F
-	MOVFF	r0x01, FSR0L
-	MOVFF	r0x02, FSR0H
-	MOVFF	INDF0, r0x01
+	BNZ	_01312_DS_
+;	.line	172; /home/vbasel/.icaro/v4/firmware/core/i2c.c	if (sora > 0x80)
+	MOVLW	0x00
+	SUBWF	r0x02, W
+	BNZ	_01343_DS_
+	MOVLW	0x81
+	SUBWF	r0x01, W
+_01343_DS_:
+	BNC	_01309_DS_
+;	.line	173; /home/vbasel/.icaro/v4/firmware/core/i2c.c	conf = 0b00101111;	// Slave mode, 10-bit address with Start and Stop bit interrupts enabled
+	MOVLW	0x2f
+	MOVWF	r0x00
+	BRA	_01310_DS_
+_01309_DS_:
+;	.line	175; /home/vbasel/.icaro/v4/firmware/core/i2c.c	conf = 0b00101110;	// 00101110Slave mode,  7-bit address with Start and Stop bit interrupts enabled
+	MOVLW	0x2e
+	MOVWF	r0x00
+_01310_DS_:
+;	.line	183; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON1 = conf;
+	MOVFF	r0x00, _SSPCON1
+;	.line	184; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPADD = sora;				// Slave 7-bit address
 	MOVF	r0x01, W
-	ADDWF	r0x00, F
-	BSF	r0x00, 7
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_command
-	MOVF	POSTINC1, F
+	MOVWF	_SSPADD
+;	.line	186; /home/vbasel/.icaro/v4/firmware/core/i2c.c	break;
+	BRA	_01318_DS_
+_01312_DS_:
+;	.line	195; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON1= 0b00101000;		// Master Mode, clock = FOSC/(4 * (SSPADD + 1))
+	MOVLW	0x28
+	MOVWF	_SSPCON1
+;	.line	198; /home/vbasel/.icaro/v4/firmware/core/i2c.c	switch (sora)
+	MOVF	r0x01, W
+	XORLW	0x64
+	BNZ	_01345_DS_
+	MOVF	r0x02, W
+	BZ	_01316_DS_
+_01345_DS_:
+	MOVF	r0x01, W
+	XORLW	0x90
+	BNZ	_01347_DS_
+	MOVF	r0x02, W
+	XORLW	0x01
+	BZ	_01314_DS_
+_01347_DS_:
+	MOVF	r0x01, W
+	XORLW	0xe8
+	BNZ	_01348_DS_
+	MOVF	r0x02, W
+	XORLW	0x03
+	BZ	_01349_DS_
+_01348_DS_:
+	BRA	_01316_DS_
+_01349_DS_:
+;	.line	208; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPSTATbits.SMP = 1;    // Slew Mode Off
+	BSF	_SSPSTATbits, 7
+;	.line	209; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPADD= 11;             // 1MHz = FOSC/(4 * (SSPADD + 1))
+	MOVLW	0x0b
+	MOVWF	_SSPADD
+;	.line	212; /home/vbasel/.icaro/v4/firmware/core/i2c.c	break;
+	BRA	_01318_DS_
+_01314_DS_:
+;	.line	222; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPSTATbits.SMP = 0;    // Slew Mode On
+	BCF	_SSPSTATbits, 7
+;	.line	223; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPADD= 29;             // 400kHz = FOSC/(4 * (SSPADD + 1))
+	MOVLW	0x1d
+	MOVWF	_SSPADD
+;	.line	226; /home/vbasel/.icaro/v4/firmware/core/i2c.c	break;
+	BRA	_01318_DS_
+_01316_DS_:
+;	.line	237; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPSTATbits.SMP = 1;    // Slew Mode Off
+	BSF	_SSPSTATbits, 7
+;	.line	238; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPADD= 119;            // 100kHz = FOSC/(4 * (SSPADD + 1))
+	MOVLW	0x77
+	MOVWF	_SSPADD
+_01318_DS_:
+;	.line	250; /home/vbasel/.icaro/v4/firmware/core/i2c.c	SSPCON2= 0;
+	CLRF	_SSPCON2
+;	.line	258; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR1bits.SSPIF = 0; // MSSP Interrupt Flag
+	BCF	_PIR1bits, 3
+;	.line	259; /home/vbasel/.icaro/v4/firmware/core/i2c.c	PIR2bits.BCLIF = 0; // Bus Collision Interrupt Flag
+	BCF	_PIR2bits, 3
+;	.line	262; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -3197,50 +2318,9 @@ _01387_DS_:
 	RETURN	
 
 ; ; Starting pCode block
-S_main__lcd_command	code
-_lcd_command:
-;	.line	90; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_command(u8 value)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-;	.line	92; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_send(value, LOW);
-	CLRF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_send
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_write	code
-_lcd_write:
-;	.line	84; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_write(u8 value)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-;	.line	86; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_send(value, HIGH);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_send
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_send	code
-_lcd_send:
-;	.line	68; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_send(u8 value, u8 mode)
+S_main__I2C_slave	code
+_I2C_slave:
+;	.line	128; /home/vbasel/.icaro/v4/firmware/core/i2c.c	void I2C_slave(u16 DeviceID)   
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -3249,181 +2329,48 @@ _lcd_send:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	70; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	digitalwrite(_rs_pin, mode);
+;	.line	130; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_init(I2C_SLAVE_MODE, DeviceID);
 	MOVF	r0x01, W
 	MOVWF	POSTDEC1
-	BANKSEL	__rs_pin
-	MOVF	__rs_pin, W, B
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-	BANKSEL	__displayfunction
-;	.line	72; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	if (_displayfunction & LCD_8BITMODE)
-	BTFSS	__displayfunction, 4, B
-	BRA	_01364_DS_
-;	.line	74; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write8bits(value); 
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	CALL	_lcd_write8bits
-	MOVF	POSTINC1, F
-	BRA	_01366_DS_
-_01364_DS_:
-;	.line	78; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write4bits(value >> 4);	// Upper 4 bits first
-	SWAPF	r0x00, W
-	ANDLW	0x0f
-; #	MOVWF	r0x01
-; #	MOVF	r0x01, W
+	MOVLW	0x01
 	MOVWF	POSTDEC1
-	CALL	_lcd_write4bits
-	MOVF	POSTINC1, F
-;	.line	79; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_write4bits(value);	    // Lower 4 bits second
-	MOVF	r0x00, W
-	MOVWF	POSTDEC1
-	CALL	_lcd_write4bits
-	MOVF	POSTINC1, F
-_01366_DS_:
+	CALL	_I2C_init
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+;	.line	131; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	RETURN	
 
 ; ; Starting pCode block
-S_main__lcd_write8bits	code
-_lcd_write8bits:
-;	.line	59; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_write8bits(u8 value)
+S_main__I2C_master	code
+_I2C_master:
+;	.line	123; /home/vbasel/.icaro/v4/firmware/core/i2c.c	void I2C_master(u16 speed)   
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	62; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 8; i++)
-	CLRF	r0x01
-_01344_DS_:
-;	.line	63; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	digitalwrite(_data_pins[i], (value >> i) & 0x01);
-	MOVLW	LOW(__data_pins)
-	ADDWF	r0x01, W
-	MOVWF	r0x02
-	CLRF	r0x03
-	MOVLW	HIGH(__data_pins)
-	ADDWFC	r0x03, F
-	MOVFF	r0x02, FSR0L
-	MOVFF	r0x03, FSR0H
-	MOVFF	INDF0, r0x02
-	MOVFF	r0x00, r0x03
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+;	.line	125; /home/vbasel/.icaro/v4/firmware/core/i2c.c	I2C_init(I2C_MASTER_MODE, speed);
 	MOVF	r0x01, W
-	BZ	_01355_DS_
-	NEGF	WREG
-	BCF	STATUS, 0
-_01356_DS_:
-	RRCF	r0x03, F
-	ADDLW	0x01
-	BNC	_01356_DS_
-_01355_DS_:
-	MOVLW	0x01
-	ANDWF	r0x03, F
-	MOVF	r0x03, W
 	MOVWF	POSTDEC1
-	MOVF	r0x02, W
+	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	62; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 8; i++)
-	INCF	r0x01, F
-	MOVLW	0x08
-	SUBWF	r0x01, W
-	BNC	_01344_DS_
-;	.line	64; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_pulseEnable();
-	CALL	_lcd_pulseEnable
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_write4bits	code
-_lcd_write4bits:
-;	.line	50; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	void lcd_write4bits(u8 value)
-	MOVFF	FSR2L, POSTDEC1
-	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-	MOVFF	r0x01, POSTDEC1
-	MOVFF	r0x02, POSTDEC1
-	MOVFF	r0x03, POSTDEC1
-	MOVLW	0x02
-	MOVFF	PLUSW2, r0x00
-;	.line	53; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 4; i++)
-	CLRF	r0x01
-_01324_DS_:
-;	.line	54; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	digitalwrite(_data_pins[i], (value >> i) & 0x01);
-	MOVLW	LOW(__data_pins)
-	ADDWF	r0x01, W
-	MOVWF	r0x02
-	CLRF	r0x03
-	MOVLW	HIGH(__data_pins)
-	ADDWFC	r0x03, F
-	MOVFF	r0x02, FSR0L
-	MOVFF	r0x03, FSR0H
-	MOVFF	INDF0, r0x02
-	MOVFF	r0x00, r0x03
-	MOVF	r0x01, W
-	BZ	_01335_DS_
-	NEGF	WREG
-	BCF	STATUS, 0
-_01336_DS_:
-	RRCF	r0x03, F
-	ADDLW	0x01
-	BNC	_01336_DS_
-_01335_DS_:
-	MOVLW	0x01
-	ANDWF	r0x03, F
-	MOVF	r0x03, W
-	MOVWF	POSTDEC1
-	MOVF	r0x02, W
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	53; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	for (i = 0; i < 4; i++)
-	INCF	r0x01, F
-	MOVLW	0x04
-	SUBWF	r0x01, W
-	BNC	_01324_DS_
-;	.line	55; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	lcd_pulseEnable();
-	CALL	_lcd_pulseEnable
-	MOVFF	PREINC1, r0x03
-	MOVFF	PREINC1, r0x02
-	MOVFF	PREINC1, r0x01
-	MOVFF	PREINC1, r0x00
-	MOVFF	PREINC1, FSR2L
-	RETURN	
-
-; ; Starting pCode block
-S_main__lcd_pulseEnable	code
-_lcd_pulseEnable:
-;	.line	43; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	digitalwrite(_enable_pin, HIGH);
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	BANKSEL	__enable_pin
-	MOVF	__enable_pin, W, B
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	45; /home/vbasel/.icaro/v4/firmware/libraries/lcdlib.c	digitalwrite(_enable_pin, LOW);
+	MOVLW	0x00
 	CLRF	POSTDEC1
-	BANKSEL	__enable_pin
-	MOVF	__enable_pin, W, B
-	MOVWF	POSTDEC1
-	CALL	_digitalwrite
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
+	CALL	_I2C_init
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+;	.line	126; /home/vbasel/.icaro/v4/firmware/core/i2c.c	}
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
 	RETURN	
 
 ; ; Starting pCode block
@@ -3493,6 +2440,7 @@ _psprintf:
 	MOVLW	0x09
 	ADDWF	FSR1L, F
 	MOVF	r0x00, W
+;	.line	512; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
@@ -3514,11 +2462,11 @@ _psprintf2:
 	MOVFF	r0x04, POSTDEC1
 	MOVFF	r0x05, POSTDEC1
 	MOVLW	0x02
-	MOVFF	PLUSW2, _psprintf2_out_1_208
+	MOVFF	PLUSW2, _psprintf2_out_1_232
 	MOVLW	0x03
-	MOVFF	PLUSW2, (_psprintf2_out_1_208 + 1)
+	MOVFF	PLUSW2, (_psprintf2_out_1_232 + 1)
 	MOVLW	0x04
-	MOVFF	PLUSW2, (_psprintf2_out_1_208 + 2)
+	MOVFF	PLUSW2, (_psprintf2_out_1_232 + 2)
 	MOVLW	0x05
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x06
@@ -3546,15 +2494,16 @@ _psprintf2:
 	MOVWF	POSTDEC1
 	MOVLW	0x80
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_psprintf2_out_1_208)
+	MOVLW	HIGH(_psprintf2_out_1_232)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(_psprintf2_out_1_208)
+	MOVLW	LOW(_psprintf2_out_1_232)
 	MOVWF	POSTDEC1
 	CALL	_pprint
 	MOVWF	r0x00
 	MOVLW	0x09
 	ADDWF	FSR1L, F
 	MOVF	r0x00, W
+;	.line	503; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x05
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
@@ -3616,6 +2565,7 @@ _pprintf:
 	MOVLW	0x09
 	ADDWF	FSR1L, F
 	MOVF	r0x00, W
+;	.line	493; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x05
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
@@ -3680,7 +2630,7 @@ _pprint:
 ;	.line	343; /home/vbasel/.icaro/v4/firmware/core/stdio.c	u8 precision = 2; // default value is 2 digits fractional part
 	MOVLW	0x02
 	MOVWF	r0x0a
-_01130_DS_:
+_01111_DS_:
 ;	.line	347; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for (; *format != 0; ++format)
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -3689,24 +2639,24 @@ _01130_DS_:
 	MOVWF	r0x0b
 	MOVF	r0x0b, W
 	BTFSC	STATUS, 2
-	GOTO	_01118_DS_
+	GOTO	_01099_DS_
 ;	.line	350; /home/vbasel/.icaro/v4/firmware/core/stdio.c	islong = 0;                 // default is 16-bit
 	CLRF	r0x0c
 ;	.line	352; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == '%')
 	MOVF	r0x0b, W
 	XORLW	0x25
-	BZ	_01252_DS_
-	GOTO	_01113_DS_
-_01252_DS_:
+	BZ	_01231_DS_
+	GOTO	_01094_DS_
+_01231_DS_:
 ;	.line	354; /home/vbasel/.icaro/v4/firmware/core/stdio.c	width = pad = 0;		// default is left justify, no zero padded
 	CLRF	r0x0b
 	CLRF	r0x0d
 ;	.line	355; /home/vbasel/.icaro/v4/firmware/core/stdio.c	++format;				// get the next format identifier
 	INCF	r0x03, F
-	BNC	_01253_DS_
+	BNC	_01232_DS_
 	INFSNZ	r0x04, F
 	INCF	r0x05, F
-_01253_DS_:
+_01232_DS_:
 ;	.line	357; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == '\0')	// end of line
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -3715,32 +2665,32 @@ _01253_DS_:
 	MOVWF	r0x0e
 	MOVF	r0x0e, W
 	BTFSC	STATUS, 2
-	GOTO	_01118_DS_
+	GOTO	_01099_DS_
 ;	.line	360; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == '%')		// error
 	MOVF	r0x0e, W
 	XORLW	0x25
-	BNZ	_01255_DS_
-	GOTO	_01113_DS_
-_01255_DS_:
+	BNZ	_01234_DS_
+	GOTO	_01094_DS_
+_01234_DS_:
 ;	.line	363; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == '-')		// right justify
 	MOVF	r0x0e, W
 	XORLW	0x2d
-	BNZ	_01155_DS_
+	BNZ	_01134_DS_
 ;	.line	365; /home/vbasel/.icaro/v4/firmware/core/stdio.c	++format;
 	INCF	r0x03, F
-	BNC	_01258_DS_
+	BNC	_01237_DS_
 	INFSNZ	r0x04, F
 	INCF	r0x05, F
-_01258_DS_:
+_01237_DS_:
 ;	.line	366; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pad = PAD_RIGHT;
 	MOVLW	0x01
 	MOVWF	r0x0b
-_01155_DS_:
+_01134_DS_:
 ;	.line	369; /home/vbasel/.icaro/v4/firmware/core/stdio.c	while (*format == '0')	// field is padded with 0's instead of blanks
 	MOVFF	r0x03, r0x0e
 	MOVFF	r0x04, r0x0f
 	MOVFF	r0x05, r0x10
-_01083_DS_:
+_01064_DS_:
 	MOVFF	r0x0e, FSR0L
 	MOVFF	r0x0f, PRODL
 	MOVF	r0x10, W
@@ -3748,17 +2698,20 @@ _01083_DS_:
 ; #	MOVWF	r0x11
 ; #	MOVF	r0x11, W
 	XORLW	0x30
-	BNZ	_01123_DS_
+	BNZ	_01104_DS_
 ;	.line	371; /home/vbasel/.icaro/v4/firmware/core/stdio.c	++format;
 	INCF	r0x0e, F
-	BNC	_01261_DS_
+	BNC	_01240_DS_
 	INFSNZ	r0x0f, F
 	INCF	r0x10, F
-_01261_DS_:
+_01240_DS_:
 ;	.line	372; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pad |= PAD_ZERO;
-	BSF	r0x0b, 1
-	BRA	_01083_DS_
-_01123_DS_:
+	MOVFF	r0x0b, r0x11
+	BSF	r0x11, 1
+	MOVF	r0x11, W
+	MOVWF	r0x0b
+	BRA	_01064_DS_
+_01104_DS_:
 ;	.line	375; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; *format >= '0' && *format <= '9'; ++format)
 	MOVFF	r0x0e, FSR0L
 	MOVFF	r0x0f, PRODL
@@ -3767,10 +2720,10 @@ _01123_DS_:
 	MOVWF	r0x11
 	MOVLW	0x30
 	SUBWF	r0x11, W
-	BNC	_01183_DS_
+	BNC	_01162_DS_
 	MOVLW	0x3a
 	SUBWF	r0x11, W
-	BC	_01183_DS_
+	BC	_01162_DS_
 ; ;multiply lit val:0x0a by variable r0x0d and store in r0x0d
 ;	.line	377; /home/vbasel/.icaro/v4/firmware/core/stdio.c	width *= 10;
 	MOVF	r0x0d, W
@@ -3786,12 +2739,12 @@ _01123_DS_:
 	MOVWF	r0x0d
 ;	.line	375; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; *format >= '0' && *format <= '9'; ++format)
 	INCF	r0x0e, F
-	BNC	_01265_DS_
+	BNC	_01244_DS_
 	INFSNZ	r0x0f, F
 	INCF	r0x10, F
-_01265_DS_:
-	BRA	_01123_DS_
-_01183_DS_:
+_01244_DS_:
+	BRA	_01104_DS_
+_01162_DS_:
 	MOVFF	r0x0e, r0x03
 	MOVFF	r0x0f, r0x04
 	MOVFF	r0x10, r0x05
@@ -3803,7 +2756,7 @@ _01183_DS_:
 ; #	MOVWF	r0x11
 ; #	MOVF	r0x11, W
 	XORLW	0x2e
-	BNZ	_01089_DS_
+	BNZ	_01070_DS_
 ;	.line	390; /home/vbasel/.icaro/v4/firmware/core/stdio.c	++format;
 	MOVF	r0x0e, W
 	ADDLW	0x01
@@ -3819,7 +2772,7 @@ _01183_DS_:
 	MOVFF	r0x03, r0x0e
 	MOVFF	r0x04, r0x0f
 	MOVFF	r0x05, r0x10
-_01127_DS_:
+_01108_DS_:
 ;	.line	393; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; *format >= '0' && *format <= '9'; ++format)
 	MOVFF	r0x0e, FSR0L
 	MOVFF	r0x0f, PRODL
@@ -3828,10 +2781,10 @@ _01127_DS_:
 	MOVWF	r0x11
 	MOVLW	0x30
 	SUBWF	r0x11, W
-	BNC	_01184_DS_
+	BNC	_01163_DS_
 	MOVLW	0x3a
 	SUBWF	r0x11, W
-	BC	_01184_DS_
+	BC	_01163_DS_
 ; ;multiply lit val:0x0a by variable r0x0a and store in r0x0a
 ;	.line	395; /home/vbasel/.icaro/v4/firmware/core/stdio.c	precision *= 10;
 	MOVF	r0x0a, W
@@ -3847,16 +2800,16 @@ _01127_DS_:
 	MOVWF	r0x0a
 ;	.line	393; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; *format >= '0' && *format <= '9'; ++format)
 	INCF	r0x0e, F
-	BNC	_01270_DS_
+	BNC	_01249_DS_
 	INFSNZ	r0x0f, F
 	INCF	r0x10, F
-_01270_DS_:
-	BRA	_01127_DS_
-_01184_DS_:
+_01249_DS_:
+	BRA	_01108_DS_
+_01163_DS_:
 	MOVFF	r0x0e, r0x03
 	MOVFF	r0x0f, r0x04
 	MOVFF	r0x10, r0x05
-_01089_DS_:
+_01070_DS_:
 ;	.line	400; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'f') 	// float
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -3866,9 +2819,9 @@ _01089_DS_:
 ; #	MOVF	r0x0e, W
 	MOVWF	r0x0e
 	XORLW	0x66
-	BZ	_01272_DS_
-	BRA	_01091_DS_
-_01272_DS_:
+	BZ	_01251_DS_
+	BRA	_01072_DS_
+_01251_DS_:
 ;	.line	402; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pc += pprintfl(out, va_arg(args, float), width, pad, separator, precision);
 	MOVF	r0x06, W
 	ADDLW	0x04
@@ -3933,14 +2886,14 @@ _01272_DS_:
 	MOVF	r0x0f, W
 	ADDWF	r0x09, F
 ;	.line	403; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	GOTO	_01117_DS_
-_01091_DS_:
+	GOTO	_01098_DS_
+_01072_DS_:
 ;	.line	406; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 's')		// string
 	MOVF	r0x0e, W
 	XORLW	0x73
-	BZ	_01274_DS_
-	BRA	_01093_DS_
-_01274_DS_:
+	BZ	_01253_DS_
+	BRA	_01074_DS_
+_01253_DS_:
 ;	.line	408; /home/vbasel/.icaro/v4/firmware/core/stdio.c	u8 *s = va_arg(args, u8*);
 	MOVF	r0x06, W
 	ADDLW	0x03
@@ -3982,19 +2935,19 @@ _01274_DS_:
 ;	.line	409; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pc += pprints(out, s?s:"(null)", width, pad);
 	IORWF	r0x10, W
 	IORWF	r0x11, W
-	BZ	_01135_DS_
+	BZ	_01114_DS_
 	MOVFF	r0x12, r0x0f
 	MOVFF	r0x13, r0x10
 	MOVFF	r0x14, r0x11
-	BRA	_01136_DS_
-_01135_DS_:
+	BRA	_01115_DS_
+_01114_DS_:
 	MOVLW	UPPER(___str_0)
 	MOVWF	r0x11
 	MOVLW	HIGH(___str_0)
 	MOVWF	r0x10
 	MOVLW	LOW(___str_0)
 	MOVWF	r0x0f
-_01136_DS_:
+_01115_DS_:
 	MOVF	r0x0b, W
 	MOVWF	POSTDEC1
 	MOVF	r0x0d, W
@@ -4021,22 +2974,22 @@ _01136_DS_:
 	ADDWF	r0x10, W
 	MOVWF	r0x09
 ;	.line	410; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	GOTO	_01117_DS_
-_01093_DS_:
+	GOTO	_01098_DS_
+_01074_DS_:
 ;	.line	413; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'l')		// long support
 	MOVF	r0x0e, W
 	XORLW	0x6c
-	BNZ	_01095_DS_
+	BNZ	_01076_DS_
 ;	.line	415; /home/vbasel/.icaro/v4/firmware/core/stdio.c	++format;
 	INCF	r0x03, F
-	BNC	_01277_DS_
+	BNC	_01256_DS_
 	INFSNZ	r0x04, F
 	INCF	r0x05, F
-_01277_DS_:
+_01256_DS_:
 ;	.line	416; /home/vbasel/.icaro/v4/firmware/core/stdio.c	islong = 1;
 	MOVLW	0x01
 	MOVWF	r0x0c
-_01095_DS_:
+_01076_DS_:
 ;	.line	419; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'u')		// decimal (10) unsigned (0) integer
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -4046,12 +2999,12 @@ _01095_DS_:
 ; #	MOVF	r0x0e, W
 	MOVWF	r0x0e
 	XORLW	0x75
-	BZ	_01279_DS_
-	BRA	_01097_DS_
-_01279_DS_:
+	BZ	_01258_DS_
+	BRA	_01078_DS_
+_01258_DS_:
 ;	.line	421; /home/vbasel/.icaro/v4/firmware/core/stdio.c	val = (islong) ? va_arg(args, u32) : va_arg(args, u16);
 	MOVF	r0x0c, W
-	BZ	_01137_DS_
+	BZ	_01116_DS_
 	MOVF	r0x06, W
 	ADDLW	0x04
 	MOVWF	r0x0f
@@ -4087,8 +3040,8 @@ _01279_DS_:
 	MOVFF	PRODL, r0x10
 	MOVFF	PRODH, r0x11
 	MOVFF	FSR0L, r0x12
-	BRA	_01138_DS_
-_01137_DS_:
+	BRA	_01117_DS_
+_01116_DS_:
 	MOVF	r0x06, W
 	ADDLW	0x02
 	MOVWF	r0x13
@@ -4126,7 +3079,7 @@ _01137_DS_:
 	MOVFF	r0x14, r0x10
 	CLRF	r0x11
 	CLRF	r0x12
-_01138_DS_:
+_01117_DS_:
 ;	.line	422; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pc += pprinti(out, val, islong, 10, 0, width, pad, separator, 'a');
 	MOVLW	0x61
 	MOVWF	POSTDEC1
@@ -4161,20 +3114,20 @@ _01138_DS_:
 	MOVF	r0x13, W
 	ADDWF	r0x09, F
 ;	.line	423; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	GOTO	_01117_DS_
-_01097_DS_:
+	GOTO	_01098_DS_
+_01078_DS_:
 ;	.line	426; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'd' || *format == 'i') // decimal (10) signed (1) integer
 	MOVF	r0x0e, W
 	XORLW	0x64
-	BZ	_01098_DS_
+	BZ	_01079_DS_
 	MOVF	r0x0e, W
 	XORLW	0x69
-	BZ	_01098_DS_
-	BRA	_01099_DS_
-_01098_DS_:
+	BZ	_01079_DS_
+	BRA	_01080_DS_
+_01079_DS_:
 ;	.line	428; /home/vbasel/.icaro/v4/firmware/core/stdio.c	val = (islong) ? va_arg(args, u32) : va_arg(args, u16);
 	MOVF	r0x0c, W
-	BZ	_01139_DS_
+	BZ	_01118_DS_
 	MOVF	r0x06, W
 	ADDLW	0x04
 	MOVWF	r0x13
@@ -4210,8 +3163,8 @@ _01098_DS_:
 	MOVFF	PRODL, r0x14
 	MOVFF	PRODH, r0x15
 	MOVFF	FSR0L, r0x16
-	BRA	_01140_DS_
-_01139_DS_:
+	BRA	_01119_DS_
+_01118_DS_:
 	MOVF	r0x06, W
 	ADDLW	0x02
 	MOVWF	r0x17
@@ -4249,7 +3202,7 @@ _01139_DS_:
 	MOVFF	r0x18, r0x14
 	CLRF	r0x15
 	CLRF	r0x16
-_01140_DS_:
+_01119_DS_:
 	MOVFF	r0x13, r0x0f
 	MOVFF	r0x14, r0x10
 	MOVFF	r0x15, r0x11
@@ -4289,20 +3242,20 @@ _01140_DS_:
 	MOVF	r0x13, W
 	ADDWF	r0x09, F
 ;	.line	430; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	GOTO	_01117_DS_
-_01099_DS_:
+	GOTO	_01098_DS_
+_01080_DS_:
 ;	.line	433; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'x' || *format == 'p')	// unsigned (0) lower ('a') hexa (16) or pointer
 	MOVF	r0x0e, W
 	XORLW	0x78
-	BZ	_01101_DS_
+	BZ	_01082_DS_
 	MOVF	r0x0e, W
 	XORLW	0x70
-	BZ	_01101_DS_
-	BRA	_01102_DS_
-_01101_DS_:
+	BZ	_01082_DS_
+	BRA	_01083_DS_
+_01082_DS_:
 ;	.line	435; /home/vbasel/.icaro/v4/firmware/core/stdio.c	val = (islong) ? va_arg(args, u32) : va_arg(args, u16);
 	MOVF	r0x0c, W
-	BZ	_01141_DS_
+	BZ	_01120_DS_
 	MOVF	r0x06, W
 	ADDLW	0x04
 	MOVWF	r0x13
@@ -4338,8 +3291,8 @@ _01101_DS_:
 	MOVFF	PRODL, r0x14
 	MOVFF	PRODH, r0x15
 	MOVFF	FSR0L, r0x16
-	BRA	_01142_DS_
-_01141_DS_:
+	BRA	_01121_DS_
+_01120_DS_:
 	MOVF	r0x06, W
 	ADDLW	0x02
 	MOVWF	r0x17
@@ -4377,7 +3330,7 @@ _01141_DS_:
 	MOVFF	r0x18, r0x14
 	CLRF	r0x15
 	CLRF	r0x16
-_01142_DS_:
+_01121_DS_:
 	MOVFF	r0x13, r0x0f
 	MOVFF	r0x14, r0x10
 	MOVFF	r0x15, r0x11
@@ -4416,20 +3369,20 @@ _01142_DS_:
 	MOVF	r0x13, W
 	ADDWF	r0x09, F
 ;	.line	437; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	BRA	_01117_DS_
-_01102_DS_:
+	BRA	_01098_DS_
+_01083_DS_:
 ;	.line	440; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'X' || *format == 'P')	// unsigned (0) upper ('A') hexa (16) or pointer
 	MOVF	r0x0e, W
 	XORLW	0x58
-	BZ	_01104_DS_
+	BZ	_01085_DS_
 	MOVF	r0x0e, W
 	XORLW	0x50
-	BZ	_01104_DS_
-	BRA	_01105_DS_
-_01104_DS_:
+	BZ	_01085_DS_
+	BRA	_01086_DS_
+_01085_DS_:
 ;	.line	442; /home/vbasel/.icaro/v4/firmware/core/stdio.c	val = (islong) ? va_arg(args, u32) : va_arg(args, u16);
 	MOVF	r0x0c, W
-	BZ	_01143_DS_
+	BZ	_01122_DS_
 	MOVF	r0x06, W
 	ADDLW	0x04
 	MOVWF	r0x13
@@ -4465,8 +3418,8 @@ _01104_DS_:
 	MOVFF	PRODL, r0x14
 	MOVFF	PRODH, r0x15
 	MOVFF	FSR0L, r0x16
-	BRA	_01144_DS_
-_01143_DS_:
+	BRA	_01123_DS_
+_01122_DS_:
 	MOVF	r0x06, W
 	ADDLW	0x02
 	MOVWF	r0x17
@@ -4504,7 +3457,7 @@ _01143_DS_:
 	MOVFF	r0x18, r0x14
 	CLRF	r0x15
 	CLRF	r0x16
-_01144_DS_:
+_01123_DS_:
 	MOVFF	r0x13, r0x0f
 	MOVFF	r0x14, r0x10
 	MOVFF	r0x15, r0x11
@@ -4543,17 +3496,17 @@ _01144_DS_:
 	MOVF	r0x13, W
 	ADDWF	r0x09, F
 ;	.line	444; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	BRA	_01117_DS_
-_01105_DS_:
+	BRA	_01098_DS_
+_01086_DS_:
 ;	.line	447; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'b')		// binary
 	MOVF	r0x0e, W
 	XORLW	0x62
-	BZ	_01293_DS_
-	BRA	_01108_DS_
-_01293_DS_:
+	BZ	_01272_DS_
+	BRA	_01089_DS_
+_01272_DS_:
 ;	.line	449; /home/vbasel/.icaro/v4/firmware/core/stdio.c	val = (islong) ? va_arg(args, u32) : va_arg(args, u16);
 	MOVF	r0x0c, W
-	BZ	_01145_DS_
+	BZ	_01124_DS_
 	MOVF	r0x06, W
 	ADDLW	0x04
 	MOVWF	r0x13
@@ -4589,8 +3542,8 @@ _01293_DS_:
 	MOVFF	PRODL, r0x14
 	MOVFF	PRODH, r0x15
 	MOVFF	FSR0L, r0x16
-	BRA	_01146_DS_
-_01145_DS_:
+	BRA	_01125_DS_
+_01124_DS_:
 	MOVF	r0x06, W
 	ADDLW	0x02
 	MOVWF	r0x17
@@ -4628,7 +3581,7 @@ _01145_DS_:
 	MOVFF	r0x18, r0x14
 	CLRF	r0x15
 	CLRF	r0x16
-_01146_DS_:
+_01125_DS_:
 	MOVFF	r0x13, r0x0f
 	MOVFF	r0x14, r0x10
 	MOVFF	r0x15, r0x11
@@ -4667,17 +3620,17 @@ _01146_DS_:
 	MOVF	r0x13, W
 	ADDWF	r0x09, F
 ;	.line	451; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	BRA	_01117_DS_
-_01108_DS_:
+	BRA	_01098_DS_
+_01089_DS_:
 ;	.line	454; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'o')		// octal
 	MOVF	r0x0e, W
 	XORLW	0x6f
-	BZ	_01295_DS_
-	BRA	_01110_DS_
-_01295_DS_:
+	BZ	_01274_DS_
+	BRA	_01091_DS_
+_01274_DS_:
 ;	.line	456; /home/vbasel/.icaro/v4/firmware/core/stdio.c	val = (islong) ? va_arg(args, u32) : va_arg(args, u16);
 	MOVF	r0x0c, W
-	BZ	_01147_DS_
+	BZ	_01126_DS_
 	MOVF	r0x06, W
 	ADDLW	0x04
 	MOVWF	r0x13
@@ -4713,8 +3666,8 @@ _01295_DS_:
 	MOVFF	PRODL, r0x14
 	MOVFF	PRODH, r0x15
 	MOVFF	FSR0L, r0x16
-	BRA	_01148_DS_
-_01147_DS_:
+	BRA	_01127_DS_
+_01126_DS_:
 	MOVF	r0x06, W
 	ADDLW	0x02
 	MOVWF	r0x17
@@ -4752,7 +3705,7 @@ _01147_DS_:
 	MOVFF	r0x18, r0x14
 	CLRF	r0x15
 	CLRF	r0x16
-_01148_DS_:
+_01127_DS_:
 	MOVFF	r0x13, r0x0f
 	MOVFF	r0x14, r0x10
 	MOVFF	r0x15, r0x11
@@ -4791,14 +3744,14 @@ _01148_DS_:
 	MOVF	r0x0c, W
 	ADDWF	r0x09, F
 ;	.line	458; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	BRA	_01117_DS_
-_01110_DS_:
+	BRA	_01098_DS_
+_01091_DS_:
 ;	.line	461; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (*format == 'c') 	// ascii
 	MOVF	r0x0e, W
 	XORLW	0x63
-	BZ	_01297_DS_
-	BRA	_01117_DS_
-_01297_DS_:
+	BZ	_01276_DS_
+	BRA	_01098_DS_
+_01276_DS_:
 ;	.line	463; /home/vbasel/.icaro/v4/firmware/core/stdio.c	scr[0] = va_arg(args, u16);
 	MOVF	r0x06, W
 	ADDLW	0x02
@@ -4831,11 +3784,11 @@ _01297_DS_:
 	MOVFF	r0x0e, PRODL
 	MOVF	r0x0f, W
 	CALL	__gptrget2
-	BANKSEL	_pprint_scr_1_187
-	MOVWF	_pprint_scr_1_187, B
+	BANKSEL	_pprint_scr_1_208
+	MOVWF	_pprint_scr_1_208, B
 ; removed redundant BANKSEL
 ;	.line	464; /home/vbasel/.icaro/v4/firmware/core/stdio.c	scr[1] = '\0';
-	CLRF	(_pprint_scr_1_187 + 1), B
+	CLRF	(_pprint_scr_1_208 + 1), B
 ;	.line	465; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pc += pprints(out, scr, width, pad);
 	MOVF	r0x0b, W
 	MOVWF	POSTDEC1
@@ -4843,9 +3796,9 @@ _01297_DS_:
 	MOVWF	POSTDEC1
 	MOVLW	0x80
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_pprint_scr_1_187)
+	MOVLW	HIGH(_pprint_scr_1_208)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(_pprint_scr_1_187)
+	MOVLW	LOW(_pprint_scr_1_208)
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
 	MOVWF	POSTDEC1
@@ -4863,8 +3816,8 @@ _01297_DS_:
 	ADDWF	r0x0c, W
 	MOVWF	r0x09
 ;	.line	466; /home/vbasel/.icaro/v4/firmware/core/stdio.c	continue;
-	BRA	_01117_DS_
-_01113_DS_:
+	BRA	_01098_DS_
+_01094_DS_:
 ;	.line	473; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pprintc(out, *format);
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -4884,20 +3837,20 @@ _01113_DS_:
 	ADDWF	FSR1L, F
 ;	.line	474; /home/vbasel/.icaro/v4/firmware/core/stdio.c	++pc;
 	INCF	r0x09, F
-_01117_DS_:
+_01098_DS_:
 ;	.line	347; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for (; *format != 0; ++format)
 	INCF	r0x03, F
-	BNC	_01298_DS_
+	BNC	_01277_DS_
 	INFSNZ	r0x04, F
 	INCF	r0x05, F
-_01298_DS_:
-	GOTO	_01130_DS_
-_01118_DS_:
+_01277_DS_:
+	GOTO	_01111_DS_
+_01099_DS_:
 ;	.line	477; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (out) **out = '\0';
 	MOVF	r0x00, W
 	IORWF	r0x01, W
 	IORWF	r0x02, W
-	BZ	_01120_DS_
+	BZ	_01101_DS_
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, PRODL
 	MOVF	r0x02, W
@@ -4910,9 +3863,10 @@ _01118_DS_:
 	MOVFF	r0x01, PRODL
 	MOVF	r0x02, W
 	CALL	__gptrput1
-_01120_DS_:
+_01101_DS_:
 ;	.line	478; /home/vbasel/.icaro/v4/firmware/core/stdio.c	return pc;
 	MOVF	r0x09, W
+;	.line	479; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x19
 	MOVFF	PREINC1, r0x18
 	MOVFF	PREINC1, r0x17
@@ -4980,7 +3934,6 @@ _pprintfl:
 	MOVFF	r0x1d, POSTDEC1
 	MOVFF	r0x1e, POSTDEC1
 	MOVFF	r0x1f, POSTDEC1
-	MOVFF	r0x20, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
@@ -5012,16 +3965,16 @@ _pprintfl:
 	CLRF	r0x10
 	CLRF	r0x11
 ;	.line	190; /home/vbasel/.icaro/v4/firmware/core/stdio.c	u8 buffer[PRINTF_BUF_LEN], *string = buffer;
-	MOVLW	HIGH(_pprintfl_buffer_1_172)
+	MOVLW	HIGH(_pprintfl_buffer_1_192)
 	MOVWF	r0x13
-	MOVLW	LOW(_pprintfl_buffer_1_172)
+	MOVLW	LOW(_pprintfl_buffer_1_192)
 	MOVWF	r0x12
 	MOVLW	0x80
 	MOVWF	r0x14
 ;	.line	191; /home/vbasel/.icaro/v4/firmware/core/stdio.c	u8 tmp[PRINTF_BUF_LEN], *s = tmp;
-	MOVLW	HIGH(_pprintfl_tmp_1_172)
+	MOVLW	HIGH(_pprintfl_tmp_1_192)
 	MOVWF	r0x16
-	MOVLW	LOW(_pprintfl_tmp_1_172)
+	MOVLW	LOW(_pprintfl_tmp_1_192)
 	MOVWF	r0x15
 	MOVLW	0x80
 	MOVWF	r0x17
@@ -5032,28 +3985,29 @@ _pprintfl:
 	MOVWF	r0x19
 ;	.line	195; /home/vbasel/.icaro/v4/firmware/core/stdio.c	helper.f = value;
 	MOVF	r0x03, W
-	BANKSEL	_pprintfl_helper_1_172
-	MOVWF	_pprintfl_helper_1_172, B
+	BANKSEL	_pprintfl_helper_1_192
+	MOVWF	_pprintfl_helper_1_192, B
 	MOVF	r0x04, W
 ; removed redundant BANKSEL
-	MOVWF	(_pprintfl_helper_1_172 + 1), B
+	MOVWF	(_pprintfl_helper_1_192 + 1), B
 	MOVF	r0x05, W
 ; removed redundant BANKSEL
-	MOVWF	(_pprintfl_helper_1_172 + 2), B
+	MOVWF	(_pprintfl_helper_1_192 + 2), B
 	MOVF	r0x06, W
 ; removed redundant BANKSEL
-	MOVWF	(_pprintfl_helper_1_172 + 3), B
+	MOVWF	(_pprintfl_helper_1_192 + 3), B
 ;	.line	198; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (helper.l < 0)
 	BSF	STATUS, 0
 ; removed redundant BANKSEL
-	BTFSS	(_pprintfl_helper_1_172 + 3), 7, B
+	BTFSS	(_pprintfl_helper_1_192 + 3), 7, B
 	BCF	STATUS, 0
-	BNC	_00949_DS_
+	BNC	_00937_DS_
 ;	.line	200; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (width && (pad & PAD_ZERO))
 	MOVF	r0x07, W
-	BZ	_00945_DS_
-	BTFSS	r0x08, 1
-	BRA	_00945_DS_
+	BZ	_00933_DS_
+	MOVFF	r0x08, r0x03
+	BTFSS	r0x03, 1
+	BRA	_00933_DS_
 ;	.line	202; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pprintc(out, '-');
 	MOVLW	0x2d
 	MOVWF	POSTDEC1
@@ -5071,8 +4025,8 @@ _pprintfl:
 	MOVWF	r0x18
 ;	.line	204; /home/vbasel/.icaro/v4/firmware/core/stdio.c	--width;
 	DECF	r0x07, F
-	BRA	_00949_DS_
-_00945_DS_:
+	BRA	_00937_DS_
+_00933_DS_:
 ;	.line	208; /home/vbasel/.icaro/v4/firmware/core/stdio.c	*string++ = '-';
 	MOVLW	0x2d
 	MOVWF	POSTDEC1
@@ -5081,33 +4035,33 @@ _00945_DS_:
 	MOVF	r0x14, W
 	CALL	__gptrput1
 	INCF	r0x12, F
-	BNC	_01038_DS_
+	BNC	_01026_DS_
 	INFSNZ	r0x13, F
 	INCF	r0x14, F
-_01038_DS_:
+_01026_DS_:
 ;	.line	209; /home/vbasel/.icaro/v4/firmware/core/stdio.c	length--;
 	MOVLW	0x0a
 	MOVWF	r0x19
-_00949_DS_:
-	BANKSEL	(_pprintfl_helper_1_172 + 2)
+_00937_DS_:
+	BANKSEL	(_pprintfl_helper_1_192 + 2)
 ;	.line	215; /home/vbasel/.icaro/v4/firmware/core/stdio.c	exponent = ((helper.l >> 23) & 0xFF) - 127;	
-	RLCF	(_pprintfl_helper_1_172 + 2), W, B
+	RLCF	(_pprintfl_helper_1_192 + 2), W, B
 ; removed redundant BANKSEL
-	RLCF	(_pprintfl_helper_1_172 + 3), W, B
+	RLCF	(_pprintfl_helper_1_192 + 3), W, B
 	MOVWF	r0x03
 	CLRF	r0x04
 	MOVLW	0x81
 	ADDWF	r0x03, F
 ; removed redundant BANKSEL
 ;	.line	218; /home/vbasel/.icaro/v4/firmware/core/stdio.c	mantissa = (helper.l & 0x7FFFFF) | 0x800000;
-	MOVF	_pprintfl_helper_1_172, W, B
+	MOVF	_pprintfl_helper_1_192, W, B
 	MOVWF	r0x04
 ; removed redundant BANKSEL
-	MOVF	(_pprintfl_helper_1_172 + 1), W, B
+	MOVF	(_pprintfl_helper_1_192 + 1), W, B
 	MOVWF	r0x05
 	MOVLW	0x7f
 ; removed redundant BANKSEL
-	ANDWF	(_pprintfl_helper_1_172 + 2), W, B
+	ANDWF	(_pprintfl_helper_1_192 + 2), W, B
 	MOVWF	r0x06
 	CLRF	r0x1a
 	BSF	r0x06, 7
@@ -5115,26 +4069,26 @@ _00949_DS_:
 	MOVF	r0x03, W
 	ADDLW	0x80
 	ADDLW	0x61
-	BNC	_00960_DS_
+	BNC	_00948_DS_
 ;	.line	233; /home/vbasel/.icaro/v4/firmware/core/stdio.c	buffer[0] = '+';
 	MOVLW	0x2b
-	BANKSEL	_pprintfl_buffer_1_172
-	MOVWF	_pprintfl_buffer_1_172, B
+	BANKSEL	_pprintfl_buffer_1_192
+	MOVWF	_pprintfl_buffer_1_192, B
 ;	.line	234; /home/vbasel/.icaro/v4/firmware/core/stdio.c	buffer[1] = 'i';
 	MOVLW	0x69
 ; removed redundant BANKSEL
-	MOVWF	(_pprintfl_buffer_1_172 + 1), B
+	MOVWF	(_pprintfl_buffer_1_192 + 1), B
 ;	.line	235; /home/vbasel/.icaro/v4/firmware/core/stdio.c	buffer[2] = 'n';
 	MOVLW	0x6e
 ; removed redundant BANKSEL
-	MOVWF	(_pprintfl_buffer_1_172 + 2), B
+	MOVWF	(_pprintfl_buffer_1_192 + 2), B
 ;	.line	236; /home/vbasel/.icaro/v4/firmware/core/stdio.c	buffer[3] = 'f';
 	MOVLW	0x66
 ; removed redundant BANKSEL
-	MOVWF	(_pprintfl_buffer_1_172 + 3), B
+	MOVWF	(_pprintfl_buffer_1_192 + 3), B
 ; removed redundant BANKSEL
 ;	.line	237; /home/vbasel/.icaro/v4/firmware/core/stdio.c	buffer[4] = '\0';
-	CLRF	(_pprintfl_buffer_1_172 + 4), B
+	CLRF	(_pprintfl_buffer_1_192 + 4), B
 ;	.line	238; /home/vbasel/.icaro/v4/firmware/core/stdio.c	return pprints(out, buffer, width, pad);
 	MOVF	r0x08, W
 	MOVWF	POSTDEC1
@@ -5142,9 +4096,9 @@ _00949_DS_:
 	MOVWF	POSTDEC1
 	MOVLW	0x80
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_pprintfl_buffer_1_172)
+	MOVLW	HIGH(_pprintfl_buffer_1_192)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(_pprintfl_buffer_1_172)
+	MOVLW	LOW(_pprintfl_buffer_1_192)
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
 	MOVWF	POSTDEC1
@@ -5157,13 +4111,13 @@ _00949_DS_:
 	MOVLW	0x08
 	ADDWF	FSR1L, F
 	MOVF	r0x1b, W
-	BRA	_00981_DS_
-_00960_DS_:
+	BRA	_00969_DS_
+_00948_DS_:
 ;	.line	241; /home/vbasel/.icaro/v4/firmware/core/stdio.c	else if (exponent < -23)
 	MOVF	r0x03, W
 	ADDLW	0x80
 	ADDLW	0x97
-	BC	_00957_DS_
+	BC	_00945_DS_
 ;	.line	251; /home/vbasel/.icaro/v4/firmware/core/stdio.c	int_part  = 0;
 	CLRF	r0x0a
 	CLRF	r0x0b
@@ -5174,133 +4128,92 @@ _00960_DS_:
 	CLRF	r0x0f
 	CLRF	r0x10
 	CLRF	r0x11
-	BRA	_00961_DS_
-_00957_DS_:
+	BRA	_00949_DS_
+_00945_DS_:
 ;	.line	255; /home/vbasel/.icaro/v4/firmware/core/stdio.c	else if (exponent >= 23)
 	MOVF	r0x03, W
 	ADDLW	0x80
 	ADDLW	0x69
-	BNC	_00954_DS_
+	BNC	_00942_DS_
 ;	.line	257; /home/vbasel/.icaro/v4/firmware/core/stdio.c	int_part = mantissa << (exponent - 23);
-	MOVFF	r0x03, r0x1b
-	CLRF	r0x1c
-	BTFSC	r0x03, 7
-	SETF	r0x1c
+	MOVF	r0x03, W
+	MOVWF	r0x1b
 	MOVLW	0xe9
 	ADDWF	r0x1b, F
-	BTFSS	STATUS, 0
-	DECF	r0x1c, F
 	MOVFF	r0x04, r0x0a
 	MOVFF	r0x05, r0x0b
 	MOVFF	r0x06, r0x0c
 	MOVFF	r0x1a, r0x0d
 	MOVF	r0x1b, W
-	BZ	_01045_DS_
-	BN	_01048_DS_
+	BZ	_01032_DS_
 	NEGF	WREG
 	BCF	STATUS, 0
-_01046_DS_:
+_01033_DS_:
 	RLCF	r0x0a, F
 	RLCF	r0x0b, F
 	RLCF	r0x0c, F
 	RLCF	r0x0d, F
 	ADDLW	0x01
-	BNC	_01046_DS_
-	BRA	_00961_DS_
-_01048_DS_:
-	BCF	STATUS, 0
-_01047_DS_:
-	RRCF	r0x0d, F
-	RRCF	r0x0c, F
-	RRCF	r0x0b, F
-	RRCF	r0x0a, F
-	ADDLW	0x01
-	BNC	_01047_DS_
-_01045_DS_:
-	BRA	_00961_DS_
-_00954_DS_:
+	BNC	_01033_DS_
+_01032_DS_:
+	BRA	_00949_DS_
+_00942_DS_:
 ;	.line	260; /home/vbasel/.icaro/v4/firmware/core/stdio.c	else if (exponent >= 0) 
 	BSF	STATUS, 0
 	BTFSS	r0x03, 7
 	BCF	STATUS, 0
-	BTFSC	STATUS, 0
-	BRA	_00951_DS_
+	BC	_00939_DS_
+; #	MOVF	r0x03, W
+; #	MOVWF	r0x1b
+; #	MOVF	r0x1b, W
 ;	.line	262; /home/vbasel/.icaro/v4/firmware/core/stdio.c	int_part = mantissa >> (23 - exponent);
-	MOVFF	r0x03, r0x1b
-	CLRF	r0x1c
-	BTFSC	r0x03, 7
-	SETF	r0x1c
-	MOVF	r0x1b, W
+	MOVF	r0x03, W
+	MOVWF	r0x1b
 	SUBLW	0x17
-	MOVWF	r0x1d
-	MOVLW	0x00
-	SUBFWB	r0x1c, W
+	MOVWF	r0x1c
 	MOVFF	r0x04, r0x0a
 	MOVFF	r0x05, r0x0b
 	MOVFF	r0x06, r0x0c
 	MOVFF	r0x1a, r0x0d
-	MOVF	r0x1d, W
-	BZ	_01049_DS_
-	BN	_01052_DS_
+	MOVF	r0x1c, W
+	BZ	_01034_DS_
 	NEGF	WREG
 	BCF	STATUS, 0
-_01050_DS_:
+_01035_DS_:
 	RRCF	r0x0d, F
 	RRCF	r0x0c, F
 	RRCF	r0x0b, F
 	RRCF	r0x0a, F
 	ADDLW	0x01
-	BNC	_01050_DS_
-	BRA	_01049_DS_
-_01052_DS_:
-	BCF	STATUS, 0
-_01051_DS_:
-	RLCF	r0x0a, F
-	RLCF	r0x0b, F
-	RLCF	r0x0c, F
-	RLCF	r0x0d, F
-	ADDLW	0x01
-	BNC	_01051_DS_
-_01049_DS_:
+	BNC	_01035_DS_
+_01034_DS_:
 ;	.line	263; /home/vbasel/.icaro/v4/firmware/core/stdio.c	frac_part = (mantissa << (exponent + 1)) & 0xFFFFFF; // mfh
-	INFSNZ	r0x1b, F
-	INCF	r0x1c, F
-	MOVFF	r0x04, r0x1d
-	MOVFF	r0x05, r0x1e
-	MOVFF	r0x06, r0x1f
-	MOVFF	r0x1a, r0x20
+	INCF	r0x1b, F
+	MOVFF	r0x04, r0x1c
+	MOVFF	r0x05, r0x1d
+	MOVFF	r0x06, r0x1e
+	MOVFF	r0x1a, r0x1f
 	MOVF	r0x1b, W
-	BZ	_01053_DS_
-	BN	_01056_DS_
+	BZ	_01036_DS_
 	NEGF	WREG
 	BCF	STATUS, 0
-_01054_DS_:
+_01037_DS_:
+	RLCF	r0x1c, F
 	RLCF	r0x1d, F
 	RLCF	r0x1e, F
 	RLCF	r0x1f, F
-	RLCF	r0x20, F
 	ADDLW	0x01
-	BNC	_01054_DS_
-	BRA	_01053_DS_
-_01056_DS_:
-	BCF	STATUS, 0
-_01055_DS_:
-	RRCF	r0x20, F
-	RRCF	r0x1f, F
-	RRCF	r0x1e, F
-	RRCF	r0x1d, F
-	ADDLW	0x01
-	BNC	_01055_DS_
-_01053_DS_:
-	MOVF	r0x1d, W
+	BNC	_01037_DS_
+_01036_DS_:
+	MOVF	r0x1c, W
 	MOVWF	r0x0e
-	MOVF	r0x1e, W
+	MOVF	r0x1d, W
 	MOVWF	r0x0f
-	MOVF	r0x1f, W
+	MOVF	r0x1e, W
 	MOVWF	r0x10
 	CLRF	r0x11
-	BRA	_00961_DS_
-_00951_DS_:
+	BRA	_00949_DS_
+_00939_DS_:
 ;	.line	267; /home/vbasel/.icaro/v4/firmware/core/stdio.c	frac_part = (mantissa & 0xFFFFFF) >> -(exponent + 1);
 	CLRF	r0x1a
 	CLRF	r0x1b
@@ -5317,34 +4230,34 @@ _00951_DS_:
 	MOVFF	r0x06, r0x10
 	MOVFF	r0x1a, r0x11
 	MOVF	r0x03, W
-	BZ	_00961_DS_
-	BN	_01063_DS_
+	BZ	_00949_DS_
+	BN	_01044_DS_
 	NEGF	WREG
 	BCF	STATUS, 0
-_01061_DS_:
+_01042_DS_:
 	RRCF	r0x11, F
 	RRCF	r0x10, F
 	RRCF	r0x0f, F
 	RRCF	r0x0e, F
 	ADDLW	0x01
-	BNC	_01061_DS_
-	BRA	_00961_DS_
-_01063_DS_:
+	BNC	_01042_DS_
+	BRA	_00949_DS_
+_01044_DS_:
 	BCF	STATUS, 0
-_01062_DS_:
+_01043_DS_:
 	RLCF	r0x0e, F
 	RLCF	r0x0f, F
 	RLCF	r0x10, F
 	RLCF	r0x11, F
 	ADDLW	0x01
-	BNC	_01062_DS_
-_00961_DS_:
+	BNC	_01043_DS_
+_00949_DS_:
 ;	.line	270; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (int_part == 0)
 	MOVF	r0x0a, W
 	IORWF	r0x0b, W
 	IORWF	r0x0c, W
 	IORWF	r0x0d, W
-	BNZ	_00992_DS_
+	BNZ	_00980_DS_
 ;	.line	272; /home/vbasel/.icaro/v4/firmware/core/stdio.c	*string++ = '0';
 	MOVLW	0x30
 	MOVWF	POSTDEC1
@@ -5353,27 +4266,27 @@ _00961_DS_:
 	MOVF	r0x14, W
 	CALL	__gptrput1
 	INCF	r0x12, F
-	BNC	_01064_DS_
+	BNC	_01045_DS_
 	INFSNZ	r0x13, F
 	INCF	r0x14, F
-_01064_DS_:
+_01045_DS_:
 ;	.line	273; /home/vbasel/.icaro/v4/firmware/core/stdio.c	length--;
 	DECF	r0x19, F
-	BRA	_00970_DS_
-_00992_DS_:
+	BRA	_00958_DS_
+_00980_DS_:
 ;	.line	279; /home/vbasel/.icaro/v4/firmware/core/stdio.c	while (int_part)
 	MOVFF	r0x15, r0x03
 	MOVFF	r0x16, r0x04
 	MOVFF	r0x17, r0x05
 	CLRF	r0x06
 	MOVFF	r0x19, r0x15
-_00962_DS_:
+_00950_DS_:
 	MOVF	r0x0a, W
 	IORWF	r0x0b, W
 	IORWF	r0x0c, W
 	IORWF	r0x0d, W
 	BTFSC	STATUS, 2
-	BRA	_01000_DS_
+	BRA	_00988_DS_
 ;	.line	281; /home/vbasel/.icaro/v4/firmware/core/stdio.c	t = int_part % 10;		// decimal base
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -5401,10 +4314,10 @@ _00962_DS_:
 	MOVF	r0x05, W
 	CALL	__gptrput1
 	INCF	r0x03, F
-	BNC	_01065_DS_
+	BNC	_01046_DS_
 	INFSNZ	r0x04, F
 	INCF	r0x05, F
-_01065_DS_:
+_01046_DS_:
 ;	.line	283; /home/vbasel/.icaro/v4/firmware/core/stdio.c	int_part /= 10;
 	CLRF	POSTDEC1
 	CLRF	POSTDEC1
@@ -5430,18 +4343,18 @@ _01065_DS_:
 	INCF	r0x06, F
 ;	.line	285; /home/vbasel/.icaro/v4/firmware/core/stdio.c	length--;
 	DECF	r0x15, F
-	BRA	_00962_DS_
-_01000_DS_:
+	BRA	_00950_DS_
+_00988_DS_:
 ;	.line	288; /home/vbasel/.icaro/v4/firmware/core/stdio.c	while (m--)
 	MOVFF	r0x15, r0x19
 	MOVFF	r0x12, r0x0a
 	MOVFF	r0x13, r0x0b
 	MOVFF	r0x14, r0x0c
-_00965_DS_:
+_00953_DS_:
 	MOVFF	r0x06, r0x0d
 	DECF	r0x06, F
 	MOVF	r0x0d, W
-	BZ	_01001_DS_
+	BZ	_00989_DS_
 ;	.line	290; /home/vbasel/.icaro/v4/firmware/core/stdio.c	*string++ = *--s;
 	MOVLW	0xff
 	ADDWF	r0x03, F
@@ -5458,29 +4371,29 @@ _00965_DS_:
 	MOVF	r0x0c, W
 	CALL	__gptrput1
 	INCF	r0x0a, F
-	BNC	_00965_DS_
+	BNC	_00953_DS_
 	INFSNZ	r0x0b, F
 	INCF	r0x0c, F
-_01066_DS_:
-	BRA	_00965_DS_
-_01001_DS_:
+_01047_DS_:
+	BRA	_00953_DS_
+_00989_DS_:
 	MOVFF	r0x0a, r0x12
 	MOVFF	r0x0b, r0x13
 	MOVFF	r0x0c, r0x14
-_00970_DS_:
+_00958_DS_:
 ;	.line	303; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (precision > 6)
 	MOVLW	0x07
 	SUBWF	r0x09, W
-	BNC	_00972_DS_
+	BNC	_00960_DS_
 ;	.line	304; /home/vbasel/.icaro/v4/firmware/core/stdio.c	precision = 6;
 	MOVLW	0x06
 	MOVWF	r0x09
-_00972_DS_:
+_00960_DS_:
 ;	.line	307; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (precision > length)
 	MOVF	r0x09, W
 ; #	SUBWF	r0x19, W
 ; #	BTFSC	STATUS, 0
-; #	GOTO	_00974_DS_
+; #	GOTO	_00962_DS_
 ; #	MOVFF	r0x19, r0x09
 ; #	MOVLW	0x01
 ;	.line	308; /home/vbasel/.icaro/v4/firmware/core/stdio.c	precision = length;
@@ -5491,7 +4404,7 @@ _00972_DS_:
 	MOVLW	0x01
 	SUBWF	r0x09, W
 	BTFSS	STATUS, 0
-	BRA	_00977_DS_
+	BRA	_00965_DS_
 ;	.line	314; /home/vbasel/.icaro/v4/firmware/core/stdio.c	*string++ = '.';
 	MOVLW	0x2e
 	MOVWF	POSTDEC1
@@ -5500,19 +4413,19 @@ _00972_DS_:
 	MOVF	r0x14, W
 	CALL	__gptrput1
 	INCF	r0x12, F
-	BNC	_01070_DS_
+	BNC	_01051_DS_
 	INFSNZ	r0x13, F
 	INCF	r0x14, F
-_01070_DS_:
+_01051_DS_:
 ;	.line	317; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for (m = 0; m < precision; m++)
 	MOVFF	r0x12, r0x03
 	MOVFF	r0x13, r0x04
 	MOVFF	r0x14, r0x05
 	CLRF	r0x06
-_00979_DS_:
+_00967_DS_:
 	MOVF	r0x09, W
 	SUBWF	r0x06, W
-	BC	_01002_DS_
+	BC	_00990_DS_
 ;	.line	320; /home/vbasel/.icaro/v4/firmware/core/stdio.c	frac_part = (frac_part << 3) + (frac_part << 1); 
 	MOVF	r0x0e, W
 	ADDWF	r0x0e, W
@@ -5565,20 +4478,20 @@ _00979_DS_:
 	MOVF	r0x05, W
 	CALL	__gptrput1
 	INCF	r0x03, F
-	BNC	_01072_DS_
+	BNC	_01053_DS_
 	INFSNZ	r0x04, F
 	INCF	r0x05, F
-_01072_DS_:
+_01053_DS_:
 ;	.line	324; /home/vbasel/.icaro/v4/firmware/core/stdio.c	frac_part &= 0xFFFFFF;
 	CLRF	r0x11
 ;	.line	317; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for (m = 0; m < precision; m++)
 	INCF	r0x06, F
-	BRA	_00979_DS_
-_01002_DS_:
+	BRA	_00967_DS_
+_00990_DS_:
 	MOVFF	r0x03, r0x12
 	MOVFF	r0x04, r0x13
 	MOVFF	r0x05, r0x14
-_00977_DS_:
+_00965_DS_:
 ;	.line	329; /home/vbasel/.icaro/v4/firmware/core/stdio.c	*string++ = '\0';
 	CLRF	POSTDEC1
 	MOVFF	r0x12, FSR0L
@@ -5592,9 +4505,9 @@ _00977_DS_:
 	MOVWF	POSTDEC1
 	MOVLW	0x80
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_pprintfl_buffer_1_172)
+	MOVLW	HIGH(_pprintfl_buffer_1_192)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(_pprintfl_buffer_1_172)
+	MOVLW	LOW(_pprintfl_buffer_1_192)
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
 	MOVWF	POSTDEC1
@@ -5609,8 +4522,8 @@ _00977_DS_:
 	MOVF	r0x18, W
 	ADDWF	r0x00, F
 	MOVF	r0x00, W
-_00981_DS_:
-	MOVFF	PREINC1, r0x20
+_00969_DS_:
+;	.line	332; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x1f
 	MOVFF	PREINC1, r0x1e
 	MOVFF	PREINC1, r0x1d
@@ -5719,14 +4632,14 @@ _pprinti:
 	IORWF	r0x04, W
 	IORWF	r0x05, W
 	IORWF	r0x06, W
-	BNZ	_00871_DS_
+	BNZ	_00859_DS_
 ;	.line	124; /home/vbasel/.icaro/v4/firmware/core/stdio.c	buffer[0] = '0';
 	MOVLW	0x30
-	BANKSEL	_pprinti_buffer_1_162
-	MOVWF	_pprinti_buffer_1_162, B
+	BANKSEL	_pprinti_buffer_1_182
+	MOVWF	_pprinti_buffer_1_182, B
 ; removed redundant BANKSEL
 ;	.line	125; /home/vbasel/.icaro/v4/firmware/core/stdio.c	buffer[1] = '\0';
-	CLRF	(_pprinti_buffer_1_162 + 1), B
+	CLRF	(_pprinti_buffer_1_182 + 1), B
 ;	.line	126; /home/vbasel/.icaro/v4/firmware/core/stdio.c	return pprints(out, buffer, width, pad);
 	MOVF	r0x0b, W
 	MOVWF	POSTDEC1
@@ -5734,9 +4647,9 @@ _pprinti:
 	MOVWF	POSTDEC1
 	MOVLW	0x80
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_pprinti_buffer_1_162)
+	MOVLW	HIGH(_pprinti_buffer_1_182)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(_pprinti_buffer_1_162)
+	MOVLW	LOW(_pprinti_buffer_1_182)
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
 	MOVWF	POSTDEC1
@@ -5749,17 +4662,17 @@ _pprinti:
 	MOVLW	0x08
 	ADDWF	FSR1L, F
 	MOVF	r0x13, W
-	BRA	_00892_DS_
-_00871_DS_:
+	BRA	_00880_DS_
+_00859_DS_:
 ;	.line	130; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if  ( (sign) && (base == 10) )          // decimal signed number ?
 	MOVF	r0x09, W
-	BZ	_00879_DS_
+	BZ	_00867_DS_
 	MOVF	r0x08, W
 	XORLW	0x0a
-	BNZ	_00879_DS_
+	BNZ	_00867_DS_
 ;	.line	132; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if ( (islong) && ((s32)i < 0) )     // negative 32-bit ?
 	MOVF	r0x07, W
-	BZ	_00873_DS_
+	BZ	_00861_DS_
 	MOVF	r0x03, W
 	MOVWF	r0x09
 	MOVF	r0x04, W
@@ -5771,7 +4684,7 @@ _00871_DS_:
 	BSF	STATUS, 0
 	BTFSS	r0x15, 7
 	BCF	STATUS, 0
-	BNC	_00873_DS_
+	BNC	_00861_DS_
 ;	.line	134; /home/vbasel/.icaro/v4/firmware/core/stdio.c	neg = 1;
 	MOVLW	0x01
 	MOVWF	r0x0d
@@ -5785,19 +4698,19 @@ _00871_DS_:
 	COMF	r0x09, W
 	MOVWF	r0x0f
 	INCF	r0x0f, F
-	BNZ	_00873_DS_
+	BNZ	_00861_DS_
 	INCF	r0x10, F
-	BNZ	_00873_DS_
+	BNZ	_00861_DS_
 	INFSNZ	r0x11, F
 	INCF	r0x12, F
-_00873_DS_:
+_00861_DS_:
 ;	.line	137; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if ( (!islong) && ((s16)i < 0) )    // negative 16-bit ?
 	MOVF	r0x07, W
-	BNZ	_00879_DS_
+	BNZ	_00867_DS_
 	BSF	STATUS, 0
 	BTFSS	r0x04, 7
 	BCF	STATUS, 0
-	BNC	_00879_DS_
+	BNC	_00867_DS_
 ;	.line	139; /home/vbasel/.icaro/v4/firmware/core/stdio.c	neg = 1;
 	MOVLW	0x01
 	MOVWF	r0x0d
@@ -5813,11 +4726,11 @@ _00873_DS_:
 	MOVLW	0xff
 	MOVWF	r0x11
 	MOVWF	r0x12
-_00879_DS_:
+_00867_DS_:
 ;	.line	145; /home/vbasel/.icaro/v4/firmware/core/stdio.c	string = buffer + PRINTF_BUF_LEN - 1;
-	MOVLW	HIGH(_pprinti_buffer_1_162 + 11)
+	MOVLW	HIGH(_pprinti_buffer_1_182 + 11)
 	MOVWF	r0x04
-	MOVLW	LOW(_pprinti_buffer_1_162 + 11)
+	MOVLW	LOW(_pprinti_buffer_1_182 + 11)
 	MOVWF	r0x03
 	MOVLW	0x80
 	MOVWF	r0x05
@@ -5830,13 +4743,13 @@ _00879_DS_:
 	MOVFF	r0x03, r0x06
 	MOVFF	r0x04, r0x07
 	MOVFF	r0x05, r0x09
-_00883_DS_:
+_00871_DS_:
 	MOVF	r0x0f, W
 	IORWF	r0x10, W
 	IORWF	r0x11, W
 	IORWF	r0x12, W
 	BTFSC	STATUS, 2
-	BRA	_00907_DS_
+	BRA	_00895_DS_
 ;	.line	150; /home/vbasel/.icaro/v4/firmware/core/stdio.c	t = uns32 % base;
 	MOVFF	r0x08, r0x13
 	CLRF	r0x14
@@ -5865,24 +4778,24 @@ _00883_DS_:
 ;	.line	151; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if ( t >= 10 )
 	MOVLW	0x00
 	SUBWF	r0x1a, W
-	BNZ	_00938_DS_
+	BNZ	_00926_DS_
 	MOVLW	0x00
 	SUBWF	r0x19, W
-	BNZ	_00938_DS_
+	BNZ	_00926_DS_
 	MOVLW	0x00
 	SUBWF	r0x18, W
-	BNZ	_00938_DS_
+	BNZ	_00926_DS_
 	MOVLW	0x0a
 	SUBWF	r0x17, W
-_00938_DS_:
-	BNC	_00882_DS_
+_00926_DS_:
+	BNC	_00870_DS_
 ;	.line	152; /home/vbasel/.icaro/v4/firmware/core/stdio.c	t += letterbase - '0' - 10;
 	MOVFF	r0x0c, r0x1b
 	MOVLW	0xc6
 	ADDWF	r0x1b, F
 	MOVF	r0x1b, W
 	ADDWF	r0x17, F
-_00882_DS_:
+_00870_DS_:
 ;	.line	153; /home/vbasel/.icaro/v4/firmware/core/stdio.c	*--string = t + '0';
 	MOVLW	0xff
 	ADDWF	r0x06, F
@@ -5919,19 +4832,20 @@ _00882_DS_:
 	MOVFF	FSR0L, r0x12
 	MOVLW	0x08
 	ADDWF	FSR1L, F
-	BRA	_00883_DS_
-_00907_DS_:
+	BRA	_00871_DS_
+_00895_DS_:
 	MOVFF	r0x06, r0x03
 	MOVFF	r0x07, r0x04
 	MOVFF	r0x09, r0x05
 ;	.line	157; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (neg)
 	MOVF	r0x0d, W
-	BZ	_00891_DS_
+	BZ	_00879_DS_
 ;	.line	159; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (width && (pad & PAD_ZERO))
 	MOVF	r0x0a, W
-	BZ	_00887_DS_
-	BTFSS	r0x0b, 1
-	BRA	_00887_DS_
+	BZ	_00875_DS_
+	MOVFF	r0x0b, r0x06
+	BTFSS	r0x06, 1
+	BRA	_00875_DS_
 ;	.line	161; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pprintc(out, '-');
 	MOVLW	0x2d
 	MOVWF	POSTDEC1
@@ -5949,8 +4863,8 @@ _00907_DS_:
 	MOVWF	r0x0e
 ;	.line	163; /home/vbasel/.icaro/v4/firmware/core/stdio.c	--width;
 	DECF	r0x0a, F
-	BRA	_00891_DS_
-_00887_DS_:
+	BRA	_00879_DS_
+_00875_DS_:
 ;	.line	167; /home/vbasel/.icaro/v4/firmware/core/stdio.c	*--string = '-';
 	MOVLW	0xff
 	ADDWF	r0x03, F
@@ -5962,7 +4876,7 @@ _00887_DS_:
 	MOVFF	r0x04, PRODL
 	MOVF	r0x05, W
 	CALL	__gptrput1
-_00891_DS_:
+_00879_DS_:
 ;	.line	171; /home/vbasel/.icaro/v4/firmware/core/stdio.c	return pc + pprints(out, string, width, pad);
 	MOVF	r0x0b, W
 	MOVWF	POSTDEC1
@@ -5987,7 +4901,8 @@ _00891_DS_:
 	MOVF	r0x0e, W
 	ADDWF	r0x00, F
 	MOVF	r0x00, W
-_00892_DS_:
+_00880_DS_:
+;	.line	172; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x1b
 	MOVFF	PREINC1, r0x1a
 	MOVFF	PREINC1, r0x19
@@ -6063,61 +4978,62 @@ _pprints:
 	MOVWF	r0x09
 ;	.line	69; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (width > 0)
 	MOVF	r0x06, W
-	BZ	_00798_DS_
+	BZ	_00786_DS_
 ;	.line	71; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for (ptr = string; *ptr; ++ptr)
 	CLRF	r0x0a
 	MOVFF	r0x03, r0x0b
 	MOVFF	r0x04, r0x0c
 	MOVFF	r0x05, r0x0d
-_00805_DS_:
+_00793_DS_:
 	MOVFF	r0x0b, FSR0L
 	MOVFF	r0x0c, PRODL
 	MOVF	r0x0d, W
 	CALL	__gptrget1
 	MOVWF	r0x0e
 	MOVF	r0x0e, W
-	BZ	_00791_DS_
+	BZ	_00779_DS_
 ;	.line	72; /home/vbasel/.icaro/v4/firmware/core/stdio.c	++len;
 	INCF	r0x0a, F
 ;	.line	71; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for (ptr = string; *ptr; ++ptr)
 	INCF	r0x0b, F
-	BNC	_00805_DS_
+	BNC	_00793_DS_
 	INFSNZ	r0x0c, F
 	INCF	r0x0d, F
-_00861_DS_:
-	BRA	_00805_DS_
-_00791_DS_:
+_00849_DS_:
+	BRA	_00793_DS_
+_00779_DS_:
 ;	.line	73; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (len >= width)
 	MOVF	r0x06, W
 	SUBWF	r0x0a, W
-	BNC	_00793_DS_
+	BNC	_00781_DS_
 ;	.line	74; /home/vbasel/.icaro/v4/firmware/core/stdio.c	width = 0;
 	CLRF	r0x06
-	BRA	_00794_DS_
-_00793_DS_:
+	BRA	_00782_DS_
+_00781_DS_:
 ;	.line	76; /home/vbasel/.icaro/v4/firmware/core/stdio.c	width -= len;
 	MOVF	r0x0a, W
 	SUBWF	r0x06, F
-_00794_DS_:
+_00782_DS_:
 ;	.line	77; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (pad & PAD_ZERO) padchar = '0';
-	BTFSS	r0x07, 1
-	BRA	_00798_DS_
+	MOVFF	r0x07, r0x0a
+	BTFSS	r0x0a, 1
+	BRA	_00786_DS_
 	MOVLW	0x30
 	MOVWF	r0x09
-_00798_DS_:
+_00786_DS_:
 ;	.line	80; /home/vbasel/.icaro/v4/firmware/core/stdio.c	if (!(pad & PAD_RIGHT))
 	BTFSC	r0x07, 0
-	BRA	_00830_DS_
+	BRA	_00818_DS_
 	CLRF	r0x07
 	MOVFF	r0x06, r0x0a
-_00808_DS_:
+_00796_DS_:
 ;	.line	82; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; width > 0; --width)
 	MOVF	r0x0a, W
-	BNZ	_00807_DS_
+	BNZ	_00795_DS_
 	MOVFF	r0x07, r0x08
 	MOVFF	r0x0a, r0x06
-	BRA	_00830_DS_
-_00807_DS_:
+	BRA	_00818_DS_
+_00795_DS_:
 ;	.line	84; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pprintc(out, padchar);
 	MOVF	r0x09, W
 	MOVWF	POSTDEC1
@@ -6134,10 +5050,10 @@ _00807_DS_:
 	INCF	r0x07, F
 ;	.line	82; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; width > 0; --width)
 	DECF	r0x0a, F
-	BRA	_00808_DS_
-_00830_DS_:
+	BRA	_00796_DS_
+_00818_DS_:
 	MOVFF	r0x08, r0x07
-_00811_DS_:
+_00799_DS_:
 ;	.line	89; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; *string ; ++string)
 	MOVFF	r0x03, FSR0L
 	MOVFF	r0x04, PRODL
@@ -6145,7 +5061,7 @@ _00811_DS_:
 	CALL	__gptrget1
 	MOVWF	r0x08
 	MOVF	r0x08, W
-	BZ	_00832_DS_
+	BZ	_00820_DS_
 ;	.line	91; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pprintc(out, *string);
 	MOVF	r0x08, W
 	MOVWF	POSTDEC1
@@ -6162,18 +5078,18 @@ _00811_DS_:
 	INCF	r0x07, F
 ;	.line	89; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; *string ; ++string)
 	INCF	r0x03, F
-	BNC	_00811_DS_
+	BNC	_00799_DS_
 	INFSNZ	r0x04, F
 	INCF	r0x05, F
-_00865_DS_:
-	BRA	_00811_DS_
-_00832_DS_:
+_00853_DS_:
+	BRA	_00799_DS_
+_00820_DS_:
 	MOVFF	r0x07, r0x03
 	MOVFF	r0x06, r0x04
-_00814_DS_:
+_00802_DS_:
 ;	.line	95; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; width > 0; --width)
 	MOVF	r0x04, W
-	BZ	_00803_DS_
+	BZ	_00791_DS_
 ;	.line	97; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pprintc(out, padchar);
 	MOVF	r0x09, W
 	MOVWF	POSTDEC1
@@ -6190,12 +5106,13 @@ _00814_DS_:
 	INCF	r0x03, F
 ;	.line	95; /home/vbasel/.icaro/v4/firmware/core/stdio.c	for ( ; width > 0; --width)
 	DECF	r0x04, F
-	BRA	_00814_DS_
+	BRA	_00802_DS_
 ; =DF= MOVFF: replaced by CRLF/SETF
-_00803_DS_:
+_00791_DS_:
 ;	.line	101; /home/vbasel/.icaro/v4/firmware/core/stdio.c	return pc;
 	CLRF	PRODL
 	MOVF	r0x03, W
+;	.line	102; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x0e
 	MOVFF	PREINC1, r0x0d
 	MOVFF	PREINC1, r0x0c
@@ -6239,7 +5156,7 @@ _pprintc:
 	MOVF	r0x00, W
 	IORWF	r0x01, W
 	IORWF	r0x02, W
-	BZ	_00778_DS_
+	BZ	_00766_DS_
 ;	.line	46; /home/vbasel/.icaro/v4/firmware/core/stdio.c	**str = c;
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, PRODL
@@ -6262,10 +5179,10 @@ _pprintc:
 	MOVFF	PRODL, r0x05
 	MOVFF	PRODH, r0x06
 	INCF	r0x04, F
-	BNC	_00785_DS_
+	BNC	_00773_DS_
 	INFSNZ	r0x05, F
 	INCF	r0x06, F
-_00785_DS_:
+_00773_DS_:
 	MOVFF	r0x04, POSTDEC1
 	MOVFF	r0x05, PRODH
 	MOVFF	r0x06, TBLPTRL
@@ -6273,19 +5190,19 @@ _00785_DS_:
 	MOVFF	r0x01, PRODL
 	MOVF	r0x02, W
 	CALL	__gptrput3
-	BRA	_00780_DS_
-_00778_DS_:
+	BRA	_00768_DS_
+_00766_DS_:
 ;	.line	51; /home/vbasel/.icaro/v4/firmware/core/stdio.c	pputchar(c);
 	MOVF	r0x03, W
 	MOVWF	POSTDEC1
 	MOVFF	INTCON, POSTDEC1
 	BCF	INTCON, 7
 	PUSH	
-	MOVLW	LOW(_00786_DS_)
+	MOVLW	LOW(_00774_DS_)
 	MOVWF	TOSL
-	MOVLW	HIGH(_00786_DS_)
+	MOVLW	HIGH(_00774_DS_)
 	MOVWF	TOSH
-	MOVLW	UPPER(_00786_DS_)
+	MOVLW	UPPER(_00774_DS_)
 	MOVWF	TOSU
 	BTFSC	PREINC1, 7
 	BSF	INTCON, 7
@@ -6294,9 +5211,10 @@ _00778_DS_:
 	BANKSEL	_pputchar
 	MOVF	_pputchar, W, B
 	MOVWF	PCL
-_00786_DS_:
+_00774_DS_:
 	MOVF	POSTINC1, F
-_00780_DS_:
+_00768_DS_:
+;	.line	53; /home/vbasel/.icaro/v4/firmware/core/stdio.c	}
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
 	MOVFF	PREINC1, r0x04
@@ -6305,6 +5223,139 @@ _00780_DS_:
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__sensordigital	code
+_sensordigital:
+;	.line	120; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	int sensordigital(int valor)
+	MOVFF	FSR2L, POSTDEC1
+	MOVFF	FSR1L, FSR2L
+	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
+	MOVLW	0x02
+	MOVFF	PLUSW2, r0x00
+	MOVLW	0x03
+	MOVFF	PLUSW2, r0x01
+;	.line	124; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	temp=digitalread(valor);
+	MOVF	r0x00, W
+	MOVWF	POSTDEC1
+	CALL	_digitalread
+	MOVWF	r0x00
+	MOVF	POSTINC1, F
+;	.line	125; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	if (temp==0)
+	MOVF	r0x00, W
+	BNZ	_00758_DS_
+;	.line	127; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	return 1;
+	CLRF	PRODL
+	MOVLW	0x01
+	BRA	_00760_DS_
+_00758_DS_:
+;	.line	131; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	return 0;
+	CLRF	PRODL
+	CLRF	WREG
+_00760_DS_:
+;	.line	133; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	}
+	MOVFF	PREINC1, r0x01
+	MOVFF	PREINC1, r0x00
+	MOVFF	PREINC1, FSR2L
+	RETURN	
+
+; ; Starting pCode block
+S_main__setup	code
+_setup:
+;	.line	89; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	TRISB=0; //defino PORTB como salida
+	CLRF	_TRISB
+;	.line	90; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	PORTB=0; 
+	CLRF	_PORTB
+;	.line	91; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	PORTD=0;
+	CLRF	_PORTD
+;	.line	92; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG1,INPUT);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	0x15
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	93; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG2,INPUT);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	0x16
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	95; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG3,TRIG);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	0x17
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	96; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_DIG4,ECHO);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	MOVLW	0x18
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	97; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P1,OUTPUT);
+	CLRF	POSTDEC1
+	MOVLW	0x19
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	98; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P2,OUTPUT);
+	CLRF	POSTDEC1
+	MOVLW	0x1a
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	99; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P3,OUTPUT);
+	CLRF	POSTDEC1
+	MOVLW	0x1b
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	100; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	pinmode(ICR_l293_P4,OUTPUT);
+	CLRF	POSTDEC1
+	MOVLW	0x1c
+	MOVWF	POSTDEC1
+	CALL	_pinmode
+	MOVF	POSTINC1, F
+	MOVF	POSTINC1, F
+;	.line	101; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV1);
+	MOVLW	0x0a
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	102; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV2);
+	MOVLW	0x0b
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	103; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV3);
+	MOVLW	0x0c
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	104; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV4);
+	MOVLW	0x09
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	105; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	ServoAttach(ICR_SRV5);
+	MOVLW	0x08
+	MOVWF	POSTDEC1
+	CALL	_ServoAttach
+	MOVF	POSTINC1, F
+;	.line	118; /home/vbasel/.icaro/v4/firmware/icaro_lib/definiciones_icr.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -6324,18 +5375,19 @@ _Delayus:
 ;	.line	73; /home/vbasel/.icaro/v4/firmware/core/delayus.c	for (i=0; i<microseconds; i++)
 	CLRF	r0x02
 	CLRF	r0x03
-_00761_DS_:
+_00736_DS_:
 	MOVF	r0x01, W
 	SUBWF	r0x03, W
-	BNZ	_00772_DS_
+	BNZ	_00747_DS_
 	MOVF	r0x00, W
 	SUBWF	r0x02, W
-_00772_DS_:
-	BC	_00763_DS_
+_00747_DS_:
+	BC	_00738_DS_
 	INFSNZ	r0x02, F
 	INCF	r0x03, F
-	BRA	_00761_DS_
-_00763_DS_:
+	BRA	_00736_DS_
+_00738_DS_:
+;	.line	75; /home/vbasel/.icaro/v4/firmware/core/delayus.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -6352,6 +5404,7 @@ _IO_digital:
 ;	.line	124; /home/vbasel/.icaro/v4/firmware/core/io.c	CMCON = 0x07;               // Comparators as Digital I/O
 	MOVLW	0x07
 	MOVWF	_CMCON
+;	.line	155; /home/vbasel/.icaro/v4/firmware/core/io.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -6395,6 +5448,7 @@ _IO_init:
 	CLRF	_PORTD
 ;	.line	113; /home/vbasel/.icaro/v4/firmware/core/io.c	PORTE  = 0x00; 
 	CLRF	_PORTE
+;	.line	115; /home/vbasel/.icaro/v4/firmware/core/io.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -6416,10 +5470,10 @@ _analogwrite:
 ;	.line	243; /home/vbasel/.icaro/v4/firmware/core/analog.c	switch (pin)
 	MOVF	r0x00, W
 	XORLW	0x0b
-	BZ	_00731_DS_
+	BZ	_00706_DS_
 	MOVF	r0x00, W
 	XORLW	0x0c
-	BNZ	_00732_DS_
+	BNZ	_00707_DS_
 ;	.line	306; /home/vbasel/.icaro/v4/firmware/core/analog.c	CCP1CON  = 0b00001100;
 	MOVLW	0x0c
 	MOVWF	_CCP1CON
@@ -6442,11 +5496,17 @@ _analogwrite:
 	SWAPF	r0x00, W
 	ANDLW	0xf0
 ; #	MOVWF	r0x03
-; #	MOVF	r0x03, W
-	IORWF	_CCP1CON, F
+; #	MOVF	_CCP1CON, W
+; #;#	MOVWF	r0x00
+; #;#	MOVF	r0x03, W
+; #;#	IORWF	r0x00, W
+; #	IORWF	r0x03, W
+	MOVWF	r0x03
+	IORWF	_CCP1CON, W
+	MOVWF	_CCP1CON
 ;	.line	309; /home/vbasel/.icaro/v4/firmware/core/analog.c	break;
-	BRA	_00732_DS_
-_00731_DS_:
+	BRA	_00707_DS_
+_00706_DS_:
 ;	.line	312; /home/vbasel/.icaro/v4/firmware/core/analog.c	CCP2CON  = 0b00001100;
 	MOVLW	0x0c
 	MOVWF	_CCP2CON
@@ -6467,11 +5527,18 @@ _00731_DS_:
 	SWAPF	r0x01, W
 	ANDLW	0xf0
 ; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	IORWF	_CCP2CON, F
-_00732_DS_:
+; #	MOVF	_CCP2CON, W
+; #;#	MOVWF	r0x01
+; #;#	MOVF	r0x00, W
+; #;#	IORWF	r0x01, W
+; #	IORWF	r0x00, W
+	MOVWF	r0x00
+	IORWF	_CCP2CON, W
+	MOVWF	_CCP2CON
+_00707_DS_:
 ;	.line	321; /home/vbasel/.icaro/v4/firmware/core/analog.c	PIR1bits.TMR2IF = 0;
 	BCF	_PIR1bits, 1
+;	.line	322; /home/vbasel/.icaro/v4/firmware/core/analog.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -6487,6 +5554,7 @@ _analogwrite_init:
 ;	.line	238; /home/vbasel/.icaro/v4/firmware/core/analog.c	T2CON = 0b00000100;                 // Timer2 on, prescaler is 1
 	MOVLW	0x04
 	MOVWF	_T2CON
+;	.line	239; /home/vbasel/.icaro/v4/firmware/core/analog.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -6504,37 +5572,38 @@ _analogread:
 ;	.line	173; /home/vbasel/.icaro/v4/firmware/core/analog.c	if(channel>=13 && channel<=20)
 	MOVLW	0x0d
 	SUBWF	r0x00, W
-	BNC	_00684_DS_
+	BNC	_00659_DS_
 	MOVLW	0x15
 	SUBWF	r0x00, W
-	BC	_00684_DS_
+	BC	_00659_DS_
 ;	.line	174; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON0=(channel-13) << 2;   // A0 = 13, ..., A4 = 17
-	MOVLW	0xf3
-	ADDWF	r0x00, W
+	MOVF	r0x00, W
 	MOVWF	r0x01
+	MOVLW	0xf3
+	ADDWF	r0x01, F
 	RLNCF	r0x01, W
 	RLNCF	WREG, W
 	ANDLW	0xfc
 	MOVWF	_ADCON0
-	BRA	_00685_DS_
-_00684_DS_:
+	BRA	_00660_DS_
+_00659_DS_:
 ;	.line	175; /home/vbasel/.icaro/v4/firmware/core/analog.c	else if(channel<=5)
 	MOVLW	0x06
 	SUBWF	r0x00, W
-	BC	_00685_DS_
+	BC	_00660_DS_
 ;	.line	176; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON0 = channel << 2;      // A0 = 0, ..., A4 = 4
 	RLNCF	r0x00, W
 	RLNCF	WREG, W
 	ANDLW	0xfc
 	MOVWF	_ADCON0
-_00685_DS_:
+_00660_DS_:
 ;	.line	180; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON0bits.ADON=1;                  // A/D Converter module is enabled
 	BSF	_ADCON0bits, 0
 ;	.line	182; /home/vbasel/.icaro/v4/firmware/core/analog.c	for (result=1;result<10;result++)   // Acquisition time
 	MOVLW	0x09
 	MOVWF	r0x00
 	CLRF	r0x01
-_00693_DS_:
+_00668_DS_:
 	NOP
 	MOVLW	0xff
 	ADDWF	r0x00, F
@@ -6542,13 +5611,13 @@ _00693_DS_:
 ;	.line	182; /home/vbasel/.icaro/v4/firmware/core/analog.c	for (result=1;result<10;result++)   // Acquisition time
 	MOVF	r0x00, W
 	IORWF	r0x01, W
-	BNZ	_00693_DS_
+	BNZ	_00668_DS_
 ;	.line	185; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON0bits.GO=1;                    // Start A/D Conversion
 	BSF	_ADCON0bits, 1
-_00688_DS_:
+_00663_DS_:
 ;	.line	187; /home/vbasel/.icaro/v4/firmware/core/analog.c	while (ADCON0bits.GO);              // Wait for conversion stop
 	BTFSC	_ADCON0bits, 1
-	BRA	_00688_DS_
+	BRA	_00663_DS_
 ;	.line	189; /home/vbasel/.icaro/v4/firmware/core/analog.c	result = ADRESH << 8;
 	MOVFF	_ADRESH, r0x00
 	CLRF	r0x01
@@ -6567,6 +5636,7 @@ _00688_DS_:
 ;	.line	194; /home/vbasel/.icaro/v4/firmware/core/analog.c	return(result);
 	MOVFF	r0x03, PRODL
 	MOVF	r0x02, W
+;	.line	195; /home/vbasel/.icaro/v4/firmware/core/analog.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -6581,24 +5651,30 @@ _analogreference:
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
+	MOVFF	r0x01, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-; #	MOVF	r0x00, W
-; #	BTFSS	STATUS, 2
-; #	GOTO	_00665_DS_
-; #	GOTO	_00667_DS_
-; #	MOVF	r0x00, W
 ;	.line	108; /home/vbasel/.icaro/v4/firmware/core/analog.c	if(Type == DEFAULT)			//the default analog reference of 5 volts (on 5V Arduino boards) or 3.3 volts (on 3.3V Arduino boards)
 	MOVF	r0x00, W
+	BNZ	_00640_DS_
 ;	.line	109; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON1|=0x00;			//Vref+ = VDD
-	BZ	_00667_DS_
+	MOVFF	_ADCON1, r0x01
+	MOVF	r0x01, W
+	MOVWF	_ADCON1
+	BRA	_00642_DS_
+_00640_DS_:
 ;	.line	110; /home/vbasel/.icaro/v4/firmware/core/analog.c	else if(Type == EXTERNAL)	//the voltage applied to the AREF pin (0 to 5V only) is used as the reference.
 	MOVF	r0x00, W
 	XORLW	0x01
-	BNZ	_00667_DS_
+	BNZ	_00642_DS_
 ;	.line	111; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON1|=0x10;			//Vref+ = External source
-	BSF	_ADCON1, 4
-_00667_DS_:
+	MOVFF	_ADCON1, r0x00
+	BSF	r0x00, 4
+	MOVF	r0x00, W
+	MOVWF	_ADCON1
+_00642_DS_:
+;	.line	121; /home/vbasel/.icaro/v4/firmware/core/analog.c	}
+	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -6606,17 +5682,28 @@ _00667_DS_:
 ; ; Starting pCode block
 S_main__analog_init	code
 _analog_init:
+;	.line	25; /home/vbasel/.icaro/v4/firmware/core/analog.c	void analog_init(void)
+	MOVFF	r0x00, POSTDEC1
 ;	.line	36; /home/vbasel/.icaro/v4/firmware/core/analog.c	TRISA=TRISA | 0x2F;
+	MOVFF	_TRISA, r0x00
 	MOVLW	0x2f
-	IORWF	_TRISA, F
+	IORWF	r0x00, F
+	MOVF	r0x00, W
+	MOVWF	_TRISA
 ;	.line	37; /home/vbasel/.icaro/v4/firmware/core/analog.c	TRISE=TRISE | 0x07;	
+	MOVFF	_TRISE, r0x00
 	MOVLW	0x07
-	IORWF	_TRISE, F
+	IORWF	r0x00, F
+	MOVF	r0x00, W
+	MOVWF	_TRISE
 ;	.line	38; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON1=0x07;
+	MOVLW	0x07
 	MOVWF	_ADCON1
 ;	.line	39; /home/vbasel/.icaro/v4/firmware/core/analog.c	ADCON2=0xBD;
 	MOVLW	0xbd
 	MOVWF	_ADCON2
+;	.line	95; /home/vbasel/.icaro/v4/firmware/core/analog.c	}
+	MOVFF	PREINC1, r0x00
 	RETURN	
 
 ; ; Starting pCode block
@@ -6624,11 +5711,11 @@ S_main__servos_interrupt	code
 _servos_interrupt:
 ;	.line	547; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (PIR1bits.TMR1IF)
 	BTFSS	_PIR1bits, 0
-	BRA	_00652_DS_
+	BRA	_00627_DS_
 	BANKSEL	_phase
 ;	.line	553; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (phase)
 	MOVF	_phase, W, B
-	BZ	_00648_DS_
+	BZ	_00623_DS_
 ;	.line	555; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	ServosPulseUp();
 	CALL	_ServosPulseUp
 ;	.line	557; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	TMR1H= 0xe9;//0xe9;
@@ -6643,8 +5730,8 @@ _servos_interrupt:
 	BANKSEL	_phase
 ;	.line	561; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	phase = 0;
 	CLRF	_phase, B
-	BRA	_00649_DS_
-_00648_DS_:
+	BRA	_00624_DS_
+_00623_DS_:
 ;	.line	569; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	ServosPulseDown();
 	CALL	_ServosPulseDown
 ;	.line	573; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	TMR1H= 0x32;
@@ -6655,7 +5742,7 @@ _00648_DS_:
 	MOVWF	_TMR1L
 ; #	MOVF	_needreordering, W, B
 ; #	BTFSC	STATUS, 2
-; #	GOTO	_00646_DS_
+; #	GOTO	_00621_DS_
 ; #	CALL	_SortServoTimings
 ; #	MOVLW	0x21
 	BANKSEL	_needreordering
@@ -6671,11 +5758,11 @@ _00648_DS_:
 	MOVLW	0x01
 	BANKSEL	_phase
 	MOVWF	_phase, B
-_00649_DS_:
+_00624_DS_:
 ;	.line	583; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	PIR1bits.TMR1IF=0;
 	BCF	_PIR1bits, 0
-_00652_DS_:
-;	.line	585; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	return;
+_00627_DS_:
+;	.line	586; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -6698,40 +5785,40 @@ _ServoMaximumPulse:
 	MOVLW	0x1e
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00622_DS_
-; #	GOTO	_00627_DS_
+; #	GOTO	_00597_DS_
+; #	GOTO	_00602_DS_
 ; #	MOVF	r0x02, W
 ;	.line	534; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	return;
 	SUBWF	r0x00, W
 ;	.line	537; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (max_microseconds < MIDUS) max_microseconds = MIDUS;
-	BC	_00627_DS_
+	BC	_00602_DS_
 	MOVF	r0x02, W
 	ADDLW	0x80
 	ADDLW	0x7b
-	BNZ	_00639_DS_
+	BNZ	_00614_DS_
 	MOVLW	0xdc
 	SUBWF	r0x01, W
-_00639_DS_:
-	BC	_00624_DS_
+_00614_DS_:
+	BC	_00599_DS_
 	MOVLW	0xdc
 	MOVWF	r0x01
 	MOVLW	0x05
 	MOVWF	r0x02
-_00624_DS_:
+_00599_DS_:
 ;	.line	538; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (max_microseconds > MAXUS) max_microseconds = MAXUS;
 	MOVF	r0x02, W
 	ADDLW	0x80
 	ADDLW	0x77
-	BNZ	_00640_DS_
+	BNZ	_00615_DS_
 	MOVLW	0xc5
 	SUBWF	r0x01, W
-_00640_DS_:
-	BNC	_00626_DS_
+_00615_DS_:
+	BNC	_00601_DS_
 	MOVLW	0xc4
 	MOVWF	r0x01
 	MOVLW	0x09
 	MOVWF	r0x02
-_00626_DS_:
+_00601_DS_:
 ;	.line	541; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	maxminpos[1][servo]=(max_microseconds - MINUS)>>3;   // 125 < final_max < 250
 	CLRF	r0x03
 	MOVLW	LOW(_maxminpos + 30)
@@ -6754,7 +5841,8 @@ _00626_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x03, FSR0H
 	MOVFF	r0x01, INDF0
-_00627_DS_:
+_00602_DS_:
+;	.line	542; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -6782,40 +5870,40 @@ _ServoMinimumPulse:
 	MOVLW	0x1e
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00598_DS_
-; #	GOTO	_00603_DS_
+; #	GOTO	_00573_DS_
+; #	GOTO	_00578_DS_
 ; #	MOVF	r0x02, W
 ;	.line	520; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	return;
 	SUBWF	r0x00, W
 ;	.line	523; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (min_microseconds < MINUS) min_microseconds = MINUS;
-	BC	_00603_DS_
+	BC	_00578_DS_
 	MOVF	r0x02, W
 	ADDLW	0x80
 	ADDLW	0x7f
-	BNZ	_00615_DS_
+	BNZ	_00590_DS_
 	MOVLW	0xf4
 	SUBWF	r0x01, W
-_00615_DS_:
-	BC	_00600_DS_
+_00590_DS_:
+	BC	_00575_DS_
 	MOVLW	0xf4
 	MOVWF	r0x01
 	MOVLW	0x01
 	MOVWF	r0x02
-_00600_DS_:
+_00575_DS_:
 ;	.line	524; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (min_microseconds > MIDUS) min_microseconds = MIDUS;
 	MOVF	r0x02, W
 	ADDLW	0x80
 	ADDLW	0x7b
-	BNZ	_00616_DS_
+	BNZ	_00591_DS_
 	MOVLW	0xdd
 	SUBWF	r0x01, W
-_00616_DS_:
-	BNC	_00602_DS_
+_00591_DS_:
+	BNC	_00577_DS_
 	MOVLW	0xdc
 	MOVWF	r0x01
 	MOVLW	0x05
 	MOVWF	r0x02
-_00602_DS_:
+_00577_DS_:
 ;	.line	527; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	maxminpos[0][servo]=(min_microseconds - MINUS)>>3;   // 0 < final_min < 125
 	CLRF	r0x03
 	MOVLW	LOW(_maxminpos)
@@ -6838,7 +5926,8 @@ _00602_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x03, FSR0H
 	MOVFF	r0x01, INDF0
-_00603_DS_:
+_00578_DS_:
+;	.line	528; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -6859,11 +5948,11 @@ _ServoRead:
 ;	.line	510; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if(servo>=TotalPICpins)        // test if numservo is valid
 	MOVLW	0x1e
 	SUBWF	r0x00, W
-	BNC	_00586_DS_
+	BNC	_00561_DS_
 ;	.line	511; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	return 0;
 	CLRF	WREG
-	BRA	_00587_DS_
-_00586_DS_:
+	BRA	_00562_DS_
+_00561_DS_:
 ;	.line	513; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	return servovalues[servo];
 	CLRF	r0x01
 	MOVLW	LOW(_servovalues)
@@ -6874,7 +5963,8 @@ _00586_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVF	r0x00, W
-_00587_DS_:
+_00562_DS_:
+;	.line	514; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -6897,13 +5987,13 @@ _ServoWrite:
 	MOVLW	0x1e
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00574_DS_
-; #	GOTO	_00575_DS_
+; #	GOTO	_00549_DS_
+; #	GOTO	_00550_DS_
 ; #	CLRF	r0x02
 ;	.line	492; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	return;
 	SUBWF	r0x00, W
 ;	.line	503; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	servovalues[servo]= value;
-	BC	_00575_DS_
+	BC	_00550_DS_
 	CLRF	r0x02
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x00, F
@@ -6916,7 +6006,8 @@ _ServoWrite:
 	MOVLW	0x01
 	BANKSEL	_needreordering
 	MOVWF	_needreordering, B
-_00575_DS_:
+_00550_DS_:
+;	.line	506; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -6939,13 +6030,13 @@ _ServoDetach:
 	MOVLW	0x1e
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00551_DS_
-; #	GOTO	_00558_DS_
+; #	GOTO	_00526_DS_
+; #	GOTO	_00533_DS_
 ; #	MOVLW	LOW(_port)
 ;	.line	463; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	switch (port[pin])
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00558_DS_
+	BRA	_00533_DS_
 	MOVLW	LOW(_port)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -6963,7 +6054,7 @@ _ServoDetach:
 	MOVLW	0x05
 	SUBWF	r0x01, W
 	BTFSC	STATUS, 0
-	BRA	_00558_DS_
+	BRA	_00533_DS_
 	CLRF	PCLATH
 	CLRF	PCLATU
 	RLCF	r0x01, W
@@ -6971,21 +6062,21 @@ _ServoDetach:
 	RLCF	WREG, W
 	RLCF	PCLATH, F
 	ANDLW	0xfc
-	ADDLW	LOW(_00568_DS_)
+	ADDLW	LOW(_00543_DS_)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_00568_DS_)
+	MOVLW	HIGH(_00543_DS_)
 	ADDWFC	PCLATH, F
-	MOVLW	UPPER(_00568_DS_)
+	MOVLW	UPPER(_00543_DS_)
 	ADDWFC	PCLATU, F
 	MOVF	PREINC1, W
 	MOVWF	PCL
-_00568_DS_:
-	GOTO	_00552_DS_
-	GOTO	_00553_DS_
-	GOTO	_00554_DS_
-	GOTO	_00555_DS_
-	GOTO	_00556_DS_
-_00552_DS_:
+_00543_DS_:
+	GOTO	_00527_DS_
+	GOTO	_00528_DS_
+	GOTO	_00529_DS_
+	GOTO	_00530_DS_
+	GOTO	_00531_DS_
+_00527_DS_:
 ;	.line	465; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	case pA: activatedservos[pA] = activatedservos[pA] ^ mask[pin];
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7008,8 +6099,8 @@ _00552_DS_:
 ; removed redundant BANKSEL
 	MOVWF	_activatedservos, B
 ;	.line	466; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00558_DS_
-_00553_DS_:
+	BRA	_00533_DS_
+_00528_DS_:
 ;	.line	467; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	case pB: activatedservos[pB] = activatedservos[pB] ^ mask[pin];
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7032,8 +6123,8 @@ _00553_DS_:
 ; removed redundant BANKSEL
 	MOVWF	(_activatedservos + 1), B
 ;	.line	468; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00558_DS_
-_00554_DS_:
+	BRA	_00533_DS_
+_00529_DS_:
 ;	.line	470; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	case pC: activatedservos[pC] = activatedservos[pC] ^ mask[pin];
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7056,8 +6147,8 @@ _00554_DS_:
 ; removed redundant BANKSEL
 	MOVWF	(_activatedservos + 2), B
 ;	.line	471; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00558_DS_
-_00555_DS_:
+	BRA	_00533_DS_
+_00530_DS_:
 ;	.line	474; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	case pD: activatedservos[pD] = activatedservos[pD] ^ mask[pin];
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7080,8 +6171,8 @@ _00555_DS_:
 ; removed redundant BANKSEL
 	MOVWF	(_activatedservos + 3), B
 ;	.line	475; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00558_DS_
-_00556_DS_:
+	BRA	_00533_DS_
+_00531_DS_:
 ;	.line	478; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	case pE: activatedservos[pE] = activatedservos[pE] ^ mask[pin];
 	CLRF	r0x01
 	CLRF	r0x02
@@ -7102,8 +6193,8 @@ _00556_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	MOVWF	(_activatedservos + 4), B
-_00558_DS_:
-;	.line	481; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
+_00533_DS_:
+;	.line	482; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -7128,13 +6219,13 @@ _ServoAttach:
 	MOVLW	0x1e
 ; #	SUBWF	r0x00, W
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00528_DS_
-; #	GOTO	_00535_DS_
+; #	GOTO	_00503_DS_
+; #	GOTO	_00510_DS_
 ; #	MOVLW	LOW(_port)
 ;	.line	428; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	switch (port[pin])
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00535_DS_
+	BRA	_00510_DS_
 	MOVLW	LOW(_port)
 	ADDWF	r0x00, W
 	MOVWF	r0x01
@@ -7152,7 +6243,7 @@ _ServoAttach:
 	MOVLW	0x05
 	SUBWF	r0x01, W
 	BTFSC	STATUS, 0
-	BRA	_00535_DS_
+	BRA	_00510_DS_
 	CLRF	PCLATH
 	CLRF	PCLATU
 	RLCF	r0x01, W
@@ -7160,21 +6251,21 @@ _ServoAttach:
 	RLCF	WREG, W
 	RLCF	PCLATH, F
 	ANDLW	0xfc
-	ADDLW	LOW(_00545_DS_)
+	ADDLW	LOW(_00520_DS_)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_00545_DS_)
+	MOVLW	HIGH(_00520_DS_)
 	ADDWFC	PCLATH, F
-	MOVLW	UPPER(_00545_DS_)
+	MOVLW	UPPER(_00520_DS_)
 	ADDWFC	PCLATU, F
 	MOVF	PREINC1, W
 	MOVWF	PCL
-_00545_DS_:
-	GOTO	_00529_DS_
-	GOTO	_00530_DS_
-	GOTO	_00531_DS_
-	GOTO	_00532_DS_
-	GOTO	_00533_DS_
-_00529_DS_:
+_00520_DS_:
+	GOTO	_00504_DS_
+	GOTO	_00505_DS_
+	GOTO	_00506_DS_
+	GOTO	_00507_DS_
+	GOTO	_00508_DS_
+_00504_DS_:
 ;	.line	431; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	activatedservos[pA] = activatedservos[pA] | mask[pin];  // list pin as servo driver.
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7206,8 +6297,8 @@ _00529_DS_:
 	MOVF	r0x01, W
 	ANDWF	_TRISA, F
 ;	.line	433; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00535_DS_
-_00530_DS_:
+	BRA	_00510_DS_
+_00505_DS_:
 ;	.line	435; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	activatedservos[pB] = activatedservos[pB] | mask[pin];  // list pin as servo driver.
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7239,8 +6330,8 @@ _00530_DS_:
 	MOVF	r0x01, W
 	ANDWF	_TRISB, F
 ;	.line	437; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00535_DS_
-_00531_DS_:
+	BRA	_00510_DS_
+_00506_DS_:
 ;	.line	440; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	activatedservos[pC] = activatedservos[pC] | mask[pin];  // list pin as servo driver.
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7272,8 +6363,8 @@ _00531_DS_:
 	MOVF	r0x01, W
 	ANDWF	_TRISC, F
 ;	.line	442; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00535_DS_
-_00532_DS_:
+	BRA	_00510_DS_
+_00507_DS_:
 ;	.line	446; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	activatedservos[pD] = activatedservos[pD] | mask[pin];  // list pin as servo driver.
 	MOVLW	LOW(_mask)
 	ADDWF	r0x00, W
@@ -7305,8 +6396,8 @@ _00532_DS_:
 	MOVF	r0x01, W
 	ANDWF	_TRISD, F
 ;	.line	448; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00535_DS_
-_00533_DS_:
+	BRA	_00510_DS_
+_00508_DS_:
 ;	.line	452; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	activatedservos[pE] = activatedservos[pE] | mask[pin];  // list pin as servo driver.
 	CLRF	r0x01
 	CLRF	r0x02
@@ -7336,8 +6427,8 @@ _00533_DS_:
 	COMF	r0x00, F
 	MOVF	r0x00, W
 	ANDWF	_TRISE, F
-_00535_DS_:
-;	.line	456; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
+_00510_DS_:
+;	.line	457; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
@@ -7357,19 +6448,19 @@ _SortServoTimings:
 	MOVFF	r0x04, POSTDEC1
 	MOVFF	r0x05, POSTDEC1
 	MOVFF	r0x06, POSTDEC1
-	BANKSEL	_SortServoTimings_t_1_32
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	254; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(t=0;t<TotalPICpins;t++)
-	CLRF	_SortServoTimings_t_1_32, B
-_00411_DS_:
+	CLRF	_SortServoTimings_t_1_35, B
+_00386_DS_:
 	MOVLW	0x1e
-	BANKSEL	_SortServoTimings_t_1_32
-	SUBWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	SUBWF	_SortServoTimings_t_1_35, W, B
 	BTFSC	STATUS, 0
-	BRA	_00358_DS_
+	BRA	_00333_DS_
 ;	.line	256; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timevalue[t]=255; 
 	MOVLW	LOW(_timevalue)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_timevalue)
@@ -7377,10 +6468,10 @@ _00411_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	SETF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	257; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pA]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7392,10 +6483,10 @@ _00411_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	258; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pB]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7409,10 +6500,10 @@ _00411_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	260; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pC]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7428,10 +6519,10 @@ _00411_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	263; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pD]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7447,10 +6538,10 @@ _00411_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	266; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pE]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7468,21 +6559,21 @@ _00411_DS_:
 	CLRF	INDF0
 ; removed redundant BANKSEL
 ;	.line	254; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(t=0;t<TotalPICpins;t++)
-	INCF	_SortServoTimings_t_1_32, F, B
-	BRA	_00411_DS_
-_00358_DS_:
-	BANKSEL	_SortServoTimings_t_1_32
+	INCF	_SortServoTimings_t_1_35, F, B
+	BRA	_00386_DS_
+_00333_DS_:
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	271; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(t=0;t<TotalPICports;t++)
-	CLRF	_SortServoTimings_t_1_32, B
-_00414_DS_:
+	CLRF	_SortServoTimings_t_1_35, B
+_00389_DS_:
 	MOVLW	0x05
-	BANKSEL	_SortServoTimings_t_1_32
-	SUBWF	_SortServoTimings_t_1_32, W, B
-	BC	_00359_DS_
+	BANKSEL	_SortServoTimings_t_1_35
+	SUBWF	_SortServoTimings_t_1_35, W, B
+	BC	_00334_DS_
 ;	.line	272; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	mascaratotal[t]=0x00;
 	MOVLW	LOW(_mascaratotal)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_mascaratotal)
@@ -7492,39 +6583,39 @@ _00414_DS_:
 	CLRF	INDF0
 ; removed redundant BANKSEL
 ;	.line	271; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(t=0;t<TotalPICports;t++)
-	INCF	_SortServoTimings_t_1_32, F, B
-	BRA	_00414_DS_
-_00359_DS_:
-	BANKSEL	_SortServoTimings_totalservos_1_32
+	INCF	_SortServoTimings_t_1_35, F, B
+	BRA	_00389_DS_
+_00334_DS_:
+	BANKSEL	_SortServoTimings_totalservos_1_35
 ;	.line	274; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	totalservos=0; // Total servos revised. This helps to keep within "while"
-	CLRF	_SortServoTimings_totalservos_1_32, B
-	BANKSEL	_SortServoTimings_t_1_32
+	CLRF	_SortServoTimings_totalservos_1_35, B
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	275; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	t=0;           // Index to go through timevalue and timings tables.
-	CLRF	_SortServoTimings_t_1_32, B
-_00407_DS_:
+	CLRF	_SortServoTimings_t_1_35, B
+_00382_DS_:
 ;	.line	276; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	while(totalservos<TotalPICpins)
 	MOVLW	0x1e
-	BANKSEL	_SortServoTimings_totalservos_1_32
-	SUBWF	_SortServoTimings_totalservos_1_32, W, B
+	BANKSEL	_SortServoTimings_totalservos_1_35
+	SUBWF	_SortServoTimings_totalservos_1_35, W, B
 	BTFSC	STATUS, 0
-	GOTO	_00409_DS_
+	GOTO	_00384_DS_
 ;	.line	278; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos=1;
 	MOVLW	0x01
-	BANKSEL	_SortServoTimings_numservos_1_32
-	MOVWF	_SortServoTimings_numservos_1_32, B
-	BANKSEL	_SortServoTimings_s_1_32
+	BANKSEL	_SortServoTimings_numservos_1_35
+	MOVWF	_SortServoTimings_numservos_1_35, B
+	BANKSEL	_SortServoTimings_s_1_35
 ;	.line	280; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(s=0;s<TotalPICpins;s++)
-	CLRF	_SortServoTimings_s_1_32, B
-_00417_DS_:
+	CLRF	_SortServoTimings_s_1_35, B
+_00392_DS_:
 	MOVLW	0x1e
-	BANKSEL	_SortServoTimings_s_1_32
-	SUBWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	SUBWF	_SortServoTimings_s_1_35, W, B
 	BTFSC	STATUS, 0
-	GOTO	_00406_DS_
+	GOTO	_00381_DS_
 ;	.line	283; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	switch (port[s])
 	MOVLW	LOW(_port)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_port)
@@ -7540,7 +6631,7 @@ _00417_DS_:
 	MOVLW	0x05
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	GOTO	_00418_DS_
+	GOTO	_00393_DS_
 	CLRF	PCLATH
 	CLRF	PCLATU
 	RLCF	r0x00, W
@@ -7548,25 +6639,25 @@ _00417_DS_:
 	RLCF	WREG, W
 	RLCF	PCLATH, F
 	ANDLW	0xfc
-	ADDLW	LOW(_00498_DS_)
+	ADDLW	LOW(_00473_DS_)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_00498_DS_)
+	MOVLW	HIGH(_00473_DS_)
 	ADDWFC	PCLATH, F
-	MOVLW	UPPER(_00498_DS_)
+	MOVLW	UPPER(_00473_DS_)
 	ADDWFC	PCLATU, F
 	MOVF	PREINC1, W
 	MOVWF	PCL
-_00498_DS_:
-	GOTO	_00360_DS_
-	GOTO	_00369_DS_
-	GOTO	_00378_DS_
-	GOTO	_00387_DS_
-	GOTO	_00396_DS_
-_00360_DS_:
+_00473_DS_:
+	GOTO	_00335_DS_
+	GOTO	_00344_DS_
+	GOTO	_00353_DS_
+	GOTO	_00362_DS_
+	GOTO	_00371_DS_
+_00335_DS_:
 ;	.line	286; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (mask[s] & mascaratotal[pA] & activatedservos[pA]){
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_mask)
@@ -7587,11 +6678,11 @@ _00360_DS_:
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
 	BTFSS	STATUS, 2
-	GOTO	_00418_DS_
+	GOTO	_00393_DS_
 ;	.line	289; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] < timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -7600,8 +6691,8 @@ _00360_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -7612,18 +6703,18 @@ _00360_DS_:
 	MOVF	r0x01, W
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00364_DS_
+	BRA	_00339_DS_
 ;	.line	290; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timevalue[t]=servovalues[s];
 	MOVLW	LOW(_timevalue)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_timevalue)
 	ADDWFC	r0x01, F
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_servovalues)
@@ -7634,10 +6725,10 @@ _00360_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	291; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pA]=mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7647,8 +6738,8 @@ _00360_DS_:
 	MOVLW	HIGH(_timings)
 	ADDWFC	r0x01, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_mask)
@@ -7664,10 +6755,10 @@ _00360_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	292; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pB]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7681,10 +6772,10 @@ _00360_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	294; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pC]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7700,10 +6791,10 @@ _00360_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	297; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pD]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7719,10 +6810,10 @@ _00360_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	300; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pE]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7740,14 +6831,14 @@ _00360_DS_:
 	CLRF	INDF0
 ;	.line	302; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos=1;
 	MOVLW	0x01
-	BANKSEL	_SortServoTimings_numservos_1_32
-	MOVWF	_SortServoTimings_numservos_1_32, B
-	GOTO	_00418_DS_
-_00364_DS_:
+	BANKSEL	_SortServoTimings_numservos_1_35
+	MOVWF	_SortServoTimings_numservos_1_35, B
+	GOTO	_00393_DS_
+_00339_DS_:
 ;	.line	304; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] == timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -7756,8 +6847,8 @@ _00364_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -7767,13 +6858,13 @@ _00364_DS_:
 	MOVFF	INDF0, r0x01
 	MOVF	r0x00, W
 	XORWF	r0x01, W
-	BZ	_00502_DS_
-	GOTO	_00418_DS_
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-_00502_DS_:
-	BANKSEL	_SortServoTimings_t_1_32
+	BZ	_00477_DS_
+	GOTO	_00393_DS_
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+_00477_DS_:
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	305; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pA] |= mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7782,9 +6873,9 @@ _00502_DS_:
 	ADDWF	r0x00, F
 	MOVLW	HIGH(_timings)
 	ADDWFC	r0x01, F
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x02
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x02
 ; removed redundant BANKSEL
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x03
@@ -7794,8 +6885,8 @@ _00502_DS_:
 	MOVLW	HIGH(_timings)
 	ADDWFC	r0x03, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x04
 	CLRF	r0x05
 	MOVLW	HIGH(_mask)
@@ -7816,16 +6907,16 @@ _00502_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x04, INDF0
-	BANKSEL	_SortServoTimings_numservos_1_32
+	BANKSEL	_SortServoTimings_numservos_1_35
 ;	.line	306; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos++;
-	INCF	_SortServoTimings_numservos_1_32, F, B
+	INCF	_SortServoTimings_numservos_1_35, F, B
 ;	.line	308; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;      		
-	GOTO	_00418_DS_
-_00369_DS_:
+	GOTO	_00393_DS_
+_00344_DS_:
 ;	.line	311; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (mask[s] & mascaratotal[pB] & activatedservos[pB]){
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_mask)
@@ -7846,11 +6937,11 @@ _00369_DS_:
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
 	BTFSS	STATUS, 2
-	GOTO	_00418_DS_
+	GOTO	_00393_DS_
 ;	.line	314; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] < timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -7859,8 +6950,8 @@ _00369_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -7871,18 +6962,18 @@ _00369_DS_:
 	MOVF	r0x01, W
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00373_DS_
+	BRA	_00348_DS_
 ;	.line	315; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timevalue[t]=servovalues[s];
 	MOVLW	LOW(_timevalue)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_timevalue)
 	ADDWFC	r0x01, F
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_servovalues)
@@ -7893,10 +6984,10 @@ _00369_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	316; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pA]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7908,10 +6999,10 @@ _00369_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	317; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pB]=mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7923,8 +7014,8 @@ _00369_DS_:
 	INFSNZ	r0x00, F
 	INCF	r0x01, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_mask)
@@ -7940,10 +7031,10 @@ _00369_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	319; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pC]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7959,10 +7050,10 @@ _00369_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	322; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pD]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7978,10 +7069,10 @@ _00369_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	325; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pE]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -7999,14 +7090,14 @@ _00369_DS_:
 	CLRF	INDF0
 ;	.line	327; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos=1;
 	MOVLW	0x01
-	BANKSEL	_SortServoTimings_numservos_1_32
-	MOVWF	_SortServoTimings_numservos_1_32, B
-	GOTO	_00418_DS_
-_00373_DS_:
+	BANKSEL	_SortServoTimings_numservos_1_35
+	MOVWF	_SortServoTimings_numservos_1_35, B
+	GOTO	_00393_DS_
+_00348_DS_:
 ;	.line	329; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] == timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -8015,8 +7106,8 @@ _00373_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -8026,13 +7117,13 @@ _00373_DS_:
 	MOVFF	INDF0, r0x01
 	MOVF	r0x00, W
 	XORWF	r0x01, W
-	BZ	_00507_DS_
-	GOTO	_00418_DS_
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-_00507_DS_:
-	BANKSEL	_SortServoTimings_t_1_32
+	BZ	_00482_DS_
+	GOTO	_00393_DS_
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+_00482_DS_:
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	330; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pB] |= mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8043,9 +7134,9 @@ _00507_DS_:
 	ADDWFC	r0x01, F
 	INFSNZ	r0x00, F
 	INCF	r0x01, F
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x02
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x02
 ; removed redundant BANKSEL
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x03
@@ -8057,8 +7148,8 @@ _00507_DS_:
 	INFSNZ	r0x02, F
 	INCF	r0x03, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x04
 	CLRF	r0x05
 	MOVLW	HIGH(_mask)
@@ -8079,16 +7170,16 @@ _00507_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x04, INDF0
-	BANKSEL	_SortServoTimings_numservos_1_32
+	BANKSEL	_SortServoTimings_numservos_1_35
 ;	.line	331; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos++;
-	INCF	_SortServoTimings_numservos_1_32, F, B
+	INCF	_SortServoTimings_numservos_1_35, F, B
 ;	.line	333; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	GOTO	_00418_DS_
-_00378_DS_:
+	GOTO	_00393_DS_
+_00353_DS_:
 ;	.line	337; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (mask[s] & mascaratotal[pC] & activatedservos[pC]){
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_mask)
@@ -8109,11 +7200,11 @@ _00378_DS_:
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
 	BTFSS	STATUS, 2
-	GOTO	_00418_DS_
+	GOTO	_00393_DS_
 ;	.line	340; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] < timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -8122,8 +7213,8 @@ _00378_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -8134,18 +7225,18 @@ _00378_DS_:
 	MOVF	r0x01, W
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00382_DS_
+	BRA	_00357_DS_
 ;	.line	341; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timevalue[t]=servovalues[s];
 	MOVLW	LOW(_timevalue)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_timevalue)
 	ADDWFC	r0x01, F
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_servovalues)
@@ -8156,10 +7247,10 @@ _00378_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	342; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pA]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8171,10 +7262,10 @@ _00378_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	343; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pB]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8188,10 +7279,10 @@ _00378_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	344; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pC]=mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8205,8 +7296,8 @@ _00378_DS_:
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_mask)
@@ -8222,10 +7313,10 @@ _00378_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	346; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pD]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8241,10 +7332,10 @@ _00378_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	349; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pE]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8262,14 +7353,14 @@ _00378_DS_:
 	CLRF	INDF0
 ;	.line	351; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos=1;
 	MOVLW	0x01
-	BANKSEL	_SortServoTimings_numservos_1_32
-	MOVWF	_SortServoTimings_numservos_1_32, B
-	GOTO	_00418_DS_
-_00382_DS_:
+	BANKSEL	_SortServoTimings_numservos_1_35
+	MOVWF	_SortServoTimings_numservos_1_35, B
+	GOTO	_00393_DS_
+_00357_DS_:
 ;	.line	353; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] == timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -8278,8 +7369,8 @@ _00382_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -8289,13 +7380,13 @@ _00382_DS_:
 	MOVFF	INDF0, r0x01
 	MOVF	r0x00, W
 	XORWF	r0x01, W
-	BZ	_00512_DS_
-	GOTO	_00418_DS_
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-_00512_DS_:
-	BANKSEL	_SortServoTimings_t_1_32
+	BZ	_00487_DS_
+	GOTO	_00393_DS_
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+_00487_DS_:
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	354; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pC] |= mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8308,9 +7399,9 @@ _00512_DS_:
 	ADDWF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x02
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x02
 ; removed redundant BANKSEL
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x03
@@ -8324,8 +7415,8 @@ _00512_DS_:
 	BTFSC	STATUS, 0
 	INCF	r0x03, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x04
 	CLRF	r0x05
 	MOVLW	HIGH(_mask)
@@ -8346,16 +7437,16 @@ _00512_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x04, INDF0
-	BANKSEL	_SortServoTimings_numservos_1_32
+	BANKSEL	_SortServoTimings_numservos_1_35
 ;	.line	355; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos++;
-	INCF	_SortServoTimings_numservos_1_32, F, B
+	INCF	_SortServoTimings_numservos_1_35, F, B
 ;	.line	357; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	GOTO	_00418_DS_
-_00387_DS_:
+	GOTO	_00393_DS_
+_00362_DS_:
 ;	.line	362; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (mask[s] & mascaratotal[pD] & activatedservos[pD]){
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_mask)
@@ -8376,11 +7467,11 @@ _00387_DS_:
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
 	BTFSS	STATUS, 2
-	GOTO	_00418_DS_
+	GOTO	_00393_DS_
 ;	.line	365; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] < timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -8389,8 +7480,8 @@ _00387_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -8401,18 +7492,18 @@ _00387_DS_:
 	MOVF	r0x01, W
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00391_DS_
+	BRA	_00366_DS_
 ;	.line	366; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timevalue[t]=servovalues[s];
 	MOVLW	LOW(_timevalue)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_timevalue)
 	ADDWFC	r0x01, F
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_servovalues)
@@ -8423,10 +7514,10 @@ _00387_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	367; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pA]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8438,10 +7529,10 @@ _00387_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	368; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pB]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8455,10 +7546,10 @@ _00387_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	369; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pC]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8474,10 +7565,10 @@ _00387_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	370; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pD]=mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8491,8 +7582,8 @@ _00387_DS_:
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_mask)
@@ -8508,10 +7599,10 @@ _00387_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	372; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pE]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8529,14 +7620,14 @@ _00387_DS_:
 	CLRF	INDF0
 ;	.line	374; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos=1;
 	MOVLW	0x01
-	BANKSEL	_SortServoTimings_numservos_1_32
-	MOVWF	_SortServoTimings_numservos_1_32, B
-	BRA	_00418_DS_
-_00391_DS_:
+	BANKSEL	_SortServoTimings_numservos_1_35
+	MOVWF	_SortServoTimings_numservos_1_35, B
+	BRA	_00393_DS_
+_00366_DS_:
 ;	.line	376; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] == timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -8545,8 +7636,8 @@ _00391_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -8556,13 +7647,13 @@ _00391_DS_:
 	MOVFF	INDF0, r0x01
 	MOVF	r0x00, W
 	XORWF	r0x01, W
-	BZ	_00517_DS_
-	BRA	_00418_DS_
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-_00517_DS_:
-	BANKSEL	_SortServoTimings_t_1_32
+	BZ	_00492_DS_
+	BRA	_00393_DS_
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+_00492_DS_:
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	377; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pD] |= mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8575,9 +7666,9 @@ _00517_DS_:
 	ADDWF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x02
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x02
 ; removed redundant BANKSEL
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x03
@@ -8591,8 +7682,8 @@ _00517_DS_:
 	BTFSC	STATUS, 0
 	INCF	r0x03, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x04
 	CLRF	r0x05
 	MOVLW	HIGH(_mask)
@@ -8613,16 +7704,16 @@ _00517_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x04, INDF0
-	BANKSEL	_SortServoTimings_numservos_1_32
+	BANKSEL	_SortServoTimings_numservos_1_35
 ;	.line	378; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos++;
-	INCF	_SortServoTimings_numservos_1_32, F, B
+	INCF	_SortServoTimings_numservos_1_35, F, B
 ;	.line	380; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	break;
-	BRA	_00418_DS_
-_00396_DS_:
+	BRA	_00393_DS_
+_00371_DS_:
 ;	.line	385; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (mask[s] & mascaratotal[pE] & activatedservos[pE]){
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_mask)
@@ -8643,11 +7734,11 @@ _00396_DS_:
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
 	BTFSS	STATUS, 2
-	BRA	_00418_DS_
+	BRA	_00393_DS_
 ;	.line	388; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] < timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -8656,8 +7747,8 @@ _00396_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -8668,18 +7759,18 @@ _00396_DS_:
 	MOVF	r0x01, W
 	SUBWF	r0x00, W
 	BTFSC	STATUS, 0
-	BRA	_00400_DS_
+	BRA	_00375_DS_
 ;	.line	389; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timevalue[t]=servovalues[s];
 	MOVLW	LOW(_timevalue)
 ; removed redundant BANKSEL
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_timevalue)
 	ADDWFC	r0x01, F
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_servovalues)
@@ -8690,10 +7781,10 @@ _00396_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x02, INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	390; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pA]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8705,10 +7796,10 @@ _00396_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	391; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pB]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8722,10 +7813,10 @@ _00396_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	392; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pC]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8741,10 +7832,10 @@ _00396_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	393; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pD]=0x00;
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8760,10 +7851,10 @@ _00396_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	CLRF	INDF0
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	394; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pE]=mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8777,8 +7868,8 @@ _00396_DS_:
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x02
 	CLRF	r0x03
 	MOVLW	HIGH(_mask)
@@ -8796,14 +7887,14 @@ _00396_DS_:
 	MOVFF	r0x02, INDF0
 ;	.line	395; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos=1;
 	MOVLW	0x01
-	BANKSEL	_SortServoTimings_numservos_1_32
-	MOVWF	_SortServoTimings_numservos_1_32, B
-	BRA	_00418_DS_
-_00400_DS_:
+	BANKSEL	_SortServoTimings_numservos_1_35
+	MOVWF	_SortServoTimings_numservos_1_35, B
+	BRA	_00393_DS_
+_00375_DS_:
 ;	.line	397; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	else if (servovalues[s] == timevalue[t]){
 	MOVLW	LOW(_servovalues)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_servovalues)
@@ -8812,8 +7903,8 @@ _00400_DS_:
 	MOVFF	r0x01, FSR0H
 	MOVFF	INDF0, r0x00
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_SortServoTimings_t_1_32
-	ADDWF	_SortServoTimings_t_1_32, W, B
+	BANKSEL	_SortServoTimings_t_1_35
+	ADDWF	_SortServoTimings_t_1_35, W, B
 	MOVWF	r0x01
 	CLRF	r0x02
 	MOVLW	HIGH(_timevalue)
@@ -8823,13 +7914,13 @@ _00400_DS_:
 	MOVFF	INDF0, r0x01
 	MOVF	r0x00, W
 	XORWF	r0x01, W
-	BZ	_00522_DS_
-	BRA	_00418_DS_
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-_00522_DS_:
-	BANKSEL	_SortServoTimings_t_1_32
+	BZ	_00497_DS_
+	BRA	_00393_DS_
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+_00497_DS_:
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	398; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timings[t][pE] |= mask[s];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8842,9 +7933,9 @@ _00522_DS_:
 	ADDWF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x02
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x02
 ; removed redundant BANKSEL
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x03
@@ -8858,8 +7949,8 @@ _00522_DS_:
 	BTFSC	STATUS, 0
 	INCF	r0x03, F
 	MOVLW	LOW(_mask)
-	BANKSEL	_SortServoTimings_s_1_32
-	ADDWF	_SortServoTimings_s_1_32, W, B
+	BANKSEL	_SortServoTimings_s_1_35
+	ADDWF	_SortServoTimings_s_1_35, W, B
 	MOVWF	r0x04
 	CLRF	r0x05
 	MOVLW	HIGH(_mask)
@@ -8880,19 +7971,19 @@ _00522_DS_:
 	MOVFF	r0x00, FSR0L
 	MOVFF	r0x01, FSR0H
 	MOVFF	r0x04, INDF0
-	BANKSEL	_SortServoTimings_numservos_1_32
+	BANKSEL	_SortServoTimings_numservos_1_35
 ;	.line	399; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	numservos++;
-	INCF	_SortServoTimings_numservos_1_32, F, B
-_00418_DS_:
-	BANKSEL	_SortServoTimings_s_1_32
+	INCF	_SortServoTimings_numservos_1_35, F, B
+_00393_DS_:
+	BANKSEL	_SortServoTimings_s_1_35
 ;	.line	280; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(s=0;s<TotalPICpins;s++)
-	INCF	_SortServoTimings_s_1_32, F, B
-	GOTO	_00417_DS_
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-_00406_DS_:
-	BANKSEL	_SortServoTimings_t_1_32
+	INCF	_SortServoTimings_s_1_35, F, B
+	GOTO	_00392_DS_
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+_00381_DS_:
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	405; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	mascaratotal[pA] |= timings[t][pA];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8910,10 +8001,10 @@ _00406_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	MOVWF	_mascaratotal, B
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	406; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	mascaratotal[pB] |= timings[t][pB];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8933,10 +8024,10 @@ _00406_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	MOVWF	(_mascaratotal + 1), B
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	408; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	mascaratotal[pC] |= timings[t][pC];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8958,10 +8049,10 @@ _00406_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	MOVWF	(_mascaratotal + 2), B
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	411; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	mascaratotal[pD] |= timings[t][pD];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -8983,10 +8074,10 @@ _00406_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	MOVWF	(_mascaratotal + 3), B
-; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_32 and store in r0x00
-	BANKSEL	_SortServoTimings_t_1_32
+; ;multiply lit val:0x05 by variable _SortServoTimings_t_1_35 and store in r0x00
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	414; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	mascaratotal[pE] |= timings[t][pE];
-	MOVF	_SortServoTimings_t_1_32, W, B
+	MOVF	_SortServoTimings_t_1_35, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -9008,19 +8099,20 @@ _00406_DS_:
 	MOVF	r0x00, W
 ; removed redundant BANKSEL
 	MOVWF	(_mascaratotal + 4), B
-	BANKSEL	_SortServoTimings_numservos_1_32
+	BANKSEL	_SortServoTimings_numservos_1_35
 ;	.line	417; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	totalservos += numservos;
-	MOVF	_SortServoTimings_numservos_1_32, W, B
-	BANKSEL	_SortServoTimings_totalservos_1_32
-	ADDWF	_SortServoTimings_totalservos_1_32, F, B
-	BANKSEL	_SortServoTimings_t_1_32
+	MOVF	_SortServoTimings_numservos_1_35, W, B
+	BANKSEL	_SortServoTimings_totalservos_1_35
+	ADDWF	_SortServoTimings_totalservos_1_35, F, B
+	BANKSEL	_SortServoTimings_t_1_35
 ;	.line	418; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	t++;
-	INCF	_SortServoTimings_t_1_32, F, B
-	GOTO	_00407_DS_
-_00409_DS_:
+	INCF	_SortServoTimings_t_1_35, F, B
+	GOTO	_00382_DS_
+_00384_DS_:
 	BANKSEL	_needreordering
 ;	.line	421; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	needreordering=0;  // This indicates that servo timings are sorted.
 	CLRF	_needreordering, B
+;	.line	422; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
 	MOVFF	PREINC1, r0x04
@@ -9053,6 +8145,7 @@ _ServosPulseUp:
 ;	.line	241; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	PORTE = PORTE | activatedservos[pE];
 	MOVF	(_activatedservos + 4), W, B
 	IORWF	_PORTE, F
+;	.line	243; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	RETURN	
 
 ; ; Starting pCode block
@@ -9063,17 +8156,17 @@ _ServosPulseDown:
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
-	BANKSEL	_ServosPulseDown_timingindex_1_28
+	BANKSEL	_ServosPulseDown_timingindex_1_30
 ;	.line	187; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	volatile unsigned char timingindex = 0;
-	CLRF	_ServosPulseDown_timingindex_1_28, B
+	CLRF	_ServosPulseDown_timingindex_1_30, B
 	BANKSEL	_timedivision
 ;	.line	189; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(timedivision=0;timedivision < 251;timedivision++)
 	CLRF	_timedivision, B
-_00331_DS_:
+_00306_DS_:
 ;	.line	191; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	if (timevalue[timingindex] == timedivision)
 	MOVLW	LOW(_timevalue)
-	BANKSEL	_ServosPulseDown_timingindex_1_28
-	ADDWF	_ServosPulseDown_timingindex_1_28, W, B
+	BANKSEL	_ServosPulseDown_timingindex_1_30
+	ADDWF	_ServosPulseDown_timingindex_1_30, W, B
 	MOVWF	r0x00
 	CLRF	r0x01
 	MOVLW	HIGH(_timevalue)
@@ -9084,13 +8177,13 @@ _00331_DS_:
 	MOVF	r0x00, W
 	BANKSEL	_timedivision
 	XORWF	_timedivision, W, B
-	BZ	_00342_DS_
-	BRA	_00329_DS_
-; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_28 and store in r0x00
-_00342_DS_:
-	BANKSEL	_ServosPulseDown_timingindex_1_28
+	BZ	_00317_DS_
+	BRA	_00304_DS_
+; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_30 and store in r0x00
+_00317_DS_:
+	BANKSEL	_ServosPulseDown_timingindex_1_30
 ;	.line	193; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	PORTA = PORTA ^ timings[timingindex][pA];
-	MOVF	_ServosPulseDown_timingindex_1_28, W, B
+	MOVF	_ServosPulseDown_timingindex_1_30, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -9104,10 +8197,10 @@ _00342_DS_:
 	MOVFF	INDF0, r0x00
 	MOVF	r0x00, W
 	XORWF	_PORTA, F
-; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_28 and store in r0x00
+; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_30 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	194; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	PORTB = PORTB ^ timings[timingindex][pB];
-	MOVF	_ServosPulseDown_timingindex_1_28, W, B
+	MOVF	_ServosPulseDown_timingindex_1_30, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -9123,10 +8216,10 @@ _00342_DS_:
 	MOVFF	INDF0, r0x00
 	MOVF	r0x00, W
 	XORWF	_PORTB, F
-; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_28 and store in r0x00
+; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_30 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	196; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	PORTC = PORTC ^ timings[timingindex][pC];
-	MOVF	_ServosPulseDown_timingindex_1_28, W, B
+	MOVF	_ServosPulseDown_timingindex_1_30, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -9144,10 +8237,10 @@ _00342_DS_:
 	MOVFF	INDF0, r0x00
 	MOVF	r0x00, W
 	XORWF	_PORTC, F
-; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_28 and store in r0x00
+; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_30 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	199; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	PORTD = PORTD ^ timings[timingindex][pD];
-	MOVF	_ServosPulseDown_timingindex_1_28, W, B
+	MOVF	_ServosPulseDown_timingindex_1_30, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -9165,10 +8258,10 @@ _00342_DS_:
 	MOVFF	INDF0, r0x00
 	MOVF	r0x00, W
 	XORWF	_PORTD, F
-; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_28 and store in r0x00
+; ;multiply lit val:0x05 by variable _ServosPulseDown_timingindex_1_30 and store in r0x00
 ; removed redundant BANKSEL
 ;	.line	202; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	PORTE = PORTE ^ timings[timingindex][pE];
-	MOVF	_ServosPulseDown_timingindex_1_28, W, B
+	MOVF	_ServosPulseDown_timingindex_1_30, W, B
 	MULLW	0x05
 	MOVF	PRODH, W
 	MOVWF	r0x01
@@ -9188,8 +8281,8 @@ _00342_DS_:
 	XORWF	_PORTE, F
 ; removed redundant BANKSEL
 ;	.line	204; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	timingindex++;
-	INCF	_ServosPulseDown_timingindex_1_28, F, B
-_00329_DS_:
+	INCF	_ServosPulseDown_timingindex_1_30, F, B
+_00304_DS_:
 	movlw	7
 	movwf	_loopvar
 bucle:
@@ -9214,7 +8307,8 @@ bucle:
 ; removed redundant BANKSEL
 	SUBWF	_timedivision, W, B
 	BTFSS	STATUS, 0
-	BRA	_00331_DS_
+	BRA	_00306_DS_
+;	.line	227; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -9229,7 +8323,7 @@ _servos_init:
 	MOVFF	r0x02, POSTDEC1
 ;	.line	157; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(a=0;a<TotalPICpins;a++)
 	CLRF	r0x00
-_00302_DS_:
+_00277_DS_:
 ;	.line	159; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	servovalues[a]=255;  //Filling up the servovalues table to 255.
 	MOVLW	LOW(_servovalues)
 	ADDWF	r0x00, W
@@ -9266,10 +8360,10 @@ _00302_DS_:
 	INCF	r0x00, F
 	MOVLW	0x1e
 	SUBWF	r0x00, W
-	BNC	_00302_DS_
+	BNC	_00277_DS_
 ;	.line	165; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	for(a=0;a<TotalPICports;a++)
 	CLRF	r0x00
-_00304_DS_:
+_00279_DS_:
 ;	.line	166; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	activatedservos[a]=0x00;  // Setting all pins as deactivated as servo.
 	MOVLW	LOW(_activatedservos)
 	ADDWF	r0x00, W
@@ -9284,7 +8378,7 @@ _00304_DS_:
 	INCF	r0x00, F
 	MOVLW	0x05
 	SUBWF	r0x00, W
-	BNC	_00304_DS_
+	BNC	_00279_DS_
 ;	.line	168; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	INTCONbits.GIEH    = 0; // Disable global HP interrupts
 	BCF	_INTCONbits, 7
 ;	.line	169; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	INTCONbits.GIEL    = 0; // Disable global LP interrupts
@@ -9309,6 +8403,7 @@ _00304_DS_:
 	BSF	_INTCONbits, 7
 ;	.line	180; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	INTCONbits.GIEL    = 1; // Enable global LP interrupts
 	BSF	_INTCONbits, 6
+;	.line	182; /home/vbasel/.icaro/v4/firmware/libraries/servos.c	}
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -9339,6 +8434,7 @@ _toggle:
 	CALL	_digitalwrite
 	MOVF	POSTINC1, F
 	MOVF	POSTINC1, F
+;	.line	52; /home/vbasel/.icaro/v4/firmware/core/digitalt.c	}
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -9382,15 +8478,15 @@ _digitalread:
 	RLCF	WREG, W
 	RLCF	PCLATH, F
 	ANDLW	0xfc
-	ADDLW	LOW(_00290_DS_)
+	ADDLW	LOW(_00265_DS_)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(_00290_DS_)
+	MOVLW	HIGH(_00265_DS_)
 	ADDWFC	PCLATH, F
-	MOVLW	UPPER(_00290_DS_)
+	MOVLW	UPPER(_00265_DS_)
 	ADDWFC	PCLATU, F
 	MOVF	PREINC1, W
 	MOVWF	PCL
-_00290_DS_:
+_00265_DS_:
 	GOTO	_00253_DS_
 	GOTO	_00254_DS_
 	GOTO	_00255_DS_
@@ -9415,13 +8511,17 @@ _00253_DS_:
 	MOVF	_PORTA, W
 	ANDWF	r0x01, F
 	MOVF	r0x01, W
-	BZ	_00261_DS_
-	MOVLW	0x01
-	MOVWF	r0x01
-	BRA	_00262_DS_
-_00261_DS_:
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
 	CLRF	r0x01
-_00262_DS_:
+	RLCF	r0x01, F
+	MOVF	r0x01, W
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
+	CLRF	r0x01
+	RLCF	r0x01, F
 	MOVF	r0x01, W
 	BRA	_00259_DS_
 _00254_DS_:
@@ -9443,13 +8543,17 @@ _00254_DS_:
 	MOVF	_PORTB, W
 	ANDWF	r0x01, F
 	MOVF	r0x01, W
-	BZ	_00263_DS_
-	MOVLW	0x01
-	MOVWF	r0x01
-	BRA	_00264_DS_
-_00263_DS_:
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
 	CLRF	r0x01
-_00264_DS_:
+	RLCF	r0x01, F
+	MOVF	r0x01, W
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
+	CLRF	r0x01
+	RLCF	r0x01, F
 	MOVF	r0x01, W
 	BRA	_00259_DS_
 _00255_DS_:
@@ -9471,13 +8575,17 @@ _00255_DS_:
 	MOVF	_PORTC, W
 	ANDWF	r0x01, F
 	MOVF	r0x01, W
-	BZ	_00265_DS_
-	MOVLW	0x01
-	MOVWF	r0x01
-	BRA	_00266_DS_
-_00265_DS_:
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
 	CLRF	r0x01
-_00266_DS_:
+	RLCF	r0x01, F
+	MOVF	r0x01, W
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
+	CLRF	r0x01
+	RLCF	r0x01, F
 	MOVF	r0x01, W
 	BRA	_00259_DS_
 _00256_DS_:
@@ -9499,13 +8607,17 @@ _00256_DS_:
 	MOVF	_PORTD, W
 	ANDWF	r0x01, F
 	MOVF	r0x01, W
-	BZ	_00267_DS_
-	MOVLW	0x01
-	MOVWF	r0x01
-	BRA	_00268_DS_
-_00267_DS_:
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
 	CLRF	r0x01
-_00268_DS_:
+	RLCF	r0x01, F
+	MOVF	r0x01, W
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
+	CLRF	r0x01
+	RLCF	r0x01, F
 	MOVF	r0x01, W
 	BRA	_00259_DS_
 _00257_DS_:
@@ -9526,19 +8638,24 @@ _00257_DS_:
 	MOVF	_PORTE, W
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
-	BZ	_00269_DS_
-	MOVLW	0x01
-	MOVWF	r0x00
-	BRA	_00270_DS_
-_00269_DS_:
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
 	CLRF	r0x00
-_00270_DS_:
+	RLCF	r0x00, F
+	MOVF	r0x00, W
+	BSF	STATUS, 0
+	TSTFSZ	WREG
+	BCF	STATUS, 0
+	CLRF	r0x00
+	RLCF	r0x00, F
 	MOVF	r0x00, W
 	BRA	_00259_DS_
 _00258_DS_:
 ;	.line	77; /home/vbasel/.icaro/v4/firmware/core/digitalr.c	return 0;
 	CLRF	WREG
 _00259_DS_:
+;	.line	78; /home/vbasel/.icaro/v4/firmware/core/digitalr.c	}
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
 	MOVFF	PREINC1, r0x01
@@ -9640,9 +8757,12 @@ _00208_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_LATA, F
+	MOVWF	r0x02
+	MOVF	_LATA, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_LATA
 ;	.line	59; /home/vbasel/.icaro/v4/firmware/core/digitalw.c	break;
 	BRA	_00227_DS_
 _00210_DS_:
@@ -9684,9 +8804,12 @@ _00212_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_LATB, F
+	MOVWF	r0x02
+	MOVF	_LATB, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_LATB
 ;	.line	63; /home/vbasel/.icaro/v4/firmware/core/digitalw.c	break;
 	BRA	_00227_DS_
 _00214_DS_:
@@ -9728,9 +8851,12 @@ _00216_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_LATC, F
+	MOVWF	r0x02
+	MOVF	_LATC, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_LATC
 ;	.line	67; /home/vbasel/.icaro/v4/firmware/core/digitalw.c	break;
 	BRA	_00227_DS_
 _00218_DS_:
@@ -9772,9 +8898,12 @@ _00220_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_LATD, F
+	MOVWF	r0x02
+	MOVF	_LATD, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_LATD
 ;	.line	74; /home/vbasel/.icaro/v4/firmware/core/digitalw.c	break;
 	BRA	_00227_DS_
 _00222_DS_:
@@ -9815,11 +8944,14 @@ _00224_DS_:
 	MOVFF	TABLAT, r0x00
 	MOVF	r0x00, W
 	SUBLW	0xff
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	ANDWF	_LATE, F
+	MOVWF	r0x00
+	MOVF	_LATE, W
+	MOVWF	r0x01
+	MOVF	r0x00, W
+	ANDWF	r0x01, W
+	MOVWF	_LATE
 _00227_DS_:
-;	.line	80; /home/vbasel/.icaro/v4/firmware/core/digitalw.c	}
+;	.line	81; /home/vbasel/.icaro/v4/firmware/core/digitalw.c	}
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
@@ -9922,9 +9054,12 @@ _00161_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_TRISA, F
+	MOVWF	r0x02
+	MOVF	_TRISA, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_TRISA
 ;	.line	51; /home/vbasel/.icaro/v4/firmware/core/digitalp.c	break;
 	BRA	_00180_DS_
 _00163_DS_:
@@ -9966,9 +9101,12 @@ _00165_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_TRISB, F
+	MOVWF	r0x02
+	MOVF	_TRISB, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_TRISB
 ;	.line	55; /home/vbasel/.icaro/v4/firmware/core/digitalp.c	break;
 	BRA	_00180_DS_
 _00167_DS_:
@@ -10010,9 +9148,12 @@ _00169_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_TRISC, F
+	MOVWF	r0x02
+	MOVF	_TRISC, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_TRISC
 ;	.line	59; /home/vbasel/.icaro/v4/firmware/core/digitalp.c	break;
 	BRA	_00180_DS_
 _00171_DS_:
@@ -10054,9 +9195,12 @@ _00173_DS_:
 	MOVFF	TABLAT, r0x02
 	MOVF	r0x02, W
 	SUBLW	0xff
-; #	MOVWF	r0x02
-; #	MOVF	r0x02, W
-	ANDWF	_TRISD, F
+	MOVWF	r0x02
+	MOVF	_TRISD, W
+	MOVWF	r0x03
+	MOVF	r0x02, W
+	ANDWF	r0x03, W
+	MOVWF	_TRISD
 ;	.line	66; /home/vbasel/.icaro/v4/firmware/core/digitalp.c	break;
 	BRA	_00180_DS_
 _00175_DS_:
@@ -10097,11 +9241,14 @@ _00177_DS_:
 	MOVFF	TABLAT, r0x00
 	MOVF	r0x00, W
 	SUBLW	0xff
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	ANDWF	_TRISE, F
+	MOVWF	r0x00
+	MOVF	_TRISE, W
+	MOVWF	r0x01
+	MOVF	r0x00, W
+	ANDWF	r0x01, W
+	MOVWF	_TRISE
 _00180_DS_:
-;	.line	72; /home/vbasel/.icaro/v4/firmware/core/digitalp.c	}
+;	.line	73; /home/vbasel/.icaro/v4/firmware/core/digitalp.c	}
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
@@ -10172,14 +9319,14 @@ _00151_DS_:
 	IORWF	r0x05, W
 	BZ	_00154_DS_
 ;	.line	102; /home/vbasel/.icaro/v4/firmware/core/delayms.c	delay100tcy(n100tcy-3);
-	MOVF	r0x02, W
-	MOVWF	r0x04
+	MOVFF	r0x02, r0x04
 	MOVLW	0xfd
 	ADDWF	r0x04, F
 	MOVF	r0x04, W
 	CALL	_delay100tcy
 	BRA	_00151_DS_
 _00154_DS_:
+;	.line	104; /home/vbasel/.icaro/v4/firmware/core/delayms.c	}
 	MOVFF	PREINC1, r0x05
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
@@ -10356,10 +9503,9 @@ _00118_DS_:
 ;	.line	316; /home/vbasel/.icaro/v4/firmware/core/oscillator.c	if (OSCCONbits.SCS >= 2)
 	MOVF	_OSCCONbits, W
 	ANDLW	0x03
-; #	MOVWF	r0x00
-; #	MOVF	r0x00, W
-	ADDLW	0x80
-	ADDLW	0x7e
+	MOVWF	r0x00
+	MOVLW	0x02
+	SUBWF	r0x00, W
 	BNC	_00120_DS_
 ;	.line	317; /home/vbasel/.icaro/v4/firmware/core/oscillator.c	return ircf[OSCCONbits.IRCF];
 	MOVF	_OSCCONbits, W
@@ -10405,6 +9551,7 @@ _00120_DS_:
 	CLRF	PRODL
 	CLRF	WREG
 _00121_DS_:
+;	.line	320; /home/vbasel/.icaro/v4/firmware/core/oscillator.c	}
 	MOVFF	PREINC1, r0x05
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
@@ -10445,13 +9592,15 @@ _System_readFlashMemory:
 	MOVF	r0x04, W
 	MOVWF	_TBLPTRU
 ;	.line	195; /home/vbasel/.icaro/v4/firmware/core/oscillator.c	TBLPTRH = address >> 8;
-	MOVF	r0x01, W
+	MOVF	r0x00, W
 	MOVWF	r0x04
-	MOVF	r0x02, W
+; #	MOVF	r0x01, W
+; #	MOVWF	r0x05
+; #	MOVF	r0x05, W
+	MOVF	r0x01, W
 	MOVWF	r0x05
-	MOVF	r0x03, W
-	MOVWF	r0x06
-	CLRF	r0x07
+	MOVWF	r0x04
+	CLRF	r0x05
 	MOVF	r0x04, W
 	MOVWF	_TBLPTRH
 ;	.line	196; /home/vbasel/.icaro/v4/firmware/core/oscillator.c	TBLPTRL = address;
@@ -10475,6 +9624,7 @@ _System_readFlashMemory:
 	ADDWFC	r0x04, F
 	MOVFF	r0x04, PRODL
 	MOVF	r0x03, W
+;	.line	203; /home/vbasel/.icaro/v4/firmware/core/oscillator.c	}
 	MOVFF	PREINC1, r0x07
 	MOVFF	PREINC1, r0x06
 	MOVFF	PREINC1, r0x05
@@ -10511,55 +9661,31 @@ _port:
 ; ; Starting pCode block
 ___str_0:
 	DB	0x28, 0x6e, 0x75, 0x6c, 0x6c, 0x29, 0x00
+; ; Starting pCode block for Ival
+_dht_success:
+	DB	0x00, 0x00
+; ; Starting pCode block for Ival
+_dht_notconnected:
+	DB	0x01, 0x00
+; ; Starting pCode block for Ival
+_dht_checksumfailed:
+	DB	0x02, 0x00
+; ; Starting pCode block for Ival
+_dhtPin:
+	DB	0x0f, 0x00
 ; ; Starting pCode block
 ___str_1:
-	DB	0x20, 0x3c, 0x2e, 0x3e, 0x3c, 0x2e, 0x3e, 0x20, 0x00
+	DB	0x74, 0x65, 0x6d, 0x70, 0x3a, 0x20, 0x25, 0x69, 0x2e, 0x25, 0x69, 0x00
 ; ; Starting pCode block
 ___str_2:
-	DB	0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x20, 0x20, 0x00
-; ; Starting pCode block
-___str_3:
-	DB	0x20, 0x28, 0x2e, 0x29, 0x28, 0x2e, 0x29, 0x20, 0x00
-; ; Starting pCode block
-___str_4:
-	DB	0x20, 0x20, 0x2d, 0x2d, 0x2d, 0x2d, 0x20, 0x20, 0x00
-; ; Starting pCode block
-___str_5:
-	DB	0x61, 0x31, 0x3a, 0x00
-; ; Starting pCode block
-___str_6:
-	DB	0x68, 0x63, 0x3a, 0x00
-; ; Starting pCode block
-___str_7:
-	DB	0x6e, 0x6e, 0x6e, 0x00
-; ; Starting pCode block
-___str_8:
-	DB	0x6d, 0x61, 0x74, 0x61, 0x72, 0x21, 0x00
-; ; Starting pCode block
-___str_9:
-	DB	0x70, 0x72, 0x67, 0x3a, 0x20, 0x00
-; ; Starting pCode block
-___str_10:
-	DB	0x6d, 0x65, 0x6e, 0x75, 0x20, 0x00
-; ; Starting pCode block
-___str_11:
-	DB	0x73, 0x75, 0x6d, 0x6f, 0x20, 0x62, 0x6c, 0x20, 0x00
-; ; Starting pCode block
-___str_12:
-	DB	0x73, 0x75, 0x6d, 0x6f, 0x20, 0x6e, 0x67, 0x00
-; ; Starting pCode block
-___str_13:
-	DB	0x73, 0x65, 0x67, 0x5f, 0x6c, 0x69, 0x6e, 0x65, 0x20, 0x00
-; ; Starting pCode block
-___str_14:
-	DB	0x74, 0x65, 0x73, 0x74, 0x00
+	DB	0x68, 0x75, 0x6d, 0x3a, 0x20, 0x25, 0x69, 0x2e, 0x25, 0x69, 0x00
 
 
 ; Statistics:
-; code size:	20594 (0x5072) bytes (15.71%)
-;           	10297 (0x2839) words
-; udata size:	  389 (0x0185) bytes (21.71%)
-; access size:	   33 (0x0021) bytes
+; code size:	18768 (0x4950) bytes (14.32%)
+;           	 9384 (0x24a8) words
+; udata size:	  533 (0x0215) bytes (29.74%)
+; access size:	   32 (0x0020) bytes
 
 
 	end

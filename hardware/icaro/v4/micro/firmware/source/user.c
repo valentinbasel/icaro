@@ -1,278 +1,122 @@
- 
+#include <stdlib.h>
+#include<stdio.h>
+#include <string.h>
 #include<np05_06.h>
-#define __LCD__
-#define __PING__
 #include "definiciones_icr.c"
+#define LCDI2CHOME
+#define LCDI2CINIT
+#define LCDI2CCLEAR
+#define LCDI2CSETCURSOR
+#define LCDI2CNEWCHAR
 #define ANALOGREAD
-//variables globales
-int contador=0;
-int dist=0;
-void enojado()
-{
-		lcd_setCursor(0,0);
-		lcd_print(" <.><.> ");
-		lcd_setCursor(0,1);
-		lcd_print("  ####  ");
-}
-void contento()
-{
+#define LCDI2CBACKLIGHT
+#define LCDI2CNOBACKLIGHT
+#define LCDI2CPRINTF
+#include<lcdi2c.h>
+#include<lcdi2c.c>
 
-		lcd_setCursor(0,0);
-		lcd_print(" (.)(.) ");
-		lcd_setCursor(0,1);
-		lcd_print("  ----  ");
-}
+const int dht_success        = 0;  // read success
+const int dht_notconnected   = 1;  // dht not found
+const int dht_checksumfailed = 2;  // dht data error
+
+// define the structure to hold the returned data.
+// this will only be filled out on a successful reading.
+  
+struct dht_data { // define dht register structure
+  int int_humidity;
+  int dec_humidity;
+  int int_temperature;
+  int dec_temperature;
+  int checksum;
+  int status; // 0=success, 1=not connected, 2=chksum error, 3=other
+};
+struct dht_data dht_register;        // Declare dht_register of type dht_data 
+
+int dhtReadByte(int dhtPin)  {
+int a=0;
+  int i,rbyte = 0;
+  pinmode(dhtPin,INPUT);  // Set the DHT_ pin as input
+  for (i=0 ; i < 8 ; i++) {
+    while(digitalread(dhtPin) == LOW){a++; if(a>100){return rbyte;}} // Wait for input to switch to HIGH
+    Delayus(35); // Wait for digital 1 mid-point.
+    if (digitalread(dhtPin) == HIGH) {  //  We have a digital 1
+      rbyte |= 1 << (7 - i); // Save the bit.
+	a=0;
+      while(digitalread(dhtPin) == HIGH){a++; if(a>100){return rbyte;}} // wait for HIGH to LOW switch (~ 35us).
+    } // end if
+  } // end for
+  return rbyte;
+}    
 
 
-
-void mostrar_datos()
-{
-	int a=0;
-	Delayms(500);
-	while(analogread(15)>0)
-	{
-	//for (a=0;a<150;a++)
-	//{
-		lcd_home();
-		lcd_print("a1:");
-		lcd_setCursor(3,0); 
-		lcd_printNumber(analogread(13),10);
-		lcd_setCursor(0,1);
-		lcd_print("hc:");
-		lcd_setCursor(3,1);
-		dist=ping();
-		if (dist<16){
-		lcd_printNumber(dist,10);
-		}else
-		{
-		lcd_print("nnn");
-		}
-		Delayms(300);
-		lcd_clear();
-	//}
-	}
-}
-/*funciones*/
-void seg_lineas()
-{
-	int distancia=0;
-	int a=0;
-	for (a=0;a<6;a++)
-	{
-		lcd_home();
-		lcd_printNumber(a,10);
-		Delayms(1000);
-	}
-	contento();
-
-	while(analogread(15)>0)
-	{
-	distancia=analogread(13);
-		PORTD=ICR_MOTS_IZ;
-		if(distancia<100)
-		{
-		PORTD=ICR_MOTS_DE;
-		}
-	}
-}
-void robot2()
-{
-	int dist=1;
-	int distancia_a1 =0;
-	int band=0;
-	int a =0;
-	int contador_t=0;
-	for (a=0;a<6;a++)
-	{
-		lcd_home();
-		lcd_printNumber(a,10);
-		Delayms(1000);
-	}
-
-	while(analogread(15)>0)
-	{
-		dist=ping();
-		//lcd_home();
-		//lcd_printNumber(dist,10);
-		//lcd_setCursor(0,1);
-		//lcd_printNumber(analogread(13),10);
-		enojado();
-		PORTD=ICR_MOTS_INV_DE;
-		Delayms(1);
-
-		contador_t++;
-		if (contador_t>50)
-		{
-			lcd_clear();
-			contador_t=0;
-		}
-		if (dist<23 && dist>0)
-		{
-			lcd_home();
-			lcd_print("matar!");
-			band=0;
-			while(band<10)
-			{
-				lcd_home();
-				lcd_print("matar!");
-				lcd_setCursor(0,1);
-				lcd_printNumber(band,10);
-				distancia_a1=analogread(13);
-				PORTD=ICR_MOTS_AD;
-				if (distancia_a1<50)
-				{
-					PORTD=ICR_MOTS_AT;
-					Delayms(300);
-					PORTD=ICR_MOTS_INV_DE;
-					Delayms(600);
-					band++;
-					lcd_clear();
-				}
-			}
-		}	
-	}
+void dhtRead(int dhtPin) {
+    int c,chk1,chk2 = 0;
+    int DHT_Array[5]; // local array to hold the 5 DHT_ bytes.
+    pinmode(dhtPin, OUTPUT); // Set DHT_ pin as output.
+    digitalwrite(dhtPin, LOW); // Drive DHT_ pin LOW to commence start signal
+    Delayms(20); // Wait for 20 miliseconds
+    digitalwrite(dhtPin,HIGH); // Drive DHT_ pin HIGH
+    Delayus(30); // Wait 30 microseconds
+    pinmode(dhtPin, INPUT); // Start signal sent, now change DHT_ pin to input.
+    
+    Delayus(40); // Wait 40us for mid-point of first response bit.
+    chk1 = digitalread(dhtPin); // Read bit.  Should be a zero.
+    Delayus(80); // Wait 80us for the mid-point of the second bit.
+    chk2 = digitalread(dhtPin); // Read bit.  Should be a one.
+    Delayus(40); // Wait 40us for end of response signal.
+    
+    if ((chk1 == 0) && (chk2 == 1)) { // If the response code is valid....
+      for (c = 0 ; c < 5 ; c++) {
+        DHT_Array[c] = dhtReadByte(dhtPin); // Read five bytes from DHT_
+      }
+        
+      //  checksum is the sum of the lower 8 bits of bytes 1-4.
+      if (DHT_Array[4] == ((DHT_Array[0] + DHT_Array[1] + DHT_Array[2] + DHT_Array[3]) & 0xFF)) {
+      
+        // Checksum passed, so place data into the DHT_register structure
+        dht_register.int_humidity = DHT_Array[0];    // integer humidity
+        dht_register.dec_humidity = DHT_Array[1];    // decimal humidity (0 on DHT11)
+        dht_register.int_temperature = DHT_Array[2]; // integer temperature
+        dht_register.dec_temperature = DHT_Array[3]; // decimal temperature (0 on DHT11)
+        dht_register.checksum = DHT_Array[4];        // checksum result
+        dht_register.status =  dht_success;          // success status
+        return;                          // return success code.
+      } else {
+         dht_register.status = dht_notconnected;          // success status
+        return;                     //  Sensor data corrupted.
+      } // end if  
+      
+    } else {
+      dht_register.status = dht_checksumfailed;          // success status
+      return;                     // No DHT detected.
+    } // end if  
 }
 
-void robot()
-{
-	int dist=1;
-	int distancia_a1 =0;
-	int band=0;
-	int a =0;
-	int contador_t=0;
-	for (a=0;a<6;a++)
-	{
-		lcd_home();
-		lcd_printNumber(a,10);
-		Delayms(1000);
-	}
+   
+float fahrenheit = 0;
+const int dhtPin  = 15; // pin to sensor data line
 
-	while(analogread(15)>0)
-	{
-		dist=ping();
-		//lcd_home();
-		//lcd_printNumber(dist,10);
-		//lcd_setCursor(0,1);
-		//lcd_printNumber(analogread(13),10);
-		enojado();
-		PORTD=ICR_MOTS_INV_DE;
-		Delayms(1);
-
-		contador_t++;
-		if (contador_t>50)
-		{
-			lcd_clear();
-			contador_t=0;
-		}
-		if (dist<23 && dist>0)
-		{
-			lcd_home();
-			lcd_print("matar!");
-			band=0;
-			while(band<10)
-			{
-				lcd_home();
-				lcd_print("matar!");
-				lcd_setCursor(0,1);
-				lcd_printNumber(band,10);
-				distancia_a1=analogread(13);
-				PORTD=ICR_MOTS_AD;
-				if (distancia_a1>140)
-				{
-					PORTD=ICR_MOTS_AT;
-					Delayms(300);
-					PORTD=ICR_MOTS_INV_DE;
-					Delayms(600);
-					band++;
-					lcd_clear();
-				}
-			}
-		}	
-	}
-}
-
-void menu()
-{
-	int output_b=0;
-	int sw=0;
-	while(1)
-	{
-		output_b=analogread(14);
-		sw=analogread(15);
-		if(output_b==0)
-		{
-		lcd_clear();
-		contador++;
-		Delayms(10);
-		if(contador>4)contador=0;
-		}
-		lcd_print("prg: ");
-		lcd_setCursor(6,0);
-		lcd_printNumber(contador,10);
-		lcd_setCursor(0,1);
-
-		switch(contador)
-		{
-		case 0:
-		lcd_print("menu ");
-		break;
-		case 1:
-		lcd_print("sumo bl ");
-		break;
-		case 2:
-		lcd_print("sumo ng");
-		break;
-		case 3:
-		lcd_print("seg_line ");
-		break;
-		case 4:
-		lcd_print("test");
-		break;
-		default:
-		lcd_printNumber(contador,10);
-		break;
-		}
-		
-		lcd_home();
-
-		
-		if(sw==0)
-		{
-		return ;
-		}
-	}
-}
 void loop()
 {
-menu();
-switch(contador)
-{
+int a=0;
+u8 buf[80];
+u8 buf2[80];
+lcdi2c_init(16,2,0x27);
+lcdi2c_backlight();
+while(1){
 
-case 1:
-	lcd_clear();
-	robot();
-	contador=0;
-	PORTD=0;
-	break;
-case 2:
-	lcd_clear();
-	robot2();
-	contador=0;
-	PORTD=0;
-	break;
-case 3:
-	lcd_clear();
-	seg_lineas();
-	PORTD=0;
-	contador=0;
-	break;
-case 4:
-	lcd_clear();
-	mostrar_datos();
-	contador=0;
-	break;
+lcdi2c_home();
+fahrenheit = (dht_register.int_temperature + (dht_register.dec_temperature/100)) * 1.8 + 32.0; 
 
-default:
-	menu();
+  Delayms(2000);
+  dhtRead(dhtPin);
+  if(dht_register.status==dht_success){
+  sprintf(buf, "temp: %i.%i",dht_register.int_temperature,dht_register.dec_temperature);
+  sprintf(buf2, "hum: %i.%i",dht_register.int_humidity,dht_register.dec_humidity);
+  lcdi2c_printf(buf);
+  lcdi2c_setCursor(0,1);
+  lcdi2c_printf(buf2);
 }
+}
+
 }
