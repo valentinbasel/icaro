@@ -66,12 +66,12 @@ def compilar(nombre, cfg, dir_conf):
     if comp_sdcc == 1:
         return 1
     # Compruebo la carpeta temporal, si no esta, creo una
-    if os.path.isdir(dir_conf + "/temporal/") == 0:
-        os.mkdir(dir_conf + "/temporal/")
+    if os.path.isdir(dir_conf + "/firmware/temporal/") == 0:
+        os.mkdir(dir_conf + "/firmware/temporal/")
     try:
-        archivos_temp = os.listdir(dir_conf + "/temporal/")
+        archivos_temp = os.listdir(dir_conf + "/firmware/temporal/")
         for datos in archivos_temp:
-            os.remove(dir_conf + "/temporal/" + datos)
+            os.remove(dir_conf + "/firmware/temporal/" + datos)
     except:
         print ("no existen los archivos")
     # Creo la cadena del compilador con todas las opciones
@@ -84,7 +84,7 @@ def compilar(nombre, cfg, dir_conf):
     cadena_final = cad.replace("~", home_usuario)
     # Creo la cadena final con que guarda toda la salida en un archivo log
     # dentro de la carpeta temporal
-    log = cadena_final + " 2> " + dir_conf + "/temporal/" + "log.dat"
+    log = cadena_final + " 2> " + dir_conf + "/firmware/temporal/" + "log.dat"
     i = os.system(log)
     return i
 

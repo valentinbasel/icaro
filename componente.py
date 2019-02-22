@@ -282,6 +282,7 @@ class ComponenteCentral(FormaSvg):
     color_fon = [0, 0, 0]
     circlex=25
     circley=10
+    borrar=False
 
     def __init__(self):
         """ Class initialiser """
@@ -296,63 +297,7 @@ class ComponenteCentral(FormaSvg):
         self.rectan[0] = self.posicion[0]
         self.rectan[1] = self.posicion[1] - 10
         if self.vivo:
-            if (botones_mouse[1] == 1 and
-                        self.fondo.collide(self.rectan,
-                                           posic_mouse[0],
-                                           posic_mouse[1]) == True and
-                        self.pulsado == 0 and
-                        self.ventana.seleccionado == 0 and
-                        self.ventana.seleccionado_datos == 0 and
-                        self.ventana.seleccion_menu == 2
-                    ):
-                posic_mouse = self.ventana.mousexy
-                self.ventana.seleccionado = self.ide
-                self.posic_rel_x = abs(self.posicion[0] - posic_mouse[0])
-                self.posic_rel_y = abs(self.posicion[1] - posic_mouse[1])
-                self.pulsado = 1
-            if (self.ventana.seleccionado == self.ide):
-                self.posicion = (
-                    posic_mouse[0] - self.posic_rel_x,
-                    posic_mouse[1] - self.posic_rel_y
-                )
-                self.pulsado == 1
-                self.pegado = 0
-                self.pegado_a = 0
-            if botones_mouse[1] == 0:
-                self.pulsado = 0
-                self.ventana.seleccionado = 0
-            if (botones_mouse[3] == 1
-                    and self.fondo.collide(self.rectan,
-                                           posic_mouse[0],
-                                           posic_mouse[1]) == True):
-                for i in range(1, len(self.fondo.objetos_datos)):
-                    self.fondo.objetos_datos[i].conectado = 0
-                    self.fondo.objetos_datos[i].pegado = 0
-                    self.fondo.objetos_datos[i].pegado_a = 0
-                    self.fondo.objetos_datos[i].pegado_b = 0
-                    self.fondo.objetos_datos[i].pegado2 = 0
-                    self.fondo.objetos_datos[i].pegado_a2 = 0
-                a = self.fondo.objetos.index(self)
-                self.fondo.objetos[a].ide
-                for i in range(len(self.fondo.objetos)):
-                    self.fondo.objetos[i].pegado_a = 0
-                    self.fondo.objetos[i].pegado = 0
-                self.fondo.objetos[a].vivo = False
-                del self.fondo.tipo_obj[a]
-                self.fondo.objetos.remove(self)
-                self.fondo.lista_ordenada[self.ide] = 0
-            if self.pegado == 1:
-                x, y, aa, bb = self.fondo.objetos[self.pegado_a].conector_m
-                xx = x - self.valx
-                yy = y - self.valy
-                self.posicion = (xx, yy)
-                self.color_fon=(255,255,255)
-                iden = self.fondo.objetos[self.pegado_a].ide
-                self.fondo.lista_ordenada[self.ide] = iden
-                self.dibujar()
 
-                self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,verde)
-                return 0
             if self.pegado == 0:
                 self.fondo.lista_ordenada[self.ide] = 0
                 self.color_fon=(0,0,0)
@@ -371,6 +316,69 @@ class ComponenteCentral(FormaSvg):
                     else:
                         self.pegado = 0
                         self.pegado_a = 0
+
+            if (botones_mouse[1] == 1 and
+                        self.fondo.collide(self.rectan,
+                                           posic_mouse[0],
+                                           posic_mouse[1]) == True and
+                        self.pulsado == 0 and
+                        self.ventana.seleccionado == 0 and
+                        self.ventana.seleccionado_datos == 0 and
+                        self.ventana.seleccion_menu == 2
+                    ):
+                posic_mouse = self.ventana.mousexy
+                self.ventana.seleccionado = self.ide
+                self.posic_rel_x = abs(self.posicion[0] - posic_mouse[0])
+                self.posic_rel_y = abs(self.posicion[1] - posic_mouse[1])
+                self.pulsado = 1
+
+            if (self.ventana.seleccionado == self.ide):
+                self.posicion = (
+                    posic_mouse[0] - self.posic_rel_x,
+                    posic_mouse[1] - self.posic_rel_y
+                )
+                self.pulsado == 1
+                self.pegado = 0
+                self.pegado_a = 0
+            if botones_mouse[1] == 0:
+                self.pulsado = 0
+                self.ventana.seleccionado = 0
+            if ((botones_mouse[3] == 1
+                    and self.fondo.collide(self.rectan,
+                                           posic_mouse[0],
+                                           posic_mouse[1]) == True) or self.borrar==True):
+                #for i in range(1, len(self.fondo.objetos_datos)):
+                #    self.fondo.objetos_datos[i].conectado = 0
+                #    self.fondo.objetos_datos[i].pegado = 0
+                #    self.fondo.objetos_datos[i].pegado_a = 0
+                #    self.fondo.objetos_datos[i].pegado_b = 0
+                #    self.fondo.objetos_datos[i].pegado2 = 0
+                #    self.fondo.objetos_datos[i].pegado_a2 = 0
+                a = self.fondo.objetos.index(self)
+                self.pegado_a=0
+                self.pegado=0
+                #self.fondo.objetos[a].ide
+                for i in range(len(self.fondo.objetos)):
+                    if(i==self.ide):
+                        self.fondo.objetos[i].pegado_a = 0
+                        self.fondo.objetos[i].pegado = 0
+                self.fondo.objetos[a].vivo = False
+                #del self.fondo.tipo_obj[a]
+                #self.fondo.objetos.remove(self)
+                self.fondo.lista_ordenada[self.ide] = 0
+            if self.pegado == 1:
+                x, y, aa, bb = self.fondo.objetos[self.pegado_a].conector_m
+                xx = x - self.valx
+                yy = y - self.valy
+                self.posicion = (xx, yy)
+                self.color_fon=(255,255,255)
+                iden = self.fondo.objetos[self.pegado_a].ide
+                self.fondo.lista_ordenada[self.ide] = iden
+                self.dibujar()
+
+                self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,verde)
+                return 0
+
             self.dibujar()
             self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,rojo)
 

@@ -81,6 +81,8 @@ def abrir(diccio, ruta, fon, ventana):
             obj_col = pickle.load(file)
             obj_txt = pickle.load(file)
             obj_pga = pickle.load(file)
+            obj_vivo = pickle.load(file)
+            obj_pegado=pickle.load(file)
             fon.identificador += 1
             c1 = componente(
                 obj_pos[0],
@@ -92,6 +94,7 @@ def abrir(diccio, ruta, fon, ventana):
                 fon,
                 ventana
             )
+            c1.vivo=obj_vivo
             c1.pegado = 1
             c1.pegado_a = obj_pga
             fon.objetos.append(c1)
@@ -103,7 +106,12 @@ def abrir(diccio, ruta, fon, ventana):
             obj_col = pickle.load(file)
             obj_txt = pickle.load(file)
             obj_pga = pickle.load(file)
+            obj_vivo = pickle.load(file)
+
+            obj_pegado=pickle.load(file)
             fon.identificador += 1
+            #fon.identificador += 1
+            #fon.identificador += 1
             c1 = componente_cero_arg(
                 obj_pos[0],
                 obj_pos[1],
@@ -113,7 +121,8 @@ def abrir(diccio, ruta, fon, ventana):
                 fon,
                 ventana
             )
-            c1.pegado = 1
+            c1.vivo=obj_vivo
+            c1.pegado = obj_pegado
             c1.pegado_a = obj_pga
             c1.posicion2 = obj_pos2
             fon.objetos.append(c1)
@@ -124,7 +133,12 @@ def abrir(diccio, ruta, fon, ventana):
             obj_col = pickle.load(file)
             obj_txt = pickle.load(file)
             obj_pga = pickle.load(file)
+            obj_vivo = pickle.load(file)
+
+            obj_pegado=pickle.load(file)
             fon.identificador += 1
+            #fon.identificador += 1
+            #fon.identificador += 1
             c1 = componente_bloque_uno(
                 obj_pos[0],
                 obj_pos[1],
@@ -136,7 +150,10 @@ def abrir(diccio, ruta, fon, ventana):
             )
             fon.objetos.append(c1)
             fon.tipo_obj.append(obj_tip)
-            c1.pegado = 1
+
+            c1.vivo=obj_vivo
+
+            c1.pegado = obj_pegado
             c1.pegado_a = obj_pga
         if obj_tip == 3:
             pickle.load(file)
@@ -144,7 +161,12 @@ def abrir(diccio, ruta, fon, ventana):
             obj_col = pickle.load(file)
             obj_txt = pickle.load(file)
             obj_pga = pickle.load(file)
+            obj_vivo = pickle.load(file)
+
+            obj_pegado=pickle.load(file)
             fon.identificador += 1
+            #fon.identificador += 1
+            #fon.identificador += 1
             c1 = componente_bloque_dos(
                 obj_pos[0],
                 obj_pos[1],
@@ -156,7 +178,8 @@ def abrir(diccio, ruta, fon, ventana):
             )
             fon.objetos.append(c1)
             fon.tipo_obj.append(obj_tip)
-            c1.pegado = 1
+            c1.vivo=obj_vivo
+            c1.pegado = obj_pegado
             c1.pegado_a = obj_pga
     file.close()
     return 0

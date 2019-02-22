@@ -67,8 +67,8 @@ class VentanaGtk( MotorCairo,UTILIDADES):
 
 
         rgb = self.color(self.FONDO)
-        self.cr.set_source_rgb(rgb[0], rgb[1], rgb[2])
-        self.cr.paint()
+        #self.cr.set_source_rgb(rgb[0], rgb[1], rgb[2])
+        #self.cr.paint()
         self.mousexy = b.get_coords()
         for boton in self.botones:
             rectmouse = (self.mousexy[0], self.mousexy[1], 10, 10)

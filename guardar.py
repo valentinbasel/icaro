@@ -49,6 +49,8 @@ def guardar(obj, ruta, fondo):
             pickle.dump(fondo.objetos[i].color, file)
             pickle.dump(fondo.objetos[i].texto, file)
             pickle.dump(fondo.objetos[i].pegado_a, file)
+            pickle.dump(fondo.objetos[i].vivo, file)
+            pickle.dump(fondo.objetos[i].pegado, file)
         if fondo.tipo_obj[i] == 5:
             pickle.dump(fondo.tipo_obj[i], file)
             pickle.dump(fondo.objetos[i].ide, file)
@@ -56,6 +58,8 @@ def guardar(obj, ruta, fondo):
             pickle.dump(fondo.objetos[i].color, file)
             pickle.dump(fondo.objetos[i].texto, file)
             pickle.dump(fondo.objetos[i].pegado_a, file)
+            pickle.dump(fondo.objetos[i].vivo, file)
+            pickle.dump(fondo.objetos[i].pegado, file)
             #pickle.dump(fondo.objetos[i + 1].posicion, file)
             #pickle.dump(fondo.objetos[i + 1].pegado_a, file)
         if fondo.tipo_obj[i] == 4:
@@ -66,6 +70,9 @@ def guardar(obj, ruta, fondo):
             pickle.dump(fondo.objetos[i].color, file)
             pickle.dump(fondo.objetos[i].texto, file)
             pickle.dump(fondo.objetos[i].pegado_a, file)
+            pickle.dump(fondo.objetos[i].vivo, file)
+            pickle.dump(fondo.objetos[i].pegado, file)
+
         if fondo.tipo_obj[i] == 3:
             pickle.dump(fondo.tipo_obj[i], file)
             pickle.dump(fondo.objetos[i].ide, file)
@@ -73,6 +80,10 @@ def guardar(obj, ruta, fondo):
             pickle.dump(fondo.objetos[i].color, file)
             pickle.dump(fondo.objetos[i].texto, file)
             pickle.dump(fondo.objetos[i].pegado_a, file)
+
+            pickle.dump(fondo.objetos[i].vivo, file)
+
+            pickle.dump(fondo.objetos[i].pegado, file)
             #pickle.dump(fondo.objetos[i + 1].posicion, file)
             #pickle.dump(fondo.objetos[i + 1].pegado_a, file)
     file.close()
