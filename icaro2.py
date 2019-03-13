@@ -268,41 +268,81 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
         ###############################################
 
-             ventana
-                |
-                 ->box1(eliminar)
-                   |
-                    -> menu_bar(eliminar y remplazar por popover)
-                   |
-                    -> box2
-                       |
+		windows1 (Gtk.Windows)
+		 |
+		  -> box2 (Gtk.Hbox)
+		 |     |
+		 |      -> notebook2 (Gkt.Notebook)
+		 |          |
+		 |           -> hp (Gtk.HPaned)
+		 |          |   |
+		 |          |    -pack1-> scrolled_window2 (Gtk.ScrolledWindow)
+		 |          |   |                 |
+		 |          |   |                  -> notebook (Gtk.Notebook)
+		 |          |   |                          |
+		 |          |   |                           -> [0]
+		 |          |   |
+		 |          |    -pack2-> scrolled_window (Gtk.ScrolledWindow)
+		 |          |                       |
+		 |          |                        -> area (Gtk.DrawingArea)
+		 |          |
+		 |           -> self.ver.vbox (Gtk.Vbox)
+		 |          |
+		 |           -> self.ver.vbox (Gtk.Vbox)
+		 |
+		  -> hb (Gtk.HeaderBar)
+			  |
+			   -> box_header (Gtk.Box)
+				|
+		         	 -> boton_menu_central (Gtk.Button)
+                                |      |
+				|       -> menu_box (Gtk.Box)
+		         	|          | |
+				|          |  -> image_menu (Gtk.Image)
+				|          | |
+				|          |  -> label_menu (Gtk.Label)
+				|          |
+				|           -rel a-> popover_menu (Gtk.Popover)
+				|                     |
+				|                      ->box_popover_menu(Gtk.Box)
+				|
+				-> boton_menu_icaro (Gtk.Button)
+				    | |
+	       			    |  -> icr_box (Gtk.Box)
+				    |       |
+				    |        -> image (Gtk.Image)
+				    |       |
+				    |        -> label (Gtk.Label)
+				    |
+				     - relativo a -> popover (Gtk.Popover)
+						     |
+						      -> box_popover (GtkBox)
 
-                       |
-                        -> hp
-                           |
-                            -> self.notebook2
-                           |         |
-                           |          -> scrolled_window
-                           |         |       |
-                           |         |        -> area
-                           |         |
-                           |          -> visor
-                           |
-                            -> scrolled_window2
-                           |         |
-                           |          -> notebook
-                           |
-                             -> scrolled_window3 (eliminar)
-                                    |
-                                     -> toolbar
+
+
+		[0]: los widget del notebook se cargan a partir de un
+		 |   bucle for y su estructura basica es:
+		 |
+		  -> Table (Gtka.Vbox)
+			   |
+				-> button (Gtk.Button)
+					 |
+					  -> caja (Gtk.Box)
+					     |
+					      -> box1 (Gtk.Box)
+						 |
+						  -> image (Gtk.Image)
+						      |
+						       -> label (Gtk.label)
+
+
+
 
         ################################################
     esta clase controla todos los eventos del programa, mouse, teclado,
-    interaccion entre los componentes. A su ves es la encargada d actualizar
-    el estado de los bloques icaro y redibujar la pantalla mediante la funcion
-    ventana_principal.timeout
-
-
+    interaccion entre los componentes. A su ves es la encargada de
+    actualizar el estado de los bloques icaro y redibujar la pantalla
+    mediante la funcion ventana_principal.timeout
     """
     # variables globales para manejar posicion del mouse, clicks y pulsaciones
     # de teclas dentro de la ventana
