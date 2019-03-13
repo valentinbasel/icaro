@@ -579,7 +579,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
             ["view-fullscreen", "fondo",
              "", self.imagen_fondo, None],
-
+            ["document-properties", "configuración",
+             "", self.configuracio_icr,self.firmware_ruta,True],
             ["document-properties", "recargar firmware",
              "", self.recarga_conf, self.icaro_dir,True],
 
@@ -659,6 +660,11 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         boton_menu.add(box_boton)
         boton_menu.connect("clicked", func,metodos)
         box_popover.add(boton_menu)
+
+    def configuracio_icr(self,b,conf):
+        print ("------------",conf)
+        confgui = config_menu.MENU_CONF(conf)
+        confgui.show()
 
     #def definir_cursor(self, b):
 
