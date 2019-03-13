@@ -574,13 +574,13 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             ["document-save", "Guardar",
              self.tooltip["guardar"], self.guardar, 0],
 
-            ["document-color", "color",
+            ["insert-image", "color",
              "", self.gestion_color, None],
 
-            ["document-color", "fondo",
+            ["view-fullscreen", "fondo",
              "", self.imagen_fondo, None],
 
-            ["document-color", "recargar firmware",
+            ["document-properties", "recargar firmware",
              "", self.recarga_conf, self.icaro_dir,True],
 
             ["application-exit", "Salir",

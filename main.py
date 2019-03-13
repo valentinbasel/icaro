@@ -253,14 +253,6 @@ def main():
            "usando el bootloader V4"]
     sal = ["Sale del sistema"]
     ventana.tama_letra = 20
-#     BotonTurtle = Boton(1,
-                        # ventana,
-                        # 100,
-                        # 10,
-                        # sys.path[0] + "/imagenes/main/tortucaro.png",
-                        # turtleart_ruta,
-                        # tur)
-
     BotonPython = Boton(3,
                         ventana,
                         50,
