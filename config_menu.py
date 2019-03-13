@@ -37,9 +37,9 @@ class MENU_CONF:
         self.window = Gtk.Window()#Gtk.WINDOW_TOPLEVEL)
         #self.window.set_position(Gtk.WIN_POS_CENTER_ALWAYS)
         self.window.connect('delete_event', self.close)
-        dir_c=os.path.expanduser('~') +"/"+ conf_dir+"conf/config.ini"
-        print("soy la conf___",dir_c)
-        self.conf_cfg = Util.carga_conf(dir_c)
+        self.dir_c=os.path.expanduser('~') +"/"+ conf_dir+"conf/config.ini"
+        print("soy la conf___",self.dir_c)
+        self.conf_cfg = Util.carga_conf(self.dir_c)
         secciones = self.conf_cfg.sections()
         vbox_central = Gtk.VBox(False, 2)
         hbox_central = Gtk.HBox(False, 0)
@@ -87,4 +87,4 @@ class MENU_CONF:
         for datos in self.texts:
             print(datos[2].get_text())
             self.conf_cfg.set(datos[0], datos[1], datos[2].get_text())
-        self.conf_cfg.write(open(self.conf_dir, 'w'))
+        self.conf_cfg.write(open(self.dir_c, 'w'))
