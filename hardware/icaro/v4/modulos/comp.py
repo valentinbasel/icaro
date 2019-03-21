@@ -83,7 +83,10 @@ class tool_compilador(object):
                                 "hardware/icaro/v4/modulos/pinguicaro.py",
                                 "-c",
                                 dir_icr,
-                                "main"],stdout=subprocess.PIPE)
+
+                                "main",
+                                "18f4550"],stdout=subprocess.PIPE)
+
             i = p.returncode
             if i == 0:
                 self.mensajes(3, "la compilacion fue exitosa")
@@ -101,7 +104,8 @@ class tool_compilador(object):
                                 "hardware/icaro/v4/modulos/pinguicaro.py",
                                 "-c",
                                 dir_icr,
-                                "main"],stdout=subprocess.PIPE)
+                                "main",
+                                "18f4550"],stdout=subprocess.PIPE)
                 i = p.returncode
                 if i == 0:
                     self.mensajes(3, "la compilacion fue exitosa")
@@ -122,7 +126,8 @@ class tool_compilador(object):
                             "hardware/icaro/v4/modulos/pinguicaro.py",
                             "-c",
                             dir_icr,
-                            datos],stdout=subprocess.PIPE)
+                            datos,
+                            "18f4550"],stdout=subprocess.PIPE)
         i = p.returncode
         if i == 0:
             self.mensajes(3, "la compilacion fue exitosa")

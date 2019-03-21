@@ -23,6 +23,20 @@ import os
 import usb
 import sys
 
+class Pinguino2550(object):
+    name = 'Pinguino 2550'
+    arch = 8
+    bldr = 'boot4'
+    proc = '18f2550'
+    board = 'PINGUINO2550'
+    vendor = 0x04D8
+    product = 0xFEAA
+    memstart = 0x0C00
+    memend   = 0x8000
+    shortarg = '-p2550'
+    longarg = '--pinguino2550'
+
+
 class Pinguino4550(object):
     name = 'Pinguino 4550'
     arch = 8
@@ -407,10 +421,17 @@ class UPLOAD(object):
         print("%d bytes written." % codesize)
         return self.ERR_NONE
 
-    def uploadDevice(self, filename):
+    def uploadDevice(self, filename,board_select):
         # check file to upload
         # -------------------------------------------------------------
-        board=Pinguino4550()
+        if board_select=="18f4550":
+            board = Pinguino4550()
+        elif board_select == "18f2550":
+            board = Pinguino2550()
+        else:
+            self.REPORTE=self.REPORTE+("micro controlador no definido")
+            return 1,self.REPORTE
+
         if filename == '':
             print("No program to write")
             self.REPORTE=self.REPORTE+("No program to write")

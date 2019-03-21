@@ -46,6 +46,10 @@ class PINGUINO(object):
         :returns: TODO
 
         """
+        print main_c
+        print self.cfg
+        print directorio
+
         r = util.compilar(main_c,self.cfg,directorio)
         print "la compilacion fue correcta"
         if r == 0:
@@ -58,7 +62,7 @@ class PINGUINO(object):
         else: return 1
         return r
 
-    def cargar(self, directorio, main_c):
+    def cargar(self, directorio, main_c,board):
         """TODO: Docstring for cargar.
 
         :arg1: TODO
@@ -68,7 +72,7 @@ class PINGUINO(object):
         pic = UPLOAD()
         directorio=directorio+"/firmware/temporal/"
         archivo=directorio+main_c+".hex"
-        r = pic.uploadDevice(archivo)
+        r = pic.uploadDevice(archivo,board)
         return r
 
 def main(arg1):
@@ -82,16 +86,18 @@ def main(arg1):
     3 al 8 = errores de subida a la placa
 
     """
+    print "-------------------------------",arg1
     conf = arg1[1]
     directorio = arg1[2]
     nombre_archivo = arg1[3]
+    board = arg1[4]
     p_icaro = PINGUINO(directorio,nombre_archivo)
     if arg1[1]=="-c":
         r = p_icaro.preparar(directorio,nombre_archivo)
         print "El resultado es: ", r
         return r
     if arg1[1] == "-u":
-        r = p_icaro.cargar(directorio,nombre_archivo)
+        r = p_icaro.cargar(directorio,nombre_archivo,board)
         print r[1]
         return r[0]
 

@@ -62,7 +62,8 @@ class Cargador():
                             "hardware/icaro/v4/modulos/pinguicaro.py",
                             "-u",
                             dir_icr,
-                            ruta],stdout=subprocess.PIPE)
+                            ruta,
+                            "18f4550"],stdout=subprocess.PIPE)
         i = p.returncode
         if i == 0:
             self.mensajes(3,"la carga fue un exito")
