@@ -46,6 +46,7 @@ class PINGUINO(object):
         :returns: TODO
 
         """
+
         r = util.compilar(main_c,self.cfg,directorio)
         print "la compilacion fue correcta"
         if r == 0:
@@ -65,10 +66,11 @@ class PINGUINO(object):
         :returns: TODO
 
         """
+        board = self.cfg.get("pic","mic")
         pic = UPLOAD()
         directorio=directorio+"/firmware/temporal/"
         archivo=directorio+main_c+".hex"
-        r = pic.uploadDevice(archivo)
+        r = pic.uploadDevice(archivo,board)
         return r
 
 def main(arg1):

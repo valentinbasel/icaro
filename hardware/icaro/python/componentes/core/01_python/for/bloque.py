@@ -37,7 +37,7 @@ class CMP:
             "componente": 5,
             "cant_puertos": 1,
             "color": (10, 30, 90),
-            "dato": "fin ",
+            "dato": "datos ",
                     "dato2": "0",
                     "valor": self.valor
         }
