@@ -201,6 +201,15 @@ class crear_comp:
                 self.fondo,
                 self,
                 )
+            for d in self.diccionario:
+                for ar in range(0,self.diccionario[b][2]):
+                    cad=self.diccionario[b][4].split(" ")
+                    if (self.diccionario[d][0]) == cad[ar]:
+                        self.crear_componente(d,
+                                          x+150+(len(self.diccionario[b][0])*6),
+                                          y+(ar*40))
+
+
             self.fondo.objetos.append(c1)
             self.fondo.tipo_obj.append(self.diccionario[b][1])
             self.fondo.lista_ordenada.append(0)
@@ -295,16 +304,16 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 			   -> box_header (Gtk.Box)
 				|
 		         	 -> boton_menu_central (Gtk.Button)
-                                |      |
-				|       -> menu_box (Gtk.Box)
-		         	|          | |
-				|          |  -> image_menu (Gtk.Image)
-				|          | |
-				|          |  -> label_menu (Gtk.Label)
-				|          |
-				|           -rel a-> popover_menu (Gtk.Popover)
-				|                     |
-				|                      ->box_popover_menu(Gtk.Box)
+                                |   |
+				|    -> menu_box (Gtk.Box)
+		         	|       | |
+				|       |  -> image_menu (Gtk.Image)
+				|       | |
+				|       |  -> label_menu (Gtk.Label)
+				|       |
+				|        -rel a-> popover_menu (Gtk.Popover)
+				|                  |
+				|                   ->box_popover_menu(Gtk.Box)
 				|
 				-> boton_menu_icaro (Gtk.Button)
 				    | |
@@ -367,21 +376,21 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
     edicion = 0
     z = 1
     cursores = [0]
-    dicc_accesos_directos = {
-        65470: "f1",
-        65471: "f2",
-        65472: "f3",
-        65473: "f4",
-        65474: "f5",
-        65475: "f6",
-        65476: "f7",
-        65477: "f8",
-        65478: "f9",
-        65479: "f10",
-        65480: "f11",
-        65481: "f12",
+   #  dicc_accesos_directos = {
+        # 65470: "f1",
+        # 65471: "f2",
+        # 65472: "f3",
+        # 65473: "f4",
+        # 65474: "f5",
+        # 65475: "f6",
+        # 65476: "f7",
+        # 65477: "f8",
+        # 65478: "f9",
+        # 65479: "f10",
+        # 65480: "f11",
+        # 65481: "f12",
 
-    }
+    # }
     valor_datos_comp = {}
 
     def __init__(self, icaro_dir,firmware_ruta):
@@ -605,7 +614,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
 
         """
         botones=[
-            [ "document-new", "Nevo",
+            [ "document-new", "Nuevo",
              self.tooltip["nuevo"], self.nuevo, None],
             ["document-open", "Abrir",
              self.tooltip["abrir"], self.abrir, None],
@@ -614,14 +623,14 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             ["document-save", "Guardar",
              self.tooltip["guardar"], self.guardar, 0],
 
-            ["insert-image", "color",
+            ["insert-image", "Color",
              "", self.gestion_color, None],
 
-            ["view-fullscreen", "fondo",
+            ["view-fullscreen", "Fondo",
              "", self.imagen_fondo, None],
-            ["document-properties", "configuración",
+            ["document-properties", "Configuración",
              "", self.configuracio_icr,self.firmware_ruta,True],
-            ["document-properties", "recargar firmware",
+            ["document-properties", "Recargar firmware",
              "", self.recarga_conf, self.icaro_dir,True],
 
             ["application-exit", "Salir",
@@ -705,35 +714,6 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         print ("------------",conf)
         confgui = config_menu.MENU_CONF(conf)
         confgui.show()
-
-    #def definir_cursor(self, b):
-
-        #self.puntero_seleccion_mouse = b
-
-# ========================================================================
-# ABRIR LA VENTANA DE VISOR DE CODIGO
-# ========================================================================
-
-    #def graf(self):
-    #    graf = graficador_matplot.VENTANA()
-    #    graf.window.show_all()
-
-    #def clemente(self, prt):
-
-     #   cad = "clear\n python " + src + "/clemente/clemente.py " + prt + " \n"
-        #cle = terminal_vte.TERM_CLEMENTE(cad)
-        #cle.window.show_all()
-# ========================================================================
-# VENTANA DE AYUDA (NAVEGADOR)
-# ========================================================================
-
-    #def ayuda(self, b):
-        #self.visor()
-        #texto=("para ver la documentación actualizada, ir  a la pagina web: http://roboticaro.org/documentacion/")
-        #self.mensajes(3,texto)
-    #def dibujo(self, event, b):
-        #self.seleccion_menu = b
-        #self.definir_cursor(b)
 
 # ========================================================================
 # ESTO ES PARA GREGAR IMAGENES AL BOTON DE LA TOOLBAR
