@@ -27,18 +27,18 @@ bastante precision como para hacer dibujos sencillos.
 """
 import time
 import apicaro
-import pap
-import util
+from v_plotter.pap import MOTOR 
+from v_plotter.util import UTIL
 
 
 
-class VPLOTTER(apicaro.puerto,util.UTIL):
+class VPLOTTER(apicaro.puerto,UTIL):
 
     """Docstring for MyClass. """
 
     velocidad=0.01
-    __motor1=pap.MOTOR([1,2,4,8])
-    __motor2=pap.MOTOR([16,32,64,128])
+    __motor1=MOTOR([1,2,4,8])
+    __motor2=MOTOR([16,32,64,128])
     def __init__(self):
         """
         Valores globales del robot, como su velocidad o los
@@ -108,7 +108,7 @@ class VPLOTTER(apicaro.puerto,util.UTIL):
         Baja el servo
         servo1 = 30
         """
-        print "bajo el lapiz"
+        print ("bajo el lapiz")
         self.activar_servo(1, 60)
         time.sleep(1)
         return 0
@@ -118,7 +118,7 @@ class VPLOTTER(apicaro.puerto,util.UTIL):
         Levanta el servo
         servo1 = 128
         """
-        print "subo el lapiz"
+        print ("subo el lapiz")
         self.activar_servo(1,120)
         time.sleep(1)
         return 0

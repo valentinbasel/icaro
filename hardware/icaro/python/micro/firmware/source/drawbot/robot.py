@@ -111,7 +111,7 @@ class DROBOT():
                 time.sleep(0.1)
             while buff=="" and buff <>"\n" and buff <>"\r" and buff<>None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "ad-",buff
+            print ("ad-",buff)
                 #print type(buff)
             return True
         else:
@@ -129,7 +129,7 @@ class DROBOT():
                 time.sleep(0.1)
             while buff=="" and buff <>"\n" and buff <>"\r" and buff<>None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "at-",buff
+            print ("at-",buff)
                 #print type(buff)
             return True
         else:
@@ -148,7 +148,7 @@ class DROBOT():
             #self.RS232.write("d")
             while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "de-",buff
+            print ("de-",buff)
                 #print type(buff)
             return True
         else:
@@ -167,7 +167,7 @@ class DROBOT():
             #self.RS232.write("d")
             while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "iz-",buff
+            print ("iz-",buff)
                 #print type(buff)
             return True
         else:
@@ -179,7 +179,7 @@ class DROBOT():
             self.RS232.write("l")
             while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "Llapiz-",buff
+            print ("Levanto lapiz-",buff)
                 #print type(buff)
             return True
         else:
@@ -191,7 +191,7 @@ class DROBOT():
             self.RS232.write("b")
             while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "Blapiz-",buff
+            print ("Bajo lapiz-",buff)
                 #print type(buff)
             return True
         else:
@@ -211,7 +211,7 @@ class DROBOT():
             #self.RS232.write("d")
             while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "vel-",buff
+            print ("vel-",buff)
                 #print type(buff)
             return True
         else:
@@ -223,7 +223,7 @@ class DROBOT():
             self.RS232.write("c")
             while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
                 buff = self.RS232.read(self.RS232.inWaiting())
-            print "apago"
+            print ("apago")
                 #print type(buff)
             return True
         else:

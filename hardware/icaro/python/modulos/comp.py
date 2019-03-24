@@ -74,7 +74,7 @@ class tool_compilador(object):
             crear.crear_archivo(self.fondo, self)
             dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
             cad = dir_conf+"/source/user.py"
-            process = Popen(['python', cad], stdout=PIPE, stderr=PIPE)
+            process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
             stdout, stderr = process.communicate()
             print (stdout)
             print ("err",stderr)
@@ -98,7 +98,7 @@ class tool_compilador(object):
                 file.close()
                 dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
                 cad = dir_conf+"/source/user.py"
-                process = Popen(['python', cad], stdout=PIPE, stderr=PIPE)
+                process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
                 stdout, stderr = process.communicate()
                 print (stdout)
                 print ("err",stderr)

@@ -28,9 +28,9 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "print '",
+            "print ('",
             "valor",
-            "'"
+            "')"
             ]
         self.dicc = {
             "nombre": "print",

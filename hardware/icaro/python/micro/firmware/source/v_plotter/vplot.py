@@ -26,7 +26,7 @@
 #import apicaro
 #import pap
 #import util
-from cinematica import VPLOTTER
+from v_plotter.cinematica import VPLOTTER
 class ROBOT(VPLOTTER):
     """
     La clase ROBOT, contiene las instrucciones para iniciar y mover
@@ -38,28 +38,28 @@ class ROBOT(VPLOTTER):
         pass
 
     def derecha(self,angulo):
-        print "giro a la derecha ", angulo," grados"
+        print ("giro a la derecha ", angulo," grados")
         self._O=self._O-angulo
 
     def izquierda(self,angulo):
-        print "giro a la izquierda ", angulo," grados"
+        print ("giro a la izquierda ", angulo," grados")
         self._O=self._O+angulo
 
     def adelante(self,R):
-        print "avanzo ",R," pasos"
+        print ("avanzo ",R," pasos")
         puntos=self.mover(R,self._O)
         for a in range(1,len(puntos)):
             x0,y0=puntos[a-1]
             x,y=puntos[a]
             xf=x-x0
             yf=y-y0
-            if yf<>0:
+            if yf!=0:
                 self.yy(yf)
-            if xf<>0:
+            if xf!=0:
                 self.xx(xf)
 
     def atras(self,R):
-        print "retrocedo ",R," pasos"
+        print ("retrocedo ",R," pasos")
         R=R*-1
         puntos=self.mover(R,self._O)
         for a in range(1,len(puntos)):
@@ -67,9 +67,9 @@ class ROBOT(VPLOTTER):
             x,y=puntos[a]
             xf=x-x0
             yf=y-y0
-            if yf<>0:
+            if yf!=0:
                 self.yy(yf)
-            if xf<>0:
+            if xf!=0:
                 self.xx(xf)
 
 
