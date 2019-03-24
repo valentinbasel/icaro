@@ -253,7 +253,7 @@ def main():
            "usando el bootloader V4"]
     sal = ["Sale del sistema"]
     ventana.tama_letra = 20
-    BotonPython = Boton(3,
+    BotonPython = Boton(1,
                         ventana,
                         50,
                         10,
@@ -272,7 +272,17 @@ def main():
 
                        "python3 " + sys.path[0] + "/lanzador.py " + bootloader+ " "+conf,
                        icr)
-    BotonSalir = Boton(4,
+    BotonFirmware = Boton(2,
+                       ventana,
+                       310,
+                       10,
+
+                       sys.path[0] + "/imagenes/main/firmware2.png",
+                       sys.path[0] + "/imagenes/main/firmware2p.png",
+
+                       "python3 " + sys.path[0] + "/lanzador.py " + bootloader+ " "+conf,
+                       icr)
+    BotonSalir = Boton(3,
                        ventana,
                        50,
                        400,
@@ -281,9 +291,11 @@ def main():
 
                        "salir",
                        sal)
-    #ventana.botones.append(BotonTurtle)
+
     ventana.botones.append(BotonPython)
     ventana.botones.append(BotonIcaro)
+
+    #ventana.botones.append(BotonFirmware) # falta implementar el programa
     ventana.botones.append(BotonSalir)
     Gtk.main()
     return 0

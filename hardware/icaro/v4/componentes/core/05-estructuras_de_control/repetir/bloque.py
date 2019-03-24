@@ -35,10 +35,10 @@ class CMP:
         self.dicc = {
             "nombre": "repetir",
             "componente": 5,
-            "cant_puertos": 0,
+            "cant_puertos": 1,
             "color": (54,90,140),
 
-            "dato": "fin ",
+            "dato": "datos ",
                     "dato2": "0",
                     "valor": self.valor
         }

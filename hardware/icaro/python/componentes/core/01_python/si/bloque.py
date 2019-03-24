@@ -35,12 +35,12 @@ class CMP:
         self.dicc = {
             "nombre": "si",
             "componente": 5,
-            "cant_puertos": 0,
+            "cant_puertos": 1,
             "color": (200, 190, 0),
-            "dato": "fin ",
+            "dato": "datos ",
                     "dato2": "0",
                     "valor": self.valor
         }
-        self.tootips = "iteración condicional. Codigo C: if(valor){"
+        self.tootips = "iteración condicional. Codigo C: if(valor): "
         self.img = ""
         self.tab=1

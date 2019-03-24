@@ -95,8 +95,10 @@ class UTILIDADES:
             self.mensajes(0, "error, no se encuentra el archivo conf.ini")
             return False
 
-    def recarga_conf(self, icaro_dir, conf,visual):
-
+    def recarga_conf(self, icaro_dir, conf,visual=True):
+        print(icaro_dir)
+        print(conf)
+        print("----------------------------------------")
         #dir_firm_v2 = os.path.expanduser('~') + "/.icaro/v2/firmware/"
         #dir_conf_v2 = os.path.expanduser('~') + "/.icaro/v2/conf/"
         #np05_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/firmware"

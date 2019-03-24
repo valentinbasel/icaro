@@ -631,15 +631,25 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
             ["document-properties", "Configuración",
              "", self.configuracio_icr,self.firmware_ruta,True],
             ["document-properties", "Recargar firmware",
-             "", self.recarga_conf, self.icaro_dir,True],
+             "", self.recarga_conf_icaro,None],
 
             ["application-exit", "Salir",
              self.tooltip["salir"], self.salir, None]
             ]
 
-        #self.recarga_conf(self.icaro_dir, True)
         return botones
+    def recarga_conf_icaro(self,a,b):
+        """TODO: Docstring for recarga_conf_icaro.
+        b: el widget que genera el evento
+        :returns: None
 
+        """
+        hardware_dir = "hardware/icaro"
+        self.recarga_conf(hardware_dir,".icaro/",True)
+
+
+
+    #self.icaro_dir,True
     def crear_botones_bootlader(self):
         boton_medio=[]
         for linea in self.carga_info_botones():
@@ -1030,7 +1040,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         if os.path.exists(self.conf_ini):
             self.cfg = self.carga_conf(self.conf_ini)
         else:
-            self.recarga_conf(False)
+            self.recarga_conf_icaro(None,None)
         # configuraciones generales de ICARO (guardadas en config.ini)
         self.z = float(self.cfg.get("icaro_config", "zoom"))
 
