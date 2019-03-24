@@ -241,7 +241,7 @@ def main():
         comprobacion_dir(conf,mens)
 
     cfg = mens.carga_conf(os.path.expanduser('~') +"/"+ conf+"config.ini")
-    turtleart_ruta = cfg.get("general", "turtlear")
+    #turtleart_ruta = cfg.get("general", "turtlear")
     bootloader=cfg.get("icaro_config","bootloader")
 
     pyt = ["Lanza Icaro-bloques ",
