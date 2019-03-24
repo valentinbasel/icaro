@@ -429,7 +429,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         ## EL BOTON DEL MENU
         boton_menu_central = Gtk.Button()
         image_menu = Gtk.Image.new_from_file("imagenes/icaro/menu.png")
-        label_menu=Gtk.Label("Menu")
+        label_menu=Gtk.Label("Menú")
         menu_box=Gtk.Box()
         menu_box.set_orientation(Gtk.Orientation.HORIZONTAL)
         menu_box.add(image_menu)
@@ -514,7 +514,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                        "")
         hp.pack2(scrolled_window, True, True)
         hp.set_position(120)
-        self.notebook2.append_page(hp, Gtk.Label("bloques"))
+        self.notebook2.append_page(hp, Gtk.Label("Bloques"))
         self.notebook2.append_page(self.ver.vbox, Gtk.Label("Código Fuente"))
         self.notebook2.append_page(self.ver2.vbox, Gtk.Label("Registro"))
 
@@ -630,8 +630,9 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
              "", self.imagen_fondo, None],
             ["document-properties", "Configuración",
              "", self.configuracio_icr,self.firmware_ruta,True],
-            ["document-properties", "Recargar firmware",
-             "", self.recarga_conf_icaro,None],
+
+            ["document-properties", "Recargar Firmware",
+             "", self.recarga_conf, self.icaro_dir,True],
 
             ["application-exit", "Salir",
              self.tooltip["salir"], self.salir, None]
@@ -938,7 +939,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         self.valor_tecla = ""
 
     def salir(self, dato,b):
-        cartel = self.mensajes(1, "¿esta seguro que desea salir del sistema?")
+        cartel = self.mensajes(1, "¿Está seguro que desea salir del sistema?")
         if cartel == 1:
             exit()
 
@@ -947,7 +948,7 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         :returns: TODO
 
         """
-        colorseldlg = Gtk.ColorSelectionDialog("selección de color")
+        colorseldlg = Gtk.ColorSelectionDialog("Selección de color")
         response = colorseldlg.run()
         if response - - Gtk.ResponseType.OK:
             color=colorseldlg.get_color_selection()
