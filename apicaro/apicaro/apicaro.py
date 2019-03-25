@@ -13,7 +13,7 @@
 
 import serial
 import serial.tools.list_ports
-
+import struct
 import time
 # Configuracion de los valores iniciales del puerto serie
 # estos valores son los que necesita la placa icaro np03 para
@@ -123,9 +123,10 @@ class puerto():
         """
 
         if self.RS232.isOpen():
-            self.RS232.write("s")
+            self.RS232.write(str.encode('s'))
             time.sleep(0.001)
-            self.RS232.write(chr(int(valor)))
+            
+            self.RS232.write(struct.pack('B', int(valor)))
             self.RS232.flush()
             time.sleep(0.001)
             return True
@@ -146,9 +147,9 @@ class puerto():
 
         """
         if self.RS232.isOpen():
-            self.RS232.write('l')
+            self.RS232.write(str.encode('l'))
             time.sleep(0.001)
-            self.RS232.write(valor)
+            self.RS232.write(str.encode(str(valor)))
             self.RS232.flush()
             time.sleep(0.001)
             return True
@@ -161,10 +162,11 @@ class puerto():
         if sensor > 8 or sensor < 1:
             return False
         try:
-            self.RS232.write("e")
-            self.RS232.write(str(sensor))
+            self.RS232.write(str.encode("e"))
+            self.RS232.write(str.encode(str(sensor)))
             buff = self.RS232.read(self.RS232.inWaiting())
             time.sleep(0.001)
+            print (buff)
             buff2 = buff.split('.')
             return int(buff2[0])
             self.RS232.flush()
@@ -178,8 +180,8 @@ class puerto():
         if sensor > 4 or sensor < 1:
             return False
         try:
-            self.RS232.write("d")
-            self.RS232.write(str(sensor))
+            self.RS232.write(str.encode("d"))
+            self.RS232.write(str.encode(str(sensor)))
             time.sleep(0.001)
             respuesta = self.RS232.read()
             self.RS232.flush()
@@ -200,19 +202,19 @@ class puerto():
         retorna True o False
         """
         if self.RS232.isOpen():
-            self.RS232.write("m")
+            self.RS232.write(str.encode("m"))
             time.sleep(0.001)
             if servo == 1:
-                self.RS232.write("1")
+                self.RS232.write(str.encode("1"))
             if servo == 2:
-                self.RS232.write("2")
+                self.RS232.write(str.encode("2"))
             if servo == 3:
-                self.RS232.write("3")
+                self.RS232.write(str.encode("3"))
             if servo == 4:
-                self.RS232.write("4")
+                self.RS232.write(str.encode("4"))
             if servo == 5:
-                self.RS232.write("5")
-            self.RS232.write(chr(int(valor)))
+                self.RS232.write(str.encode("5"))
+            self.RS232.write(struct.pack('B',int(valor)))
             self.RS232.flush()
             time.sleep(0.001)
             return True
