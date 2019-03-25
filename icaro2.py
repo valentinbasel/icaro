@@ -411,7 +411,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         # declaro la tabla  donde van los botones para el menu de bloques
         # box1 es el contenedor principal despues de la ventana
         self.window1 = Gtk.Window()
-        # ~ self.window1.fullscreen()
+        self.window1.maximize()
+        #self.window1.fullscreen()
         titulo = "icaro " + version.strip("\n\r")
 
         ## header Bar
