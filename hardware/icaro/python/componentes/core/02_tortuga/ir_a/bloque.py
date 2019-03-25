@@ -28,14 +28,14 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "circle(",
+            "goto(",
             "valor",
             ",",
             "valor",
             ")"
         ]
         self.dicc = {
-            "nombre": "circulo",
+            "nombre": "ir_a",
             "componente": 1,
             "cant_puertos": 2,
             "color": (90, 90, 30),
@@ -43,7 +43,7 @@ class CMP:
             "dato2": 1,
             "valor": self.valor
         }
-        self.tootips = "hace que la tortuga de LOGO dibuje un circulo de radio N ."
+        self.tootips = "hace que la tortuga de LOGO salte de un punt (x,y) a otro."
         self.img = ""
         self.pines = [
             ""]
