@@ -537,7 +537,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                     dat[1],
                                     dat[2],
                                     dat[3],
-                                    dat[4])
+                                    dat[4],
+                                    popover_menu)
 
         # creo los botones de la toolbar en funcion de la tupla botonas_toolbar
         for dat in botones_toolbar_compilador:
@@ -548,7 +549,8 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
                                     dat[1],
                                     dat[2],
                                     dat[3],
-                                    dat[4])
+                                    dat[4],
+                                    popover)
         scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC,Gtk.PolicyType.AUTOMATIC)
         scrolled_window2.show()
         notebook.set_tab_pos(Gtk.PositionType.LEFT)
@@ -665,38 +667,38 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         botones_final = boton_medio # botones_inic+ boton_medio + boton_fin
         return botones_final
 
-    def crear_botones_bloques(self):
-        boton = [
-                    [sys.path[0]+"/imagenes/bloques/lapiz.png",
-                     "Lapiz",
-                    self.tooltip["lapiz"],
-                    self.dibujo,
-                    1
-                    ],
-                    [sys.path[0]+"/imagenes/bloques/mover.png",
-                     "Mover",
-                    self.tooltip["mover"],
-                    self.dibujo,
-                    2
-                    ],
-                    [sys.path[0]+"/imagenes/bloques/borrar.png",
-                     "Borrar",
-                    self.tooltip["borrar"],
-                    self.dibujo,
-                    3
-                    ],
-                    [sys.path[0]+"/imagenes/bloques/editar.png",
-                     "Editar",
-                    self.tooltip["editar"],
-                    self.dibujo,
-                    4
-                    ],
-                ]
+    # def crear_botones_bloques(self):
+        # boton = [
+                    # [sys.path[0]+"/imagenes/bloques/lapiz.png",
+                     # "Lapiz",
+                    # self.tooltip["lapiz"],
+                    # self.dibujo,
+                    # 1
+                    # ],
+                    # [sys.path[0]+"/imagenes/bloques/mover.png",
+                     # "Mover",
+                    # self.tooltip["mover"],
+                    # self.dibujo,
+                    # 2
+                    # ],
+                    # [sys.path[0]+"/imagenes/bloques/borrar.png",
+                     # "Borrar",
+                    # self.tooltip["borrar"],
+                    # self.dibujo,
+                    # 3
+                    # ],
+                    # [sys.path[0]+"/imagenes/bloques/editar.png",
+                     # "Editar",
+                    # self.tooltip["editar"],
+                    # self.dibujo,
+                    # 4
+                    # ],
+                # ]
 
-        return boton
+        # return boton
 
 
-    def crear_toolbuttons(self, box_popover, tipo_img,img, nombre, tooltip, func, metodos):
+    def crear_toolbuttons(self, box_popover, tipo_img,img, nombre, tooltip, func, metodos,popover):
         """
         tipo_img == 0 es una imagen de archivo
         tipo_img == 1 es una imagend e stock
@@ -719,8 +721,18 @@ class Ventana(crear_comp, tool_compilador, UTILIDADES):
         boton_menu = Gtk.Button()
         boton_menu.set_tooltip_text(tooltip)
         boton_menu.add(box_boton)
-        boton_menu.connect("clicked", func,metodos)
+        boton_menu.connect("clicked", self.toolbutton_click, func,metodos,popover)
         box_popover.add(boton_menu)
+    def toolbutton_click(self,a,func,metodos,popover):
+        """TODO: Docstring for toolbutton_click.
+        :returns: TODO
+
+        """
+        print (a)
+        print (func)
+        print(metodos)
+        func(a,metodos)
+        popover.hide()
 
     def configuracio_icr(self,b,conf):
         print ("------------",conf)
