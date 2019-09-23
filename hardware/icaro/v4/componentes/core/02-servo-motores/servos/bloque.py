@@ -50,7 +50,7 @@ class CMP:
             "cant_puertos": 5,
             "color": (2,211,252),
 
-            "dato": "0",
+            "dato": "datos datos datos datos datos datos",
                     "dato2": "5",
                     "valor": self.valor
         }

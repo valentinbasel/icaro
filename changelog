@@ -57,7 +57,18 @@ VERSION 1.0.3
  
 =====================================================
 
-VERSION 1.0.4
+VERSION 2.0
+
+*  Se elimino SUGAR y tortucaro
+*  Ahora se puede genera código PYTHON con bloques
+*  Nueva interface
+*  se migra todo a python 3
+*  GUI escrita con GTK 3
+*  Se elemino clemente
+*  Se elimino el graficador
+*  el cargador de firmware ahora es independiente de la icaro bloques
+*  Cambios en la estructura de los bloques
+
 
 
 

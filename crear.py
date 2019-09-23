@@ -30,7 +30,7 @@ def parseador(lista, argumentos, texto, fondo, ventana,tab):
     #    ventana.valor_datos_comp[texto]=
     for txt in ventana.valor_datos_comp[texto]:
         #print "----",txt
-        if txt == "valor" and argumentos <> 0:
+        if txt == "valor" and argumentos != 0:
             parser_final = parser_final + str(lista[n])
             n = n + 1
         else:
@@ -115,17 +115,17 @@ def funcion(fondo, ventana, ruta):
     # cadena_final.append(a.strip("\n"))
     conectado = 1
     fondo.lista_fina = []
-    print fondo.lista_ordenada
+    #print(fondo.lista_ordenada)
 
     for a in range(len(fondo.lista_ordenada)):
         for a in range(len(fondo.lista_ordenada)):
-            print fondo.lista_ordenada[a]
+            #print(fondo.lista_ordenada[a])
             if fondo.lista_ordenada[a] == conectado:
                 fondo.lista_fina.append(conectado)
                 conectado = a
     fondo.lista_fina.append(conectado)
     fondo.lista_fina.remove(1)
-    print "--------------------", fondo.lista_fina
+    #print("--------------------", fondo.lista_fina)
     for a in fondo.lista_fina:
         for b in range(len(fondo.objetos)):
             if fondo.objetos[b].ide == a:
@@ -160,7 +160,7 @@ def carga_func(fondo, ventana, fun):
     else:
         directorio = os.path.dirname(ventana.archivo)
         ruta = directorio + "/" + str(fun[1].strip(" \n")) + ".func"
-        print ruta
+        #print(ruta)
         file = open(ruta, "r")
         for cadena in range(len(ventana.cadena_pinguino)):
             if ventana.cadena_pinguino[cadena] == "/*funciones*/\n":

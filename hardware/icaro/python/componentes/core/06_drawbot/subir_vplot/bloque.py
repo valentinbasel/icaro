@@ -33,7 +33,7 @@ class CMP:
         self.dicc = {
             "nombre": "levantar_drawbot",
             "componente": 1,
-            "cant_puertos": 1,
+            "cant_puertos": 0,
             "color": (0, 90, 10),
             "dato": 0,
             "dato2": 0,

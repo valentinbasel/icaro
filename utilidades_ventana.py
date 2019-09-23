@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  utilidades_ventana.py
@@ -20,11 +20,16 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+#import gtk
 import os
 import sys
 
-import ConfigParser
+import configparser
 
 # ========================================================================
 # GENERADOR DE MENSAJES
@@ -38,11 +43,11 @@ class UTILIDADES:
     def __init__(self):
         pass
 
-    def preparar_icaro(self,icaro_dir, ruta, icr_dir, conf):
+    def preparar_icaro(self,icaro_dir, ruta, icr_dir, conf,confnombre):
         sys.path.append(ruta)
         # busca el archivo .ini dentro de la carpeta firmware
         if os.path.exists(conf):
-            from icaro import *
+            from icaro2 import inicio
             inicio(icr_dir,icaro_dir)
         else:
             cad = "No se encontro el archivo de configuracion en la ruta " + \
@@ -51,66 +56,69 @@ class UTILIDADES:
             resp = self.mensajes(
                 1, "¿desea volver a copiar el directorio el directorio del firmware?")
             if resp == True:
-                a = self.recarga_conf(icr_dir, True)
+                a = self.recarga_conf(icr_dir,conf,confnombre, True)
             else:
                 exit()
 
     def mensajes(self, num, mensa):
 
         tipo = (
-            gtk.MESSAGE_WARNING,
-            gtk.MESSAGE_QUESTION,
-            gtk.MESSAGE_ERROR,
-            gtk.MESSAGE_INFO
+            Gtk.MessageType.WARNING,
+            Gtk.MessageType.QUESTION,
+            Gtk.MessageType.ERROR,
+            Gtk.MessageType.INFO
         )
         botones = (
-            gtk.BUTTONS_OK,
-            gtk.BUTTONS_OK_CANCEL,
-            gtk.BUTTONS_OK,
-            gtk.BUTTONS_OK
+            Gtk.ButtonsType.OK,
+            Gtk.ButtonsType.OK_CANCEL,
+            Gtk.ButtonsType.OK,
+            Gtk.ButtonsType.OK
         )
-        md = gtk.MessageDialog(None,
-                               gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+        md = Gtk.MessageDialog(None,
+                               Gtk.DialogFlags.MODAL |
+                               Gtk.DialogFlags.DESTROY_WITH_PARENT,
                                tipo[num],
                                botones[num], mensa)
         resp = md.run()
         md.destroy()
-        if resp == gtk.RESPONSE_OK:
+        if resp == Gtk.ResponseType.OK:
             return True
-        elif resp == gtk.RESPONSE_CANCEL:
+        elif resp == Gtk.ResponseType.CANCEL:
             return False
 
     def carga_conf(self, ruta):
         try:
-            cfg = ConfigParser.ConfigParser()
+            cfg = configparser.ConfigParser()
             cfg.read(ruta)
             return cfg
         except:
             self.mensajes(0, "error, no se encuentra el archivo conf.ini")
             return False
 
-    def recarga_conf(self, icaro_dir, visual):
-
-        dir_firm_v2 = os.path.expanduser('~') + "/.icaro/v2/firmware/"
-        dir_conf_v2 = os.path.expanduser('~') + "/.icaro/v2/conf/"
-        np05_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/firmware"
-        conf_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/conf"
-        if os.path.exists(os.path.expanduser('~') + "/.icaro/v2") == False:
-            ruta_firmware_v2 = os.path.expanduser('~') + "/.icaro/v2"
-            os.system("mkdir -p " + ruta_firmware_v2)
-        dir_firm_v4 = os.path.expanduser('~') + "/.icaro/v4/firmware/"
-        dir_conf_v4 = os.path.expanduser('~') + "/.icaro/v4/conf/"
+    def recarga_conf(self, icaro_dir, conf,visual=True):
+        print(icaro_dir)
+        print(conf)
+        print("----------------------------------------")
+        #dir_firm_v2 = os.path.expanduser('~') + "/.icaro/v2/firmware/"
+        #dir_conf_v2 = os.path.expanduser('~') + "/.icaro/v2/conf/"
+        #np05_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/firmware"
+        #conf_v2 = sys.path[0] + "/" +"hardware/icaro/v2/micro/conf"
+        #if os.path.exists(os.path.expanduser('~') + "/.icaro/v2") == False:
+        #    ruta_firmware_v2 = os.path.expanduser('~') + "/.icaro/v2"
+        #    os.system("mkdir -p " + ruta_firmware_v2)
+        dir_firm_v4 = os.path.expanduser('~') + "/"+conf+"/v4/firmware/"
+        dir_conf_v4 = os.path.expanduser('~') + "/"+conf+"/v4/conf/"
         np05_v4 = sys.path[0] + "/hardware/icaro/v4/micro/firmware"
         conf_v4 = sys.path[0] + "/hardware/icaro/v4/micro/conf"
-        if os.path.exists(os.path.expanduser('~') + "/.icaro/v4") == False:
-            ruta_firmware_v4 = os.path.expanduser('~') + "/.icaro/v4"
+        if os.path.exists(os.path.expanduser('~') + "/"+conf+"/v4") == False:
+            ruta_firmware_v4 = os.path.expanduser('~') + "/"+conf+"/v4"
             os.system("mkdir -p " + ruta_firmware_v4)
-        dir_firm_pyt = os.path.expanduser('~') + "/.icaro/python/firmware/"
-        dir_conf_pyt = os.path.expanduser('~') + "/.icaro/python/conf/"
+        dir_firm_pyt = os.path.expanduser('~') + "/"+conf+"/python/firmware/"
+        dir_conf_pyt = os.path.expanduser('~') + "/"+conf+"/python/conf/"
         np05_pyt = sys.path[0] + "/hardware/icaro/python/micro/firmware"
         conf_pyt = sys.path[0] + "/hardware/icaro/python/micro/conf"
-        if os.path.exists(os.path.expanduser('~') + "/.icaro/python") == False:
-            ruta_firmware_pyt = os.path.expanduser('~') + "/.icaro/python"
+        if os.path.exists(os.path.expanduser('~') + "/"+conf+"/python") == False:
+            ruta_firmware_pyt = os.path.expanduser('~') + "/"+conf+"/python"
             os.system("mkdir -p " + ruta_firmware_pyt)
 
         if visual == True:
@@ -119,10 +127,10 @@ class UTILIDADES:
         else:
             resp = True
         if resp == True:
-            os.system("rm -rf " + dir_conf_v2)
-            os.system("rm -rf " + dir_firm_v2)
-            os.system("cp -R " + np05_v2 + " " + dir_firm_v2)
-            os.system("cp -R " + conf_v2 + " " + dir_conf_v2)
+        #    os.system("rm -rf " + dir_conf_v2)
+        #    os.system("rm -rf " + dir_firm_v2)
+        #    os.system("cp -R " + np05_v2 + " " + dir_firm_v2)
+        #    os.system("cp -R " + conf_v2 + " " + dir_conf_v2)
             os.system("rm -rf " + dir_conf_v4)
             os.system("rm -rf " + dir_firm_v4)
             os.system("cp -R " + np05_v4 + " " + dir_firm_v4)
@@ -133,9 +141,9 @@ class UTILIDADES:
             os.system("cp -R " + conf_pyt + " " + dir_conf_pyt)
 
             os.system("cp " + sys.path[0] + "/hardware/icaro/config.ini "+
-                    os.path.expanduser('~') + "/.icaro/")
+                    os.path.expanduser('~') + "/"+conf+"/")
 
             if visual == True:
                 self.mensajes(3, "se actualizo el firmware y la conf general")
             else:
-                print "se actualizo el firmware y la configuración general"
+                print("se actualizo el firmware y la configuración general")

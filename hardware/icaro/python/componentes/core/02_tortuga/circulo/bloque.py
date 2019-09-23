@@ -30,14 +30,16 @@ class CMP:
         self.valor = [
             "circle(",
             "valor",
+            ",",
+            "valor",
             ")"
         ]
         self.dicc = {
             "nombre": "circulo",
             "componente": 1,
-            "cant_puertos": 1,
+            "cant_puertos": 2,
             "color": (90, 90, 30),
-            "dato": 0,
+            "dato": "datos datos ",
             "dato2": 1,
             "valor": self.valor
         }

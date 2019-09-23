@@ -20,10 +20,13 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-import gtk
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+#import gtk
 import util
 from utilidades_ventana import UTILIDADES
-
+import os
 
 class MENU_CONF:
 
@@ -31,18 +34,20 @@ class MENU_CONF:
 
     def __init__(self, conf_dir):
         Util = UTILIDADES()
-        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+        self.window = Gtk.Window()#Gtk.WINDOW_TOPLEVEL)
+        #self.window.set_position(Gtk.WIN_POS_CENTER_ALWAYS)
         self.window.connect('delete_event', self.close)
-        self.conf_cfg = Util.carga_conf(conf_dir)
+        self.dir_c=os.path.expanduser('~') +"/"+ conf_dir+"conf/config.ini"
+        print("soy la conf___",self.dir_c)
+        self.conf_cfg = Util.carga_conf(self.dir_c)
         secciones = self.conf_cfg.sections()
-        vbox_central = gtk.VBox(False, 2)
-        hbox_central = gtk.HBox(False, 0)
-        notebook = gtk.Notebook()
-        self.AplicarBoton = gtk.Button()
+        vbox_central = Gtk.VBox(False, 2)
+        hbox_central = Gtk.HBox(False, 0)
+        notebook = Gtk.Notebook()
+        self.AplicarBoton = Gtk.Button()
         self.AplicarBoton.set_label("Aplicar")
         self.conf_dir = conf_dir
-        self.SalirBoton = gtk.Button()
+        self.SalirBoton = Gtk.Button()
         self.SalirBoton.set_label("Salir")
         self.SalirBoton.connect('clicked', self.close)
         #self.AplicarBoton = gtk.Button()
@@ -51,17 +56,17 @@ class MENU_CONF:
         self.texts = []
 
         for secc in secciones:
-            label = gtk.Label(secc)
-            frame = gtk.Frame(secc)
-            vbox = gtk.VBox(False, 0)
+            label = Gtk.Label(secc)
+            frame = Gtk.Frame(label=secc)
+            vbox = Gtk.VBox(False, 0)
             frame.add(vbox)
             notebook.append_page(frame, label)
             for op in self.conf_cfg.options(secc):
-                label_secc = gtk.Label(op)
-                text = gtk.Entry()
+                label_secc = Gtk.Label(op)
+                text = Gtk.Entry()
                 text.set_text(self.conf_cfg.get(secc, op))
                 self.texts.append([secc, op, text])
-                hbox = gtk.HBox(False, 0)
+                hbox = Gtk.HBox(False, 0)
                 hbox.pack_start(label_secc, False, True, 5)
                 hbox.pack_start(text, False, True, 5)
                 vbox.pack_start(hbox, False, True, 5)
@@ -74,12 +79,12 @@ class MENU_CONF:
         self.window.show_all()
 
     def close(self, arg):
-        print "salgo"
+        print("salgo")
         # gtk.main_quit()
         self.window.hide()
 
     def aplicar(self, arg):
         for datos in self.texts:
-            print datos[2].get_text()
+            print(datos[2].get_text())
             self.conf_cfg.set(datos[0], datos[1], datos[2].get_text())
-        self.conf_cfg.write(open(self.conf_dir, 'w'))
+        self.conf_cfg.write(open(self.dir_c, 'w'))

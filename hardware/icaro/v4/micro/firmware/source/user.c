@@ -1,70 +1,122 @@
+#include <stdlib.h>
+#include<stdio.h>
+#include <string.h>
 #include<np05_06.h>
 #include "definiciones_icr.c"
+#define LCDI2CHOME
+#define LCDI2CINIT
+#define LCDI2CCLEAR
+#define LCDI2CSETCURSOR
+#define LCDI2CNEWCHAR
 #define ANALOGREAD
+#define LCDI2CBACKLIGHT
+#define LCDI2CNOBACKLIGHT
+#define LCDI2CPRINTF
+#include<lcdi2c.h>
+#include<lcdi2c.c>
 
-/*
-la Función "loop", es la parte principal del programa que escribamos con ICARO.
-Se encarga de ejecutar todo nuestro codigo fuente y repetirlo.
-Internamente, la función loop, esta dentro del archivo user.c, el cual es incluido
-en main.c. main es el archivo principal, donde se crean todas las variables de configuración
-necesarias para que el micro controlador pueda arrancar. Una ves que main_loop() termina de iniciar 
-las variables, entra en un bucle infinito while(True), donde llama a la función loop().
+const int dht_success        = 0;  // read success
+const int dht_notconnected   = 1;  // dht not found
+const int dht_checksumfailed = 2;  // dht data error
 
-DEFINICION DE LOS CONECTORES DEL HARDWARE:
+// define the structure to hold the returned data.
+// this will only be filled out on a successful reading.
+  
+struct dht_data { // define dht register structure
+  int int_humidity;
+  int dec_humidity;
+  int int_temperature;
+  int dec_temperature;
+  int checksum;
+  int status; // 0=success, 1=not connected, 2=chksum error, 3=other
+};
+struct dht_data dht_register;        // Declare dht_register of type dht_data 
 
-sensores Analogicos:
-sensor =  1  ---> puerto = 13
-sensor =  2  ---> puerto = 14
-sensor =  3  ---> puerto = 15
-sensor =  4  ---> puerto = 16
-sensor =  5  ---> puerto = 17
-sensor =  6  ---> puerto = 18
-sensor =  7  ---> puerto = 19
-sensor =  8  ---> puerto = 20
-
-sensores digitales:
-sensor =  1  ---> puerto = 21
-sensor =  2  ---> puerto = 22
-sensor =  3  ---> puerto = 23
-sensor =  4  ---> puerto = 24
-
-salidas integrado L293:
-salida = 1A ---> PORTD =  32
-salida = 2A ---> PORTD =  128
-salida = 1B ---> PORTD =  64
-salida = 2B ---> PORTD =  16
-
-valores de salida del PORTD para el integrado L293:
-MOTOR "A" ADELANTE = 1A = 32
-MOTOR "A" ATRAS = 2A = 128
-MOTOR "B" ADELANTE = 1B = 64
-MOTOR "B" ATRAS = 2B = 16
-MOTOR "A+B" ADELANTE = 1A+1B = 96
-MOTOR "A+B" ATRAS = 2A+2B =  144
-MOTOR "A+B" INVERSION DE GIRO DERECHA = 1A+2B = 48
-MOTOR "A+B" INVERSION DE GIRO IZQUIERDA = 2A+1B = 192
-
-salidas para servomotores:
-servo 1 ---> puerto = 10 --> k2
-servo 2 ---> puerto = 11 --> k3
-servo 3 ---> puerto = 12 --> k4
-servo 4 ---> puerto = 8  --> k5
-servo 5 ---> puerto = 9  --> k6
-
-salidas digitales del PORTB (unl2803):
- LED 1  ---> PORTB = 1
- LED 2  ---> PORTB = 2
- LED 3  ---> PORTB = 4
- LED 4  ---> PORTB = 8
- LED 5  ---> PORTB = 16
- LED 6  ---> PORTB = 32
- LED 7  ---> PORTB = 64
- LED 8  ---> PORTB = 128
-
-*/
+int dhtReadByte(int dhtPin)  {
+int a=0;
+  int i,rbyte = 0;
+  pinmode(dhtPin,INPUT);  // Set the DHT_ pin as input
+  for (i=0 ; i < 8 ; i++) {
+    while(digitalread(dhtPin) == LOW){a++; if(a>100){return rbyte;}} // Wait for input to switch to HIGH
+    Delayus(35); // Wait for digital 1 mid-point.
+    if (digitalread(dhtPin) == HIGH) {  //  We have a digital 1
+      rbyte |= 1 << (7 - i); // Save the bit.
+	a=0;
+      while(digitalread(dhtPin) == HIGH){a++; if(a>100){return rbyte;}} // wait for HIGH to LOW switch (~ 35us).
+    } // end if
+  } // end for
+  return rbyte;
+}    
 
 
-/*funciones*/
+void dhtRead(int dhtPin) {
+    int c,chk1,chk2 = 0;
+    int DHT_Array[5]; // local array to hold the 5 DHT_ bytes.
+    pinmode(dhtPin, OUTPUT); // Set DHT_ pin as output.
+    digitalwrite(dhtPin, LOW); // Drive DHT_ pin LOW to commence start signal
+    Delayms(20); // Wait for 20 miliseconds
+    digitalwrite(dhtPin,HIGH); // Drive DHT_ pin HIGH
+    Delayus(30); // Wait 30 microseconds
+    pinmode(dhtPin, INPUT); // Start signal sent, now change DHT_ pin to input.
+    
+    Delayus(40); // Wait 40us for mid-point of first response bit.
+    chk1 = digitalread(dhtPin); // Read bit.  Should be a zero.
+    Delayus(80); // Wait 80us for the mid-point of the second bit.
+    chk2 = digitalread(dhtPin); // Read bit.  Should be a one.
+    Delayus(40); // Wait 40us for end of response signal.
+    
+    if ((chk1 == 0) && (chk2 == 1)) { // If the response code is valid....
+      for (c = 0 ; c < 5 ; c++) {
+        DHT_Array[c] = dhtReadByte(dhtPin); // Read five bytes from DHT_
+      }
+        
+      //  checksum is the sum of the lower 8 bits of bytes 1-4.
+      if (DHT_Array[4] == ((DHT_Array[0] + DHT_Array[1] + DHT_Array[2] + DHT_Array[3]) & 0xFF)) {
+      
+        // Checksum passed, so place data into the DHT_register structure
+        dht_register.int_humidity = DHT_Array[0];    // integer humidity
+        dht_register.dec_humidity = DHT_Array[1];    // decimal humidity (0 on DHT11)
+        dht_register.int_temperature = DHT_Array[2]; // integer temperature
+        dht_register.dec_temperature = DHT_Array[3]; // decimal temperature (0 on DHT11)
+        dht_register.checksum = DHT_Array[4];        // checksum result
+        dht_register.status =  dht_success;          // success status
+        return;                          // return success code.
+      } else {
+         dht_register.status = dht_notconnected;          // success status
+        return;                     //  Sensor data corrupted.
+      } // end if  
+      
+    } else {
+      dht_register.status = dht_checksumfailed;          // success status
+      return;                     // No DHT detected.
+    } // end if  
+}
+
+   
+float fahrenheit = 0;
+const int dhtPin  = 15; // pin to sensor data line
+
 void loop()
 {
+int a=0;
+u8 buf[80];
+u8 buf2[80];
+lcdi2c_init(16,2,0x27);
+lcdi2c_backlight();
+while(1){
+
+lcdi2c_home();
+fahrenheit = (dht_register.int_temperature + (dht_register.dec_temperature/100)) * 1.8 + 32.0; 
+
+  Delayms(2000);
+  dhtRead(dhtPin);
+  if(dht_register.status==dht_success){
+  sprintf(buf, "temp: %i.%i",dht_register.int_temperature,dht_register.dec_temperature);
+  sprintf(buf2, "hum: %i.%i",dht_register.int_humidity,dht_register.dec_humidity);
+  lcdi2c_printf(buf);
+  lcdi2c_setCursor(0,1);
+  lcdi2c_printf(buf2);
+}
+}
+
 }

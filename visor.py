@@ -10,84 +10,59 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+
+import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('GtkSource', '3.0')
 import os
 import os.path
-#import sys
-import pygtk
-#import carga
-pygtk.require('2.0')
+import subprocess
+from gi.repository import Gtk
+from gi.repository import Gdk, Pango
+from gi.repository import GtkSource
 import util
-import gtk
-if gtk.pygtk_version < (2, 10, 0):
-    print "PyGtk 2.10 or later required for this example"
-    raise SystemExit
-
-import gtksourceview2
-import pango
 import sys
 icaro_dir = "hardware/icaro/"
 sys.path.append(icaro_dir + "modulos")
 
-
 class visor_codigo():
 
-    def __init__(self, ventana, notebook,firmware_ruta,nombre_arch,etiqueta):
+    def __init__(self, ventana, firmware_ruta,nombre_arch,carga_buf):
         # create buffer
-        lm = gtksourceview2.LanguageManager()
-        self.buffer = gtksourceview2.Buffer()
-        self.buffer.set_data('languages-manager', lm)
+        lm = GtkSource.LanguageManager.get_default()
         self.firmware_ruta=firmware_ruta
         self.nombre_arch=nombre_arch
-        view = gtksourceview2.View(self.buffer)
+        view = GtkSource.View()
+        self.buffer = view.get_buffer()
+        self.buffer.set_language(lm.get_language(carga_buf))
+        self.buffer.set_highlight_syntax(True)
         view.set_show_line_numbers(True)
         self.ventana = ventana
-        vbox = gtk.VBox(0, True)
-
-        notebook.append_page(vbox, gtk.Label(etiqueta))
-        tool1 = gtk.Toolbar()
-        tool1.show()
-
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_EXECUTE, 15)
-        vbox.pack_start(tool1, fill=False, expand=False)
-        sw = gtk.ScrolledWindow()
-        sw.set_shadow_type(gtk.SHADOW_IN)
+        self.vbox = Gtk.VBox(0, True)
+        #notebook.append_page(vbox, Gtk.Label(etiqueta))
+        #tool1 = Gtk.Toolbar()
+        #tool1.show()
+        #self.vbox.pack_start(tool1, False, False,1)
+        sw = Gtk.ScrolledWindow()
         sw.add(view)
-        vbox.pack_start(sw, fill=True, expand=True)
-
-        vbox.show_all()
+        self.vbox.pack_start(sw, True, True,1)
+        self.vbox.show_all()
         # main loop
         self.dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
         self.cadena_user_c = self.dir_conf + self.nombre_arch
         self.buf = self.open_file(self.buffer, self.cadena_user_c)
-        iconw = gtk.Image()
-        iconw.set_from_stock(gtk.STOCK_NEW, 15)
-        tool_button = tool1.append_item(
-            "recargar",
-            "",
-            "Private",
-            iconw,
-            self.recargar)
+        #tool = Gtk.ToolButton.new(Gtk.Image.new_from_stock(Gtk.STOCK_EXECUTE,
+        #                                                   Gtk.IconSize.BUTTON),
+        #                                                    "Recargar")
+        #tool.connect("clicked",self.recargar)
+        #tool1.insert(tool, 0)
 
     def open_file(self, buffer, filename):
-        # get the new language for the file mimetype
-        manager = buffer.get_data('languages-manager')
-
         if os.path.isabs(filename):
             path = filename
         else:
             path = os.path.abspath(filename)
-
-        language = manager.guess_language(filename)
-        if language:
-            buffer.set_highlight_syntax(True)
-            buffer.set_language(language)
-        else:
-            print 'No language found for file "%s"' % filename
-            buffer.set_highlight_syntax(False)
-
-        # remove_all_marks(buffer)
-        self.load_file(buffer, path)  # TODO: check return
+        self.load_file(buffer, path)
         return buffer
 
     def load_file(self, buffer, path):
@@ -97,7 +72,6 @@ class visor_codigo():
         except:
             return False
         buffer.set_text(txt)
-        buffer.set_data('filename', path)
         buffer.end_not_undoable_action()
         buffer.set_modified(False)
         buffer.place_cursor(buffer.get_start_iter())
@@ -116,24 +90,3 @@ class visor_codigo():
     def recargar(self, b):
         self.buf = self.open_file(self.buffer, self.cadena_user_c)
 
-        # self.buf=self.open_file(arg[0],arg[1])
-        #~ gtk.main_quit()
-#        self.window.hide()
-
-    def compilar(self, arg):
-        #dir_conf = os.path.expanduser('~') + "/"+self.firmware_ruta+"/firmware/"
-        #cadena = dir_conf + "source/user.c"
-        cadena2 = self.buf.props.text
-        a = self.ventana.mensajes(
-            1, "Las modificaciones echas en el editor no se mantendran, y seran eliminadas cuando se compile de vuelta desde icaro-bloques. ¿Desea continuar?")
-        if a == True:
-            file = open( self.cadena_user_c , "w")
-            file.writelines(cadena2)
-            file.close()
-            i = util.compilar("main", self.ventana.cfg, self.dir_conf)
-
-            #i = carga.compilar_pic("main", self.ventana.cfg)
-            if i == 0:
-                self.ventana.mensajes(3, "la compilacion fue exitosa")
-            else:
-                self.ventana.mensajes(0, "hubo un error de compilacion")

@@ -21,7 +21,7 @@
 #  MA 02110-1301, USA.
 #  
 from math import cos,sin,radians,degrees
-from bresenhan import BRESENHAN
+from v_plotter.bresenhan import BRESENHAN
 
 class UTIL(BRESENHAN):
     '''Clase con utilidades varias para conversion de valores polares a 

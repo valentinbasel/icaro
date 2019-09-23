@@ -10,7 +10,10 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-import gtk
+from gi.repository import Gtk
+
+from gi.repository import Gdk
+#import gtk
 import sys
 #from componente_datos import *
 import forma_basica
@@ -238,19 +241,10 @@ class Formas(FormaSvg):
         if comp == 5:
             cuerpo = self.comp_2(arg, tex, comp)
         if comp == 4:
-            print "conector o"
             cuerpo = self.comp_0(arg, tex, comp)
         return cuerpo
 
     def comp_0(self, arg, tex, comp):
-                    #        cuerpo = [
-                    #(0, -10, 10, 10),
-                    #(10, -7, 4, 4),
-                    #(50, -10, 10, 10),
-                    #(46, -7, 4, 4),
-                    #(0, 0, 60, 40),
-                    #]
-        print "creo el comp cero"
         cuerpo, cuerpo2 = self.crear_comp_0arg()
         return cuerpo
 
@@ -288,6 +282,7 @@ class ComponenteCentral(FormaSvg):
     color_fon = [0, 0, 0]
     circlex=25
     circley=10
+    borrar=False
 
     def __init__(self):
         """ Class initialiser """
@@ -302,64 +297,7 @@ class ComponenteCentral(FormaSvg):
         self.rectan[0] = self.posicion[0]
         self.rectan[1] = self.posicion[1] - 10
         if self.vivo:
-            if (botones_mouse[1] == 1 and
-                        self.fondo.collide(self.rectan, 
-                                           posic_mouse[0], 
-                                           posic_mouse[1]) == True and
-                        self.pulsado == 0 and
-                        self.ventana.seleccionado == 0 and
-                        self.ventana.seleccionado_datos == 0 and
-                        self.ventana.seleccion_menu == 2
-                    ):
-                posic_mouse = self.ventana.mousexy
-                self.ventana.seleccionado = self.ide
-                self.posic_rel_x = abs(self.posicion[0] - posic_mouse[0])
-                self.posic_rel_y = abs(self.posicion[1] - posic_mouse[1])
-                self.pulsado = 1
-            if (self.ventana.seleccionado == self.ide):
-                self.posicion = (
-                    posic_mouse[0] - self.posic_rel_x,
-                    posic_mouse[1] - self.posic_rel_y
-                )
-                self.pulsado == 1
-                self.pegado = 0
-                self.pegado_a = 0
-            if botones_mouse[1] == 0:
-                self.pulsado = 0
-                self.ventana.seleccionado = 0
-            if (botones_mouse[1] == 1
-                    and self.fondo.collide(self.rectan, 
-                                           posic_mouse[0], 
-                                           posic_mouse[1]) == True
-                    and self.ventana.seleccion_menu == 3):
-                for i in range(1, len(self.fondo.objetos_datos)):
-                    self.fondo.objetos_datos[i].conectado = 0
-                    self.fondo.objetos_datos[i].pegado = 0
-                    self.fondo.objetos_datos[i].pegado_a = 0
-                    self.fondo.objetos_datos[i].pegado_b = 0
-                    self.fondo.objetos_datos[i].pegado2 = 0
-                    self.fondo.objetos_datos[i].pegado_a2 = 0
-                a = self.fondo.objetos.index(self)
-                self.fondo.objetos[a].ide
-                for i in range(len(self.fondo.objetos)):
-                    self.fondo.objetos[i].pegado_a = 0
-                    self.fondo.objetos[i].pegado = 0
-                self.fondo.objetos[a].vivo = False
-                del self.fondo.tipo_obj[a]
-                self.fondo.objetos.remove(self)
-                self.fondo.lista_ordenada[self.ide] = 0
-            if self.pegado == 1:
-                x, y, aa, bb = self.fondo.objetos[self.pegado_a].conector_m
-                xx = x - self.valx
-                yy = y - self.valy
-                self.posicion = (xx, yy)
-                self.color_fon=(255,255,255)
-                iden = self.fondo.objetos[self.pegado_a].ide
-                self.fondo.lista_ordenada[self.ide] = iden
-                self.dibujar()
 
-                self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,verde) 
-                return 0
             if self.pegado == 0:
                 self.fondo.lista_ordenada[self.ide] = 0
                 self.color_fon=(0,0,0)
@@ -378,8 +316,71 @@ class ComponenteCentral(FormaSvg):
                     else:
                         self.pegado = 0
                         self.pegado_a = 0
+
+            if (botones_mouse[1] == 1 and
+                        self.fondo.collide(self.rectan,
+                                           posic_mouse[0],
+                                           posic_mouse[1]) == True and
+                        self.pulsado == 0 and
+                        self.ventana.seleccionado == 0 and
+                        self.ventana.seleccionado_datos == 0 and
+                        self.ventana.seleccion_menu == 2
+                    ):
+                posic_mouse = self.ventana.mousexy
+                self.ventana.seleccionado = self.ide
+                self.posic_rel_x = abs(self.posicion[0] - posic_mouse[0])
+                self.posic_rel_y = abs(self.posicion[1] - posic_mouse[1])
+                self.pulsado = 1
+
+            if (self.ventana.seleccionado == self.ide):
+                self.posicion = (
+                    posic_mouse[0] - self.posic_rel_x,
+                    posic_mouse[1] - self.posic_rel_y
+                )
+                self.pulsado == 1
+                self.pegado = 0
+                self.pegado_a = 0
+            if botones_mouse[1] == 0:
+                self.pulsado = 0
+                self.ventana.seleccionado = 0
+            if ((botones_mouse[3] == 1
+                    and self.fondo.collide(self.rectan,
+                                           posic_mouse[0],
+                                           posic_mouse[1]) == True) or self.borrar==True):
+                #for i in range(1, len(self.fondo.objetos_datos)):
+                #    self.fondo.objetos_datos[i].conectado = 0
+                #    self.fondo.objetos_datos[i].pegado = 0
+                #    self.fondo.objetos_datos[i].pegado_a = 0
+                #    self.fondo.objetos_datos[i].pegado_b = 0
+                #    self.fondo.objetos_datos[i].pegado2 = 0
+                #    self.fondo.objetos_datos[i].pegado_a2 = 0
+                a = self.fondo.objetos.index(self)
+                self.pegado_a=0
+                self.pegado=0
+                #self.fondo.objetos[a].ide
+                for i in range(len(self.fondo.objetos)):
+                    if(i==self.ide):
+                        self.fondo.objetos[i].pegado_a = 0
+                        self.fondo.objetos[i].pegado = 0
+                self.fondo.objetos[a].vivo = False
+                #del self.fondo.tipo_obj[a]
+                #self.fondo.objetos.remove(self)
+                self.fondo.lista_ordenada[self.ide] = 0
+            if self.pegado == 1:
+                x, y, aa, bb = self.fondo.objetos[self.pegado_a].conector_m
+                xx = x - self.valx
+                yy = y - self.valy
+                self.posicion = (xx, yy)
+                self.color_fon=(255,255,255)
+                iden = self.fondo.objetos[self.pegado_a].ide
+                self.fondo.lista_ordenada[self.ide] = iden
+                self.dibujar()
+
+                self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,verde)
+                return 0
+
             self.dibujar()
-            self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,rojo) 
+            self.fondo.circle(self.posicion[0]+self.circlex,self.posicion[1]+self.circley,self.ventana.cr,rojo)
 
 class componente(ComponenteCentral):
 
@@ -424,7 +425,7 @@ class componente(ComponenteCentral):
 
     def dibujar(self):
 
-        
+
         self.conector_h[0] = self.rectan[0] + 45
         self.conector_h[1] = self.rectan[1] - 10
         self.fondo.render_svg(
@@ -683,9 +684,8 @@ class componente_cero_arg(FormaSvg):
             if botones_mouse[1] == 0:
                 self.pulsado = 0
                 self.ventana.seleccionado = 0
-            if (botones_mouse[1] == 1
-                    and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True
-                    and self.ventana.seleccion_menu == 3):
+            if (botones_mouse[3] == 1
+                    and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True):
                 for i in range(1, len(self.fondo.objetos_datos)):
                     self.fondo.objetos_datos[i].conectado = 0
                     self.fondo.objetos_datos[i].pegado = 0
@@ -731,6 +731,9 @@ class comp_dat_arg(FormaSvg):
         fondo,
         ventana,
     ):
+        self.doble_t=0
+        self.doble_t_band = 0
+        self.mouse_presionado = 0
         self.tab=0
         self.rectan = [0, 0, 80, 50]
         self.ide = identidad
@@ -797,9 +800,25 @@ class comp_dat_arg(FormaSvg):
         self.conector_m[0] = self.rectan[0]
         self.conector_m[1] = self.rectan[1] + 5
 
+        # esto es para detectar un doble tap del mouse y poder editar
+        if botones_mouse[1]==1 and self.mouse_presionado == 0:
+            self.doble_t_band+=1
+            self.mouse_presionado = 1
+
+        if botones_mouse[1] == 0:
+            self.mouse_presionado = 0
+
+        if self.doble_t_band>0:
+            self.doble_t +=1
+
+        if self.doble_t >=10:
+            self.doble_t=0
+            self.doble_t_band =0
+        ###
+
         if (
-            botones_mouse[1] and
-            self.ventana.seleccion_menu == 4
+            botones_mouse[1] == 1 and
+            self.doble_t_band>1
             and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True and
             self.modificable == 1 and
             self.tecla == 0
@@ -889,9 +908,8 @@ class comp_dat_arg(FormaSvg):
             self.pegado2 = 0
             self.pegado_a2 = 0
 
-        if (botones_mouse[1] == 1
-                and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True
-                and self.ventana.seleccion_menu == 3):
+        if (botones_mouse[3] == 1
+                and self.fondo.collide(self.rectan, posic_mouse[0], posic_mouse[1]) == True):
             for i in range(1, len(self.fondo.objetos_datos)):
                 self.fondo.objetos_datos[i].conectado = 0
                 self.fondo.objetos_datos[i].pegado = 0
@@ -908,22 +926,23 @@ class comp_dat_arg(FormaSvg):
         self.cadena_intermedia = ""
 
     def cuadro_texto(self, x, y):
-        window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        window = Gtk.Window()#Gtk.WINDOW_TOPLEVEL)
         window.set_resizable(False)
         window.set_modal(True)
         window.set_border_width(0)
         window.move(x, y)
         window.set_title('ingrese un valor')
         window.set_default_size(100, 200)
-        entry = gtk.Entry()
-        label = gtk.Label("valor")
-        BotonAceptar = gtk.Button("aceptar")
+        entry = Gtk.Entry()
+        entry.set_text(self.texto)
+        label = Gtk.Label("valor")
+        BotonAceptar = Gtk.Button("aceptar")
         BotonAceptar.connect("clicked", self.boton, window, entry)
-        window.add_events(gtk.gdk.KEY_PRESS_MASK)
+        window.add_events(Gdk.EventMask.KEY_PRESS_MASK)
         window.connect("key_press_event", self.keypress_cb, window, entry)
-        boxv = gtk.VBox(False, 2)
-        boxh = gtk.HBox(False, 2)
-        boxh2 = gtk.HBox(False, 2)
+        boxv = Gtk.VBox(False, 2)
+        boxh = Gtk.HBox(False, 2)
+        boxh2 = Gtk.HBox(False, 2)
         boxh.pack_start(label, True, True, 1)
         boxh.pack_start(entry, True, True, 1)
         boxh2.pack_start(BotonAceptar, True, True, 1)
@@ -934,15 +953,16 @@ class comp_dat_arg(FormaSvg):
 
     def keypress_cb(self, a, event, window, entry):
         if event.keyval == 65293:
-            self.texto = entry.get_text().decode('utf8')
+            self.texto = entry.get_text()
             self.pulsado = 0
-            print "este es el boton de la ventana", self.texto
             self.ventana.boton_mouse = [0, 0, 0, 0]
             window.hide()
 
     def boton(self, b, window, entry):
-        self.texto = entry.get_text().decode('utf8')
+        self.texto = entry.get_text()#.decode('utf8')
         self.pulsado = 0
-        print "este es el boton de la ventana", self.texto
         self.ventana.boton_mouse = [0, 0, 0, 0]
+        self.ventana.seleccion_menu = 2
+
         window.hide()
+

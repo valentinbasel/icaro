@@ -28,16 +28,16 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "print '",
+            "print ('",
             "valor",
-            "'"
+            "')"
             ]
         self.dicc = {
             "nombre": "print",
             "componente": 1,
             "cant_puertos": 1,
             "color": (90, 90, 30),
-            "dato": 0,
+            "dato": "datos ",
             "dato2": 1,
             "valor": self.valor
         }

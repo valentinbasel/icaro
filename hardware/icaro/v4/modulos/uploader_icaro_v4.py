@@ -23,6 +23,20 @@ import os
 import usb
 import sys
 
+class Pinguino2550(object):
+    name = 'Pinguino 2550'
+    arch = 8
+    bldr = 'boot4'
+    proc = '18f2550'
+    board = 'PINGUINO2550'
+    vendor = 0x04D8
+    product = 0xFEAA
+    memstart = 0x0C00
+    memend   = 0x8000
+    shortarg = '-p2550'
+    longarg = '--pinguino2550'
+
+
 class Pinguino4550(object):
     name = 'Pinguino 4550'
     arch = 8
@@ -275,7 +289,7 @@ class UPLOAD(object):
         usbBuf[self.BOOT_ADDR_LO] = (address      ) & 0xFF
         usbBuf[self.BOOT_ADDR_HI] = (address >> 8 ) & 0xFF
         usbBuf[self.BOOT_ADDR_UP] = (address >> 16) & 0xFF
-        # write data packet   
+        # write data packet
         #return self.sendCommand(usbBuf)
         handle.bulkWrite(self.OUT_EP, usbBuf, self.TIMEOUT)
 
@@ -285,7 +299,7 @@ class UPLOAD(object):
         """ read a block of flash """
         usbBuf = [0] * self.MAXPACKETSIZE
         # command code
-        usbBuf[self.BOOT_CMD] = self.READ_FLASH_CMD 
+        usbBuf[self.BOOT_CMD] = self.READ_FLASH_CMD
         # size of block in bytes
         usbBuf[self.BOOT_CMD_LEN] = length
         # address of the block
@@ -302,7 +316,7 @@ class UPLOAD(object):
             total length is then DATABLOCKSIZE + 5 """
         usbBuf = [0xFF] * self.MAXPACKETSIZE
         # command code
-        usbBuf[self.BOOT_CMD] = self.WRITE_FLASH_CMD 
+        usbBuf[self.BOOT_CMD] = self.WRITE_FLASH_CMD
         # size of block
         usbBuf[self.BOOT_CMD_LEN] = len(datablock)
         # block's address
@@ -386,7 +400,7 @@ class UPLOAD(object):
                 return self.ERR_HEX_RECORD
         # max_address must be divisible by self.DATABLOCKSIZE
         max_address = max_address + erasedBlockSize - (max_address % erasedBlockSize)
-        # erase memory from board.memstart to max_address 
+        # erase memory from board.memstart to max_address
         numBlocksMax = (board.memend - board.memstart) / erasedBlockSize
         numBlocks    = (max_address - board.memstart) / erasedBlockSize
         if numBlocks > numBlocksMax:
@@ -407,20 +421,27 @@ class UPLOAD(object):
         print("%d bytes written." % codesize)
         return self.ERR_NONE
 
-    def uploadDevice(self, filename):
+    def uploadDevice(self, filename,board_select):
         # check file to upload
         # -------------------------------------------------------------
-        board=Pinguino4550()
+        if board_select=="18f4550":
+            board = Pinguino4550()
+        elif board_select == "18f2550":
+            board = Pinguino2550()
+        else:
+            self.REPORTE=self.REPORTE+("micro controlador no definido")
+            return 1,self.REPORTE
+
         if filename == '':
             print("No program to write")
             self.REPORTE=self.REPORTE+("No program to write")
             self.closeDevice(handle)
-            return self.REPORTE
+            return 1,self.REPORTE
         hexfile = open(filename, 'r')
         if hexfile == "":
             print("Unable to open %s" % filename)
             Rself.EPORTE=self.REPORTE+("Unable to open %s" % filename)
-            return self.REPORTE
+            return 2,self.REPORTE
         hexfile.close()
         # search for a Pinguino board
         # --------------------------------------------------------------
@@ -430,14 +451,14 @@ class UPLOAD(object):
             print("If your device is connected,")
             print("press the Reset button to switch to bootloader mode.")
             self.REPORTE=self.REPORTE+"PINGUINO V4 no encontrado, si tu dispositivo esta conectado, presiona RESET y vuelve a intentar"
-            return self.REPORTE
+            return 3,self.REPORTE
         print("Pinguino found")
         handle = self.initDevice(device)
         if handle == self.ERR_USB_INIT1:
             print("Upload not possible")
             print("Try to restart the bootloader mode")
             self.REPORTE=self.REPORTE + "no es posible hacer el Upload, prueba apretar RESET y volver a probar"
-            return self.REPORTE
+            return 4,self.REPORTE
         # find out the processor
         device_id = self.getDeviceID(handle)
         proc = self.getDeviceName(device_id)
@@ -447,7 +468,7 @@ class UPLOAD(object):
             print("Aborting: program compiled for %s but device has %s" % (board.proc, proc))
             self.REPORTE=self.REPORTE+("Aborting: program compiled for %s but device has %s" % (board.proc, proc))
             self.closeDevice(handle)
-            return self.REPORTE
+            return 5,self.REPORTE
         # find out flash memory size
         # --------------------------------------------------------------
         memfree = board.memend - board.memstart;
@@ -473,13 +494,13 @@ class UPLOAD(object):
             self.REPORTE=self.REPORTE+("Aborting: record error")
 
             self.closeDevice(handle)
-            return self.REPORTE
+            return 6,self.REPORTE
         elif status == self.ERR_HEX_CHECKSUM:
             print("Aborting: checksum error")
             self.REPORTE=self.REPORTE+("Aborting: checksum error")
 
             self.closeDevice(handle)
-            return self.REPORTE
+            return 7,self.REPORTE
         elif status == self.ERR_USB_ERASE:
             print("Aborting: erase error")
             self.REPORTE=self.REPORTE+("Aborting: erase error")
@@ -493,10 +514,10 @@ class UPLOAD(object):
         # reset and start start user's app.
             self.resetDevice(handle)
             self.closeDevice(handle)
-            return self.REPORTE
+            return 0, self.REPORTE
         else:
             print("Aborting: unknown error")
             self.REPORTE=self.REPORTE+("Aborting: unknown error")
 
-            return self.REPORTE
+            return 8,self.REPORTE
 # ----------------------------------------------------------------------

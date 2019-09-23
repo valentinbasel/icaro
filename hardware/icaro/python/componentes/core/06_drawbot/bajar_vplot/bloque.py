@@ -28,7 +28,7 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "drowbot.bajar_lapiz()"
+            "drobot.bajar_lapiz()"
         ]
         self.dicc = {
             "nombre": "bajar_drawbot",

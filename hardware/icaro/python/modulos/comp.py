@@ -38,6 +38,23 @@ class tool_compilador(object):
     def __init__(self):
         pass
 
+    def carga_buffer(self):
+        """TODO: Docstring for buffer.
+        :returns: TODO
+
+        """
+        return "python"
+
+
+    def boton_cargador(self):
+        """
+        Envia los datos de la imagen y el texto que tiene que mostrar
+        la barra de tareas para estos botones especiales
+        """
+        img =  "hardware/icaro/python/imagenes/python.png"
+        text = "Python"
+        return img,text
+
     def carga_info_botones(self):
         botones_tool_bar=[
             ["/imagenes/python.png","ejecutar","compilar",self.ejecutar,None]]
@@ -50,22 +67,24 @@ class tool_compilador(object):
         for linea in archivo:
             self.cadena_pinguino.append(linea)
 
-    def ejecutar(self, b):
+    def ejecutar(self, b,dato):
         pagina = self.notebook2.get_current_page()
         if pagina == 0:
             self.carga()
             crear.crear_archivo(self.fondo, self)
             dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
             cad = dir_conf+"/source/user.py"
-            process = Popen(['python', cad], stdout=PIPE, stderr=PIPE)
+            process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
             stdout, stderr = process.communicate()
-            print stdout
-            print "err",stderr
+            print (stdout)
+            print ("err",stderr)
+            i = process.returncode
             log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
             archivo_log=open(log,"w")
-            if stderr<>"":
-                archivo_log.writelines(stderr)
+            if i !=0:
+                archivo_log.writelines(str(stderr))
                 self.mensajes(0, "hubo errores en la ejecución del programa.")
+                self.mensajes(0,str(stderr))
             else:
                 archivo_log.write("no hubo errores de ejecución")
                 self.mensajes(3, "la ejecución fue exitosa")
@@ -79,15 +98,17 @@ class tool_compilador(object):
                 file.close()
                 dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
                 cad = dir_conf+"/source/user.py"
-                process = Popen(['python', cad], stdout=PIPE, stderr=PIPE)
+                process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
                 stdout, stderr = process.communicate()
-                print stdout
-                print "err",stderr
+                print (stdout)
+                print ("err",stderr)
+                i = process.returncode
                 log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
                 archivo_log=open(log,"w")
-                if stderr<>"":
-                    archivo_log.writelines(stderr)
+                if i != 0:
+                    archivo_log.writelines(str(stderr))
                     self.mensajes(0, "hubo errores en la ejecución del programa.")
+                    self.mensajes(0,str(stderr))
                 else:
                     archivo_log.write("no hubo errores de ejecución")
                     self.mensajes(3, "la ejecución fue exitosa")

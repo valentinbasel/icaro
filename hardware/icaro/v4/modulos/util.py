@@ -38,8 +38,8 @@ def obtener_path_usuario():
 def comprobar_sdcc(sdcc_ini):
 
     val = os.system(sdcc_ini + " -v")
-    print "aca estoy comprobando sdcc", val
-    if val <> 0:
+    #print "aca estoy comprobando sdcc", val
+    if val != 0:
         return 1
     return 0
 
@@ -54,7 +54,7 @@ def cargo_opciones_cfg(cfg, seccion):
 
 
 def compilar(nombre, cfg, dir_conf):
-    """ 
+    """
     nombre = Nombre del archivo
     """
     home_usuario = obtener_path_usuario()
@@ -66,14 +66,14 @@ def compilar(nombre, cfg, dir_conf):
     if comp_sdcc == 1:
         return 1
     # Compruebo la carpeta temporal, si no esta, creo una
-    if os.path.isdir(dir_conf + "/temporal/") == 0:
-        os.mkdir(dir_conf + "/temporal/")
+    if os.path.isdir(dir_conf + "/firmware/temporal/") == 0:
+        os.mkdir(dir_conf + "/firmware/temporal/")
     try:
-        archivos_temp = os.listdir(dir_conf + "/temporal/")
+        archivos_temp = os.listdir(dir_conf + "/firmware/temporal/")
         for datos in archivos_temp:
-            os.remove(dir_conf + "/temporal/" + datos)
+            os.remove(dir_conf + "/firmware/temporal/" + datos)
     except:
-        print "no existen los archivos"
+        print ("no existen los archivos")
     # Creo la cadena del compilador con todas las opciones
     cad = str(sdcc_ini +
               " " + op + " " +
@@ -84,7 +84,7 @@ def compilar(nombre, cfg, dir_conf):
     cadena_final = cad.replace("~", home_usuario)
     # Creo la cadena final con que guarda toda la salida en un archivo log
     # dentro de la carpeta temporal
-    log = cadena_final + " 2> " + dir_conf + "/temporal/" + "log.dat"
+    log = cadena_final + " 2> " + dir_conf + "/firmware/temporal/" + "log.dat"
     i = os.system(log)
     return i
 
@@ -105,6 +105,6 @@ def linker(nombre, cfg):
              " " + op + " " +
              cfg.get("upload", "obj") + nombre + ".o ")
     up_final = up.replace("~", home_usuario)
-    print "cadena linker: ", up_final
+    #print "cadena linker: ", up_final
     i = os.system(up_final)
     return i
