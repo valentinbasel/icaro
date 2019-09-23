@@ -19,7 +19,7 @@
 
 import serial
 import serial.tools.list_ports
-
+import struct
 import time
 # Configuracion de los valores iniciales del puerto serie
 # estos valores son los que necesita la placa icaro np03 para
@@ -101,163 +101,55 @@ class DROBOT():
 
     def adelante(self,dato):
         buff=""
-        if self.RS232.isOpen():
-            if type(dato)== int:
-                cadena="a"+str(dato)+";"
-            else:
-                return False
-            for k in cadena:
-                self.RS232.write(k)
-                time.sleep(0.1)
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff<>None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("ad-",buff)
-                #print type(buff)
-            return True
+        if type(dato)== int:
+            cad_dat='a'+str(dato)+';'
+            self.enviar(cad_dat)
         else:
             return False
+           
+ 
 
     def atras(self,dato):
         buff=""
-        if self.RS232.isOpen():
-            if type(dato)== int:
-                cadena="t"+str(dato)+";"
-            else:
-                return False
-            for k in cadena:
-                self.RS232.write(k)
-                time.sleep(0.1)
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff<>None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("at-",buff)
-                #print type(buff)
-            return True
-        else:
-            return False
+        if type(dato)== int:
+            cad_dat='t'+str(dato)+';'
+            self.enviar(cad_dat)
+
 
     def derecha(self,dato):
         buff=""
-        if self.RS232.isOpen():
-            if type(dato)== int:
-                cadena="d"+str(dato)+";"
-            else:
-                return False
-            for k in cadena:
-                self.RS232.write(k)
-                time.sleep(0.1)
-            #self.RS232.write("d")
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("de-",buff)
-                #print type(buff)
-            return True
+        if type(dato)== int:
+            cad_dat='d'+str(dato)+';'
+            self.enviar(cad_dat)
         else:
             return False
+
 
     def izquierda(self,dato):
         buff=""
-        if self.RS232.isOpen():
-            if type(dato)== int:
-                cadena="i"+str(dato)+";"
-            else:
-                return False
-            for k in cadena:
-                self.RS232.write(k)
-                time.sleep(0.1)
-            #self.RS232.write("d")
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("iz-",buff)
-                #print type(buff)
-            return True
+        if type(dato)== int:
+            cad_dat='a'+str(dato)+';'
+            self.enviar(cad_dat)
         else:
             return False
 
+ 
     def levantar_lapiz(self):
-        buff=""
-        if self.RS232.isOpen():
-            self.RS232.write("l")
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("Levanto lapiz-",buff)
-                #print type(buff)
-            return True
-        else:
-            return False
+        self.enviar("l;")
 
     def bajar_lapiz(self):
-        buff=""
+        self.enviar("b;")
+
+
+
+    def enviar (self,datos):
+        """ Function doc """
         if self.RS232.isOpen():
-            self.RS232.write("b")
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("Bajo lapiz-",buff)
-                #print type(buff)
+            self.RS232.write(str.encode(datos))
+            time.sleep(0.001)
+            buff = self.RS232.read()
+            print(buff)
+            time.sleep(0.5)
             return True
-        else:
-            return False
-
-
-    def velocidad(self,dato):
-        buff=""
-        if self.RS232.isOpen():
-            if type(dato)== int:
-                cadena="v"+str(dato)+";"
-            else:
-                return False
-            for k in cadena:
-                self.RS232.write(k)
-                time.sleep(0.1)
-            #self.RS232.write("d")
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("vel-",buff)
-                #print type(buff)
-            return True
-        else:
-            return False
-
-    def apagar(self):
-        buff=""
-        if self.RS232.isOpen():
-            self.RS232.write("c")
-            while buff=="" and buff <>"\n" and buff <>"\r" and buff <> None:
-                buff = self.RS232.read(self.RS232.inWaiting())
-            print ("apago")
-                #print type(buff)
-            return True
-        else:
-            return False
-
-#r=puerto()
-#r.PUERTO="/dev/rfcomm0"
-#print r.iniciar()
-#r.bajar_lapiz()
-
-# for a in range(3,9):
-# q=3
-# for m in range(3,8):
-    # for q in range(m):
-        # r.adelante(400)
-        # r.derecha((360/m)*10)
-
-#for b in range(3,6):
-
-#q=7
-#r.velocidad(7)
-
-#for q in range(3,13):
-    # r.bajar_lapiz()
-    # for a in range(q):
-        # r.adelante(150)
-        # r.derecha((3600/q))
-    # #r.levantar_lapiz()
-    # #r.adelante(50)
-    # #r.bajar_lapiz()
-    # r.levantar_lapiz()
-    # r.derecha(26)
-    # r.adelante(450)
-
-
-# r.apagar()
-# r.cerrar()
+        else:         
+            return False         
