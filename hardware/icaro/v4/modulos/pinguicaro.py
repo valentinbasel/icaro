@@ -23,7 +23,7 @@
 from uploader_icaro_v4 import UPLOAD
 import util
 import os
-import ConfigParser
+import configparser
 
 class PINGUINO(object):
 
@@ -35,7 +35,7 @@ class PINGUINO(object):
     def __init__(self,directorio,main_c):
         """TODO: to be defined1. """
         config_ini = directorio + "/conf/config.ini"
-        self.cfg = ConfigParser.ConfigParser()
+        self.cfg = configparser.ConfigParser()
         self.cfg.read(config_ini)
 
 
@@ -48,10 +48,10 @@ class PINGUINO(object):
         """
 
         r = util.compilar(main_c,self.cfg,directorio)
-        print "la compilacion fue correcta"
+        print("la compilacion fue correcta")
         if r == 0:
             rr = util.linker(main_c,self.cfg)
-            print " en enlace de archivos .o fue correcto"
+            print(" en enlace de archivos .o fue correcto")
             if rr == 0:
                 return 0
             else:
@@ -90,11 +90,11 @@ def main(arg1):
     p_icaro = PINGUINO(directorio,nombre_archivo)
     if arg1[1]=="-c":
         r = p_icaro.preparar(directorio,nombre_archivo)
-        print "El resultado es: ", r
+        print ("El resultado es: ", r)
         return r
     if arg1[1] == "-u":
         r = p_icaro.cargar(directorio,nombre_archivo)
-        print r[1]
+        print (r[1])
         return r[0]
 
     exit(1)

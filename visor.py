@@ -33,6 +33,7 @@ class visor_codigo():
         self.firmware_ruta=firmware_ruta
         self.nombre_arch=nombre_arch
         view = GtkSource.View()
+        #view = Gtk.TextView()#buffer=lm)
         self.buffer = view.get_buffer()
         self.buffer.set_language(lm.get_language(carga_buf))
         self.buffer.set_highlight_syntax(True)
