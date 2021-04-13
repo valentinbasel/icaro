@@ -28,17 +28,19 @@ class CMP:
     def __init__(self):
 
         self.valor = [
-            "input('presione enter')"
+            "while ",
+            "valor",
+            ":"
         ]
         self.dicc = {
-            "nombre": "esperar",
-            "componente": 1,
-            "cant_puertos": 0,
-            "color": (0, 190, 10),
-            "dato": "0 ",
+            "nombre": "mientras",
+            "componente": 5,
+            "cant_puertos": 1,
+            "color": (10, 30, 90),
+            "dato": "datos ",
                     "dato2": "0",
                     "valor": self.valor
         }
-        self.tootips = "Bloquea la ejecución del scritp hasta que se presione la tecla enter."
+        self.tootips = "repite un valor asignado mientras la clausula sera True, cuando la comprobación de False, se sale del bucle while"
         self.img = ""
-        self.tab=0
+        self.tab=1

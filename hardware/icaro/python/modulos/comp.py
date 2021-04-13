@@ -74,12 +74,34 @@ class tool_compilador(object):
             crear.crear_archivo(self.fondo, self)
             dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
             cad = dir_conf+"/source/user.py"
-            process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
-            stdout, stderr = process.communicate()
-            print (stdout)
-            print ("err",stderr)
-            i = process.returncode
             log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
+            ej = "terminator -e 'bash -c \"(python3 " + cad
+            # ej1 = "| tee " + nombre_arch_out
+            ej2 = " ) 3>&1 1>&2 2>&3 | tee  " + log + "\"'"
+            proceso = ej + ej2
+            os.system(proceso)
+            i = 0
+            if os.stat(str(log.strip("\n"))).st_size == 0:
+                i = 0
+            else:
+                f = open(log.strip("\n"), "r")
+                ff = f.readlines()
+                stderr = ff
+                for d in ff:
+                    if d.find("line") > -1:
+                        i = 1
+                        break
+                    else:
+                        i = 0
+
+            # process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
+            # stdout, stderr = process.communicate()
+            # print (stdout)
+            # print ("err",stderr)
+            # i = process.returncode
+            # log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
+            
+
             archivo_log=open(log,"w")
             if i !=0:
                 archivo_log.writelines(str(stderr))
@@ -98,13 +120,38 @@ class tool_compilador(object):
                 file.close()
                 dir_conf = os.path.expanduser('~') + "/.icaro/python/firmware"
                 cad = dir_conf+"/source/user.py"
-                process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
-                stdout, stderr = process.communicate()
-                print (stdout)
-                print ("err",stderr)
-                i = process.returncode
                 log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
+                ej = "terminator -e 'bash -c \"(python3 " + cad
+                # ej1 = "| tee " + nombre_arch_out
+                ej2 = " ) 3>&1 1>&2 2>&3 | tee  " + log + "\"'"
+                proceso = ej + ej2
+                os.system(proceso)
+                i = 0
+                if os.stat(str(log.strip("\n"))).st_size == 0:
+                    i = 0
+                else:
+                    f = open(log.strip("\n"), "r")
+                    ff = f.readlines()
+                    stderr = ff
+                    for d in ff:
+                        if d.find("line") > -1:
+                            i = 1
+                            break
+                        else:
+                            i = 0
+
+              
+                # process = Popen(['python3', cad], stdout=PIPE, stderr=PIPE)
+                # stdout, stderr = process.communicate()
+                # print (stdout)
+                # print ("err",stderr)
+                # i = process.returncode
+                # log = os.path.expanduser('~') + "/.icaro/python/firmware/temporal/log.dat"
+                
+
                 archivo_log=open(log,"w")
+                
+
                 if i != 0:
                     archivo_log.writelines(str(stderr))
                     self.mensajes(0, "hubo errores en la ejecución del programa.")

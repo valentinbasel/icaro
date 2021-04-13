@@ -293,7 +293,7 @@ def main():
                        sal)
 
     ventana.botones.append(BotonPython)
-    ventana.botones.append(BotonIcaro)
+    # ~ ventana.botones.append(BotonIcaro)
 
     #ventana.botones.append(BotonFirmware) # falta implementar el programa
     ventana.botones.append(BotonSalir)
